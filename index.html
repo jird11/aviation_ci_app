@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self';">
+    <title>AERO_EWS | Early Warning System</title>
+    <link rel="stylesheet" href="/static/dashboard.css?v=2-20261107">
+</head>
+<body>
+
+<!-- Global header: active KIT, analysis timestamp, view switch, and secondary actions. -->
+<header class="top">
+    <div class="wrap top-row">
+        <div class="top-title-group">
+            <div class="top-brand-line">
+                <span class="app-badge">AERO_EWS</span>
+                <h1 class="kit-heading" id="header-kit-title">No active intelligence topic</h1>
+            </div>
+            <div class="stamp" id="run-stamp">Last analysis: awaiting run</div>
+        </div>
+
+        <div class="top-controls no-print">
+            <div class="mode-switch" role="tablist" aria-label="View mode">
+                <button type="button" id="btn-mode-exec" class="active" onclick="switchView('executive')">Executive</button>
+                <button type="button" id="btn-mode-analyst" onclick="switchView('analyst')">Analyst</button>
+            </div>
+
+            <button class="btn btn-primary" type="button" onclick="openDrawer('config-drawer')">New scan</button>
+
+            <details class="more-dropdown" id="more-menu">
+                <summary class="btn" title="More options">⋯</summary>
+                <div class="menu-popover">
+                    <button class="menu-item" type="button" onclick="openFullReport()">
+                        <span>Open Full Report</span><span class="muted">↗</span>
+                    </button>
+                    <button class="menu-item" type="button" onclick="openDrawer('kiq-drawer')">
+                        <span>KIQ Questions &amp; Coverage</span><span class="muted" id="menu-kiq-badge"></span>
+                    </button>
+                    <button class="menu-item" type="button" onclick="openSourceAuditDrawer()">
+                        <span>Methods &amp; Sources → Source Audit</span><span class="muted" id="menu-audit-badge"></span>
+                    </button>
+                    <button class="menu-item" type="button"
+                    onclick="window.open('/api/architecture.puml', '_blank')">
+                    <span>Agent Architecture (UML)</span>
+                    <span class="muted">↗</span>
+                    </button>
+                    <button class="menu-item" type="button" onclick="openSystemStatusDrawer()">
+                        <span>System Status → Logs &amp; History</span>
+                    </button>
+                    <hr class="menu-sep">
+                    <div class="menu-field">
+                        <label for="role-select">Active Role</label>
+                        <select id="role-select" aria-label="User role">
+                            <option value="ANALYST">Analyst (Approver)</option>
+                            <option value="VIEWER">Executive (Read-only)</option>
+                        </select>
+                    </div>
+                    <hr class="menu-sep">
+                    <button class="menu-item" type="button" id="freeze-btn" onclick="toggleFreeze()">Pause live updates</button>
+                    <button class="menu-item" type="button" onclick="document.body.classList.toggle('contrast');$('more-menu').open=false;">High-contrast mode</button>
+                    <button class="menu-item" type="button" onclick="printFullReport()">Print / Save PDF</button>
+                    <button class="menu-item" type="button" onclick="$('reading-guide').classList.toggle('hidden');$('more-menu').open=false;">Reading guide</button>
+                </div>
+            </details>
+        </div>
+    </div>
+</header>
+<!-- Persistent interpretation note: severity, evidence confidence, and human review are distinct. -->
+<div class="wrap interface-context" aria-label="Dashboard interpretation">
+    <span>Threat Score: <strong>1–10</strong> potential severity</span>
+    <span class="context-divider" aria-hidden="true">·</span>
+    <span>Evidence confidence assessed independently</span>
+    <span class="context-divider" aria-hidden="true">·</span>
+    <span>AI-assisted decision support · Human verification required</span>
+</div>
+<!-- Active-scan status: stage completion, not a forecast of time remaining. -->
+<div id="run-progress" class="run-progress-strip hidden" role="status" aria-live="polite">
+    <div class="wrap run-progress-inner">
+        <div style="display:flex;align-items:center;gap:10px;min-width:0">
+            <span class="tiny" style="font-weight:700;color:#1d4ed8" id="progress-number">1/6</span>
+            <strong class="small" id="progress-phase">Preparing analysis</strong>
+            <span class="tiny muted" id="progress-caption"></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+            <div class="run-progress-track" role="progressbar" aria-label="Confirmed pipeline stages completed" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0" id="progress-track"><div id="progress-fill" class="run-progress-fill"></div></div>
+            <button class="btn tiny" type="button" id="progress-cancel" onclick="cancelAnalysis()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<main class="wrap" style="padding-bottom:32px">
+    <!-- Expandable interpretation guide; alert confirmation depends on independent evidence checks. -->
+    <div id="reading-guide" class="status-banner variant-complete hidden">
+        <div class="small">
+            <strong>Methodology &amp; Reading Guide:</strong> Threat Score (1–10) expresses potential impact severity (1–4 low, 5–7 elevated, 8–10 high/critical), never source confidence. A <em>Confirmed Critical Alert</em> additionally requires <code>SUPPORTED</code> evidence, <code>HIGH</code> confidence, critical escalation, and direct KIT match. Geography reflects evidenced event origin, not media attention.
+        </div>
+        <button class="btn tiny" type="button" onclick="$('reading-guide').classList.add('hidden')">Close</button>
+    </div>
+
+    <!-- Current assessment status and, when permitted, human-review actions. -->
+    <div id="status-line" class="status-banner variant-complete" role="status" aria-live="polite">
+        <div>
+            <span class="status-code" id="status-headline">NO ANALYSIS AVAILABLE</span>
+            <span id="status-detail"> · No confirmed critical threats detected</span>
+        </div>
+        <div class="status-actions no-print" id="status-actions"></div>
+    </div>
+
+    <!-- Active-run placeholder: prior results stay hidden until the displayed run ID is matched. -->
+    <section id="scan-state-panel" class="scan-state-panel hidden" aria-live="polite" aria-labelledby="scan-state-title">
+        <div class="scan-state-header">
+            <div>
+                <span class="eyebrow">CURRENT INTELLIGENCE CYCLE</span>
+                <h2 id="scan-state-title">Preparing new scan</h2>
+                <p id="scan-state-context" class="muted small"></p>
+            </div>
+            <span id="scan-state-badge" class="state-pill">Queued</span>
+        </div>
+        <div class="scan-timeline" id="scan-timeline" aria-label="Pipeline stages"></div>
+        <div class="scan-state-foot">
+            <span id="scan-state-message">The previous report has been cleared from the active dashboard.</span>
+            <button class="btn tiny" type="button" onclick="openSystemStatusDrawer()">View diagnostics →</button>
+        </div>
+    </section>
+
+    <!-- Executive view: prioritized findings and concise evidence-aware indicators. -->
+    <section id="executive-view" aria-label="Executive Overview">
+        <!-- KPI summary: signal counts, confirmed critical alerts, verification, and change. -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <span class="kpi-title">Relevant Signals</span>
+                <div class="kpi-value-row">
+                    <strong class="kpi-number" id="kpi-relevant">—</strong>
+                </div>
+                <span class="kpi-context" id="kpi-relevant-sub">No active report</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-title">Confirmed Critical</span>
+                <div class="kpi-value-row">
+                    <strong class="kpi-number" id="kpi-critical">0</strong>
+                </div>
+                <span class="kpi-context" id="kpi-critical-sub">No confirmed critical alerts</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-title">Requires Verification</span>
+                <div class="kpi-value-row">
+                    <strong class="kpi-number" id="kpi-verify">—</strong>
+                </div>
+                <span class="kpi-context" id="kpi-verify-sub">0% of relevant signals</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-title">New Events</span>
+                <div class="kpi-value-row">
+                    <strong class="kpi-number" id="kpi-new">—</strong>
+                </div>
+                <span class="kpi-context" id="kpi-new-sub">No comparable run</span>
+            </div>
+        </div>
+
+        <!-- Priority list and supporting distributions for the active report. -->
+        <div class="exec-grid">
+            <!-- Prioritized intelligence signals -->
+            <section class="panel" aria-labelledby="needs-attention-heading">
+                <div class="block-title">
+                    <span id="needs-attention-heading">Needs Attention</span>
+                    <span class="tiny muted">Top priority signals</span>
+                </div>
+                <div id="attention-list" class="attention-list">
+                    <div class="muted small" style="padding:16px 0">No signals available.</div>
+                </div>
+                <div class="exec-more-footer">
+                    <button type="button" class="link-btn" id="view-all-signals-btn" onclick="switchView('analyst')">
+                        View all signals →
+                    </button>
+                    <button type="button" class="link-btn muted" onclick="openFullReport()">
+                        Open Full Report ↗
+                    </button>
+                </div>
+            </section>
+
+            <!-- Context panels: risk categories, evidenced event origin, and coverage. -->
+            <aside class="panel" aria-label="Contextual breakdown">
+                <div class="block-title">
+                    <span>Risk Distribution</span>
+                    <span class="tiny muted">Filter ↗</span>
+                </div>
+                <div id="risk-bars" class="bar-list">
+                    <div class="muted small">No categories</div>
+                </div>
+
+                <hr class="side-divider">
+
+                <div class="block-title">
+                    <span>Geography</span>
+                    <span class="tiny muted" title="Evidenced event origin, never media search interest">Event origin</span>
+                </div>
+                <div id="geo-list" class="geo-list">
+                    <div class="muted small">Unknown</div>
+                </div>
+
+                <hr class="side-divider">
+
+                <div class="block-title">
+                    <span>Evidence Coverage</span>
+                </div>
+                <div class="coverage-list">
+                    <div>
+                        <div style="display:flex;justify-content:space-between">
+                            <span id="cov-docs-text">0 / 0 documents analyzed</span>
+                            <span class="tiny muted" id="cov-docs-pct"></span>
+                        </div>
+                        <div class="coverage-bar-wrap"><div id="cov-docs-bar" class="coverage-bar-fill"></div></div>
+                    </div>
+                    <div>
+                        <button type="button" class="link-btn" id="cov-kiq-btn" onclick="openDrawer('kiq-drawer')">
+                            0 / 0 KIQ answered →
+                        </button>
+                    </div>
+                    <div id="cov-verify-text" class="muted">0 signals need verification</div>
+                    <button type="button" class="coverage-audit-link" onclick="openSourceAuditDrawer()">
+                        <span>Excluded documents &amp; rationale</span>
+                        <strong id="coverage-audit-count">View audit →</strong>
+                    </button>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <!-- Analyst view: filterable evidence records and detailed event inspection. -->
+    <section id="analyst-view" class="hidden" aria-label="Analyst Investigation Workspace">
+        <!-- Analyst filters operate on the currently displayed report, not source data. -->
+        <div class="filter-bar no-print">
+            <div class="filter-group">
+
+    <div class="mode-switch" aria-label="Signal group">
+        <button type="button" id="btn-scope-direct"
+                class="active"
+                onclick="setSignalScope('direct')">
+            Direct KIT Matches
+        </button>
+
+        <button type="button" id="btn-scope-watchlist"
+                onclick="setSignalScope('watchlist')">
+            Related Watchlist
+        </button>
+    </div>
+
+    <label>Evidence
+                    <select id="filter-evidence" onchange="renderAnalyst()">
+                        <option value="all">All signals</option>
+                        <option value="supported">Supported only</option>
+                        <option value="review">Unverified / Needs review</option>
+                    </select>
+                </label>
+
+                <label>Risk Type
+                    <select id="filter-risk" onchange="renderAnalyst()">
+                        <option value="all">All risk types</option>
+                    </select>
+                </label>
+
+                <label>Company
+                    <select id="filter-company" onchange="renderAnalyst()">
+                        <option value="all">All companies</option>
+                    </select>
+                </label>
+
+                <label>SCM Tier
+                    <select id="filter-scm" onchange="renderAnalyst()">
+                        <option value="all">All tiers</option>
+                    </select>
+                </label>
+
+                <label>Geography
+                    <select id="filter-geo" onchange="renderAnalyst()">
+                        <option value="all">All origins</option>
+                    </select>
+                </label>
+
+                <label>Sort
+                    <select id="sort-by" onchange="renderAnalyst()">
+                        <option value="priority">Priority / Severity</option>
+                        <option value="newest">Newest</option>
+                        <option value="company">Company</option>
+                        <option value="scm">SCM Tier</option>
+                        <option value="geo">Geography</option>
+                    </select>
+                </label>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:8px">
+                <span class="tiny muted" id="analyst-count-label">0 signals</span>
+                <button type="button" class="btn tiny" onclick="openSourceAuditDrawer()">Excluded Sources ↗</button>
+                <button type="button" class="btn tiny" onclick="resetFilters()">Reset</button>
+            </div>
+        </div>
+
+        <!-- Signal table and selected event detail. -->
+        <div id="analyst-workspace" class="analyst-workspace">
+            <div class="signal-table-wrap">
+                <table class="signal-table">
+                    <thead>
+                        <tr>
+                            <th>Company / Program</th>
+                            <th>Risk</th>
+                            <th>Potential Severity</th>
+                            <th>Evidence</th>
+                            <th>Source Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="analyst-tbody">
+                        <tr><td colspan="5" class="muted" style="padding:20px;text-align:center">No signals available.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Event inspector -->
+            <aside id="event-inspector" class="inspector-panel hidden" aria-label="Event Details Inspector">
+                <div id="inspector-content"></div>
+            </aside>
+        </div>
+    </section>
+</main>
+
+<!-- KIT scan parameters, source selection, time window, and experimental options. -->
+<div id="config-drawer" class="overlay-drawer" role="dialog" aria-modal="true" aria-labelledby="config-drawer-title">
+    <div class="drawer-sheet">
+        <div class="drawer-header">
+            <h2 id="config-drawer-title">New OSINT Scan</h2>
+            <button class="btn tiny" type="button" onclick="closeDrawer('config-drawer')">Close ×</button>
+        </div>
+
+        <div class="field">
+            <label for="preset">KIQ Preset</label>
+            <select id="preset" onchange="applyPreset()">
+                <option value="">Custom KIT</option>
+                <option value="CASE_GTF">Case: PW1100G engine inspections</option>
+                <option value="CASE_MAX9">Case: Boeing 737 MAX 9 FAA directive</option>
+                <option value="CASE_777X">Case: Boeing 777X certification</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="query">Key Intelligence Topic (KIT)</label>
+            <input id="query" type="text" value="Airbus A320neo engine problems" placeholder="e.g. Airbus A320neo engine problems">
+        </div>
+
+        <div class="field">
+            <label for="scope">Time Window (UTC)</label>
+            <select id="scope" onchange="toggleDateRange()">
+                <option value="24h">24 hours</option>
+                <option value="7d">7 days</option>
+                <option value="30d" selected>30 days</option>
+                <option value="90d">90 days</option>
+                <option value="365d">365 days</option>
+                <option value="custom">Custom dates</option>
+                <option value="all">Full history</option>
+            </select>
+        </div>
+
+        <div id="date-range" class="field hidden">
+            <label>Custom Range (UTC)</label>
+            <div style="display:flex;gap:8px">
+                <input id="date-from" type="date">
+                <input id="date-to" type="date">
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="limit">Records per source: <span id="limit-label">5</span></label>
+            <input id="limit" type="range" min="1" max="15" value="5" style="width:100%"
+                   oninput="$('limit-label').textContent=this.value">
+        </div>
+
+        <div class="field">
+            <label>Enabled Sources</label>
+            <div class="check-grid" id="platform-checks">
+                <label><input type="checkbox" name="platform" value="News API" checked> News API</label>
+                <label><input type="checkbox" name="platform" value="FAA & EASA Regulations" checked> FAA / EASA</label>
+                <label><input type="checkbox" name="platform" value="Official PR Releases" checked> OEM Pressroom</label>
+                <label><input type="checkbox" name="platform" value="Airshow Websites" checked> Airshow</label>
+                <label><input type="checkbox" name="platform" value="NTSB Investigations" checked> NTSB</label>
+                <label><input type="checkbox" name="platform" value="Bluesky Social Network"> Bluesky</label>
+                <label><input type="checkbox" name="platform" value="YouTube Videos"> YouTube</label>
+            </div>
+        </div>
+
+        <details style="margin:14px 0;padding:10px;border:1px solid #e2e8f0;border-radius:6px">
+            <summary class="small" style="font-weight:600;cursor:pointer">Experimental &amp; Simulation Settings</summary>
+            <div style="margin-top:10px">
+                <div class="field"><label for="as-of-date">Historical simulation date</label><input id="as-of-date" type="date"></div>
+                <div class="field"><label for="replay-run-id">Replay run ID</label><input id="replay-run-id" type="text" placeholder="RUN-20261101-..."></div>
+                <div class="field"><label><input type="checkbox" id="keyword-baseline"> Keyword Baseline (No LLM)</label></div>
+                <div class="field"><label><input type="checkbox" id="auto-approve"> Auto-approve when security gate passes</label></div>
+            </div>
+        </details>
+
+        <div style="display:flex;gap:8px;margin-top:16px">
+            <button id="run-btn" class="btn btn-primary" style="flex:1" type="button" onclick="runAnalysis()">Start Scan</button>
+            <button id="cancel-btn" class="btn hidden" type="button" onclick="cancelAnalysis()">Cancel</button>
+        </div>
+        <div class="small muted" id="run-feedback" style="margin-top:8px" role="status"></div>
+    </div>
+</div>
+
+<!-- Strategic KIQ coverage and outstanding intelligence questions. -->
+<div id="kiq-drawer" class="overlay-drawer" role="dialog" aria-modal="true" aria-labelledby="kiq-drawer-title">
+    <div class="drawer-sheet wide">
+        <div class="drawer-header">
+            <h2 id="kiq-drawer-title">Key Intelligence Questions (KIQ)</h2>
+            <button class="btn tiny" type="button" onclick="closeDrawer('kiq-drawer')">Close ×</button>
+        </div>
+        <p class="small muted" id="kiq-drawer-summary" style="margin-top:0"></p>
+        <div id="kiq-grouped-content"></div>
+    </div>
+</div>
+
+<!-- Source audit: accepted/excluded documents, review candidates, and collection limits. -->
+<div id="audit-drawer" class="overlay-drawer" role="dialog" aria-modal="true" aria-labelledby="audit-drawer-title">
+    <div class="drawer-sheet wide">
+        <div class="drawer-header">
+            <div>
+                <h2 id="audit-drawer-title">Methods &amp; Sources → Source Audit <span class="muted small" id="audit-count"></span></h2>
+            </div>
+            <div style="display:flex;gap:6px">
+                <button class="btn tiny" type="button" onclick="downloadAuditCSV()">Export CSV</button>
+                <button class="btn tiny" type="button" onclick="refreshSourceAudit()">Refresh</button>
+                <button class="btn tiny" type="button" onclick="closeDrawer('audit-drawer')">Close ×</button>
+            </div>
+        </div>
+
+        <div id="audit-overview" class="small" style="background:#f8fafc;padding:10px 12px;border-radius:6px;border:1px solid #e2e8f0;margin-bottom:12px">
+            No audit results loaded.
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+            <select id="audit-scope" onchange="renderSourceAudit()" style="font-size:12px;padding:5px 8px;border:1px solid #cbd5e1;border-radius:5px">
+                <option value="all">All Excluded Documents</option>
+                <option value="candidates">Potential False Negatives (Review)</option>
+                <option value="accepted">Accepted Documents</option>
+                <option value="deterministic">Deterministic Exclusions (Stage 1)</option>
+                <option value="semantic">Semantic Exclusions (Stage 2)</option>
+            </select>
+            <input id="audit-search" type="search" placeholder="Search title, reason, URL…" oninput="renderSourceAudit()"
+                   style="flex:1;min-width:180px;font-size:12px;padding:5px 8px;border:1px solid #cbd5e1;border-radius:5px">
+            <select id="audit-sort" onchange="renderSourceAudit()" style="font-size:12px;padding:5px 8px;border:1px solid #cbd5e1;border-radius:5px">
+                <option value="priority">Potential matches first</option>
+                <option value="doc">Document ID</option>
+                <option value="source">Source</option>
+            </select>
+        </div>
+
+        <div class="audit-stat-grid" id="audit-stats" aria-label="Source screening statistics"></div>
+        <div id="audit-list" class="audit-list"></div>
+        <button id="audit-more" class="link-btn hidden" style="margin-top:10px" type="button" onclick="showAllAuditRows()">Show all excluded documents →</button>
+
+        <details id="collection-audit-details" style="margin-top:16px;padding-top:12px;border-top:1px solid #e2e8f0">
+            <summary id="collection-audit-title" class="small" style="font-weight:700;cursor:pointer">Collection Restrictions (0)</summary>
+            <div id="collection-audit-list" style="display:flex;flex-direction:column;gap:8px;margin-top:10px"></div>
+        </details>
+        <p class="tiny muted" id="audit-note" style="margin-top:12px"></p>
+        <p class="tiny muted">Potential false negatives are review candidates identified by heuristic similarity, not verified classification errors. Full source text is available only when provided by the backend; original links and recorded exclusion reasons remain accessible.</p>
+    </div>
+</div>
+
+<!-- Operational diagnostics, connector telemetry, and bounded log output. -->
+<div id="status-drawer" class="overlay-drawer" role="dialog" aria-modal="true" aria-labelledby="status-drawer-title">
+    <div class="drawer-sheet wide">
+        <div class="drawer-header">
+            <h2 id="status-drawer-title">System Status, Telemetry &amp; Logs</h2>
+            <button class="btn tiny" type="button" onclick="closeDrawer('status-drawer')">Close ×</button>
+        </div>
+
+        <div class="inspector-sec">
+            <div class="inspector-sec-title">Run &amp; Pipeline Telemetry</div>
+            <div id="technical-panel" class="small"></div>
+        </div>
+
+        <div class="inspector-sec">
+            <div class="inspector-sec-title">Connector Availability</div>
+            <div id="connector-panel" class="small" style="display:grid;gap:6px"></div>
+        </div>
+
+        <div class="inspector-sec">
+            <div class="inspector-sec-title">System Log (ews_system.log)</div>
+            <pre id="live-log" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:10px;font-size:11px;color:#475569;max-height:240px;overflow:auto;white-space:pre-wrap;margin:0"></pre>
+        </div>
+    </div>
+</div>
+
+<!-- Report dialog: printable presentation of the active assessment only. -->
+<div id="full-report-modal" class="report-modal" role="dialog" aria-modal="true" aria-label="Full Executive Report">
+    <article class="report-paper" id="executive-report-paper">
+        <div class="no-print" style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:14px">
+            <button class="btn tiny" type="button" onclick="printFullReport()">Print / Save PDF</button>
+            <button class="btn tiny" type="button" onclick="closeFullReport()">Close ×</button>
+        </div>
+        <div class="tiny muted" style="font-weight:700;letter-spacing:0.06em;text-transform:uppercase">AERO_EWS · Executive Intelligence Report</div>
+        <h1>Executive Report</h1>
+        <p class="small muted" id="full-report-subtitle"></p>
+        <div id="full-report-body"></div>
+        <p class="tiny muted" style="margin-top:24px;border-top:1px solid #e2e8f0;padding-top:8px">
+            Decision support output. Severity measures potential impact; evidential status indicates source corroboration.
+        </p>
+    </article>
+</div>
+
+<script src="/static/dashboard.js?v=2-20261107"></script>
+</body>
+</html>

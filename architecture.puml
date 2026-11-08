@@ -1,0 +1,71 @@
+@startuml
+title Aero_EWS 2.0 - Multi-Agent Intelligence Workflow
+
+autonumber
+
+actor "Human Analyst" as Human
+participant "Web Dashboard" as UI
+participant "FastAPI Backend" as API
+participant "Chief Intelligence Planner" as Planner
+participant "OSINT Collection" as OSINT
+participant "Semantic Filter" as Filter
+participant "Aviation Risk Analyst" as Risk
+participant "Quality Assurance Agent" as QA
+participant "Executive Editor" as Editor
+participant "Scoring Agent" as Scoring
+participant "Deterministic Harness" as Harness
+database "SQLite / Evidence Archive" as DB
+
+Human -> UI: Define KIT and time scope
+UI -> API: POST /run-ews
+
+API -> Planner: Generate KIQ search strategy
+Planner --> API: KIQPlan
+
+API -> OSINT: Collect public source evidence
+OSINT -> DB: Store collected documents
+OSINT --> API: Source records
+
+API -> Filter: Evaluate source relevance
+Filter --> API: Relevant document batches
+
+API -> Risk: Analyze collected evidence
+Risk --> API: Candidate ThreatAssessments
+
+API -> QA: Review candidate assessments
+QA --> API: QA findings
+
+opt Corrective agent feedback enabled
+    API -> Risk: Request evidence-grounded correction
+    Risk --> API: Revised candidate assessments
+    API -> QA: Recheck revised assessments
+    QA --> API: Updated QA findings
+end
+
+API -> Editor: Prepare executive synthesis
+Editor --> API: Executive summary and action plan
+
+API -> Scoring: Estimate potential severity
+Scoring --> API: Risk scores
+
+API -> Harness: Validate evidence and alert eligibility
+Harness --> API: Verified classification and warnings
+
+API -> DB: Reconcile event identities
+API -> DB: Store report and audit metadata
+
+API --> UI: Report waiting for human review
+UI --> Human: Present evidence and recommendations
+
+alt Report approved
+    Human -> UI: Approve report
+    UI -> API: POST /approve-ews
+    API -> DB: Save approval and report version
+    API --> UI: Publish report
+else Report rejected
+    Human -> UI: Reject report
+    UI -> API: POST /approve-ews
+    API -> DB: Record rejection
+end
+
+@enduml
