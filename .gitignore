@@ -1,0 +1,71 @@
+# ==========================================
+# AeroCI-EWS | Git exclusions
+# ==========================================
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# IDE settings
+.idea/
+.vscode/
+
+# Runtime databases
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Generated reports
+dashboard_data.json
+pending_dashboard_data.json
+historical_threats_archive.csv
+powerbi_threats.csv
+
+# Operational state and cache
+youtube_transcript_cache.json
+ews_alert_state.json
+
+# Logs
+*.log
+logs/
+
+# Runtime outputs
+runs/
+test_runs/
+ews_live_tests_*/
+
+# Testing
+aero_ews_testing/
+ews_final_regression.py
+ews_final_acceptance.py
+offline_test.py
+test_*.py
+*_test.py
+tests/
+
+# Local archives and temporary files
+*.zip
+*.bak
+*.tmp
+*.py.bak
+
+# Operating system files
+.DS_Store
+Thumbs.db
