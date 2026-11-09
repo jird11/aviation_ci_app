@@ -133,13 +133,40 @@ def _extract_batch_threats_fallback(raw_text: str) -> Tuple[List[ThreatAssessmen
         text, r"[\{\[]",
         lambda d: (
                 isinstance(d, dict) and isinstance(d.get("threats"), list)
-                or isinstance(d, list) and all(
-            isinstance(x, dict) and "company_affected" in x for x in d
-        )
+                or (
+                        isinstance(d, list)
+                        and text.startswith("[")
+                        and bool(d)
+                        and all(
+                    isinstance(x, dict) and "company_affected" in x
+                    for x in d
+                )
+                )
         )
     )
     if data is None:
-        raise ValueError("Analyst output does not contain a valid threats list.")
+        # Distinguish malformed JSON from an invalid response structure.
+        start = text.find("{")
+
+        if start >= 0:
+            try:
+                parsed, _ = json.JSONDecoder().raw_decode(text[start:])
+
+            except json.JSONDecodeError as exc:
+                raise ValueError(
+                    f"Analyst JSON syntax error: {exc.msg} "
+                    f"at position {exc.pos}; output length={len(text)}."
+                ) from exc
+
+            if isinstance(parsed, dict):
+                raise ValueError(
+                    "Analyst returned valid JSON, but 'threats' is not a list "
+                    f"(available keys: {list(parsed)[:8]})."
+                )
+
+        raise ValueError(
+            "Analyst output does not contain a valid threats list."
+        )
 
     raw_list = data["threats"] if isinstance(data, dict) else data
     accepted: List[ThreatAssessment] = []

@@ -172,7 +172,7 @@ SOURCE_REGISTRY: Dict[str, Dict[str, Any]] = {
             "rate_limit_rpm": 20, "min_interval_sec": 1.5,
         },
         "SRC_005": {
-            "name": "OEM Official Press Releases (Airbus, Boeing, COMAC)",
+            "name": "Official Industry PR (Aircraft OEMs & Suppliers)",
             "domain": "airbus.com,boeing.mediaroom.com,comac.cc", "technical_host": "news.google.com",
             "source_type": "OEM_PR", "origin": "PRIMARY_VIA_AGGREGATOR", "access_method": "RSS",
             "allowed_access_method": "RSS (Public Corporate Press Releases)",
@@ -222,7 +222,7 @@ SOURCE_REGISTRY: Dict[str, Dict[str, Any]] = {
             "rate_limit_rpm": 10, "min_interval_sec": 2.0,
         },
         "SRC_009": {
-            "name": "Aerospace Supplier Press Releases",
+            "name": "Official Industry PR – Supplier Feeds",
             "domain": "rtx.com,cfmaeroengines.com,geaerospace.com,safran-group.com",
             "technical_host": "news.google.com", "source_type": "SUPPLIER_PR",
             "origin": "PRIMARY_VIA_AGGREGATOR", "access_method": "RSS",
@@ -233,6 +233,40 @@ SOURCE_REGISTRY: Dict[str, Dict[str, Any]] = {
             "verified_domain": False, "legal_status": SourceLegalStatus.RESTRICTED.value,
             "license_notes": "Supplier news metadata via Google News RSS",
             "rate_limit_rpm": 12, "min_interval_sec": 2.0,
+        },
+        **{
+            sid: {
+                "name": company + " RSS",
+                "domain": domain,
+                "source_type": "SUPPLIER_PR",
+                "origin": "PRIMARY",
+                "access_method": "RSS",
+                "tos_url": tos,
+                "last_legal_review_date": os.getenv(key + "_REVIEW_DATE", ""),
+                "legal_status": (
+                    "RESTRICTED"
+                    if os.getenv(key + "_APPROVED") == "1"
+                       and os.getenv(key + "_REVIEW_DATE")
+                    else "REQUIRES_REVIEW"
+                ),
+                "verified_domain": True,
+                "tdm_copyright_basis": "Review required",
+                "usage_restrictions": "Metadata only; permission required",
+                "rate_limit_rpm": 6,
+                "min_interval_sec": 10.0,
+            }
+            for sid, company, domain, tos, key in (
+                (
+                    "SRC_010", "GE Aerospace", "geaerospace.com",
+                    "https://www.geaerospace.com/pl/node/5536",
+                    "EWS_GE_RSS",
+                ),
+                (
+                    "SRC_011", "RTX", "rtx.com",
+                    "https://www.rtx.com/Terms-of-Use",
+                    "EWS_RTX_RSS",
+                ),
+            )
         },
     }.items()
 }
@@ -264,11 +298,11 @@ AEROSPACE_SUPPLIER_REGISTRY: List[Dict[str, Any]] = [
     {
         "entity_id": "ENT_PW", "official_name": "Pratt & Whitney (RTX)",
         "aliases": [
-        "pratt & whitney",
-        "pratt and whitney",
-        "pw1100g",
-        "pw1500g",
-        "pw1900g",
+            "pratt & whitney",
+            "pratt and whitney",
+            "pw1100g",
+            "pw1500g",
+            "pw1900g",
         ]
         , "default_tier": "Tier 1 (Systems/Engines)",
         "components": ["PW1100G-JM GTF Turbofan Engine", "PW1500G Engine"],
@@ -278,7 +312,8 @@ AEROSPACE_SUPPLIER_REGISTRY: List[Dict[str, Any]] = [
     },
     {
         "entity_id": "ENT_CFM", "official_name": "CFM International (GE / Safran)",
-        "aliases": ["cfm", "cfm international", "leap-1a", "leap-1b", "leap-1c"], "default_tier": "Tier 1 (Systems/Engines)",
+        "aliases": ["cfm", "cfm international", "leap-1a", "leap-1b", "leap-1c"],
+        "default_tier": "Tier 1 (Systems/Engines)",
         "components": ["LEAP-1A Engine", "LEAP-1B Engine", "LEAP-1C Engine"],
         "programs": ["A320neo", "A321XLR", "737 MAX", "C919"],
         "downstream_oems": ["Airbus SE", "The Boeing Company", "COMAC"],
@@ -344,7 +379,8 @@ def lookup_supplier_in_registry(text_or_company: str, exact: bool = False) -> Op
         norm = lambda s: re.sub(r"\s+", " ", s.lower().replace(" and ", " & ")).strip()
         target = norm(low)
         return next(
-            (e for e in AEROSPACE_SUPPLIER_REGISTRY if target in {norm(a) for a in [e["official_name"], *e["aliases"]]}),
+            (e for e in AEROSPACE_SUPPLIER_REGISTRY if
+             target in {norm(a) for a in [e["official_name"], *e["aliases"]]}),
             None,
         )
     ordered = sorted(
@@ -411,7 +447,8 @@ RATE_LIMITER = CentralRateLimiter()
 # Check source governance status before collection.
 def is_source_allowed(source_id: str) -> bool:
     cfg = SOURCE_REGISTRY.get(source_id)
-    return bool(cfg and cfg.get("legal_status") in {SourceLegalStatus.ALLOWED.value, SourceLegalStatus.RESTRICTED.value})
+    return bool(
+        cfg and cfg.get("legal_status") in {SourceLegalStatus.ALLOWED.value, SourceLegalStatus.RESTRICTED.value})
 
 
 _ROBOTS_CACHE: Dict[str, urllib.robotparser.RobotFileParser] = {}
@@ -429,8 +466,8 @@ def is_ip_public_and_safe(hostname: str) -> bool:
             ip_str = item[4][0]
             ip_obj = ipaddress.ip_address(ip_str)
             if (
-                ip_obj.is_private or ip_obj.is_loopback or ip_obj.is_link_local
-                or ip_obj.is_multicast or ip_obj.is_reserved or ip_obj.is_unspecified
+                    ip_obj.is_private or ip_obj.is_loopback or ip_obj.is_link_local
+                    or ip_obj.is_multicast or ip_obj.is_reserved or ip_obj.is_unspecified
             ):
                 logger.warning(f"[SSRF GUARD] Blocked non-public IP {ip_str} for host {hostname}")
                 return False
@@ -449,7 +486,7 @@ HTML_TDM_OPT_OUT_REGEX = re.compile(
 # Apply robots.txt and text-and-data-mining access restrictions.
 # Apply source-specific robots and text/data-mining restrictions before retrieval.
 def check_robots_and_tdm_compliance(
-    url: str, source_id: str = "SRC_004", user_agent: str = "AeroEWSBot"
+        url: str, source_id: str = "SRC_004", user_agent: str = "AeroEWSBot"
 ) -> Tuple[bool, str]:
     # Check both automated-access rules and documented TDM restrictions.
     """Apply configured robots.txt and text-and-data-mining access checks."""
@@ -506,14 +543,14 @@ def check_robots_and_tdm_compliance(
 # Do not bypass compliance checks or trust URLs supplied by unverified documents.
 # Enforce network safety across redirects and resolved IP addresses.
 def safe_http_get(
-    url: str,
-    source_id: str = "SRC_004",
-    params: Optional[Dict[str, Any]] = None,
-    headers: Optional[Dict[str, str]] = None,
-    timeout: int = 12,
-    max_redirects: int = 3,
-    max_bytes: int = 2_000_000,
-    check_robots: bool = False,
+        url: str,
+        source_id: str = "SRC_004",
+        params: Optional[Dict[str, Any]] = None,
+        headers: Optional[Dict[str, str]] = None,
+        timeout: int = 12,
+        max_redirects: int = 3,
+        max_bytes: int = 2_000_000,
+        check_robots: bool = False,
 ) -> Optional[requests.Response]:
     # Validate outbound requests and redirects before retrieving external content.
     """SSRF-safe HTTP GET client with redirect hop verification, fail-closed robots.txt, and EU 2019/790 TDM opt-out checks."""
@@ -545,7 +582,16 @@ def safe_http_get(
             current_params = None
 
             if resp.status_code == 429:
-                time.sleep(min(int(resp.headers.get("Retry-After", "3")), 6))
+                logger.warning(
+                    "[HTTP RATE LIMITED] source=%s host=%s status=429",
+                    source_id,
+                    parsed.hostname,
+                )
+
+                time.sleep(
+                    min(int(resp.headers.get("Retry-After", "3")), 6)
+                )
+
                 continue
 
             if resp.status_code in {301, 302, 303, 307, 308}:
@@ -629,9 +675,9 @@ AEROSPACE_B2B_RELEVANCE_ANCHORS = re.compile(
 def is_unrelated_personal_post(text: str, title: str = "") -> bool:
     combined = f"{title} {text}".strip()
     return (
-        not combined
-        or bool(PERSONAL_NON_INDUSTRIAL_POST_REGEX.search(combined))
-        or not bool(AEROSPACE_B2B_RELEVANCE_ANCHORS.search(combined))
+            not combined
+            or bool(PERSONAL_NON_INDUSTRIAL_POST_REGEX.search(combined))
+            or not bool(AEROSPACE_B2B_RELEVANCE_ANCHORS.search(combined))
     )
 
 
@@ -679,14 +725,15 @@ def get_connector_telemetry() -> Dict[str, Dict[str, Any]]:
 # Accumulate source-level collection counts and operational failures.
 # Track source-level results separately from analytical relevance.
 def record_connector_telemetry(
-    connector_name: str,
-    source_id: str,
-    query: str,
-    found_count: int = 0,
-    accepted_count: int = 0,
-    rejected_out_of_scope: int = 0,
-    unknown_date_count: int = 0,
-    error: Optional[str] = None,
+        connector_name: str,
+        source_id: str,
+        query: str,
+        found_count: int = 0,
+        accepted_count: int = 0,
+        rejected_out_of_scope: int = 0,
+        unknown_date_count: int = 0,
+        error: Optional[str] = None,
+        coverage_note: Optional[str] = None,
 ) -> None:
     now_str = _now_iso()
     reg = SOURCE_REGISTRY.get(source_id, {})
@@ -705,6 +752,7 @@ def record_connector_telemetry(
                 "rejected_out_of_scope": 0,
                 "unknown_date_count": 0,
                 "errors": [],
+                "coverage_advisories": [],
                 "time_window": {
                     "from": os.getenv("EWS_EFFECTIVE_FROM", ""),
                     "to": os.getenv("EWS_EFFECTIVE_TO", ""),
@@ -724,19 +772,23 @@ def record_connector_telemetry(
         entry["unknown_date_count"] += unknown_date_count
         if error:
             entry["errors"].append(error)
+
+        if coverage_note and coverage_note not in entry["coverage_advisories"]:
+            entry["coverage_advisories"].append(coverage_note)
+
         entry["last_updated"] = now_str
 
 
 # Assign a document ID, sanitize content, and preserve source provenance.
 # Attach the retrieved source identity before downstream evidence assessment.
 def register_collected_document(
-    source_id: str,
-    connector_name: str,
-    url: str,
-    title: str,
-    raw_text: str,
-    published_at: str,
-    query_used: str = "",
+        source_id: str,
+        connector_name: str,
+        url: str,
+        title: str,
+        raw_text: str,
+        published_at: str,
+        query_used: str = "",
 ) -> Dict[str, Any]:
     # Normalize source records, compute provenance fingerprints, and assign stable document IDs.
     """Assign a unique DOC_xxx identifier, compute syndication fingerprint, sanitize text, and store metadata."""
@@ -802,7 +854,8 @@ COUNTRY_KEYWORDS = {
         "united states", "u.s.", "faa", "american", "united airlines", "delta", "jetblue", "canada", "air canada",
     ],
     "Europe (EU / UK / France / Germany)": [
-        "europe", "easa", "france", "toulouse", "germany", "hamburg", "uk", "britain", "farnborough", "aegean", "wizz", "iberia",
+        "europe", "easa", "france", "toulouse", "germany", "hamburg", "uk", "britain", "farnborough", "aegean", "wizz",
+        "iberia",
     ],
     "Asia-Pacific (Singapore / China / Japan / India)": [
         "china", "comac", "singapore", "india", "indigo", "qantas", "australia", "japan", "korea", "starlux",
@@ -812,7 +865,9 @@ COUNTRY_KEYWORDS = {
     ],
 }
 
-MAX_PAGES_PER_AIRSHOW = 5
+MAX_PAGES_PER_AIRSHOW = min(
+    12, max(1, int(os.getenv("EWS_AIRSHOW_MAX_PAGES", "5")))
+)
 MAX_ARTICLES_PER_AIRSHOW = 15
 
 GENERIC_MANUFACTURERS = {
@@ -856,7 +911,8 @@ _MONTH_NAMES_PAT = r"(January|February|March|April|May|June|July|August|Septembe
 _DMY_RE = re.compile(rf"\b(\d{{1,2}})\s+{_MONTH_NAMES_PAT}\s+(20[12]\d)\b", re.I)
 _MDY_RE = re.compile(rf"\b{_MONTH_NAMES_PAT}\s+(\d{{1,2}}),?\s+(20[12]\d)\b", re.I)
 _COMPACT_DMY_RE = re.compile(r"(?:airshow|news|pr)[-_]?(\d{2})(\d{2})(202\d)", re.I)
-_JSON_DATE_RE = re.compile(r'\\?"(?:datePublished|publishedAt|publishDate|articlePublishedTime)\\?"\s*:\s*\\?"(20[12]\d-\d{2}-\d{2})')
+_JSON_DATE_RE = re.compile(
+    r'\\?"(?:datePublished|publishedAt|publishDate|articlePublishedTime)\\?"\s*:\s*\\?"(20[12]\d-\d{2}-\d{2})')
 _LAYOUT_NOISE_RE = re.compile(r"masthead|footer|sidebar|sitemenu|banner|timer", re.I)
 _DATE_CLASS_RE = re.compile(r"blogpost-date|post-date|article-date|publish", re.I)
 _VALID_AIRCRAFT_TOKEN_RE = re.compile(
@@ -919,7 +975,8 @@ def get_time_window_utc() -> Tuple[Optional[datetime], datetime]:
 
     if scope_enum == AnalysisScope.CUSTOM and custom_to:
         try:
-            end_utc = datetime.strptime(custom_to[:10], "%Y-%m-%d").replace(hour=23, minute=59, second=59, tzinfo=timezone.utc)
+            end_utc = datetime.strptime(custom_to[:10], "%Y-%m-%d").replace(hour=23, minute=59, second=59,
+                                                                            tzinfo=timezone.utc)
         except ValueError:
             pass
 
@@ -992,7 +1049,8 @@ def smart_context_filter(full_text: str, query_keywords: list) -> str:
         "airbus", "boeing", "supplier", "safety", "delay", "defect",
         "easa", "faa", "titanium", "engine", "spirit", "pratt",
     ]
-    relevant = [p.strip() for p in full_text.split("\n") if len(p) > 40 and any(kw in p.lower() for kw in core_keywords)]
+    relevant = [p.strip() for p in full_text.split("\n") if
+                len(p) > 40 and any(kw in p.lower() for kw in core_keywords)]
     filtered = "\n".join(relevant)
     return filtered[:2500] if filtered else full_text[:1000]
 
@@ -1007,12 +1065,14 @@ def normalize_date_str(raw_str: str) -> str:
         return iso_match.group(1)
 
     if dmy_match := _DMY_RE.search(cleaned):
-        day, month, year = int(dmy_match.group(1)), MONTH_MAP.get(dmy_match.group(2).lower()[:3], 1), int(dmy_match.group(3))
+        day, month, year = int(dmy_match.group(1)), MONTH_MAP.get(dmy_match.group(2).lower()[:3], 1), int(
+            dmy_match.group(3))
         if 1 <= day <= 31:
             return f"{year:04d}-{month:02d}-{day:02d}"
 
     if mdy_match := _MDY_RE.search(cleaned):
-        month, day, year = MONTH_MAP.get(mdy_match.group(1).lower()[:3], 1), int(mdy_match.group(2)), int(mdy_match.group(3))
+        month, day, year = MONTH_MAP.get(mdy_match.group(1).lower()[:3], 1), int(mdy_match.group(2)), int(
+            mdy_match.group(3))
         if 1 <= day <= 31:
             return f"{year:04d}-{month:02d}-{day:02d}"
 
@@ -1027,7 +1087,7 @@ def normalize_date_str(raw_str: str) -> str:
 # Discover publication time from available article metadata.
 # Extract publication metadata without assuming missing dates are current.
 def extract_article_date(
-    raw_html: str, clean_article_text: str = "", url: str = "", fallback_date: str = ""
+        raw_html: str, clean_article_text: str = "", url: str = "", fallback_date: str = ""
 ) -> str:
     if fallback_date and _ISO_EXACT_RE.match(fallback_date):
         return fallback_date
@@ -1045,7 +1105,8 @@ def extract_article_date(
     for el in soup.find_all(attrs={"class": _LAYOUT_NOISE_RE}):
         el.extract()
 
-    if (time_tag := soup.find("time")) and (norm := normalize_date_str(time_tag.get("datetime", "") or time_tag.get_text(" ", strip=True))):
+    if (time_tag := soup.find("time")) and (
+            norm := normalize_date_str(time_tag.get("datetime", "") or time_tag.get_text(" ", strip=True))):
         return norm
 
     for date_el in soup.find_all(attrs={"class": _DATE_CLASS_RE}):
@@ -1060,7 +1121,11 @@ def extract_article_date(
 
 
 MODEL_TOKEN_RE = re.compile(
-    r"(?<!\w)(?:[A-Za-z]{1,5}[- ]?\d{1,5}[A-Za-z0-9-]*|\d{3,4}(?:[- ]?[A-Za-z]{1,8}|-\d{1,3}))\b",
+    # Recognize aircraft and engine identifiers without merging them
+    # with unrelated words in surrounding text.
+    r"(?<![A-Za-z0-9])(?:[A-Za-z]{1,5}[- ]?\d{1,5}(?:-?[A-Za-z0-9]{1,6}){0,2}|"
+    r"\d{3}(?:[- ]?(?:MAX(?:\s*\d{1,2})?|XLR|NEO|CEO|NG|ER|LR|X|F))?)"
+    r"(?![A-Za-z0-9])",
     re.I,
 )
 
@@ -1111,7 +1176,8 @@ def parse_query_intent(safe_query: str) -> tuple[list[str], str]:
             models_for_search.append(w)
 
     has_specific_model = bool(detected_specific_models) or any(any(c.isdigit() for c in w) for w in expanded_words)
-    required_words = [w for w in expanded_words if w not in GENERIC_MANUFACTURERS] if has_specific_model else expanded_words
+    required_words = [w for w in expanded_words if
+                      w not in GENERIC_MANUFACTURERS] if has_specific_model else expanded_words
     if not required_words:
         required_words = words or [""]
 
@@ -1159,7 +1225,8 @@ def filter_relevant_paragraphs(text: str, required_words: list[str]) -> str:
         if IRRELEVANT_TEXT_REGEX.search(combined_lower):
             continue
 
-        if any(nw in combined_lower for nw in num_words) or sum(1 for rw in required_words if rw in combined_lower) >= min(2, len(required_words)):
+        if any(nw in combined_lower for nw in num_words) or sum(
+                1 for rw in required_words if rw in combined_lower) >= min(2, len(required_words)):
             norm_key = re.sub(r"[^a-z0-9]", "", combined_lower)
             if norm_key not in seen_normalized:
                 seen_normalized.add(norm_key)
@@ -1189,10 +1256,10 @@ def extract_clean_blocks(soup: BeautifulSoup, base_url: str) -> tuple[str, list[
 
         if urlparse(full_href).netloc == base_domain and full_href != base_url:
             if (
-                _PAGINATION_QUERY_RE.search(full_href)
-                or _PAGINATION_PATH_RE.search(full_href)
-                or a_text in {"next", "next page", "›", "»", "older posts", "more"}
-                or (in_pag and a_text.isdigit() and int(a_text) >= 2)
+                    _PAGINATION_QUERY_RE.search(full_href)
+                    or _PAGINATION_PATH_RE.search(full_href)
+                    or a_text in {"next", "next page", "›", "»", "older posts", "more"}
+                    or (in_pag and a_text.isdigit() and int(a_text) >= 2)
             ):
                 if full_href not in pagination_urls:
                     pagination_urls.append(full_href)
@@ -1208,7 +1275,8 @@ def extract_clean_blocks(soup: BeautifulSoup, base_url: str) -> tuple[str, list[
                 if fia_ajax_url not in pagination_urls:
                     pagination_urls.append(fia_ajax_url)
 
-    for tag in soup(["script", "style", "nav", "footer", "header", "noscript", "svg", "form", "button", "iframe", "aside"]):
+    for tag in soup(
+            ["script", "style", "nav", "footer", "header", "noscript", "svg", "form", "button", "iframe", "aside"]):
         tag.extract()
     for attr in ("id", "class"):
         for el in soup.find_all(attrs={attr: _NOISE_ATTR_RE}):
@@ -1271,11 +1339,13 @@ def extract_clean_blocks(soup: BeautifulSoup, base_url: str) -> tuple[str, list[
             continue
         parsed = urlparse(full_url)
         path_parts = [p for p in parsed.path.split("/") if p]
-        if parsed.netloc == base_domain and len(path_parts) >= 2 and not full_url.lower().endswith((".pdf", ".jpg", ".png", ".svg", ".webp")):
+        if parsed.netloc == base_domain and len(path_parts) >= 2 and not full_url.lower().endswith(
+                (".pdf", ".jpg", ".png", ".svg", ".webp")):
             a_title = a_tag.get_text(" ", strip=True) or path_parts[-1]
             parent_text = a_tag.parent.get_text(" ", strip=True) if a_tag.parent else a_title
             ctx_text = parent_text if len(parent_text) <= 350 else a_title
-            card_date = normalize_date_str(full_url) if is_search_page else (normalize_date_str(ctx_text) or normalize_date_str(full_url))
+            card_date = normalize_date_str(full_url) if is_search_page else (
+                    normalize_date_str(ctx_text) or normalize_date_str(full_url))
             add_candidate_link(a_title, href, ctx_text, card_date)
 
     return "\n".join(text_blocks), article_links, pagination_urls
@@ -1336,15 +1406,16 @@ def _extract_news_article_body(html_text: str) -> str:
     """Extract article paragraphs and exclude unrelated page navigation, recommendations and sidebars."""
     soup = BeautifulSoup(html_text, "html.parser")
     for node in soup.select(
-        "script, style, noscript, nav, header, footer, aside, form, "
-        "[role='navigation'], [class*='related'], [class*='recommend'], [class*='advert'], [id*='related']"
+            "script, style, noscript, nav, header, footer, aside, form, "
+            "[role='navigation'], [class*='related'], [class*='recommend'], [class*='advert'], [id*='related']"
     ):
         node.decompose()
 
     for selector in ("[itemprop='articleBody']", "article", "[class*='article-body']", "[class*='story-body']", "main"):
         candidates = []
         for node in soup.select(selector):
-            content = "\n".join(p.get_text(" ", strip=True) for p in node.find_all("p") if len(p.get_text(" ", strip=True)) >= 35)
+            content = "\n".join(
+                p.get_text(" ", strip=True) for p in node.find_all("p") if len(p.get_text(" ", strip=True)) >= 35)
             if len(content) >= 120:
                 candidates.append(content)
         if candidates:
@@ -1362,7 +1433,7 @@ def search_aerospace_news(query: str) -> str:
     """Query News API preserving specific aircraft model suffixes (e.g., 777X, A321XLR)."""
     safe_query = query.replace(",", "").replace("  ", " ").strip()
     and_query = news_api_search_key(safe_query)
-    query_tokens = and_query.split(" AND ")
+    query_tokens = and_query.split(" AND ", 2)
 
     limit = get_dynamic_limit()
     start_utc, end_utc = get_time_window_utc()
@@ -1381,12 +1452,97 @@ def search_aerospace_news(query: str) -> str:
         "to": end_utc.strftime("%Y-%m-%dT%H:%M:%S"),
     }
     if start_utc is not None:
-        params["from"] = max(start_utc, datetime.now(timezone.utc) - timedelta(days=29)).strftime("%Y-%m-%dT%H:%M:%S")
 
-    resp = safe_http_get(url, source_id="SRC_004", params=params, timeout=15)
+        news_earliest = (
+                datetime.now(timezone.utc) - timedelta(days=29)
+        )
+
+        effective_start = max(
+            start_utc,
+            news_earliest,
+        )
+
+        if effective_start > start_utc:
+            logger.warning(
+                "[NEWS API COVERAGE] Requested scope starts %s, "
+                "but this connector uses %s; "
+                "the full requested period is NOT covered by News API.",
+                start_utc.date(),
+                effective_start.date(),
+            )
+
+            record_connector_telemetry(
+                "News API",
+                "SRC_004",
+                safe_query,
+                coverage_note=(
+                    f"NEWSAPI_PARTIAL_WINDOW: requested_from={start_utc.date()}, "
+                    f"actual_from={effective_start.date()}, "
+                    f"actual_to={end_utc.date()}"
+                ),
+            )
+
+        params["from"] = effective_start.strftime(
+            "%Y-%m-%dT%H:%M:%S"
+        )
+
+    if not NEWS_API_KEY:
+        logger.error(
+            "[NEWS API ERROR] NEWS_API_KEY is missing; "
+            "collection was not attempted."
+        )
+
+        record_connector_telemetry(
+            "News API",
+            "SRC_004",
+            safe_query,
+            error="MISSING_API_KEY",
+        )
+
+        return (
+            f"News API unavailable for query '{query}' "
+            "(missing API key)."
+        )
+
+    logger.info(
+        "[NEWS API REQUEST] primary=%r from=%s to=%s",
+        and_query,
+        params.get("from", "unrestricted"),
+        params["to"],
+    )
+
+    resp = safe_http_get(
+        url,
+        source_id="SRC_004",
+        params=params,
+        timeout=15,
+    )
+
     if resp is None or resp.status_code != 200:
-        record_connector_telemetry("News API", "SRC_004", safe_query, error="News API request failed or blocked")
-        return f"No articles found in News API for query '{query}' within the selected time scope."
+        status = (
+            resp.status_code
+            if resp is not None
+            else "NO_RESPONSE_OR_COMPLIANCE_BLOCK"
+        )
+
+        # Do not expose credentials or complete request URLs.
+        logger.warning(
+            "[NEWS API ERROR] query=%r status=%s",
+            and_query,
+            status,
+        )
+
+        record_connector_telemetry(
+            "News API",
+            "SRC_004",
+            safe_query,
+            error=f"PRIMARY_HTTP_{status}",
+        )
+
+        return (
+            f"News API unavailable for query '{query}' "
+            f"(HTTP/status: {status})."
+        )
 
     # Use a broader search only according to the existing recall policy and cache state.
     articles = resp.json().get("articles", [])
@@ -1395,7 +1551,7 @@ def search_aerospace_news(query: str) -> str:
     if len(query_tokens) >= 3 and len(articles) < max(10, limit * 2):
         # Recall fallback keeps the aircraft family and issue terms while relaxing the engine-specific
         #   constraint.
-        fallback_q = " AND ".join((query_tokens[0], query_tokens[-1]))
+        fallback_q = " AND ".join(query_tokens[:2])
         fallback_params = {**params, "q": fallback_q, "pageSize": min(100, max(20, limit * 4))}
         cache_key = (
             fallback_q,
@@ -1409,10 +1565,52 @@ def search_aerospace_news(query: str) -> str:
             cached_articles = NEWS_FALLBACK_CACHE.get(cache_key)
 
         if cached_articles is None:
-            fb_resp = safe_http_get(url, source_id="SRC_004", params=fallback_params, timeout=15)
-            cached_articles = (fb_resp.json().get("articles", []) or []) if (fb_resp is not None and fb_resp.status_code == 200) else []
-            with _COLLECTION_LOCK:
-                NEWS_FALLBACK_CACHE[cache_key] = list(cached_articles)
+
+            logger.info(
+                "[NEWS API REQUEST] recall=%r",
+                fallback_q,
+            )
+
+            fb_resp = safe_http_get(
+                url,
+                source_id="SRC_004",
+                params=fallback_params,
+                timeout=15,
+            )
+
+            if fb_resp is not None and fb_resp.status_code == 200:
+
+                cached_articles = (
+                        fb_resp.json().get("articles", []) or []
+                )
+
+                with _COLLECTION_LOCK:
+                    NEWS_FALLBACK_CACHE[cache_key] = list(
+                        cached_articles
+                    )
+
+            else:
+
+                status = (
+                    fb_resp.status_code
+                    if fb_resp is not None
+                    else "NO_RESPONSE_OR_COMPLIANCE_BLOCK"
+                )
+
+                logger.warning(
+                    "[NEWS API RECALL ERROR] query=%r status=%s",
+                    fallback_q,
+                    status,
+                )
+
+                record_connector_telemetry(
+                    "News API",
+                    "SRC_004",
+                    safe_query,
+                    error=f"RECALL_HTTP_{status}",
+                )
+
+                cached_articles = []
 
         existing_urls = {a.get("url") for a in articles}
         for candidate in cached_articles:
@@ -1424,15 +1622,28 @@ def search_aerospace_news(query: str) -> str:
         logger.info("[NEWS API RECALL] Broad query %r, %d combined candidates", fallback_q, len(articles))
 
     if not articles:
-        record_connector_telemetry("News API", "SRC_004", safe_query, 0, 0, 0)
-        return f"No articles found in News API for query '{query}' within the selected time scope."
+        logger.info(
+            "[NEWS API NO MATCH] primary and recall yielded "
+            "0 articles; query=%r",
+            safe_query,
+        )
+
+        record_connector_telemetry(
+            "News API",
+            "SRC_004",
+            safe_query,
+            0,
+            0,
+            0,
+        )
 
     extracted_content = ""
     query_words = [w.lower() for w in safe_query.split() if len(w) > 2]
     count = rejected_scope = unknown_dates = rejected_missing_url = rejected_duplicate = rejected_model = metadata_only = 0
 
     model_anchor = query_tokens[0].strip('"').lower() if query_tokens else ""
-    model_pattern = re.compile(rf"(?<!\w){re.escape(model_anchor)}(?!\w)") if (model_anchor and any(c.isdigit() for c in model_anchor)) else None
+    model_pattern = re.compile(rf"(?<!\w){re.escape(model_anchor)}(?!\w)") if (
+            model_anchor and any(c.isdigit() for c in model_anchor)) else None
 
     for article in articles:
         if count >= limit:
@@ -1478,8 +1689,8 @@ def search_aerospace_news(query: str) -> str:
         if not body_text:
             metadata_only += 1
             body_text = (
-                "[NEWSAPI_METADATA_ONLY: PUBLISHER ARTICLE TEXT UNAVAILABLE]\n"
-                + (desc.strip() or "No article description available.")
+                    "[NEWSAPI_METADATA_ONLY: PUBLISHER ARTICLE TEXT UNAVAILABLE]\n"
+                    + (desc.strip() or "No article description available.")
             )
 
         if model_pattern and not model_pattern.search(f"{title} {desc} {body_text}".lower()):
@@ -1493,21 +1704,22 @@ def search_aerospace_news(query: str) -> str:
             title=title, raw_text=body_text, published_at=pub_date, query_used=safe_query,
         )
         extracted_content += (
-            f"\n<untrusted_osint_document id=\"{doc['doc_id']}\" source_id=\"SRC_004\">\n"
-            f"DOC_ID: {doc['doc_id']}\n"
-            f"DATE: {doc['published_at']}\n"
-            f"COLLECTED_AT: {doc['collected_at']}\n"
-            f"TITLE: {doc['title']}\n"
-            f"SOURCE: {article_url}\n"
-            f"CONTENT: {doc['text']}...\n"
-            f"</untrusted_osint_document>\n"
-            + ("-" * 40) + "\n"
+                f"\n<untrusted_osint_document id=\"{doc['doc_id']}\" source_id=\"SRC_004\">\n"
+                f"DOC_ID: {doc['doc_id']}\n"
+                f"DATE: {doc['published_at']}\n"
+                f"COLLECTED_AT: {doc['collected_at']}\n"
+                f"TITLE: {doc['title']}\n"
+                f"SOURCE: {article_url}\n"
+                f"CONTENT: {doc['text']}...\n"
+                f"</untrusted_osint_document>\n"
+                + ("-" * 40) + "\n"
         )
         count += 1
 
     logger.info(
         "[NEWS API AUDIT] query=%r candidates=%d accepted=%d missing_url=%d duplicate=%d out_of_scope=%d model_mismatch=%d metadata_only=%d",
-        safe_query, len(articles), count, rejected_missing_url, rejected_duplicate, rejected_scope, rejected_model, metadata_only,
+        safe_query, len(articles), count, rejected_missing_url, rejected_duplicate, rejected_scope, rejected_model,
+        metadata_only,
     )
     record_connector_telemetry("News API", "SRC_004", safe_query, len(articles), count, rejected_scope, unknown_dates)
 
@@ -1531,7 +1743,8 @@ def scrape_ntsb_investigations(query: str = "latest") -> str:
     scope_days = get_scope_days()
     time_filter = f" when:{scope_days}d" if scope_days else ""
 
-    logger.info(f"[OSINT GATHERER] Fetching NTSB records for: '{clean_query}' (limit: {limit}, scope: {scope_days or 'all'} days)")
+    logger.info(
+        f"[OSINT GATHERER] Fetching NTSB records for: '{clean_query}' (limit: {limit}, scope: {scope_days or 'all'} days)")
     try:
         safe_query = urllib.parse.quote(f"site:ntsb.gov {clean_query}{time_filter}")
         url = f"https://news.google.com/rss/search?q={safe_query}&hl=en-US&gl=US&ceid=US:en"
@@ -1560,7 +1773,8 @@ def scrape_ntsb_investigations(query: str = "latest") -> str:
             title = entry.get("title", "Untitled")
             clean_desc = BeautifulSoup(entry.get("description", ""), "html.parser").get_text(" ", strip=True)
 
-            if clean_query.lower() != "latest" and not any(rw in f"{title} {clean_desc}".lower() for rw in required_words):
+            if clean_query.lower() != "latest" and not any(
+                    rw in f"{title} {clean_desc}".lower() for rw in required_words):
                 continue
 
             doc = register_collected_document(
@@ -1574,7 +1788,8 @@ def scrape_ntsb_investigations(query: str = "latest") -> str:
             )
             count += 1
 
-        record_connector_telemetry("NTSB Investigations", "SRC_003", clean_query, len(feed.entries), count, rejected_scope)
+        record_connector_telemetry("NTSB Investigations", "SRC_003", clean_query, len(feed.entries), count,
+                                   rejected_scope)
         if count == 0:
             return f"No NTSB accident or investigation reports found for '{query}' within the selected time scope."
 
@@ -1595,7 +1810,7 @@ _FAA_LIFECYCLE_FIELDS = [
 # Resolve FAA notices by docket and distinguish their regulatory lifecycle.
 # Track proposed, final and effective stages separately for each docket.
 def _faa_resolve_docket(
-    doc: Dict[str, Any], as_of: str, cache: Dict[str, Tuple[Dict[str, Any], bool]]
+        doc: Dict[str, Any], as_of: str, cache: Dict[str, Tuple[Dict[str, Any], bool]]
 ) -> Tuple[Dict[str, Any], str, bool]:
     # Resolve FAA docket lifecycle before attributing regulatory effect.
     """Resolve the latest published FAA rule/proposed rule within the same docket."""
@@ -1642,7 +1857,7 @@ def _faa_resolve_docket(
         relevant = [
             item for item in results
             if item.get("publication_date", "") <= as_of
-            and str(item.get("type") or "").strip().upper() in {"RULE", "PROPOSED RULE", "PRORULE"}
+               and str(item.get("type") or "").strip().upper() in {"RULE", "PROPOSED RULE", "PRORULE"}
         ]
 
         if relevant:
@@ -1685,9 +1900,9 @@ def _easa_iso_date(value: str) -> str:
 # Distinguish airframe-level from engine-level EASA applicability.
 # Engine-only and airframe-level applicability are not interchangeable.
 def _easa_applicability(
-    query: str,
-    subject: str,
-    approved_types: str,
+        query: str,
+        subject: str,
+        approved_types: str,
 ) -> str:
     """
     Determine EASA applicability using centralized aircraft
@@ -1738,9 +1953,9 @@ def _easa_applicability(
 
     # Prevent matching different known aircraft programs.
     if (
-        requested_specific
-        and source_specific
-        and not (requested_specific & source_specific)
+            requested_specific
+            and source_specific
+            and not (requested_specific & source_specific)
     ):
         aircraft_match = False
 
@@ -1808,14 +2023,14 @@ def _easa_applicability(
     source_lower = text.lower()
 
     if (
-        re.search(r"\bairbus\b", q_lower)
-        and "airbus" not in source_lower
+            re.search(r"\bairbus\b", q_lower)
+            and "airbus" not in source_lower
     ):
         return "NONE"
 
     if (
-        re.search(r"\bboeing\b", q_lower)
-        and "boeing" not in source_lower
+            re.search(r"\bboeing\b", q_lower)
+            and "boeing" not in source_lower
     ):
         return "NONE"
 
@@ -2026,7 +2241,8 @@ def _collect_easa_primary_index(query: str, limit: int) -> tuple[str, int]:
             pages += 1
             examined += len(records)
 
-            if os.getenv("EWS_EASA_CSV_ENABLED", "0") == "1" and index_html and accepted < limit:
+            csv_rows = []
+            if os.getenv("EWS_EASA_CSV_ENABLED", "1") == "1" and index_html and accepted < limit:
                 csv_rows, csv_issues = _easa_biweekly_csv_rows(index_html, _EASA_PRIMARY_INDEX_PAGES[0])
                 failures.extend(csv_issues)
                 examined += len(csv_rows)
@@ -2068,13 +2284,15 @@ def _collect_easa_primary_index(query: str, limit: int) -> tuple[str, int]:
                     )
                     accepted += 1
 
-                logger.info("[EASA CSV AUDIT] parsed=%d accepted_total=%d issues=%s", len(csv_rows), accepted, csv_issues or "none")
+                logger.info("[EASA CSV AUDIT] parsed=%d accepted_total=%d issues=%s", len(csv_rows), accepted,
+                            csv_issues or "none")
 
-            dated_rows = [str(r.get("published", "")) for r in records if re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(r.get("published", "")))]
+            dated_rows = [str(r.get("published", "")) for r in (records + csv_rows) if
+                          re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(r.get("published", "")))]
             oldest_index_date = min(dated_rows, default="")
             if (
-                start and oldest_index_date and start.date().isoformat() < oldest_index_date
-                and "HISTORICAL_COVERAGE_NOT_ESTABLISHED" not in failures
+                    start and oldest_index_date and start.date().isoformat() < oldest_index_date
+                    and "HISTORICAL_COVERAGE_NOT_ESTABLISHED" not in failures
             ):
                 failures.append("HISTORICAL_COVERAGE_NOT_ESTABLISHED")
 
@@ -2134,7 +2352,8 @@ def _collect_easa_primary_index(query: str, limit: int) -> tuple[str, int]:
         if archive and len(visited) >= max_pages and url and accepted < limit:
             failures.append("ARCHIVE_PAGINATION_BUDGET_EXHAUSTED")
 
-    logger.info("[EASA PRIMARY AUDIT] accepted=%d examined=%d pages=%d issues=%s", accepted, examined, pages, failures or "none")
+    logger.info("[EASA PRIMARY AUDIT] accepted=%d examined=%d pages=%d issues=%s", accepted, examined, pages,
+                failures or "none")
     if failures:
         logger.warning("[EASA COVERAGE] Partial or unavailable official archive: %s", failures)
 
@@ -2159,7 +2378,8 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
     required_words, search_term = parse_query_intent(query)
     search_term = re.sub(r"\b(?:FAA|EASA|NTSB)\b", "", search_term, flags=re.I).strip() or query
 
-    logger.info(f"[OSINT GATHERER] Querying FAA and EASA databases for: '{query}' (limit: {limit}, scope: {scope_days or 'all'} days)")
+    logger.info(
+        f"[OSINT GATHERER] Querying FAA and EASA databases for: '{query}' (limit: {limit}, scope: {scope_days or 'all'} days)")
     extracted_text = f"--- REGULATORY DIRECTIVES AND NOTICES (FAA & EASA) FOR '{query}' ---\n"
 
     try:
@@ -2177,7 +2397,35 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
         resp = safe_http_get(faa_url, source_id="SRC_001", params=params, timeout=12)
 
         if resp is not None and resp.status_code == 200:
-            docs = resp.json().get("results", []) or []
+            payload = resp.json()
+            docs = list(payload.get("results", []) or [])
+
+            if scope_days is None or scope_days > 90:
+                pages = min(
+                    5, max(1, int(os.getenv("EWS_FAA_MAX_PAGES", "1")))
+                )
+
+                for _ in range(pages - 1):
+                    next_url = payload.get("next_page_url", "")
+
+                    if urlparse(next_url).hostname not in {
+                        "federalregister.gov",
+                        "www.federalregister.gov",
+                    }:
+                        break
+
+                    response = safe_http_get(
+                        next_url,
+                        source_id="SRC_001",
+                        timeout=12,
+                    )
+
+                    if response is None or response.status_code != 200:
+                        break
+
+                    payload = response.json()
+                    docs.extend(payload.get("results", []) or [])
+
             if not docs:
                 entity = lookup_supplier_in_registry(query)
                 broad_term = (
@@ -2219,13 +2467,16 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
                 action = str(doc.get("action") or "").strip().lower()
                 effective_on = str(doc.get("effective_on") or "")
 
-                is_proposed = doc_type in {"PRORULE", "PROPOSED RULE"} or "notice of proposed rulemaking" in action or action.startswith("proposed rule")
+                is_proposed = doc_type in {"PRORULE",
+                                           "PROPOSED RULE"} or "notice of proposed rulemaking" in action or action.startswith(
+                    "proposed rule")
                 is_final = doc_type == "RULE" or action.startswith("final rule")
 
                 if is_proposed:
                     stage = "PROPOSED"
                 elif is_final:
-                    stage = "EFFECTIVE" if (effective_on and effective_on <= end_utc.strftime("%Y-%m-%d")) else "FINAL_ISSUED"
+                    stage = "EFFECTIVE" if (
+                            effective_on and effective_on <= end_utc.strftime("%Y-%m-%d")) else "FINAL_ISSUED"
                 else:
                     stage = "UNKNOWN"
 
@@ -2306,7 +2557,8 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
                 )
                 easa_count += 1
 
-            record_connector_telemetry("EASA Regulatory Monitor", "SRC_002", query, len(feed.entries), easa_count, easa_rejected)
+            record_connector_telemetry("EASA Regulatory Monitor", "SRC_002", query, len(feed.entries), easa_count,
+                                       easa_rejected)
             if easa_count > 0:
                 extracted_text += easa_block
     except Exception as e:
@@ -2328,7 +2580,7 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
     # Collect primary-source aerospace announcements with publication metadata.
     """Fetch official press releases from Airbus, Boeing, and COMAC feeds."""
     original_query = query.replace(",", "").replace("  ", " ").strip()
-    _, safe_query = parse_query_intent(original_query)
+    required_words, safe_query = parse_query_intent(original_query)
     limit_per_feed = get_dynamic_limit()
     scope_days = get_scope_days()
     time_filter = f" when:{scope_days}d" if scope_days else ""
@@ -2348,10 +2600,8 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
         return f"https://news.google.com/rss/search?q={q}&hl=en-US&gl=US&ceid=US:en"
 
     feeds = {
-        "Airbus": _rss_url("site:airbus.com"),
+        "Airbus": "https://www.airbus.com/en/generate-rss-feeds?type=all-press-releases",
         "Boeing": "https://boeing.mediaroom.com/news-releases-statements?pagetemplate=rss",
-        "COMAC": _rss_url("(site:comac.cc OR site:english.comac.cc)"),
-        "FAA": "https://www.faa.gov/newsroom/press_releases/rss",
     }
     mentioned = {
         name for name in feeds
@@ -2365,6 +2615,18 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
     ):
         mentioned.add("FAA")
 
+    if re.search(
+            r"\b(?:ge aerospace|cfm|leap|ge9x|genx)\b",
+            original_query, re.I,
+    ):
+        mentioned.add("GE Aerospace")
+
+    if re.search(
+            r"\b(?:rtx|pratt|whitney|collins|gtf|pw1100g)\b",
+            original_query, re.I,
+    ):
+        mentioned.add("RTX")
+
     if mentioned:
         feeds = {
             name: url
@@ -2375,10 +2637,33 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
     total_processed = found_total = rejected_total = 0
     noise_tokens = ("#shorts", "compilation", "takeoff", "landing", "cabin", "trip report", "flight simulator", "msfs")
 
-    for brand, url in feeds.items():
+    for i, (brand, url) in enumerate(feeds.items()):
+        if total_processed >= limit_per_feed:
+            break
+
+        remaining = limit_per_feed - total_processed
+        brand_quota = max(
+            1, (remaining + len(feeds) - i - 1) // (len(feeds) - i)
+        )
+
         try:
-            source_id = "SRC_001" if brand == "FAA" else "SRC_005"
-            resp = safe_http_get(url, source_id=source_id, timeout=12)
+            source_id = {
+                "FAA": "SRC_001",
+                "GE Aerospace": "SRC_010",
+                "RTX": "SRC_011",
+            }.get(brand, "SRC_005")
+
+            if not is_source_allowed(source_id):
+                continue
+
+            resp = safe_http_get(
+                url,
+                source_id=source_id,
+                timeout=12,
+                check_robots=brand in {
+                    "Airbus", "Boeing", "GE Aerospace", "RTX"
+                },
+            )
             if resp is None or resp.status_code != 200:
                 continue
             feed = feedparser.parse(resp.content)
@@ -2389,7 +2674,7 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
             brand_count = 0
             for entry in feed.entries:
                 found_total += 1
-                if brand_count >= limit_per_feed:
+                if brand_count >= brand_quota:
                     break
 
                 link = entry.get("link", f"https://www.{brand.lower()}.com")
@@ -2411,6 +2696,8 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
                     "Airbus": ("airbus.com",),
                     "Boeing": ("boeing.com", "boeing.mediaroom.com"),
                     "COMAC": ("comac.cc",),
+                    "GE Aerospace": ("geaerospace.com",),
+                    "RTX": ("rtx.com",),
                     "FAA": ("faa.gov",),
                 }
                 official = any(host == d or host.endswith("." + d) for d in domains[brand])
@@ -2418,7 +2705,7 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
 
                 body = ""
 
-                if official:
+                if official and brand not in {"GE Aerospace", "RTX"}:
                     page = safe_http_get(
                         link,
                         source_id=doc_source_id,
@@ -2466,7 +2753,7 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
                     connector_name=(
                         "FAA Newsroom RSS"
                         if brand == "FAA"
-                        else "Manufacturer PR"
+                        else "Official Industry PR"
                     ),
                     url=link,
                     title=title,
@@ -2492,14 +2779,84 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
                 brand_count += 1
                 total_processed += 1
 
-            if brand_count > 0:
-                extracted_text += brand_block
+                if brand_count > 0:
+                    extracted_text += brand_block
+
+                record_connector_telemetry(
+                    f"Official Industry PR / {brand}",
+                    source_id,
+                    safe_query,
+                    len(feed.entries),
+                    brand_count,
+                )
+
         except Exception as e:
             logger.error(f"[OSINT GATHERER] PR feed error for {brand}: {str(e)}")
 
-    record_connector_telemetry("Manufacturer PR", "SRC_005", safe_query, found_total, total_processed, rejected_total)
-    if total_processed == 0:
-        return f"No official manufacturer press releases found for '{query}' within the selected time scope."
+    # Optional historical Boeing archive – metadata only.
+    if "Boeing" in feeds and os.getenv("EWS_BOEING_ARCHIVE_APPROVED") == "1":
+        start, end = get_time_window_utc()
+
+        if start and (end - start).days > 90:
+            max_years = min(5, int(os.getenv("EWS_BOEING_MAX_YEARS", "2")))
+
+            for year in range(
+                    end.year,
+                    max(start.year, end.year - max_years + 1) - 1,
+                    -1,
+            ):
+                if total_processed >= limit_per_feed:
+                    break
+
+                url = (
+                    "https://boeing.mediaroom.com/"
+                    f"news-releases-statements?year={year}"
+                )
+
+                resp = safe_http_get(
+                    url, source_id="SRC_005",
+                    timeout=12, check_robots=True,
+                )
+                if resp is None or resp.status_code != 200:
+                    continue
+
+                soup = BeautifulSoup(resp.text, "html.parser")
+
+                for a in soup.select("a[href]"):
+                    if total_processed >= limit_per_feed:
+                        break
+
+                    link = urljoin(resp.url, a["href"])
+                    match = re.search(r"/(20\d{2}-\d{2}-\d{2})-", link)
+                    title = a.get_text(" ", strip=True)
+
+                    if (
+                            not match
+                            or urlparse(link).hostname != "boeing.mediaroom.com"
+                            or link in COLLECTED_URLS
+                            or not is_date_within_scope(match.group(1))
+                            or len(title) < 15
+                            or (
+                            required_words
+                            and not any(w in title.lower() for w in required_words)
+                    )
+                    ):
+                        continue
+
+                    doc = register_collected_document(
+                        "SRC_005", "Official Industry PR",
+                        link, title, title, match.group(1), original_query,
+                    )
+                    doc["origin_type"] = "PRIMARY_OFFICIAL_INDEX_METADATA"
+
+                    extracted_text += (
+                        f"DOC_ID: {doc['doc_id']} | SOURCE_ID: SRC_005\n"
+                        f"DATE: {doc['published_at']}\n"
+                        f"Title: {doc['title']}\n"
+                        f"Link: {link}\n"
+                        f"Summary: {doc['text']}\n---\n"
+                    )
+                    total_processed += 1
 
     logger.warning(f"[OSINT DEBUG] PR module downloaded {total_processed} releases.")
     return extracted_text
@@ -2681,11 +3038,13 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
             page.route(
                 "**/*",
                 lambda route: route.abort()
-                if (route.request.resource_type in ("image", "media", "font") or "cookiebot.com" in route.request.url.lower())
+                if (route.request.resource_type in ("image", "media",
+                                                    "font") or "cookiebot.com" in route.request.url.lower())
                 else route.continue_(),
             )
 
-            effective_max_pages = 1 if (fast_mode or (scope_days is not None and scope_days <= 14)) else MAX_PAGES_PER_AIRSHOW
+            effective_max_pages = 1 if (
+                    fast_mode or (scope_days is not None and scope_days <= 14)) else MAX_PAGES_PER_AIRSHOW
 
             for airshow_name, url in AIRSHOW_NEWS_URLS.items():
                 if total_articles >= user_limit:
@@ -2712,7 +3071,8 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
                         ]
                     elif "singaporeairshow.com" in url:
                         base_sg = f"https://www.singaporeairshow.com/cos/o.x?func=search&c=/qql/pagetree&rid=453&search_str={encoded_query}"
-                        urls_to_check = [base_sg] + [f"{base_sg}&pageno={p_no}" for p_no in range(2, effective_max_pages + 1)]
+                        urls_to_check = [base_sg] + [f"{base_sg}&pageno={p_no}" for p_no in
+                                                     range(2, effective_max_pages + 1)]
                     else:
                         urls_to_check = [url]
 
@@ -2745,9 +3105,9 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
                             for link in links:
                                 full_link_url = link["url"]
                                 if (
-                                    any(path in full_link_url.lower() for path in _AIRSHOW_IRRELEVANT_PATHS)
-                                    or IRRELEVANT_URL_REGEX.search(full_link_url)
-                                    or IRRELEVANT_TEXT_REGEX.search(link["context"])
+                                        any(path in full_link_url.lower() for path in _AIRSHOW_IRRELEVANT_PATHS)
+                                        or IRRELEVANT_URL_REGEX.search(full_link_url)
+                                        or IRRELEVANT_TEXT_REGEX.search(link["context"])
                                 ):
                                     continue
                                 candidate_links.append(link)
@@ -2763,9 +3123,11 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
                     for l in candidate_links:
                         t_text = f"{l['title']} {l['url']}".lower()
                         c_text = l["context"].lower()
-                        if any(nw in t_text for nw in num_words) or sum(1 for rw in required_words if rw in t_text) >= min_req:
+                        if any(nw in t_text for nw in num_words) or sum(
+                                1 for rw in required_words if rw in t_text) >= min_req:
                             tier1_links.append(l["url"])
-                        elif any(nw in c_text for nw in num_words) or sum(1 for rw in required_words if rw in c_text) >= min_req:
+                        elif any(nw in c_text for nw in num_words) or sum(
+                                1 for rw in required_words if rw in c_text) >= min_req:
                             tier2_links.append(l["url"])
                         elif any(rk in c_text or rk in l["url"].lower() for rk in AIRSHOW_ROUNDUP_KEYWORDS):
                             tier3_links.append(l["url"])
@@ -2774,7 +3136,8 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
                     if num_words or (scope_days is not None and scope_days <= 14):
                         links_to_open = list(dict.fromkeys(tier1_links + tier2_links))[:remaining_slots]
                     else:
-                        links_to_open = list(dict.fromkeys(tier1_links + tier2_links + tier3_links))[:(remaining_slots + 2)]
+                        links_to_open = list(dict.fromkeys(tier1_links + tier2_links + tier3_links))[
+                                        :(remaining_slots + 2)]
 
                     deep_articles_output, seen_article_bodies = [], set()
 
@@ -2811,7 +3174,8 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
                                     unknown_dates += 1
                                 if not is_date_within_scope(pub_date):
                                     rejected_scope += 1
-                                    logger.info(f"[OSINT DEBUG] Article {article_url} ({pub_date}) skipped (outside time scope).")
+                                    logger.info(
+                                        f"[OSINT DEBUG] Article {article_url} ({pub_date}) skipped (outside time scope).")
                                     continue
 
                                 seen_article_bodies.add(body_hash)
@@ -2829,7 +3193,8 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
                             logger.debug(f"Could not load article {article_url}: {art_e}")
 
                     final_airshow_sections = list(deep_articles_output)
-                    if not final_airshow_sections and len(filtered_overview) >= 120 and total_articles < user_limit and url not in COLLECTED_URLS:
+                    if not final_airshow_sections and len(
+                            filtered_overview) >= 120 and total_articles < user_limit and url not in COLLECTED_URLS:
                         overview_date = normalize_date_str(filtered_overview) or "DATE_UNKNOWN"
                         if overview_date == "DATE_UNKNOWN":
                             unknown_dates += 1
@@ -2846,7 +3211,8 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
                             total_articles += 1
 
                     if final_airshow_sections:
-                        extracted_text += f"\n>> News from {airshow_name} ({url}):\n" + "\n\n".join(final_airshow_sections) + "\n---\n"
+                        extracted_text += f"\n>> News from {airshow_name} ({url}):\n" + "\n\n".join(
+                            final_airshow_sections) + "\n---\n"
                         processed_shows += 1
                     else:
                         extracted_text += f"\n>> {airshow_name} ({url}): No articles found for '{safe_query}' within the selected time scope.\n---\n"
@@ -2863,12 +3229,14 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
         return f"Fatal browser launch error: {e}"
 
     record_connector_telemetry(
-        "Airshow Websites", "SRC_006", safe_query, total_articles + rejected_scope, total_articles, rejected_scope, unknown_dates
+        "Airshow Websites", "SRC_006", safe_query, total_articles + rejected_scope, total_articles, rejected_scope,
+        unknown_dates
     )
     if processed_shows == 0:
         return f"No information found for '{safe_query}' on any monitored airshow websites within the selected time scope."
 
-    logger.warning(f"[OSINT DEBUG] Extracted {total_articles} articles across {processed_shows} airshows (limit: {user_limit}).")
+    logger.warning(
+        f"[OSINT DEBUG] Extracted {total_articles} articles across {processed_shows} airshows (limit: {user_limit}).")
     return extracted_text
 
 
@@ -2933,13 +3301,15 @@ def extract_youtube_transcript(query: str) -> str:
         search_params["publishedAfter"] = start_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
 
     try:
-        search_resp = safe_http_get("https://www.googleapis.com/youtube/v3/search", source_id="SRC_008", params=search_params, timeout=10)
+        search_resp = safe_http_get("https://www.googleapis.com/youtube/v3/search", source_id="SRC_008",
+                                    params=search_params, timeout=10)
         if search_resp is None or search_resp.status_code != 200:
             record_connector_telemetry("YouTube Videos", "SRC_008", query, error="YouTube API HTTP failure")
             return "Error fetching video data from API."
 
         videos, rejected_scope = [], 0
-        yt_noise = ("#shorts", "compilation", "1:200", "1:400", "scale model", "msfs", "flight simulator", "trip report")
+        yt_noise = ("#shorts", "compilation", "1:200", "1:400", "scale model", "msfs", "flight simulator",
+                    "trip report")
 
         for item in search_resp.json().get("items", []):
             vid_id = item["id"]["videoId"]
@@ -2952,9 +3322,9 @@ def extract_youtube_transcript(query: str) -> str:
             combined_meta_low = f"{title} {desc}".lower()
 
             if (
-                any(noise in combined_meta_low for noise in yt_noise)
-                or (num_model_words and not any(mw in combined_meta_low for mw in num_model_words))
-                or not is_date_within_scope(item["snippet"]["publishedAt"])
+                    any(noise in combined_meta_low for noise in yt_noise)
+                    or (num_model_words and not any(mw in combined_meta_low for mw in num_model_words))
+                    or not is_date_within_scope(item["snippet"]["publishedAt"])
             ):
                 rejected_scope += 1
                 continue
@@ -3005,12 +3375,14 @@ def extract_youtube_transcript(query: str) -> str:
                         if hasattr(api, "fetch")
                         else YouTubeTranscriptApi.get_transcript(v["id"], languages=["en", "en-US", "en-GB"])
                     )
-                    transcript_text = re.sub(r"\s+", " ", " ".join(seg.get("text", "") for seg in ts_segments)).strip()[:5000]
+                    transcript_text = re.sub(r"\s+", " ", " ".join(seg.get("text", "") for seg in ts_segments)).strip()[
+                                      :5000]
                     _save_yt_transcript_cache(v["id"], transcript_text)
                     logger.info(f"[OSINT GATHERER] Fast transcript fetched via YouTubeTranscriptApi for {v['id']}.")
                 except Exception as yt_err:
                     if gemini_calls_made >= max_gemini_transcriptions:
-                        logger.info(f"[OSINT GATHERER] Skipping slow Gemini audio transcription for {v['id']} (budget {max_gemini_transcriptions} reached).")
+                        logger.info(
+                            f"[OSINT GATHERER] Skipping slow Gemini audio transcription for {v['id']} (budget {max_gemini_transcriptions} reached).")
                         continue
                     logger.debug(f"YouTubeTranscriptApi failed for {v['id']} ({yt_err}), falling back to Gemini.")
                     used_gemini_fallback = True
@@ -3032,7 +3404,8 @@ def extract_youtube_transcript(query: str) -> str:
                             transcript_text = f"(No transcript returned by Gemini. Video description used): {v['desc']}"
                     except Exception as e:
                         logger.warning(f"Gemini API rate limit or error on video {v['id']}: {str(e)[:50]}")
-                        transcript_text = f"(Transcript unavailable. Video description used): {v['desc']}" if v["desc"] else ""
+                        transcript_text = f"(Transcript unavailable. Video description used): {v['desc']}" if v[
+                            "desc"] else ""
 
             if "♪" in transcript_text or len(transcript_text.strip()) < 60:
                 if used_gemini_fallback:

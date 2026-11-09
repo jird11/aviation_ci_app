@@ -11,7 +11,9 @@
 """Sequential orchestration of the aviation_ci_app intelligence analysis workflow."""
 
 import hashlib
+
 from crewai import Task
+
 from ews_agent_support import (
     _consolidate_candidate_threats,
     _extract_batch_threats_fallback,
@@ -26,6 +28,7 @@ from ews_database import (
     reconcile_and_store_events,
     save_report_to_db,
 )
+from ews_editor_formatter import build_editorial_from_text
 from ews_filtering import prioritize_and_batch_documents
 from ews_governance import build_ai_governance_record
 from ews_kiq import build_catalog_prompt_context, build_runtime_kiq_answers, runtime_kiq_status_counts
@@ -37,8 +40,7 @@ from ews_reporting import (
     sanitize_scoring_audit,
 )
 from ews_state import (
-    Any, ConfidenceLevel, Crew, DB_LOCK, EWSReport, EditorialOutput,
-    EscalationStatus, EventStatus, FINAL_FILE, KIQPlan, List,
+    Any, ConfidenceLevel, Crew, DB_LOCK, EWSReport, EscalationStatus, EventStatus, FINAL_FILE, KIQPlan, List,
     Optional, PENDING_FILE, PIPELINE_STATE, PROMPT_VERSION, Process,
     RUNS_DIR, RunOutcomeStatus, SQLITE_DB, ThreatAssessment,
     ValidationStatus, create_analysis_task, create_editor_agent,
@@ -48,7 +50,7 @@ from ews_state import (
     datetime, get_collected_documents, get_connector_telemetry,
     get_llm_metadata, get_llm_runtime_stats, get_time_window_utc, json,
     logger, normalize_scope_value, os, re, reset_llm_runtime_stats,
-    sqlite3, time, timezone,EventFreshness, UrgencyLevel,
+    sqlite3, time, timezone, EventFreshness, UrgencyLevel,
 )
 from ews_validation import (
     _detect_aircraft_families,
@@ -59,7 +61,6 @@ from ews_validation import (
     find_superseding_faa_certification,
 )
 from tasks import ThreatScoringResult, create_corrective_review_task
-from ews_editor_formatter import build_editorial_from_text
 
 
 # Provide a normalized UTC timestamp for report metadata and audit records.
@@ -88,7 +89,7 @@ def _clean_raw_json(res: Any, empty_err: Optional[str] = None) -> str:
 # Find a previous comparable dataset to detect suspicious empty Analyst output.
 # A previous comparable run is a diagnostic for unexpected empty Analyst output.
 def _previous_matching_dataset_run(
-    *, dataset_sha256: str, query: str, scope: str, documents_analyzed: int, current_run_id: str
+        *, dataset_sha256: str, query: str, scope: str, documents_analyzed: int, current_run_id: str
 ) -> Optional[dict]:
     """Find a previous normal run with the same dataset and settings."""
     try:
@@ -126,7 +127,8 @@ def _previous_matching_dataset_run(
                     for entry in audit if isinstance(entry, dict)
                 )
             else:
-                previous_candidates = len(previous.get("threats") or []) + len(previous.get("related_program_watchlist") or [])
+                previous_candidates = len(previous.get("threats") or []) + len(
+                    previous.get("related_program_watchlist") or [])
 
             match = {"run_id": previous_id, "candidate_count": previous_candidates}
             if previous_candidates > 0:
@@ -305,7 +307,7 @@ def _make_stable_kiq_plan(request: EWSRequest):
 # Acquire source evidence or replay archived documents while preserving provenance.
 # Replay uses stored documents; collection telemetry distinguishes it from a new scan.
 def _collect_run_documents(
-    request: EWSRequest, run_id: str, norm_scope: str, run_workspace: str, kiq_plan: KIQPlan
+        request: EWSRequest, run_id: str, norm_scope: str, run_workspace: str, kiq_plan: KIQPlan
 ):
     """Collect governed OSINT data or replay stored evidence."""
     started = time.time()
@@ -452,7 +454,20 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
             filter_diagnostics=filter_diagnostics,
         )
         filter_duration = round(time.time() - t_filter_start, 2)
-        logger.info(f"[FILTER TIMING] Semantic filtering completed in {filter_duration}s")
+
+        logger.info(
+            f"[FILTER TIMING] Semantic filtering completed in {filter_duration}s"
+        )
+
+        if collected_docs and docs_analyzed <= 1:
+            logger.warning(
+                "[KIT COVERAGE REVIEW] KIT=%r collected=%d analyzed=%d rejected=%d; "
+                "inspect FR03 audit and connector telemetry before changing relevance rules.",
+                request.query,
+                len(collected_docs),
+                docs_analyzed,
+                docs_rejected,
+            )
 
         batches_created = len(batches)
         batches_succeeded = batches_failed = candidate_schema_rejections = documents_failed = 0
@@ -476,9 +491,14 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
             if str(error).strip()
         ]
         coverage_only_advisories = [
+            {"connector": name, "issue": note}
+            for name, telemetry in connector_telemetry.items()
+            for note in telemetry.get("coverage_advisories", [])
+        ] + [
             {"connector": name, "issue": error}
             for name, error in connector_issues
-            if name == "EASA Official Index" and error == "HISTORICAL_COVERAGE_NOT_ESTABLISHED"
+            if name == "EASA Official Index"
+            and error == "HISTORICAL_COVERAGE_NOT_ESTABLISHED"
         ]
         any_connector_error = any(
             not (name == "EASA Official Index" and error == "HISTORICAL_COVERAGE_NOT_ESTABLISHED")
@@ -569,13 +589,41 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                         retry_task = create_analysis_task(
                             retry_agent, request.query, batch_payload, norm_scope, kiq_summary
                         )
+
+                        retry_task.description += (
+                            "\n\nSCHEMA RETRY: The previous response could not be parsed. "
+                            'Return ONE complete JSON object with a top-level "threats" array. '
+                            "Use every required field from the rules above, short string values, "
+                            "escaped quotation marks, and fully closed braces. "
+                            "Do not include markdown or explanatory text. "
+                            'If no source-supported event exists, return {"threats": []}. '
+                            "Never invent a fact, citation, or event to satisfy the schema."
+                        )
+
                         retry_result, ri, ro = _run_crew(
                             retry_agent, retry_task, f"BATCH_{b_idx}_SCHEMA_RETRY"
                         )
                         tokens_in += ri
                         tokens_out += ro
-                        raw_b_text = (getattr(retry_result, "raw", "") or str(retry_result or "")).strip()
-                        b_candidates, rejected_candidates = _extract_batch_threats_fallback(raw_b_text)
+                        raw_b_text = (
+                                getattr(retry_result, "raw", "")
+                                or str(retry_result or "")
+                        ).strip()
+
+                        try:
+                            b_candidates, rejected_candidates = (
+                                _extract_batch_threats_fallback(raw_b_text)
+                            )
+
+                        except ValueError as retry_exc:
+                            logger.error(
+                                "[ANALYST SCHEMA RETRY FAILED] batch=%d chars=%d: %s",
+                                b_idx,
+                                len(raw_b_text),
+                                retry_exc,
+                            )
+                            raise
+
                         b_out = ro
 
                     valid_empty = len(b_candidates) == 0 and rejected_candidates == 0
@@ -609,15 +657,19 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                                 raw_b_text, b_out = retry_raw, ro
                                 valid_empty = False
                                 retry_status = "RECOVERED_CANDIDATES"
-                                logger.info("[ANALYST EMPTY RETRY] Recovered %d candidate(s) on second pass.", len(b_candidates))
+                                logger.info("[ANALYST EMPTY RETRY] Recovered %d candidate(s) on second pass.",
+                                            len(b_candidates))
                             elif retry_rejections:
                                 candidate_schema_rejections += retry_rejections
                                 analyst_empty_retry_failed_batches += 1
                                 retry_status = "INVALID_RETRY"
-                                logger.warning("[ANALYST EMPTY RETRY] Second pass rejected %d invalid candidate(s).", retry_rejections)
+                                logger.warning("[ANALYST EMPTY RETRY] Second pass rejected %d invalid candidate(s).",
+                                               retry_rejections)
                             else:
                                 retry_status = "CONFIRMED_EMPTY_TWO_PASSES"
-                                logger.warning("[ANALYST EMPTY RETRY] Second pass also returned no candidates for batch %d.", b_idx)
+                                logger.warning(
+                                    "[ANALYST EMPTY RETRY] Second pass also returned no candidates for batch %d.",
+                                    b_idx)
                         except Exception as retry_error:
                             analyst_empty_retry_failed_batches += 1
                             retry_status = "RETRY_FAILED"
@@ -644,7 +696,8 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                     candidate_schema_rejections += rejected_candidates
                     all_candidate_threats.extend(b_candidates)
                     batches_succeeded += 1
-                    logger.info(f"[BATCH {b_idx}/{batches_created} COMPLETE] Extracted {len(b_candidates)} candidate signal(s).")
+                    logger.info(
+                        f"[BATCH {b_idx}/{batches_created} COMPLETE] Extracted {len(b_candidates)} candidate signal(s).")
                 except Exception as b_err:
                     batches_failed += 1
                     analyst_invalid_batches += 1
@@ -697,7 +750,8 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                     run_id=run_id,
                     outcome_status=(
                         RunOutcomeStatus.PARTIAL_SUCCESS
-                        if (batches_failed > 0 or any_connector_error or analyst_empty_conflict or analyst_empty_retry_failed_batches > 0)
+                        if (
+                                    batches_failed > 0 or any_connector_error or analyst_empty_conflict or analyst_empty_retry_failed_batches > 0)
                         else RunOutcomeStatus.NO_RELEVANT_EVENTS
                     ),
                     executive_summary=(
@@ -706,13 +760,13 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                         "No confirmed or credible supply chain disruption events were identified."
                     ),
                     qa_audit_summary=(
-                        f"Multi-batch analysis completed ({batches_succeeded}/{batches_created} batches); 0 threats identified. "
-                        + (
-                            f"ANALYST_EMPTY_OUTPUT_CONFLICT: An earlier run on the same dataset "
-                            f"({analyst_empty_conflict_previous_run}) produced candidates. "
-                            "This empty extraction requires manual review; no previous candidate was copied into this run."
-                            if analyst_empty_conflict else ""
-                        )
+                            f"Multi-batch analysis completed ({batches_succeeded}/{batches_created} batches); 0 threats identified. "
+                            + (
+                                f"ANALYST_EMPTY_OUTPUT_CONFLICT: An earlier run on the same dataset "
+                                f"({analyst_empty_conflict_previous_run}) produced candidates. "
+                                "This empty extraction requires manual review; no previous candidate was copied into this run."
+                                if analyst_empty_conflict else ""
+                            )
                     ),
                     hitl_status="APPROVED_BY_HITL_AND_QA",
                     threats=[],
@@ -745,10 +799,10 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                         qa_duration = round(time.time() - t_qa_start, 2)
 
                 if (
-                    request.enable_qa_agent
-                    and not qa_failed
-                    and qa_raw_out.strip()
-                    and os.getenv("EWS_ENABLE_AGENT_FEEDBACK", "0") == "1"
+                        request.enable_qa_agent
+                        and not qa_failed
+                        and qa_raw_out.strip()
+                        and os.getenv("EWS_ENABLE_AGENT_FEEDBACK", "0") == "1"
                 ):
                     feedback_started = time.time()
                     feedback_calls_before = get_llm_runtime_stats().get("api_calls", 0)
@@ -765,16 +819,16 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                             source_data=raw_data[:12000],
                         )
                         repair_task.description = (
-                            "CORRECTIVE REVIEW — MAXIMUM ONE ITERATION.\n"
-                            "Review the existing candidate assessments against the QA findings and supplied source evidence.\n"
-                            "Preserve all original event_id values.\n"
-                            "Do not add, remove, merge or split events.\n"
-                            "Do not introduce new evidence IDs or source URLs.\n"
-                            "Do not promote unsupported claims into confirmed facts.\n"
-                            "Return corrected ThreatAssessment records in the same JSON structure as the original analysis.\n\n"
-                            f"CURRENT CANDIDATES:\n{candidates_json_str[:14000]}\n\n"
-                            f"QA FEEDBACK:\n{qa_raw_out[:4000]}\n\n"
-                            + repair_task.description
+                                "CORRECTIVE REVIEW — MAXIMUM ONE ITERATION.\n"
+                                "Review the existing candidate assessments against the QA findings and supplied source evidence.\n"
+                                "Preserve all original event_id values.\n"
+                                "Do not add, remove, merge or split events.\n"
+                                "Do not introduce new evidence IDs or source URLs.\n"
+                                "Do not promote unsupported claims into confirmed facts.\n"
+                                "Return corrected ThreatAssessment records in the same JSON structure as the original analysis.\n\n"
+                                f"CURRENT CANDIDATES:\n{candidates_json_str[:14000]}\n\n"
+                                f"QA FEEDBACK:\n{qa_raw_out[:4000]}\n\n"
+                                + repair_task.description
                         )
 
                         repaired_result, ri, ro = _run_crew(repair_agent, repair_task, "PHASE_3C_ANALYST_FEEDBACK")
@@ -785,18 +839,19 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                         repaired_map = {c.event_id: c for c in repaired}
 
                         valid_repair = (
-                            len(repaired) == len(original_candidates)
-                            and set(repaired_map) == set(original_candidates)
-                            and rejected == 0
-                            and all(
-                                set(item.evidence_ids).issubset(set(original_candidates[item.event_id].evidence_ids))
-                                and set(item.source_urls).issubset(set(original_candidates[item.event_id].source_urls))
-                                for item in repaired
-                            )
+                                len(repaired) == len(original_candidates)
+                                and set(repaired_map) == set(original_candidates)
+                                and rejected == 0
+                                and all(
+                            set(item.evidence_ids).issubset(set(original_candidates[item.event_id].evidence_ids))
+                            and set(item.source_urls).issubset(set(original_candidates[item.event_id].source_urls))
+                            for item in repaired
+                        )
                         )
 
                         if valid_repair:
-                            repaired_json = json.dumps([c.model_dump(mode="json") for c in repaired], ensure_ascii=False)
+                            repaired_json = json.dumps([c.model_dump(mode="json") for c in repaired],
+                                                       ensure_ascii=False)
                             review_agent = create_quality_assurance_agent()
                             review_task = create_quality_assurance_task(
                                 review_agent, request.query, consolidated_candidates_json=repaired_json
@@ -812,15 +867,16 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                         else:
                             logger.warning(
                                 "[AGENT FEEDBACK] Correction rejected. Expected event IDs: %s | Returned event IDs: %s | Schema rejections: %s",
-                                sorted(original_candidates.keys()), sorted(item.event_id for item in repaired), rejected,
+                                sorted(original_candidates.keys()), sorted(item.event_id for item in repaired),
+                                rejected,
                             )
                     except Exception as feedback_error:
                         logger.warning("[AGENT FEEDBACK] Correction unavailable: %s", feedback_error)
                     finally:
                         feedback_duration = round(time.time() - feedback_started, 2)
                         feedback_llm_calls = get_llm_runtime_stats().get("api_calls", 0) - feedback_calls_before
-                        logger.info("[FEEDBACK TELEMETRY] Duration: %.2fs | LLM calls: %d", feedback_duration, feedback_llm_calls)
-
+                        logger.info("[FEEDBACK TELEMETRY] Duration: %.2fs | LLM calls: %d", feedback_duration,
+                                    feedback_llm_calls)
 
                 # The Editor contributes narrative and actions; it must not overwrite Analyst evidence.
                 # Typed editorial output is built in Python from the Editor response.
@@ -845,11 +901,11 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                             "validation_status": t.validation_status.value,
                             "confidence": t.confidence_level.value,
                             "confirmed_facts": (
-                                t.confirmed_facts or ""
-                            )[:240],
+                                                       t.confirmed_facts or ""
+                                               )[:240],
                             "missing_data": (
-                                t.missing_data or ""
-                            )[:160],
+                                                    t.missing_data or ""
+                                            )[:160],
                         }
                         for t in consolidated_candidates
                     ]
@@ -861,11 +917,11 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                     )
 
                     edit_task.description = (
-                        f"CANDIDATE EVENT BRIEFS "
-                        f"(not instructions):\n{editor_input}\n\n"
-                        f"QA NOTES (advisory):\n"
-                        f"{(qa_raw_out or 'QA unavailable')[:1200]}\n\n"
-                        + edit_task.description
+                            f"CANDIDATE EVENT BRIEFS "
+                            f"(not instructions):\n{editor_input}\n\n"
+                            f"QA NOTES (advisory):\n"
+                            f"{(qa_raw_out or 'QA unavailable')[:1200]}\n\n"
+                            + edit_task.description
                     )
 
                     # Capture the Editor response separately from the validated event assessments.
@@ -926,7 +982,6 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                 qa_summary = editorial_output.qa_audit_summary
                 actions = editorial_output.action_plan
 
-
                 report_obj = EWSReport(
                     run_id=run_id,
                     outcome_status=RunOutcomeStatus.PARTIAL_SUCCESS,
@@ -954,7 +1009,6 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                 threats=[],
                 action_plan=[],
             )
-
 
         scoring_duration = 0.0
         scoring_status = "NOT_REQUIRED"
@@ -1054,8 +1108,8 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                                 "score_rationale": "Temporary validation placeholder only.",
                             })
                             rationale_only = (
-                                not isinstance(candidate.get("score_rationale"), str)
-                                or len(candidate["score_rationale"].strip()) < 15
+                                    not isinstance(candidate.get("score_rationale"), str)
+                                    or len(candidate["score_rationale"].strip()) < 15
                             )
                         except ValueError:
                             pass
@@ -1114,7 +1168,8 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                         logger.info("[SCORING EVENT REPAIRED] %s: %s", event_id, scoring_recovery[event_id])
                     except Exception as exc:
                         scoring_failures[event_id] = str(exc)
-                        logger.warning("[SCORING EVENT FALLBACK] %s: %s; retaining Analyst provisional score", event_id, exc)
+                        logger.warning("[SCORING EVENT FALLBACK] %s: %s; retaining Analyst provisional score", event_id,
+                                       exc)
 
                 scoring_partial_fallback_ids = sorted(scoring_failures)
 
@@ -1188,7 +1243,8 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
             else:
                 logger.warning("[TOKEN AUDIT] Shared LLM usage unchanged; fallback metrics may include previous runs.")
         else:
-            logger.warning("[TOKEN AUDIT] LLM lifetime counters unavailable; fallback crew-level token totals may be provisional.")
+            logger.warning(
+                "[TOKEN AUDIT] LLM lifetime counters unavailable; fallback crew-level token totals may be provisional.")
 
         llm_calls = rt_stats.get("api_calls", 0)
         est_cost = round(
@@ -1286,7 +1342,8 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                     ):
                         old_score = threat.threat_score
                         threat.threat_score = 7
-                        logger.warning("[SCORING EVIDENCE CAP] %s: %s -> 7 (status=%s)", threat.event_id, old_score, threat.validation_status.value)
+                        logger.warning("[SCORING EVIDENCE CAP] %s: %s -> 7 (status=%s)", threat.event_id, old_score,
+                                       threat.validation_status.value)
 
                     threat.is_critical = is_confirmed_critical(threat)
 
@@ -1298,11 +1355,11 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                         threat.escalation_level = EscalationStatus.PRIORITY_VERIFICATION_REQUIRED
 
                     if (
-                        threat.risk_type.value == "REGULATORY"
-                        and re.search(r"\b(?:FAA|EASA)\s+(?:certif\w*|approv\w*)",
-                                      threat.fact_check_quote or "", re.I)
-                        and not re.search(r"\b(?:defect|ground\w*|suspend\w*|recall)\b",
+                            threat.risk_type.value == "REGULATORY"
+                            and re.search(r"\b(?:FAA|EASA)\s+(?:certif\w*|approv\w*)",
                                           threat.fact_check_quote or "", re.I)
+                            and not re.search(r"\b(?:defect|ground\w*|suspend\w*|recall)\b",
+                                              threat.fact_check_quote or "", re.I)
                     ):
                         threat.threat_score = min(threat.threat_score, 4)
                         threat.is_critical = False
@@ -1310,7 +1367,8 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                             "Regulatory approval milestone; no adverse operational impact evidenced."
                         )
 
-                    score_band = "CRITICAL" if threat.threat_score >= 8 else ("ELEVATED" if threat.threat_score >= 5 else "MONITORED")
+                    score_band = "CRITICAL" if threat.threat_score >= 8 else (
+                        "ELEVATED" if threat.threat_score >= 5 else "MONITORED")
                     if threat.validation_status != ValidationStatus.SUPPORTED:
                         threat.score_rationale = (
                             f"Potential severity: {score_band} ({threat.threat_score}/10). "
@@ -1438,10 +1496,10 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
             )
 
             source_coverage_issues = list({
-                (name, str(error)): {"connector": name, "issue": str(error)}
-                for name, telemetry in connector_telemetry.items()
-                for error in telemetry.get("errors", [])
-            }.values())
+                                              (name, str(error)): {"connector": name, "issue": str(error)}
+                                              for name, telemetry in connector_telemetry.items()
+                                              for error in telemetry.get("errors", [])
+                                          }.values())
 
             analysis_issues = []
             if filter_diagnostics.get("semantic_filter_unavailable_count", 0):
@@ -1458,7 +1516,8 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
             if editor_failed:
                 analysis_issues.append("Editor agent failed.")
             if scoring_status in {"PROVISIONAL_FALLBACK", "PARTIAL_FALLBACK"}:
-                analysis_issues.append("Scoring fallback used for event IDs: " + ", ".join(scoring_partial_fallback_ids))
+                analysis_issues.append(
+                    "Scoring fallback used for event IDs: " + ", ".join(scoring_partial_fallback_ids))
             if analyst_empty_retry_failed_batches:
                 analysis_issues.append(f"ANALYST_EMPTY_RETRY_FAILED: {analyst_empty_retry_failed_batches} batch(es).")
             if analyst_empty_conflict:
@@ -1599,7 +1658,9 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                 "pipeline_degraded": pipeline_degraded,
                 "degradation_category": degradation_category,
                 "source_coverage_issues": source_coverage_issues,
-                "source_coverage_limited": bool(source_coverage_issues),
+                "source_coverage_limited": bool(
+                    source_coverage_issues or coverage_only_advisories
+                ),
                 "source_coverage_advisories": coverage_only_advisories,
                 "analysis_issues": analysis_issues,
                 "semantic_filter_unavailable_count": filter_diagnostics.get("semantic_filter_unavailable_count", 0),
@@ -1662,7 +1723,8 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
             })
 
             if not (350 <= summary_word_count <= 450):
-                logger.warning("[EXECUTIVE SUMMARY] Outside target range: %s words (expected 350-450)", summary_word_count)
+                logger.warning("[EXECUTIVE SUMMARY] Outside target range: %s words (expected 350-450)",
+                               summary_word_count)
 
             # Compute comparable-run deltas, attach governance metadata, and finalize the executive
             #   briefing.
@@ -1711,18 +1773,18 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                 return
 
             can_auto_publish = (
-                request.auto_approve
-                and not request.replay_run_id
-                and bool(report_obj.threats)
-                and c_crit == 0
-                and not has_unverified
-                and validation_errors == 0
-                and batches_failed == 0
-                and not qa_failed
-                and not editor_failed
-                and request.enable_qa_agent
-                and request.enable_harness_validation
-                and scoring_status == "COMPLETED"
+                    request.auto_approve
+                    and not request.replay_run_id
+                    and bool(report_obj.threats)
+                    and c_crit == 0
+                    and not has_unverified
+                    and validation_errors == 0
+                    and batches_failed == 0
+                    and not qa_failed
+                    and not editor_failed
+                    and request.enable_qa_agent
+                    and request.enable_harness_validation
+                    and scoring_status == "COMPLETED"
             )
 
             # Publish directly only when policy permits; otherwise persist a pending HITL report.

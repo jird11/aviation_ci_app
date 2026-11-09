@@ -176,6 +176,17 @@ class SupplierPressCollector:
         "Safran S.A.": "safran-group.com",
     }
 
+    # One logical source group for aircraft OEMs and aerospace suppliers.
+    class OfficialIndustryPRCollector:
+        def run(self, query: str) -> str:
+            result = scrape_manufacturer_pr_news.run(query)
+
+            # Optional legacy supplier Google News RSS after usage review.
+            if os.getenv("EWS_LEGACY_SUPPLIER_RSS_APPROVED") == "1":
+                result += "\n" + SupplierPressCollector().run(query)
+
+            return result
+
     # Execute the connector or helper using its configured collection policy.
     # Preserve evidence provenance and stable output contracts for downstream stages.
     def run(self, query: str) -> str:
@@ -353,7 +364,12 @@ def collect_osint_data(
 
     if "pr" in platforms_str and not PIPELINE_STATE.get("cancel_requested"):
         raw_data += (
-                run_kiq_batch(scrape_manufacturer_pr_news, kiq_plan.media_and_pr_queries, limit, "Manufacturer PR")
+                run_kiq_batch(
+                    SupplierPressCollector.OfficialIndustryPRCollector(),
+                    kiq_plan.media_and_pr_queries,
+                    limit,
+                    "Official Industry PR",
+                )
                 + "\n"
         )
 
@@ -370,22 +386,11 @@ def collect_osint_data(
 
         if related_queries:
             raw_data += run_kiq_batch(
-                SupplierPressCollector(),
+                SupplierPressCollector.OfficialIndustryPRCollector(),
                 [item["query"] for item in related_queries],
                 min(limit, 2),
-                "Cross-Program Supplier Watch",
+                "Official Industry PR – Cross-Program",
             ) + "\n"
-
-    if "pr" in platforms_str and not PIPELINE_STATE.get("cancel_requested"):
-        raw_data += (
-                run_kiq_batch(
-                    SupplierPressCollector(),
-                    kiq_plan.media_and_pr_queries,
-                    min(limit, 3),
-                    "Supplier PR",
-                )
-                + "\n"
-        )
 
     if ("bluesky" in platforms_str or "soc" in platforms_str) and not PIPELINE_STATE.get("cancel_requested"):
         raw_data += (
