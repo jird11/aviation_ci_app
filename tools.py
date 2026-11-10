@@ -39,6 +39,7 @@ from google.genai import types
 from playwright.sync_api import sync_playwright
 from tenacity import retry, stop_after_attempt, wait_exponential
 from youtube_transcript_api import YouTubeTranscriptApi
+import unicodedata
 
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -221,19 +222,6 @@ SOURCE_REGISTRY: Dict[str, Dict[str, Any]] = {
             "license_notes": "YouTube Data API v3 Terms of Service",
             "rate_limit_rpm": 10, "min_interval_sec": 2.0,
         },
-        "SRC_009": {
-            "name": "Official Industry PR – Supplier Feeds",
-            "domain": "rtx.com,cfmaeroengines.com,geaerospace.com,safran-group.com",
-            "technical_host": "news.google.com", "source_type": "SUPPLIER_PR",
-            "origin": "PRIMARY_VIA_AGGREGATOR", "access_method": "RSS",
-            "allowed_access_method": "Public RSS metadata", "tos_url": "",
-            "usage_restrictions": "Store headlines, URLs and short excerpts only. Respect source-specific access restrictions.",
-            "tdm_copyright_basis": "Subject to source-specific review",
-            "gdpr_legal_basis": "Subject to lawful-basis assessment",
-            "verified_domain": False, "legal_status": SourceLegalStatus.RESTRICTED.value,
-            "license_notes": "Supplier news metadata via Google News RSS",
-            "rate_limit_rpm": 12, "min_interval_sec": 2.0,
-        },
         **{
             sid: {
                 "name": company + " RSS",
@@ -271,6 +259,60 @@ SOURCE_REGISTRY: Dict[str, Dict[str, Any]] = {
     }.items()
 }
 
+from ews_sources_extra import registry_additions
+
+SOURCE_REGISTRY.update({
+    sid: {**_SRC_DEFAULTS, **config}
+    for sid, config in registry_additions().items()
+})
+
+SOURCE_REGISTRY["SRC_002"].update(
+    name="EASA Official AD Index",
+    technical_host="easa.europa.eu",
+    origin="PRIMARY",
+    legal_status="REQUIRES_REVIEW",
+    policy_status="REQUIRES_REVIEW",
+)
+
+SOURCE_REGISTRY["SRC_003"].update(
+    name="NTSB Public Aviation API",
+    domain="api.ntsb.gov",
+    source_type="REGULATORY",
+    origin="PRIMARY",
+    technical_host="api.ntsb.gov",
+    access_method="AUTHENTICATED_API",
+    legal_status="REQUIRES_REVIEW",
+    policy_status="REQUIRES_REVIEW",
+)
+
+SOURCE_REGISTRY["SRC_004"]["policy_status"] = "DEV_ONLY"
+
+SOURCE_REGISTRY["SRC_005"].update(
+    name="Airbus Press Releases RSS",
+    legal_status="REQUIRES_REVIEW",
+    policy_status="REQUIRES_REVIEW",
+    domain="airbus.com",
+    technical_host="airbus.com",
+    origin="PRIMARY",
+)
+
+SOURCE_REGISTRY["SRC_006"]["policy_status"] = "REQUIRES_REVIEW"
+for _source_id in ("SRC_009", "SRC_010", "SRC_011"):
+    SOURCE_REGISTRY.pop(_source_id, None)
+
+SOURCE_REGISTRY["SRC_030"] = {
+    **SOURCE_REGISTRY["SRC_005"],
+    "source_id": "SRC_030",
+    "name": "Boeing Newsroom RSS",
+    "domain": "boeing.mediaroom.com",
+    "technical_host": "boeing.mediaroom.com",
+    "origin": "PRIMARY",
+    "access_method": "RSS",
+    "tos_url": "https://boeing.mediaroom.com/rss-feeds",
+    "legal_status": "DISABLED",
+    "policy_status": "DISABLED",
+}
+
 AEROSPACE_SUPPLIER_REGISTRY: List[Dict[str, Any]] = [
     {
         "entity_id": "ENT_AIRBUS", "official_name": "Airbus SE",
@@ -300,11 +342,16 @@ AEROSPACE_SUPPLIER_REGISTRY: List[Dict[str, Any]] = [
         "aliases": [
             "pratt & whitney",
             "pratt and whitney",
+            "pratt whitney",
+            "p&w",
             "pw1100g",
+            "pw1100g-jm",
+            "pw1127g",
+            "pw1133g",
             "pw1500g",
             "pw1900g",
-        ]
-        , "default_tier": "Tier 1 (Systems/Engines)",
+    ],
+        "default_tier": "Tier 1 (Systems/Engines)",
         "components": ["PW1100G-JM GTF Turbofan Engine", "PW1500G Engine"],
         "programs": ["A320neo", "A321XLR", "A220", "Embraer E2"],
         "downstream_oems": ["Airbus SE", "Embraer"], "geography": "North America (USA)",
@@ -338,7 +385,15 @@ AEROSPACE_SUPPLIER_REGISTRY: List[Dict[str, Any]] = [
     },
     {
         "entity_id": "ENT_RR", "official_name": "Rolls-Royce Holdings",
-        "aliases": ["rolls-royce", "trent xwb", "trent 7000"], "default_tier": "Tier 1 (Systems/Engines)",
+        "aliases": [
+            "rolls-royce",
+            "rolls royce",
+            "rolls royce civil aerospace",
+            "trent 1000",
+            "trent xwb",
+            "trent 7000",
+        ]
+        , "default_tier": "Tier 1 (Systems/Engines)",
         "components": ["Trent XWB-84/97 Engine", "Trent 7000 Engine"],
         "programs": ["A350", "A330neo"], "downstream_oems": ["Airbus SE"], "geography": "Europe (UK)",
         "source_ref": "Rolls-Royce Civil Aerospace Disclosures",
@@ -353,7 +408,11 @@ AEROSPACE_SUPPLIER_REGISTRY: List[Dict[str, Any]] = [
     },
     {
         "entity_id": "ENT_COLLINS", "official_name": "Collins Aerospace",
-        "aliases": ["collins aerospace", "collins"], "default_tier": "Tier 1 (Systems/Engines)",
+        "aliases": [
+            "collins aerospace",
+            "rockwell collins",
+        ],
+        "default_tier": "Tier 1 (Systems/Engines)",
         "components": ["Avionics", "Nacelles", "Actuation Systems"],
         "programs": ["A320neo", "A321XLR", "737 MAX", "787 Dreamliner"],
         "downstream_oems": ["Airbus SE", "The Boeing Company"], "geography": "North America (USA)",
@@ -371,45 +430,87 @@ AEROSPACE_SUPPLIER_REGISTRY: List[Dict[str, Any]] = [
 
 
 # Resolve aerospace organizations against controlled supplier metadata.
-def lookup_supplier_in_registry(text_or_company: str, exact: bool = False) -> Optional[Dict[str, Any]]:
-    if not text_or_company:
-        return None
-    low = text_or_company.lower()
-    if exact:
-        norm = lambda s: re.sub(r"\s+", " ", s.lower().replace(" and ", " & ")).strip()
-        target = norm(low)
-        return next(
-            (e for e in AEROSPACE_SUPPLIER_REGISTRY if
-             target in {norm(a) for a in [e["official_name"], *e["aliases"]]}),
-            None,
-        )
-    ordered = sorted(
-        AEROSPACE_SUPPLIER_REGISTRY,
-        key=lambda e: "OEM" in e["default_tier"],
+def _supplier_name_key(value: str) -> str:
+    text = unicodedata.normalize(
+        "NFKD", str(value or "").casefold()
+    ).replace("&", " and ")
+
+    text = "".join(
+        ch for ch in text
+        if not unicodedata.combining(ch)
     )
 
-    for supplier in ordered:
-        aliases = [
+    text = re.sub(r"[^a-z0-9]+", " ", text)
+
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def find_supplier_mentions(text: str) -> List[Dict[str, Any]]:
+    """Return all distinct explicitly mentioned registry entities."""
+    normalized = _supplier_name_key(text)
+
+    if not normalized:
+        return []
+
+    matches = []
+
+    for supplier in AEROSPACE_SUPPLIER_REGISTRY:
+
+        aliases = (
             supplier["official_name"],
             *supplier.get("aliases", []),
-        ]
+        )
 
         for alias in aliases:
-            alias = alias.strip().lower()
+            candidate = _supplier_name_key(alias)
 
-            if len(alias) < 3:
+            if len(candidate) < 3:
                 continue
 
             pattern = (
-                    r"(?<![a-z0-9])"
-                    + re.escape(alias)
-                    + r"(?![a-z0-9])"
+                r"(?<![a-z0-9])"
+                + re.escape(candidate)
+                + r"(?![a-z0-9])"
             )
 
-            if re.search(pattern, low):
-                return supplier
+            if re.search(pattern, normalized):
+                matches.append(supplier)
+                break
 
-    return None
+    return matches
+
+
+def lookup_supplier_in_registry(
+    text_or_company: str,
+    exact: bool = False
+) -> Optional[Dict[str, Any]]:
+    """Resolve an entity only when exactly one registry entry matches."""
+
+    if not text_or_company:
+        return None
+
+    if exact:
+        target = _supplier_name_key(text_or_company)
+        matches = [
+            supplier
+            for supplier in AEROSPACE_SUPPLIER_REGISTRY
+            if target in {
+                _supplier_name_key(alias)
+                for alias in (
+                    supplier["official_name"],
+                    *supplier.get("aliases", []),
+                )
+            }
+        ]
+    else:
+        matches = find_supplier_mentions(text_or_company)
+
+    # Multiple organizations in an article are not proof
+    # that any particular one is the primary event subject.
+    if len(matches) != 1:
+        return None
+
+    return matches[0]
 
 
 # Shared coordination of outgoing requests and response-sensitive throttling.
@@ -446,9 +547,18 @@ RATE_LIMITER = CentralRateLimiter()
 
 # Check source governance status before collection.
 def is_source_allowed(source_id: str) -> bool:
-    cfg = SOURCE_REGISTRY.get(source_id)
-    return bool(
-        cfg and cfg.get("legal_status") in {SourceLegalStatus.ALLOWED.value, SourceLegalStatus.RESTRICTED.value})
+    cfg = SOURCE_REGISTRY.get(source_id, {})
+    status = cfg.get("legal_status")
+
+    if status in {"ALLOWED", "RESTRICTED"}:
+        return True
+
+    return (
+        status == "REQUIRES_REVIEW"
+        and os.getenv("EWS_TEST_REVIEW_SOURCES") == "1"
+        and os.getenv("EWS_ENV", "development").lower()
+        in {"dev", "development", "test"}
+    )
 
 
 _ROBOTS_CACHE: Dict[str, urllib.robotparser.RobotFileParser] = {}
@@ -497,7 +607,7 @@ def check_robots_and_tdm_compliance(
     src_cfg = SOURCE_REGISTRY.get(source_id)
     if not src_cfg:
         return False, f"Unregistered source '{source_id}' - collection suspended (REQUIRES_REVIEW)"
-    if src_cfg.get("legal_status") in {SourceLegalStatus.REQUIRES_REVIEW.value, SourceLegalStatus.DISABLED.value}:
+    if not is_source_allowed(source_id):
         return False, f"Source {source_id} legal status is {src_cfg.get('legal_status')} - collection suspended"
     if src_cfg.get("tdm_opt_out"):
         return False, f"Source {source_id} has active TDM copyright opt-out (EU 2019/790 Art. 4)"
@@ -555,6 +665,8 @@ def safe_http_get(
     # Validate outbound requests and redirects before retrieving external content.
     """SSRF-safe HTTP GET client with redirect hop verification, fail-closed robots.txt, and EU 2019/790 TDM opt-out checks."""
     if not is_source_allowed(source_id):
+        if SOURCE_REGISTRY[source_id].get("legal_status") == "REQUIRES_REVIEW":
+            check_robots = True
         logger.warning(f"[COMPLIANCE] Source {source_id} is disabled or requires legal review.")
         return None
 
@@ -801,7 +913,28 @@ def register_collected_document(
 
     parsed_domain = urlparse(url).netloc.lower().replace("www.", "")
     reg_info = SOURCE_REGISTRY.get(source_id, {})
-    supplier_match = lookup_supplier_in_registry(f"{clean_title} {clean_text[:400]}")
+    title_matches = find_supplier_mentions(clean_title)
+    body_matches = find_supplier_mentions(clean_text[:400])
+
+    # Prefer an unambiguous organization explicitly named
+    # in the document title. The body can mention competitors,
+    # customers and unrelated manufacturers.
+    if len(title_matches) == 1:
+        supplier_match = title_matches[0]
+        supplier_match_basis = "TITLE_UNAMBIGUOUS"
+
+    elif not title_matches and len(body_matches) == 1:
+        supplier_match = body_matches[0]
+        supplier_match_basis = "BODY_UNAMBIGUOUS"
+
+    else:
+        supplier_match = None
+        supplier_match_basis = "AMBIGUOUS_OR_NOT_FOUND"
+
+    supplier_candidates = list(dict.fromkeys(
+        s["official_name"]
+        for s in (*title_matches, *body_matches)
+    ))
 
     with _COLLECTION_LOCK:
         doc_id = f"DOC_{len(COLLECTED_DOCUMENTS) + 1:03d}"
@@ -814,6 +947,8 @@ def register_collected_document(
             "publisher_domain": parsed_domain,
             "origin_type": reg_info.get("origin", "SECONDARY"),
             "source_type": reg_info.get("source_type", "MEDIA"),
+            "supplier_registry_candidates": supplier_candidates,
+            "supplier_match_basis": supplier_match_basis,
             "verified_domain": bool(reg_info.get("verified_domain", False)),
             "title": clean_title,
             "text": clean_text,
@@ -837,9 +972,10 @@ def register_collected_document(
 
 AIRSHOW_NEWS_URLS = {
     "Farnborough": "https://www.farnboroughairshow.com/resources/news-blogs/",
-    "Paris Air Show": "https://www.siae.fr/en/press/",
+    "Paris Air Show": "https://www.siae.fr/media/",
     "Dubai Airshow": "https://www.dubaiairshow.aero/usefulinfo/info/news/",
     "Singapore Airshow": "https://www.singaporeairshow.com/media/singapore-airshow-newsroom",
+    "ILA Berlin": "https://ila-berlin.com/en/press",
 }
 
 AEROSPACE_REGIONS = {
@@ -1300,6 +1436,53 @@ def extract_clean_blocks(soup: BeautifulSoup, base_url: str) -> tuple[str, list[
             })
 
     for td in soup.find_all("td"):
+
+        # ILA Berlin: extract official press-release cards
+        # and convert European DD/MM/YYYY publication dates.
+        if "ila-berlin.com" in base_domain:
+            for row in soup.select("a.pml-row[href]"):
+                href = row.get("href", "")
+                absolute = urljoin(base_url, href)
+
+                if not urlparse(absolute).path.startswith(
+                        "/en/press/releases/"
+                ):
+                    continue
+
+                heading = row.select_one(".pml-body strong")
+                title = (
+                    heading.get_text(" ", strip=True)
+                    if heading
+                    else row.get_text(" ", strip=True)
+                )
+
+                body_element = row.select_one(".pml-body")
+                context = (
+                    body_element.get_text(" ", strip=True)
+                    if body_element
+                    else title
+                )
+
+                raw_date = row.select_one(".pml-date")
+                card_date = ""
+
+                if raw_date:
+                    date_text = raw_date.get_text(
+                        " ", strip=True
+                    )
+                    try:
+                        card_date = datetime.strptime(
+                            date_text, "%d/%m/%Y"
+                        ).date().isoformat()
+                    except ValueError:
+                        pass
+
+                add_candidate_link(
+                    title,
+                    href,
+                    context,
+                    card_date,
+                )
         if h3 := td.find("h3"):
             raw_h4 = td.find("h4").get_text(strip=True) if td.find("h4") else ""
             card_date = normalize_date_str(raw_h4) if not re.match(r"^\d+\.", raw_h4) else ""
@@ -1356,7 +1539,28 @@ def extract_clean_blocks(soup: BeautifulSoup, base_url: str) -> tuple[str, list[
 def news_api_search_key(query: str) -> str:
     # Construct precision-oriented NewsAPI search terms with explicit model identity.
     """Build a bounded NewsAPI query while preserving aircraft identity, technical scope and event indicators."""
-    safe_query = re.sub(r"\s+", " ", (query or "").replace(",", " ")).strip()
+    safe_query = re.sub(
+        r"\s+", " ",
+        (query or "").replace(",", " ")
+    ).strip()
+
+    safe_query = re.sub(
+        r"(?i)\bp\s*(?:&|and)\s*w\b",
+        "pratt whitney",
+        safe_query,
+    )
+
+    safe_query = re.sub(
+        r"(?i)\bpratt[\s\-]*(?:&|and)?[\s\-]*whitney\b",
+        "pratt whitney",
+        safe_query,
+    )
+
+    safe_query = re.sub(
+        r"(?i)\brolls[\s\-]+royce\b",
+        "rolls-royce",
+        safe_query,
+    )
     words = re.findall(r"[a-z0-9-]+", safe_query.lower())
     aircraft = _model_tokens(safe_query)
 
@@ -1377,8 +1581,25 @@ def news_api_search_key(query: str) -> str:
     technical = list(dict.fromkeys(w for w in words if w in tech_vocab))[:4]
     issue = list(dict.fromkeys(w for w in words if issue_re.fullmatch(w)))[:4]
 
+    named_issuers = (
+        (r"\bge\s+aerospace\b", "GE Aerospace"),
+        (r"\brolls[-\s]+royce\b", "Rolls-Royce"),
+        (r"\bpratt\s+whitney\b", "Pratt Whitney"),
+        (r"\b(?:rtx|raytheon)\b", "RTX"),
+        (r"\bsafran\b", "Safran"),
+        (r"\bboeing\b", "Boeing"),
+        (r"\bairbus\b", "Airbus"),
+    )
+    named = next(
+        (issuer for pattern, issuer in named_issuers
+         if re.search(pattern, safe_query, re.I)), ""
+    )
+
     if aircraft:
         anchor = aircraft[0]
+    elif named:
+        anchor = named
+        technical = [w for w in technical if w not in set(named.lower().split())]
     else:
         stop = {
             "which", "about", "latest", "news", "what", "does", "from", "with",
@@ -1389,6 +1610,11 @@ def news_api_search_key(query: str) -> str:
 
     anchor_words = set(re.findall(r"[a-z0-9]+", anchor.lower()))
     technical = [term for term in technical if term not in anchor_words]
+    if named and not aircraft and any(
+        w in words for w in {"sourcing", "spend", "procurement", "expansion"}
+    ):
+        # A headline need not use 'supplier' AND 'sourcing'.
+        technical = [term for term in technical if term != "supplier"]
 
     parts = [
         anchor if anchor.startswith("(")
@@ -1396,6 +1622,23 @@ def news_api_search_key(query: str) -> str:
     ]
     if technical:
         parts.append(f"({' OR '.join(technical)})")
+
+    # Geography and strategic-intelligence vocabulary can be essential for
+    # a company KIT without any aircraft model (e.g. India sourcing plans).
+    if not aircraft and named:
+        geographical = next((w for w in words if w in {
+            "india", "china", "japan", "france", "germany", "canada", "brazil",
+            "turkey", "singapore", "australia", "poland", "mexico",
+        }), None)
+        if geographical:
+            parts.append(geographical)
+        if not issue:
+            strategic = [w for w in words if w in {
+                "sourcing", "spend", "supplier", "procurement",
+                "expansion", "investment", "capacity", "contracts",
+            }]
+            if strategic:
+                parts.append("(" + " OR ".join(dict.fromkeys(strategic[:4])) + ")")
     if issue:
         parts.append(f"({' OR '.join(issue)})")
     return " AND ".join(parts)
@@ -1431,6 +1674,12 @@ def _extract_news_article_body(html_text: str) -> str:
 def search_aerospace_news(query: str) -> str:
     # Search the news source using a primary query and guarded recall fallback.
     """Query News API preserving specific aircraft model suffixes (e.g., 777X, A321XLR)."""
+    if (
+        os.getenv("EWS_ENV", "development").lower()
+        not in {"dev", "development", "test"}
+        and os.getenv("EWS_NEWSAPI_PRO_LICENSE") != "1"
+    ):
+        return "NewsAPI disabled: production license required."
     safe_query = query.replace(",", "").replace("  ", " ").strip()
     and_query = news_api_search_key(safe_query)
     query_tokens = and_query.split(" AND ", 2)
@@ -1732,73 +1981,243 @@ def search_aerospace_news(query: str) -> str:
 
 # Retrieve recent NTSB investigation announcements within the analysis scope.
 # Keep official investigation identifiers and publication dates in each record.
+
 @tool("Scrape NTSB Safety Investigations")
-@retry(stop=stop_after_attempt(2), wait=wait_exponential(multiplier=1, min=2, max=5))
 def scrape_ntsb_investigations(query: str = "latest") -> str:
-    # Collect aviation investigation updates from official NTSB feeds.
-    """Fetch NTSB aviation safety investigation updates via RSS."""
-    clean_query = query.replace(",", "").strip()
-    required_words, _ = parse_query_intent(clean_query)
-    limit = get_dynamic_limit()
-    scope_days = get_scope_days()
-    time_filter = f" when:{scope_days}d" if scope_days else ""
+    """Collect authorized NTSB aviation cases without inventing findings."""
+    sid = "SRC_003"
 
-    logger.info(
-        f"[OSINT GATHERER] Fetching NTSB records for: '{clean_query}' (limit: {limit}, scope: {scope_days or 'all'} days)")
-    try:
-        safe_query = urllib.parse.quote(f"site:ntsb.gov {clean_query}{time_filter}")
-        url = f"https://news.google.com/rss/search?q={safe_query}&hl=en-US&gl=US&ceid=US:en"
+    if not is_source_allowed(sid):
+        return "NTSB: source requires approval or development review mode."
 
-        resp = safe_http_get(url, source_id="SRC_003", timeout=10)
-        if resp is None or resp.status_code != 200:
-            record_connector_telemetry("NTSB Investigations", "SRC_003", clean_query, error="HTTP error")
-            return "NTSB data currently unavailable."
+    api_key = os.getenv("NTSB_API_KEY", "").strip()
+    if not api_key:
+        return "NTSB: missing NTSB_API_KEY in .env"
 
-        feed = feedparser.parse(resp.content)
-        extracted_text = f"--- NTSB SAFETY INVESTIGATIONS AND ACCIDENT REPORTS FOR '{query}' ---\n"
-        count = rejected_scope = 0
+    start, end = get_time_window_utc()
+    max_windows = max(1, min(
+        20, int(os.getenv("EWS_NTSB_MAX_WINDOWS", "8"))
+    ))
 
-        for entry in feed.entries:
-            if count >= limit:
+    if start is None:
+        start = end - timedelta(days=30 * max_windows)
+
+    limit = max(1, min(get_dynamic_limit(), 10))
+    tokens = [
+        word for word in re.findall(
+            r"[a-z0-9-]{3,}", query.lower()
+        )
+        if word not in {
+            "latest", "ntsb", "aviation", "accident",
+            "incident", "aircraft", "investigation"
+        }
+    ]
+
+    headers = {
+        "Ocp-Apim-Subscription-Key": api_key,
+        "Accept": "application/json",
+        "User-Agent": "AeroEWS Academic Research/2.0",
+    }
+
+    endpoint = (
+        "https://api.ntsb.gov/public/api/"
+        "Common/v2/GetCasesByDateRange/"
+    )
+
+    output = []
+    seen = set()
+    cursor_end = end.date()
+    requests_count = 0
+    partial = False
+
+    for _ in range(max_windows):
+        if cursor_end < start.date() or len(output) >= limit:
+            break
+
+        cursor_start = max(
+            start.date(),
+            cursor_end - timedelta(days=29),
+        )
+
+        marker = None
+
+        for page_number in range(5):
+            params = {
+                "startDate": cursor_start.strftime("%m/%d/%Y"),
+                "endDate": cursor_end.strftime("%m/%d/%Y"),
+                "mode": "aviation",
+            }
+            if marker:
+                params["marker"] = marker
+
+            response = safe_http_get(
+                endpoint,
+                source_id=sid,
+                params=params,
+                headers=headers,
+                timeout=30,
+                max_bytes=8_000_000,
+            )
+            requests_count += 1
+
+            if response is None or response.status_code not in (200, 204):
+                partial = True
                 break
-            link = entry.get("link", "https://www.ntsb.gov")
-            if link in COLLECTED_URLS:
-                continue
 
-            pub_date = entry.get("published", "DATE_UNKNOWN")
-            if not is_date_within_scope(pub_date):
-                rejected_scope += 1
-                continue
+            if response.status_code == 204:
+                break
 
-            title = entry.get("title", "Untitled")
-            clean_desc = BeautifulSoup(entry.get("description", ""), "html.parser").get_text(" ", strip=True)
+            try:
+                payload = response.json()
+            except ValueError:
+                partial = True
+                break
 
-            if clean_query.lower() != "latest" and not any(
-                    rw in f"{title} {clean_desc}".lower() for rw in required_words):
-                continue
+            if not isinstance(payload, dict):
+                partial = True
+                break
 
-            doc = register_collected_document(
-                source_id="SRC_003", connector_name="NTSB Investigations", url=link,
-                title=title, raw_text=clean_desc or title, published_at=pub_date, query_used=clean_query,
+            cases = sorted(
+                payload.get("data") or [],
+                key=lambda case: (
+                        case.get("publishDateTime")
+                        or case.get("eventDate")
+                        or ""
+                ),
+                reverse=True,
             )
-            extracted_text += (
-                f"DOC_ID: {doc['doc_id']} | SOURCE_ID: SRC_003\n"
-                f"DATE: {doc['published_at']}\nTitle: {doc['title']}\n"
-                f"Link: {link}\nSummary: {doc['text']}\n---\n"
-            )
-            count += 1
 
-        record_connector_telemetry("NTSB Investigations", "SRC_003", clean_query, len(feed.entries), count,
-                                   rejected_scope)
-        if count == 0:
-            return f"No NTSB accident or investigation reports found for '{query}' within the selected time scope."
+            for case in cases:
+                if len(output) >= limit:
+                    break
 
-        logger.warning(f"[OSINT DEBUG] NTSB module returned {count} records.")
-        return extracted_text
-    except Exception as e:
-        logger.error(f"[OSINT GATHERER] NTSB RSS error: {str(e)}")
-        record_connector_telemetry("NTSB Investigations", "SRC_003", clean_query, error=str(e))
-        return "NTSB data currently unavailable."
+                number = str(case.get("ntsbNumber") or "").strip()
+                if not number or number in seen:
+                    continue
+                seen.add(number)
+
+                event_date = str(case.get("eventDate") or "")
+                published = str(
+                    case.get("publishDateTime") or ""
+                )[:10]
+
+                aircraft = case.get("aircrafts") or []
+                models = [
+                    (
+                        str(a.get("aircraftMake") or
+                            a.get("aircraftManufacturer") or "")
+                        + " "
+                        + str(a.get("aircraftModel") or "")
+                    ).strip()
+                    for a in aircraft
+                ]
+                models_text = "; ".join(models)
+
+                searchable = " ".join([
+                    number,
+                    models_text,
+                    str(case.get("eventType") or ""),
+                    str(case.get("eventCity") or ""),
+                    str(case.get("eventStateOrRegion") or ""),
+                ]).lower()
+
+                if tokens and not any(t in searchable for t in tokens):
+                    continue
+
+                if not event_date or not is_date_within_scope(event_date):
+                    continue
+
+                classification = [
+                    str(e.get("cicttEventSOEGroup") or
+                        e.get("eventTier2Name") or "")
+                    for a in aircraft
+                    for e in (a.get("events") or [])
+                ]
+
+                body = (
+                    f"NTSB case {number}. "
+                    f"Occurrence date: {event_date}. "
+                    f"Publication: {published or 'UNKNOWN'}. "
+                    f"Event type: {case.get('eventType')}. "
+                    f"Aircraft: {models_text or 'UNKNOWN'}. "
+                    f"Location: {case.get('eventCity')}, "
+                    f"{case.get('eventStateOrRegion')}, "
+                    f"{case.get('eventCountry')}. "
+                    f"Injury level: {case.get('highestInjuryLevel')}. "
+                    f"Investigation status: {case.get('completionStatus')}. "
+                    f"Case closed: {case.get('caseClosed')}. "
+                    f"Event classification: {', '.join(classification[:4])}. "
+                    "These metadata do not establish a final root cause."
+                )
+
+                # API request URL with case ID as a reference fragment.
+                # This is not a verified case-specific web page.
+                case_url = response.url.split("#")[0] + "#" + urllib.parse.quote(number)
+
+                doc = register_collected_document(
+                    source_id=sid,
+                    connector_name="NTSB Public Aviation API",
+                    url=case_url,
+                    title=f"NTSB {number}: {models_text or 'Aviation case'}",
+                    raw_text=body,
+                    published_at=published or event_date,
+                    query_used=query,
+                )
+
+                doc.update({
+                    "ntsb_number": number,
+                    "event_date": event_date,
+                    "document_type": "NTSB_INVESTIGATION",
+                    "investigation_status": case.get("completionStatus"),
+                })
+
+                output.append(
+                    f"DOC_ID: {doc['doc_id']} | SOURCE_ID: {sid}\n"
+                    f"DATE: {doc['published_at']}\n"
+                    f"Title: {doc['title']}\n"
+                    f"Link: {case_url}\n"
+                    f"Summary: {doc['text']}\n---"
+                )
+
+            if len(output) >= limit:
+                break
+
+            if not payload.get("hasMore"):
+                break
+
+            marker = payload.get("nextMarker")
+            if not marker:
+                partial = True
+                break
+
+        else:
+            partial = True
+
+        cursor_end = cursor_start - timedelta(days=1)
+
+    if cursor_end >= start.date() and len(output) < limit:
+        partial = True
+
+    record_connector_telemetry(
+        "NTSB Public Aviation API",
+        sid,
+        query,
+        found_count=len(seen),
+        accepted_count=len(output),
+        coverage_note=(
+            f"requests={requests_count}; "
+            f"partial={partial}; max_windows={max_windows}"
+        ),
+    )
+
+    if not output:
+        return (
+            "NTSB: no matching cases in scanned windows. "
+            f"Partial coverage: {partial}"
+        )
+
+    return "\n".join(output)
+
 
 
 _FAA_LIFECYCLE_FIELDS = [
@@ -2160,13 +2579,30 @@ def _easa_biweekly_csv_rows(index_html: str, base_url: str, max_archives: int = 
                         pass
 
                     reader = csv.DictReader(io.StringIO(content), dialect=dialect)
+
+                    if reader.fieldnames and re.match(
+                            r"^(?:[A-Z]{2}-)?20\d{2}-\d{2}",
+                            reader.fieldnames[0].strip()
+                    ):
+                        first_row = list(reader.fieldnames)
+                        names = [
+                            "AD number", "Issue date", "Approval holder",
+                            "Type designation", "Subject"
+                        ]
+                        reader.fieldnames = names + [
+                            f"Other {i}" for i in range(len(first_row) - 5)
+                        ]
+                        csv_rows = [dict(zip(reader.fieldnames, first_row)), *reader]
+                    else:
+                        csv_rows = list(reader)
+
                     if not reader.fieldnames:
                         issues.append("CSV_HEADERS_MISSING")
                         continue
 
                     logger.info("[EASA CSV] Archive=%s columns=%s", url, reader.fieldnames)
 
-                    for row in list(reader)[:4000]:
+                    for row in csv_rows[:4000]:
                         normalized = {
                             re.sub(r"[^a-z0-9]+", " ", str(k or "").lower()).strip(): str(v or "").strip()
                             for k, v in row.items()
@@ -2393,12 +2829,45 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
         if start_utc is not None:
             params["conditions[publication_date][gte]"] = start_utc.strftime("%Y-%m-%d")
 
+
         faa_url = "https://www.federalregister.gov/api/v1/documents.json"
+
+        # Prefer exact Federal Register document numbers.
+        exact = re.search(r"(?<!\d)20\d{2}-\d{5}(?!\d)", query)
+        exact_doc = None
+
+        if exact:
+            number = exact.group()
+            direct = safe_http_get(
+                f"https://www.federalregister.gov/api/v1/documents/{number}.json",
+                source_id="SRC_001",
+                params={"fields[]": _FAA_LIFECYCLE_FIELDS},
+                timeout=12,
+            )
+            candidate = (
+                direct.json()
+                if direct is not None and direct.status_code == 200
+                else {}
+            )
+            if (
+                candidate.get("document_number") == number
+                and is_date_within_scope(candidate.get("publication_date"))
+            ):
+                exact_doc = candidate
+            else:
+                logger.warning("[FAA EXACT LOOKUP] Not retrieved/in scope: %s", number)
+
         resp = safe_http_get(faa_url, source_id="SRC_001", params=params, timeout=12)
 
-        if resp is not None and resp.status_code == 200:
-            payload = resp.json()
+        if (resp is not None and resp.status_code == 200) or exact_doc:
+            payload = resp.json() if resp is not None and resp.status_code == 200 else {}
             docs = list(payload.get("results", []) or [])
+
+            if exact_doc:
+                docs = [exact_doc] + [
+                    d for d in docs
+                    if d.get("document_number") != exact_doc["document_number"]
+                ]
 
             if scope_days is None or scope_days > 90:
                 pages = min(
@@ -2450,7 +2919,9 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
                     break
                 title = str(found_doc.get("title") or "")
                 abstract = str(found_doc.get("abstract") or "")
-                if not any(rw in f"{title} {abstract}".lower() for rw in required_words):
+                if not any(rw in f"{title} {abstract}".lower() for rw in required_words) and not (
+                        exact and found_doc.get("document_number") == exact.group()
+                ):
                     continue
 
                 doc, docket, checked = _faa_resolve_docket(found_doc, end_utc.strftime("%Y-%m-%d"), docket_cache)
@@ -2512,58 +2983,32 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
         record_connector_telemetry("FAA Federal Register", "SRC_001", query, error=str(e))
 
     primary_count = 0
-    try:
-        primary_block, primary_count = _collect_easa_primary_index(query, limit)
-        if primary_count:
-            extracted_text += primary_block
-    except Exception as exc:
-        logger.warning("[EASA INTERIM INDEX] Unavailable: %s. Using RSS fallback.", exc)
-        record_connector_telemetry("EASA Official Index", "SRC_002", query, error=str(exc))
 
-    try:
-        time_filter = f" when:{scope_days}d" if scope_days else ""
-        easa_query = urllib.parse.quote(f"site:easa.europa.eu {search_term}{time_filter}")
-        easa_feed_url = f"https://news.google.com/rss/search?q={easa_query}&hl=en-US&gl=US&ceid=US:en"
-        easa_resp = safe_http_get(easa_feed_url, source_id="SRC_002", timeout=10)
-        feed = feedparser.parse(easa_resp.content) if (easa_resp and easa_resp.status_code == 200) else None
-        if feed and feed.entries:
-            easa_count = easa_rejected = 0
-            easa_block = ">> EASA (European Union Aviation Safety Agency Monitor):\n"
-            for entry in feed.entries:
-                if easa_count >= max(0, limit - primary_count):
-                    break
-                link = entry.get("link", "https://www.easa.europa.eu")
-                if link in COLLECTED_URLS:
-                    continue
-
-                pub_date = entry.get("published", "DATE_UNKNOWN")
-                if not is_date_within_scope(pub_date):
-                    easa_rejected += 1
-                    continue
-
-                title = entry.get("title", "Untitled EASA notice")
-                clean_desc = BeautifulSoup(entry.get("description", ""), "html.parser").get_text(" ", strip=True)[:400]
-                if not any(rw in f"{title} {clean_desc}".lower() for rw in required_words):
-                    continue
-
-                doc_rec = register_collected_document(
-                    source_id="SRC_002", connector_name="EASA Regulatory Monitor", url=link,
-                    title=title, raw_text=clean_desc or title, published_at=pub_date, query_used=query,
-                )
-                easa_block += (
-                    f"DOC_ID: {doc_rec['doc_id']} | SOURCE_ID: SRC_002\n"
-                    f"DATE: {doc_rec['published_at']}\nTitle: {doc_rec['title']}\n"
-                    f"Link: {link}\nSummary: {doc_rec['text']}\n---\n"
-                )
-                easa_count += 1
-
-            record_connector_telemetry("EASA Regulatory Monitor", "SRC_002", query, len(feed.entries), easa_count,
-                                       easa_rejected)
-            if easa_count > 0:
-                extracted_text += easa_block
-    except Exception as e:
-        logger.error(f"[OSINT GATHERER] EASA RSS query error: {e}")
-        record_connector_telemetry("EASA Regulatory Monitor", "SRC_002", query, error=str(e))
+    if os.getenv("EWS_EASA_SAFETY_PUBLICATIONS_ENABLED", "0") == "1":
+        try:
+            primary_block, primary_count = _collect_easa_primary_index(
+                query, limit
+            )
+            if primary_count:
+                extracted_text += primary_block
+        except Exception as exc:
+            logger.warning(
+                "[EASA INDEX] Source unavailable: %s",
+                exc,
+            )
+            record_connector_telemetry(
+                "EASA Official Index",
+                "SRC_002",
+                query,
+                error=str(exc),
+            )
+    else:
+        record_connector_telemetry(
+            "EASA Official Index",
+            "SRC_002",
+            query,
+            coverage_note="TEMPORARILY_UNAVAILABLE; collection paused",
+        )
 
     if "Title:" not in extracted_text:
         return f"No specific records found in FAA or EASA databases for '{query}' within the selected time scope."
@@ -2590,22 +3035,17 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
     )
     extracted_text = f"--- OFFICIAL MANUFACTURER PRESS RELEASES FOR '{safe_query}' ---\n"
 
-    # Normalize a manufacturer newsroom feed URL before retrieval.
-    def _rss_url(site_expr: str) -> str:
-        core = re.sub(
-            r"\b(?:Airbus|Boeing|COMAC|FAA|latest|news|recent|press|releases?|status|updates?)\b",
-            "", original_query, flags=re.I
-        ).strip() or safe_query
-        q = urllib.parse.quote(f"{site_expr} {core}{time_filter}")
-        return f"https://news.google.com/rss/search?q={q}&hl=en-US&gl=US&ceid=US:en"
-
     feeds = {
         "Airbus": "https://www.airbus.com/en/generate-rss-feeds?type=all-press-releases",
         "Boeing": "https://boeing.mediaroom.com/news-releases-statements?pagetemplate=rss",
     }
     mentioned = {
         name for name in feeds
-        if re.search(rf"\b{re.escape(name)}\b", original_query, re.I)
+        if re.search(
+            rf"\b{re.escape('Boeing' if name.startswith('Boeing') else name)}\b",
+            original_query,
+            re.I,
+        )
     }
 
     if re.search(
@@ -2647,11 +3087,7 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
         )
 
         try:
-            source_id = {
-                "FAA": "SRC_001",
-                "GE Aerospace": "SRC_010",
-                "RTX": "SRC_011",
-            }.get(brand, "SRC_005")
+            source_id = "SRC_030" if brand.startswith("Boeing") else "SRC_005"
 
             if not is_source_allowed(source_id):
                 continue
@@ -2660,9 +3096,7 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
                 url,
                 source_id=source_id,
                 timeout=12,
-                check_robots=brand in {
-                    "Airbus", "Boeing", "GE Aerospace", "RTX"
-                },
+                check_robots=True,
             )
             if resp is None or resp.status_code != 200:
                 continue
@@ -2681,7 +3115,22 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
                 if link in COLLECTED_URLS:
                     continue
 
-                pub_date = entry.get("published", "DATE_UNKNOWN")
+                raw_date = entry.get("published") or entry.get("updated") or ""
+
+                numeric_date = re.search(
+                    r"\b(\d{1,2})/(\d{1,2})/(20\d{2})\b",
+                    raw_date
+                )
+
+                if numeric_date:
+                    month, day, year = map(int, numeric_date.groups())
+                    try:
+                        pub_date = datetime(year, month, day).date().isoformat()
+                    except ValueError:
+                        pub_date = "DATE_UNKNOWN"
+                else:
+                    pub_date = normalize_date_str(raw_date) or "DATE_UNKNOWN"
+
                 if not is_date_within_scope(pub_date):
                     rejected_total += 1
                     continue
@@ -2690,22 +3139,41 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
                 if any(k in title.lower() for k in noise_tokens):
                     continue
 
-                desc = BeautifulSoup(entry.get("description", ""), "html.parser").get_text(" ", strip=True)[:400]
+                desc = BeautifulSoup(
+                    entry.get("summary") or entry.get("description") or "",
+                    "html.parser"
+                ).get_text(" ", strip=True)[:400]
+                # Preserve explicit aircraft/engine model relevance.
+                # financial press releases merely because Airbus published them.
+
+                specific_models = _model_tokens(original_query)
+
+                if specific_models:
+                    searchable_metadata = f"{title} {desc}".lower()
+
+                    model_matched = any(
+                        re.search(
+                            rf"(?<![a-z0-9]){re.escape(model)}(?![a-z0-9])",
+                            searchable_metadata,
+                            re.I,
+                        )
+                        for model in specific_models
+                    )
+
+                    if not model_matched:
+                        rejected_total += 1
+                        continue
                 host = (urlparse(link).hostname or "").lower()
                 domains = {
                     "Airbus": ("airbus.com",),
                     "Boeing": ("boeing.com", "boeing.mediaroom.com"),
-                    "COMAC": ("comac.cc",),
-                    "GE Aerospace": ("geaerospace.com",),
-                    "RTX": ("rtx.com",),
-                    "FAA": ("faa.gov",),
                 }
                 official = any(host == d or host.endswith("." + d) for d in domains[brand])
                 doc_source_id = source_id if official else "SRC_004"
 
                 body = ""
 
-                if official and brand not in {"GE Aerospace", "RTX"}:
+                if official:
                     page = safe_http_get(
                         link,
                         source_id=doc_source_id,
@@ -2779,16 +3247,17 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
                 brand_count += 1
                 total_processed += 1
 
-                if brand_count > 0:
-                    extracted_text += brand_block
+            # Outside the "for entry in feed.entries" loop.
+            if brand_count:
+                extracted_text += brand_block
 
-                record_connector_telemetry(
-                    f"Official Industry PR / {brand}",
-                    source_id,
-                    safe_query,
-                    len(feed.entries),
-                    brand_count,
-                )
+            record_connector_telemetry(
+                f"Official Industry PR / {brand}",
+                source_id,
+                safe_query,
+                found_count=len(feed.entries),
+                accepted_count=brand_count,
+            )
 
         except Exception as e:
             logger.error(f"[OSINT GATHERER] PR feed error for {brand}: {str(e)}")
@@ -2814,7 +3283,7 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
                 )
 
                 resp = safe_http_get(
-                    url, source_id="SRC_005",
+                    url, source_id="SRC_030",
                     timeout=12, check_robots=True,
                 )
                 if resp is None or resp.status_code != 200:
@@ -2844,13 +3313,13 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
                         continue
 
                     doc = register_collected_document(
-                        "SRC_005", "Official Industry PR",
+                        "SRC_030", "Official Industry PR",
                         link, title, title, match.group(1), original_query,
                     )
                     doc["origin_type"] = "PRIMARY_OFFICIAL_INDEX_METADATA"
 
                     extracted_text += (
-                        f"DOC_ID: {doc['doc_id']} | SOURCE_ID: SRC_005\n"
+                        f"DOC_ID: {doc['doc_id']} | SOURCE_ID: SRC_030\n"
                         f"DATE: {doc['published_at']}\n"
                         f"Title: {doc['title']}\n"
                         f"Link: {link}\n"
@@ -2921,6 +3390,24 @@ def search_bluesky_aviation(query: str) -> str:
                     posts = fb_resp.json().get("posts", []) or []
                     logger.info("[BLUESKY FALLBACK] q=%r raw_posts=%d", short_query, len(posts))
 
+        official_handles = [
+            h.strip()
+            for h in os.getenv("BLUESKY_OFFICIAL_HANDLES", "").split(",")
+            if h.strip()
+        ]
+
+        for account in official_handles[:10]:
+            resp = safe_http_get(
+                "https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed",
+                source_id="SRC_007",
+                params={"actor": account, "limit": min(limit, 10)},
+            )
+            if resp is not None and resp.status_code == 200:
+                posts.extend(
+                    item["post"]
+                    for item in resp.json().get("feed", [])
+                    if "post" in item
+                )
         extracted_text = f"--- BLUESKY POSTS FOR '{query}' ---\n"
         count = rejected_scope = rejected_bots = rejected_duplicates = 0
         seen_post_texts = set()
@@ -3043,8 +3530,7 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
                 else route.continue_(),
             )
 
-            effective_max_pages = 1 if (
-                    fast_mode or (scope_days is not None and scope_days <= 14)) else MAX_PAGES_PER_AIRSHOW
+            effective_max_pages = MAX_PAGES_PER_AIRSHOW
 
             for airshow_name, url in AIRSHOW_NEWS_URLS.items():
                 if total_articles >= user_limit:
@@ -3065,14 +3551,10 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
                             for p_no in range(1, effective_max_pages + 1)
                         ]
                     elif "siae.fr" in url:
-                        urls_to_check = [f"https://www.siae.fr/en/?s={encoded_query}"] + [
-                            f"https://www.siae.fr/en/page/{p_no}/?s={encoded_query}"
-                            for p_no in range(2, effective_max_pages + 1)
-                        ]
+                        urls_to_check = [url]
                     elif "singaporeairshow.com" in url:
-                        base_sg = f"https://www.singaporeairshow.com/cos/o.x?func=search&c=/qql/pagetree&rid=453&search_str={encoded_query}"
-                        urls_to_check = [base_sg] + [f"{base_sg}&pageno={p_no}" for p_no in
-                                                     range(2, effective_max_pages + 1)]
+                        # Official newsroom contains dated articles directly.
+                        urls_to_check = [url]
                     else:
                         urls_to_check = [url]
 
@@ -3082,8 +3564,23 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
                     while idx < len(urls_to_check) and len(visited_listing_urls) < (effective_max_pages + 1):
                         target_url = urls_to_check[idx]
                         idx += 1
+
                         if target_url in visited_listing_urls:
                             continue
+
+                        allowed_page, reason_page = check_robots_and_tdm_compliance(
+                            target_url,
+                            source_id="SRC_006",
+                        )
+
+                        if not allowed_page:
+                            logger.info(
+                                "[AIRSHOW] Listing page skipped: %s (%s)",
+                                target_url,
+                                reason_page,
+                            )
+                            continue
+
                         visited_listing_urls.add(target_url)
 
                         try:
@@ -3113,6 +3610,13 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
                                 candidate_links.append(link)
                         except Exception as inner_e:
                             logger.debug(f"Subpage {target_url} skipped: {inner_e}")
+
+                    # Prefer the newest explicitly dated newsroom candidates.
+                    # Unknown dates remain at the end.
+                    candidate_links.sort(
+                        key=lambda item: item.get("date") or "",
+                        reverse=True,
+                    )
 
                     filtered_overview = filter_relevant_paragraphs("\n".join(all_raw_texts), required_words)
                     link_date_map = {l["url"]: l.get("date", "") for l in candidate_links if l.get("date")}
@@ -3154,6 +3658,18 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
                             rejected_scope += 1
                             continue
 
+                        article_allowed, article_reason = check_robots_and_tdm_compliance(
+                            article_url,
+                            source_id="SRC_006",
+                        )
+                        if not article_allowed:
+                            logger.info(
+                                "[AIRSHOW COMPLIANCE] Skipping %s: %s",
+                                article_url,
+                                article_reason,
+                            )
+                            continue
+
                         # Inspect individual article pages only after scope and URL checks.
                         try:
                             logger.info(f"[OSINT DEBUG] -> Opening article: {article_url}")
@@ -3179,9 +3695,26 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
                                     continue
 
                                 seen_article_bodies.add(body_hash)
+
+                                article_soup = BeautifulSoup(raw_html, "html.parser")
+
+                                headline_tag = (
+                                        article_soup.find("meta", property="og:title")
+                                        or article_soup.find("h1")
+                                )
+
+                                if headline_tag is not None:
+                                    if headline_tag.name == "meta":
+                                        headline = headline_tag.get("content", "")
+                                    else:
+                                        headline = headline_tag.get_text(" ", strip=True)
+                                else:
+                                    headline = ""
+
                                 doc_rec = register_collected_document(
                                     source_id="SRC_006", connector_name="Airshow Websites", url=article_url,
-                                    title=f"{airshow_name} Newsroom Article", raw_text=art_filtered[:2500],
+                                    title=headline[:220] or f"{airshow_name} Newsroom Article",
+                                    raw_text=art_filtered[:2500],
                                     published_at=pub_date, query_used=safe_query,
                                 )
                                 deep_articles_output.append(
@@ -3193,22 +3726,6 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
                             logger.debug(f"Could not load article {article_url}: {art_e}")
 
                     final_airshow_sections = list(deep_articles_output)
-                    if not final_airshow_sections and len(
-                            filtered_overview) >= 120 and total_articles < user_limit and url not in COLLECTED_URLS:
-                        overview_date = normalize_date_str(filtered_overview) or "DATE_UNKNOWN"
-                        if overview_date == "DATE_UNKNOWN":
-                            unknown_dates += 1
-                        if is_date_within_scope(overview_date):
-                            doc_rec = register_collected_document(
-                                source_id="SRC_006", connector_name="Airshow Websites", url=url,
-                                title=f"{airshow_name} News Overview", raw_text=filtered_overview[:2000],
-                                published_at=overview_date, query_used=safe_query,
-                            )
-                            final_airshow_sections.append(
-                                f"DOC_ID: {doc_rec['doc_id']} | SOURCE_ID: SRC_006\n"
-                                f"DATE: {doc_rec['published_at']}\nLink: {url} (News Overview)\nContent:\n{doc_rec['text']}"
-                            )
-                            total_articles += 1
 
                     if final_airshow_sections:
                         extracted_text += f"\n>> News from {airshow_name} ({url}):\n" + "\n\n".join(
@@ -3276,7 +3793,7 @@ def _save_yt_transcript_cache(video_id: str, transcript: str) -> None:
 def extract_youtube_transcript(query: str) -> str:
     # Prefer cached source transcripts and conserve external transcript/model requests.
     """Search YouTube for aviation videos, pre-filter by KIT relevance, and use local transcript caching before Gemini."""
-    if not YOUTUBE_API_KEY or not GEMINI_API_KEY:
+    if not YOUTUBE_API_KEY:
         record_connector_telemetry("YouTube Videos", "SRC_008", query, error="Missing API keys")
         return "Error: Missing YOUTUBE_API_KEY or GEMINI_API_KEY in .env."
 
@@ -3344,6 +3861,30 @@ def extract_youtube_transcript(query: str) -> str:
         if not videos:
             record_connector_telemetry("YouTube Videos", "SRC_008", query, 0, 0, rejected_scope)
             return f"No relevant news videos found on YouTube for '{query}' within the selected time scope."
+
+        if os.getenv("EWS_YOUTUBE_TRANSCRIPTS_APPROVED", "0") != "1":
+            results = []
+
+            for v in videos:
+                doc = register_collected_document(
+                    source_id="SRC_008",
+                    connector_name="YouTube Metadata",
+                    url=v["url"],
+                    title=f"{v['title']} ({v['channel']})",
+                    raw_text=v["desc"] or v["title"],
+                    published_at=v["date"],
+                    query_used=query,
+                )
+
+                results.append(
+                    f"DOC_ID: {doc['doc_id']} | SOURCE_ID: SRC_008\n"
+                    f"DATE: {doc['published_at']}\n"
+                    f"Title: {doc['title']}\n"
+                    f"Link: {v['url']}\n"
+                    f"Summary: {doc['text']}\n---"
+                )
+
+            return "\n".join(results)
 
         extracted_text = f"--- RAW VIDEO TRANSCRIPTS FOR '{query}' ---\n"
         processed_videos = gemini_calls_made = 0

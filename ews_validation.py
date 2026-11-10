@@ -14,7 +14,7 @@ from datetime import date, datetime, timezone
 from ews_database import get_active_kiq_catalog
 from ews_kiq import match_kiqs_for_threat
 from ews_state import (
-    Any, CONTRADICTION_MARKERS, ConfidenceLevel, Dict, EWSReport,
+    AEROSPACE_SUPPLIER_REGISTRY, Any, CONTRADICTION_MARKERS, ConfidenceLevel, Dict, EWSReport,
     EscalationStatus, EventFreshness, EventStatus, IntelligenceGap,
     KIQAnswer, List, Optional, SCMTier, SPECULATIVE_DISINFO_MARKERS,
     SequenceMatcher, ThreatAssessment, Tuple, UNVERIFIED_SOCIAL_VIDEO_DOMAINS,
@@ -54,6 +54,69 @@ def normalize_text(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+# KIT-specific shortage evidence is not established by aircraft/program overlap alone.
+def kit_direct_relevance_gap(kit_query: str, source_text: str) -> str:
+    """Return a conservative reason when a source lacks a *requested shortage* facet."""
+    kit = str(kit_query or "")
+    source = str(source_text or "")
+    if not re.search(r"\b(?:shortag\w*|scarcity|supply\s+(?:constraints?|shortfalls?)|material\s+shortfalls?)\b", kit, re.I):
+        return ""
+
+    if not re.search(
+        r"\b(?:shortag\w*|scarcity|scarce|bottleneck\w*|"
+        r"supply\s+(?:constraints?|shortfalls?|disruptions?)|"
+        r"material\s+(?:shortfalls?|constraints?)|"
+        r"unable\s+to\s+meet\s+demand|allocation\s+restrictions?)\b",
+        source, re.I,
+    ):
+        return "RELATED_CONTEXT: the source does not establish the shortage or supply constraint specified in the KIT."
+
+    material_groups = (
+        (r"\b(?:carbon[ -]?fib(?:er|re)|carbon[ -]?composites?)\b", r"\b(?:carbon[ -]?fib(?:er|re)|carbon[ -]?composites?)\b"),
+        (r"\bcomposites?\b", r"\bcomposites?\b"),
+        (r"\btitanium\b", r"\btitanium\b"),
+        (r"\bforgings?\b", r"\bforgings?\b"),
+    )
+    for required, evidenced in material_groups:
+        if re.search(required, kit, re.I) and not re.search(evidenced, source, re.I):
+            return "RELATED_CONTEXT: the source does not identify the material specified in the KIT."
+
+    # Suppliers explicitly named in the existing registry; ignore engines/model aliases.
+    matched_suppliers = []
+    for entry in AEROSPACE_SUPPLIER_REGISTRY:
+        if entry.get("default_tier") == "OEM (Final Assembler)":
+            continue
+        names = [entry.get("official_name", ""), *entry.get("aliases", [])]
+        names = [n for n in names if len(n) >= 4 and not re.search(r"\d", n)]
+        if any(re.search(r"(?<!\w)" + re.escape(n) + r"(?!\w)", kit, re.I) for n in names):
+            matched_suppliers.append((entry.get("official_name", ""), names))
+
+    if len(matched_suppliers) == 1:
+        supplier, names = matched_suppliers[0]
+        if not any(re.search(r"(?<!\w)" + re.escape(n) + r"(?!\w)", source, re.I) for n in names):
+            return f"RELATED_CONTEXT: the cited source does not identify the KIT-specific supplier {supplier}."
+    elif not matched_suppliers:
+        # Conservative fallback for unregistered proper names (e.g. a newly added supplier).
+        skip = {
+            "airbus", "boeing", "embraer", "comac", "aerospace", "aircraft",
+            "engine", "engines", "supply", "chain", "shortage", "supplier",
+            "suppliers", "carbon", "fiber", "fibre", "composite", "composites",
+            "material", "materials", "production", "technical", "problems",
+            "issues", "monitor", "review", "compare", "competitive", "intelligence",
+            "risk", "risks", "fleet", "capacity", "constraints", "aviation",
+            "impact", "delivery", "the", "and", "for", "from", "with",
+        }
+        unknown = {
+            name for name in re.findall(r"\b[A-Z][a-z]{3,}\b", kit)
+            if name.lower() not in skip
+        }
+        if len(unknown) == 1:
+            supplier = next(iter(unknown))
+            if not re.search(r"(?<!\w)" + re.escape(supplier) + r"(?!\w)", source, re.I):
+                return f"RELATED_CONTEXT: the source does not identify named KIT entity {supplier}."
+
+    return ""
+
 # Extract the normalized publisher hostname from a source URL.
 def extract_effective_publisher_domain(url: str) -> str:
     if not url:
@@ -80,15 +143,15 @@ ENGINE_MODEL_PATTERNS: Dict[str, re.Pattern] = {
     ),
 
     "LEAP-1A": re.compile(
-        r"\bleap[\s-]*1a\b", re.I
+        r"\bleap[\s-]*1a(?:[0-9][a-z0-9]*)?\b", re.I
     ),
 
     "LEAP-1B": re.compile(
-        r"\bleap[\s-]*1b\b", re.I
+        r"\bleap[\s-]*1b(?:[0-9][a-z0-9]*)?\b", re.I
     ),
 
     "LEAP-1C": re.compile(
-        r"\bleap[\s-]*1c\b", re.I
+        r"\bleap[\s-]*1c(?:[0-9][a-z0-9]*)?\b", re.I
     ),
 
     "LEAP": re.compile(
@@ -1000,6 +1063,53 @@ def _evaluate_claim_and_causal_support(
         notes.append("Full verbatim quote could not be verified in source document")
         return "UNSUPPORTED", "UNSUPPORTED", notes
 
+    # SEC metadata prove the existence and timing of a filing,
+    # not the underlying financial or operational claims.
+    if (
+            matched_doc.get("source_id") == "SRC_027"
+            and (
+            matched_doc.get("document_type")
+            == "SEC_FILING_METADATA_ONLY"
+            or matched_doc.get("full_text_available") is False
+            or "[SEC_METADATA_ONLY]" in doc_raw_full
+            or "FULL_TEXT_UNAVAILABLE:" in doc_raw_full
+    )
+    ):
+        notes.append(
+            "SEC_METADATA_ONLY_GUARD: Verified filing metadata "
+            "cannot establish substantive financial results, "
+            "operational disruptions or causal explanations."
+        )
+
+        return (
+            "PARTIALLY_STATED_IN_SOURCE",
+            "HYPOTHETICAL_ONLY",
+            notes,
+        )
+
+    # ESEF index metadata prove filing existence only.
+    # They do not prove financial figures or operational events.
+    if (
+        matched_doc.get("source_id") == "SRC_031"
+        and (
+            matched_doc.get("document_type")
+            == "ESEF_FILING_METADATA_ONLY"
+            or matched_doc.get("full_text_available") is False
+            or "[ESEF_FILING_METADATA_ONLY]" in doc_raw_full
+        )
+    ):
+        notes.append(
+            "ESEF_METADATA_ONLY_GUARD: "
+            "Filing index metadata cannot establish "
+            "financial losses, disruptions or causality."
+        )
+
+        return (
+            "UNSUPPORTED",
+            "HYPOTHETICAL_ONLY",
+            notes,
+        )
+
     is_snippet_only = _is_snippet_only(matched_doc)
     fact_words = [
         w for w in re.findall(r"\b[a-z0-9]{4,}\b", _normalize_for_quote_match(threat.confirmed_facts))
@@ -1502,6 +1612,16 @@ def deterministic_harness_validation(
             )
         else:
             threat.program_relevance = "DIRECT_KIT_MATCH"
+
+        # A true A350/787 announcement is not proof of a requested supplier shortage.
+        issue_gap = kit_direct_relevance_gap(active_kit_query, doc_raw_full)
+        if issue_gap and not is_sibling_watchlist:
+            threat.program_relevance = "RELATED_CONTEXT"
+            threat.claim_support_status = (
+                "PARTIALLY_STATED_IN_SOURCE" if full_quote_verified else "UNSUPPORTED"
+            )
+            threat.causal_support_status = "HYPOTHETICAL_ONLY"
+            audit_notes.append(issue_gap)
 
         combined_claim = f"{threat.threat_description} {threat.fact_check_quote} {threat.adversarial_scenario}"
         has_speculation = bool(SPECULATIVE_DISINFO_MARKERS.search(combined_claim))

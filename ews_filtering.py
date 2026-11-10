@@ -12,6 +12,7 @@
 
 import hashlib
 from ews_database import get_active_kiq_catalog
+from ews_evidence_contract import assess_official_faa_fact
 from ews_kiq import build_catalog_prompt_context
 from ews_state import (
     Any, DB_LOCK, Dict, GEMINI_API_KEY, List, PROMPT_VERSION, SQLITE_DB,
@@ -23,6 +24,7 @@ from ews_validation import (
     _detect_exact_variants,
     _detect_engine_models,
     _engine_models_match,
+    kit_direct_relevance_gap,
 )
 
 # Deterministic screening patterns and relevance-cache configuration.
@@ -30,7 +32,7 @@ OBVIOUS_NOISE_REGEX = re.compile(
     r"\b(?:1:200|1:400|scale\s+model|diecast|unboxing|flight\s+simulator|msfs\s*202\d|x-plane|infinite\s+flight)\b",
     re.I,
 )
-_SEMANTIC_CACHE_VERSION = "FR03-GENERIC-ENGINE-1"
+_SEMANTIC_CACHE_VERSION = "FR03-EVIDENCE-CONTRACT-3"
 _SOURCE_TYPE_SCORES = {
     "REGULATORY": 100,
     "OEM_PR": 80,
@@ -69,6 +71,18 @@ def _kit_context_reason(query: str, doc: Dict[str, Any]) -> str:
     kit = query.lower()
     evidence = f"{doc.get('title') or ''} {doc.get('text') or ''}".lower()
 
+    # General exclusion-aware identity guard. 'exclude X' is a negative
+    # constraint, never an additional model that could justify relevance.
+    positive_kit = re.split(
+        r"\b(?:exclude|excluding|except)\b", kit, maxsplit=1, flags=re.I
+    )[0]
+    if (
+        _detect_engine_models(positive_kit)
+        and _detect_engine_models(evidence)
+        and not _engine_models_match(positive_kit, evidence)
+    ):
+        return "RELATED_CONTEXT: source propulsion identity conflicts with the positively requested engine."
+
     # Treat specific engine identity as a technical constraint, not a generic keyword overlap.
     requested_blades = {
         part
@@ -77,13 +91,13 @@ def _kit_context_reason(query: str, doc: Dict[str, Any]) -> str:
     }
 
     if (
-            requested_blades
-            and _detect_engine_models(kit)
-            and _engine_models_match(kit, evidence)
-            and not any(
-        re.search(rf"\b{part}\s+blades?\b", evidence)
-        for part in requested_blades
-    )
+        requested_blades
+        and _detect_engine_models(kit)
+        and _engine_models_match(kit, evidence)
+        and not any(
+            re.search(rf"\b{part}\s+blades?\b", evidence)
+            for part in requested_blades
+        )
     ):
         return (
             "RELATED_CONTEXT: matching engine, but the requested "
@@ -375,7 +389,12 @@ def _cached_semantic_filter(candidates: List[Dict[str, Any]], user_query: str) -
         except sqlite3.Error as exc:
             logger.warning("[FILTER CACHE] Could not save decisions: %s", exc)
 
-    logger.info("[FILTER CACHE] cached=%d fresh=%d total=%d", len(candidates) - len(missing), len(missing), len(candidates))
+    logger.info(
+        "[FILTER CACHE] cached=%d fresh=%d total=%d",
+        len(candidates) - len(missing),
+        len(missing),
+        len(candidates)
+    )
     return semantic_map
 
 
@@ -560,31 +579,10 @@ def prioritize_and_batch_documents(
         if word not in {"aircraft", "aviation", "aerospace", "industry", "commercial"}
     }
 
-    # Check whether official FAA evidence meets the narrow direct-match rule.
+    # General factual match to an official regulatory notice. This admits
+    # issue-specific evidence without claiming aircraft installation or impact.
     def verified_direct_faa(d: Dict[str, Any]) -> bool:
-        # Permit narrow direct FAA evidence overrides only when regulatory identity is verified.
-        if d.get("source_id") != "SRC_001":
-            return False
-        url_val = d.get("url", "")
-        text_val = d.get("text", "")
-        kit = user_query.lower()
-
-        return bool(
-            re.match(r"https://(?:www\.)?federalregister\.gov/documents/", url_val)
-            and re.search(r"(?im)^Regulatory Lifecycle Check:\s*VERIFIED\s*$", text_val)
-            and re.search(r"(?im)^FAA Docket:\s*FAA-\d{4}-\d+\s*$", text_val)
-            and re.search(r"(?im)^Regulatory Stage:\s*(EFFECTIVE|FINAL_ISSUED|PROPOSED)\s*$", text_val)
-            and bool(
-                _detect_exact_variants(kit)
-                & _detect_exact_variants(text_val)
-            )
-            and re.search(r"\b(?:airworthiness|directive|faa)\b", kit)
-            and (
-                    not _detect_engine_models(kit)
-                    or _engine_models_match(kit, text_val)
-            )
-            and re.search(r"(?im)^Official Summary:.*(?:airworthiness directive|\bAD\b).*", text_val)
-        )
+        return assess_official_faa_fact(user_query, d) is not None
 
     accepted_docs: List[Dict[str, Any]] = []
     valid_kiq_ids = {item["kiq_id"] for item in get_active_kiq_catalog()}
@@ -605,11 +603,15 @@ def prioritize_and_batch_documents(
 
             if is_faa_direct:
                 is_rel = True
-                sig_type = "REGULATORY_PRIMARY"
-                rationale = "Deterministic FAA override: verified official regulatory document directly matches KIT variant."
+                sig_type = "REGULATORY_PRIMARY_ISSUE"
+                rationale = "Verified FAA issue-level match; program applicability and impacts remain subject to Harness validation."
                 logger.info("[FILTER FAA OVERRIDE] Accepted %s", doc_id)
 
-            context_reason = "" if is_faa_direct else _kit_context_reason(user_query, d)
+            context_reason = kit_direct_relevance_gap(
+                user_query, f"{d.get('title') or ''} {d.get('text') or ''}"
+            )
+            if not context_reason and not is_faa_direct:
+                context_reason = _kit_context_reason(user_query, d)
             # Apply technical-context guards so matching brand names do not imply the requested defect.
             if context_reason:
                 is_rel = False
@@ -640,9 +642,9 @@ def prioritize_and_batch_documents(
                 doc_variants = _detect_exact_variants(doc_text)
 
                 if (
-                        kit_variants
-                        and doc_variants
-                        and not kit_variants.intersection(doc_variants)
+                    kit_variants
+                    and doc_variants
+                    and not kit_variants.intersection(doc_variants)
                 ):
                     manual_review = False
 
@@ -672,7 +674,9 @@ def prioritize_and_batch_documents(
             )
             accepted_docs.append(d)
         else:
-            context_reason = _kit_context_reason(user_query, d)
+            context_reason = kit_direct_relevance_gap(
+                user_query, f"{d.get('title') or ''} {d.get('text') or ''}"
+            ) or _kit_context_reason(user_query, d)
             if context_reason:
                 d["semantic_signal_type"] = "RELATED_CONTEXT"
                 d["semantic_rationale"] = context_reason
@@ -701,8 +705,33 @@ def prioritize_and_batch_documents(
             else:
                 rejected_count += 1
 
+    # Invariant: every Analyst input must have one corresponding accepted audit decision.
+    accepted_ids = [str(doc["doc_id"]).upper() for doc in accepted_docs]
+    audited_accepted_ids = [
+        str(rec["doc_id"]).upper() for rec in audit_records if rec["is_accepted"]
+    ]
+    if len(set(accepted_ids)) != len(accepted_ids) or set(accepted_ids) != set(audited_accepted_ids):
+        raise RuntimeError(
+            f"FR03_AUDIT_INTEGRITY: Analyst inputs {accepted_ids!r} "
+            f"do not equal accepted audit records {audited_accepted_ids!r}"
+        )
+    if filter_diagnostics is not None:
+        filter_diagnostics["accepted_document_ids"] = sorted(accepted_ids)
+        filter_diagnostics["accepted_document_count"] = len(accepted_docs)
+
     # Retain accepted and rejected decisions for later independent relevance review.
     _save_filter_audit_records(audit_records, run_id, run_workspace)
+    if run_id:
+        with DB_LOCK, sqlite3.connect(SQLITE_DB) as conn:
+            stored = {
+                row[0].upper() for row in conn.execute(
+                    "SELECT doc_id FROM document_filter_log WHERE run_id=? AND is_accepted=1", (run_id,)
+                ).fetchall()
+            }
+        if stored != set(accepted_ids):
+            raise RuntimeError(
+                f"FR03_PERSISTENCE_INTEGRITY: accepted={set(accepted_ids)!r} stored={stored!r}"
+            )
     unavailable = sum(rec.get("signal_type") == "FILTER_UNAVAILABLE" for rec in audit_records)
     logger.info(
         "[SEMANTIC FILTER COMPLETE] Accepted %d documents, excluded %d documents "

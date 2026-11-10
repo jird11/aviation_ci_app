@@ -471,7 +471,18 @@ def reconcile_and_store_events(
                 else:
                     urls = current_urls + row_urls
 
-                threat.source_urls = [u for u in dict.fromkeys(urls) if u and "example.com" not in u][:5]
+                # Historické odkazy zachovej pouze v databázovém archivu.
+                archived_urls = [
+                                    u for u in dict.fromkeys(urls)
+                                    if u and "example.com" not in u
+                                ][:5]
+
+                # Aktuální report smí uvádět pouze URL
+                # přiřazené důkazům z tohoto běhu.
+                threat.source_urls = [
+                                         u for u in dict.fromkeys(current_urls)
+                                         if u and "example.com" not in u
+                                     ][:5]
 
                 prev_score = int(matched_row["threat_score"] or threat.threat_score)
                 change_type = (
@@ -488,6 +499,7 @@ def reconcile_and_store_events(
                         threat.event_id = f"EVT_{uuid.uuid4().hex[:8].upper()}"
                     logger.warning("[EVENT ID] Collision %s -> %s", previous_id, threat.event_id)
 
+                archived_urls = list(threat.source_urls or [])
                 new_count += 1
                 threat.first_seen_at = now_iso
                 change_type = "FIRST_DETECTED"
@@ -508,7 +520,7 @@ def reconcile_and_store_events(
                 threat.validation_status.value, threat.verification_status,
             )
             meta_vals = (
-                now_iso, now_iso, json.dumps(threat.kiq_ids), json.dumps(threat.source_urls),
+                now_iso, now_iso, json.dumps(threat.kiq_ids), json.dumps(archived_urls),
                 json.dumps(threat.evidence_ids), json.dumps(threat.impact_path),
                 json.dumps(threat.corroboration_summary), threat.missing_data,
             )

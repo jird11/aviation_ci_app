@@ -132,16 +132,16 @@ def _extract_batch_threats_fallback(raw_text: str) -> Tuple[List[ThreatAssessmen
     data = _find_json_payload(
         text, r"[\{\[]",
         lambda d: (
-                isinstance(d, dict) and isinstance(d.get("threats"), list)
-                or (
-                        isinstance(d, list)
-                        and text.startswith("[")
-                        and bool(d)
-                        and all(
+            isinstance(d, dict) and isinstance(d.get("threats"), list)
+            or (
+                isinstance(d, list)
+                and text.startswith("[")
+                and bool(d)
+                and all(
                     isinstance(x, dict) and "company_affected" in x
                     for x in d
                 )
-                )
+            )
         )
     )
     if data is None:
@@ -178,6 +178,53 @@ def _extract_batch_threats_fallback(raw_text: str) -> Tuple[List[ThreatAssessmen
         except Exception as exc:
             validation_errors = exc.errors() if isinstance(exc, ValidationError) else []
 
+            # Recover one *unambiguous* model-only risk label; never default
+            # OPERATIONAL to SUPPLY_CHAIN without specific source-quote evidence.
+            risk_only_error = (
+                isinstance(item, dict)
+                and len(validation_errors) == 1
+                and tuple(validation_errors[0].get("loc", ())) == ("risk_type",)
+                and str(item.get("risk_type") or "").strip().upper()
+                in {"OPERATIONAL", "OPERATIONS"}
+            )
+            if risk_only_error:
+                quote = str(item.get("fact_check_quote") or "")
+                category_patterns = {
+                    "REGULATORY": r"\b(?:airworthiness directive|final rule|regulatory order|FAA directive|EASA directive)\b",
+                    "TECHNICAL_QUALITY": r"\b(?:inspection|inspect\w*|defect\w*|fatigue crack\w*|fracture\w*|corrosion|component failure\w*|engine failure\w*)\b",
+                    "SUPPLY_CHAIN": r"\b(?:shortag\w*|supply constraint\w*|supplier delay\w*|delivery delay\w*|production halt|factory shutdown|manufacturing bottleneck\w*)\b",
+                    "FINANCIAL": r"\b(?:financial loss\w*|impairment|cash flow|profit warning|quarterly loss\w*)\b",
+                }
+                inferred = [
+                    category for category, pattern in category_patterns.items()
+                    if re.search(pattern, quote, re.I)
+                ]
+                if len(inferred) == 1:
+                    gap = str(item.get("missing_data") or "").strip()
+                    fixed = {
+                        **item,
+                        "risk_type": inferred[0],
+                        "missing_data": (f"{gap} | " if gap else "")
+                        + "RISK_TYPE_SCHEMA_RECOVERY: category inferred from source quote; harness verification required.",
+                        "confidence_level": "LOW",
+                        "claim_support_status": "UNSUPPORTED",
+                        "causal_support_status": "UNVERIFIED",
+                        "validation_status": "UNSUPPORTED",
+                        "verification_status": "PENDING_HARNESS: OPERATIONAL normalized to explicit risk category from quoted evidence",
+                    }
+                    try:
+                        accepted.append(ThreatAssessment.model_validate(fixed))
+                        logger.warning(
+                            "[CANDIDATE %d RISK TYPE RECOVERED] OPERATIONAL -> %s; harness required",
+                            position, inferred[0],
+                        )
+                        continue
+                    except ValidationError as recovery_error:
+                        logger.warning(
+                            "[CANDIDATE %d RISK TYPE RECOVERY FAILED] %s",
+                            position, recovery_error,
+                        )
+
             quote_too_long = (
                 isinstance(item, dict)
                 and len(validation_errors) == 1
@@ -207,7 +254,12 @@ def _extract_batch_threats_fallback(raw_text: str) -> Tuple[List[ThreatAssessmen
                         }
                         try:
                             accepted.append(ThreatAssessment.model_validate(fixed))
-                            logger.warning("[CANDIDATE %d QUOTE RECOVERED] Original quote %d chars -> %d; Harness required.", position, len(original), len(clipped))
+                            logger.warning(
+                                "[CANDIDATE %d QUOTE RECOVERED] Original quote %d chars -> %d; Harness required.",
+                                position,
+                                len(original),
+                                len(clipped)
+                            )
                             continue
                         except ValidationError as recovery_error:
                             logger.warning("[CANDIDATE %d QUOTE RECOVERY FAILED] %s", position, recovery_error)
@@ -279,7 +331,11 @@ def _split_faa_candidates(candidates, documents):
             result.append(candidate)
             continue
 
-        logger.warning("[FAA SPLIT] Candidate %s contains %d different dockets", candidate.event_id, len(groups))
+        logger.warning(
+            "[FAA SPLIT] Candidate %s contains %d different dockets",
+            candidate.event_id,
+            len(groups)
+        )
 
         for docket, group in groups.items():
             d = group[0]
@@ -396,13 +452,13 @@ def _consolidate_candidate_threats(
 
             # Generic event deduplication without aircraft-specific exceptions.
             duplicate_event = same_ntsb_case or same_easa_case or (
-                    cand_comp_low == existing.company_affected.lower()
-                    and cand_prog_low == (existing.affected_program or "").lower()
-                    and cand.risk_type == existing.risk_type
-                    and (
-                            (same_source and desc_sim >= 0.45)
-                            or desc_sim >= 0.75
-                    )
+                cand_comp_low == existing.company_affected.lower()
+                and cand_prog_low == (existing.affected_program or "").lower()
+                and cand.risk_type == existing.risk_type
+                and (
+                    (same_source and desc_sim >= 0.45)
+                    or desc_sim >= 0.75
+                )
             )
 
             if duplicate_event:

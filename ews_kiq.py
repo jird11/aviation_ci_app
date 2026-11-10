@@ -14,6 +14,7 @@ from collections import Counter
 from typing import Optional
 
 from ews_database import get_active_kiq_catalog
+from ews_evidence_contract import assess_official_faa_fact
 from ews_state import (
     Any, ConfidenceLevel, Dict, EWSReport, KIQAnswer, KIQPlan,
     List, RiskType, ThreatAssessment, ValidationStatus, re,
@@ -155,8 +156,8 @@ def _kiq_evidence_matches_topic(query: str, threat: ThreatAssessment) -> bool:
     )
 
     if (
-            _detect_engine_models(query)
-            and not _engine_models_match(query, evidence)
+        _detect_engine_models(query)
+        and not _engine_models_match(query, evidence)
     ):
         return False
 
@@ -192,6 +193,7 @@ def _is_effective_faa_threat(t: ThreatAssessment) -> bool:
         and summary.get("Regulatory Stage") == "EFFECTIVE"
     )
 
+# Assess official FAA certification evidence for an individual KIQ.
 def _official_faa_certification_for_kiq(
     query: str,
     docs: List[Dict[str, Any]],
@@ -304,9 +306,24 @@ def build_runtime_kiq_answers(
     # Build evidence-backed answers for each planned question, retaining unanswered gaps.
     """Trace runtime KIQs to collected source documents and assessed intelligence events."""
     groups = [
-        ("MEDIA", kiq_plan.media_and_pr_queries, {"SRC_004", "SRC_005"}, {"news", "news api", "pr", "official pr releases"}),
-        ("REG", kiq_plan.regulatory_and_ntsb_queries, {"SRC_001", "SRC_002", "SRC_003"}, {"regulatory", "faa", "easa", "faa & easa regulations", "ntsb", "ntsb investigations"}),
-        ("SOCIAL", kiq_plan.social_and_video_queries, {"SRC_007", "SRC_008"}, {"bluesky", "bluesky social network", "youtube", "youtube videos"}),
+        (
+            "MEDIA",
+            kiq_plan.media_and_pr_queries,
+            {"SRC_004", "SRC_005"},
+            {"news", "news api", "pr", "official pr releases"}
+        ),
+        (
+            "REG",
+            kiq_plan.regulatory_and_ntsb_queries,
+            {"SRC_001", "SRC_002", "SRC_003", "SRC_019", "SRC_020", "SRC_021", "SRC_022", "SRC_023", "SRC_026"},
+            {"regulatory", "faa", "easa", "faa & easa regulations", "ntsb", "ntsb investigations"}
+        ),
+        (
+            "SOCIAL",
+            kiq_plan.social_and_video_queries,
+            {"SRC_007", "SRC_008"},
+            {"bluesky", "bluesky social network", "youtube", "youtube videos"}
+        ),
         ("AIRSHOW", [kiq_plan.airshow_query], {"SRC_006"}, {"airshow", "airshow websites"}),
     ]
 
@@ -335,13 +352,60 @@ def build_runtime_kiq_answers(
             query_norm = _norm_q(query)
             query_news_key = news_api_search_key(query)
 
+            sources_for_query = set(allowed_sources)
+
+            if group_name == "REG":
+                requested = {
+                    name
+                    for name in ("faa", "easa", "ntsb")
+                    if re.search(
+                        rf"\b{name}\b",
+                        query,
+                        re.I,
+                    )
+                }
+
+                regulator_sources = {
+                    "faa": {"SRC_001"},
+                    "easa": {
+                        "SRC_002",
+                        "SRC_019",
+                        "SRC_020",
+                        "SRC_021",
+                        "SRC_022",
+                        "SRC_023",
+                    },
+                    "ntsb": {"SRC_003", "SRC_026"},
+                }
+
+                if requested:
+                    sources_for_query &= set().union(
+                        *(
+                            regulator_sources[name]
+                            for name in requested
+                        )
+                    )
+
             document_ids = {
                 doc_id
                 for src_id, q_norm, doc_id, news_key in doc_index
                 if group_enabled
-                and src_id in allowed_sources
+                and src_id in sources_for_query
                 and (q_norm == query_norm or (src_id == "SRC_004" and news_key == query_news_key))
             }
+
+            # Documents are reusable across KIQs when their independently verified
+            # factual claim answers this question. Search-query provenance is
+            # preserved, but a second KIQ need not retrieve the same URL again.
+            regulatory_facts = []
+            if group_enabled and group_name == "REG":
+                for doc in collected_docs:
+                    if doc.get("source_id") not in sources_for_query:
+                        continue
+                    fact = assess_official_faa_fact(query, doc)
+                    if fact and fact["document_id"]:
+                        regulatory_facts.append(fact)
+                        document_ids.add(fact["document_id"])
 
             related_threats = [
                 t for t in all_report_threats
@@ -405,17 +469,59 @@ def build_runtime_kiq_answers(
                 else set()
             )
 
+            # Media coverage can partially address a KIQ without certifying the claim.
+            preliminary_media_docs = []
+            if (
+                group_name == "MEDIA"
+                and group_enabled
+                and not (supported or partially_supported or related_supported)
+            ):
+                from ews_validation import _detect_exact_variants, _is_snippet_only
+
+                required_variants = _detect_exact_variants(query)
+                issue_patterns = [
+                    pattern for pattern in _KIQ_ISSUE_GROUPS
+                    if re.search(pattern, query, re.I)
+                ]
+                for doc_id in sorted(document_ids):
+                    doc = documents_by_id.get(doc_id)
+                    if not doc or doc.get("source_id") not in {"SRC_004", "SRC_005"}:
+                        continue
+                    if _is_snippet_only(doc):
+                        continue
+                    source_text = f"{doc.get('title') or ''} {doc.get('text') or ''}"
+                    if len(source_text.strip()) < 120:
+                        continue
+                    if required_variants and not (
+                        required_variants & _detect_exact_variants(source_text)
+                    ):
+                        continue
+                    if issue_patterns and not all(
+                        re.search(pattern, source_text, re.I)
+                        for pattern in issue_patterns
+                    ):
+                        continue
+                    preliminary_media_docs.append(doc)
+                preliminary_media_docs = preliminary_media_docs[:2]
+
+            preliminary_media_ids = {
+                doc["doc_id"] for doc in preliminary_media_docs
+            }
+
+            if official_confirmation_ids:
+                document_ids.update(official_confirmation_ids)
             retrieved_document_count = len(document_ids)
 
             validated_document_count = len(
                 supported_document_ids
                 | contextual_ids
                 | official_confirmation_ids
+                | {fact["document_id"] for fact in regulatory_facts}
             )
 
-            if supported:
+            if supported or any(fact["complete"] for fact in regulatory_facts):
                 evidence_coverage = "SUPPORTED"
-            elif partially_supported or official_regulatory_docs or related_supported:
+            elif partially_supported or official_regulatory_docs or related_supported or regulatory_facts:
                 evidence_coverage = "PARTIAL"
             elif related_threats:
                 evidence_coverage = "UNVERIFIED"
@@ -438,6 +544,24 @@ def build_runtime_kiq_answers(
                 answer_status = "NOT_SEARCHED"
                 answer_text = "This source group was not enabled for the current run."
                 uncertainty = ConfidenceLevel.HIGH
+
+            elif regulatory_facts:
+                # A verified FAA lifecycle statement can answer a narrow factual
+                # question even when the Analyst finds no reportable threat.
+                # Scope and downstream impacts remain independent uncertainties.
+                regulatory_facts.sort(key=lambda f: (not f["complete"], f["document_id"]))
+                fact = regulatory_facts[0]
+                fully_answered = bool(
+                    fact["complete"] and (
+                        fact["stage"] != "PROPOSED"
+                        or bool(re.search(r"\bpropos\w*\b", query, re.I))
+                    )
+                )
+                answer_status = "ANSWERED" if fully_answered else "PARTIALLY_ANSWERED"
+                evidence_coverage = "SUPPORTED" if fully_answered else "PARTIAL"
+                temporal_relevance = "CURRENT_OR_ONGOING" if fact["stage"] == "EFFECTIVE" else "UNKNOWN"
+                answer_text = fact["answer"]
+                uncertainty = ConfidenceLevel.LOW if fully_answered else ConfidenceLevel.HIGH
 
             elif official_confirmation:
                 answer_status = "ANSWERED"
@@ -526,7 +650,19 @@ def build_runtime_kiq_answers(
                     source_text = str(doc.get("text") or "")
                     docket = re.search(r"(?m)^FAA Docket:\s*(FAA-\d{4}-\d+)", source_text)
                     stage = re.search(r"(?m)^Regulatory Stage:\s*([A-Z_]+)", source_text)
-                    model_ids = list(dict.fromkeys(re.findall(r"\bPW[0-9]{4}[A-Z0-9-]*\b", source_text, re.I)))[:5]
+                    model_ids = list(dict.fromkeys(
+                        re.findall(
+                            r"\b(?:"
+                            r"PW\d{4}[A-Z0-9-]*"
+                            r"|LEAP[\s-]*1[ABC][0-9A-Z]*"
+                            r"|GE9X"
+                            r"|GE90(?:-[0-9A-Z]+)?"
+                            r"|Trent[\s-]*(?:1000|7000|900|XWB)"
+                            r")\b",
+                            source_text,
+                            re.I,
+                        )
+                    ))[:5]
                     models = ", ".join(model_ids) if model_ids else "NOT SPECIFIED"
 
                     verified_observations.append(
@@ -550,6 +686,17 @@ def build_runtime_kiq_answers(
                     )
 
                 answer_text = " ".join(verified_observations)
+                uncertainty = ConfidenceLevel.HIGH
+
+            elif preliminary_media_docs:
+                answer_status = "PARTIALLY_ANSWERED"
+                evidence_coverage = "UNVERIFIED"
+                answer_text = "Preliminary media coverage, not a confirmed event: " + " | ".join(
+                    f"[{doc['doc_id']}] {doc.get('title') or 'Untitled'}; "
+                    f"published {doc.get('published_at') or 'DATE_UNKNOWN'}; "
+                    f"source {doc.get('url') or 'NOT AVAILABLE'}"
+                    for doc in preliminary_media_docs
+                ) + ". The reported claims and regulatory status still require independent primary-source verification."
                 uncertainty = ConfidenceLevel.HIGH
 
             else:
@@ -594,7 +741,11 @@ def build_runtime_kiq_answers(
                 "REG": (
                     "Check dated manufacturer and supplier statements for documented production "
                     "constraints, affected components, delivery schedules and direct KIT impact."
-                    if re.search(r"\b(?:supplier|production|deliver\w*|capacity|shortag\w*|constraint\w*)\b", query, re.I)
+                    if re.search(
+                        r"\b(?:supplier|production|deliver\w*|capacity|shortag\w*|constraint\w*)\b",
+                        query,
+                        re.I
+                    )
                     else (
                         "Cross-check the exact model or variant and regulatory lifecycle in FAA/EASA "
                         "primary records. A proposed AD must not be treated as an effective obligation."
@@ -619,10 +770,13 @@ def build_runtime_kiq_answers(
                                 eid
                                 for t in related_threats
                                 for eid in t.evidence_ids
+                                if eid in document_ids
                             ]
                             + sorted(
                                 contextual_ids
                                 | official_confirmation_ids
+                                | preliminary_media_ids
+                                | {fact["document_id"] for fact in regulatory_facts}
                             )
                         )
                     ),
@@ -633,7 +787,13 @@ def build_runtime_kiq_answers(
                         "Evidence-backed answer"
                         if answer_status == "ANSWERED"
                         else (
-                            "Verified limited context; KIT relevance unresolved"
+                            (
+                                "Preliminary media evidence; claims and impact unverified"
+                                if preliminary_media_docs and not (
+                                    supported or partially_supported or official_regulatory_docs or related_supported
+                                )
+                                else "Verified limited context; KIT relevance unresolved"
+                            )
                             if answer_status == "PARTIALLY_ANSWERED"
                             else "Further verification required"
                         )
