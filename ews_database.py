@@ -102,6 +102,8 @@ CREATE TABLE IF NOT EXISTS source_documents (
     publisher_domain TEXT, origin_type TEXT, source_type TEXT, verified_domain INTEGER,
     title TEXT, text TEXT, published_at TEXT, collected_at TEXT, query_used TEXT,
     syndication_fingerprint TEXT, prompt_injection_flagged INTEGER, pii_redacted_count INTEGER,
+    content_status TEXT DEFAULT 'TEXT_COMPLETENESS_UNVERIFIED', content_sha256 TEXT,
+    content_truncated INTEGER DEFAULT 0, content_limit_reason TEXT,
     PRIMARY KEY (doc_id, run_id)
 );
 CREATE TABLE IF NOT EXISTS events (
@@ -169,6 +171,15 @@ def init_sqlite_db() -> None:
     with DB_LOCK, sqlite3.connect(SQLITE_DB) as conn:
         cur = conn.cursor()
         cur.executescript(_DDL_SCRIPT)
+
+        for col, col_type in [
+            ("content_status", "TEXT DEFAULT 'TEXT_COMPLETENESS_UNVERIFIED'"),
+            ("content_sha256", "TEXT"),
+            ("content_truncated", "INTEGER DEFAULT 0"),
+            ("content_limit_reason", "TEXT"),
+        ]:
+            if col not in {row[1] for row in cur.execute("PRAGMA table_info(source_documents)")}:
+                cur.execute(f"ALTER TABLE source_documents ADD COLUMN {col} {col_type}")
 
         for col, col_type in [
             ("kit_topic", "TEXT DEFAULT 'GENERAL'"),

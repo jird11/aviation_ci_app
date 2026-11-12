@@ -75,7 +75,12 @@ def build_final_executive_summary(report: EWSReport, user_query: str) -> str:
     runtime_kiqs = [a for a in (report.kiq_answers or []) if str(a.kiq_id).startswith("RKIQ_")]
 
     direct = [t for t in threats if t.program_relevance == "DIRECT_KIT_MATCH"]
-    confirmed = [t for t in direct if t.validation_status == ValidationStatus.SUPPORTED]
+    confirmed = [
+        t for t in direct
+        if t.validation_status == ValidationStatus.SUPPORTED
+        and t.technical_grounding_status == "PASS"
+        and t.claim_support_status == "STATED_IN_SOURCE"
+    ]
     partial_direct = [t for t in direct if t.validation_status == ValidationStatus.PARTIALLY_SUPPORTED]
     indirect_supported = [
         t for t in threats
@@ -107,10 +112,10 @@ def build_final_executive_summary(report: EWSReport, user_query: str) -> str:
             "See the event record for exact claims and citations."
         )
 
-        # Include source-documented facts only after technical grounding has passed.
-        if t.confirmed_facts and t.technical_grounding_status == "PASS":
-            facts = " ".join(t.confirmed_facts.split())[:240].rstrip(" .;")
-            priority += f" Source-documented facts: {facts}."
+        # Cite the validated source quotation, not a free-form generated causal narrative.
+        if t.fact_check_quote:
+            quote = " ".join(t.fact_check_quote.split())[:240].rstrip(" .;")
+            priority += f" Verified source excerpt: {quote}."
 
     elif partial_direct:
         t = max(partial_direct, key=lambda event: event.threat_score)
@@ -175,7 +180,10 @@ def build_final_executive_summary(report: EWSReport, user_query: str) -> str:
     analyzed = int(metadata.get("documents_analyzed") or 0)
     failed = int(metadata.get("documents_failed") or 0)
     rejected = int(metadata.get("documents_rejected") or 0)
-    coverage_issues = metadata.get("source_coverage_issues") or []
+    coverage_issues = (
+            (metadata.get("source_coverage_issues") or [])
+            + (metadata.get("source_coverage_advisories") or [])
+    )
 
     coverage_note = (
         "The run records limitations in external source coverage. "
@@ -247,7 +255,8 @@ def build_final_executive_summary(report: EWSReport, user_query: str) -> str:
         "DECISION BOUNDARIES",
     }
 
-    while sum(len(f"{h} {b}".split()) for h, b in sections) > 450:
+    max_words = 400 if threats else 250
+    while sum(len(f"{h} {b}".split()) for h, b in sections) > max_words:
         optional = next((i for i, (h, _) in enumerate(sections) if h not in mandatory), None)
         if optional is None:
             break
@@ -284,7 +293,8 @@ def _finalize_aligned_actions(report, aligned_actions, threat_map, event_count):
             # Add a regulator-stage caveat; a verified docket is not proof of an effective obligation.
             caveat = (
                 "FAA record verified; confirm regulatory stage, exact applicability, "
-                "compliance deadlines and operational effects in the complete docket."
+                "compliance deadlines and operational effects in the complete docket. "
+                "The action scheduling date is NOT a statutory compliance deadline."
             )
 
             current = (act.uncertainty_assumptions or "").strip()
@@ -335,6 +345,28 @@ def _finalize_aligned_actions(report, aligned_actions, threat_map, event_count):
     return report
 
 
+# Derive a concrete verification task from the actual unresolved evidence dimension.
+def _verification_action(threat: ThreatAssessment) -> str:
+    gap = str(threat.missing_data or "").lower()
+    if "doc_id" in gap or "quotation" in gap or threat.technical_grounding_status == "FAIL":
+        check = (
+            "Verify the cited passage and missing source details"
+            if threat.fact_check_quote and threat.evidence_ids
+            else "Retrieve the missing original document and verify its exact quotation"
+        )
+    elif "engine mismatch" in gap or "technical facet" in gap or "variant" in gap:
+        check = "Verify the exact affected aircraft and engine variant against a primary record"
+    elif "causal" in gap or "operational impact" in gap or threat.causal_support_status == "HYPOTHETICAL_ONLY":
+        check = "Corroborate the claimed cause and operational impact independently of the reported observation"
+    elif "date" in gap or "historical" in gap:
+        check = "Establish the incident date and whether a new development occurred within the KIT scope"
+    elif "single" in gap or "independent" in gap or threat.confidence_level == ConfidenceLevel.LOW:
+        check = "Seek independent OEM, operator or regulatory confirmation of the reported claim"
+    else:
+        check = "Verify the specific reported event and its applicability to the monitored KIT"
+    return f"{check} for {threat.company_affected} ({threat.affected_program}), event {threat.event_id}."
+
+
 # Constrain recommended interventions according to observed evidence and severity.
 # Proposed disruptive interventions must be proportionate to confidence and verification status.
 # An action cannot become safer solely because an Editor gave it a high priority.
@@ -363,6 +395,12 @@ def _align_and_sanitize_action_plan(report: EWSReport) -> EWSReport:
         act.related_event_ids = valid_eids
         linked_threats = [threat_map[eid] for eid in valid_eids]
         act.related_threat_companies = list(dict.fromkeys(t.company_affected for t in linked_threats))
+        # Generated rationales must agree with the validated status of linked events.
+        if all(t.validation_status == ValidationStatus.SUPPORTED for t in linked_threats):
+            for field in ("action", "rationale", "kpi", "uncertainty_assumptions"):
+                value = str(getattr(act, field) or "")
+                value = re.sub(r"(?i)Evidence\s+state\s*:\s*UNSUPPORTED", "Evidence state: SUPPORTED", value)
+                setattr(act, field, value)
 
         if (
             not any(t.program_relevance == "DIRECT_KIT_MATCH" for t in linked_threats)
@@ -389,13 +427,7 @@ def _align_and_sanitize_action_plan(report: EWSReport) -> EWSReport:
             act.pros_and_cons = "PRO: Avoids off-topic operations; CON: Requires evidence review."
 
         if all(is_unverified_signal(t) for t in linked_threats):
-            steps = (
-                "Check official OEM/regulatory records",
-                "Seek independent source corroboration",
-                "Monitor authoritative sources for new evidence",
-            )
-            step = steps[len(aligned_actions) % 3]
-            act.action = f"{step} regarding {linked_threats[0].company_affected} ({linked_threats[0].affected_program})."
+            act.action = _verification_action(linked_threats[0])
             act.priority = "MEDIUM"
             act.kpi = "Record verification status, source URLs and exact citations."
             act.uncertainty_assumptions = "Incident existence, causes and operational impacts remain unverified."
@@ -491,16 +523,7 @@ def _align_and_sanitize_action_plan(report: EWSReport) -> EWSReport:
 
         if any(t.program_relevance != "DIRECT_KIT_MATCH" for t in linked_threats):
             primary = linked_threats[0]
-            if primary.program_relevance == "RELATED_PROGRAM_WATCHLIST":
-                check = "Test whether any evidenced cross-program dependency exists"
-            elif primary.technical_grounding_status == "FAIL":
-                check = "Retrieve and verify an exact source quotation"
-            elif primary.risk_type.value == "REGULATORY":
-                check = "Check the official regulatory lifecycle and applicability"
-            else:
-                check = "Identify the affected entity and validate KIT relevance"
-
-            act.action = f"{check} for {primary.event_id} before considering operational intervention."
+            act.action = _verification_action(primary)
             act.rationale = "The available evidence does not establish direct applicability to the monitored KIT."
             act.priority = "MEDIUM"
             act.kpi = "Document verified KIT relevance using traceable source evidence."
@@ -548,8 +571,7 @@ def _align_and_sanitize_action_plan(report: EWSReport) -> EWSReport:
                     related_event_ids=[top_t.event_id],
                     related_threat_companies=[top_t.company_affected],
                     action=(
-                        f"Verify unconfirmed signal on {top_t.company_affected} ({top_t.affected_program}) "
-                        "against official FAA/EASA dockets and OEM disclosures before operational escalation."
+                        _verification_action(top_t)
                     ),
                     rationale=f"Signal {top_t.event_id} is currently {top_t.validation_status.value} (Confidence: {top_t.confidence_level.value}).",
                     pros_and_cons="PRO: Prevents false-positive executive panic and unnecessary capex; CON: Brief delay if rumor turns out to be an early crisis.",
@@ -635,7 +657,7 @@ def sanitize_scoring_audit(
     threats: List[ThreatAssessment],
     as_of_date: str = "",
 ) -> List[Dict[str, Any]]:
-    # Align scoring commentary to post-Harness severity caps.
+    # Reflect factual severity adjustments; confidence alone never caps potential impact.
     """Expose only post-Harness evidence-aligned scoring commentary to the dashboard."""
     by_id = {t.event_id: t for t in threats}
 
@@ -648,7 +670,7 @@ def sanitize_scoring_audit(
         if row.get("final_score") != threat.threat_score:
             row["agent_score"] = row.get("final_score")
             row["final_score"] = threat.threat_score
-            row["post_harness_score_adjustment"] = "Evidence-based severity cap applied after independent scoring."
+            row["post_harness_score_adjustment"] = "Severity refined for evidenced event nature or chronology, not source confidence alone."
 
         row["scm_tier"] = threat.scm_tier.value
         if "Unknown" in threat.scm_tier.value:
@@ -673,6 +695,7 @@ def sanitize_scoring_audit(
             )
 
         row.update({
+            "confirmed_critical_eligible": is_confirmed_critical(threat),
             "temporal_urgency": date_context,
             "source_publication_time": threat.publication_time,
             "source_age_days": age,

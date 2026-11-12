@@ -86,6 +86,26 @@ class EWSRequest(BaseModel):
         values: List[str],
     ) -> List[str]:
 
+        groups = {
+            "news api & market intelligence": ["news"],
+            "faa / easa / ntsb – regulatory & safety": ["regulatory", "ntsb"],
+            "faa / easa / ntsb - regulatory & safety": ["regulatory", "ntsb"],
+            "oem & supplier pressroom": ["pr"],
+            "airshow & industry contracts": ["airshow"],
+            "bluesky & youtube": ["bluesky", "youtube"],
+        }
+
+        expanded = []
+        for value in values:
+            if isinstance(value, str):
+                expanded.extend(
+                    groups.get(value.strip().lower(), [value])
+                )
+            else:
+                expanded.append(value)
+
+        values = expanded
+
         allowed = {
             "news",
             "news api",

@@ -32,7 +32,7 @@ OBVIOUS_NOISE_REGEX = re.compile(
     r"\b(?:1:200|1:400|scale\s+model|diecast|unboxing|flight\s+simulator|msfs\s*202\d|x-plane|infinite\s+flight)\b",
     re.I,
 )
-_SEMANTIC_CACHE_VERSION = "FR03-EVIDENCE-CONTRACT-3"
+_SEMANTIC_CACHE_VERSION = "FR03-EVIDENCE-CONTRACT-4"
 _SOURCE_TYPE_SCORES = {
     "REGULATORY": 100,
     "OEM_PR": 80,
@@ -106,7 +106,7 @@ def _kit_context_reason(query: str, doc: Dict[str, Any]) -> str:
 
     issue_kit = bool(
         re.search(
-            r"\b(?:engine\s+(?:inspection|defect|problem)|"
+            r"\b(?:engine\s+(?:inspection\w*|defect\w*|problem\w*)|"
             r"supply\s+constraint|grounding|"
             r"failure\w*|defect\w*|inspect\w*|"
             r"shortag\w*|disrupt\w*|delay\w*)\b",
@@ -485,6 +485,8 @@ def prioritize_and_batch_documents(
             "matched_kiq_id": kiq,
             "decision_rationale": rationale,
             "evaluated_at": now_iso,
+            "content_status": d.get("content_status", "TEXT_COMPLETENESS_UNVERIFIED"),
+            "content_limit_reason": d.get("content_limit_reason", ""),
             **extra,
         })
 
@@ -503,6 +505,18 @@ def prioritize_and_batch_documents(
             _record_audit(
                 d, "STAGE_1_DETERMINISTIC", False, "EMPTY_OR_INJECTION",
                 "Rejected in Stage 1: Document text is empty, too short, or flagged for prompt injection.",
+            )
+            continue
+
+        if d.get("content_status") == "METADATA_ONLY" or d.get("document_type") in {
+            "SEC_FILING_METADATA_ONLY", "ESEF_FILING_METADATA_ONLY",
+            "STATISTICAL_METADATA_UPDATE",
+        }:
+            rejected_count += 1
+            _record_audit(
+                d, "STAGE_1_CONTENT_QUALITY", False, "SOURCE_METADATA_ONLY",
+                "Metadata establish record identity/publication only; substantive KIT claims require source text.",
+                content_status="METADATA_ONLY", retained_as_context=True,
             )
             continue
 
@@ -635,7 +649,21 @@ def prioritize_and_batch_documents(
             if not is_rel or sig_type == "GENERAL_NOISE":
                 doc_text = f"{d.get('title', '')} {d.get('text', '')}".lower()
                 matched_terms = sorted(term for term in kit_terms if re.search(rf"(?<!\w){re.escape(term)}(?!\w)", doc_text))
-                manual_review = len(matched_terms) >= 2
+                # Generic brand overlap alone is not a potential false negative.
+                # Escalate only substantive, issue-specific documents without a known identity conflict.
+                manual_review = (
+                    len(matched_terms) >= 2
+                    and len(str(d.get("text") or "").strip()) >= 250
+                    and not context_reason
+                    and (
+                        not _detect_engine_models(user_query)
+                        or _engine_models_match(user_query, doc_text)
+                    )
+                    and bool(re.search(
+                        r"\b(?:defect\w*|failur\w*|shortag\w*|inspect\w*|"
+                        r"ground\w*|disrupt\w*|delay\w*|recall\w*)\b", doc_text,
+                    ))
+                )
 
                 # Record rejected decisions, including potential false-negative review flags.
                 kit_variants = _detect_exact_variants(user_query)
@@ -718,6 +746,14 @@ def prioritize_and_batch_documents(
     if filter_diagnostics is not None:
         filter_diagnostics["accepted_document_ids"] = sorted(accepted_ids)
         filter_diagnostics["accepted_document_count"] = len(accepted_docs)
+        filter_diagnostics["rejection_review_candidates"] = sum(
+            bool(rec.get("manual_review_candidate")) and not rec["is_accepted"]
+            for rec in audit_records
+        )
+        filter_diagnostics["rejection_stage_counts"] = {
+            stage: sum(not rec["is_accepted"] and rec["filter_stage"] == stage for rec in audit_records)
+            for stage in sorted({rec["filter_stage"] for rec in audit_records})
+        }
 
     # Retain accepted and rejected decisions for later independent relevance review.
     _save_filter_audit_records(audit_records, run_id, run_workspace)
@@ -766,6 +802,8 @@ def prioritize_and_batch_documents(
             f"origin=\"{d.get('origin_type', 'SECONDARY')}\">\n"
             f"DOC_ID: {d['doc_id']} | SOURCE_ID: {d['source_id']} ({d.get('connector_name', '')})\n"
             f"DATE: {d.get('published_at', 'DATE_UNKNOWN')} | COLLECTED_AT: {d.get('collected_at', '')}\n"
+            f"CONTENT_STATUS: {d.get('content_status', 'SUMMARY_ONLY')} | "
+            f"CONTENT_SHA256: {d.get('content_sha256', '')}\n"
             f"SEMANTIC_CLASSIFICATION: {d.get('semantic_signal_type', 'RELEVANT_EVENT')} | "
             f"KIQ: {d.get('semantic_kiq_id', 'KIQ_1_1')} | ENTITIES/MODELS: {d.get('semantic_entities') or 'N/A'}\n"
             f"SEMANTIC_RATIONALE: {d.get('semantic_rationale', '')}\n"

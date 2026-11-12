@@ -42,7 +42,7 @@ _KIQ_ISSUE_GROUPS = (
     r"\b(?:airworthiness|directive\w*|inspect\w*|regulator\w*)\b",
     r"\b(?:certif\w*|approv\w*)\b",
     r"\b(?:order\w*|purchas\w*|contract\w*|leas\w*)\b",
-    r"\b(?:shortag\w*|outage\w*|constraint\w*|production\s+delay\w*)\b",
+    r"\b(?:shortag\w*|outage\w*|constraint\w*|production\s+(?:delay\w*|rate\w*|ramp\w*))\b",
     r"\b(?:accident\w*|crash\w*|runway\w*|incident\w*)\b",
 )
 
@@ -297,11 +297,15 @@ def _official_faa_certification_for_kiq(
 # No direct source support must remain visible as an intelligence gap.
 # A related event alone does not establish that a planned KIQ has been answered.
 # Evidence IDs provide traceability from each response to its source records.
+
 def build_runtime_kiq_answers(
     report: EWSReport,
     kiq_plan: KIQPlan,
     collected_docs: List[Dict[str, Any]],
     selected_platforms: List[str] | None = None,
+    accepted_document_ids: set[str] | None = None,
+    user_query: str = "",
+    searched_source_ids: set[str] | None = None,
 ) -> List[KIQAnswer]:
     # Build evidence-backed answers for each planned question, retaining unanswered gaps.
     """Trace runtime KIQs to collected source documents and assessed intelligence events."""
@@ -326,7 +330,19 @@ def build_runtime_kiq_answers(
         ),
         ("AIRSHOW", [kiq_plan.airshow_query], {"SRC_006"}, {"airshow", "airshow websites"}),
     ]
+    # SEC and ESEF are reporting sources, not manufacturer PR or FAA notices.
+    # Financial KIQs are derived from the original KIT, not a hallucinated Planner group.
+    if re.search(r"\b(?:sec|edgar|esef|xbrl|10-[kq]|20-f|6-k|filings?|annual\s+reports?|financial\s+statements?)\b", user_query, re.I):
+        groups.append((
+            "FIN", [user_query], {"SRC_027", "SRC_031"},
+            {"pr", "sec", "edgar", "esef", "xbrl", "financial", "oem & supplier pressroom"},
+        ))
 
+    # FR03 decisions, not retrieval alone, determine which documents may support a KIQ.
+    eligible_docs = [
+        doc for doc in collected_docs
+        if accepted_document_ids is None or doc.get("doc_id") in accepted_document_ids
+    ]
     doc_index = [
         (
             doc.get("source_id"),
@@ -334,18 +350,39 @@ def build_runtime_kiq_answers(
             doc["doc_id"],
             news_api_search_key(doc.get("query_used", "")) if doc.get("source_id") == "SRC_004" else "",
         )
-        for doc in collected_docs
+        for doc in eligible_docs
         if doc.get("doc_id")
     ]
-    documents_by_id = {doc["doc_id"]: doc for doc in collected_docs if doc.get("doc_id")}
+    documents_by_id = {doc["doc_id"]: doc for doc in eligible_docs if doc.get("doc_id")}
     all_report_threats = list(report.threats) + list(report.related_program_watchlist or [])
     enabled_names = {str(v).strip().lower() for v in (selected_platforms or [])}
 
     catalog_answers = [a for a in report.kiq_answers if not a.kiq_id.startswith("RKIQ_")]
+    if accepted_document_ids is not None:
+        for answer in catalog_answers:
+            if not set(answer.evidence_ids or []).issubset(accepted_document_ids) or (
+                answer.answer_status in {"ANSWERED", "PARTIALLY_ANSWERED"} and not answer.evidence_ids
+            ):
+                answer.evidence_ids = [eid for eid in (answer.evidence_ids or []) if eid in accepted_document_ids]
+                answer.related_event_ids = []
+                answer.answer_status = "UNANSWERED"
+                answer.evidence_coverage = "NONE"
+                answer.answer = "Previously associated evidence was not cleared by FR03; this KIQ remains unverified."
+                answer.verification_status = "FR03 evidence eligibility not established"
     runtime_answers = []
 
     for group_name, queries, allowed_sources, platform_keys in groups:
-        group_enabled = selected_platforms is None or bool(enabled_names & platform_keys)
+        group_enabled = (
+                selected_platforms is None
+                or bool(enabled_names & platform_keys)
+                or (group_name == "FIN" and bool(
+            allowed_sources & (searched_source_ids or set())
+            or any(
+                doc.get("source_id") in allowed_sources
+                for doc in collected_docs
+            )
+        ))
+        )
 
         for index, query in enumerate(queries, start=1):
             kiq_id = f"RKIQ_{group_name}_{index:02d}"
@@ -399,7 +436,7 @@ def build_runtime_kiq_answers(
             # preserved, but a second KIQ need not retrieve the same URL again.
             regulatory_facts = []
             if group_enabled and group_name == "REG":
-                for doc in collected_docs:
+                for doc in eligible_docs:
                     if doc.get("source_id") not in sources_for_query:
                         continue
                     fact = assess_official_faa_fact(query, doc)
@@ -407,6 +444,18 @@ def build_runtime_kiq_answers(
                         regulatory_facts.append(fact)
                         document_ids.add(fact["document_id"])
 
+            # A corroborated event may answer several KIQs without duplicating a source.
+            # Re-check the exact question, source group and FR03 approval independently.
+            for threat in all_report_threats:
+                if (
+                    threat.validation_status in {ValidationStatus.SUPPORTED, ValidationStatus.PARTIALLY_SUPPORTED}
+                    and threat.technical_grounding_status == "PASS"
+                    and _kiq_evidence_matches_topic(query, threat)
+                ):
+                    document_ids.update(
+                        eid for eid in threat.evidence_ids
+                        if eid in documents_by_id and documents_by_id[eid].get("source_id") in sources_for_query
+                    )
             related_threats = [
                 t for t in all_report_threats
                 if document_ids.intersection(t.evidence_ids) and _kiq_evidence_matches_topic(query, t)
@@ -457,7 +506,7 @@ def build_runtime_kiq_answers(
             official_confirmation = (
                 _official_faa_certification_for_kiq(
                     query,
-                    collected_docs,
+                    eligible_docs,
                 )
                 if group_enabled and group_name == "REG"
                 else None
@@ -507,10 +556,25 @@ def build_runtime_kiq_answers(
             preliminary_media_ids = {
                 doc["doc_id"] for doc in preliminary_media_docs
             }
+            financial_docs = (
+                [documents_by_id[did] for did in sorted(document_ids) if did in documents_by_id]
+                if group_name == "FIN" else []
+            )
+            # Retrieval is visible to the financial KIQ even if FR03 quarantined
+            # an index-only record. Quarantined records never become evidence IDs.
+            financial_retrieved = (
+                [doc for doc in collected_docs
+                 if group_enabled and doc.get("source_id") in sources_for_query
+                 and _norm_q(doc.get("query_used", "")) == query_norm
+                 and doc.get("doc_id")]
+                if group_name == "FIN" else []
+            )
+            financial_retrieved_ids = {doc["doc_id"] for doc in financial_retrieved}
+            financial_context_ids = {doc["doc_id"] for doc in financial_docs}
 
             if official_confirmation_ids:
                 document_ids.update(official_confirmation_ids)
-            retrieved_document_count = len(document_ids)
+            retrieved_document_count = len(document_ids | financial_retrieved_ids)
 
             validated_document_count = len(
                 supported_document_ids
@@ -543,6 +607,21 @@ def build_runtime_kiq_answers(
             if not group_enabled:
                 answer_status = "NOT_SEARCHED"
                 answer_text = "This source group was not enabled for the current run."
+                uncertainty = ConfidenceLevel.HIGH
+
+            elif group_name == "FIN" and financial_retrieved and not (supported or partially_supported):
+                # Retrieved metadata is visible, but only FR03-eligible fulltext
+                # may be used as a claim's supporting evidence.
+                statuses = Counter(str(doc.get("content_status") or "UNKNOWN") for doc in financial_retrieved)
+                answer_status = "UNANSWERED"
+                evidence_coverage = "UNVERIFIED"
+                answer_text = (
+                    f"SEC/ESEF filing records located: {len(financial_retrieved)} "
+                    f"({dict(statuses)}); FR03-eligible records: {len(financial_docs)}. "
+                    "The retrieved document IDs are traceable, but quarantined metadata "
+                    "cannot support a financial or operational claim. No specific claim "
+                    "has been confirmed from a verifiable filing passage."
+                )
                 uncertainty = ConfidenceLevel.HIGH
 
             elif regulatory_facts:
@@ -643,7 +722,8 @@ def build_runtime_kiq_answers(
                 uncertainty = ConfidenceLevel.HIGH
 
             elif official_regulatory_docs or related_supported:
-                answer_status = "PARTIALLY_ANSWERED"
+                # Related context alone does not partially answer the specific KIT question.
+                answer_status = "UNANSWERED"
                 verified_observations = []
 
                 for doc in official_regulatory_docs[:2]:
@@ -689,7 +769,7 @@ def build_runtime_kiq_answers(
                 uncertainty = ConfidenceLevel.HIGH
 
             elif preliminary_media_docs:
-                answer_status = "PARTIALLY_ANSWERED"
+                answer_status = "UNANSWERED"
                 evidence_coverage = "UNVERIFIED"
                 answer_text = "Preliminary media coverage, not a confirmed event: " + " | ".join(
                     f"[{doc['doc_id']}] {doc.get('title') or 'Untitled'}; "
@@ -753,6 +833,7 @@ def build_runtime_kiq_answers(
                 ),
                 "SOCIAL": "Verify the social/video claim against a traceable independent primary source and its original publication date.",
                 "AIRSHOW": "Search official organizer/manufacturer releases for a specific dated announcement and its KIT applicability.",
+                "FIN": "Verify the exact requested financial/operational claim in a cited SEC/ESEF filing passage, not its index metadata.",
             }
 
             runtime_answers.append(
@@ -776,13 +857,14 @@ def build_runtime_kiq_answers(
                                 contextual_ids
                                 | official_confirmation_ids
                                 | preliminary_media_ids
+                                | financial_context_ids
                                 | {fact["document_id"] for fact in regulatory_facts}
                             )
                         )
                     ),
                     retrieved_evidence_count=retrieved_document_count,
                     validated_evidence_count=validated_document_count,
-                    retrieved_document_ids=sorted(document_ids),
+                    retrieved_document_ids=sorted(document_ids | financial_retrieved_ids),
                     verification_status=(
                         "Evidence-backed answer"
                         if answer_status == "ANSWERED"

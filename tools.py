@@ -309,8 +309,8 @@ SOURCE_REGISTRY["SRC_030"] = {
     "origin": "PRIMARY",
     "access_method": "RSS",
     "tos_url": "https://boeing.mediaroom.com/rss-feeds",
-    "legal_status": "DISABLED",
-    "policy_status": "DISABLED",
+    "legal_status": "ALLOWED",
+    "policy_status": "ENABLED",
 }
 
 AEROSPACE_SUPPLIER_REGISTRY: List[Dict[str, Any]] = [
@@ -620,7 +620,27 @@ def check_robots_and_tdm_compliance(
             if not is_ip_public_and_safe(parsed.hostname or ""):
                 return False, "Host failed SSRF public IP check"
 
-            resp = requests.get(base_robots, timeout=5)
+            from pathlib import Path
+            from dotenv import load_dotenv
+
+            load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env")
+
+            contact = os.getenv("EWS_CONTACT_EMAIL", "").strip()
+            contact = contact.removeprefix("mailto:")
+
+            if not contact or "@" not in contact:
+                raise RuntimeError("Missing EWS_CONTACT_EMAIL")
+
+            robots_headers = {
+                "User-Agent": f"AeroEWS Academic Research {contact}",
+                "Accept": "text/plain",
+            }
+
+            resp = requests.get(
+                base_robots,
+                headers=robots_headers,
+                timeout=5
+            )
             rp = urllib.robotparser.RobotFileParser()
             rp.set_url(base_robots)
 
@@ -721,13 +741,24 @@ def safe_http_get(
                 return None
 
             chunks, downloaded = [], 0
+            truncated = False
             for chunk in resp.iter_content(chunk_size=65536):
-                if chunk:
-                    chunks.append(chunk)
-                    downloaded += len(chunk)
-                    if downloaded >= max_bytes:
-                        break
+                if not chunk:
+                    continue
+                if downloaded + len(chunk) > max_bytes:
+                    chunks.append(chunk[:max_bytes - downloaded])
+                    truncated = True
+                    break
+                chunks.append(chunk)
+                downloaded += len(chunk)
             resp._content = b"".join(chunks)
+            # The cap is a safety limit, never a proof that the body is complete.
+            resp.aero_content_truncated = truncated or (
+                (resp.headers.get("Content-Length") or "").isdigit()
+                and int(resp.headers["Content-Length"]) > len(resp._content)
+            )
+            if resp.aero_content_truncated:
+                logger.warning("[HTTP CONTENT LIMIT] %s: response incomplete at %d bytes", current_url, max_bytes)
 
             if check_robots and "text/html" in resp.headers.get("Content-Type", "").lower():
                 if HTML_TDM_OPT_OUT_REGEX.search(resp.text[:4000]):
@@ -809,6 +840,8 @@ COLLECTED_URLS: set[str] = set()
 COLLECTED_DOCUMENTS: List[Dict[str, Any]] = []
 CONNECTOR_TELEMETRY: Dict[str, Dict[str, Any]] = {}
 NEWS_FALLBACK_CACHE: Dict[Tuple[str, str, str, int], List[Dict[str, Any]]] = {}
+_NEWSAPI_DISABLED_UNTIL = 0.0  # monotonic; auth failure lasts until process restart
+_NEWSAPI_DISABLED_REASON = ""
 _COLLECTION_LOCK = threading.Lock()
 
 
@@ -846,6 +879,9 @@ def record_connector_telemetry(
         unknown_date_count: int = 0,
         error: Optional[str] = None,
         coverage_note: Optional[str] = None,
+        http_requests: int = 0,
+        http_status_counts: Optional[Dict[str, int]] = None,
+        content_status_counts: Optional[Dict[str, int]] = None,
 ) -> None:
     now_str = _now_iso()
     reg = SOURCE_REGISTRY.get(source_id, {})
@@ -863,6 +899,9 @@ def record_connector_telemetry(
                 "accepted_count": 0,
                 "rejected_out_of_scope": 0,
                 "unknown_date_count": 0,
+                "http_requests": 0,
+                "http_status_counts": {},
+                "content_status_counts": {},
                 "errors": [],
                 "coverage_advisories": [],
                 "time_window": {
@@ -882,6 +921,11 @@ def record_connector_telemetry(
         entry["accepted_count"] += accepted_count
         entry["rejected_out_of_scope"] += rejected_out_of_scope
         entry["unknown_date_count"] += unknown_date_count
+        entry["http_requests"] += http_requests
+        for status, count in (http_status_counts or {}).items():
+            entry["http_status_counts"][str(status)] = entry["http_status_counts"].get(str(status), 0) + count
+        for status, count in (content_status_counts or {}).items():
+            entry["content_status_counts"][str(status)] = entry["content_status_counts"].get(str(status), 0) + count
         if error:
             entry["errors"].append(error)
 
@@ -952,6 +996,10 @@ def register_collected_document(
             "verified_domain": bool(reg_info.get("verified_domain", False)),
             "title": clean_title,
             "text": clean_text,
+            "content_status": "TEXT_COMPLETENESS_UNVERIFIED",
+            "content_sha256": hashlib.sha256(clean_text.encode("utf-8")).hexdigest(),
+            "content_truncated": False,
+            "content_limit_reason": "",
             "published_at": norm_pub or "DATE_UNKNOWN",
             "raw_published_at": published_at,
             "date_unknown": not bool(norm_pub),
@@ -1662,7 +1710,7 @@ def _extract_news_article_body(html_text: str) -> str:
             if len(content) >= 120:
                 candidates.append(content)
         if candidates:
-            return max(candidates, key=len)[:10000]
+            return max(candidates, key=len)
     return ""
 
 
@@ -1674,6 +1722,7 @@ def _extract_news_article_body(html_text: str) -> str:
 def search_aerospace_news(query: str) -> str:
     # Search the news source using a primary query and guarded recall fallback.
     """Query News API preserving specific aircraft model suffixes (e.g., 777X, A321XLR)."""
+    global _NEWSAPI_DISABLED_UNTIL, _NEWSAPI_DISABLED_REASON
     if (
         os.getenv("EWS_ENV", "development").lower()
         not in {"dev", "development", "test"}
@@ -1681,6 +1730,9 @@ def search_aerospace_news(query: str) -> str:
     ):
         return "NewsAPI disabled: production license required."
     safe_query = query.replace(",", "").replace("  ", " ").strip()
+    if time.monotonic() < _NEWSAPI_DISABLED_UNTIL:
+        record_connector_telemetry("News API", "SRC_004", safe_query, error=f"CIRCUIT_OPEN_{_NEWSAPI_DISABLED_REASON}")
+        return f"News API disabled for this process: {_NEWSAPI_DISABLED_REASON}."
     and_query = news_api_search_key(safe_query)
     query_tokens = and_query.split(" AND ", 2)
 
@@ -1773,6 +1825,9 @@ def search_aerospace_news(query: str) -> str:
             if resp is not None
             else "NO_RESPONSE_OR_COMPLIANCE_BLOCK"
         )
+        if status in {401, 403, 429}:
+            _NEWSAPI_DISABLED_REASON = f"HTTP_{status}"
+            _NEWSAPI_DISABLED_UNTIL = float("inf") if status in {401, 403} else time.monotonic() + 600
 
         # Do not expose credentials or complete request URLs.
         logger.warning(
@@ -1788,6 +1843,8 @@ def search_aerospace_news(query: str) -> str:
             error=f"PRIMARY_HTTP_{status}",
         )
 
+        if status in {401, 403, 429}:
+            return f"News API disabled for this process: HTTP_{status}."
         return (
             f"News API unavailable for query '{query}' "
             f"(HTTP/status: {status})."
@@ -1846,6 +1903,9 @@ def search_aerospace_news(query: str) -> str:
                     else "NO_RESPONSE_OR_COMPLIANCE_BLOCK"
                 )
 
+                if status in {401, 403, 429}:
+                    _NEWSAPI_DISABLED_REASON = f"HTTP_{status}"
+                    _NEWSAPI_DISABLED_UNTIL = float("inf") if status in {401, 403} else time.monotonic() + 600
                 logger.warning(
                     "[NEWS API RECALL ERROR] query=%r status=%s",
                     fallback_q,
@@ -2002,7 +2062,7 @@ def scrape_ntsb_investigations(query: str = "latest") -> str:
     if start is None:
         start = end - timedelta(days=30 * max_windows)
 
-    limit = max(1, min(get_dynamic_limit(), 10))
+    limit = max(1, get_dynamic_limit())
     tokens = [
         word for word in re.findall(
             r"[a-z0-9-]{3,}", query.lower()
@@ -2167,7 +2227,8 @@ def scrape_ntsb_investigations(query: str = "latest") -> str:
                 doc.update({
                     "ntsb_number": number,
                     "event_date": event_date,
-                    "document_type": "NTSB_INVESTIGATION",
+                    "document_type": "NTSB_CASE_METADATA_ONLY",
+                    "content_status": "METADATA_ONLY",
                     "investigation_status": case.get("completionStatus"),
                 })
 
@@ -2222,7 +2283,7 @@ def scrape_ntsb_investigations(query: str = "latest") -> str:
 
 _FAA_LIFECYCLE_FIELDS = [
     "document_number", "docket_id", "docket_ids", "title", "abstract",
-    "action", "type", "html_url", "publication_date", "effective_on",
+    "action", "type", "html_url", "raw_text_url", "publication_date", "effective_on",
 ]
 
 
@@ -2823,7 +2884,7 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
             "conditions[term]": search_term,
             "conditions[agencies][]": "federal-aviation-administration",
             "order": "newest",
-            "per_page": limit * 3,
+            "per_page": min(100, max(15, limit * 3)),
             "conditions[publication_date][lte]": end_utc.strftime("%Y-%m-%d"),
         }
         if start_utc is not None:
@@ -2871,7 +2932,7 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
 
             if scope_days is None or scope_days > 90:
                 pages = min(
-                    5, max(1, int(os.getenv("EWS_FAA_MAX_PAGES", "1")))
+                    5, max(1, int(os.getenv("EWS_FAA_MAX_PAGES", str((limit * 3 + 99) // 100))))
                 )
 
                 for _ in range(pages - 1):
@@ -2943,7 +3004,16 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
                     "proposed rule")
                 is_final = doc_type == "RULE" or action.startswith("final rule")
 
-                if is_proposed:
+                withdrawn = bool(re.search(
+                    r"\b(?:withdraw(?:n|s|al|ing)?|rescinds?|rescission)\b",
+                    f"{action} {doc.get('abstract') or ''}", re.I,
+                ) and re.search(
+                    r"\b(?:nprm|notice of proposed rulemaking|proposed rule|proposal)\b",
+                    f"{action} {doc.get('abstract') or ''}", re.I,
+                ))
+                if withdrawn:
+                    stage = "WITHDRAWN"
+                elif is_proposed:
                     stage = "PROPOSED"
                 elif is_final:
                     stage = "EFFECTIVE" if (
@@ -2960,18 +3030,68 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
                     f"Regulatory Lifecycle Check: {'VERIFIED' if checked else 'UNVERIFIED'}\n"
                     f"FAA Docket: {docket or 'UNKNOWN'}\n"
                     f"Federal Register Document: {doc.get('document_number', 'UNKNOWN')}\n"
+                    f"Publication Date: {pub_date}\n"
                     f"Effective Date: {effective_on or 'UNKNOWN'}\n"
-                    f"{history}Official Summary: {summary[:850]}"
+                    f"{history}Official Summary: {summary}"
                 )
+                content_status = "SUMMARY_ONLY"
+                # Only URLs furnished by the official API are eligible, never constructed guesses.
+                full_url = str(doc.get("raw_text_url") or doc.get("html_url") or "")
+                full_host = (urlparse(full_url).hostname or "").lower()
+                if full_url.startswith("https://") and full_host in {
+                    "federalregister.gov", "www.federalregister.gov",
+                } and os.getenv("EWS_FAA_FETCH_FULL_TEXT", "1") == "1":
+                    full_page = safe_http_get(
+                        full_url, source_id="SRC_001", timeout=18,
+                        max_bytes=8_000_000, check_robots=True,
+                    )
+                    if full_page is not None and full_page.status_code == 200:
+                        mime = full_page.headers.get("Content-Type", "").lower()
+                        if "html" in mime:
+                            soup = BeautifulSoup(full_page.text, "html.parser")
+                            for el in soup.select("script, style, nav, footer, aside, header"):
+                                el.decompose()
+                            article = soup.select_one("article") or soup.select_one("main")
+                            full_text = (article or soup).get_text(" ", strip=True)
+                        elif "text/plain" in mime:
+                            full_text = full_page.text.strip()
+                        else:
+                            full_text = ""
+                        if len(full_text) >= 500:
+                            raw_text += "\nOfficial Full Text: " + full_text
+                            content_status = (
+                                "PARTIAL_TEXT" if getattr(full_page, "aero_content_truncated", False) else "FULL_TEXT"
+                            )
                 doc_rec = register_collected_document(
                     source_id="SRC_001", connector_name="FAA Federal Register", url=link,
                     title=doc.get("title") or title, raw_text=raw_text, published_at=pub_date, query_used=query,
+                )
+                obligation = ""
+                if content_status in {"FULL_TEXT", "PARTIAL_TEXT"} and stage in {"EFFECTIVE", "FINAL_ISSUED"}:
+                    match = re.search(
+                        r"(?i)\b(?:compliance time|within \d+ (?:calendar )?days? after (?:the )?effective date)"
+                        r"[^.!?\n]{0,250}[.!?]", raw_text,
+                    )
+                    obligation = match.group(0) if match else ""
+                doc_rec.update(
+                    content_status=content_status,
+                    content_truncated=content_status == "PARTIAL_TEXT",
+                    content_limit_reason=(
+                        "HTTP_MAX_BYTES" if content_status == "PARTIAL_TEXT" else ""
+                    ),
+                    regulatory_stage=stage,
+                    regulatory_publication_date=pub_date,
+                    regulatory_effective_date=effective_on or "DATE_UNKNOWN",
+                    regulatory_compliance_deadline="NOT_ESTABLISHED",
+                    regulatory_obligation_quote_candidate=obligation,
                 )
                 faa_block += (
                     f"DOC_ID: {doc_rec['doc_id']} | SOURCE_ID: SRC_001\n"
                     f"DATE: {doc_rec['published_at']}\n"
                     f"Document Type: {doc_type} | Regulatory Stage: {stage}\n"
-                    f"Title: {doc_rec['title']}\nLink: {link}\nSummary: {doc_rec['text']}\n---\n"
+                    f"Title: {doc_rec['title']}\nLink: {link}\n"
+                    f"CONTENT_STATUS: {content_status}\n"
+                    f"Summary: {doc_rec['text'][:1500]}\n---\n"
                 )
                 faa_count += 1
 
@@ -3208,7 +3328,7 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
                                 len(extracted) >= 220
                                 and len(title_terms & body_terms) >= 2
                         ):
-                            body = extracted[:7000]
+                            body = extracted
 
                 raw_text = body if body else (
                         "[OFFICIAL_RSS_METADATA_ONLY: "
@@ -3230,6 +3350,12 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
                     query_used=original_query,
                 )
 
+                doc_rec["content_status"] = (
+                    ("PARTIAL_TEXT" if getattr(page, "aero_content_truncated", False) else "FULL_TEXT")
+                    if body else "METADATA_ONLY"
+                )
+                doc_rec["content_truncated"] = bool(body and getattr(page, "aero_content_truncated", False))
+                doc_rec["content_limit_reason"] = "HTTP_MAX_BYTES" if doc_rec["content_truncated"] else ""
                 doc_rec["origin_type"] = (
                     "PRIMARY_OFFICIAL_FULL_TEXT"
                     if body
@@ -3242,7 +3368,8 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
                 brand_block += (
                     f"DOC_ID: {doc_rec['doc_id']} | SOURCE_ID: {doc_source_id}\n"
                     f"DATE: {doc_rec['published_at']}\nTitle: {doc_rec['title']}\n"
-                    f"Link: {link}\nSummary: {doc_rec['text']}\n---\n"
+                    f"Link: {link}\nCONTENT_STATUS: {doc_rec['content_status']}\n"
+                    f"Summary: {doc_rec['text'][:1500]}\n---\n"
                 )
                 brand_count += 1
                 total_processed += 1
@@ -3400,7 +3527,7 @@ def search_bluesky_aviation(query: str) -> str:
             resp = safe_http_get(
                 "https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed",
                 source_id="SRC_007",
-                params={"actor": account, "limit": min(limit, 10)},
+                params={"actor": account, "limit": min(limit, 100)},
             )
             if resp is not None and resp.status_code == 200:
                 posts.extend(
@@ -3530,7 +3657,7 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
                 else route.continue_(),
             )
 
-            effective_max_pages = MAX_PAGES_PER_AIRSHOW
+            effective_max_pages = min(12, max(MAX_PAGES_PER_AIRSHOW, (user_limit + 4) // 5))
 
             for airshow_name, url in AIRSHOW_NEWS_URLS.items():
                 if total_articles >= user_limit:
@@ -3714,12 +3841,12 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
                                 doc_rec = register_collected_document(
                                     source_id="SRC_006", connector_name="Airshow Websites", url=article_url,
                                     title=headline[:220] or f"{airshow_name} Newsroom Article",
-                                    raw_text=art_filtered[:2500],
+                                    raw_text=art_filtered,
                                     published_at=pub_date, query_used=safe_query,
                                 )
                                 deep_articles_output.append(
                                     f"DOC_ID: {doc_rec['doc_id']} | SOURCE_ID: SRC_006\n"
-                                    f"DATE: {doc_rec['published_at']}\nLink: {article_url}\nArticle Content:\n{doc_rec['text']}"
+                                    f"DATE: {doc_rec['published_at']}\nLink: {article_url}\nArticle Content:\n{doc_rec['text'][:1500]}"
                                 )
                                 total_articles += 1
                         except Exception as art_e:
@@ -3778,7 +3905,7 @@ def _save_yt_transcript_cache(video_id: str, transcript: str) -> None:
     if not video_id or not transcript or len(transcript) < 60:
         return
     cache = _load_yt_transcript_cache()
-    cache[video_id] = transcript[:5000]
+    cache[video_id] = transcript
     try:
         with _YT_CACHE_LOCK, open(YOUTUBE_CACHE_FILE, "w", encoding="utf-8") as f:
             json.dump(cache, f, ensure_ascii=False, indent=2)
@@ -3876,6 +4003,7 @@ def extract_youtube_transcript(query: str) -> str:
                     query_used=query,
                 )
 
+                doc["content_status"] = "METADATA_ONLY"
                 results.append(
                     f"DOC_ID: {doc['doc_id']} | SOURCE_ID: SRC_008\n"
                     f"DATE: {doc['published_at']}\n"
@@ -3916,8 +4044,7 @@ def extract_youtube_transcript(query: str) -> str:
                         if hasattr(api, "fetch")
                         else YouTubeTranscriptApi.get_transcript(v["id"], languages=["en", "en-US", "en-GB"])
                     )
-                    transcript_text = re.sub(r"\s+", " ", " ".join(seg.get("text", "") for seg in ts_segments)).strip()[
-                                      :5000]
+                    transcript_text = re.sub(r"\s+", " ", " ".join(seg.get("text", "") for seg in ts_segments)).strip()
                     _save_yt_transcript_cache(v["id"], transcript_text)
                     logger.info(f"[OSINT GATHERER] Fast transcript fetched via YouTubeTranscriptApi for {v['id']}.")
                 except Exception as yt_err:
@@ -3939,7 +4066,7 @@ def extract_youtube_transcript(query: str) -> str:
                             ),
                         )
                         if response.text:
-                            transcript_text = response.text.replace("\n", " ")[:5000]
+                            transcript_text = response.text.replace("\n", " ")
                             _save_yt_transcript_cache(v["id"], transcript_text)
                         else:
                             transcript_text = f"(No transcript returned by Gemini. Video description used): {v['desc']}"
@@ -3958,10 +4085,11 @@ def extract_youtube_transcript(query: str) -> str:
                 title=f"{v['title']} ({v['channel']})", raw_text=transcript_text,
                 published_at=v["date"], query_used=query,
             )
+            doc_rec["content_status"] = "TRANSCRIPT_AS_RECEIVED" if not used_gemini_fallback else "TEXT_COMPLETENESS_UNVERIFIED"
             extracted_text += (
                 f"DOC_ID: {doc_rec['doc_id']} | SOURCE_ID: SRC_008\n"
                 f"DATE: {doc_rec['published_at']}\nTitle: {v['title']}\nChannel: {v['channel']}\n"
-                f"Link: {v['url']}\nVideo Transcript: {doc_rec['text']}\n---\n"
+                f"Link: {v['url']}\nVideo Transcript: {doc_rec['text'][:1500]}\n---\n"
             )
             processed_videos += 1
 

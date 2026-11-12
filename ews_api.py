@@ -161,6 +161,10 @@ def approve_ews_report(
 
         report_id = payload.get("report_id")
         decision = (payload.get("decision") or "APPROVE").upper()
+        if decision not in {"APPROVE", "REJECT"}:
+            return JSONResponse(status_code=422, content={
+                "status": "invalid_decision", "message": "Decision must be APPROVE or REJECT."
+            })
         reviewer_name = payload.get("reviewer_name") or "Senior CI Analyst"
         rationale = payload.get("rationale") or "Reviewed via HITL Gate."
         rejected_ids = payload.get("rejected_event_ids") or []
@@ -199,6 +203,14 @@ def approve_ews_report(
         now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         new_version = int(stored_report.get("version", 1)) + 1
         stored_report["version"] = new_version
+
+        if decision == "APPROVE" and stored_report.get("outcome_status") in {
+            "SOURCE_UNAVAILABLE", "ANALYSIS_FAILED", "VALIDATION_FAILED", "INSUFFICIENT_DATA"
+        }:
+            return JSONResponse(status_code=409, content={
+                "status": "review_only",
+                "message": "Insufficient evidence or failed analysis cannot be approved as an intelligence report.",
+            })
 
         if decision == "REJECT":
             stored_report["hitl_status"] = "REJECTED"

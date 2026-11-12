@@ -44,6 +44,7 @@ from ews_state import (
     search_bluesky_aviation,
 )
 from ews_state import SOURCE_REGISTRY
+from ews_sources_extra import collect_extra
 
 OPTIONAL_SOURCE_CONNECTORS = {}
 
@@ -102,6 +103,9 @@ def run_kiq_batch(tool_obj: Callable, queries: List[str], total_limit: int, sour
 
         logger.info(f"[KIQ COLLECTION -> {source_label}] Query '{q}' (quota: {current_quota}, remaining: {remaining})")
         res = tool_obj.run(q)
+        if source_label == "News API" and "News API disabled for this process" in res:
+            logger.warning("[NEWS API] Circuit open; skipping remaining planned queries.")
+            break
 
         found_in_step = res.count("DATE:")
         if found_in_step > 0:
@@ -165,137 +169,9 @@ def build_cross_program_queries(kit: str, max_queries: int = 2):
 
     return list(unique.values())[:max_queries]
 
-# Optional governed connector for supplier-specific press evidence.
-class SupplierPressCollector:
-    """Collect public supplier-news metadata relevant to the monitored KIT."""
-
-    SUPPLIER_DOMAINS = {
-        "Pratt & Whitney (RTX)": "rtx.com",
-        "CFM International (GE / Safran)": "cfmaeroengines.com",
-        "GE Aerospace": "geaerospace.com",
-        "Safran S.A.": "safran-group.com",
-    }
-
-    # One logical source group for aircraft OEMs and aerospace suppliers.
-    class OfficialIndustryPRCollector:
-        def run(self, query: str) -> str:
-            result = scrape_manufacturer_pr_news.run(query)
-
-            # Optional legacy supplier Google News RSS after usage review.
-            if os.getenv("EWS_LEGACY_SUPPLIER_RSS_APPROVED") == "1":
-                result += "\n" + SupplierPressCollector().run(query)
-
-            return result
-
-    # Execute the connector or helper using its configured collection policy.
-    # Preserve evidence provenance and stable output contracts for downstream stages.
+class OfficialIndustryPRCollector:
     def run(self, query: str) -> str:
-        query_lower = query.lower()
-        selected = []
-
-        for supplier in AEROSPACE_SUPPLIER_REGISTRY:
-            name = supplier["official_name"]
-
-            if name not in self.SUPPLIER_DOMAINS:
-                continue
-
-            terms = [
-                        alias
-                        for alias in supplier.get("aliases", [])
-                        if len(alias) >= 3
-                    ] + supplier.get("programs", [])
-
-            if any(
-                    re.search(rf"(?<!\w){re.escape(term)}(?!\w)", query_lower, re.I)
-                    for term in terms
-            ):
-                selected.append((name, self.SUPPLIER_DOMAINS[name]))
-
-        if not selected:
-            return "No matching supplier in the monitored registry."
-
-        output = []
-        found = accepted = 0
-        limit = min(get_dynamic_limit(), 3)
-        scope_days = get_scope_days()
-        date_filter = f" when:{scope_days}d" if scope_days else ""
-
-        for name, domain in selected[:2]:
-            search = urllib.parse.quote(
-                f"site:{domain} {query}{date_filter}"
-            )
-
-            rss_url = (
-                "https://news.google.com/rss/search?q="
-                f"{search}&hl=en-US&gl=US&ceid=US:en"
-            )
-
-            response = safe_http_get(
-                rss_url,
-                source_id="SRC_009",
-                timeout=12,
-            )
-
-            if response is None or response.status_code != 200:
-                continue
-
-            feed = feedparser.parse(response.content)
-
-            for entry in feed.entries[:limit]:
-                found += 1
-
-                published = entry.get("published", "DATE_UNKNOWN")
-
-                if not is_date_within_scope(published):
-                    continue
-
-                title = entry.get("title", "")
-                url = entry.get("link", "")
-
-                if not title or not url:
-                    continue
-
-                summary = BeautifulSoup(
-                    entry.get("description", ""),
-                    "html.parser",
-                ).get_text(" ", strip=True)[:400]
-
-                document = register_collected_document(
-                    source_id="SRC_009",
-                    connector_name="Supplier PR",
-                    url=url,
-                    title=title,
-                    raw_text=summary or title,
-                    published_at=published,
-                    query_used=query,
-                )
-
-                output.append(
-                    f"DOC_ID: {document['doc_id']} | SOURCE_ID: SRC_009\n"
-                    f"DATE: {document['published_at']}\n"
-                    f"SUPPLIER: {name}\n"
-                    f"TITLE: {document['title']}\n"
-                    f"URL: {url}\n"
-                    f"TEXT: {document['text']}\n---"
-                )
-
-                accepted += 1
-
-        record_connector_telemetry(
-            "Supplier PR",
-            "SRC_009",
-            query,
-            found,
-            accepted,
-            max(0, found - accepted),
-        )
-
-        return (
-            "\n".join(output)
-            if output
-            else "No matching supplier releases found."
-        )
-
+        return scrape_manufacturer_pr_news.run(query)
 
 # Orchestrate the selected source connectors and aggregate their raw evidence output.
 # Preserve evidence provenance and stable output contracts for downstream stages.
@@ -305,6 +181,15 @@ def collect_osint_data(
     # Build selected connector workloads from the active KIT/KIQ plan.
     reset_collected_urls()
     platforms_str = " ".join(platforms).lower()
+    financial_kit = bool(re.search(
+        r"\b(?:sec|edgar|esef|xbrl|10-[kq]|20-f|6-k|filings?|annual\s+reports?|financial\s+statements?)\b",
+        user_query, re.I,
+    ))
+    regulatory_kit = bool(re.search(
+        r"\b(?:faa|easa|ntsb|airworthiness|directive|regulat\w*|"
+        r"investigat\w*|accident|incident|crash|safety\s+notice|compliance)\b",
+        user_query, re.I,
+    ))
 
     raw_data = (
             f"--- RAW OSINT COLLECTION DATA FOR KIT '{user_query}' ---\n"
@@ -345,7 +230,7 @@ def collect_osint_data(
             "News API",
         ) + "\n"
 
-    if ("regul" in platforms_str or "easa" in platforms_str or "faa" in platforms_str) and not PIPELINE_STATE.get(
+    if ("regul" in platforms_str or "easa" in platforms_str or "faa" in platforms_str) and (not financial_kit or regulatory_kit) and not PIPELINE_STATE.get(
             "cancel_requested"):
         raw_data += (
                 run_kiq_batch(
@@ -353,19 +238,28 @@ def collect_osint_data(
                 )
                 + "\n"
         )
+    elif financial_kit and not regulatory_kit:
+        raw_data += "[SOURCE ROUTING] FAA/EASA skipped: financial filing KIT without regulatory intent.\n"
 
-    if "ntsb" in platforms_str and not PIPELINE_STATE.get("cancel_requested"):
+    incident_kit = bool(re.search(
+        r"\b(?:ntsb|accident\w*|incident\w*|crash\w*|investigat\w*|"
+        r"mishap\w*|safety\s+event|runway\s+incursion|door\s+plug)\b",
+        user_query, re.I,
+    ))
+    if "ntsb" in platforms_str and incident_kit and not PIPELINE_STATE.get("cancel_requested"):
         raw_data += (
                 run_kiq_batch(
                     scrape_ntsb_investigations, kiq_plan.regulatory_and_ntsb_queries, limit, "NTSB Investigations"
                 )
                 + "\n"
         )
+    elif "ntsb" in platforms_str and not incident_kit:
+        raw_data += "[SOURCE ROUTING] NTSB not searched: no incident/investigation KIT.\n"
 
     if "pr" in platforms_str and not PIPELINE_STATE.get("cancel_requested"):
         raw_data += (
                 run_kiq_batch(
-                    SupplierPressCollector.OfficialIndustryPRCollector(),
+                    OfficialIndustryPRCollector(),
                     kiq_plan.media_and_pr_queries,
                     limit,
                     "Official Industry PR",
@@ -386,7 +280,7 @@ def collect_osint_data(
 
         if related_queries:
             raw_data += run_kiq_batch(
-                SupplierPressCollector.OfficialIndustryPRCollector(),
+                OfficialIndustryPRCollector(),
                 [item["query"] for item in related_queries],
                 min(limit, 2),
                 "Official Industry PR – Cross-Program",
@@ -400,20 +294,37 @@ def collect_osint_data(
         )
 
     if ("youtube" in platforms_str or "vide" in platforms_str) and not PIPELINE_STATE.get("cancel_requested"):
-        yt_limit = min(limit, 3)
+        yt_limit = min(limit, 5)
         raw_data += (
                 run_kiq_batch(extract_youtube_transcript, kiq_plan.social_and_video_queries[:1], yt_limit,
                               "YouTube Videos")
                 + "\n"
         )
 
+    # The Planner always supplies an airshow query; that alone is not a business KIT.
+    commercial_kit = bool(re.search(
+        r"\b(?:air\s?shows?|exhibitions?|trade\s+fairs?|farnborough|"
+        r"paris\s+air\s+show|dubai\s+air\s+show|singapore\s+air\s+show|"
+        r"aircraft\s+orders?|orderbook|contracts?|sales|partnerships?|"
+        r"alliances?|product\s+launch(?:es)?|unveil\w*|trade\s+deals?)\b",
+        user_query, re.I,
+    ))
     if "airshow" in platforms_str and not PIPELINE_STATE.get("cancel_requested"):
-        airshow_cap = 2 if scope in {"24h", "7d"} else min(limit, 5)
-        os.environ["EWS_DYNAMIC_LIMIT"] = str(airshow_cap)
-        airshow_q = kiq_plan.airshow_query or user_query
-        raw_data += scrape_airshow_website.run(airshow_q) + "\n"
-        os.environ["EWS_DYNAMIC_LIMIT"] = str(limit)
+        if commercial_kit:
+            airshow_cap = limit
+            os.environ["EWS_DYNAMIC_LIMIT"] = str(airshow_cap)
+            try:
+                raw_data += scrape_airshow_website.run(kiq_plan.airshow_query or user_query) + "\n"
+            finally:
+                os.environ["EWS_DYNAMIC_LIMIT"] = str(limit)
+        else:
+            logger.info("[SOURCE ROUTING] Skipped airshow scraper: no exhibition/commercial KIT intent")
+            raw_data += "[SOURCE ROUTING] Airshow not searched: no exhibition/commercial KIT intent.\n"
 
+    if not PIPELINE_STATE.get("cancel_requested"):
+        raw_data += collect_extra(
+            user_query, platforms, limit
+        ) + "\n"
 
     for name, config in OPTIONAL_SOURCE_CONNECTORS.items():
         if PIPELINE_STATE.get("cancel_requested"):
@@ -425,7 +336,7 @@ def collect_osint_data(
         raw_data += run_kiq_batch(
             config["collector"],
             kiq_plan.media_and_pr_queries[:1],
-            min(limit, 3),
+            limit,
             name,
         ) + "\n"
     with open("raw_osint_data.txt", "w", encoding="utf-8") as f:

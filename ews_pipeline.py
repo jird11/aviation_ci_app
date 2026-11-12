@@ -247,7 +247,13 @@ def _make_kiq_plan(request: EWSRequest):
             plan = KIQPlan.model_validate(result.pydantic)
         else:
             raw = _clean_raw_json(result, "Planner returned an empty response.")
-            payload = json.loads(raw)
+            try:
+                payload = json.loads(raw)
+            except json.JSONDecodeError:
+                # Recover an embedded object or trailing commas, not arbitrary model prose.
+                raw = re.sub(r",\s*([}\]])", r"\1", raw)
+                start = raw.find("{")
+                payload, _ = json.JSONDecoder().raw_decode(raw, start if start >= 0 else 0)
             rationale = payload.get("strategy_rationale", "")
             if isinstance(rationale, str) and len(rationale) > 600:
                 logger.warning("[PLANNER] strategy_rationale exceeded 600 characters; truncating.")
@@ -255,12 +261,13 @@ def _make_kiq_plan(request: EWSRequest):
             plan = KIQPlan.model_validate(payload)
     except Exception as exc:
         logger.warning("[PHASE 1: FALLBACK] Planner error (%s), falling back to direct KIT query.", exc)
+        financial_only = bool(re.search(r"\b(?:sec|edgar|esef|xbrl|10-[kq]|20-f|6-k|filings?|annual\s+reports?)\b", request.query, re.I)) and not bool(re.search(r"\b(?:faa|easa|ntsb|airworthiness|directive|regulat\w*|accident|incident)\b", request.query, re.I))
         plan = KIQPlan(
             media_and_pr_queries=[request.query],
-            regulatory_and_ntsb_queries=[request.query],
-            social_and_video_queries=[request.query],
+            regulatory_and_ntsb_queries=[] if financial_only else [request.query],
+            social_and_video_queries=[] if financial_only else [request.query],
             airshow_query=request.query,
-            strategy_rationale="Direct search using the provided KIT query (fallback).",
+            strategy_rationale="KIT-preserving source-specific fallback after invalid Planner output.",
         )
 
     plan = _sanitize_kiq_plan_for_kit(request.query, plan)
@@ -355,8 +362,9 @@ def _collect_run_documents(
                     doc_id, run_id, source_id, connector_name, url, publisher_domain,
                     origin_type, source_type, verified_domain, title, text, published_at,
                     collected_at, query_used, syndication_fingerprint,
-                    prompt_injection_flagged, pii_redacted_count
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    prompt_injection_flagged, pii_redacted_count,
+                    content_status, content_sha256, content_truncated, content_limit_reason
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 [
                     (
@@ -366,6 +374,10 @@ def _collect_run_documents(
                         d["published_at"], d["collected_at"], d["query_used"],
                         d["syndication_fingerprint"], 1 if d["prompt_injection_flagged"] else 0,
                         d["pii_redacted_count"],
+                        d.get("content_status", "TEXT_COMPLETENESS_UNVERIFIED"),
+                        d.get("content_sha256", ""),
+                        1 if d.get("content_truncated") else 0,
+                        d.get("content_limit_reason", ""),
                     )
                     for d in docs
                 ],
@@ -465,6 +477,8 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
         # Verify the handoff to Analyst; no FILTER_UNAVAILABLE document can be silently analyzed.
         handed_ids = re.findall(r'<untrusted_osint_document id="(DOC_[A-Za-z0-9_]+)"', "\n".join(batches))
         accepted_ids = filter_diagnostics.get("accepted_document_ids", [])
+        accepted_id_set = set(accepted_ids)
+        accepted_evidence_docs = [d for d in collected_docs if d.get("doc_id") in accepted_id_set]
         if len(handed_ids) != docs_analyzed or set(handed_ids) != set(accepted_ids):
             raise RuntimeError(
                 f"FR03_HANDOFF_INTEGRITY: batch={handed_ids!r}, audited={accepted_ids!r}, "
@@ -1196,7 +1210,7 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                     if score is not None:
                         threat.threat_score = score.threat_score
                         threat.score_rationale = score.score_rationale
-                        threat.is_critical = score.threat_score >= 8
+                        threat.is_critical = False  # Reassessed after Harness verification.
                         scoring_audit.append({
                             "event_id": threat.event_id,
                             "provisional_score": old_score,
@@ -1285,7 +1299,7 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                 )
                 report_obj.kiq_answers = []
                 report_obj, harness_errors = deterministic_harness_validation(
-                    report_obj, raw_data, collected_docs,
+                    report_obj, raw_data, accepted_evidence_docs,
                     user_query=request.query,
                     as_of_date=request.as_of_date or started_at_iso[:10],
                 )
@@ -1300,7 +1314,7 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                     earlier_milestone = (
                         find_superseding_faa_certification(
                             threat,
-                            collected_docs,
+                            accepted_evidence_docs,
                             request.as_of_date
                             or started_at_iso[:10],
                         )
@@ -1352,16 +1366,8 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                             earlier_milestone["doc_id"],
                         )
 
-                    if (
-                        threat.validation_status
-                        != ValidationStatus.SUPPORTED
-                        and threat.threat_score >= 8
-                    ):
-                        old_score = threat.threat_score
-                        threat.threat_score = 7
-                        logger.warning("[SCORING EVIDENCE CAP] %s: %s -> 7 (status=%s)", threat.event_id, old_score,
-                            threat.validation_status.value)
-
+                    # Potential impact severity and evidence confidence are independent.
+                    # An unverified score >=8 is NOT an eligible confirmed critical alert.
                     threat.is_critical = is_confirmed_critical(threat)
 
                     # Require analyst review and reduced confidence when source assertions remain
@@ -1384,8 +1390,10 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                             "Regulatory approval milestone; no adverse operational impact evidenced."
                         )
 
-                    score_band = "CRITICAL" if threat.threat_score >= 8 else (
-                        "ELEVATED" if threat.threat_score >= 5 else "MONITORED")
+                    score_band = (
+                        "HIGH POTENTIAL IMPACT" if threat.threat_score >= 8
+                        else "ELEVATED" if threat.threat_score >= 5 else "MONITORED"
+                    )
                     if threat.validation_status != ValidationStatus.SUPPORTED:
                         threat.score_rationale = (
                             f"Potential severity: {score_band} ({threat.threat_score}/10). "
@@ -1430,7 +1438,15 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                             entry["score_rationale"] = related.score_rationale
 
             report_obj.kiq_answers = build_runtime_kiq_answers(
-                report_obj, kiq_plan, collected_docs, selected_platforms=request.platforms
+                report_obj, kiq_plan, collected_docs, selected_platforms=request.platforms,
+
+                accepted_document_ids=accepted_id_set, user_query=request.query,
+                searched_source_ids={
+                    str(item["source_id"])
+                    for item in connector_telemetry.values()
+                    if item.get("source_id")
+                },
+
             )
             for threat in report_obj.threats:
                 if threat.intelligence_gap and not threat.intelligence_gap.affected_kiq_id and threat.kiq_ids:
@@ -1509,7 +1525,15 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
 
             report_obj = _align_and_sanitize_action_plan(report_obj)
             report_obj.kiq_answers = build_runtime_kiq_answers(
-                report_obj, kiq_plan, collected_docs, selected_platforms=request.platforms
+                report_obj, kiq_plan, collected_docs, selected_platforms=request.platforms,
+
+                accepted_document_ids=accepted_id_set, user_query=request.query,
+                searched_source_ids={
+                    str(item["source_id"])
+                    for item in connector_telemetry.values()
+                    if item.get("source_id")
+                },
+
             )
 
             source_coverage_issues = list({
@@ -1630,6 +1654,14 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                 "effective_to": eff_to_str,
                 "as_of_date": request.as_of_date or started_at_iso[:10],
                 "documents_collected": len(collected_docs),
+                "document_content_status_counts": {
+                    kind: sum(d.get("content_status", "TEXT_COMPLETENESS_UNVERIFIED") == kind for d in collected_docs)
+                    for kind in ("FULL_TEXT", "PARTIAL_TEXT", "SUMMARY_ONLY", "METADATA_ONLY", "STRUCTURED_DATA", "UNAVAILABLE", "TEXT_COMPLETENESS_UNVERIFIED")
+                },
+                "content_limited_document_ids": [
+                    d.get("doc_id") for d in collected_docs
+                    if d.get("content_truncated") or d.get("content_status") in {"PARTIAL_TEXT", "UNAVAILABLE"}
+                ],
                 "documents_analyzed": docs_analyzed - documents_failed,
                 "documents_rejected": docs_rejected,
                 "documents_failed": documents_failed,
@@ -1679,7 +1711,17 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                     source_coverage_issues or coverage_only_advisories
                 ),
                 "source_coverage_advisories": coverage_only_advisories,
+                "source_coverage_status": "LIMITED" if source_coverage_issues or coverage_only_advisories else "AVAILABLE",
+                "evidence_result_status": (
+                    "SUPPORTED_EVENTS" if displayable_threats else
+                    "UNVERIFIED_ONLY" if report_obj.threats or report_obj.related_program_watchlist else
+                    "NO_VERIFIED_EVENTS"
+                ),
+                "review_scope": "EVENT_REVIEW" if (report_obj.threats or report_obj.related_program_watchlist) else "MONITORING_ACKNOWLEDGEMENT",
                 "analysis_issues": analysis_issues,
+                "fr03_rejection_review_candidates": filter_diagnostics.get("rejection_review_candidates", 0),
+                "fr03_rejection_stage_counts": filter_diagnostics.get("rejection_stage_counts", {}),
+                "scoring_calibration": "UNMEASURED_REQUIRES_EXPERT_REFERENCE_LABELS",
                 "semantic_filter_unavailable_count": filter_diagnostics.get("semantic_filter_unavailable_count", 0),
                 "semantic_filter_missing_ids": filter_diagnostics.get("semantic_filter_missing_ids", []),
                 "analyst_valid_empty_batches": analyst_valid_empty_batches,
@@ -1717,31 +1759,19 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                 },
             }
 
-            if report_obj.outcome_status not in {
-                RunOutcomeStatus.ANALYSIS_FAILED,
-                RunOutcomeStatus.VALIDATION_FAILED,
-                RunOutcomeStatus.SOURCE_UNAVAILABLE,
-            }:
-                report_obj.executive_summary = build_final_executive_summary(report_obj, request.query)
-
-            if len(report_obj.executive_summary.split()) < 90:
-                original_summary = report_obj.executive_summary
-                fallback_summary = build_final_executive_summary(report_obj, request.query)
-                if fallback_summary.strip():
-                    report_obj.executive_summary = f"{original_summary}\n\n{fallback_summary}"
-                    logger.warning("[SUMMARY RECOVERY] Short summary expanded using deterministic report synthesis.")
+            # Only the deterministic, validated evidence view may be published.
+            report_obj.executive_summary = build_final_executive_summary(report_obj, request.query)
 
             summary_word_count = len(report_obj.executive_summary.split())
+            target_min, target_max = (100, 250) if not report_obj.threats else (180, 400)
             report_obj.run_metadata.update({
                 "executive_summary_word_count": summary_word_count,
-                "executive_summary_min_words": 350,
-                "executive_summary_target_words": 450,
-                "executive_summary_target_met": 350 <= summary_word_count <= 450,
+                "executive_summary_min_words": target_min,
+                "executive_summary_target_words": target_max,
+                "executive_summary_target_met": target_min <= summary_word_count <= target_max,
             })
-
-            if not (350 <= summary_word_count <= 450):
-                logger.warning("[EXECUTIVE SUMMARY] Outside target range: %s words (expected 350-450)",
-                    summary_word_count)
+            if not (target_min <= summary_word_count <= target_max):
+                logger.info("[EXECUTIVE SUMMARY] Concise evidence-led summary: %s words", summary_word_count)
 
             # Compute comparable-run deltas, attach governance metadata, and finalize the executive
             #   briefing.

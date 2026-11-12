@@ -32,6 +32,9 @@ def is_confirmed_critical(threat: ThreatAssessment) -> bool:
             and threat.confidence_level == ConfidenceLevel.HIGH
             and threat.escalation_level == EscalationStatus.CRITICAL_CONFIRMED_ALERT
             and threat.program_relevance == "DIRECT_KIT_MATCH"
+            and threat.event_freshness in {EventFreshness.NEW_EVENT, EventFreshness.NEW_DEVELOPMENT}
+            and threat.technical_grounding_status == "PASS"
+            and threat.claim_support_status == "STATED_IN_SOURCE"
     )
 
 
@@ -175,7 +178,7 @@ ENGINE_MODEL_PATTERNS: Dict[str, re.Pattern] = {
     ),
 
     "GTF": re.compile(
-        r"\b(?:gtf|geared[ -]turbofan)\b", re.I
+        r"\b(?:gtf|geared[\s-]*turbo[\s-]*fan)\b", re.I
     ),
 
     "PW4000": re.compile(
@@ -688,7 +691,7 @@ def _extract_component_and_program(
 ) -> Tuple[str, str]:
     unknown = "Unknown / Not specified in source"
     quote = (quote_text or "").strip()
-    component = proposed_component if _source_mentions(proposed_component, quote) else unknown
+    component = proposed_component if _source_mentions(proposed_component, doc_raw_full) else unknown
     quoted = _detect_specific_variants(quote)
     program = ", ".join(sorted(quoted)) if quoted else (
         proposed_program if _source_mentions(proposed_program, quote) else unknown)
@@ -704,9 +707,17 @@ def _resolve_geography_dimensions(threat: ThreatAssessment, doc_raw_full: str) -
 
 
 # Normalize quotations before checking exact source support.
+
 def _normalize_for_quote_match(text: str) -> str:
-    norm = re.sub(r"[^\w\s]", " ", normalize_text(text).lower())
+    clean = re.sub(
+        r"\n[ \t]*\d{1,4}[ \t]*\n[ \t]*Table of Contents[ \t]*\n",
+        " ",
+        str(text or ""),
+        flags=re.I,
+    )
+    norm = re.sub(r"[^\w\s]", " ", normalize_text(clean).lower())
     return re.sub(r"\s+", " ", norm).strip()
+
 
 
 # Recognize source records whose limited text cannot support a factual finding.
@@ -715,7 +726,8 @@ def _is_snippet_only(doc: Dict[str, Any]) -> bool:
     title = str(doc.get("title") or "").strip()
 
     return (
-            len(text) < 220
+            doc.get("content_status") in {"PARTIAL_TEXT", "SUMMARY_ONLY", "METADATA_ONLY", "UNAVAILABLE", "STRUCTURED_DATA"}
+            or len(text) < 220
             or str(doc.get("origin_type") or "").endswith(
         "RSS_METADATA_ONLY"
     )
@@ -732,11 +744,15 @@ def _split_affected_entities(company_affected: str) -> List[str]:
     if not company_affected:
         return []
     protected = re.sub(r"pratt\s*&\s*whitney", "Pratt_And_Whitney", company_affected, flags=re.I)
+    # A comma before a legal suffix is not a separator between organizations.
+    protected = re.sub(r",(?=\s*(?:S\.?\s*A\.?|Inc\.?|Ltd\.?|LLC|GmbH|Corp\.?|PLC)\s*(?:$|[,;/|]))", "", protected, flags=re.I)
     entities = [
         p.replace("Pratt_And_Whitney", "Pratt & Whitney").strip()
         for p in re.split(r"[,;/|]+|\band\b", protected, flags=re.I)
     ]
-    return [e for e in entities if len(e) >= 2] or [company_affected.strip()]
+    return [e for e in entities if len(e) >= 2 and not re.fullmatch(
+        r"(?:S\.?\s*A\.?|Inc\.?|Ltd\.?|LLC|GmbH|Corp\.?|PLC)", e, re.I
+    )] or ["Unknown"]
 
 
 # Remove unsupported or contradictory supply-chain role assertions.
@@ -772,7 +788,9 @@ def _resolve_scm_roles_and_impact_path(
 
     for ent in entities:
         ent_low = ent.lower()
-        reg_match = lookup_supplier_in_registry(ent, exact=True)
+        # Ignore legal-form suffixes for registry matching, but retain them in displayed names.
+        registry_name = re.sub(r"\s+(?:S\.?\s*A\.?|Inc\.?|Ltd\.?|LLC|GmbH|Corp\.?|PLC)$", "", ent, flags=re.I)
+        reg_match = lookup_supplier_in_registry(registry_name, exact=True)
         if reg_match and not AIRLINE_AND_REGULATOR_PATTERN.search(ent_low):
             mapped_tier = REGISTRY_TIER_MAP.get(reg_match["default_tier"], SCMTier.UNKNOWN)
             entity_roles.append((reg_match["official_name"], mapped_tier, reg_match))
@@ -1062,6 +1080,10 @@ def _evaluate_claim_and_causal_support(
     if not full_quote_verified:
         notes.append("Full verbatim quote could not be verified in source document")
         return "UNSUPPORTED", "UNSUPPORTED", notes
+
+    if matched_doc.get("content_status") in {"METADATA_ONLY", "UNAVAILABLE", "STRUCTURED_DATA"}:
+        notes.append("CONTENT_QUALITY_GUARD: Metadata/structured facts cannot verify a narrative event or cause.")
+        return "UNSUPPORTED", "HYPOTHETICAL_ONLY", notes
 
     # SEC metadata prove the existence and timing of a filing,
     # not the underlying financial or operational claims.
@@ -1613,6 +1635,13 @@ def deterministic_harness_validation(
         else:
             threat.program_relevance = "DIRECT_KIT_MATCH"
 
+        # A regulatory notice is not evidence extracted from the requested SEC/ESEF filing.
+        filing_specific_kit = bool(re.search(r"\b(?:sec|edgar|esef|xbrl|10-[kq]|20-f|6-k)\b", active_kit_query, re.I))
+        if filing_specific_kit and matched_doc.get("source_id") not in {"SRC_027", "SRC_031"}:
+            if threat.program_relevance == "DIRECT_KIT_MATCH":
+                threat.program_relevance = "RELATED_CONTEXT"
+            audit_notes.append("FINANCIAL_SOURCE_SCOPE: non-filing source cannot directly evidence a filing-specific KIT")
+
         # A true A350/787 announcement is not proof of a requested supplier shortage.
         issue_gap = kit_direct_relevance_gap(active_kit_query, doc_raw_full)
         if issue_gap and not is_sibling_watchlist:
@@ -1625,18 +1654,11 @@ def deterministic_harness_validation(
 
         combined_claim = f"{threat.threat_description} {threat.fact_check_quote} {threat.adversarial_scenario}"
         has_speculation = bool(SPECULATIVE_DISINFO_MARKERS.search(combined_claim))
-        has_contradiction = bool(
-            CONTRADICTION_MARKERS.search(doc_raw_full.lower())
-            and not CONTRADICTION_MARKERS.search(combined_claim.lower())
-        )
 
-        if has_contradiction:
-            threat.validation_status = ValidationStatus.CONTRADICTED
-            threat.claim_support_status = "CONTRADICTED"
-            threat.confidence_level = ConfidenceLevel.LOW
-            validation_errors += 1
-            flagged_unverified += 1
-        elif is_social_or_video:
+        # Rozpor nelze prokazovat nalezením záporného slova
+        # kdekoli v rozsáhlém dokumentu.
+        if is_social_or_video:
+
             threat.validation_status = ValidationStatus.UNVERIFIED_COMMUNITY
             threat.confidence_level = ConfidenceLevel.LOW
             flagged_unverified += 1
@@ -1777,9 +1799,11 @@ def deterministic_harness_validation(
         risk_type_value = getattr(threat.risk_type, "value", str(threat.risk_type))
         if risk_type_value == "REGULATORY":
             regulatory_evidence = f"{matched_doc.get('title', '')} {threat.fact_check_quote or ''}"
-            if stage_match := re.search(r"(?im)^Regulatory Stage:\s*(EFFECTIVE|FINAL_ISSUED|PROPOSED|UNKNOWN)\s*$",
+            if stage_match := re.search(r"(?im)^Regulatory Stage:\s*(EFFECTIVE|FINAL_ISSUED|WITHDRAWN|PROPOSED|UNKNOWN)\s*$",
                                         matched_text_str):
                 regulatory_stage = stage_match.group(1)
+            elif re.search(r"\b(?:withdrawn|withdrawal of (?:an? )?nprm)\b", regulatory_evidence, re.I):
+                regulatory_stage = "WITHDRAWN"
             elif re.search(r"\b(?:final rule|adopt(?:s|ed|ing) an? (?:new )?airworthiness directive)\b",
                            regulatory_evidence, re.I):
                 regulatory_stage = "FINAL_ISSUED"
@@ -1818,6 +1842,10 @@ def deterministic_harness_validation(
                 if verified and docket_match:
                     threat.corroboration_summary["FAA Lifecycle Verified"] = "YES"
                     threat.corroboration_summary["FAA Docket"] = docket_match.group(1).upper()
+                    threat.corroboration_summary["FAA Publication Date"] = canonical_doc_date
+                    threat.corroboration_summary["FAA Compliance Deadline"] = (
+                        matched_doc.get("regulatory_compliance_deadline") or "NOT_ESTABLISHED"
+                    )
                     if older_match:
                         threat.corroboration_summary["FAA Prior Document"] = older_match.group(1)
                     if effective_date:
@@ -1832,6 +1860,12 @@ def deterministic_harness_validation(
 
             threat.corroboration_summary["Regulatory Stage"] = regulatory_stage
 
+            if regulatory_stage == "WITHDRAWN":
+                threat.analytical_interpretation = (
+                    "The cited NPRM was withdrawn; this document does not establish an enforceable "
+                    "new compliance obligation. " + (threat.analytical_interpretation or "")
+                )
+                audit_notes.append("Withdrawn NPRM; no new binding compliance requirement from this notice.")
             if regulatory_stage == "PROPOSED":
                 threat.analytical_interpretation = (
                         "Regulatory proposal identified; legal effectiveness and implementation obligations are not established "

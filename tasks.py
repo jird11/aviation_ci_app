@@ -286,7 +286,7 @@ class ThreatAssessment(BaseModel):
     confidence_level: ConfidenceLevel = Field(default=ConfidenceLevel.LOW, description="Analytical certainty independent of potential impact severity (P1-07).")
     urgency: UrgencyLevel = Field(default=UrgencyLevel.MEDIUM, description="Time sensitivity for management action or verification (P1-07).")
     escalation_level: EscalationStatus = Field(default=EscalationStatus.PRIORITY_VERIFICATION_REQUIRED, description="Escalation decision combining severity, confidence, and corroboration (P1-17).")
-    is_critical: bool = Field(default=False, description="True if threat_score >= 8.")
+    is_critical: bool = Field(default=False, description="True only for evidence-validated critical escalation, not potential severity alone.")
 
     # Map supported CI category labels into a stable enumeration.
     @field_validator("ci_dimension", mode="before")
@@ -444,7 +444,7 @@ class ThreatAssessment(BaseModel):
     @model_validator(mode="after")
     def _validate_consistency(self):
         # Enforce cross-field constraints before accepting a ThreatAssessment object.
-        self.is_critical = self.threat_score >= 8
+        self.is_critical = False  # Only evidence-gated critical alerts are confirmed.
 
         clean_u = _URL_PREFIX_RE.sub("", (self.evidence_citation or "").strip()).rstrip(".,;)")
         if clean_u and urlparse(clean_u).scheme in {"http", "https"}:
@@ -481,10 +481,19 @@ class ThreatAssessment(BaseModel):
         }:
             self.geographic_epicenter = "Unknown"
 
-        if self.threat_score >= 8 and self.confidence_level == ConfidenceLevel.HIGH:
+        verified_critical = (
+            self.threat_score >= 8
+            and self.validation_status == ValidationStatus.SUPPORTED
+            and self.confidence_level == ConfidenceLevel.HIGH
+            and self.program_relevance == "DIRECT_KIT_MATCH"
+            and self.event_freshness in {EventFreshness.NEW_EVENT, EventFreshness.NEW_DEVELOPMENT}
+            and self.technical_grounding_status == "PASS"
+            and self.claim_support_status == "STATED_IN_SOURCE"
+        )
+        if verified_critical:
             self.escalation_level = EscalationStatus.CRITICAL_CONFIRMED_ALERT
             self.urgency = UrgencyLevel.HIGH
-        elif self.threat_score >= 7 and self.confidence_level in {ConfidenceLevel.LOW, ConfidenceLevel.MEDIUM}:
+        elif self.threat_score >= 7:
             self.escalation_level = EscalationStatus.PRIORITY_VERIFICATION_REQUIRED
             self.urgency = UrgencyLevel.HIGH
         elif self.threat_score >= 4:
@@ -492,6 +501,7 @@ class ThreatAssessment(BaseModel):
         else:
             self.escalation_level = EscalationStatus.ARCHIVED_LOW_RELEVANCE
 
+        self.is_critical = verified_critical
         return self
 
 
@@ -752,6 +762,9 @@ def create_analysis_task(agent, user_query: str, raw_data: str = "", scope: str 
             "3b. REGULATORY LIFECYCLE:\n"
             "Distinguish proposed rules, final issued regulations, and legally effective requirements.\n"
             "A proposed Airworthiness Directive (NPRM) is NOT automatically an effective mandate.\n"
+            "A WITHDRAWN NPRM creates no new binding obligation. Distinguish publication date, effective date, "
+            "and the separately evidenced compliance deadline; quote the exact applicability/requirement or state UNKNOWN.\n"
+            "CONTENT_STATUS METADATA_ONLY, SUMMARY_ONLY, PARTIAL_TEXT or UNAVAILABLE never means the full document was verified.\n"
             "Use 'proposed', 'would require', or equivalent conditional wording when appropriate.\n"
             "Never present anticipated compliance costs, grounding, inspections, or operational disruption as established consequences without direct evidence.\n"
             "If the regulatory stage is unclear, explicitly state that its legal effectiveness is not established.\n"

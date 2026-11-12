@@ -65,7 +65,10 @@
         t.validation_status === 'SUPPORTED' &&
         t.confidence_level === 'HIGH' &&
         t.escalation_level === 'CRITICAL_CONFIRMED_ALERT' &&
-        t.program_relevance === 'DIRECT_KIT_MATCH';
+        t.program_relevance === 'DIRECT_KIT_MATCH' &&
+        ['NEW_EVENT', 'NEW_DEVELOPMENT'].includes(t.event_freshness) &&
+        t.technical_grounding_status === 'PASS' &&
+        t.claim_support_status === 'STATED_IN_SOURCE';
 
     const needsReview = (t) => t.validation_status !== 'SUPPORTED';
 
@@ -274,6 +277,7 @@
                 ? ' · This scan did not produce a verified current report'
                 : ' · Previous run data and KIQs are hidden';
             $('status-actions').innerHTML = '';
+            $('review-verification-status').textContent = 'Report review: Current scan in progress · Event verification: Pending';
             return;
         }
         const md = report?.run_metadata || {};
@@ -347,16 +351,24 @@
 
         // Display review controls for the Analyst UI role; authorization is enforced server-side.
         const hitl = report?.hitl_status || 'IDLE';
-        if (hitl.includes('APPROVED') && review.length > 0) {
-    detail.textContent +=
-        ' · Report approved; unverified signals still require verification';
-}
-        const canApprove = !failed && (hitl === 'WAITING_FOR_HITL' || hitl === 'REJECTED') && $('role-select').value === 'ANALYST';
+        const approved = hitl.includes('APPROVED');
+        const verifiedEvents = signals.filter(t =>
+            t.validation_status === 'SUPPORTED' && t.program_relevance === 'DIRECT_KIT_MATCH'
+        ).length;
+        const reviewLabel = hitl === 'AUTO_APPROVED_BY_QA_AGENT' ? 'Automatically approved by QA (publication only)'
+            : approved ? 'Approved by analyst (publication only)'
+            : hitl === 'REJECTED' ? 'Rejected'
+            : hitl === 'WAITING_FOR_HITL' ? 'Awaiting analyst decision' : hitl;
+        $('review-verification-status').textContent =
+            `Report review: ${reviewLabel} · Event verification: ${verifiedEvents} source-supported direct / ${signals.length - verifiedEvents} not confirmed`;
+        const canApprove = !failed && outcome !== 'INSUFFICIENT_DATA'
+            && (hitl === 'WAITING_FOR_HITL' || hitl === 'REJECTED') && $('role-select').value === 'ANALYST';
         if (canApprove) {
             const approveBtn = document.createElement('button');
             approveBtn.type = 'button';
             approveBtn.className = 'btn tiny';
-            approveBtn.textContent = 'Approve report';
+            approveBtn.textContent = md.review_scope === 'MONITORING_ACKNOWLEDGEMENT'
+                ? 'Acknowledge monitoring report' : 'Approve report';
             approveBtn.onclick = () => submitHITL('APPROVE');
 
             const rejectBtn = document.createElement('button');
@@ -765,6 +777,7 @@ function renderAnalyst() {
         ${esc(t.threat_score)}/10
     </strong>
 </div>
+                    <div class="kv-item"><span>Event verified:</span> <strong>${esc(t.validation_status === 'SUPPORTED' && t.program_relevance === 'DIRECT_KIT_MATCH' ? 'Source-supported' : 'No — verification required')}</strong></div>
                     <div class="kv-item"><span>Validation:</span> <strong>${esc(t.validation_status)}</strong></div>
                     <div class="kv-item"><span>Confidence:</span> <strong>${esc(t.confidence_level)}</strong></div>
                     <div class="kv-item"><span>SCM Tier:</span> <strong>${esc(t.scm_tier)}</strong></div>
@@ -1112,12 +1125,21 @@ function renderAnalyst() {
     ` · Duration: ${md.total_duration_sec ?? '—'}s` +
     ` · LLM calls: ${md.llm_calls ?? '—'}` +
     ` · Scoring: ${md.scoring_status || '—'}` +
+    ` · Sources: ${md.source_coverage_status || '—'}` +
+    ` · Text quality: ${Object.entries(md.document_content_status_counts || {}).filter(([, n]) => n).map(([s, n]) => `${s} ${n}`).join(', ') || '—'}` +
+    ` · Limited documents: ${(md.content_limited_document_ids || []).length}` +
+    ` · Evidence: ${md.evidence_result_status || '—'}` +
+    ` · FR03 review: ${md.fr03_rejection_review_candidates ?? 0}` +
     temporalMetadata;
         const connBox = $('connector-panel');
         connBox.innerHTML = '';
         for (const [k, c] of Object.entries(report?.connector_status || {})) {
             const div = document.createElement('div');
-            div.textContent = `${k}: ${c.accepted_count ?? 0}/${c.found_count ?? 0} accepted · ${c.errors?.length ? 'ERROR' : 'OK'}`;
+            const http = Object.entries(c.http_status_counts || {}).map(([code, n]) => `${code}:${n}`).join(', ');
+            const content = Object.entries(c.content_status_counts || {}).map(([type, n]) => `${type}:${n}`).join(', ');
+            div.textContent = `${k}: ${c.accepted_count ?? 0}/${c.found_count ?? 0} accepted` +
+                (c.http_requests ? ` · HTTP ${c.http_requests} [${http}]` : '') +
+                (content ? ` · ${content}` : '') + ` · ${c.errors?.length ? 'ERROR' : 'OK'}`;
             connBox.append(div);
         }
     }
