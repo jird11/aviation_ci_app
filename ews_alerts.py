@@ -16,9 +16,7 @@ import smtplib
 from email.message import EmailMessage
 from pathlib import Path
 
-
 ALERT_STATE_FILE = Path("ews_alert_state.json")
-
 
 # Email only confirmed, human-approved critical alerts that have not already been sent.
 # Alert deduplication is keyed by event ID and publication timestamp; it is not a global incident ID.
@@ -61,18 +59,13 @@ def send_verified_critical_alerts(report: dict) -> int:
         if not confirmed:
             continue
 
-        alert_key = (
-            f"{event['event_id']}:"
-            f"{event.get('publication_time', 'UNKNOWN')}"
-        )
+        alert_key = f"{event['event_id']}:{event.get('publication_time', 'UNKNOWN')}"
 
         if alert_key in seen:
             continue
 
         message = EmailMessage()
-        message["Subject"] = (
-            f"aviation_ci_app Critical Alert: {event['company_affected']}"
-        )
+        message['Subject'] = f"aviation_ci_app Critical Alert: {event['company_affected']}"
         message["From"] = sender
         message["To"] = recipient
 
@@ -95,10 +88,7 @@ def send_verified_critical_alerts(report: dict) -> int:
             smtp.send_message(message)
 
         seen.add(alert_key)
-        ALERT_STATE_FILE.write_text(
-            json.dumps(sorted(seen), indent=2),
-            encoding="utf-8",
-        )
+        ALERT_STATE_FILE.write_text(json.dumps(sorted(seen), indent=2), encoding='utf-8')
         sent_count += 1
 
     return sent_count

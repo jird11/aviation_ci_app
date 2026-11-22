@@ -6,7 +6,6 @@
 # Design boundary: API routing and all intelligence processing live in imported backend modules.
 # =============================================================================
 
-
 """aviation_ci_app FastAPI entrypoint.
 
 Keep this file named main.py for existing PyCharm run configurations.
@@ -19,7 +18,6 @@ import os
 os.environ["LITELLM_LOCAL_MODEL_COST_MAP"] = "True"
 from ews_state import logger
 import uvicorn
-
 
 # Expose the development service on loopback only; no public network interface is opened.
 if __name__ == "__main__":

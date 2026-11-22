@@ -361,8 +361,8 @@
             : hitl === 'WAITING_FOR_HITL' ? 'Awaiting analyst decision' : hitl;
         $('review-verification-status').textContent =
             `Report review: ${reviewLabel} · Event verification: ${verifiedEvents} source-supported direct / ${signals.length - verifiedEvents} not confirmed`;
-        const canApprove = !failed && outcome !== 'INSUFFICIENT_DATA'
-            && (hitl === 'WAITING_FOR_HITL' || hitl === 'REJECTED') && $('role-select').value === 'ANALYST';
+        const canApprove = Boolean(report?.report_id && report.report_id !== 'NONE')
+            && hitl === 'WAITING_FOR_HITL' && $('role-select').value === 'ANALYST';
         if (canApprove) {
             const approveBtn = document.createElement('button');
             approveBtn.type = 'button';
@@ -1438,6 +1438,8 @@ const answeredCount = searchedAnswers.filter(
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-Review-Role': 'ANALYST',
+                    'X-Run-ID': report?.run_id || '',
                     'X-Review-Key': reviewKey
                 },
                 body: JSON.stringify({
@@ -1486,10 +1488,6 @@ const answeredCount = searchedAnswers.filter(
     // Submit the review decision to the backend; the UI role is not a security boundary.
     async function submitHITL(decision) {
         if ($('role-select').value !== 'ANALYST') return;
-        if (failedOutcomes.has(report?.outcome_status || 'IDLE')) {
-            alert('Incomplete analyses cannot be approved.');
-            return;
-        }
         const reviewKey = prompt('Enter reviewer key:');
         if (!reviewKey) return;
         const reason = decision === 'REJECT'
@@ -1500,11 +1498,13 @@ const answeredCount = searchedAnswers.filter(
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Analyst-Role': 'ANALYST',
+                    'X-Review-Role': 'ANALYST',
+                    'X-Analyst-ID': 'senior_ci_analyst',
                     'X-Review-Key': reviewKey
                 },
                 body: JSON.stringify({
                     report_id: report?.report_id || 'MANUAL',
+                    run_id: report?.run_id || '',
                     version: report?.version || 1,
                     decision,
                     reviewer_name: 'Senior CI Analyst',
@@ -1600,3 +1600,68 @@ const answeredCount = searchedAnswers.filter(
     setInterval(() => {
         if (scanSession && lastRunning) renderProgress(true, scanSession.state);
     }, 1000);
+
+    /* Persistent user feedback for AI agents */
+    async function loadAgentFeedback() {
+        const listEl = $('agentFeedbackList');
+        if (!listEl) return;
+        try {
+            const res = await fetch('/api/agent-feedback', { cache: 'no-store' });
+            if (!res.ok) return;
+            const data = await res.json();
+            const items = Array.isArray(data.items) ? data.items : [];
+            if (!items.length) {
+                listEl.innerHTML = '<li class="tiny muted">No active guidance saved yet.</li>';
+                return;
+            }
+            listEl.innerHTML = items.map(item => `
+                <li class="agent-fb-item">
+                    <span><span class="agent-fb-tag">[${esc(item.target_agent)}]</span>${esc(item.instruction)}</span>
+                    <button type="button" class="btn tiny" onclick="deleteAgentFeedback('${esc(item.feedback_id)}')">Remove</button>
+                </li>
+            `).join('');
+        } catch (err) {
+            console.warn('Could not load agent feedback', err);
+        }
+    }
+
+    async function saveAgentFeedback() {
+        const inputEl = $('agentFeedbackInput');
+        const targetEl = $('agentFeedbackTarget');
+        const msgEl = $('agentFeedbackMsg');
+        const saveBtn = $('agentFeedbackSaveBtn');
+        const instruction = (inputEl?.value || '').trim();
+        if (instruction.length < 3) {
+            if (msgEl) msgEl.textContent = 'Enter at least 3 characters.';
+            return;
+        }
+        saveBtn.disabled = true;
+        if (msgEl) msgEl.textContent = 'Saving…';
+        try {
+            const res = await fetch('/api/agent-feedback', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ instruction, target_agent: targetEl?.value || 'ALL' })
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw Error(data.detail || `HTTP ${res.status}`);
+            inputEl.value = '';
+            if (msgEl) msgEl.textContent = 'Saved — agents will apply this guidance in the next run.';
+            await loadAgentFeedback();
+        } catch (err) {
+            if (msgEl) msgEl.textContent = `Could not save: ${err.message}`;
+        } finally {
+            saveBtn.disabled = false;
+        }
+    }
+
+    async function deleteAgentFeedback(feedbackId) {
+        try {
+            const res = await fetch('/api/agent-feedback/' + encodeURIComponent(feedbackId), { method: 'DELETE' });
+            if (res.ok) await loadAgentFeedback();
+        } catch (err) {
+            console.warn('Could not delete agent feedback', err);
+        }
+    }
+
+    loadAgentFeedback();

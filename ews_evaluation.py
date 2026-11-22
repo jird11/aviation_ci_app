@@ -7,29 +7,14 @@
 #   self-reported confidence.
 # =============================================================================
 
-
 """Evaluation metrics and comparisons against reference intelligence cases."""
 
-from ews_agent_support import (
-    generate_keyword_baseline_report,
-)
-from ews_filtering import (
-    OBVIOUS_NOISE_REGEX,
-)
-from ews_state import (
-    Any,
-    DB_LOCK,
-    Dict,
-    List,
-    SQLITE_DB,
-    Tuple,
-    app,
-    json,
-    re,
-    sqlite3,
-    time,
-    logger,
-)
+from collections import defaultdict
+from typing import Optional
+from urllib.parse import urlsplit, urlunsplit
+
+from ews_agent_support import generate_keyword_baseline_report
+from ews_state import Any, DB_LOCK, Dict, List, SQLITE_DB, Tuple, app, json, re, sqlite3, time, logger
 from ews_validation import (
     HYPOTHETICAL_IN_FACTS_REGEX,
     _detect_specific_variants,
@@ -44,7 +29,7 @@ def _match_event_to_reference_1to1(
 ) -> Tuple[int, List[float], int, int]:
     # Reserve reference matches one-to-one to prevent inflated detection scores.
     """Match each detected event to at most one reference case.
-    
+
     Require matching entities, aircraft programs, issue-specific terms, and evidence context.
     Return the true-positive count, scoring errors, SCM matches, and grounded matches.
     """
@@ -76,19 +61,15 @@ def _match_event_to_reference_1to1(
             rc_prog = (rc.get("expected_program") or "").upper()
             rc_kw_list = [k.strip().lower() for k in (rc.get("problem_keywords") or "").split(",") if k.strip()]
 
-
             comp_tokens = [t for t in re.findall(r"\b[a-z0-9]{3,}\b", rc_comp_low) if
                            t not in {"the", "company", "holdings"}]
             entity_match = bool(comp_tokens and any(t in ev_comp_low or t in ev_text_low for t in comp_tokens))
             if not entity_match and not (rc_url and rc_url == ev_url):
                 continue
 
-
             if rc_prog not in {"", "UNSPECIFIED"}:
                 expected = _detect_specific_variants(rc_prog)
-                observed = _detect_specific_variants(
-                    ev.get("affected_program", "")
-                )
+                observed = _detect_specific_variants(ev.get('affected_program', ''))
 
                 if expected and expected.isdisjoint(observed):
                     continue
@@ -97,7 +78,6 @@ def _match_event_to_reference_1to1(
                         ev.get("affected_program") or ""
                 ).lower():
                     continue
-
 
             kw_hits = sum(1 for kw in rc_kw_list if _normalize_for_quote_match(kw) in ev_text_low)
             kw_ratio = (kw_hits / len(rc_kw_list)) if rc_kw_list else 0.0
@@ -119,16 +99,15 @@ def _match_event_to_reference_1to1(
             if (ev.get("scm_tier") or "") == (best_ref.get("expected_scm_tier") or ""):
                 scm_correct += 1
 
-
             ref_quote_norm = _normalize_for_quote_match(best_ref.get("supporting_quote") or "")
             if (ref_quote_norm and ref_quote_norm[:30] in ev_text_low) or best_score >= 0.55:
                 ref_grounded += 1
 
     return tp, score_diffs, scm_correct, ref_grounded
 
+
 # Normalize source identifiers before evaluation and match scoring.
 def _safe_evidence_ids(raw):
-
     if isinstance(raw, list):
         return raw
 
@@ -144,19 +123,133 @@ def _safe_evidence_ids(raw):
         return []
 
 
-# Compute experimental detection, grounding, and scoring metrics against reference cases.
-# Metrics are meaningful only against independently curated and relevant reference labels.
-# Report evaluation against labelled fixtures, not estimated performance on unseen live data.
+def _reference_label(reference: Dict[str, Any]) -> Optional[bool | str]:
+    """Require an explicit label; missing values never mean IRRELEVANT."""
+    raw = reference.get("is_relevant")
+    if raw is None:
+        raw = reference.get("relevance_label")
+    label = str(raw).strip().upper()
+    if raw is True or label in {"1", "RELEVANT", "POSITIVE"}:
+        return True
+    if raw is False or label in {"0", "IRRELEVANT", "NEGATIVE"}:
+        return False
+    if label in {"AMBIGUOUS", "UNCERTAIN", "UNRESOLVED", "MIXED"}:
+        return "AMBIGUOUS"
+    return None
+
+
+def _independently_annotated(reference: Dict[str, Any]) -> bool:
+    """Seeded, inferred and unproven labels are not independent ground truth."""
+    markers = " ".join(str(reference.get(key) or "") for key in (
+        "reference_type", "dataset_type", "label_origin", "annotation_method", "annotation_source"
+    )).upper()
+    if any(term in markers for term in (
+            "SEEDED", "SYNTHETIC", "ILLUSTRATIVE", "HEURISTIC", "MODEL_GENERATED",
+            "LLM", "AUTOMATED", "AI_GENERATED", "KEYWORD_ESTIMATE",
+    )):
+        return False
+    explicitly_independent = any(
+        reference.get(key) is True or str(reference.get(key)).lower() in {"1", "true", "yes"}
+        for key in ("is_independently_annotated", "independently_annotated", "reference_independent")
+    )
+    origin = str(reference.get("annotation_source") or reference.get("label_origin") or "").upper()
+    return explicitly_independent or origin in {
+        "INDEPENDENT_HUMAN", "HUMAN_INDEPENDENT", "MANUAL_INDEPENDENT", "EXPERT_INDEPENDENT"
+    }
+
+
+def _document_identity(row: Dict[str, Any], reference: bool = False) -> Optional[str]:
+    """Use stable exact identifiers, never fuzzy headline similarity."""
+    url = str(row.get("source_url" if reference else "url") or "").strip()
+    if url:
+        parts = urlsplit(url)
+        if parts.scheme.lower() not in {"http", "https"} or not parts.hostname:
+            return None
+        path = parts.path.rstrip("/") or "/"
+        return "url:" + urlunsplit((parts.scheme.lower(), parts.netloc.lower(), path, parts.query, ""))
+    global_id = row.get("global_document_id")
+    if global_id:
+        return f"global:{str(global_id).strip()}"
+    if row.get("run_id") and row.get("doc_id"):
+        return f"run:{row['run_id']}:{row['doc_id']}"
+    return None
+
+
+def _filter_reference_metrics(
+        filter_logs: List[Dict[str, Any]], references: List[Dict[str, Any]],
+        *, independent_only: bool,
+) -> Dict[str, Any]:
+    """Confusion matrix over unique documents with unambiguous, explicit labels only."""
+    labels = defaultdict(set)
+    for ref in references:
+        identity = _document_identity(ref, reference=True)
+        label = _reference_label(ref)
+        if not identity:
+            continue
+        if label is not None and (not independent_only or _independently_annotated(ref)):
+            labels[identity].add(label)
+
+    observations = defaultdict(set)
+    unnamed_documents = 0
+    for record in filter_logs:
+        identity = _document_identity(record)
+        if not identity:
+            unnamed_documents += 1
+            continue
+        decision = record.get("is_accepted")
+        observations[identity].add(decision if decision in (0, 1, True, False) else "UNKNOWN")
+
+    tp = fp = tn = fn = unannotated = ambiguous = 0
+    positive = negative = 0
+    for identity, decisions in observations.items():
+        reference_labels = labels.get(identity, set())
+        if "AMBIGUOUS" in reference_labels or len(reference_labels) > 1 or len(decisions) > 1:
+            ambiguous += 1
+            continue
+        if not reference_labels or "UNKNOWN" in decisions:
+            unannotated += 1
+            continue
+        actual = next(iter(reference_labels))
+        accepted = bool(next(iter(decisions)))
+        positive += bool(actual)
+        negative += not actual
+        tp += bool(actual and accepted)
+        fp += bool(not actual and accepted)
+        tn += bool(not actual and not accepted)
+        fn += bool(actual and not accepted)
+
+    unannotated += unnamed_documents
+    precision = round(100 * tp / (tp + fp), 1) if tp + fp else None
+    recall = round(100 * tp / (tp + fn), 1) if tp + fn else None
+    f1 = (
+        round(2 * precision * recall / (precision + recall), 1)
+        if precision is not None and recall is not None and precision + recall
+        else 0.0 if precision is not None and recall is not None else None
+    )
+    evaluated = tp + fp + tn + fn
+    return {
+        "status": "MEASURED" if evaluated else "INSUFFICIENT_INDEPENDENT_LABELS" if independent_only else "NO_EXPLICIT_REFERENCE_LABELS",
+        "evaluation_scope": "INDEPENDENT_HUMAN_ANNOTATIONS" if independent_only else "EXPERIMENTAL_REFERENCE_LABELS_ONLY",
+        "sampling_scope": "ANNOTATED_DOCUMENTS_PRESENT_IN_FILTER_LOG",
+        "annotated_document_count": evaluated,
+        "unannotated_document_count": unannotated,
+        "ambiguous_document_count": ambiguous,
+        "positive_case_count": positive,
+        "negative_case_count": negative,
+        "total_documents_evaluated": evaluated,
+        "total_unique_documents_observed": len(observations) + unnamed_documents,
+        "excluded_from_confusion_matrix_count": unannotated + ambiguous,
+        "document_count_consistent": evaluated + unannotated + ambiguous == len(observations) + unnamed_documents,
+        "true_positives_kept": tp, "false_positives_kept": fp,
+        "correctly_rejected_irrelevant_tn": tn, "mistakenly_rejected_relevant_fn": fn,
+        "filter_precision_pct": precision, "filter_recall_pct": recall, "filter_f1_pct": f1,
+        "reference_matching_method": "EXACT_URL_OR_GLOBAL_DOCUMENT_ID",
+    }
+
+
 @app.get("/api/evaluation")
 def compute_evaluation_metrics():
-    # Calculate coverage and quality measurements against the selected independent cases.
-    """Calculate experimental quality metrics against stored reference cases.
-    
-    Evaluate semantic filtering, one-to-one event matching, source traceability,
-    reference grounding, and independent scoring. Compare with a keyword-only
-    baseline on the same source documents. Report unavailable metrics explicitly
-    when there is insufficient labeled evidence.
-    """
+    """Report independent document-filter metrics and separate internal diagnostics."""
     with DB_LOCK, sqlite3.connect(SQLITE_DB) as conn:
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
@@ -172,62 +265,13 @@ def compute_evaluation_metrics():
         dismissed_feedback = [dict(r) for r in cur.fetchall()]
 
     total_events = len(events)
-    relevant_refs = [c for c in ref_cases if int(c.get("is_relevant") or 0) == 1]
-    irrelevant_refs = [c for c in ref_cases if int(c.get("is_relevant") or 0) == 0]
+    relevant_refs = [c for c in ref_cases if _reference_label(c) is True]
+    irrelevant_refs = [c for c in ref_cases if _reference_label(c) is False]
+    independently_labeled_refs = [c for c in ref_cases if _independently_annotated(c)]
+    filter_eval = _filter_reference_metrics(filter_logs, ref_cases, independent_only=True)
+    internal_filter_eval = _filter_reference_metrics(filter_logs, ref_cases, independent_only=False)
+    filter_eval["total_filter_log_records"] = len(filter_logs)
 
-    
-    filter_eval: Dict[str, Any] = {
-        "status": "OK" if filter_logs else "N/A (Insufficient Data - Run analysis first)",
-        "total_documents_evaluated": len(filter_logs),
-        "correctly_rejected_irrelevant_tn": None,
-        "mistakenly_rejected_relevant_fn": None,
-        "filter_precision_pct": None,
-        "filter_recall_pct": None,
-        "filter_f1_pct": None,
-    }
-    if filter_logs and ref_cases:
-        f_tp, f_fp, f_tn, f_fn = 0, 0, 0, 0
-        for fl in filter_logs:
-            fl_accepted = int(fl.get("is_accepted") or 0) == 1
-            fl_url = (fl.get("url") or "").strip()
-            fl_title_low = (fl.get("title") or "").lower()
-
-
-            matched_ref = next(
-                (rc for rc in ref_cases if (rc.get("source_url") and rc["source_url"] == fl_url) or (
-                            rc.get("headline_or_topic") and rc["headline_or_topic"][:35].lower() in fl_title_low)),
-                None,
-            )
-            if matched_ref is not None:
-                actually_relevant = int(matched_ref.get("is_relevant") or 0) == 1
-            else:
-                actually_relevant = not bool(OBVIOUS_NOISE_REGEX.search(fl_title_low)) and fl.get(
-                    "signal_type") not in {"MODEL_MISMATCH", "OUT_OF_SCOPE", "DUPLICATE", "EMPTY_OR_INJECTION"}
-
-            if fl_accepted and actually_relevant:
-                f_tp += 1
-            elif fl_accepted and not actually_relevant:
-                f_fp += 1
-            elif not fl_accepted and not actually_relevant:
-                f_tn += 1
-            else:
-                f_fn += 1
-
-        f_prec = round((f_tp / (f_tp + f_fp)) * 100, 1) if (f_tp + f_fp) > 0 else None
-        f_rec = round((f_tp / (f_tp + f_fn)) * 100, 1) if (f_tp + f_fn) > 0 else None
-        f_f1 = round(2 * (f_prec * f_rec) / (f_prec + f_rec), 1) if (
-                    f_prec and f_rec and (f_prec + f_rec) > 0) else None
-        filter_eval.update({
-            "true_positives_kept": f_tp,
-            "false_positives_kept": f_fp,
-            "correctly_rejected_irrelevant_tn": f_tn,
-            "mistakenly_rejected_relevant_fn": f_fn,
-            "filter_precision_pct": f_prec,
-            "filter_recall_pct": f_rec,
-            "filter_f1_pct": f_f1,
-        })
-
-    
     if total_events == 0:
         citation_traceability_rate = None
         internal_qa_support_rate = None
@@ -246,9 +290,7 @@ def compute_evaluation_metrics():
         )
         citation_traceability_rate = round((traceable_count / total_events) * 100, 1)
 
-        qa_supported_count = sum(
-            1 for e in events if e.get("validation_status") == "SUPPORTED"
-        )
+        qa_supported_count = sum((1 for e in events if e.get('validation_status') == 'SUPPORTED'))
         internal_qa_support_rate = round((qa_supported_count / total_events) * 100, 1)
 
         clean_fact_sep_count = sum(
@@ -260,9 +302,9 @@ def compute_evaluation_metrics():
         )
         fact_hypothesis_sep_rate = round((clean_fact_sep_count / total_events) * 100, 1)
 
+    # Event similarity matching is exploratory, not a human-verified event label.
     precision, recall, f1, mae, ref_content_grounding_rate = None, None, None, None, None
     if total_events > 0 and relevant_refs:
-
         run_queries_low = " ".join((r.get("query") or "").lower() for r in runs)
         scoped_refs = [
                           rc for rc in relevant_refs
@@ -280,7 +322,6 @@ def compute_evaluation_metrics():
         scm_accuracy_pct = round((scm_corr / max(1, tp)) * 100, 1) if tp > 0 else None
         ref_content_grounding_rate = round((ref_grounded / total_events) * 100, 1)
 
-
     total_val_errors = sum(int(r.get("validation_errors") or 0) for r in runs)
     manually_dismissed_count = len(dismissed_feedback)
     verified_ungrounded_rate = (
@@ -297,7 +338,6 @@ def compute_evaluation_metrics():
         else None
     )
 
-    
     baseline_comparison: Dict[str, Any] = {"status": "N/A (No stored run dataset available yet)"}
     if runs:
         latest_run = runs[0]
@@ -323,18 +363,13 @@ def compute_evaluation_metrics():
 
             except Exception as exc:
 
-                logger.exception(
-                    "[EVALUATION] Keyword baseline failed: %s",
-                    exc,
-                )
+                logger.exception('[EVALUATION] Keyword baseline failed: %s', exc)
 
                 baseline_error = type(exc).__name__
 
                 from types import SimpleNamespace
 
-                base_report = SimpleNamespace(
-                    threats=[]
-                )
+                base_report = SimpleNamespace(threats=[])
             base_time = round(time.time() - t0, 4)
             base_events = [t.model_dump() for t in base_report.threats]
 
@@ -349,71 +384,102 @@ def compute_evaluation_metrics():
             b_prec = round((b_tp / len(base_events)) * 100, 1) if base_events else None
             b_rec = round((b_tp / len(scoped_refs_for_latest)) * 100, 1) if scoped_refs_for_latest else None
             b_f1 = round(2 * (b_prec * b_rec) / (b_prec + b_rec), 1) if (
-                        b_prec and b_rec and (b_prec + b_rec) > 0) else None
+                    b_prec and b_rec and (b_prec + b_rec) > 0) else None
             b_scm_acc = round((b_scm_corr / max(1, len(base_events))) * 100, 1) if base_events else None
             b_ground_rate = round((b_grounded / len(base_events)) * 100, 1) if base_events else None
+            latest_events = [event for event in events if event.get("run_id") == latest_run_id]
+            latest_tp, _, latest_scm, latest_grounded = _match_event_to_reference_1to1(
+                latest_events, scoped_refs_for_latest
+            )
+            latest_prec = round(100 * latest_tp / len(latest_events), 1) if latest_events else None
+            latest_rec = round(100 * latest_tp / len(scoped_refs_for_latest), 1) if scoped_refs_for_latest else None
+            latest_f1 = (
+                round(2 * latest_prec * latest_rec / (latest_prec + latest_rec), 1)
+                if latest_prec is not None and latest_rec is not None and latest_prec + latest_rec else None
+            )
 
             baseline_comparison = {
                 "status": (
                     "N/A (Keyword baseline failed)"
                     if baseline_error
-                    else "COMPARED_ON_IDENTICAL_DATASET"
+                    else "EXPERIMENTAL_REFERENCE_MATCHING"
                 ),
+                "measurement_note": "Event matching is heuristic; reference cases may be seeded. Not independent Precision/Recall/F1.",
                 "dataset_run_id": latest_run_id,
                 "input_documents_count": len(stored_docs),
                 "Keyword_Baseline": {
                     "events_generated": len(base_events),
-                    "precision_pct": b_prec,
-                    "recall_pct": b_rec,
-                    "f1_score_pct": b_f1,
-                    "scm_accuracy_pct": b_scm_acc,
-                    "content_grounding_rate_pct": b_ground_rate,
+                    "precision_pct": None, "recall_pct": None, "f1_score_pct": None,
                     "processing_time_sec": base_time,
                     "tokens_used": 0,
                     "cost_usd": 0.0,
                 },
                 "aviation_ci_app_MultiAgent": {
-                    "events_generated": total_events,
-                    "precision_pct": precision,
-                    "recall_pct": recall,
-                    "f1_score_pct": f1,
-                    "scm_accuracy_pct": scm_accuracy_pct,
-                    "content_grounding_rate_pct": ref_content_grounding_rate if ref_content_grounding_rate is not None else internal_qa_support_rate,
-                    "processing_time_sec": avg_time,
-                    "tokens_used": avg_tokens,
-                    "cost_usd": avg_cost,
+                    "events_generated": len(latest_events),
+                    "precision_pct": None, "recall_pct": None, "f1_score_pct": None,
+                    "processing_time_sec": latest_run.get("total_duration"),
+                    "tokens_used": int(latest_run.get("tokens_input") or 0) + int(latest_run.get("tokens_output") or 0),
+                    "cost_usd": latest_run.get("estimated_cost"),
+                },
+                "internal_experimental_reference_matching": {
+                    "keyword_baseline": {
+                        "estimated_precision_pct": b_prec, "estimated_recall_pct": b_rec,
+                        "estimated_f1_pct": b_f1, "estimated_scm_accuracy_pct": b_scm_acc,
+                        "estimated_grounding_rate_pct": b_ground_rate,
+                    },
+                    "multi_agent": {
+                        "estimated_precision_pct": latest_prec, "estimated_recall_pct": latest_rec,
+                        "estimated_f1_pct": latest_f1,
+                        "estimated_scm_accuracy_pct": round(100 * latest_scm / latest_tp, 1) if latest_tp else None,
+                        "estimated_grounding_rate_pct": round(100 * latest_grounded / len(latest_events),
+                                                              1) if latest_events else None,
+                    },
                 },
             }
 
+    independent_precision = filter_eval["filter_precision_pct"]
+    independent_recall = filter_eval["filter_recall_pct"]
+    independent_f1 = filter_eval["filter_f1_pct"]
     return {
         "data_sufficiency_status": (
-            "SUFFICIENT"
-            if total_events > 0
-            else "N/A (Insufficient Data - 0 events processed)"
+            "ANNOTATED_SAMPLE_AVAILABLE"
+            if filter_eval["annotated_document_count"] else "INSUFFICIENT_INDEPENDENT_LABELS"
         ),
-
         "measurement_note": (
-            "Reference cases include seeded/illustrative examples; "
-            "unmatched filter documents are heuristically labeled. "
-            "Precision/recall are diagnostic estimates, not "
-            "independently verified research metrics."
+            "Document-level Precision/Recall/F1 use only explicitly independent human annotations "
+            "matched by exact document identity. Unlabeled, ambiguous, and seeded-only cases "
+            "are excluded. Recall applies only to the annotated subset present in the filter log, "
+            "not to all potentially relevant documents. Event matching and baseline comparison "
+            "are exploratory diagnostics, never independent ground truth."
         ),
         "total_runs_evaluated": len(runs),
         "total_unique_events": total_events,
         "reference_dataset_count": len(ref_cases),
         "reference_positive_cases": len(relevant_refs),
         "reference_negative_cases": len(irrelevant_refs),
+        "reference_ambiguous_cases": sum(_reference_label(rc) == "AMBIGUOUS" for rc in ref_cases),
+        "independent_reference_annotation_counts": {
+            "positive": sum(_reference_label(rc) is True for rc in independently_labeled_refs),
+            "negative": sum(_reference_label(rc) is False for rc in independently_labeled_refs),
+            "ambiguous": sum(_reference_label(rc) == "AMBIGUOUS" for rc in independently_labeled_refs),
+        },
         "semantic_filter_evaluation": filter_eval,
+        "internal_experimental_filter_evaluation": internal_filter_eval,
         "analytical_output_evaluation": {
-            "precision_pct": precision if precision is not None else "N/A (Insufficient Data)",
-            "recall_pct": recall if recall is not None else "N/A (Insufficient Data)",
-            "f1_score_pct": f1 if f1 is not None else "N/A (Insufficient Data)",
-            "scm_classification_accuracy_pct": scm_accuracy_pct if scm_accuracy_pct is not None else "N/A (Insufficient Data)",
+            "status": "NOT_INDEPENDENTLY_ANNOTATED",
+            "precision_pct": None, "recall_pct": None, "f1_score_pct": None,
+            "scm_classification_accuracy_pct": None,
             "citation_traceability_rate_pct": citation_traceability_rate if citation_traceability_rate is not None else "N/A (Insufficient Data)",
-            "reference_content_grounding_rate_pct": ref_content_grounding_rate if ref_content_grounding_rate is not None else "N/A (Insufficient Data)",
+            "reference_content_grounding_rate_pct": None,
             "internal_qa_support_rate_pct": internal_qa_support_rate if internal_qa_support_rate is not None else "N/A (Insufficient Data)",
             "fact_vs_hypothesis_separation_rate_pct": fact_hypothesis_sep_rate if fact_hypothesis_sep_rate is not None else "N/A (Insufficient Data)",
-            "threat_score_mae": mae if mae is not None else "N/A (Insufficient Data)",
+            "threat_score_mae": None,
+        },
+        "internal_experimental_event_matching": {
+            "estimated_precision_pct": precision, "estimated_recall_pct": recall,
+            "estimated_f1_pct": f1, "estimated_scm_accuracy_pct": scm_accuracy_pct,
+            "estimated_reference_grounding_rate_pct": ref_content_grounding_rate,
+            "estimated_threat_score_mae": mae,
         },
         "error_and_hallucination_breakdown": {
             "automated_validation_errors_count": total_val_errors,
@@ -426,12 +492,8 @@ def compute_evaluation_metrics():
             "note": "Automated validation errors reflect harness rejections (e.g. snippet/quote mismatches), not necessarily LLM hallucinations.",
         },
         "baseline_comparison": baseline_comparison,
-
-        "grounding_rate_pct": (
-            ref_content_grounding_rate
-            if ref_content_grounding_rate is not None
-            else (internal_qa_support_rate if internal_qa_support_rate is not None else "N/A")
-        ),
+        "grounding_rate_pct": internal_qa_support_rate,
+        "grounding_metric_scope": "INTERNAL_QA_VALIDATION_STATUS",
         "hallucination_rate_pct": (
             verified_ungrounded_rate
             if verified_ungrounded_rate is not None
@@ -439,8 +501,9 @@ def compute_evaluation_metrics():
         ),
         "avg_processing_time_sec": avg_time if avg_time is not None else "N/A",
         "avg_cost_per_run_usd": avg_cost if avg_cost is not None else 0.0,
-        "precision_pct": precision,
-        "recall_pct": recall,
-        "f1_score_pct": f1,
-        "threat_score_mae": mae,
+        "precision_pct": independent_precision,
+        "recall_pct": independent_recall,
+        "f1_score_pct": independent_f1,
+        "precision_metric_scope": "INDEPENDENTLY_ANNOTATED_DOCUMENT_FILTER_LOG",
+        "threat_score_mae": None,
     }

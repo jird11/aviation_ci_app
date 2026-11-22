@@ -9,68 +9,86 @@
 
 """Targeted follow-up scans for unresolved intelligence evidence gaps."""
 
+import hmac
+import hashlib
+import threading
+from contextlib import contextmanager, closing
+from urllib.parse import urlparse
+
+from fastapi import Request
+
 from ews_filtering import OBVIOUS_NOISE_REGEX
 from ews_models import TargetedScanRequest
-from ews_reporting import refresh_threat_reports_dict
 from ews_state import (
-    Any, CONTRADICTION_MARKERS, ConfidenceLevel, DB_LOCK, Dict, EventStatus,
-    FINAL_FILE, HTTPException, List, Optional, PENDING_FILE, SQLITE_DB,
-    SequenceMatcher, Tuple, ValidationStatus, app, datetime,
+    Any, CONTRADICTION_MARKERS, DB_LOCK, Dict,
+    FINAL_FILE, HTTPException, List, Optional, PENDING_FILE, PIPELINE_STATE, SQLITE_DB,
+    SequenceMatcher, Tuple, app, datetime,
     get_collected_documents, is_date_within_scope, json, logger,
     normalize_scope_value, os, re, scrape_manufacturer_pr_news,
     scrape_regulatory_agencies, search_aerospace_news, sqlite3, timezone, uuid,
 )
 from ews_validation import (
-    _count_independent_confirmations, _detect_aircraft_families,
-    _detect_engine_models, _detect_specific_variants,
+    _detect_aircraft_families, _detect_engine_models, _detect_specific_variants,
     _normalize_for_quote_match, _split_affected_entities,
     _engine_models_match,
 )
 
+_TARGETED_LOCK = threading.RLock()
+_COMPLETE_CONTENT = {"FULL_TEXT", "STRUCTURED_DATA", "TRANSCRIPT_AS_RECEIVED"}
+_GAP_SEARCH_FOCUS = (
+    (r"\b(?:caus\w*|mechanism|root\s+cause|příčin\w*|proč|selhán\w*)\b", "root cause technical investigation failure mechanism"),
+    (r"\b(?:extent|scale|how\s+many|affected\s+(?:units|engines|aircraft)|rozsah|počet|kolik)\b", "number of affected engines aircraft units"),
+    (r"\b(?:component\w*|part\s+number|assembly|součást\w*|komponent\w*|díl\w*)\b", "affected component part number inspection findings"),
+    (r"\b(?:impact\w*|production|deliver\w*|capacity|dopad\w*|výrob\w*|předáv\w*)\b", "production capacity delivery schedule documented impact"),
+    (r"\b(?:regulat\w*|directive\w*|docket|effective|compliance|předpis\w*|účinnost\w*)\b", "FAA docket final rule effective date compliance deadline"),
+)
+
+
+@contextmanager
+def _isolated_targeted_scope(scope: str):
+    """Serialize targeted collectors and restore process settings after every scan."""
+    keys = (
+        "EWS_DYNAMIC_SCOPE", "EWS_DYNAMIC_LIMIT", "EWS_DATE_FROM", "EWS_DATE_TO",
+        "EWS_AS_OF_DATE", "EWS_EFFECTIVE_FROM", "EWS_EFFECTIVE_TO",
+    )
+    with _TARGETED_LOCK:
+        previous = {key: os.environ.get(key) for key in keys}
+        try:
+            os.environ.update({key: "" for key in keys})
+            os.environ.update({"EWS_DYNAMIC_SCOPE": normalize_scope_value(scope).value,
+                               "EWS_DYNAMIC_LIMIT": "3"})
+            yield
+        finally:
+            for key, value in previous.items():
+                if value is None:
+                    os.environ.pop(key, None)
+                else:
+                    os.environ[key] = value
 
 # Create a focused evidence-retrieval query for a specific unresolved event.
 # Construct search terms from the unresolved event, not from unverified causal assumptions.
 def _build_concrete_targeted_query(target_threat: Dict[str, Any], req: TargetedScanRequest) -> str:
-    """Build a focused follow-up query from the event entity, aircraft, component, and issue."""
+    """Prioritize the exact missing fact while retaining established entity identity."""
     company_raw = target_threat.get("company_affected") or req.company_affected or ""
-    primary_entity = _split_affected_entities(company_raw)[0] if company_raw else ""
+    entities = _split_affected_entities(company_raw) if company_raw else []
+    primary_entity = entities[0] if entities else ""
     program_raw = target_threat.get("affected_program") or ""
     component_raw = target_threat.get("affected_component") or ""
-    facts_and_desc = (
-        f"{target_threat.get('confirmed_facts', '')} "
-        f"{target_threat.get('threat_description', '')} "
-        f"{target_threat.get('fact_check_quote', '')}"
-    )
-
-    model_token = program_raw.replace("_FAMILY", "").replace("_", " ") if not program_raw.startswith("Unknown") else ""
-    engine_token = component_raw if not component_raw.startswith("Unknown") else ""
-
-    issue_keywords = [
-        kw for kw in (
-            "fire switch", "powder metal", "shortage", "delay", "grounded", "grounding",
-            "defect", "crack", "corrosion", "directive", "shutdown", "inspection", "halt",
-        )
-        if kw in facts_and_desc.lower()
-    ]
-    issue_token = " ".join(issue_keywords[:2]) if issue_keywords else "production delay safety"
-
-    query_parts = []
-    for part in (primary_entity, model_token, engine_token, issue_token):
-        clean_p = part.strip()
-        if clean_p and clean_p.lower() not in " ".join(query_parts).lower():
-            query_parts.append(clean_p)
-
-    concrete_query = re.sub(
-        r"\s+",
-        " ",
-        " ".join(query_parts),
-    ).strip()[:110]
-
-    return (
-            concrete_query
-            or f"{primary_entity} {issue_token}".strip()[:110]
-    )
-
+    gap = target_threat.get("intelligence_gap") or {}
+    missing = str(gap.get("what_is_missing") or req.what_is_missing or "")
+    focus = [hint for pattern, hint in _GAP_SEARCH_FOCUS if re.search(pattern, missing, re.I)]
+    identifiers = re.findall(r"\bFAA-\d{4}-\d+\b|\b20\d{2}-\d{5}\b", missing)
+    if not focus:
+        focus = [" ".join(re.findall(r"[\w-]{3,}", missing)[:8])]
+    parts = []
+    for token in (primary_entity, program_raw.replace("_FAMILY", "").replace("_", " "),
+                  component_raw, *identifiers, *focus[:2]):
+        clean = re.sub(r"[\x00-\x1f<>]", " ", str(token or "")).strip()
+        if clean and not clean.lower().startswith("unknown") and clean.lower() not in " ".join(parts).lower():
+            if len(" ".join([*parts, clean])) > 210:
+                break
+            parts.append(clean)
+    return " ".join(parts) or missing[:140].strip()
 
 # Identify genuinely new supporting, contradictory, or duplicate follow-up evidence.
 # Keep original and newly collected evidence distinguishable in the audit.
@@ -81,8 +99,9 @@ def _classify_targeted_scan_document(
     existing_urls: set[str],
     existing_fps: set[str],
     existing_titles_norm: List[str],
+    existing_domains: Optional[set[str]] = None,
 ) -> Tuple[str, str]:
-    """Classify new evidence relative to the original event claim."""
+    """Prioritize review candidates; lexical agreement is never verification."""
     doc_url = (doc.get("url") or "").strip()
     doc_fp = (doc.get("syndication_fingerprint") or "").strip()
     doc_title = (doc.get("title") or "").strip()
@@ -92,8 +111,16 @@ def _classify_targeted_scan_document(
     doc_norm = _normalize_for_quote_match(doc_full)
     doc_title_norm = _normalize_for_quote_match(doc_title)
 
-    if not is_date_within_scope(doc_pub) or OBVIOUS_NOISE_REGEX.search(doc_full):
-        return "IRRELEVANT", f"Out of time scope ({doc_pub}) or non-industrial noise."
+    try:
+        datetime.fromisoformat(str(doc_pub).replace("Z", "+00:00"))
+    except ValueError:
+        return "INCONCLUSIVE", "Publication date could not be verified; time relevance is unknown."
+    if not is_date_within_scope(doc_pub):
+        return "IRRELEVANT", f"Document date {doc_pub} is outside the requested scope."
+    if OBVIOUS_NOISE_REGEX.search(doc_full):
+        return "IRRELEVANT", "Non-industrial content is unrelated to the monitored issue."
+    if not doc.get("doc_id") or not doc_url:
+        return "INCONCLUSIVE", "Document ID or source URL is missing; provenance cannot be verified."
 
     if (
         (doc_url and doc_url in existing_urls)
@@ -101,6 +128,11 @@ def _classify_targeted_scan_document(
         or any(doc_title_norm and SequenceMatcher(None, doc_title_norm, et).ratio() >= 0.65 for et in existing_titles_norm)
     ):
         return "RELATED", "Syndicated repetition or duplicate of an already recorded report (not independent confirmation)."
+
+    publisher = str(doc.get("publisher_domain") or urlparse(doc_url).hostname or "").lower().removeprefix("www.")
+    same_publisher = bool(publisher and publisher in (existing_domains or set()))
+    if doc.get("content_truncated") or doc.get("content_status") not in _COMPLETE_CONTENT or len(doc_text) < 240:
+        return "INCONCLUSIVE", "Content is truncated, metadata-only, or too short for claim-level verification."
 
     claim_text = (
         f"{target_threat.get('company_affected', '')} "
@@ -129,319 +161,306 @@ def _classify_targeted_scan_document(
         return "IRRELEVANT", f"Concerns unrelated aircraft family {sorted(doc_families)}."
 
     claim_engines, doc_engines = _detect_engine_models(claim_text), _detect_engine_models(doc_full)
-    if (
-            claim_engines
-            and doc_engines
-            and not _engine_models_match(claim_text, doc_full)
-    ):
+    if claim_engines and doc_engines and (not _engine_models_match(claim_text, doc_full)):
         return "IRRELEVANT", f"Concerns different engine model {sorted(doc_engines)}."
 
-    event_terms = [
-        w for w in re.findall(
-            r"\b[a-z0-9]{4,}\b",
-            _normalize_for_quote_match(f"{target_threat.get('confirmed_facts', '')} {target_threat.get('fact_check_quote', '')}"),
-        )
-        if w not in set(entity_tokens) | {"airbus", "boeing", "source", "states", "confirmed", "aircraft", "program"}
-    ]
-    matched_event_terms = sum(1 for w in event_terms if w in doc_norm)
-    overlap_ratio = (matched_event_terms / len(event_terms)) if event_terms else 0.0
+    claim = str(target_threat.get("fact_check_quote") or target_threat.get("confirmed_facts") or "")
+    terms = set(re.findall(r"\b[a-z0-9]{4,}\b", _normalize_for_quote_match(claim))) - (
+        set(entity_tokens) | {"airbus", "boeing", "source", "states", "confirmed", "aircraft", "program"}
+    )
+    if len(terms) < 3:
+        return "INCONCLUSIVE", "Original event lacks a sufficiently specific source claim for comparison."
+    # Demand a coherent passage; words scattered across a long article are not a claim match.
+    passages = [doc_text[i:i + 500] for i in range(0, len(doc_text), 300)]
+    best = max((len(terms & set(re.findall(r"\b[a-z0-9]{4,}\b", _normalize_for_quote_match(p))))
+                for p in passages), default=0)
+    if best < 3 or best / len(terms) < 0.50:
+        return "RELATED", "Topic overlap without a passage supporting the specific original claim."
+    missing = str((target_threat.get("intelligence_gap") or {}).get("what_is_missing") or "")
+    focus = [pattern for pattern, _ in _GAP_SEARCH_FOCUS if re.search(pattern, missing, re.I)]
+    if focus and not any(re.search(pattern, doc_text, re.I) for pattern in focus):
+        return "INCONCLUSIVE", "No passage addresses the particular outstanding intelligence gap."
+    if CONTRADICTION_MARKERS.search(doc_text.lower()):
+        result, reason = "CONTRADICTION_CANDIDATE", "Possible claim refutation; QA must verify context and negation."
+    else:
+        result, reason = "CORROBORATION_CANDIDATE", "Passage overlaps the claim; factual support requires QA."
+    if same_publisher:
+        reason += " Same publisher as prior evidence; independence is not established."
+    return result, reason
 
-    if CONTRADICTION_MARKERS.search(doc_full.lower()) and overlap_ratio >= 0.25:
-        return "CONTRADICTING", "Contains explicit refutation or denial of the claimed event."
 
-    if len(doc_text) < 160 and overlap_ratio < 0.55:
-        return "INCONCLUSIVE", "Short snippet without sufficient detail to confirm the specific event."
+def _authorize_targeted_request(req: TargetedScanRequest, request: Request) -> Tuple[str, str, int]:
+    """Fail closed on missing analyst credentials, report identity, or version."""
+    headers = request.headers
+    secret = os.getenv("EWS_REVIEW_KEY", "")
+    if len(secret) < 16 or secret.startswith("REPLACE"):
+        raise HTTPException(status_code=503, detail="Analyst authorization is not configured.")
+    token = headers.get("x-review-key") or headers.get("x-ews-review-key") or ""
+    role = headers.get("x-review-role", "").upper()
+    if not hmac.compare_digest(token, secret) or role != os.getenv("EWS_REVIEW_ROLE", "ANALYST").upper():
+        raise HTTPException(status_code=403, detail="Analyst authorization required.")
+    analyst = headers.get("x-analyst-id", "")
+    report_id = str(getattr(req, "report_id", None) or headers.get("x-report-id") or "")
+    version_raw = getattr(req, "report_version", None) or headers.get("x-report-version")
+    if not re.fullmatch(r"[A-Za-z0-9._@-]{3,96}", analyst):
+        raise HTTPException(status_code=422, detail="A valid analyst identity is required.")
+    if not re.fullmatch(r"[A-Za-z0-9_-]{6,100}", report_id):
+        raise HTTPException(status_code=422, detail="A valid report_id is required.")
+    try:
+        version = int(version_raw)
+        if version < 1:
+            raise ValueError
+    except (ValueError, TypeError):
+        raise HTTPException(status_code=422, detail="A positive report version is required.")
+    return analyst, report_id, version
 
-    if overlap_ratio >= 0.45 and matched_event_terms >= 2:
-        return (
-            "CORROBORATING",
-            f"Independently confirms entity, variant, and event details ({matched_event_terms} core claim terms matched).",
-        )
-    if overlap_ratio >= 0.20:
-        return "RELATED", "Discusses the same company/program theme but does not confirm the specific event."
 
-    return "INCONCLUSIVE", "Insufficient overlap with the specific defect or event."
+def _require_scan_approval(request: Request, gap: Dict[str, Any], analyst: str) -> Optional[str]:
+    required = (os.getenv("EWS_TARGETED_SCAN_REQUIRE_APPROVAL", "0").lower() in {"1", "true", "yes", "on"}
+                or gap.get("can_auto_scan") is not True)
+    if not required:
+        return None
+    secret = os.getenv("EWS_TARGETED_SCAN_APPROVAL_KEY", "")
+    if len(secret) < 16 or hmac.compare_digest(secret, os.getenv("EWS_REVIEW_KEY", "")):
+        raise HTTPException(status_code=503, detail="HITL targeted-scan approval is not configured.")
+    approver = request.headers.get("x-approver-id", "")
+    token = request.headers.get("x-targeted-approval-key", "")
+    if (not hmac.compare_digest(token, secret)
+            or not re.fullmatch(r"[A-Za-z0-9._@-]{3,96}", approver)
+            or approver.casefold() == analyst.casefold()):
+        raise HTTPException(status_code=403, detail="Independent HITL approval is required.")
+    return approver
 
+
+def _load_target_report(report_id: str, version: int) -> Dict[str, Any]:
+    for path in (PENDING_FILE, FINAL_FILE):
+        if not os.path.isfile(path):
+            continue
+        with open(path, "r", encoding="utf-8") as handle:
+            report = json.load(handle)
+        if report.get("report_id") != report_id:
+            continue
+        if int(report.get("version") or 1) != version:
+            raise HTTPException(status_code=409, detail="Report version changed; reload before scanning.")
+        return report
+    raise HTTPException(status_code=404, detail="Requested report_id is not active.")
 
 # Execute a targeted verification scan without silently publishing unverified claims.
 # Collecting a new document is not the same as establishing independent corroboration.
 # Retain source lineage so a second document is not mistaken for independent confirmation.
 @app.post("/api/targeted-kiq-scan")
-# A targeted scan should add reviewable evidence while leaving source and event histories intact.
-def run_targeted_kiq_scan(req: TargetedScanRequest):
-    # Locate the unresolved event and construct a narrow follow-up search context.
-    """Collect and classify follow-up evidence for an unresolved intelligence gap."""
-    target_file = PENDING_FILE if os.path.exists(PENDING_FILE) else (FINAL_FILE if os.path.exists(FINAL_FILE) else None)
-    if not target_file:
-        raise HTTPException(status_code=404, detail="No active EWS report found.")
+def run_targeted_kiq_scan(req: TargetedScanRequest, request: Request):
+    """Stage traceable follow-up evidence for QA, never silently modify a report."""
+    analyst, report_id, expected_version = _authorize_targeted_request(req, request)
+    report = _load_target_report(report_id, expected_version)
+    threat = next((item for item in report.get("threats", [])
+                   if item.get("event_id") == req.event_id), None)
+    if threat is None:
+        raise HTTPException(status_code=404, detail="Event not found in the requested report.")
+    gap = threat.get("intelligence_gap") or {}
+    if str(gap.get("status") or "OPEN").upper() in {"RESOLVED", "CLOSED"}:
+        raise HTTPException(status_code=409, detail="The intelligence gap is already closed.")
+    approver = _require_scan_approval(request, gap, analyst)
 
-    with open(target_file, "r", encoding="utf-8") as f:
-        rep = json.load(f)
+    if PIPELINE_STATE.get("running"):
+        raise HTTPException(status_code=409, detail="Another EWS collection is running; retry later.")
 
-    target_threat: Optional[Dict[str, Any]] = next(
-        (t for t in rep.get("threats", []) if t.get("event_id") == req.event_id), None
-    )
-    if target_threat is None:
-        raise HTTPException(status_code=404, detail=f"Event {req.event_id} not found in active report.")
+    query = _build_concrete_targeted_query(threat, req)
+    if not query:
+        raise HTTPException(status_code=422, detail="No identifiable entity or evidence gap to search.")
 
-    orig_validation_status = target_threat.get("validation_status", "UNSUPPORTED")
-    orig_confidence_level = target_threat.get("confidence_level", "LOW")
-    orig_event_status = target_threat.get("event_status", "UNDER_REVIEW")
-    orig_threat_score = int(target_threat.get("threat_score", 5))
-    orig_gap = target_threat.get("intelligence_gap") or {
-        "gap_id": f"GAP_{uuid.uuid4().hex[:6].upper()}",
-        "what_is_missing": req.what_is_missing,
-        "why_important": "Required to verify event impact.",
-        "affected_kiq_id": req.affected_kiq_id,
-        "recommended_source": "FAA / EASA / Official OEM Pressroom",
-        "can_auto_scan": True,
-        "status": "OPEN",
+    prior_urls = set(threat.get("source_urls") or [])
+    if threat.get("evidence_citation"):
+        prior_urls.add(threat["evidence_citation"])
+    prior_ids = set(threat.get("evidence_ids") or [])
+    prior_docs = [doc for doc in get_collected_documents() if doc.get("url") in prior_urls]
+
+    # Historical source lineage is run-scoped; DOC_IDs can be reused across runs.
+    if prior_ids and report.get("run_id"):
+        placeholders = ",".join("?" for _ in prior_ids)
+        try:
+            with DB_LOCK, closing(sqlite3.connect(SQLITE_DB)) as conn:
+                conn.row_factory = sqlite3.Row
+                rows = conn.execute(
+                    f"SELECT doc_id, url, publisher_domain, syndication_fingerprint, title "
+                    f"FROM source_documents WHERE run_id = ? AND doc_id IN ({placeholders})",
+                    (report["run_id"], *sorted(prior_ids)),
+                ).fetchall()
+            prior_docs.extend(dict(row) for row in rows)
+        except sqlite3.Error as exc:
+            logger.warning("[TARGETED SCAN] Historical document lineage unavailable: %s", exc)
+
+    prior_urls.update(d.get("url") for d in prior_docs if d.get("url"))
+    prior_fps = {d.get("syndication_fingerprint") for d in prior_docs if d.get("syndication_fingerprint")}
+    prior_titles = [_normalize_for_quote_match(d.get("title") or "") for d in prior_docs]
+    prior_domains = {
+        str(d.get("publisher_domain") or urlparse(str(d.get("url") or "")).hostname or "")
+        .lower().removeprefix("www.")
+        for d in prior_docs
+    } | {
+        (urlparse(url).hostname or "").lower().removeprefix("www.")
+        for url in prior_urls
     }
+    prior_domains.discard("")
 
-    focused_query = _build_concrete_targeted_query(target_threat, req)
-    primary_entity = _split_affected_entities(target_threat.get("company_affected") or req.company_affected)[0]
-    logger.info(
-        f"[TARGETED KIQ SCAN P0-1] Event {req.event_id} | Concrete Query: '{focused_query}' (Entity: '{primary_entity}')"
+    categories = {name: [] for name in (
+        "CORROBORATION_CANDIDATE", "CONTRADICTION_CANDIDATE",
+        "RELATED", "IRRELEVANT", "INCONCLUSIVE",
+    )}
+    evaluations, collection_errors = [], []
+    missing_fact = str(gap.get("what_is_missing") or req.what_is_missing or "")
+    regulatory_gap = bool(re.search(r"\b(?:regulat\w*|directive\w*|docket|effective|FAA|EASA|předpis\w*|účinnost)\b", missing_fact, re.I))
+    operational_gap = bool(re.search(r"\b(?:production|deliver\w*|capacity|impact\w*|výrob\w*|předáv\w*|dopad\w*)\b", missing_fact, re.I))
+    connectors = (
+        (scrape_regulatory_agencies, scrape_manufacturer_pr_news)
+        if regulatory_gap and not operational_gap else
+        (scrape_manufacturer_pr_news, search_aerospace_news)
+        if operational_gap and not regulatory_gap else
+        (scrape_regulatory_agencies, scrape_manufacturer_pr_news, search_aerospace_news)
     )
 
-    os.environ["EWS_DYNAMIC_SCOPE"] = normalize_scope_value(req.scope).value
-    os.environ["EWS_DYNAMIC_LIMIT"] = "3"
-
-    existing_docs_before = get_collected_documents()
-    before_count = len(existing_docs_before)
-
-    existing_urls = set(target_threat.get("source_urls") or [])
-    if target_threat.get("evidence_citation"):
-        existing_urls.add(target_threat["evidence_citation"])
-
-    existing_eids = set(target_threat.get("evidence_ids") or [])
-    linked_prior_docs = [
-        d for d in existing_docs_before
-        if d.get("url") in existing_urls or d.get("doc_id") in existing_eids
-    ]
-    # Deduplicate newly collected sources against existing URLs, fingerprints, and titles.
-    existing_fps = {d.get("syndication_fingerprint", "") for d in linked_prior_docs}
-    existing_titles_norm = [_normalize_for_quote_match(d.get("title", "")) for d in linked_prior_docs]
-
-    scrape_regulatory_agencies.run(f"{primary_entity} {target_threat.get('affected_program', '')}".strip())
-    scrape_manufacturer_pr_news.run(focused_query)
-    search_aerospace_news.run(focused_query)
-
-    all_docs_after = get_collected_documents()
-    raw_new_docs = all_docs_after[before_count:]
-
-    categorized: Dict[str, List[Dict[str, Any]]] = {
-        "CORROBORATING": [],
-        "RELATED": [],
-        "CONTRADICTING": [],
-        "IRRELEVANT": [],
-        "INCONCLUSIVE": [],
-    }
-    scan_evaluations: List[Dict[str, Any]] = []
-
-    for d in raw_new_docs:
-        cat, reason = _classify_targeted_scan_document(
-            d, target_threat, existing_urls, existing_fps, existing_titles_norm
-        )
-        categorized[cat].append(d)
-        scan_evaluations.append({
-            "doc_id": d.get("doc_id"),
-            "url": d.get("url"),
-            "title": d.get("title"),
-            "category": cat,
-            "rationale": reason,
-        })
-        if cat == "CORROBORATING":
-            if d.get("url"):
-                existing_urls.add(d["url"])
-            if d.get("syndication_fingerprint"):
-                existing_fps.add(d["syndication_fingerprint"])
-            existing_titles_norm.append(_normalize_for_quote_match(d.get("title", "")))
-
-    corroborating_docs = categorized["CORROBORATING"]
-    contradicting_docs = categorized["CONTRADICTING"]
-    related_docs = categorized["RELATED"]
-    inconclusive_docs = categorized["INCONCLUSIVE"]
-
-    now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-
-    new_validation_status = orig_validation_status
-    new_confidence_level = orig_confidence_level
-    new_event_status = orig_event_status
-    new_gap_status = orig_gap.get("status", "OPEN")
-    new_missing_data = target_threat.get("missing_data")
-    new_verification_status = target_threat.get("verification_status", "")
-
-    if contradicting_docs:
-        new_validation_status = ValidationStatus.CONTRADICTED.value
-        new_confidence_level = ConfidenceLevel.LOW.value
-        new_event_status = EventStatus.UNDER_REVIEW.value
-        new_gap_status = "OPEN"
-        new_missing_data = (
-            f"Contradicting evidence detected in {len(contradicting_docs)} source(s); manual analyst verification required."
-        )
-        new_verification_status = (
-            f"CONFLICTING EVIDENCE (Manual HITL Review Required): {len(contradicting_docs)} contradicting vs "
-            f"{len(corroborating_docs)} corroborating doc(s)."
-        )
-    elif corroborating_docs:
-        corrob_urls = [d["url"] for d in corroborating_docs if d.get("url")]
-        corrob_ids = [d["doc_id"] for d in corroborating_docs if d.get("doc_id")]
-        target_threat["source_urls"] = list(dict.fromkeys((target_threat.get("source_urls") or []) + corrob_urls))
-        target_threat["evidence_ids"] = list(dict.fromkeys((target_threat.get("evidence_ids") or []) + corrob_ids))
-
-        all_confirming_docs = [
-            d for d in all_docs_after
-            if d.get("doc_id") in target_threat["evidence_ids"] or d.get("url") in target_threat["source_urls"]
-        ]
-        indep_count, has_prim_reg, has_prim_oem = _count_independent_confirmations(all_confirming_docs)
-
-        if has_prim_reg or has_prim_oem or indep_count >= 2:
-
-            new_validation_status = (
-                ValidationStatus.PARTIALLY_SUPPORTED.value
-            )
-
-            new_confidence_level = (
-                ConfidenceLevel.MEDIUM.value
-            )
-
-            new_event_status = (
-                EventStatus.UNDER_REVIEW.value
-            )
-
-            new_gap_status = "OPEN"
-
-            new_missing_data = (
-                "New corroborating evidence was located, "
-                "but full event-level Harness validation "
-                "is still required before confirmation."
-            )
-
-            new_verification_status = (
-                f"Targeted evidence retrieved "
-                f"({len(corroborating_docs)} corroborating candidates; "
-                f"{indep_count} independent source(s)); "
-                "AWAITING_FULL_QA"
-            )
-        else:
-            # Classify incremental evidence and reconcile the current pending or final report.
-            new_validation_status = ValidationStatus.PARTIALLY_SUPPORTED.value
-            if orig_confidence_level == ConfidenceLevel.LOW.value:
-                new_confidence_level = ConfidenceLevel.MEDIUM.value
-            new_gap_status = "OPEN"
-            new_missing_data = (
-                "Partial secondary corroboration found; primary OEM/regulator or second independent source still required."
-            )
-            new_verification_status = (
-                f"Partially Corroborated via Targeted KIQ Scan (+{len(corroborating_docs)} secondary doc; primary confirmation pending)"
-            )
-    else:
-        new_gap_status = "OPEN"
-        summary_counts = (
-            f"{len(related_docs)} related, {len(inconclusive_docs)} inconclusive, "
-            f"{len(categorized['IRRELEVANT'])} irrelevant"
-        )
-        new_missing_data = (
-            target_threat.get("missing_data")
-            or f"Targeted scan found no corroborating evidence ({summary_counts}); gap remains OPEN."
-        )
-
-    orig_gap["status"] = new_gap_status
-    if new_missing_data:
-        orig_gap["what_is_missing"] = new_missing_data
-
-    target_threat.update({
-        "validation_status": new_validation_status,
-        "confidence_level": new_confidence_level,
-        "event_status": new_event_status,
-        "threat_score": orig_threat_score,
-        "missing_data": new_missing_data,
-        "verification_status": new_verification_status,
-        "updated_at": now_iso,
-        "intelligence_gap": orig_gap,
-    })
-    target_threat.setdefault("corroboration_summary", {})["Targeted KIQ Scan Audit"] = (
-        f"Corroborating: {len(corroborating_docs)} | Related: {len(related_docs)} | "
-        f"Contradicting: {len(contradicting_docs)} | Inconclusive: {len(inconclusive_docs)} | "
-        f"Irrelevant: {len(categorized['IRRELEVANT'])}"
-    )
-
-    for ka in rep.get("kiq_answers", []):
-        if req.event_id in (ka.get("related_event_ids") or []):
-            ka["evidence_ids"] = list(
-                dict.fromkeys((ka.get("evidence_ids") or []) + (target_threat.get("evidence_ids") or []))
-            )
-            if new_gap_status == "RESOLVED" and new_confidence_level == "HIGH":
-                ka.update({
-                    "answer_status": "ANSWERED",
-                    "uncertainty_level": "HIGH",
-                    "missing_information": None,
-                    "verification_status": "Corroborated via Targeted KIQ Scan",
-                })
+    with _isolated_targeted_scope(req.scope):
+        if PIPELINE_STATE.get("running"):
+            raise HTTPException(status_code=409, detail="Another EWS collection started.")
+        known_ids = {id(doc) for doc in get_collected_documents()}
+        for connector in connectors:
+            try:
+                outcome = connector.run(query)
+                if isinstance(outcome, str) and re.match(r"^\s*(?:error|failed|unavailable|access denied)\b", outcome, re.I):
+                    collection_errors.append({"connector": str(getattr(connector, "name", "unknown")),
+                                              "error_type": "CONNECTOR_REPORTED_ERROR"})
+            except Exception as exc:
+                collection_errors.append({"connector": str(getattr(connector, "name", "unknown")),
+                                          "error_type": type(exc).__name__})
+                logger.warning("[TARGETED SCAN] Connector failed: %s", type(exc).__name__)
+        new_docs = [doc for doc in get_collected_documents() if id(doc) not in known_ids]
+        seen_doc_ids = set()
+        for doc in new_docs:
+            doc_id = str(doc.get("doc_id") or "")
+            if doc_id and doc_id in seen_doc_ids:
+                category, reason = "RELATED", "Repeated DOC_ID in this scan; not independent evidence."
             else:
-                ka["answer_status"] = "PARTIALLY_ANSWERED"
-                ka["missing_information"] = new_missing_data
+                category, reason = _classify_targeted_scan_document(
+                    doc, threat, prior_urls, prior_fps, prior_titles, prior_domains
+                )
+            if doc_id:
+                seen_doc_ids.add(doc_id)
+            categories[category].append(doc)
+            publisher = str(doc.get("publisher_domain") or urlparse(str(doc.get("url") or "")).hostname or "")
+            publisher = publisher.lower().removeprefix("www.")
+            evaluations.append({
+                "doc_id": doc.get("doc_id"), "url": doc.get("url"),
+                "title": doc.get("title"), "category": category, "rationale": reason,
+                "source_id": doc.get("source_id"), "publisher_domain": publisher or None,
+                "source_independence": "NOT_ESTABLISHED",
+                "same_publisher_as_existing": bool(publisher and publisher in prior_domains),
+                "published_at": doc.get("published_at"),
+                "source_content_sha256": doc.get("source_content_sha256") or doc.get("content_sha256"),
+                "content_status": doc.get("content_status", "UNKNOWN"),
+                "qa_required": category in {"CORROBORATION_CANDIDATE", "CONTRADICTION_CANDIDATE"},
+            })
+            if category == "CORROBORATION_CANDIDATE":
+                domain = str(doc.get("publisher_domain") or urlparse(str(doc.get("url") or "")).hostname or "")
+                prior_domains.add(domain.lower().removeprefix("www."))
+                if doc.get("syndication_fingerprint"):
+                    prior_fps.add(doc["syndication_fingerprint"])
+                prior_titles.append(_normalize_for_quote_match(doc.get("title") or ""))
 
-    rep = refresh_threat_reports_dict(rep)
-    rep["version"] = int(rep.get("version", 1)) + 1
-    with open(target_file, "w", encoding="utf-8") as f:
-        json.dump(rep, f, indent=2, ensure_ascii=False)
+    scan_id = f"TS_{uuid.uuid4().hex[:16].upper()}"
+    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    baseline_digest = hashlib.sha256(json.dumps(report, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+    candidate_ids = [item["doc_id"] for item in evaluations
+                     if item["qa_required"] and item.get("doc_id")]
+    evidence_rows, storage_ids = [], set()
+    for index, (doc, evaluation) in enumerate(zip(new_docs, evaluations), 1):
+        storage_id = str(doc.get("doc_id") or f"UNIDENTIFIED_{index}")
+        if storage_id in storage_ids:
+            storage_id = f"{storage_id}__DUPLICATE_{index}"
+        storage_ids.add(storage_id)
+        evaluation["storage_key"] = storage_id
+        evidence_rows.append((scan_id, storage_id, json.dumps(doc, ensure_ascii=False, default=str)))
+    proposal = {
+        "scan_id": scan_id, "report_id": report_id, "report_version": expected_version,
+        "baseline_report_sha256": baseline_digest,
+        "run_id": report.get("run_id"), "event_id": req.event_id,
+        "intelligence_gap_id": gap.get("gap_id"), "missing_fact": gap.get("what_is_missing") or req.what_is_missing,
+        "query": query, "scope": normalize_scope_value(req.scope).value,
+        "requested_by": analyst, "preapproved_by": approver,
+        "actor_identity_assurance": "DECLARED_ID_WITH_REVIEW_SECRET",
+        "approver_identity_assurance": "DECLARED_ID_WITH_SEPARATE_HITL_SECRET" if approver else None,
+        "created_at": timestamp, "review_status": "PENDING_QA",
+        "claim_verification": "NOT_PERFORMED", "evidence_promoted": False,
+        "retrieval_completeness": "UNKNOWN_DUE_TO_SOURCE_ERRORS" if collection_errors else "NOT_ESTABLISHED",
+        "proposed_update": {
+            "event_id": req.event_id, "candidate_doc_ids": candidate_ids,
+            "required_validation": "STANDARD_REPORT_VALIDATION_AND_HITL",
+            "validation_completed": False, "report_changes": None,
+        },
+        "original_validation_status": threat.get("validation_status", "UNSUPPORTED"),
+        "original_confidence_level": threat.get("confidence_level", "LOW"),
+        "evaluations": evaluations, "collector_errors": collection_errors,
+    }
 
-    with DB_LOCK, sqlite3.connect(SQLITE_DB) as conn:
-        cur = conn.cursor()
-        cur.execute(
-            """
-            UPDATE events
-            SET confidence_level = ?, event_status = ?, validation_status = ?,
-                verification_status = ?, updated_at = ?, source_urls_json = ?,
-                evidence_ids_json = ?, corroboration_json = ?, missing_data = ?
-            WHERE event_id = ?
-            """,
-            (
-                new_confidence_level, new_event_status, new_validation_status,
-                new_verification_status, now_iso,
-                json.dumps(target_threat.get("source_urls", [])),
-                json.dumps(target_threat.get("evidence_ids", [])),
-                json.dumps(target_threat.get("corroboration_summary", {})),
-                new_missing_data, req.event_id,
-            ),
+    # A version-checked transaction persists only the review proposal and its audit trail.
+    # No events, KIQ answers, published files, or report versions are changed.
+    if _load_target_report(report_id, expected_version) != report:
+        raise HTTPException(status_code=409, detail="Report content changed during scan.")
+    with DB_LOCK, closing(sqlite3.connect(SQLITE_DB)) as conn, conn:
+        conn.execute("BEGIN IMMEDIATE")
+        row = conn.execute(
+            "SELECT version, report_json FROM reports WHERE report_id = ?", (report_id,)
+        ).fetchone()
+        if (row is None or int(row[0] or 1) != expected_version or json.loads(row[1]) != report):
+            raise HTTPException(status_code=409, detail="Report changed during scan; results were not applied.")
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS targeted_scan_proposals (
+                scan_id TEXT PRIMARY KEY, report_id TEXT NOT NULL, report_version INTEGER NOT NULL,
+                event_id TEXT NOT NULL, review_status TEXT NOT NULL,
+                created_at TEXT NOT NULL, proposal_json TEXT NOT NULL
+            )
+        """)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS targeted_scan_evidence (
+                scan_id TEXT NOT NULL, doc_id TEXT NOT NULL, source_json TEXT NOT NULL,
+                PRIMARY KEY (scan_id, doc_id)
+            )
+        """)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS targeted_scan_history (
+                scan_id TEXT NOT NULL, action TEXT NOT NULL, actor_id TEXT NOT NULL,
+                recorded_at TEXT NOT NULL, details_json TEXT NOT NULL
+            )
+        """)
+        conn.execute(
+            "INSERT INTO targeted_scan_proposals VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (scan_id, report_id, expected_version, req.event_id, "PENDING_QA",
+             timestamp, json.dumps(proposal, ensure_ascii=False)),
         )
-        cur.execute(
-            "UPDATE reports SET version = ?, updated_at = ?, report_json = ? WHERE report_id = ?",
-            (rep["version"], now_iso, json.dumps(rep, indent=2, ensure_ascii=False), rep.get("report_id", "")),
-        )
-        cur.execute(
-            """
-            INSERT INTO event_history (
-                event_id, run_id, recorded_at, threat_score, confidence_level, event_status, change_type, notes
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """,
-            (
-                req.event_id, "TARGETED_SCAN", now_iso, orig_threat_score,
-                new_confidence_level, new_event_status, "TARGETED_KIQ_SCAN_VALIDATED",
-                (
-                    f"Query: '{focused_query}' | Corroborating: {len(corroborating_docs)}, "
-                    f"Related: {len(related_docs)}, Contradicting: {len(contradicting_docs)}, "
-                    f"Inconclusive: {len(inconclusive_docs)}, Irrelevant: {len(categorized['IRRELEVANT'])} | "
-                    f"Gap Status: {new_gap_status}"
-                ),
-            ),
-        )
-        conn.commit()
+        conn.executemany("INSERT INTO targeted_scan_evidence VALUES (?, ?, ?)", evidence_rows)
+        for action, actor in (("SCAN_PROPOSED", analyst), ("PRE_SCAN_APPROVED", approver)):
+            if actor:
+                conn.execute(
+                    "INSERT INTO targeted_scan_history VALUES (?, ?, ?, ?, ?)",
+                    (scan_id, action, actor, timestamp,
+                     json.dumps({"report_id": report_id, "report_version": expected_version,
+                                 "event_id": req.event_id}, ensure_ascii=False)),
+                )
 
     return {
-        "status": "completed",
-        "event_id": req.event_id,
-        "query_executed": focused_query,
-        "new_documents_found": len(raw_new_docs),
-        "corroborating_count": len(corroborating_docs),
-        "related_count": len(related_docs),
-        "contradicting_count": len(contradicting_docs),
-        "inconclusive_count": len(inconclusive_docs),
-        "irrelevant_count": len(categorized["IRRELEVANT"]),
-        "confidence_level": new_confidence_level,
-        "validation_status": new_validation_status,
-        "gap_status": new_gap_status,
-        "evaluated_documents": scan_evaluations,
+        "status": "pending_qa", "scan_id": scan_id, "report_id": report_id,
+        "report_version": expected_version, "event_id": req.event_id,
+        "query_executed": query, "new_documents_found": len(new_docs),
+        "corroborating_count": len(categories["CORROBORATION_CANDIDATE"]),
+        "corroboration_candidate_count": len(categories["CORROBORATION_CANDIDATE"]),
+        "contradicting_count": len(categories["CONTRADICTION_CANDIDATE"]),
+        "related_count": len(categories["RELATED"]),
+        "inconclusive_count": len(categories["INCONCLUSIVE"]),
+        "irrelevant_count": len(categories["IRRELEVANT"]),
+        "validation_status": threat.get("validation_status", "UNSUPPORTED"),
+        "confidence_level": threat.get("confidence_level", "LOW"),
+        "gap_status": gap.get("status", "OPEN"),
+        "evaluated_documents": evaluations, "collector_errors": collection_errors,
+        "retrieval_completeness": proposal["retrieval_completeness"],
+        "claim_verification": "NOT_PERFORMED", "evidence_promoted": False,
+        "review_status": "PENDING_QA", "report_mutated": False,
     }

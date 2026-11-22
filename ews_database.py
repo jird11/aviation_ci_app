@@ -11,156 +11,89 @@
 
 import re
 import uuid
+import hashlib
+import hmac
+from contextlib import contextmanager
 from ews_state import (
     Any, DB_LOCK, Dict, EWSReport, EventStatus, HISTORICAL_CSV, List,
     Optional, SQLITE_DB, SequenceMatcher, ThreatAssessment, Tuple,
     datetime, json, logger, os, pd, sqlite3, timezone,
 )
 
-
 # Provide a normalized UTC timestamp for report metadata and audit records.
 def _now_iso() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
+from aero_ews.persistence.schema import DEFAULT_KIQ_CATALOG, _DDL_SCRIPT
 
-# Built-in strategic question catalog and reference evaluation fixtures.
-DEFAULT_KIQ_CATALOG: List[Dict[str, Any]] = [
-    {
-        "kiq_id": "KIQ_1_1", "kit_id": "KIT_1",
-        "kit_title": "Supply Chain – Production and Delivery Disruptions",
-        "question": "Which aerospace suppliers are reporting production delays or delivery disruptions?",
-        "monitored_entities": ["Airbus", "Boeing", "Spirit AeroSystems", "Safran", "Pratt & Whitney", "GE Aerospace"],
-        "indicators": ["IND_1_1A: Production delay", "IND_1_1B: Delivery postponement", "IND_1_1C: Supplier factory disruption"],
-        "time_scope": "30d", "sources": ["News API", "Official PR Releases"],
-        "expected_output": "Identify affected suppliers and potential production impacts.",
-        "verification_rule": "Corroborate with official supplier or manufacturer announcements.",
-        "priority": "CRITICAL", "owner": "Supply Chain Manager",
-    },
-    {
-        "kiq_id": "KIQ_1_2", "kit_id": "KIT_1",
-        "kit_title": "Supply Chain – Critical Materials and Components",
-        "question": "Are critical aircraft components or aerospace raw materials at risk of shortage?",
-        "monitored_entities": ["Safran", "GE Aerospace", "Howmet", "Spirit AeroSystems", "Collins Aerospace", "VSMPO-AVISMA"],
-        "indicators": ["IND_1_2A: Critical component shortage", "IND_1_2B: Raw material supply restriction", "IND_1_2C: Supplier financial distress or strike"],
-        "time_scope": "90d", "sources": ["News API", "Official PR Releases"],
-        "expected_output": "Detect critical component and material supply exposure.",
-        "verification_rule": "Seek independent corroboration; qualify any unverified signal.",
-        "priority": "HIGH", "owner": "Procurement Manager",
-    },
-    {
-        "kiq_id": "KIQ_2_1", "kit_id": "KIT_2",
-        "kit_title": "Competitive Environment – Strategy and Innovation",
-        "question": "What strategic innovations, product launches or partnerships are aerospace competitors introducing?",
-        "monitored_entities": ["Airbus", "Boeing", "COMAC", "Embraer"],
-        "indicators": ["IND_2_1A: New aircraft product announcement", "IND_2_1B: Strategic partnership or alliance", "IND_2_1C: New competitive technology or business model"],
-        "time_scope": "7d", "sources": ["Airshow Websites", "News API", "Official PR Releases"],
-        "expected_output": "Identify strategic competitor moves and innovation signals.",
-        "verification_rule": "Confirm material strategic claims through primary company releases.",
-        "priority": "HIGH", "owner": "Strategy Director",
-    },
-    {
-        "kiq_id": "KIQ_2_2", "kit_id": "KIT_2",
-        "kit_title": "Competitive Environment – Aircraft Orders and Contracts",
-        "question": "Which major aircraft orders, fleet contracts or cancellations have competitors announced?",
-        "monitored_entities": ["Airbus", "Boeing", "COMAC", "Embraer"],
-        "indicators": ["IND_2_2A: New firm aircraft order", "IND_2_2B: Fleet purchase agreement", "IND_2_2C: Major order cancellation"],
-        "time_scope": "7d", "sources": ["Airshow Websites", "Official PR Releases", "News API"],
-        "expected_output": "Monitor competitor orderbooks and commercial positioning.",
-        "verification_rule": "Validate firm orders against manufacturer or airline announcements.",
-        "priority": "HIGH", "owner": "Market Intelligence Manager",
-    },
-    {
-        "kiq_id": "KIQ_3_1", "kit_id": "KIT_3",
-        "kit_title": "Technological Trends and Aviation Regulation",
-        "question": "How do emerging aircraft technologies, SAF developments and technology-related regulations affect aerospace development?",
-        "monitored_entities": ["Airbus", "Boeing", "EASA", "FAA", "Safran", "GE Aerospace"],
-        "indicators": ["IND_3_1A: New propulsion or aircraft technology", "IND_3_1B: SAF technology and availability", "IND_3_1C: Emissions or technology certification regulation"],
-        "time_scope": "365d", "sources": ["FAA & EASA Regulations", "News API", "Official PR Releases"],
-        "expected_output": "Identify emerging technologies and strategic regulatory changes.",
-        "verification_rule": "Check technology and regulation claims against primary documentation.",
-        "priority": "HIGH", "owner": "Technology Strategy Manager",
-    },
-]
 
-_DDL_SCRIPT = """
-CREATE TABLE IF NOT EXISTS analytical_runs (
-    run_id TEXT PRIMARY KEY, report_id TEXT, started_at TEXT, completed_at TEXT,
-    status TEXT, outcome_status TEXT, query TEXT, normalized_query TEXT,
-    analysis_scope TEXT, effective_from TEXT, effective_to TEXT, as_of_date TEXT,
-    platforms_json TEXT, search_limit INTEGER, documents_collected INTEGER,
-    documents_analyzed INTEGER, documents_rejected INTEGER, events_identified INTEGER,
-    count_critical INTEGER, count_elevated INTEGER, count_monitored INTEGER,
-    new_events INTEGER, continuing_events INTEGER, resolved_events INTEGER,
-    collection_duration REAL, analysis_duration REAL, qa_duration REAL,
-    total_duration REAL, validation_errors INTEGER, llm_calls INTEGER,
-    tokens_input INTEGER, tokens_output INTEGER, estimated_cost REAL,
-    model_id TEXT, prompt_version TEXT, ablation_config_json TEXT,
-    connector_telemetry_json TEXT
-);
-CREATE TABLE IF NOT EXISTS source_documents (
-    doc_id TEXT, run_id TEXT, source_id TEXT, connector_name TEXT, url TEXT,
-    publisher_domain TEXT, origin_type TEXT, source_type TEXT, verified_domain INTEGER,
-    title TEXT, text TEXT, published_at TEXT, collected_at TEXT, query_used TEXT,
-    syndication_fingerprint TEXT, prompt_injection_flagged INTEGER, pii_redacted_count INTEGER,
-    content_status TEXT DEFAULT 'TEXT_COMPLETENESS_UNVERIFIED', content_sha256 TEXT,
-    content_truncated INTEGER DEFAULT 0, content_limit_reason TEXT,
-    PRIMARY KEY (doc_id, run_id)
-);
-CREATE TABLE IF NOT EXISTS events (
-    event_id TEXT PRIMARY KEY, canonical_url TEXT, syndication_fingerprint TEXT,
-    company_affected TEXT, risk_type TEXT, scm_tier TEXT, ci_dimension TEXT,
-    propagation_effect TEXT, geographic_epicenter TEXT, threat_description TEXT,
-    confirmed_facts TEXT, analytical_interpretation TEXT, hypothetical_scenario TEXT,
-    fact_check_quote TEXT, threat_score INTEGER, score_rationale TEXT,
-    confidence_level TEXT, urgency TEXT, escalation_level TEXT, event_status TEXT,
-    validation_status TEXT, verification_status TEXT, first_seen_at TEXT,
-    last_seen_at TEXT, updated_at TEXT, kiq_ids_json TEXT, source_urls_json TEXT,
-    evidence_ids_json TEXT, impact_path_json TEXT, corroboration_json TEXT, missing_data TEXT
-);
-CREATE TABLE IF NOT EXISTS event_history (
-    history_id INTEGER PRIMARY KEY AUTOINCREMENT, event_id TEXT, run_id TEXT,
-    recorded_at TEXT, threat_score INTEGER, confidence_level TEXT,
-    event_status TEXT, change_type TEXT, notes TEXT
-);
-CREATE TABLE IF NOT EXISTS reports (
-    report_id TEXT PRIMARY KEY, run_id TEXT, version INTEGER, hitl_status TEXT,
-    outcome_status TEXT, created_at TEXT, updated_at TEXT, report_json TEXT
-);
-CREATE TABLE IF NOT EXISTS review_decisions (
-    decision_id TEXT PRIMARY KEY, report_id TEXT, run_id TEXT, version_reviewed INTEGER,
-    reviewer_name TEXT, reviewer_role TEXT, decision TEXT,
-    rejected_event_ids_json TEXT, rationale TEXT, decided_at TEXT
-);
-CREATE TABLE IF NOT EXISTS analyst_feedback (
-    feedback_id TEXT PRIMARY KEY, event_id TEXT, report_id TEXT, analyst_name TEXT,
-    feedback_type TEXT, corrected_risk_type TEXT, corrected_score INTEGER,
-    flagged_source_url TEXT, added_missing_info TEXT, proposed_kiq TEXT,
-    rationale TEXT, created_at TEXT
-);
-CREATE TABLE IF NOT EXISTS kiq_catalog (
-    kiq_id TEXT PRIMARY KEY, kit_id TEXT, kit_title TEXT, question TEXT,
-    monitored_entities_json TEXT, indicators_json TEXT, time_scope TEXT,
-    sources_json TEXT, expected_output TEXT, verification_rule TEXT,
-    priority TEXT, owner TEXT, active INTEGER DEFAULT 1
-);
-CREATE TABLE IF NOT EXISTS reference_dataset (
-    case_id TEXT PRIMARY KEY, kit_topic TEXT, company_affected TEXT,
-    expected_scm_tier TEXT, expected_program TEXT, headline_or_topic TEXT,
-    problem_keywords TEXT, is_relevant INTEGER, reference_risk_type TEXT,
-    reference_threat_score INTEGER, source_url TEXT, published_date TEXT,
-    supporting_quote TEXT, evaluator_comment TEXT, verification_state TEXT, created_at TEXT
-);
-CREATE TABLE IF NOT EXISTS usability_logs (
-    log_id TEXT PRIMARY KEY, view_mode TEXT, task_type TEXT,
-    duration_ms INTEGER, notes TEXT, recorded_at TEXT
-);
-CREATE TABLE IF NOT EXISTS document_filter_log (
-    run_id TEXT, doc_id TEXT, source_id TEXT, url TEXT, title TEXT,
-    filter_stage TEXT, is_accepted INTEGER, signal_type TEXT,
-    entities_models_tech TEXT, matched_kiq_id TEXT, decision_rationale TEXT,
-    evaluated_at TEXT, PRIMARY KEY (run_id, doc_id)
-);
-"""
+@contextmanager
+def _database(write: bool = False):
+    """Own the connection and commit only complete write operations."""
+    with DB_LOCK:
+        conn = sqlite3.connect(SQLITE_DB)
+        try:
+            if write:
+                conn.execute("BEGIN IMMEDIATE")
+            yield conn
+            if write:
+                conn.commit()
+        except Exception:
+            if write:
+                conn.rollback()
+            raise
+        finally:
+            conn.close()
+
+
+def _document_digest(document: Dict[str, Any]) -> str:
+    payload = json.dumps(document, sort_keys=True, ensure_ascii=False, default=str)
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+_VERIFIED_FLAGS = frozenset({
+    "verified", "is_verified", "evidence_verified", "validated", "is_validated",
+    "quote_verified", "full_quote_verified", "source_quote_verified", "passage_verified",
+    "document_verified", "claim_verified", "event_confirmed", "claim_confirmed",
+    "semantic_evidence_verified", "raw_verified", "source_verified", "source_identity_verified",
+    "fully_verified", "direct_verified", "claims_verified", "certificate_document_verified",
+    "direct_kit_confirmed", "is_confirmed", "regulator_decision_verified", "issuer_identity_verified",
+})
+_VERIFICATION_STATUSES = frozenset({
+    "verification_status", "validation_status", "quote_verification_status",
+    "evidence_verification_status", "source_verification_status", "passage_verification_status",
+    "document_verification_status", "claim_verification_status", "event_verification_status",
+    "independent_verification_status",
+})
+
+
+def _unverify_evidence(document: Dict[str, Any], reason: str) -> None:
+    """Invalidate every derived verdict, retaining its prior state for audit."""
+    prior = []
+
+    def invalidate(item: Any, path: str) -> None:
+        if isinstance(item, list):
+            for index, child in enumerate(item):
+                invalidate(child, f"{path}[{index}]")
+        elif isinstance(item, dict):
+            keys = (_VERIFIED_FLAGS | _VERIFICATION_STATUSES | {"evidence_authority"}) & item.keys()
+            if keys:
+                prior.append({"path": path, "values": {key: item[key] for key in sorted(keys)}})
+            for key in keys:
+                item[key] = (False if key in _VERIFIED_FLAGS else "UNKNOWN" if key == "evidence_authority"
+                             else "UNVERIFIED")
+            for key in ("evidence_passages", "source_passages", "evidence", "validation", "claims", "passages"):
+                if key in item:
+                    invalidate(item[key], f"{path}.{key}")
+
+    invalidate(document, "document")
+    document["replay_prior_verification"] = prior
+    document["replay_integrity_status"] = "INVALID" if any(
+        code in reason for code in ("MISMATCH", "MALFORMED", "INVALID", "CONFLICT")
+    ) else "UNKNOWN"
+    document["replay_integrity_reason"] = reason
+    document["replay_requires_reverification"] = True
+    document["replay_evidence_usable"] = False
 
 
 # Initialize persistent tables and indexes required by the intelligence pipeline.
@@ -168,19 +101,36 @@ CREATE TABLE IF NOT EXISTS document_filter_log (
 # Schema initialization occurs before database-dependent pipeline operations.
 def init_sqlite_db() -> None:
     # Create or migrate the persistence schema without requiring a separate migration command.
-    with DB_LOCK, sqlite3.connect(SQLITE_DB) as conn:
+    with _database(write=True) as conn:
         cur = conn.cursor()
-        cur.executescript(_DDL_SCRIPT)
+        if re.search(r"\bDROP\s+TABLE\b", _DDL_SCRIPT, re.I):
+            raise RuntimeError("Destructive schema DDL requires manual review; existing data were not modified")
+        # executescript() commits a pending transaction; execute each DDL statement instead.
+        for statement in _DDL_SCRIPT.split(";"):
+            if statement.strip():
+                cur.execute(statement)
 
+        existing_columns = {row[1] for row in cur.execute("PRAGMA table_info(source_documents)")}
         for col, col_type in [
             ("content_status", "TEXT DEFAULT 'TEXT_COMPLETENESS_UNVERIFIED'"),
             ("content_sha256", "TEXT"),
             ("content_truncated", "INTEGER DEFAULT 0"),
             ("content_limit_reason", "TEXT"),
+            ("source_metadata_json", "TEXT"),
         ]:
-            if col not in {row[1] for row in cur.execute("PRAGMA table_info(source_documents)")}:
+            if col not in existing_columns:
                 cur.execute(f"ALTER TABLE source_documents ADD COLUMN {col} {col_type}")
 
+        if "evidence_metadata_json" in existing_columns:
+            cur.execute("""
+                UPDATE source_documents
+                SET source_metadata_json = evidence_metadata_json
+                WHERE (source_metadata_json IS NULL OR TRIM(source_metadata_json) = '')
+                  AND evidence_metadata_json IS NOT NULL
+                  AND TRIM(evidence_metadata_json) <> ''
+            """)
+
+        reference_columns = {row[1] for row in cur.execute("PRAGMA table_info(reference_dataset)")}
         for col, col_type in [
             ("kit_topic", "TEXT DEFAULT 'GENERAL'"),
             ("expected_scm_tier", "TEXT DEFAULT 'OEM (Final Assembler)'"),
@@ -188,30 +138,27 @@ def init_sqlite_db() -> None:
             ("problem_keywords", "TEXT DEFAULT ''"),
             ("supporting_quote", "TEXT DEFAULT ''"),
         ]:
-            try:
+            if col not in reference_columns:
                 cur.execute(f"ALTER TABLE reference_dataset ADD COLUMN {col} {col_type}")
-            except sqlite3.OperationalError:
-                pass
 
-        if cur.execute("SELECT COUNT(*) FROM kiq_catalog").fetchone()[0] == 0:
-            cur.executemany(
-                """
-                INSERT INTO kiq_catalog (
-                    kiq_id, kit_id, kit_title, question, monitored_entities_json,
-                    indicators_json, time_scope, sources_json, expected_output,
-                    verification_rule, priority, owner, active
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
-                """,
-                [
-                    (
-                        i["kiq_id"], i["kit_id"], i["kit_title"], i["question"],
-                        json.dumps(i["monitored_entities"]), json.dumps(i["indicators"]),
-                        i["time_scope"], json.dumps(i["sources"]), i["expected_output"],
-                        i["verification_rule"], i["priority"], i["owner"],
-                    )
-                    for i in DEFAULT_KIQ_CATALOG
-                ],
-            )
+        cur.executemany(
+            """
+            INSERT OR REPLACE INTO kiq_catalog (
+                kiq_id, kit_id, kit_title, question, monitored_entities_json,
+                indicators_json, time_scope, sources_json, expected_output,
+                verification_rule, priority, owner, active
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
+            """,
+            [
+                (
+                    i["kiq_id"], i["kit_id"], i["kit_title"], i["question"],
+                    json.dumps(i["monitored_entities"]), json.dumps(i["indicators"]),
+                    i["time_scope"], json.dumps(i["sources"]), i["expected_output"],
+                    i["verification_rule"], i["priority"], i["owner"],
+                )
+                for i in DEFAULT_KIQ_CATALOG
+            ],
+        )
 
         if cur.execute("SELECT COUNT(*) FROM reference_dataset").fetchone()[0] < 50:
             cur.executemany(
@@ -225,15 +172,193 @@ def init_sqlite_db() -> None:
                 """,
                 _build_default_ground_truth_cases(_now_iso()),
             )
-        conn.commit()
 
+
+def save_source_document_metadata(run_id: str, documents: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Persist immutable, checksummed source snapshots for reproducible replay."""
+    if not documents:
+        return {"saved": 0, "missing_doc_ids": []}
+    with _database(write=True) as conn:
+        columns = {row[1] for row in conn.execute("PRAGMA table_info(source_documents)")}
+        key = next((name for name in ("doc_id", "document_id") if name in columns), None)
+        if not key or "run_id" not in columns or "source_metadata_json" not in columns:
+            raise RuntimeError("source_documents replay schema is missing document ID, run ID or metadata column")
+        saved, seen, missing = 0, {}, []
+        for doc in documents:
+            doc_id = str(doc.get("doc_id") or doc.get("document_id") or "")
+            if not doc_id:
+                missing.append("<NO_DOC_ID>")
+                continue
+            document = json.loads(json.dumps(doc, ensure_ascii=False, default=str))
+            digest = _document_digest(document)
+            if doc_id in seen and seen[doc_id] != digest:
+                raise ValueError(f"Conflicting evidence snapshots for {run_id}/{doc_id}")
+            seen[doc_id] = digest
+            previous = conn.execute(
+                f"SELECT source_metadata_json FROM source_documents WHERE {key} = ? AND run_id = ?",
+                (doc_id, run_id),
+            ).fetchone()
+            if previous is None:
+                missing.append(doc_id)
+                continue
+            if previous[0]:
+                old = json.loads(previous[0])
+                if not isinstance(old, dict) or old.get("document", old) != document:
+                    raise ValueError(f"Refusing to overwrite different evidence for {run_id}/{doc_id}")
+            snapshot = json.dumps({"schema_version": 2, "run_id": run_id, "doc_id": doc_id,
+                                   "document": document,
+                                   "snapshot_sha256": digest}, ensure_ascii=False)
+            conn.execute(
+                f"UPDATE source_documents SET source_metadata_json = ? WHERE {key} = ? AND run_id = ?",
+                (snapshot, doc_id, run_id),
+            )
+            saved += 1
+        if missing:
+            raise RuntimeError(f"Missing source document rows for {run_id}: {missing}")
+    return {"saved": saved, "missing_doc_ids": []}
+
+
+def restore_source_document(row: Dict[str, Any]) -> Dict[str, Any]:
+    """Restore evidence without promoting missing or inconsistent hashes to verified."""
+    doc = dict(row)
+    doc_id, run_id = doc.get("doc_id") or doc.get("document_id"), doc.get("run_id")
+    integrity_issues: List[str] = []
+    valid_snapshot = False
+    snapshot_digests = set()
+
+    for column in ("evidence_metadata_json", "source_metadata_json"):
+        payload = doc.pop(column, None)
+        if not payload:
+            continue
+
+        try:
+            metadata = json.loads(payload) if isinstance(payload, str) else payload
+            if not isinstance(metadata, dict):
+                raise ValueError("Invalid metadata structure")
+
+            original = metadata.get("document", metadata)
+            if not isinstance(original, dict):
+                raise ValueError("Invalid document snapshot")
+            if (metadata.get("doc_id", doc_id) != doc_id
+                    or metadata.get("run_id", run_id) != run_id):
+                integrity_issues.append("SNAPSHOT_BINDING_MISMATCH")
+            if column == "source_metadata_json" and not (
+                    (original.get("doc_id") or original.get("document_id")) and original.get("source_id")):
+                integrity_issues.append("SOURCE_IDENTITY_UNVERIFIABLE")
+            if column == "source_metadata_json" and original.get("replay_integrity_status") in {"INVALID", "UNKNOWN"}:
+                integrity_issues.append(f"PREVIOUS_REPLAY_INTEGRITY_{original['replay_integrity_status']}")
+            checksum = metadata.get("snapshot_sha256")
+            digest = _document_digest(original)
+            if checksum:
+                if not hmac.compare_digest(str(checksum), digest):
+                    integrity_issues.append("SNAPSHOT_HASH_MISMATCH")
+                else:
+                    snapshot_digests.add(digest)
+                    valid_snapshot |= column == "source_metadata_json"
+            if (original.get("doc_id", original.get("document_id", doc_id)) != doc_id
+                    or original.get("run_id", run_id) != run_id):
+                integrity_issues.append("SOURCE_IDENTITY_MISMATCH")
+            for name in ("url", "source_url", "link", "source_id", "text", "citation",
+                         "evidence_citation", "evidence_quote", "content_sha256", "source_metadata",
+                         "issuer_identity", "issuer_id", "issuer_cik", "issuer", "publisher",
+                         "source_name", "published_at"):
+                if name in row and name in original and row[name] != original[name]:
+                    integrity_issues.append(f"ROW_SNAPSHOT_MISMATCH:{name}")
+            doc.update(original)
+            if column == "source_metadata_json":
+                doc["source_snapshot_sha256"] = checksum or ""
+                doc["source_snapshot_schema_version"] = metadata.get("schema_version", 1)
+        except (TypeError, ValueError):
+            integrity_issues.append("SNAPSHOT_UNVERIFIABLE_MALFORMED")
+            logger.warning(
+                "[REPLAY METADATA] Invalid %s for document %s",
+                column, doc_id,
+            )
+
+    if not valid_snapshot:
+        integrity_issues.append("SNAPSHOT_UNVERIFIABLE_LEGACY")
+    if len(snapshot_digests) > 1:
+        integrity_issues.append("CONFLICTING_SNAPSHOTS")
+
+    doc["doc_id"], doc["run_id"] = doc_id, run_id
+
+    if isinstance(doc.get("metadata"), dict):
+        for key, value in doc["metadata"].items():
+            doc.setdefault(key, value)
+
+    for canonical, alternatives in {
+        "url": ("source_url", "link"),
+        "published_at": ("date",),
+        "text": ("body", "content"),
+    }.items():
+        if not doc.get(canonical):
+            doc[canonical] = next(
+                (doc[key] for key in alternatives if doc.get(key)), ""
+            )
+
+    passages = []
+    for key in ("evidence_passages", "source_passages"):
+        items = doc.get(key)
+        if items is not None:
+            if not isinstance(items, list):
+                integrity_issues.append(f"PASSAGE_UNVERIFIABLE_STRUCTURE:{key}")
+            else:
+                passages.extend(items)
+    for index, passage in enumerate(passages):
+        if not isinstance(passage, dict):
+            integrity_issues.append(f"PASSAGE_UNVERIFIABLE_STRUCTURE:{index}")
+            continue
+        digest = passage.get("passage_sha256") or passage.get("passage_hash") or passage.get("quote_hash")
+        if not digest:
+            if (any(passage.get(flag) is True for flag in _VERIFIED_FLAGS)
+                    or any(str(passage.get(status) or "").upper() in {
+                        "VERIFIED", "SOURCE_PASSAGE_VERIFIED", "QUOTE_VERIFIED", "FULL_QUOTE_VERIFIED"
+                    } for status in _VERIFICATION_STATUSES)):
+                integrity_issues.append(f"PASSAGE_UNVERIFIABLE_HASH:{index}")
+            continue
+        quote = passage.get("passage_text") or passage.get("quote") or passage.get("text")
+        if not isinstance(quote, str):
+            integrity_issues.append(f"PASSAGE_UNVERIFIABLE_TEXT:{index}")
+        elif not hmac.compare_digest(str(digest).lower().removeprefix("sha256:"),
+                                     hashlib.sha256(quote.encode("utf-8")).hexdigest()):
+            integrity_issues.append(f"PASSAGE_HASH_MISMATCH:{index}")
+        elif doc.get("content_status") == "FULL_TEXT" and isinstance(doc.get("text"), str):
+            source_text = re.sub(r"\s+", " ", doc["text"]).casefold()
+            if re.sub(r"\s+", " ", quote).casefold() not in source_text:
+                integrity_issues.append(f"PASSAGE_SOURCE_TEXT_MISMATCH:{index}")
+
+    if integrity_issues:
+        doc["replay_integrity_issues"] = list(dict.fromkeys(integrity_issues))
+        _unverify_evidence(doc, "; ".join(doc["replay_integrity_issues"]))
+    else:
+        doc["replay_integrity_issues"] = []
+        doc["replay_integrity_status"] = "SNAPSHOT_HASH_MATCH"
+        doc["replay_integrity_reason"] = ""
+        doc["replay_requires_reverification"] = False
+        doc["replay_evidence_usable"] = False  # A checksum is not external quote/source verification.
+    if doc.get("source_content_sha256"):
+        doc["source_hash_recheck_status"] = "NOT_RECHECKED_RAW_SOURCE"
+    return doc
+
+
+def load_source_documents_for_replay(run_id: str) -> List[Dict[str, Any]]:
+    """Load only the requested run with evidence metadata intact."""
+    with _database() as conn:
+        conn.row_factory = sqlite3.Row
+        columns = {row[1] for row in conn.execute("PRAGMA table_info(source_documents)")}
+        if "run_id" not in columns:
+            raise RuntimeError("Replay requires a run_id column to prevent mixing different runs")
+        rows = conn.execute(
+            "SELECT * FROM source_documents WHERE run_id = ? ORDER BY doc_id",
+            (run_id,),
+        ).fetchall()
+    return [restore_source_document(dict(row)) for row in rows]
 
 # Seed illustrative reference cases for reproducible research evaluation.
 # Reference fixtures are research cases, not independently confirmed live incidents.
 def _build_default_ground_truth_cases(now_iso: str) -> List[Tuple]:
     """Construct the bundled illustrative reference cases for evaluation."""
     raw_cases = [
-
         ("REF_001", "Airbus A321XLR / A320neo", "Pratt & Whitney (RTX)", "Tier 1 (Systems/Engines)", "A320NEO_FAMILY", "Pratt & Whitney GTF powdered metal contamination forces 600-700 premature engine removals", "powder metal,gtf,pratt,removal,grounded", 1, "TECHNICAL_QUALITY", 9, "https://www.youtube.com/watch?v=B3QTB3YbO8M", "2026-08-10", "powdered metal contamination affecting certain engine components manufactured between 2015 and 2021", "Confirmed Tier-1 engine durability crisis.", "VERIFIED_POSITIVE"),
         ("REF_002", "Airbus A321XLR / A320neo", "Turkish Airlines", "Regulator / Airline", "A320NEO_FAMILY", "Turkish Airlines grounds up to 50 Airbus A321neo jets over Pratt & Whitney GTF shop queues", "turkish,grounded,gtf,shop,200 days", 1, "SUPPLY_CHAIN", 8, "https://www.youtube.com/watch?v=WNDNn3gXlMo", "2026-09-22", "Turkish Airlines still expects dozens of aircraft on the ground well into next year", "Confirmed airline fleet grounding from Tier-1 MRO bottleneck.", "VERIFIED_POSITIVE"),
         ("REF_003", "Airbus A321XLR / A320neo", "Spirit Airlines", "Regulator / Airline", "A320NEO_FAMILY", "Three-year-old Spirit Airlines A320neo jets parted out in Arizona due to GTF engine shortage", "spirit,dismantled,scrapped,shortage,goodyear", 1, "SUPPLY_CHAIN", 8, "https://www.youtube.com/watch?v=HqACO9TeexU", "2026-10-28", "Spirit Airlines jets that are only three or four years old are being stripped for parts", "Confirmed severe JIT engine shortage consequence.", "VERIFIED_POSITIVE"),
@@ -246,8 +371,6 @@ def _build_default_ground_truth_cases(now_iso: str) -> List[Tuple]:
         ("REF_010", "Airbus A321XLR / A320neo", "Airbus SE", "OEM (Final Assembler)", "A350", "Airbus A350 widebody cabin catering update for long-haul flights", "a350,catering,cabin,menu", 0, "COMPETITIVE", 1, "https://example.org/a350-catering", "2026-09-10", "new catering menu on A350 flights", "Irrelevant different aircraft family (A350 vs A320neo).", "VERIFIED_NEGATIVE"),
         ("REF_011", "Airbus A321XLR / A320neo", "The Boeing Company", "OEM (Final Assembler)", "737_NG", "CFM56 fan blade inspection on older Boeing 737-800 fleet", "cfm56,737-800,fan blade", 0, "TECHNICAL_QUALITY", 2, "https://example.org/cfm56-737ng", "2026-09-12", "CFM56 engine inspection on Boeing 737 NG", "Tricky negative: CFM56 on 737 must never be used to confirm A320neo GTF issues.", "VERIFIED_NEGATIVE"),
         ("REF_012", "Airbus A321XLR / A320neo", "Cyprus Airways", "Regulator / Airline", "A320NEO_FAMILY", "Cyprus Airways plans post-2027 fleet growth with two A320neo aircraft", "cyprus airways,1q27,london route", 1, "COMPETITIVE", 3, "https://bsky.app/profile/domsipinski.bsky.social/post/3mwl4amfur22o", "2026-09-28", "Cyprus Airways has an open book for its post-2027 fleet growth", "Low-severity routine fleet planning signal.", "VERIFIED_POSITIVE"),
-
-
         ("REF_013", "FAA / EASA Regulations", "Airbus SE", "OEM (Final Assembler)", "A320NEO_FAMILY", "FAA Proposed Airworthiness Directive for Airbus A320 family engine fire switch self-releasing", "fire switch,self-releasing,uncommanded,in-flight shut down,2026-18072", 1, "REGULATORY", 8, "https://www.federalregister.gov/documents/2026/09/03/2026-18072/airworthiness-directives-airbus-sas-airplanes", "2026-09-03", "reports of one engine fire switch self-releasing, causing an uncommanded in-flight shut down to one engine", "Primary FAA regulatory directive on safety-critical cockpit fire switch.", "VERIFIED_POSITIVE"),
         ("REF_014", "FAA / EASA Regulations", "Airbus SE", "OEM (Final Assembler)", "A320NEO_FAMILY", "FAA Proposed AD 2026-21047 for Airbus A320 family emergency evacuation slide hose fracture", "evacuation slide,failing to inflate,fracture,2026-21047", 1, "REGULATORY", 7, "https://www.federalregister.gov/documents/2026/10/15/2026-21047/airworthiness-directives-airbus-sas-airplanes", "2026-10-15", "reports of door evacuation slide systems failing to inflate during emergency evacuations", "Primary FAA AD on evacuation slide connector fracture.", "VERIFIED_POSITIVE"),
         ("REF_015", "FAA / EASA Regulations", "Airbus SE", "OEM (Final Assembler)", "A320NEO_FAMILY", "FAA Proposed AD 2026-20700 for Airbus A320 wing thrust spigot slotted nut corrosion", "slotted nuts,wing thrust spigots,corrosion,2026-20700", 1, "REGULATORY", 7, "https://www.federalregister.gov/documents/2026/10/08/2026-20700/airworthiness-directives-airbus-sas-airplanes", "2026-10-08", "finding that severe corrosion could occur on affected slotted nuts located at the wing thrust spigots", "Primary FAA AD requiring repetitive structural inspections.", "VERIFIED_POSITIVE"),
@@ -258,8 +381,6 @@ def _build_default_ground_truth_cases(now_iso: str) -> List[Tuple]:
         ("REF_020", "FAA / EASA Regulations", "FAA", "Regulator / Airline", "Unspecified", "FAA drone hobbyist registration renewal reminder for recreational flyers", "drone,recreational,hobbyist,registration", 0, "REGULATORY", 1, "https://example.org/faa-drone-hobby", "2026-10-01", "recreational drone flyers must renew registration", "Irrelevant non-commercial aviation notice.", "VERIFIED_NEGATIVE"),
         ("REF_021", "FAA / EASA Regulations", "NTSB", "Regulator / Airline", "Unspecified", "NTSB highway truck tire blowout investigation report in Texas", "highway,truck,tire,texas", 0, "REGULATORY", 1, "https://example.org/ntsb-highway", "2026-10-02", "NTSB highway safety report on commercial truck tire", "Irrelevant non-aviation NTSB report.", "VERIFIED_NEGATIVE"),
         ("REF_022", "FAA / EASA Regulations", "Airbus SE", "OEM (Final Assembler)", "A320NEO_FAMILY", "Airbus A320 and A321 under review: which airplanes are affected by the FAA order", "under review,faa order,a320,a321,democrata", 1, "REGULATORY", 6, "https://news.google.com/rss/articles/CBMi5wFBVV95cUxPcnp6S3lMN1FhcUFKTlZfU09HUHd1M1J1SzdGRk9PQkxmUVpqYW1FQTgyM1hzcEFhSWVsS1lodm1BNW1FUWF2NnVfTm5UQU5odkNHcGxFanhGWVRaQmc3MXlKX3NSQmJnMUMxUWI1OXpGZ2VfMVBscFRFYTNRakstZi1mdlNGUmVZNDZ5Y3RDVVlYREwwdkRLdUh5bWVreVoxRGgyRy1uUVlZMWRXeThzOGk5S2N0akpTSnl2WmdzcXZ1MzluRHlFQWtPMnFfWXRCWWhhMW5HeWR5d3hacmFqcEN2bEpwcEHSAewBQVVfeXFMTXA0N2VKaURLUldZaGx4Z18zbXpocGhla1pNa0djcXEtVlJsZ3pkajZmeTl0eF8yWGxtMWtkV2lDTFpmSmNLNFBGNDVURDV6T3NvWENIWGMzeUlBa2lUbmliLTZBMEJsSVkxZHJjRW5TR3hKZGtTdlJLMHFmS0t0S283dUw4VnoxMndTcG80NHFPTTVGMXZuS00zemNLX29oOHVEWlYtNG9UcXBSSnJuMkxEbUJDUmx5ek1QV3ZfR091ZjlNajViajBTMUppdDJsVjMxNWRZbmctVHBZX0ZaZEw1RmdJZHNjUmxqeUU?oc=5", "2026-08-28", "Airbus A320 and A321 under review: which airplanes are affected by the FAA order", "Secondary media summary of FAA order.", "VERIFIED_POSITIVE"),
-
-
         ("REF_023", "Boeing 777X", "The Boeing Company", "OEM (Final Assembler)", "777X", "Boeing 777X flight test pause after severed thrust link discovered on 777-9 test aircraft", "777x,777-9,thrust link,flight test,pause", 1, "TECHNICAL_QUALITY", 9, "https://www.boeing.com/777x-thrust-link-update", "2026-08-25", "structural crack in a thrust link component connecting the GE9X engine to the 777-9 airframe", "Critical technical defect delaying 777X certification.", "VERIFIED_POSITIVE"),
         ("REF_024", "Boeing 777X", "The Boeing Company", "OEM (Final Assembler)", "777X", "Boeing pushes first 777X commercial delivery target to 2027 amid FAA certification delays", "777x,2027,certification delay,first delivery,boeing", 1, "SUPPLY_CHAIN", 8, "https://www.boeing.mediaroom.com/2026-10-12-777x-schedule", "2026-10-12", "Boeing now anticipates first delivery of the 777-9 in 2027 due to certification timelines", "Confirmed OEM program schedule slip.", "VERIFIED_POSITIVE"),
         ("REF_025", "Boeing 777X", "Lufthansa", "Regulator / Airline", "777X", "Lufthansa adjusts long-haul widebody capacity plan as launch customer for delayed Boeing 777-9", "lufthansa,777-9,launch customer,capacity,delay", 1, "SUPPLY_CHAIN", 7, "https://example.org/lufthansa-777x-delay", "2026-10-14", "Lufthansa forced to extend older widebody leases due to Boeing 777-9 delivery delay to 2027", "Downstream airline fleet impact from 777X delay.", "VERIFIED_POSITIVE"),
@@ -270,8 +391,6 @@ def _build_default_ground_truth_cases(now_iso: str) -> List[Tuple]:
         ("REF_030", "Boeing 777X", "The Boeing Company", "OEM (Final Assembler)", "777X", "Boeing records pre-tax charge on 777X program amid Everett production and test delays", "charge,everett,777x,pre-tax,financial", 1, "FINANCIAL", 8, "https://www.boeing.mediaroom.com/2026-10-23-q3-charge", "2026-10-23", "Boeing recognized a multi-billion dollar pre-tax charge on the 777X program", "Confirmed financial & supply chain impact on OEM.", "VERIFIED_POSITIVE"),
         ("REF_031", "Boeing 777X", "Qatar Airways", "Regulator / Airline", "777X", "Qatar Airways reaffirms commitment to Boeing 777-9 orderbook despite schedule slip", "qatar airways,777-9,orderbook", 1, "COMPETITIVE", 4, "https://example.org/qatar-777x", "2026-10-21", "Qatar Airways remains committed to its 777-9 orders", "Low-severity monitored customer statement.", "VERIFIED_POSITIVE"),
         ("REF_032", "Boeing 777X", "UnknownPassenger", "Regulator / Airline", "777_LEGACY", "My flight on a 777-200 had a broken entertainment screen and lost my luggage", "my flight,luggage,screen,vacation", 0, "SUPPLY_CHAIN", 1, "https://bsky.app/profile/traveler.bsky.social/post/111", "2026-10-22", "My flight was delayed and they lost my bag", "Irrelevant personal passenger post (must be blocked by GDPR/relevance filter).", "VERIFIED_NEGATIVE"),
-
-
         ("REF_033", "GE9X / GE Aerospace", "GE Aerospace", "Tier 1 (Systems/Engines)", "777X", "GE Aerospace announces agreement to acquire precision-castings supplier CPP for $11.75 billion", "ge aerospace,cpp,precision-castings,11.75 billion,turbine", 1, "SUPPLY_CHAIN", 6, "https://www.youtube.com/watch?v=gOEHDApqXLY", "2026-10-29", "GE Aerospace announced an agreement to acquire precision-castings supplier CPP for $11.75 billion", "Strategic Tier-1 vertical integration of Tier-2 casting supplier.", "VERIFIED_POSITIVE"),
         ("REF_034", "GE9X / GE Aerospace", "GE Aerospace", "Tier 1 (Systems/Engines)", "777X", "GE Aerospace conducts additional GE9X durability and seal inspections during 777X test pause", "ge9x,durability,seal,inspection,ge aerospace", 1, "TECHNICAL_QUALITY", 7, "https://example.org/ge9x-seal-inspection", "2026-09-15", "GE Aerospace is inspecting high-pressure turbine seals on GE9X test engines", "Tier-1 engine technical inspection signal.", "VERIFIED_POSITIVE"),
         ("REF_035", "GE9X / GE Aerospace", "CFM International (GE / Safran)", "Tier 1 (Systems/Engines)", "A320NEO_FAMILY", "CFM International introduces high-pressure turbine durability kit for LEAP-1A engines", "cfm,leap-1a,durability,safran,ge", 1, "TECHNICAL_QUALITY", 5, "https://www.youtube.com/watch?v=B3QTB3YbO8M", "2026-08-10", "CFM has also introduced a series of engineering upgrades to improve the long-term durability of the LEAP-1A", "Tier-1 engine durability upgrade.", "VERIFIED_POSITIVE"),
@@ -282,8 +401,6 @@ def _build_default_ground_truth_cases(now_iso: str) -> List[Tuple]:
         ("REF_040", "GE9X / GE Aerospace", "GE Aerospace", "Tier 1 (Systems/Engines)", "787", "GEnx engine MRO turnaround times improve at GE Aerospace overhaul shops", "genx,787,mro,turnaround", 1, "SUPPLY_CHAIN", 3, "https://example.org/genx-mro-improvement", "2026-10-11", "GE Aerospace reduced GEnx shop turnaround times by 12%", "Positive/low-risk monitored MRO signal.", "VERIFIED_POSITIVE"),
         ("REF_041", "GE9X / GE Aerospace", "Collins Aerospace", "Tier 1 (Systems/Engines)", "777X", "Collins Aerospace nacelle actuation qualification completed for 777X", "collins,nacelle,actuation,777x", 1, "TECHNICAL_QUALITY", 3, "https://example.org/collins-nacelle", "2026-09-19", "Collins Aerospace completed nacelle actuation qualification testing", "Monitored Tier-1 milestone.", "VERIFIED_POSITIVE"),
         ("REF_042", "GE9X / GE Aerospace", "UnknownBlog", "Unknown (Verification Required)", "Unspecified", "Top 10 biggest jet engines in history compilation video", "top 10,compilation,biggest", 0, "COMPETITIVE", 1, "https://example.org/top10-engines", "2026-10-03", "welcome to our top 10 biggest jet engines compilation", "Irrelevant compilation video.", "VERIFIED_NEGATIVE"),
-
-
         ("REF_043", "Airbus A220", "Pratt & Whitney (RTX)", "Tier 1 (Systems/Engines)", "A220", "Airbus A220 operators face ongoing PW1500G geared turbofan shop visit delays", "a220,pw1500g,pratt,shop visit,grounded", 1, "SUPPLY_CHAIN", 8, "https://example.org/a220-pw1500g-delays", "2026-09-27", "Airbus A220 operators report continued aircraft-on-ground delays awaiting PW1500G engine overhauls", "Confirmed Tier-1 engine bottleneck on A220 program.", "VERIFIED_POSITIVE"),
         ("REF_044", "Airbus A220", "Spirit AeroSystems", "Tier 1 (Systems/Engines)", "A220", "Spirit AeroSystems A220 wing and pylon integration transfer to Airbus nears completion", "spirit aerosystems,a220,wing,pylon,transfer", 1, "SUPPLY_CHAIN", 7, "https://example.org/spirit-a220-wings", "2026-10-09", "Airbus and Spirit AeroSystems progress on transferring A220 wing production in Belfast", "Critical Tier-1 aerostructures supply chain restructuring.", "VERIFIED_POSITIVE"),
         ("REF_045", "Airbus A220", "FAA", "Regulator / Airline", "A220", "FAA issues Airworthiness Directive on Airbus A220 flight control software check", "faa,a220,flight control,software,directive", 1, "REGULATORY", 7, "https://www.federalregister.gov/documents/2026/09/14/airbus-a220-ad", "2026-09-14", "FAA adopts airworthiness directive for Airbus Canada Model BD-500-1A10 and 1A11 (A220) airplanes", "Primary regulatory action on A220.", "VERIFIED_POSITIVE"),
@@ -297,10 +414,9 @@ def _build_default_ground_truth_cases(now_iso: str) -> List[Tuple]:
     ]
     return [(*c, now_iso) for c in raw_cases]
 
-
 # Load enabled strategic KIQ definitions from persistent storage.
 def get_active_kiq_catalog() -> List[Dict[str, Any]]:
-    with DB_LOCK, sqlite3.connect(SQLITE_DB) as conn:
+    with _database() as conn:
         conn.row_factory = sqlite3.Row
         rows = conn.execute("SELECT * FROM kiq_catalog WHERE active = 1 ORDER BY kiq_id").fetchall()
         return [
@@ -321,7 +437,6 @@ def get_active_kiq_catalog() -> List[Dict[str, Any]]:
             for r in rows
         ]
 
-
 _AIRFRAME_MARKERS = {
     "A320NEO_FAMILY": re.compile(r"\b(?:a3(?:19|20|21)\s*neo|a320neo_family)\b", re.I),
     "A350": re.compile(r"\ba350(?:[- ]?(?:900|1000|f))?\b", re.I),
@@ -331,16 +446,21 @@ _AIRFRAME_MARKERS = {
     "B737": re.compile(r"\b(?:b?737|737\s*max)\b", re.I),
 }
 
-
 # Identify aircraft references used when comparing incident identity.
 def _incident_airframes(text: str) -> set[str]:
     return {name for name, regex in _AIRFRAME_MARKERS.items() if regex.search(text or "")}
 
+_FR_DOC_NUM_RE = re.compile(r"/documents/(?:20\d{2}/\d{2}/\d{2}/)?(20\d{2}-\d{4,6})(?:/|$)", re.I)
+_EASA_AD_NUM_RE = re.compile(r"(?:\bEASA\s+P?AD\s+|#ad=)(20\d{2}-\d{4})\b", re.I)
+_NTSB_CASE_RE = re.compile(r"(?:\bNTSB\s+(?:case\s+)?|#)([A-Z]{3}\d{2}[A-Z]{2}\d{3})\b", re.I)
 
-# Recover docket identity and previous-document linkage for FAA lifecycle tracking.
+
 def _faa_lifecycle_identity(summary: Dict[str, Any]) -> Tuple[str, str]:
     """Extract verified FAA docket identity and earlier-document URL."""
-    if not isinstance(summary, dict) or summary.get("FAA Lifecycle Verified") != "YES":
+    if not isinstance(summary, dict):
+        return "", ""
+    if (summary.get("FAA Lifecycle Verified") != "YES"
+            and summary.get("FAA Publication Verified") != "YES"):
         return "", ""
 
     docket = str(summary.get("FAA Docket") or "").strip().upper()
@@ -354,13 +474,33 @@ def _faa_lifecycle_identity(summary: Dict[str, Any]) -> Tuple[str, str]:
     return docket, earlier_url
 
 
+def _official_record_ids(summary: Dict[str, Any], urls: set[str], text: str) -> Dict[str, str]:
+    """Extract authoritative document/case identifiers to prevent cross-document merges."""
+    ids: Dict[str, str] = {}
+    if isinstance(summary, dict):
+        doc_num = str(summary.get("FAA Document Number") or "").strip()
+        if re.fullmatch(r"20\d{2}-\d{4,6}", doc_num):
+            ids["fr_doc"] = doc_num
+        docket = str(summary.get("FAA Docket") or "").strip().upper()
+        if re.fullmatch(r"FAA-\d{4}-\d+", docket):
+            ids["faa_docket"] = docket
+    joined_urls = " ".join(str(u or "") for u in urls)
+    if "fr_doc" not in ids and (m := _FR_DOC_NUM_RE.search(joined_urls)):
+        ids["fr_doc"] = m.group(1)
+    if m := _EASA_AD_NUM_RE.search(f"{joined_urls} {text}"):
+        ids["easa_ad"] = m.group(1)
+    if m := _NTSB_CASE_RE.search(f"{joined_urls} {text}"):
+        ids["ntsb_case"] = m.group(1).upper()
+    return ids
+
+
 # Assess whether two observations refer to the same supported real-world event.
 # Do not equate high textual similarity with confirmed event identity.
 def _incident_match_score(threat: ThreatAssessment, row: sqlite3.Row, old_urls: List[str]) -> float:
     """Return 0 when same-event identity is not adequately supported."""
-    incoming_urls = set(threat.source_urls or []) | {threat.evidence_citation}
-    historical_urls = set(old_urls) | {row["canonical_url"]}
-    shared_source = bool({u for u in incoming_urls & historical_urls if u})
+    incoming_urls = {u for u in (set(threat.source_urls or []) | {threat.evidence_citation}) if u}
+    historical_urls = {u for u in (set(old_urls) | {row["canonical_url"]}) if u}
+    shared_source = bool(incoming_urls & historical_urls)
 
     same_actor = (threat.company_affected or "").strip().casefold() == (row["company_affected"] or "").strip().casefold()
     if not shared_source and not same_actor:
@@ -373,13 +513,22 @@ def _incident_match_score(threat: ThreatAssessment, row: sqlite3.Row, old_urls: 
     if new_models and old_models and new_models.isdisjoint(old_models):
         return 0.0
 
-    if same_actor and threat.risk_type.value == "REGULATORY" and row["risk_type"] == "REGULATORY":
-        new_docket, earlier_url = _faa_lifecycle_identity(threat.corroboration_summary or {})
-        try:
-            old_audit = json.loads(row["corroboration_json"] or "{}")
-        except (KeyError, IndexError, ValueError, TypeError):
-            old_audit = {}
+    try:
+        old_audit = json.loads(row["corroboration_json"] or "{}")
+    except (KeyError, IndexError, ValueError, TypeError):
+        old_audit = {}
+    new_audit = threat.corroboration_summary or {}
 
+    new_ids = _official_record_ids(new_audit, incoming_urls, f"{threat.threat_description} {threat.fact_check_quote}")
+    old_ids = _official_record_ids(old_audit, historical_urls, f"{row['threat_description'] or ''} {row['fact_check_quote'] or ''}")
+
+    # Distinct official regulatory or investigation identifiers must never collapse into one event.
+    for key in ("faa_docket", "easa_ad", "ntsb_case"):
+        if new_ids.get(key) and old_ids.get(key) and new_ids[key] != old_ids[key]:
+            return 0.0
+
+    if same_actor and threat.risk_type.value == "REGULATORY" and row["risk_type"] == "REGULATORY":
+        new_docket, earlier_url = _faa_lifecycle_identity(new_audit)
         old_docket, _ = _faa_lifecycle_identity(old_audit)
         old_canonical = (row["canonical_url"] or "").strip()
         current_url = (threat.evidence_citation or "").strip()
@@ -396,8 +545,15 @@ def _incident_match_score(threat: ThreatAssessment, row: sqlite3.Row, old_urls: 
         if new_docket and earlier_url and "federalregister.gov/documents/" in old_canonical:
             return 0.0
 
+    # Two different Federal Register documents without a shared verified docket/prior link are distinct.
+    if (new_ids.get("fr_doc") and old_ids.get("fr_doc")
+            and new_ids["fr_doc"] != old_ids["fr_doc"]):
+        return 0.0
+
     norm = lambda v: re.sub(r"\s+", " ", (v or "").casefold()).strip()
-    similarity = SequenceMatcher(None, norm(threat.threat_description), norm(row["threat_description"])).ratio()
+    new_desc_norm = norm(threat.threat_description)
+    old_desc_norm = norm(row["threat_description"])
+    similarity = SequenceMatcher(None, new_desc_norm, old_desc_norm).ratio()
 
     if shared_source:
         if not same_actor:
@@ -417,9 +573,14 @@ def _incident_match_score(threat: ThreatAssessment, row: sqlite3.Row, old_urls: 
         threshold = 0.62 if (new_models and old_models) else 0.83
         return similarity + 0.1 if similarity >= threshold else 0.0
 
+    # Generic fallback descriptions (e.g. "Unverified source claim...") cannot prove identity without matching quotes.
+    if new_desc_norm.startswith("unverified source claim") or old_desc_norm.startswith("unverified source claim"):
+        q_new, q_old = norm(threat.fact_check_quote), norm(row["fact_check_quote"])
+        if not (q_new and q_old and SequenceMatcher(None, q_new, q_old).ratio() >= 0.85):
+            return 0.0
+
     same_type = threat.risk_type.value == row["risk_type"]
     return similarity if (same_actor and same_type and similarity >= 0.87) else 0.0
-
 
 # Resolve stable event IDs and persist current observations for historical tracing.
 # Persistent event IDs allow trend analysis without assuming every repeated mention is a new incident.
@@ -433,7 +594,7 @@ def reconcile_and_store_events(
     now_iso = _now_iso()
     new_count = continuing_count = 0
 
-    with DB_LOCK, sqlite3.connect(SQLITE_DB) as conn:
+    with _database(write=True) as conn:
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
         existing_rows = [
@@ -483,10 +644,7 @@ def reconcile_and_store_events(
                     urls = current_urls + row_urls
 
                 # Historické odkazy zachovej pouze v databázovém archivu.
-                archived_urls = [
-                                    u for u in dict.fromkeys(urls)
-                                    if u and "example.com" not in u
-                                ][:5]
+                archived_urls = [u for u in dict.fromkeys(urls) if u and 'example.com' not in u][:5]
 
                 # Aktuální report smí uvádět pouze URL
                 # přiřazené důkazům z tohoto běhu.
@@ -571,23 +729,33 @@ def reconcile_and_store_events(
                     ),
                 )
 
-            cur.execute(
-                """
-                INSERT INTO event_history (
-                    event_id, run_id, recorded_at, threat_score, confidence_level, event_status, change_type, notes
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                """,
-                (
-                    threat.event_id, run_id, now_iso, threat.threat_score,
-                    threat.confidence_level.value, threat.event_status.value, change_type, notes,
-                ),
-            )
+            prior = cur.execute(
+                "SELECT * FROM event_history WHERE event_id = ? AND run_id = ? LIMIT 1",
+                (threat.event_id, run_id),
+            ).fetchone()
+            if prior:
+                if (prior["threat_score"] != threat.threat_score
+                        or prior["event_status"] != threat.event_status.value
+                        or prior["confidence_level"] != threat.confidence_level.value):
+                    raise ValueError(f"Conflicting observation for {run_id}/{threat.event_id}")
+                if prior["change_type"] == "FIRST_DETECTED" and matched_row is not None:
+                    new_count += 1
+                    continuing_count -= 1
+            else:
+                cur.execute(
+                    """
+                    INSERT INTO event_history (
+                        event_id, run_id, recorded_at, threat_score, confidence_level,
+                        event_status, change_type, notes
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (threat.event_id, run_id, now_iso, threat.threat_score,
+                     threat.confidence_level.value, threat.event_status.value, change_type, notes),
+                )
 
         resolved_count = max(0, len(existing_rows) - len(matched_existing_ids)) if existing_rows else 0
-        conn.commit()
 
     return threats, new_count, continuing_count, resolved_count
-
 
 # Calculate event and severity changes between analytically comparable runs.
 # A run delta is meaningful only for matching KIT, scope, and dataset conditions.
@@ -609,7 +777,7 @@ def compute_comparable_run_delta(
     explicitly_resolved = sum(1 for t in current_threats if t.event_status == EventStatus.RESOLVED)
     unknown_state = sum(1 for t in current_threats if t.publication_time == "DATE_UNKNOWN")
 
-    with DB_LOCK, sqlite3.connect(SQLITE_DB) as conn:
+    with _database() as conn:
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
         prev = cur.execute(
@@ -714,7 +882,6 @@ def compute_comparable_run_delta(
         ),
     }
 
-
 # Update the historical export using schema-safe, atomic CSV replacement.
 # The CSV export is a projection of stored history, not the event-identity authority.
 def append_to_historical_archive(threats_data: List[Dict[str, Any]]) -> None:
@@ -756,23 +923,46 @@ def append_to_historical_archive(threats_data: List[Dict[str, Any]]) -> None:
         if os.path.exists(temp_path):
             os.remove(temp_path)
 
-
 # Persist the completed structured intelligence report to SQLite.
 def save_report_to_db(report: EWSReport) -> None:
     now_iso = _now_iso()
-    with DB_LOCK, sqlite3.connect(SQLITE_DB) as conn:
+    with _database(write=True) as conn:
+        source_rows = conn.execute(
+            "SELECT doc_id, source_metadata_json FROM source_documents WHERE run_id = ?",
+            (report.run_id,),
+        ).fetchall()
+        for doc_id, payload in source_rows:
+            try:
+                snapshot = json.loads(payload)
+                if not isinstance(snapshot, dict):
+                    raise ValueError("Invalid snapshot")
+                checksum = snapshot.get("snapshot_sha256")
+                if checksum and not hmac.compare_digest(
+                    str(checksum), _document_digest(snapshot.get("document", {}))
+                ):
+                    raise ValueError("Snapshot checksum mismatch")
+            except (TypeError, ValueError) as exc:
+                raise RuntimeError(f"Report {report.run_id}: incomplete or corrupt evidence {doc_id}") from exc
+        duplicate = conn.execute(
+            "SELECT report_id FROM reports WHERE run_id = ? AND version = ? AND report_id != ?",
+            (report.run_id, report.version, report.report_id),
+        ).fetchone()
+        if duplicate:
+            raise ValueError(f"Conflicting report identity for run {report.run_id}, version {report.version}")
         conn.execute(
             """
-            INSERT OR REPLACE INTO reports (
+            INSERT INTO reports (
                 report_id, run_id, version, hitl_status, outcome_status, created_at, updated_at, report_json
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(report_id) DO UPDATE SET
+                run_id = excluded.run_id, version = excluded.version,
+                hitl_status = excluded.hitl_status, outcome_status = excluded.outcome_status,
+                updated_at = excluded.updated_at, report_json = excluded.report_json
             """,
             (
                 report.report_id, report.run_id, report.version, report.hitl_status,
                 report.outcome_status.value, now_iso, now_iso, report.model_dump_json(indent=2),
             ),
         )
-        conn.commit()
-
 
 init_sqlite_db()

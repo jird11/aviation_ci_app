@@ -7,39 +7,20 @@
 #   controls.
 # =============================================================================
 
-
 """Pydantic request contracts for scans, human review, and analyst feedback."""
 
 from typing import Literal
 from datetime import date
 from pydantic import field_validator, model_validator
 
-from ews_state import (
-    BaseModel,
-    Field,
-    List,
-    Optional,
-)
-
+from ews_state import BaseModel, Field, List, Optional
 
 # Validated monitoring request including scope, platform, and governance switches.
 # API schema validation checks inputs; review authorization is enforced by route handlers.
 class EWSRequest(BaseModel):
+    query: str = Field(min_length=1, max_length=600)
 
-    query: str = Field(
-        min_length=1,
-        max_length=600,
-    )
-
-    scope: Literal[
-        "24h",
-        "7d",
-        "30d",
-        "90d",
-        "365d",
-        "custom",
-        "all",
-    ] = "7d"
+    scope: Literal['24h', '7d', '30d', '90d', '365d', 'custom', 'all'] = '7d'
 
     date_from: Optional[str] = None
     date_to: Optional[str] = None
@@ -47,12 +28,7 @@ class EWSRequest(BaseModel):
 
     platforms: List[str] = Field(min_length=1)
 
-    limit: int = Field(
-        default=5,
-        ge=1,
-        le=100,
-        strict=True,
-    )
+    limit: int = Field(default=5, ge=1, le=100, strict=True)
 
     auto_approve: bool = False
 
@@ -67,13 +43,10 @@ class EWSRequest(BaseModel):
     @field_validator("query")
     @classmethod
     def validate_query(cls, value: str) -> str:
-
         value = value.strip()
 
         if not value:
-            raise ValueError(
-                "KIT query must not be empty"
-            )
+            raise ValueError('KIT query must not be empty')
 
         return value
 
@@ -81,11 +54,7 @@ class EWSRequest(BaseModel):
     # Invalid input raises a schema error rather than being accepted or silently coerced.
     @field_validator("platforms")
     @classmethod
-    def validate_platforms(
-        cls,
-        values: List[str],
-    ) -> List[str]:
-
+    def validate_platforms(cls, values: List[str]) -> List[str]:
         groups = {
             "news api & market intelligence": ["news"],
             "faa / easa / ntsb – regulatory & safety": ["regulatory", "ntsb"],
@@ -98,9 +67,7 @@ class EWSRequest(BaseModel):
         expanded = []
         for value in values:
             if isinstance(value, str):
-                expanded.extend(
-                    groups.get(value.strip().lower(), [value])
-                )
+                expanded.extend(groups.get(value.strip().lower(), [value]))
             else:
                 expanded.append(value)
 
@@ -109,24 +76,18 @@ class EWSRequest(BaseModel):
         allowed = {
             "news",
             "news api",
-
             "regulatory",
             "faa",
             "easa",
             "faa & easa regulations",
-
             "ntsb",
             "ntsb investigations",
-
             "pr",
             "official pr releases",
-
             "bluesky",
             "bluesky social network",
-
             "youtube",
             "youtube videos",
-
             "airshow",
             "airshow websites",
         }
@@ -134,20 +95,12 @@ class EWSRequest(BaseModel):
         names = []
 
         for item in values:
-
-            if (
-                not isinstance(item, str)
-                or item.strip().lower() not in allowed
-            ):
-                raise ValueError(
-                    f"Unknown source platform: {item!r}"
-                )
+            if not isinstance(item, str) or item.strip().lower() not in allowed:
+                raise ValueError(f'Unknown source platform: {item!r}')
 
             canonical = item.strip()
 
-            if canonical.lower() not in {
-                name.lower() for name in names
-            }:
+            if canonical.lower() not in {name.lower() for name in names}:
                 names.append(canonical)
 
         return names
@@ -159,11 +112,7 @@ class EWSRequest(BaseModel):
         "as_of_date",
     )
     @classmethod
-    def validate_date(
-        cls,
-        value: str | None,
-    ) -> str | None:
-
+    def validate_date(cls, value: str | None) -> str | None:
         if value is None or value == "":
             return None
 
@@ -174,29 +123,13 @@ class EWSRequest(BaseModel):
     # Check custom date ranges and scope-specific request constraints.
     @model_validator(mode="after")
     def validate_date_window(self):
+        if self.scope == 'custom' and (not self.date_from or not self.date_to):
+            raise ValueError('Custom scope needs date_from and date_to')
 
-        if (
-            self.scope == "custom"
-            and (
-                not self.date_from
-                or not self.date_to
-            )
-        ):
-            raise ValueError(
-                "Custom scope needs date_from and date_to"
-            )
-
-        if (
-            self.date_from
-            and self.date_to
-            and self.date_from > self.date_to
-        ):
-            raise ValueError(
-                "date_from must not be after date_to"
-            )
+        if self.date_from and self.date_to and (self.date_from > self.date_to):
+            raise ValueError('date_from must not be after date_to')
 
         return self
-
 
 # Follow-up verification request for a specific existing signal.
 # Callers must still apply endpoint-level authorization and governance controls.
@@ -206,7 +139,6 @@ class TargetedScanRequest(BaseModel):
     what_is_missing: str
     affected_kiq_id: str = "KIQ_1_1"
     scope: str = "30d"
-
 
 # Authorized correction and reviewer-feedback payload.
 # Callers must still apply endpoint-level authorization and governance controls.

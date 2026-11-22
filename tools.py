@@ -7,8 +7,9 @@
 #   deduplication, and telemetry.
 # =============================================================================
 
-
 import csv
+from dataclasses import dataclass
+from functools import lru_cache
 import email.utils
 import hashlib
 import html
@@ -17,6 +18,7 @@ import ipaddress
 import json
 import logging
 import os
+from pathlib import Path
 import re
 import socket
 import threading
@@ -44,15 +46,14 @@ import unicodedata
 load_dotenv()
 logger = logging.getLogger(__name__)
 
+# Legacy export for callers importing this setting; NewsAPI requests read it dynamically.
 NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-
 # Provide a normalized UTC timestamp for report metadata and audit records.
 def _now_iso() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-
 
 # Canonical monitoring date-window choices.
 class AnalysisScope(str, Enum):
@@ -63,7 +64,6 @@ class AnalysisScope(str, Enum):
     LAST_365_DAYS = "365d"
     CUSTOM = "custom"
     ALL = "all"
-
 
 SCOPE_LABEL_MAP = {
     "24h": AnalysisScope.LAST_24_HOURS,
@@ -89,7 +89,6 @@ _SCOPE_FALLBACK_RULES = (
     (("unrestricted", "all", "deep"), AnalysisScope.ALL),
 )
 
-
 # Convert user-facing time ranges into the application’s canonical analysis scopes.
 def normalize_scope_value(raw_scope: str) -> AnalysisScope:
     if not raw_scope:
@@ -102,348 +101,24 @@ def normalize_scope_value(raw_scope: str) -> AnalysisScope:
         AnalysisScope.LAST_7_DAYS,
     )
 
-
-# Configured access and collection policy statuses for sources.
-class SourceLegalStatus(str, Enum):
-    ALLOWED = "ALLOWED"
-    RESTRICTED = "RESTRICTED"
-    REQUIRES_REVIEW = "REQUIRES_REVIEW"
-    DISABLED = "DISABLED"
-
-
-_SRC_DEFAULTS = {
-    "last_legal_review_date": "2026-10-15",
-    "tdm_opt_out": False,
-    "last_success_at": None,
-    "success_count": 0,
-    "failure_count": 0,
-}
-
-SOURCE_REGISTRY: Dict[str, Dict[str, Any]] = {
-    k: {**_SRC_DEFAULTS, "source_id": k, **v}
-    for k, v in {
-        "SRC_001": {
-            "name": "FAA Federal Register", "domain": "federalregister.gov",
-            "source_type": "REGULATORY", "origin": "PRIMARY", "access_method": "API",
-            "allowed_access_method": "API (Official REST Endpoint)",
-            "tos_url": "https://www.federalregister.gov/reader-aids/government-policy-and-ofr-procedures/developer-resources",
-            "usage_restrictions": "Public domain (17 U.S.C. 105); unrestricted retention, processing, and internal/external redistribution.",
-            "tdm_copyright_basis": "Public Domain (No copyright / TDM restrictions)",
-            "gdpr_legal_basis": "Art. 6(1)(f) GDPR Legitimate Interest (official regulatory records; minimal personal data)",
-            "verified_domain": True, "legal_status": SourceLegalStatus.ALLOWED.value,
-            "license_notes": "US Government Public Domain / Federal Register API",
-            "rate_limit_rpm": 30, "min_interval_sec": 1.0,
-        },
-        "SRC_002": {
-            "name": "EASA Safety & Regulatory Monitor (via RSS Proxy)", "domain": "easa.europa.eu",
-            "technical_host": "news.google.com", "source_type": "REGULATORY",
-            "origin": "PRIMARY_VIA_AGGREGATOR", "access_method": "RSS",
-            "allowed_access_method": "RSS (Metadata & Short Snippets Only)",
-            "tos_url": "https://www.easa.europa.eu/en/legal-notice",
-            "usage_restrictions": "Store metadata, headlines, and short excerpts only; attribute EASA; no commercial redistribution of full texts.",
-            "tdm_copyright_basis": "EU Directive 2019/790 Art. 3/4 TDM & EASA Legal Notice",
-            "gdpr_legal_basis": "Art. 6(1)(f) GDPR Legitimate Interest (institutional safety notices)",
-            "verified_domain": True, "legal_status": SourceLegalStatus.ALLOWED.value,
-            "license_notes": "Metadata & public safety notices via RSS search index",
-            "rate_limit_rpm": 20, "min_interval_sec": 1.5,
-        },
-        "SRC_003": {
-            "name": "NTSB Aviation Investigation Monitor (via RSS Proxy)", "domain": "ntsb.gov",
-            "technical_host": "news.google.com", "source_type": "REGULATORY",
-            "origin": "PRIMARY_VIA_AGGREGATOR", "access_method": "RSS",
-            "allowed_access_method": "RSS (Metadata & Short Snippets Only)",
-            "tos_url": "https://www.ntsb.gov/Pages/policies.aspx",
-            "usage_restrictions": "US Government public safety notices; retain metadata and short summaries; cite original NTSB link.",
-            "tdm_copyright_basis": "Public Domain (US Federal Agency) / RSS Aggregation",
-            "gdpr_legal_basis": "Art. 6(1)(f) GDPR Legitimate Interest (exclude victim/crew private PII)",
-            "verified_domain": True, "legal_status": SourceLegalStatus.ALLOWED.value,
-            "license_notes": "Public safety investigation notices",
-            "rate_limit_rpm": 20, "min_interval_sec": 1.5,
-        },
-        "SRC_004": {
-            "name": "News API Global Media", "domain": "newsapi.org",
-            "source_type": "MEDIA_AGGREGATOR", "origin": "SECONDARY", "access_method": "API",
-            "allowed_access_method": "API + Approved robots.txt/TDM-compliant Snippet Extraction",
-            "tos_url": "https://newsapi.org/terms",
-            "usage_restrictions": "Internal academic/CI analysis only; store short verbatim quotes (<450 chars) & URLs; no full-article republication.",
-            "tdm_copyright_basis": "NewsAPI ToS + EU Directive 2019/790 Art. 4 (subject to publisher TDM-Reservation opt-out)",
-            "gdpr_legal_basis": "Art. 6(1)(f) GDPR Legitimate Interest (redact reporter/contact PII)",
-            "verified_domain": True, "legal_status": SourceLegalStatus.ALLOWED.value,
-            "license_notes": "NewsAPI Developer/Academic Terms - snippet & link indexing",
-            "rate_limit_rpm": 20, "min_interval_sec": 1.5,
-        },
-        "SRC_005": {
-            "name": "Official Industry PR (Aircraft OEMs & Suppliers)",
-            "domain": "airbus.com,boeing.mediaroom.com,comac.cc", "technical_host": "news.google.com",
-            "source_type": "OEM_PR", "origin": "PRIMARY_VIA_AGGREGATOR", "access_method": "RSS",
-            "allowed_access_method": "RSS (Public Corporate Press Releases)",
-            "tos_url": "https://www.airbus.com/en/terms-of-use",
-            "usage_restrictions": "Public investor/media releases; retain title, link, and short summary for internal CI monitoring.",
-            "tdm_copyright_basis": "Corporate PR Public Press License / EU Directive 2019/790 Art. 4",
-            "gdpr_legal_basis": "Art. 6(1)(f) GDPR Legitimate Interest (corporate spokespersons only; contact PII redacted)",
-            "verified_domain": True, "legal_status": SourceLegalStatus.ALLOWED.value,
-            "license_notes": "Public corporate press releases",
-            "rate_limit_rpm": 20, "min_interval_sec": 1.5,
-        },
-        "SRC_006": {
-            "name": "International Airshow Newsrooms",
-            "domain": "farnboroughairshow.com,siae.fr,dubaiairshow.aero,singaporeairshow.com",
-            "source_type": "INDUSTRY_EVENT", "origin": "PRIMARY", "access_method": "PLAYWRIGHT_CRAWLER",
-            "allowed_access_method": "Approved Scraping (Strict robots.txt & TDM-Reservation check mandatory)",
-            "tos_url": "https://www.farnboroughairshow.com/terms-and-conditions/",
-            "usage_restrictions": "RESTRICTED: Suspend immediately if robots.txt is unreachable or disallows crawling; retain short excerpts only; no redistribution.",
-            "tdm_copyright_basis": "EU Directive 2019/790 Art. 4 TDM (Strictly conditional on absence of machine-readable opt-out)",
-            "gdpr_legal_basis": "Art. 6(1)(f) GDPR Legitimate Interest (B2B event press releases; personal career/HR posts filtered out)",
-            "verified_domain": True, "legal_status": SourceLegalStatus.RESTRICTED.value,
-            "license_notes": "Respect robots.txt and rate limits; short excerpts only",
-            "rate_limit_rpm": 12, "min_interval_sec": 2.5,
-        },
-        "SRC_007": {
-            "name": "Bluesky AT Protocol Aviation Feed", "domain": "bsky.app",
-            "source_type": "COMMUNITY_SOCIAL", "origin": "SECONDARY_UNVERIFIED", "access_method": "API",
-            "allowed_access_method": "API (Official AT Protocol Public Search)",
-            "tos_url": "https://bsky.social/about/support/tos",
-            "usage_restrictions": "Exclude private/personal posts unrelated to aerospace; anonymize author handles; internal weak-signal verification only.",
-            "tdm_copyright_basis": "AT Protocol Developer Terms",
-            "gdpr_legal_basis": "Art. 6(1)(f) GDPR Legitimate Interest with strict Data Minimization (personal non-aerospace posts dropped; handles pseudonymized)",
-            "verified_domain": False, "legal_status": SourceLegalStatus.RESTRICTED.value,
-            "license_notes": "AT Protocol public search API",
-            "rate_limit_rpm": 20, "min_interval_sec": 1.5,
-        },
-        "SRC_008": {
-            "name": "YouTube Data API v3 & Transcripts", "domain": "youtube.com",
-            "source_type": "VIDEO_MEDIA", "origin": "SECONDARY_UNVERIFIED", "access_method": "API",
-            "allowed_access_method": "API (YouTube Data API v3)",
-            "tos_url": "https://developers.google.com/youtube/terms/api-services-terms-of-service",
-            "usage_restrictions": "Temporary analytical processing of spoken B2B/aviation news transcripts; no redistribution of full transcripts; exclude personal vlogs.",
-            "tdm_copyright_basis": "YouTube API Services Terms of Service",
-            "gdpr_legal_basis": "Art. 6(1)(f) GDPR Legitimate Interest (public B2B media channels only; personal hobbyist vlogs rejected)",
-            "verified_domain": False, "legal_status": SourceLegalStatus.RESTRICTED.value,
-            "license_notes": "YouTube Data API v3 Terms of Service",
-            "rate_limit_rpm": 10, "min_interval_sec": 2.0,
-        },
-        **{
-            sid: {
-                "name": company + " RSS",
-                "domain": domain,
-                "source_type": "SUPPLIER_PR",
-                "origin": "PRIMARY",
-                "access_method": "RSS",
-                "tos_url": tos,
-                "last_legal_review_date": os.getenv(key + "_REVIEW_DATE", ""),
-                "legal_status": (
-                    "RESTRICTED"
-                    if os.getenv(key + "_APPROVED") == "1"
-                       and os.getenv(key + "_REVIEW_DATE")
-                    else "REQUIRES_REVIEW"
-                ),
-                "verified_domain": True,
-                "tdm_copyright_basis": "Review required",
-                "usage_restrictions": "Metadata only; permission required",
-                "rate_limit_rpm": 6,
-                "min_interval_sec": 10.0,
-            }
-            for sid, company, domain, tos, key in (
-                (
-                    "SRC_010", "GE Aerospace", "geaerospace.com",
-                    "https://www.geaerospace.com/pl/node/5536",
-                    "EWS_GE_RSS",
-                ),
-                (
-                    "SRC_011", "RTX", "rtx.com",
-                    "https://www.rtx.com/Terms-of-Use",
-                    "EWS_RTX_RSS",
-                ),
-            )
-        },
-    }.items()
-}
-
-from ews_sources_extra import registry_additions
-
-SOURCE_REGISTRY.update({
-    sid: {**_SRC_DEFAULTS, **config}
-    for sid, config in registry_additions().items()
-})
-
-SOURCE_REGISTRY["SRC_002"].update(
-    name="EASA Official AD Index",
-    technical_host="easa.europa.eu",
-    origin="PRIMARY",
-    legal_status="REQUIRES_REVIEW",
-    policy_status="REQUIRES_REVIEW",
+# Public registry objects retain their legacy import locations.
+from aero_ews.collection.registry import (
+    AEROSPACE_SUPPLIER_REGISTRY,
+    SOURCE_REGISTRY,
+    SourceLegalStatus,
+    _SRC_DEFAULTS,
+    registry_additions,
 )
-
-SOURCE_REGISTRY["SRC_003"].update(
-    name="NTSB Public Aviation API",
-    domain="api.ntsb.gov",
-    source_type="REGULATORY",
-    origin="PRIMARY",
-    technical_host="api.ntsb.gov",
-    access_method="AUTHENTICATED_API",
-    legal_status="REQUIRES_REVIEW",
-    policy_status="REQUIRES_REVIEW",
-)
-
-SOURCE_REGISTRY["SRC_004"]["policy_status"] = "DEV_ONLY"
-
-SOURCE_REGISTRY["SRC_005"].update(
-    name="Airbus Press Releases RSS",
-    legal_status="REQUIRES_REVIEW",
-    policy_status="REQUIRES_REVIEW",
-    domain="airbus.com",
-    technical_host="airbus.com",
-    origin="PRIMARY",
-)
-
-SOURCE_REGISTRY["SRC_006"]["policy_status"] = "REQUIRES_REVIEW"
-for _source_id in ("SRC_009", "SRC_010", "SRC_011"):
-    SOURCE_REGISTRY.pop(_source_id, None)
-
-SOURCE_REGISTRY["SRC_030"] = {
-    **SOURCE_REGISTRY["SRC_005"],
-    "source_id": "SRC_030",
-    "name": "Boeing Newsroom RSS",
-    "domain": "boeing.mediaroom.com",
-    "technical_host": "boeing.mediaroom.com",
-    "origin": "PRIMARY",
-    "access_method": "RSS",
-    "tos_url": "https://boeing.mediaroom.com/rss-feeds",
-    "legal_status": "ALLOWED",
-    "policy_status": "ENABLED",
-}
-
-AEROSPACE_SUPPLIER_REGISTRY: List[Dict[str, Any]] = [
-    {
-        "entity_id": "ENT_AIRBUS", "official_name": "Airbus SE",
-        "aliases": ["airbus", "airbus commercial"], "default_tier": "OEM (Final Assembler)",
-        "components": ["Final Aircraft Assembly", "Wing Design"],
-        "programs": ["A320neo", "A321XLR", "A350", "A220", "A330neo"],
-        "downstream_oems": ["Airbus SE"], "geography": "Europe (EU)",
-        "source_ref": "Airbus Annual Report / Official Registry",
-    },
-    {
-        "entity_id": "ENT_BOEING", "official_name": "The Boeing Company",
-        "aliases": ["boeing", "boeing commercial airplanes"], "default_tier": "OEM (Final Assembler)",
-        "components": ["Final Aircraft Assembly"],
-        "programs": ["737 MAX", "777X", "787 Dreamliner", "767"],
-        "downstream_oems": ["The Boeing Company"], "geography": "North America (USA)",
-        "source_ref": "Boeing SEC Form 10-K",
-    },
-    {
-        "entity_id": "ENT_COMAC", "official_name": "COMAC",
-        "aliases": ["comac", "commercial aircraft corporation of china"], "default_tier": "OEM (Final Assembler)",
-        "components": ["Final Aircraft Assembly"], "programs": ["C919", "C909", "ARJ21"],
-        "downstream_oems": ["COMAC"], "geography": "Asia-Pacific (China)",
-        "source_ref": "COMAC Official Directory",
-    },
-    {
-        "entity_id": "ENT_PW", "official_name": "Pratt & Whitney (RTX)",
-        "aliases": [
-            "pratt & whitney",
-            "pratt and whitney",
-            "pratt whitney",
-            "p&w",
-            "pw1100g",
-            "pw1100g-jm",
-            "pw1127g",
-            "pw1133g",
-            "pw1500g",
-            "pw1900g",
-    ],
-        "default_tier": "Tier 1 (Systems/Engines)",
-        "components": ["PW1100G-JM GTF Turbofan Engine", "PW1500G Engine"],
-        "programs": ["A320neo", "A321XLR", "A220", "Embraer E2"],
-        "downstream_oems": ["Airbus SE", "Embraer"], "geography": "North America (USA)",
-        "source_ref": "RTX / Airbus A320neo Family Supplier Registry",
-    },
-    {
-        "entity_id": "ENT_CFM", "official_name": "CFM International (GE / Safran)",
-        "aliases": ["cfm", "cfm international", "leap-1a", "leap-1b", "leap-1c"],
-        "default_tier": "Tier 1 (Systems/Engines)",
-        "components": ["LEAP-1A Engine", "LEAP-1B Engine", "LEAP-1C Engine"],
-        "programs": ["A320neo", "A321XLR", "737 MAX", "C919"],
-        "downstream_oems": ["Airbus SE", "The Boeing Company", "COMAC"],
-        "geography": "North America (USA) / Europe (EU)",
-        "source_ref": "CFM International Joint Venture Registry",
-    },
-    {
-        "entity_id": "ENT_SAFRAN", "official_name": "Safran S.A.",
-        "aliases": ["safran", "safran landing systems", "safran seats"], "default_tier": "Tier 1 (Systems/Engines)",
-        "components": ["LEAP Engine Modules", "Landing Gear", "Nacelles", "Cabin Interiors"],
-        "programs": ["A320neo", "A321XLR", "A350", "737 MAX", "787 Dreamliner"],
-        "downstream_oems": ["Airbus SE", "The Boeing Company"], "geography": "Europe (EU)",
-        "source_ref": "Safran Universal Registration Document",
-    },
-    {
-        "entity_id": "ENT_GE", "official_name": "GE Aerospace",
-        "aliases": ["ge aerospace", "general electric", "ge9x", "genx"], "default_tier": "Tier 1 (Systems/Engines)",
-        "components": ["GE9X Engine", "GEnx Engine", "LEAP Core"],
-        "programs": ["777X", "787 Dreamliner", "A320neo", "737 MAX"],
-        "downstream_oems": ["The Boeing Company", "Airbus SE"], "geography": "North America (USA)",
-        "source_ref": "GE Aerospace Supplier Filings",
-    },
-    {
-        "entity_id": "ENT_RR", "official_name": "Rolls-Royce Holdings",
-        "aliases": [
-            "rolls-royce",
-            "rolls royce",
-            "rolls royce civil aerospace",
-            "trent 1000",
-            "trent xwb",
-            "trent 7000",
-        ]
-        , "default_tier": "Tier 1 (Systems/Engines)",
-        "components": ["Trent XWB-84/97 Engine", "Trent 7000 Engine"],
-        "programs": ["A350", "A330neo"], "downstream_oems": ["Airbus SE"], "geography": "Europe (UK)",
-        "source_ref": "Rolls-Royce Civil Aerospace Disclosures",
-    },
-    {
-        "entity_id": "ENT_SPIRIT", "official_name": "Spirit AeroSystems",
-        "aliases": ["spirit aerosystems"], "default_tier": "Tier 1 (Systems/Engines)",
-        "components": ["737 Fuselage", "A350 Center Fuselage Section", "A220 Pylons/Wings"],
-        "programs": ["737 MAX", "787 Dreamliner", "A350", "A220"],
-        "downstream_oems": ["The Boeing Company", "Airbus SE"], "geography": "North America (USA)",
-        "source_ref": "Spirit AeroSystems 10-K",
-    },
-    {
-        "entity_id": "ENT_COLLINS", "official_name": "Collins Aerospace",
-        "aliases": [
-            "collins aerospace",
-            "rockwell collins",
-        ],
-        "default_tier": "Tier 1 (Systems/Engines)",
-        "components": ["Avionics", "Nacelles", "Actuation Systems"],
-        "programs": ["A320neo", "A321XLR", "737 MAX", "787 Dreamliner"],
-        "downstream_oems": ["Airbus SE", "The Boeing Company"], "geography": "North America (USA)",
-        "source_ref": "RTX / Collins Aerospace Product Catalog",
-    },
-    {
-        "entity_id": "ENT_VSMPO", "official_name": "VSMPO-AVISMA / Titanium Suppliers",
-        "aliases": ["vsmpo", "vsmpo-avisma"], "default_tier": "Tier 3 (Raw Materials)",
-        "components": ["Aerospace-grade Titanium Forgings", "Superalloys"],
-        "programs": ["A350", "787 Dreamliner", "A320neo", "737 MAX"],
-        "downstream_oems": ["Airbus SE", "The Boeing Company", "Safran S.A.", "Spirit AeroSystems"],
-        "geography": "Global", "source_ref": "Aerospace Raw Material Supply Chain Registry",
-    },
-]
-
 
 # Resolve aerospace organizations against controlled supplier metadata.
 def _supplier_name_key(value: str) -> str:
-    text = unicodedata.normalize(
-        "NFKD", str(value or "").casefold()
-    ).replace("&", " and ")
+    text = unicodedata.normalize('NFKD', str(value or '').casefold()).replace('&', ' and ')
 
-    text = "".join(
-        ch for ch in text
-        if not unicodedata.combining(ch)
-    )
+    text = ''.join((ch for ch in text if not unicodedata.combining(ch)))
 
     text = re.sub(r"[^a-z0-9]+", " ", text)
 
     return re.sub(r"\s+", " ", text).strip()
-
 
 def find_supplier_mentions(text: str) -> List[Dict[str, Any]]:
     """Return all distinct explicitly mentioned registry entities."""
@@ -455,11 +130,7 @@ def find_supplier_mentions(text: str) -> List[Dict[str, Any]]:
     matches = []
 
     for supplier in AEROSPACE_SUPPLIER_REGISTRY:
-
-        aliases = (
-            supplier["official_name"],
-            *supplier.get("aliases", []),
-        )
+        aliases = (supplier['official_name'], *supplier.get('aliases', []))
 
         for alias in aliases:
             candidate = _supplier_name_key(alias)
@@ -467,11 +138,7 @@ def find_supplier_mentions(text: str) -> List[Dict[str, Any]]:
             if len(candidate) < 3:
                 continue
 
-            pattern = (
-                r"(?<![a-z0-9])"
-                + re.escape(candidate)
-                + r"(?![a-z0-9])"
-            )
+            pattern = '(?<![a-z0-9])' + re.escape(candidate) + '(?![a-z0-9])'
 
             if re.search(pattern, normalized):
                 matches.append(supplier)
@@ -479,11 +146,7 @@ def find_supplier_mentions(text: str) -> List[Dict[str, Any]]:
 
     return matches
 
-
-def lookup_supplier_in_registry(
-    text_or_company: str,
-    exact: bool = False
-) -> Optional[Dict[str, Any]]:
+def lookup_supplier_in_registry(text_or_company: str, exact: bool=False) -> Optional[Dict[str, Any]]:
     """Resolve an entity only when exactly one registry entry matches."""
 
     if not text_or_company:
@@ -511,7 +174,6 @@ def lookup_supplier_in_registry(
         return None
 
     return matches[0]
-
 
 # Shared coordination of outgoing requests and response-sensitive throttling.
 class CentralRateLimiter:
@@ -541,9 +203,7 @@ class CentralRateLimiter:
             else:
                 SOURCE_REGISTRY[source_id]["failure_count"] += 1
 
-
 RATE_LIMITER = CentralRateLimiter()
-
 
 # Check source governance status before collection.
 def is_source_allowed(source_id: str) -> bool:
@@ -560,9 +220,7 @@ def is_source_allowed(source_id: str) -> bool:
         in {"dev", "development", "test"}
     )
 
-
 _ROBOTS_CACHE: Dict[str, urllib.robotparser.RobotFileParser] = {}
-
 
 # Reject local, private, and restricted IP targets to reduce SSRF exposure.
 def is_ip_public_and_safe(hostname: str) -> bool:
@@ -586,12 +244,10 @@ def is_ip_public_and_safe(hostname: str) -> bool:
         logger.debug(f"[SSRF GUARD] DNS resolution failed for {hostname}: {e}")
         return False
 
-
 HTML_TDM_OPT_OUT_REGEX = re.compile(
     r"<meta[^>]+(?:name|property)\s*=\s*[\"'](?:tdm-reservation|robots|googlebot)[\"'][^>]+content\s*=\s*[\"'][^\"']*(?:1|noai|notdm|noarchive|noindex)[^\"']*[\"']",
     re.I,
 )
-
 
 # Apply robots.txt and text-and-data-mining access restrictions.
 # Apply source-specific robots and text/data-mining restrictions before retrieval.
@@ -620,9 +276,6 @@ def check_robots_and_tdm_compliance(
             if not is_ip_public_and_safe(parsed.hostname or ""):
                 return False, "Host failed SSRF public IP check"
 
-            from pathlib import Path
-            from dotenv import load_dotenv
-
             load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env")
 
             contact = os.getenv("EWS_CONTACT_EMAIL", "").strip()
@@ -636,11 +289,8 @@ def check_robots_and_tdm_compliance(
                 "Accept": "text/plain",
             }
 
-            resp = requests.get(
-                base_robots,
-                headers=robots_headers,
-                timeout=5
-            )
+            resp = requests.get(base_robots, headers=robots_headers, timeout=5)
+            _note_http_request(source_id, resp.status_code)
             rp = urllib.robotparser.RobotFileParser()
             rp.set_url(base_robots)
 
@@ -663,16 +313,42 @@ def check_robots_and_tdm_compliance(
         if not rp.can_fetch(user_agent, url) or not rp.can_fetch("*", url):
             return False, "Disallowed by technical robots.txt policy"
     except Exception as e:
+        if isinstance(e, requests.RequestException):
+            _note_http_request(source_id, None, timed_out=isinstance(e, requests.Timeout))
         logger.warning(f"[COMPLIANCE FAIL-CLOSED] Error loading robots.txt from {base_robots} ({e}).")
         return False, "Error loading robots.txt rules - collection suspended (REQUIRES_REVIEW)"
 
     return True, "Allowed (Registry ToS, robots.txt, and TDM pre-check passed)"
 
+@dataclass
+class HTTPResult:
+    response: Optional[requests.Response] = None
+    status_code: Optional[int] = None
+    error_type: str = ""
+    retryable: bool = False
+    retry_after: Optional[float] = None
+    response_complete: bool = False
+    bytes_received: int = 0
+    attempts: int = 0
+    wait_seconds: float = 0.0
+    payload_classification: str = ""
+    payload_shape: Optional[Dict[str, Any]] = None
 
-# Perform a guarded HTTP request with source policy and redirect checks.
-# Do not bypass compliance checks or trust URLs supplied by unverified documents.
-# Enforce network safety across redirects and resolved IP addresses.
-def safe_http_get(
+
+def _retry_after_seconds(value: str) -> Optional[float]:
+    if not value:
+        return None
+    try:
+        return max(0.0, float(value))
+    except ValueError:
+        try:
+            parsed = email.utils.parsedate_to_datetime(value)
+            return max(0.0, (parsed - datetime.now(timezone.utc)).total_seconds())
+        except (ValueError, TypeError, OverflowError):
+            return None
+
+
+def _safe_http_request(
         url: str,
         source_id: str = "SRC_004",
         params: Optional[Dict[str, Any]] = None,
@@ -681,56 +357,56 @@ def safe_http_get(
         max_redirects: int = 3,
         max_bytes: int = 2_000_000,
         check_robots: bool = False,
-) -> Optional[requests.Response]:
-    # Validate outbound requests and redirects before retrieving external content.
-    """SSRF-safe HTTP GET client with redirect hop verification, fail-closed robots.txt, and EU 2019/790 TDM opt-out checks."""
+        max_attempts: int = 3,
+) -> HTTPResult:
+    """Guarded GET with explicit HTTP, policy, truncation and retry outcomes."""
+    result = HTTPResult()
     if not is_source_allowed(source_id):
-        if SOURCE_REGISTRY[source_id].get("legal_status") == "REQUIRES_REVIEW":
-            check_robots = True
-        logger.warning(f"[COMPLIANCE] Source {source_id} is disabled or requires legal review.")
-        return None
+        result.error_type = "SOURCE_POLICY_BLOCKED"
+        _note_blocked_request(source_id)
+        return result
 
-    RATE_LIMITER.wait_for_slot(source_id)
-    req_headers = headers or {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AeroEWS/2.0"}
-    current_url, current_params = url, params
-
-    for _ in range(max_redirects + 1):
+    req_headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AeroEWS/2.0",
+                   **(headers or {})}
+    current_url, current_params, redirects, retries = url, params, 0, 0
+    while True:
         parsed = urlparse(current_url)
         if parsed.scheme not in {"http", "https"} or not is_ip_public_and_safe(parsed.hostname or ""):
-            RATE_LIMITER.record_outcome(source_id, False)
-            return None
+            result.error_type = "SSRF_OR_INVALID_URL"
+            _note_blocked_request(source_id)
+            return result
 
         if check_robots:
             allowed, reason = check_robots_and_tdm_compliance(current_url, source_id=source_id)
             if not allowed:
                 logger.info(f"[COMPLIANCE] Skipping {current_url}: {reason}")
-                return None
+                result.error_type = "ROBOTS_OR_TDM_BLOCKED"
+                _note_blocked_request(source_id)
+                return result
 
         try:
+            RATE_LIMITER.wait_for_slot(source_id)
             resp = requests.get(
                 current_url, params=current_params, headers=req_headers,
                 timeout=timeout, allow_redirects=False, stream=True,
             )
-            current_params = None
-
-            if resp.status_code == 429:
-                logger.warning(
-                    "[HTTP RATE LIMITED] source=%s host=%s status=429",
-                    source_id,
-                    parsed.hostname,
-                )
-
-                time.sleep(
-                    min(int(resp.headers.get("Retry-After", "3")), 6)
-                )
-
-                continue
+            result.attempts += 1
+            result.status_code = resp.status_code
+            _note_http_request(source_id, resp.status_code)
+            RATE_LIMITER.record_outcome(source_id, resp.status_code < 400)
 
             if resp.status_code in {301, 302, 303, 307, 308}:
                 loc = resp.headers.get("Location")
+                resp.close()
                 if not loc:
-                    break
+                    result.error_type = "REDIRECT_WITHOUT_LOCATION"
+                    return result
+                if redirects >= max_redirects:
+                    result.error_type = "TOO_MANY_REDIRECTS"
+                    return result
                 current_url = urljoin(current_url, loc)
+                current_params = None
+                redirects += 1
                 continue
 
             tdm_header = resp.headers.get("TDM-Reservation", "").strip()
@@ -738,42 +414,92 @@ def safe_http_get(
             if tdm_header == "1" or any(tok in x_robots for tok in ("noai", "notdm", "none")):
                 logger.info(f"[TDM COMPLIANCE] Respecting TDM/X-Robots opt-out header on {current_url}")
                 resp.close()
-                return None
+                result.error_type = "RESPONSE_TDM_BLOCKED"
+                _note_blocked_request(source_id)
+                return result
+
+            retryable = resp.status_code in {429, 500, 502, 503, 504}
+            retry_after = _retry_after_seconds(resp.headers.get("Retry-After", ""))
+            result.retryable, result.retry_after = retryable, retry_after
+            delay = retry_after if retry_after is not None else min(2 ** retries, 8)
+            if retryable and retries < max_attempts - 1 and delay <= 5:
+                resp.close()
+                retries += 1
+                time.sleep(delay)
+                result.wait_seconds += delay
+                continue
 
             chunks, downloaded = [], 0
             truncated = False
-            for chunk in resp.iter_content(chunk_size=65536):
-                if not chunk:
-                    continue
-                if downloaded + len(chunk) > max_bytes:
-                    chunks.append(chunk[:max_bytes - downloaded])
-                    truncated = True
-                    break
-                chunks.append(chunk)
-                downloaded += len(chunk)
+            try:
+                for chunk in resp.iter_content(chunk_size=65536):
+                    if not chunk:
+                        continue
+                    room = max_bytes - downloaded
+                    chunks.append(chunk[:room])
+                    downloaded += min(len(chunk), room)
+                    if len(chunk) > room:
+                        truncated = True
+                        break
+            except requests.RequestException as exc:
+                result.error_type = "INCOMPLETE_BODY"
+                truncated = True
+                if isinstance(exc, requests.Timeout):
+                    with _COLLECTION_LOCK:
+                        metrics = HTTP_TELEMETRY.setdefault(
+                            source_id, {"http_requests": 0, "http_status_counts": {}})
+                        metrics["timeouts"] = metrics.get("timeouts", 0) + 1
             resp._content = b"".join(chunks)
+            resp.close()
             # The cap is a safety limit, never a proof that the body is complete.
+            # requests.iter_content() transparently decompresses gzip/br/deflate.
+            # Content-Length describes the transferred (encoded) bytes, so only
+            # compare it with decoded content for identity-encoded responses.
+            encoding = resp.headers.get("Content-Encoding", "identity").strip().lower()
+            comparable_length = encoding in {"", "identity"}
             resp.aero_content_truncated = truncated or (
-                (resp.headers.get("Content-Length") or "").isdigit()
+                comparable_length
+                and (resp.headers.get("Content-Length") or "").isdigit()
                 and int(resp.headers["Content-Length"]) > len(resp._content)
             )
+            result.bytes_received = len(resp._content)
+            result.response_complete = not resp.aero_content_truncated
             if resp.aero_content_truncated:
                 logger.warning("[HTTP CONTENT LIMIT] %s: response incomplete at %d bytes", current_url, max_bytes)
 
             if check_robots and "text/html" in resp.headers.get("Content-Type", "").lower():
                 if HTML_TDM_OPT_OUT_REGEX.search(resp.text[:4000]):
                     logger.info(f"[TDM COMPLIANCE] Respecting HTML meta TDM opt-out on {current_url}")
-                    return None
+                    result.error_type = "HTML_TDM_BLOCKED"
+                    _note_blocked_request(source_id)
+                    return result
 
-            RATE_LIMITER.record_outcome(source_id, resp.status_code < 400)
-            return resp
-        except Exception as e:
+            result.response = resp
+            if result.error_type != "INCOMPLETE_BODY":
+                result.error_type = ("ACCESS_BLOCKED" if resp.status_code in {401, 403}
+                                     else "HTTP_ERROR" if resp.status_code >= 400
+                                     else "BODY_TRUNCATED" if resp.aero_content_truncated else "")
+            return result
+        except requests.RequestException as e:
             logger.debug(f"[HTTP CLIENT] Error fetching {current_url}: {e}")
+            result.attempts += 1
+            result.status_code = None
+            result.error_type = "NETWORK_ERROR"
+            result.retryable = True
+            _note_http_request(source_id, None, timed_out=isinstance(e, requests.Timeout))
             RATE_LIMITER.record_outcome(source_id, False)
-            return None
+            return result
 
-    return None
 
+def safe_http_get(
+        url: str, source_id: str = "SRC_004", params: Optional[Dict[str, Any]] = None,
+        headers: Optional[Dict[str, str]] = None, timeout: int = 12,
+        max_redirects: int = 3, max_bytes: int = 2_000_000,
+        check_robots: bool = False,
+) -> Optional[requests.Response]:
+    """Backward-compatible GET; inspect `_safe_http_request` for failure details."""
+    return _safe_http_request(url, source_id, params, headers, timeout,
+                              max_redirects, max_bytes, check_robots).response
 
 PROMPT_INJECTION_REGEX = re.compile(
     r"(?:ignore\s+(?:all\s+)?(?:previous|prior|above)\s+instructions|"
@@ -813,7 +539,6 @@ AEROSPACE_B2B_RELEVANCE_ANCHORS = re.compile(
     re.I,
 )
 
-
 # Flag community text unrelated to the monitored industrial intelligence question.
 def is_unrelated_personal_post(text: str, title: str = "") -> bool:
     combined = f"{title} {text}".strip()
@@ -822,7 +547,6 @@ def is_unrelated_personal_post(text: str, title: str = "") -> bool:
             or bool(PERSONAL_NON_INDUSTRIAL_POST_REGEX.search(combined))
             or not bool(AEROSPACE_B2B_RELEVANCE_ANCHORS.search(combined))
     )
-
 
 # Remove unnecessary personal or unsafe content before storing source excerpts.
 def sanitize_and_minimize_osint_text(raw_text: str) -> Tuple[str, bool, int]:
@@ -835,15 +559,140 @@ def sanitize_and_minimize_osint_text(raw_text: str) -> Tuple[str, bool, int]:
         pii_count += count
     return cleaned, inj_count > 0, pii_count
 
-
 COLLECTED_URLS: set[str] = set()
 COLLECTED_DOCUMENTS: List[Dict[str, Any]] = []
 CONNECTOR_TELEMETRY: Dict[str, Dict[str, Any]] = {}
-NEWS_FALLBACK_CACHE: Dict[Tuple[str, str, str, int], List[Dict[str, Any]]] = {}
-_NEWSAPI_DISABLED_UNTIL = 0.0  # monotonic; auth failure lasts until process restart
-_NEWSAPI_DISABLED_REASON = ""
+HTTP_TELEMETRY: Dict[str, Dict[str, Any]] = {}
+NEWS_FALLBACK_CACHE: Dict[Tuple[str, str, str, int, str], List[Dict[str, Any]]] = {}
+FAA_SEARCH_CACHE: Dict[str, Tuple[List[Dict[str, Any]], Dict[str, Any]]] = {}
+EASA_PAGE_CACHE: Dict[str, str] = {}
 _COLLECTION_LOCK = threading.Lock()
 
+class NewsAPIState(str, Enum):
+    AVAILABLE = "AVAILABLE"
+    RATE_LIMITED = "RATE_LIMITED"
+    AUTHENTICATION_FAILED = "AUTHENTICATION_FAILED"
+    ACCESS_RESTRICTED = "ACCESS_RESTRICTED"
+    TEMPORARILY_UNAVAILABLE = "TEMPORARILY_UNAVAILABLE"
+    MISCONFIGURED = "MISCONFIGURED"
+
+
+_NEWSAPI_LOCK = threading.Lock()
+_NEWSAPI_HEALTH: Dict[str, Any] = {
+    "state": NewsAPIState.AVAILABLE, "key_digest": "", "until": 0.0, "error_code": "",
+    "restricted_queries": set(),
+}
+
+
+def _newsapi_key() -> str:
+    return os.getenv("NEWS_API_KEY", "").strip()
+
+
+def reload_newsapi_configuration() -> Dict[str, Any]:
+    """Reload a changed .env key without restarting the worker process."""
+    load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env", override=True)
+    return check_newsapi_availability()
+
+
+def _newsapi_current_state(key: str, query: str = "") -> NewsAPIState:
+    digest = hashlib.sha256(key.encode()).hexdigest() if key else ""
+    with _NEWSAPI_LOCK:
+        if digest != _NEWSAPI_HEALTH["key_digest"]:
+            _NEWSAPI_HEALTH.update(state=NewsAPIState.AVAILABLE, key_digest=digest,
+                                   until=0.0, error_code="", restricted_queries=set())
+        if not key:
+            return NewsAPIState.MISCONFIGURED
+        if query in _NEWSAPI_HEALTH["restricted_queries"]:
+            return NewsAPIState.ACCESS_RESTRICTED
+        state = _NEWSAPI_HEALTH["state"]
+        if state in {NewsAPIState.RATE_LIMITED, NewsAPIState.TEMPORARILY_UNAVAILABLE}:
+            if time.monotonic() >= _NEWSAPI_HEALTH["until"]:
+                _NEWSAPI_HEALTH.update(state=NewsAPIState.AVAILABLE, error_code="")
+                return NewsAPIState.AVAILABLE
+        return state
+
+
+def _newsapi_request(params: Dict[str, Any], key: str, max_attempts: int = 3) -> Tuple[Optional[Dict[str, Any]], NewsAPIState, str]:
+    response = _safe_http_request(
+        "https://newsapi.org/v2/everything", source_id="SRC_004",
+        params=params, headers={"X-Api-Key": key, "User-Agent": "AeroEWS/2.0"},
+        timeout=15, max_attempts=max_attempts,
+    )
+    data: Dict[str, Any] = {}
+    if response.response is not None and response.response_complete:
+        try:
+            data = response.response.json()
+        except (ValueError, TypeError):
+            pass
+    status, code = response.status_code, str(data.get("code") or response.error_type or "UNKNOWN")
+    if status == 200 and data.get("status") == "ok" and isinstance(data.get("articles"), list):
+        return data, NewsAPIState.AVAILABLE, ""
+    if status == 401 or code in {"apiKeyInvalid", "apiKeyDisabled", "apiKeyMissing"}:
+        state = NewsAPIState.AUTHENTICATION_FAILED
+    elif status == 429 or code in {"rateLimited", "apiKeyExhausted"}:
+        state = NewsAPIState.RATE_LIMITED
+    elif status == 403:
+        state = NewsAPIState.ACCESS_RESTRICTED
+    elif status == 400 or code in {"parameterInvalid", "parametersMissing"}:
+        state = NewsAPIState.MISCONFIGURED
+    else:
+        state = NewsAPIState.TEMPORARILY_UNAVAILABLE
+    with _NEWSAPI_LOCK:
+        if state == NewsAPIState.ACCESS_RESTRICTED and code in {
+            "upgradeRequired", "planUpgradeRequired", "apiKeyPlanRequired"
+        }:
+            _NEWSAPI_HEALTH["state"] = state
+        elif state == NewsAPIState.ACCESS_RESTRICTED or (state == NewsAPIState.MISCONFIGURED and status == 400):
+            _NEWSAPI_HEALTH["restricted_queries"].add(str(params.get("q", "")))
+        else:
+            _NEWSAPI_HEALTH["state"] = state
+            if state in {NewsAPIState.RATE_LIMITED, NewsAPIState.TEMPORARILY_UNAVAILABLE}:
+                fallback = 600 if state == NewsAPIState.RATE_LIMITED else 60
+                _NEWSAPI_HEALTH["until"] = time.monotonic() + (
+                    response.retry_after if response.retry_after is not None else fallback
+                )
+        _NEWSAPI_HEALTH["error_code"] = code
+    logger.warning("[NEWS API] state=%s http=%s code=%s", state.value, status, code)
+    return None, state, code
+
+
+def check_newsapi_availability(probe: bool = False) -> Dict[str, Any]:
+    """Cheap preflight (no API request by default; probe=True uses exactly one)."""
+    key = _newsapi_key()
+    state = _newsapi_current_state(key)
+    if (os.getenv("EWS_ENV", "development").lower() not in {"dev", "development", "test"}
+            and os.getenv("EWS_NEWSAPI_PRO_LICENSE") != "1"):
+        return {"state": NewsAPIState.ACCESS_RESTRICTED.value, "reason": "LICENSE_REQUIRED", "requests": 0}
+    if probe and state == NewsAPIState.AVAILABLE:
+        _, state, reason = _newsapi_request({"q": "aviation", "pageSize": 1}, key, max_attempts=1)
+        return {"state": state.value, "reason": reason, "requests": 1}
+    with _NEWSAPI_LOCK:
+        remaining = max(0.0, _NEWSAPI_HEALTH["until"] - time.monotonic())
+        reason = _NEWSAPI_HEALTH["error_code"]
+    return {"state": state.value, "reason": reason or ("MISSING_API_KEY" if not key else ""),
+            "retry_after_seconds": round(remaining, 1), "requests": 0}
+
+def _note_http_request(source_id: str, status_code: Optional[int], *, timed_out: bool = False) -> None:
+    """Count physical HTTP attempts, including retries and robots.txt checks."""
+    with _COLLECTION_LOCK:
+        item = HTTP_TELEMETRY.setdefault(source_id, {"http_requests": 0, "http_status_counts": {}})
+        item["http_requests"] += 1
+        key = str(status_code) if status_code is not None else "NETWORK_ERROR"
+        counts = item["http_status_counts"]
+        counts[key] = counts.get(key, 0) + 1
+        metric = ("timeouts" if timed_out else "network_errors" if status_code is None
+                  else "http_errors" if status_code >= 400 else "http_redirects" if status_code >= 300
+                  else "successful_responses")
+        item[metric] = item.get(metric, 0) + 1
+        if status_code in {401, 403}:
+            item["blocked_requests"] = item.get("blocked_requests", 0) + 1
+
+
+def _note_blocked_request(source_id: str) -> None:
+    """Record policy-blocked retrievals without inventing an HTTP request."""
+    with _COLLECTION_LOCK:
+        item = HTTP_TELEMETRY.setdefault(source_id, {"http_requests": 0, "http_status_counts": {}})
+        item["blocked_requests"] = item.get("blocked_requests", 0) + 1
 
 # Reset per-run URL deduplication and collection state.
 def reset_collected_urls() -> None:
@@ -853,19 +702,52 @@ def reset_collected_urls() -> None:
         COLLECTED_DOCUMENTS.clear()
         CONNECTOR_TELEMETRY.clear()
         NEWS_FALLBACK_CACHE.clear()
-
+        FAA_SEARCH_CACHE.clear()
+        EASA_PAGE_CACHE.clear()
+        HTTP_TELEMETRY.clear()
 
 # Return the current run’s collected document records.
 def get_collected_documents() -> List[Dict[str, Any]]:
     with _COLLECTION_LOCK:
         return list(COLLECTED_DOCUMENTS)
 
-
 # Read per-connector retrieval and rejection statistics.
 def get_connector_telemetry() -> Dict[str, Dict[str, Any]]:
     with _COLLECTION_LOCK:
-        return dict(CONNECTOR_TELEMETRY)
-
+        snapshot = {name: {**entry, "http_status_counts": dict(entry["http_status_counts"]),
+                           "content_status_counts": dict(entry["content_status_counts"])}
+                    for name, entry in CONNECTOR_TELEMETRY.items()}
+        for sid, metrics in HTTP_TELEMETRY.items():
+            matches = [entry for entry in snapshot.values() if entry["source_id"] == sid]
+            # Several connectors may share a source; never assign its HTTP calls to each.
+            entry = matches[0] if len(matches) == 1 else snapshot.setdefault(
+                f"HTTP {sid}", {"source_id": sid, "connector_name": f"HTTP {sid}"})
+            for metric, value in metrics.items():
+                if metric == "http_status_counts":
+                    counts = entry.setdefault(metric, {})
+                    for code, n in value.items():
+                        counts[code] = counts.get(code, 0) + n
+                else:
+                    entry[metric] = entry.get(metric, 0) + value
+        for doc in COLLECTED_DOCUMENTS:
+            name = doc["connector_name"]
+            entry = snapshot.setdefault(name, {
+                "connector_name": name, "source_id": doc["source_id"],
+                "found_count": 0, "accepted_count": 0, "http_requests": 0,
+                "http_status_counts": {}, "content_status_counts": {},
+                "operational_status": "UNKNOWN", "last_search_outcome": "UNKNOWN",
+            })
+            entry["collected_document_count"] = entry.get("collected_document_count", 0) + 1
+            status = doc.get("content_status", "")
+            availability = (status if status in {"FULL_TEXT", "PARTIAL_TEXT", "METADATA_ONLY", "UNAVAILABLE"}
+                            else "METADATA_ONLY" if status == "SUMMARY_ONLY" else "UNKNOWN")
+            counts = entry.setdefault("content_availability_counts", {})
+            counts[availability] = counts.get(availability, 0) + 1
+            date = str(doc.get("published_at") or "")[:10]
+            if re.fullmatch(r"(?:19|20)\d{2}-\d{2}-\d{2}", date):
+                entry["observed_publication_from"] = min(date, entry.get("observed_publication_from", date))
+                entry["observed_publication_to"] = max(date, entry.get("observed_publication_to", date))
+        return snapshot
 
 # Accumulate source-level collection counts and operational failures.
 # Track source-level results separately from analytical relevance.
@@ -882,6 +764,10 @@ def record_connector_telemetry(
         http_requests: int = 0,
         http_status_counts: Optional[Dict[str, int]] = None,
         content_status_counts: Optional[Dict[str, int]] = None,
+        operational_status: Optional[str] = None,
+        search_outcome: Optional[str] = None,
+        coverage_window: Optional[Dict[str, Any]] = None,
+        diagnostics: Optional[Dict[str, Any]] = None,
 ) -> None:
     now_str = _now_iso()
     reg = SOURCE_REGISTRY.get(source_id, {})
@@ -902,6 +788,8 @@ def record_connector_telemetry(
                 "http_requests": 0,
                 "http_status_counts": {},
                 "content_status_counts": {},
+                "operational_status": "UNKNOWN",
+                "last_search_outcome": "UNKNOWN",
                 "errors": [],
                 "coverage_advisories": [],
                 "time_window": {
@@ -928,12 +816,21 @@ def record_connector_telemetry(
             entry["content_status_counts"][str(status)] = entry["content_status_counts"].get(str(status), 0) + count
         if error:
             entry["errors"].append(error)
+        if operational_status is not None:
+            entry["operational_status"] = operational_status
+        if search_outcome is not None:
+            entry["last_search_outcome"] = search_outcome
 
         if coverage_note and coverage_note not in entry["coverage_advisories"]:
             entry["coverage_advisories"].append(coverage_note)
+        if coverage_window:
+            entry["time_window"].update(coverage_window)
+        if diagnostics:
+            entry.setdefault("diagnostics", {}).update(diagnostics)
+            entry.setdefault("diagnostics_history", []).append({"query": query, **diagnostics})
+            entry["diagnostics_history"] = entry["diagnostics_history"][-20:]
 
         entry["last_updated"] = now_str
-
 
 # Assign a document ID, sanitize content, and preserve source provenance.
 # Attach the retrieved source identity before downstream evidence assessment.
@@ -951,6 +848,15 @@ def register_collected_document(
     clean_text, injection_flag, pii_redacted = sanitize_and_minimize_osint_text(raw_text)
     clean_title, title_inj, _ = sanitize_and_minimize_osint_text(title)
     norm_pub = normalize_date_str(published_at)
+    parsed_url = urlparse(url)
+    preserve_fragment = bool(
+        parsed_url.fragment and (
+                source_id == "SRC_003"
+                or parsed_url.fragment.startswith(("ad=", "case=", "record="))
+        )
+    )
+    canonical_url = url if preserve_fragment else parsed_url._replace(fragment="").geturl()
+    content_hash = hashlib.sha256(clean_text.encode("utf-8")).hexdigest()
 
     words_for_fp = re.findall(r"\b[a-z0-9]{4,}\b", f"{clean_title} {clean_text[:300]}".lower())
     fingerprint = hashlib.sha256(" ".join(words_for_fp[:25]).encode("utf-8")).hexdigest()[:16]
@@ -981,13 +887,26 @@ def register_collected_document(
     ))
 
     with _COLLECTION_LOCK:
+        existing = next((d for d in COLLECTED_DOCUMENTS
+                         if d.get("canonical_url", d["url"]) == canonical_url), None)
+        if existing:
+            queries = existing.setdefault("queries_used", [existing.get("query_used", "")])
+            if query_used and query_used not in queries:
+                queries.append(query_used)
+            return existing
         doc_id = f"DOC_{len(COLLECTED_DOCUMENTS) + 1:03d}"
-        COLLECTED_URLS.add(url)
+        COLLECTED_URLS.update((url, canonical_url))
+        duplicate_text = next((d["doc_id"] for d in COLLECTED_DOCUMENTS
+                               if clean_text and d.get("content_sha256") == content_hash), None)
         doc_record = {
             "doc_id": doc_id,
+            "global_document_id": hashlib.sha256(
+                f"{source_id}:{canonical_url.lower()}".encode("utf-8")
+            ).hexdigest()[:24],
             "source_id": source_id,
             "connector_name": connector_name,
             "url": url,
+            "canonical_url": canonical_url,
             "publisher_domain": parsed_domain,
             "origin_type": reg_info.get("origin", "SECONDARY"),
             "source_type": reg_info.get("source_type", "MEDIA"),
@@ -997,14 +916,18 @@ def register_collected_document(
             "title": clean_title,
             "text": clean_text,
             "content_status": "TEXT_COMPLETENESS_UNVERIFIED",
-            "content_sha256": hashlib.sha256(clean_text.encode("utf-8")).hexdigest(),
+            "content_sha256": content_hash,
+            "content_duplicate_of": duplicate_text,
             "content_truncated": False,
             "content_limit_reason": "",
             "published_at": norm_pub or "DATE_UNKNOWN",
             "raw_published_at": published_at,
             "date_unknown": not bool(norm_pub),
+            "event_date": "NOT_ESTABLISHED",
+            "event_date_basis": "NOT_ESTABLISHED",
             "collected_at": _now_iso(),
             "query_used": query_used,
+            "queries_used": [query_used] if query_used else [],
             "syndication_fingerprint": fingerprint,
             "prompt_injection_flagged": injection_flag or title_inj,
             "pii_redacted_count": pii_redacted,
@@ -1016,7 +939,6 @@ def register_collected_document(
         }
         COLLECTED_DOCUMENTS.append(doc_record)
         return doc_record
-
 
 AIRSHOW_NEWS_URLS = {
     "Farnborough": "https://www.farnboroughairshow.com/resources/news-blogs/",
@@ -1049,9 +971,7 @@ COUNTRY_KEYWORDS = {
     ],
 }
 
-MAX_PAGES_PER_AIRSHOW = min(
-    12, max(1, int(os.getenv("EWS_AIRSHOW_MAX_PAGES", "5")))
-)
+MAX_PAGES_PER_AIRSHOW = min(12, max(1, int(os.getenv('EWS_AIRSHOW_MAX_PAGES', '5'))))
 MAX_ARTICLES_PER_AIRSHOW = 15
 
 GENERIC_MANUFACTURERS = {
@@ -1112,11 +1032,9 @@ _NOISE_ATTR_RE = re.compile(
 )
 _CARD_ANCHOR_RE = re.compile(r"BlockWrapper_anchor|informa-module-block")
 
-
 # Read the active per-query retrieval budget.
 def get_dynamic_limit() -> int:
     return int(os.getenv("EWS_DYNAMIC_LIMIT", 5))
-
 
 # Resolve the monitoring reference date used for current and replay scopes.
 def get_reference_now_utc() -> datetime:
@@ -1130,7 +1048,6 @@ def get_reference_now_utc() -> datetime:
         except Exception:
             pass
     return datetime.now(timezone.utc)
-
 
 # Translate normalized monitoring scope into an optional day limit.
 def get_scope_days() -> int | None:
@@ -1147,7 +1064,6 @@ def get_scope_days() -> int | None:
         if start_dt and end_dt:
             return max(1, (end_dt - start_dt).days)
     return mapping.get(scope_enum)
-
 
 # Calculate the active UTC retrieval window from request scope.
 def get_time_window_utc() -> Tuple[Optional[datetime], datetime]:
@@ -1176,7 +1092,6 @@ def get_time_window_utc() -> Tuple[Optional[datetime], datetime]:
         return end_utc - timedelta(hours=24), end_utc
     return end_utc - timedelta(days=get_scope_days() or 7), end_utc
 
-
 # Parse source timestamps into normalized timezone-aware UTC values.
 def parse_datetime_utc(date_str: str) -> Optional[datetime]:
     if not date_str or date_str in {"N/A", "Unknown", "DATE_UNKNOWN"} or "unknown" in date_str.lower():
@@ -1203,7 +1118,6 @@ def parse_datetime_utc(date_str: str) -> Optional[datetime]:
             return None
     return None
 
-
 # Reject records outside the configured time window.
 def is_date_within_scope(date_str: str) -> bool:
     start_utc, end_utc = get_time_window_utc()
@@ -1226,7 +1140,6 @@ def is_date_within_scope(date_str: str) -> bool:
         return not (year_match and int(year_match.group(1)) > end_utc.year)
     return False
 
-
 # Discard clearly unrelated text before higher-cost analysis.
 def smart_context_filter(full_text: str, query_keywords: list) -> str:
     core_keywords = [k.lower() for k in query_keywords] + [
@@ -1236,8 +1149,7 @@ def smart_context_filter(full_text: str, query_keywords: list) -> str:
     relevant = [p.strip() for p in full_text.split("\n") if
                 len(p) > 40 and any(kw in p.lower() for kw in core_keywords)]
     filtered = "\n".join(relevant)
-    return filtered[:2500] if filtered else full_text[:1000]
-
+    return filtered[:5000] if filtered else full_text[:1000]
 
 # Normalize a source publication date into a stable representation.
 def normalize_date_str(raw_str: str) -> str:
@@ -1266,7 +1178,6 @@ def normalize_date_str(raw_str: str) -> str:
             return f"{year:04d}-{month:02d}-{day:02d}"
 
     return ""
-
 
 # Discover publication time from available article metadata.
 # Extract publication metadata without assuming missing dates are current.
@@ -1303,27 +1214,151 @@ def extract_article_date(
 
     return "DATE_UNKNOWN"
 
-
-MODEL_TOKEN_RE = re.compile(
-    # Recognize aircraft and engine identifiers without merging them
-    # with unrelated words in surrounding text.
-    r"(?<![A-Za-z0-9])(?:[A-Za-z]{1,5}[- ]?\d{1,5}(?:-?[A-Za-z0-9]{1,6}){0,2}|"
-    r"\d{3}(?:[- ]?(?:MAX(?:\s*\d{1,2})?|XLR|NEO|CEO|NG|ER|LR|X|F))?)"
-    r"(?![A-Za-z0-9])",
-    re.I,
+# Preserve the legacy search-query API for existing callers.
+from aero_ews.collection.queries import (
+    MODEL_TOKEN_RE,
+    _model_tokens,
+    build_federal_register_queries,
+    build_social_video_queries,
+    get_program_engine_domain,
+    news_api_search_key as _compile_newsapi_query,
 )
+from aero_ews.domain.identity import EntityType, IdentityStatus, resolve_technical_identity
+
+def news_api_search_key(query: str) -> str:
+    """Keep the established query API while delegating its implementation."""
+    return _compile_newsapi_query(query)
 
 
-# Extract model identifiers that must survive query normalization.
-def _model_tokens(query: str) -> list[str]:
-    return list(dict.fromkeys(m.lower() for m in MODEL_TOKEN_RE.findall(query or "")))
+@dataclass(frozen=True)
+class ModelIdentity:
+    kind: str
+    canonical_id: str
+    aliases: tuple[str, ...]
 
+
+def _model_identities(query: str) -> list[ModelIdentity]:
+    """Keep verified catalog labels separate from syntactically detected model codes."""
+    candidates = list(_model_tokens(query))
+    candidates.extend(match.group() for match in re.finditer(
+        r"(?<!\w)737[ -]*(?:MAX[ -]*)?(?:7|8|9|10)(?!\w)"
+        r"|(?<!\w)A\d{3}[ -]*(?:NEO|XLR)(?!\w)"
+        r"|(?<!\w)LEAP[ -]*1[ -]*[AB](?!\w)", query, re.I,
+    ))
+    if not candidates:
+        subject = resolve_technical_identity(query)
+        if (subject.resolution_status == IdentityStatus.MATCH
+                and subject.entity_type in {EntityType.AIRCRAFT, EntityType.ENGINE}):
+            candidates.append(subject.canonical_identity)
+    identities = {}
+    for value in candidates:
+        normalized = re.sub(r"[^A-Z0-9]", "", value.upper())
+        if match := re.fullmatch(r"737(?:MAX)?(7|8|9|10)", normalized):
+            variant = match.group(1)
+            identity = ModelIdentity("aircraft_model", f"737-MAX-{variant}", (
+                f"737 MAX {variant}", f"737 MAX-{variant}", f"737-{variant}", f"B737-{variant}",
+            ))
+        elif match := re.fullmatch(r"LEAP1([AB])", normalized):
+            suffix = match.group(1)
+            identity = ModelIdentity("engine_model", f"LEAP-1{suffix}", (
+                f"LEAP-1{suffix}", f"LEAP 1{suffix}",
+            ))
+        else:
+            resolved = resolve_technical_identity(str(value))
+            kind = ({EntityType.AIRCRAFT: "aircraft_model", EntityType.ENGINE: "engine_model"}
+                    .get(resolved.entity_type) if resolved.resolution_status == IdentityStatus.MATCH
+                    else None)
+            identity = ModelIdentity(kind or "unknown_technical_identifier",
+                                     resolved.canonical_identity if kind == "engine_model" else normalized,
+                                     tuple(dict.fromkeys((str(value), *resolved.candidate_aliases))) if kind
+                                     else (str(value),))
+        identities[identity.canonical_id] = identity
+    # A generic family token must not dilute an explicitly selected variant.
+    return [item for item in identities.values() if not any(
+        item.canonical_id != other.canonical_id
+        and other.canonical_id.startswith(item.canonical_id)
+        for other in identities.values()
+    )]
+
+
+def _model_matches(identity: ModelIdentity, text: str) -> bool:
+    return any(_model_alias_pattern(alias).search(text) for alias in identity.aliases)
+
+
+@lru_cache(maxsize=256)
+def _model_alias_pattern(alias: str) -> re.Pattern:
+    return re.compile(
+        r"(?<![a-z0-9])" + r"[\s-]*".join(map(re.escape, re.findall(r"[A-Za-z]+|\d+", alias)))
+        + r"(?![a-z0-9])", re.I,
+    )
+
+
+_NEWS_STATUS_TOPICS = {
+    "certif": "certified OR granted OR approved OR completed",
+    "deliver": "resumed OR restored OR backlog OR completed",
+    "produc": "resumed OR restarted OR restored OR halted",
+    "strike": "ended OR settled OR resumed OR agreement",
+    "shortag": "restored OR recovered OR resolved OR resumed",
+    "supply": "restored OR recovered OR resolved OR resumed",
+    "defect": "fixed OR resolved OR repaired OR cleared",
+    "ground": "lifted OR resumed OR restored",
+    "delay": "resumed OR restored OR completed OR cancelled",
+    "order": "cancelled OR reinstated OR confirmed",
+    "engine": "engine OR engines OR turbine OR PW1100G OR GTF OR LEAP",
+    "turbine": "turbine OR HPT OR disk OR blade OR inspection",
+    "inspect": "inspection OR airworthiness OR directive OR maintenance",
+    "directiv": "directive OR airworthiness OR FAA OR EASA",
+    "problem": "problems OR issues OR defect OR grounded OR inspection",
+    "issue": "issues OR problems OR defect OR grounded OR inspection",
+    "powder": "powder OR metal OR GTF OR PW1100G OR inspection",
+}
+
+_NEWS_NOISE_DOMAINS = frozenset({
+    "onemileatatime.com", "thealviator.com", "dansdeals.com", "wimp.com",
+    "motorbiscuit.com", "gizmodo.com",
+})
+
+
+def _newsapi_search_stages(query: str) -> list[tuple[str, str]]:
+    identities = _model_identities(query)
+    exact = news_api_search_key(query)
+    alternative = _compile_newsapi_query(query, mode="alternative")
+    recall = _compile_newsapi_query(query, mode="recall")
+    aliases = list(dict.fromkeys(alias for item in identities for alias in item.aliases))[:8]
+    entity = next((name for name in ("Airbus", "Boeing") if re.search(rf"\b{name}\b", query, re.I)), "")
+    subject = "(" + " OR ".join(f'"{alias}"' for alias in aliases) + ")" if aliases else (
+        f'"{entity}"' if entity else ""
+    )
+    topics = [(name, match.group()) for name in _NEWS_STATUS_TOPICS
+              if (match := re.search(rf"\b\w*{name}\w*\b", query, re.I))]
+    topic_query = " OR ".join(f'"{term}"' for _, term in topics[:3])
+    state_query = " OR ".join(dict.fromkeys(
+        term.strip() for topic, _ in topics[:2]
+        for term in _NEWS_STATUS_TOPICS[topic].split(" OR ")
+    ))
+    stages = [("EXACT", exact)]
+    if alternative and alternative != exact:
+        stages.append(("ALTERNATIVE", alternative))
+    if recall and recall not in {exact, alternative}:
+        stages.append(("RECALL", recall))
+    if subject:
+        if topic_query:
+            stages.append(("ALIASES", f"{subject} AND ({topic_query})"))
+        if state_query:
+            stages.append(("STATUS_CHANGE", f"{subject} AND ({state_query})"))
+        # Nikdy nespouštěj holý CONTEXT bez rizikové/technické kotvy, jinak se kvóta zahltí cestovatelskými blogy.
+        if not topics:
+            stages.append((
+                "CONTEXT",
+                f"{subject} AND (engine OR defect OR delay OR inspection OR directive OR shortage OR grounded OR safety)",
+            ))
+    return [(name, expression) for index, (name, expression) in enumerate(stages)
+            if expression and expression not in {q for _, q in stages[:index]}]
 
 _STOP_WORDS = {
     "find", "search", "show", "tell", "about", "this", "what",
     "are", "the", "latest", "new", "from", "with", "for", "and",
 }
-
 
 # Derive search intent without discarding explicit aircraft or engine identifiers.
 # Preserve model-specific terms while normalizing search intent.
@@ -1333,11 +1368,10 @@ def parse_query_intent(safe_query: str) -> tuple[list[str], str]:
     detected_specific_models: list[str] = []
     remaining_query = safe_query.lower()
 
-    for spec_model in _model_tokens(safe_query):
-        pattern = rf"(?<![a-z0-9]){re.escape(spec_model)}(?![a-z0-9])"
-        if re.search(pattern, remaining_query, re.I):
-            detected_specific_models.append(spec_model)
-            remaining_query = re.sub(pattern, " ", remaining_query, flags=re.I)
+    for identity in _model_identities(safe_query):
+        detected_specific_models.append(identity.aliases[0])
+        for alias in identity.aliases:
+            remaining_query = _model_alias_pattern(alias).sub(" ", remaining_query)
 
     words = [w.lower() for w in re.findall(r"\b\w+\b", remaining_query)]
     significant_words = [w for w in words if (any(c.isdigit() for c in w) or len(w) > 3) and w not in _STOP_WORDS]
@@ -1369,7 +1403,6 @@ def parse_query_intent(safe_query: str) -> tuple[list[str], str]:
     models_for_search = [m for m in models_for_search if any(c.isdigit() for c in m)]
     search_candidates = (models_for_search + text_words)[:3]
     return required_words, (" ".join(search_candidates) if search_candidates else safe_query)
-
 
 # Retain only article paragraphs that provide useful KIT context.
 # Exclude boilerplate but retain source passages relevant to the KIT.
@@ -1420,7 +1453,6 @@ def filter_relevant_paragraphs(text: str, required_words: list[str]) -> str:
                 matched_chunks.append(combined_block)
 
     return "\n\n".join(matched_chunks)
-
 
 # Remove navigation, ads, and page boilerplate from source HTML.
 # Page text extraction is a collection step, not fact verification.
@@ -1492,45 +1524,26 @@ def extract_clean_blocks(soup: BeautifulSoup, base_url: str) -> tuple[str, list[
                 href = row.get("href", "")
                 absolute = urljoin(base_url, href)
 
-                if not urlparse(absolute).path.startswith(
-                        "/en/press/releases/"
-                ):
+                if not urlparse(absolute).path.startswith('/en/press/releases/'):
                     continue
 
                 heading = row.select_one(".pml-body strong")
-                title = (
-                    heading.get_text(" ", strip=True)
-                    if heading
-                    else row.get_text(" ", strip=True)
-                )
+                title = heading.get_text(' ', strip=True) if heading else row.get_text(' ', strip=True)
 
                 body_element = row.select_one(".pml-body")
-                context = (
-                    body_element.get_text(" ", strip=True)
-                    if body_element
-                    else title
-                )
+                context = body_element.get_text(' ', strip=True) if body_element else title
 
                 raw_date = row.select_one(".pml-date")
                 card_date = ""
 
                 if raw_date:
-                    date_text = raw_date.get_text(
-                        " ", strip=True
-                    )
+                    date_text = raw_date.get_text(' ', strip=True)
                     try:
-                        card_date = datetime.strptime(
-                            date_text, "%d/%m/%Y"
-                        ).date().isoformat()
+                        card_date = datetime.strptime(date_text, '%d/%m/%Y').date().isoformat()
                     except ValueError:
                         pass
 
-                add_candidate_link(
-                    title,
-                    href,
-                    context,
-                    card_date,
-                )
+                add_candidate_link(title, href, context, card_date)
         if h3 := td.find("h3"):
             raw_h4 = td.find("h4").get_text(strip=True) if td.find("h4") else ""
             card_date = normalize_date_str(raw_h4) if not re.match(r"^\d+\.", raw_h4) else ""
@@ -1581,117 +1594,6 @@ def extract_clean_blocks(soup: BeautifulSoup, base_url: str) -> tuple[str, list[
 
     return "\n".join(text_blocks), article_links, pagination_urls
 
-
-# Construct source-specific Boolean queries with explicit model and topic terms.
-# Preserve technical model specificity when building provider query terms.
-def news_api_search_key(query: str) -> str:
-    # Construct precision-oriented NewsAPI search terms with explicit model identity.
-    """Build a bounded NewsAPI query while preserving aircraft identity, technical scope and event indicators."""
-    safe_query = re.sub(
-        r"\s+", " ",
-        (query or "").replace(",", " ")
-    ).strip()
-
-    safe_query = re.sub(
-        r"(?i)\bp\s*(?:&|and)\s*w\b",
-        "pratt whitney",
-        safe_query,
-    )
-
-    safe_query = re.sub(
-        r"(?i)\bpratt[\s\-]*(?:&|and)?[\s\-]*whitney\b",
-        "pratt whitney",
-        safe_query,
-    )
-
-    safe_query = re.sub(
-        r"(?i)\brolls[\s\-]+royce\b",
-        "rolls-royce",
-        safe_query,
-    )
-    words = re.findall(r"[a-z0-9-]+", safe_query.lower())
-    aircraft = _model_tokens(safe_query)
-
-    tech_vocab = {
-        "gtf", "pw1100g", "pw1100g-jm", "pw1500g",
-        "leap", "leap-1a", "leap-1b", "leap-1c",
-        "cfm56", "ge9x", "ge90", "pratt", "whitney",
-        "trent", "safran", "rolls-royce",
-        "easa", "faa", "ntsb", "spirit", "supplier",
-    }
-    issue_re = re.compile(
-        r"(?:inspect\w*|defect\w*|fail\w*|shortag\w*|ground\w*|delay\w*|directiv\w*|airworth\w*|"
-        r"production|manufactur\w*|constraint\w*|recall\w*|certif\w*|order\w*|deliver\w*|"
-        r"fleet|disrupt\w*|safet\w*|engine\w*|regulat\w*|problem\w*|issue\w*|incident\w*|"
-        r"cancel\w*|strike\w*|maintenan\w*|upgrade\w*|turbine|blades?)"
-    )
-
-    technical = list(dict.fromkeys(w for w in words if w in tech_vocab))[:4]
-    issue = list(dict.fromkeys(w for w in words if issue_re.fullmatch(w)))[:4]
-
-    named_issuers = (
-        (r"\bge\s+aerospace\b", "GE Aerospace"),
-        (r"\brolls[-\s]+royce\b", "Rolls-Royce"),
-        (r"\bpratt\s+whitney\b", "Pratt Whitney"),
-        (r"\b(?:rtx|raytheon)\b", "RTX"),
-        (r"\bsafran\b", "Safran"),
-        (r"\bboeing\b", "Boeing"),
-        (r"\bairbus\b", "Airbus"),
-    )
-    named = next(
-        (issuer for pattern, issuer in named_issuers
-         if re.search(pattern, safe_query, re.I)), ""
-    )
-
-    if aircraft:
-        anchor = aircraft[0]
-    elif named:
-        anchor = named
-        technical = [w for w in technical if w not in set(named.lower().split())]
-    else:
-        stop = {
-            "which", "about", "latest", "news", "what", "does", "from", "with",
-            "this", "that", "aircraft", "aviation", "issues", "report", "reports", "europe", "official",
-        }
-        anchor = next((w for w in words if len(w) > 3 and w not in stop and w not in issue), "")
-        technical = [w for w in technical if w != anchor]
-
-    anchor_words = set(re.findall(r"[a-z0-9]+", anchor.lower()))
-    technical = [term for term in technical if term not in anchor_words]
-    if named and not aircraft and any(
-        w in words for w in {"sourcing", "spend", "procurement", "expansion"}
-    ):
-        # A headline need not use 'supplier' AND 'sourcing'.
-        technical = [term for term in technical if term != "supplier"]
-
-    parts = [
-        anchor if anchor.startswith("(")
-        else (f'"{anchor}"' if " " in anchor else anchor)
-    ]
-    if technical:
-        parts.append(f"({' OR '.join(technical)})")
-
-    # Geography and strategic-intelligence vocabulary can be essential for
-    # a company KIT without any aircraft model (e.g. India sourcing plans).
-    if not aircraft and named:
-        geographical = next((w for w in words if w in {
-            "india", "china", "japan", "france", "germany", "canada", "brazil",
-            "turkey", "singapore", "australia", "poland", "mexico",
-        }), None)
-        if geographical:
-            parts.append(geographical)
-        if not issue:
-            strategic = [w for w in words if w in {
-                "sourcing", "spend", "supplier", "procurement",
-                "expansion", "investment", "capacity", "contracts",
-            }]
-            if strategic:
-                parts.append("(" + " OR ".join(dict.fromkeys(strategic[:4])) + ")")
-    if issue:
-        parts.append(f"({' OR '.join(issue)})")
-    return " AND ".join(parts)
-
-
 # Extract the substantive body text of a retrieved publisher article.
 def _extract_news_article_body(html_text: str) -> str:
     """Extract article paragraphs and exclude unrelated page navigation, recommendations and sidebars."""
@@ -1702,7 +1604,21 @@ def _extract_news_article_body(html_text: str) -> str:
     ):
         node.decompose()
 
-    for selector in ("[itemprop='articleBody']", "article", "[class*='article-body']", "[class*='story-body']", "main"):
+    for selector in (
+            "[itemprop='articleBody']",
+            "[data-module='ArticleBody']",
+            "[class*='ArticleBody']",
+            ".wd_body",
+            ".wd_news_body",
+            ".wd_newsfeed_releases-detail",
+            ".wd_content",
+            "[class*='release-body']",
+            "[class*='press-release']",
+            "article",
+            "[class*='article-body']",
+            "[class*='story-body']",
+            "main",
+    ):
         candidates = []
         for node in soup.select(selector):
             content = "\n".join(
@@ -1711,31 +1627,42 @@ def _extract_news_article_body(html_text: str) -> str:
                 candidates.append(content)
         if candidates:
             return max(candidates, key=len)
-    return ""
-
+    fallback_p = "\n".join(
+        p.get_text(" ", strip=True) for p in soup.find_all("p")
+        if len(p.get_text(" ", strip=True)) >= 45
+    )
+    return fallback_p if len(fallback_p) >= 220 else ""
 
 # Combine precise and conditional broad NewsAPI searches with deduplication.
 # Conditional recall search can broaden results; it does not bypass relevance screening.
 # Recall broadening does not override source scope or later relevance gates.
 @tool("Search Aerospace News and Read Full Articles")
-@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=10))
 def search_aerospace_news(query: str) -> str:
     # Search the news source using a primary query and guarded recall fallback.
     """Query News API preserving specific aircraft model suffixes (e.g., 777X, A321XLR)."""
-    global _NEWSAPI_DISABLED_UNTIL, _NEWSAPI_DISABLED_REASON
     if (
         os.getenv("EWS_ENV", "development").lower()
         not in {"dev", "development", "test"}
         and os.getenv("EWS_NEWSAPI_PRO_LICENSE") != "1"
     ):
-        return "NewsAPI disabled: production license required."
+        record_connector_telemetry("News API", "SRC_004", query,
+                                   operational_status=NewsAPIState.ACCESS_RESTRICTED.value,
+                                   search_outcome="NOT_EXECUTED", error="LICENSE_REQUIRED")
+        return "News API: ACCESS_RESTRICTED (production license required)."
     safe_query = query.replace(",", "").replace("  ", " ").strip()
-    if time.monotonic() < _NEWSAPI_DISABLED_UNTIL:
-        record_connector_telemetry("News API", "SRC_004", safe_query, error=f"CIRCUIT_OPEN_{_NEWSAPI_DISABLED_REASON}")
-        return f"News API disabled for this process: {_NEWSAPI_DISABLED_REASON}."
+    if not safe_query:
+        record_connector_telemetry("News API", "SRC_004", query,
+                                   operational_status="MISCONFIGURED", search_outcome="NOT_EXECUTED",
+                                   error="EMPTY_QUERY")
+        return "News API: MISCONFIGURED (empty query)."
     and_query = news_api_search_key(safe_query)
-    query_tokens = and_query.split(" AND ", 2)
-
+    key = _newsapi_key()
+    state = _newsapi_current_state(key, and_query)
+    if state != NewsAPIState.AVAILABLE:
+        record_connector_telemetry("News API", "SRC_004", safe_query,
+                                   error=f"CONNECTOR_{state.value}", operational_status=state.value,
+                                   search_outcome="NOT_EXECUTED")
+        return f"News API: {state.value} (search not executed)."
     limit = get_dynamic_limit()
     start_utc, end_utc = get_time_window_utc()
 
@@ -1743,67 +1670,54 @@ def search_aerospace_news(query: str) -> str:
         f"[OSINT GATHERER] Querying News API for: '{and_query}' "
         f"(limit: {limit}, from: {start_utc.strftime('%Y-%m-%d') if start_utc else 'unrestricted'})"
     )
-    url = "https://newsapi.org/v2/everything"
     params: Dict[str, Any] = {
         "q": and_query,
         "language": "en",
         "sortBy": "relevancy",
         "pageSize": min(100, limit * 4),
-        "apiKey": NEWS_API_KEY,
         "to": end_utc.strftime("%Y-%m-%dT%H:%M:%S"),
     }
-    if start_utc is not None:
-
-        news_earliest = (
-                datetime.now(timezone.utc) - timedelta(days=29)
-        )
-
-        effective_start = max(
-            start_utc,
-            news_earliest,
-        )
-
-        if effective_start > start_utc:
-            logger.warning(
-                "[NEWS API COVERAGE] Requested scope starts %s, "
-                "but this connector uses %s; "
-                "the full requested period is NOT covered by News API.",
-                start_utc.date(),
-                effective_start.date(),
-            )
-
-            record_connector_telemetry(
-                "News API",
-                "SRC_004",
-                safe_query,
-                coverage_note=(
-                    f"NEWSAPI_PARTIAL_WINDOW: requested_from={start_utc.date()}, "
-                    f"actual_from={effective_start.date()}, "
-                    f"actual_to={end_utc.date()}"
-                ),
-            )
-
-        params["from"] = effective_start.strftime(
-            "%Y-%m-%dT%H:%M:%S"
-        )
-
-    if not NEWS_API_KEY:
-        logger.error(
-            "[NEWS API ERROR] NEWS_API_KEY is missing; "
-            "collection was not attempted."
-        )
-
+    # A plan-limited publication archive is never equivalent to the KIT window.
+    archive_days = max(1, int(os.getenv("EWS_NEWSAPI_HISTORY_DAYS", "29")))
+    earliest = datetime.now(timezone.utc) - timedelta(days=archive_days)
+    effective_start = max(filter(None, (start_utc, earliest)))
+    partial_window = start_utc is None or effective_start > start_utc
+    searchable_days = round(max(0.0, (end_utc - effective_start).total_seconds() / 86400), 2)
+    window = {
+        "requested_from": start_utc.date().isoformat() if start_utc else "UNRESTRICTED",
+        "requested_to": end_utc.date().isoformat(),
+        "searchable_from": effective_start.isoformat(),
+        "searchable_to": end_utc.isoformat(),
+        "actual_from": effective_start.date().isoformat(),
+        "actual_to": end_utc.date().isoformat(),
+        "actual_window_basis": "CONFIGURED_SEARCH_WINDOW_NOT_RETRIEVAL_VERIFIED",
+        "actual_searchable_days": searchable_days,
+        "requested_horizon_days": round((end_utc - start_utc).total_seconds() / 86400, 2) if start_utc else None,
+        "provider_archive_limit_days": archive_days,
+        "provider_limit_basis": "CONFIGURED_PLAN_WINDOW_NOT_API_VERIFIED",
+        "coverage_status": ("WINDOW_UNAVAILABLE" if effective_start > end_utc
+                            else "PARTIAL_WINDOW" if partial_window else "WITHIN_PLAN_LIMIT"),
+        "source_coverage": ("UNAVAILABLE" if effective_start > end_utc
+                            else "PARTIAL" if partial_window else "UNVERIFIED"),
+        "coverage_complete": False,  # Search budget/results cannot prove exhaustive coverage.
+        "date_basis": "PUBLICATION_DATE",
+        "event_date_coverage": "NOT_ESTABLISHED",
+    }
+    coverage_line = (f"[NEWSAPI_COVERAGE] {window['source_coverage']}; "
+                     f"requested_days={window['requested_horizon_days']}; "
+                     f"configured_searchable_days={searchable_days}; "
+                     "provider_window_not_independently_verified\n")
+    if partial_window:
+        logger.warning("[NEWS API COVERAGE] Requested publication period is not fully accessible: %s", window)
+    if effective_start > end_utc:
         record_connector_telemetry(
-            "News API",
-            "SRC_004",
-            safe_query,
-            error="MISSING_API_KEY",
+            "News API", "SRC_004", safe_query,
+            operational_status=NewsAPIState.ACCESS_RESTRICTED.value,
+            search_outcome="NOT_EXECUTED", coverage_window=window,
+            coverage_note="NEWSAPI_WINDOW_UNAVAILABLE: source plan excludes requested dates",
         )
-
-        return (
-            f"News API unavailable for query '{query}' "
-            "(missing API key)."
-        )
+        return coverage_line + "News API: ACCESS_RESTRICTED (requested publication period not searchable)."
+    params["from"] = effective_start.strftime("%Y-%m-%dT%H:%M:%S")
 
     logger.info(
         "[NEWS API REQUEST] primary=%r from=%s to=%s",
@@ -1812,147 +1726,71 @@ def search_aerospace_news(query: str) -> str:
         params["to"],
     )
 
-    resp = safe_http_get(
-        url,
-        source_id="SRC_004",
-        params=params,
-        timeout=15,
-    )
-
-    if resp is None or resp.status_code != 200:
-        status = (
-            resp.status_code
-            if resp is not None
-            else "NO_RESPONSE_OR_COMPLIANCE_BLOCK"
+    identities = _model_identities(safe_query)
+    articles, seen_urls, searched_stages, stage_errors = [], set(), [], []
+    budget = min(4, max(1, int(os.getenv("EWS_NEWSAPI_QUERY_BUDGET", "4"))))
+    coverage_target = min(8, max(3, limit))
+    recall_state = NewsAPIState.AVAILABLE
+    for stage, expression in _newsapi_search_stages(safe_query)[:budget]:
+        coverage = sum(
+            not identities or any(_model_matches(identity, f"{a.get('title', '')} {a.get('description', '')}")
+                                  for identity in identities)
+            for a in articles
         )
-        if status in {401, 403, 429}:
-            _NEWSAPI_DISABLED_REASON = f"HTTP_{status}"
-            _NEWSAPI_DISABLED_UNTIL = float("inf") if status in {401, 403} else time.monotonic() + 600
-
-        # Do not expose credentials or complete request URLs.
-        logger.warning(
-            "[NEWS API ERROR] query=%r status=%s",
-            and_query,
-            status,
-        )
-
-        record_connector_telemetry(
-            "News API",
-            "SRC_004",
-            safe_query,
-            error=f"PRIMARY_HTTP_{status}",
-        )
-
-        if status in {401, 403, 429}:
-            return f"News API disabled for this process: HTTP_{status}."
-        return (
-            f"News API unavailable for query '{query}' "
-            f"(HTTP/status: {status})."
-        )
-
-    # Use a broader search only according to the existing recall policy and cache state.
-    articles = resp.json().get("articles", [])
-    logger.info(f"[NEWS API DEBUG] Query='{and_query}' | HTTP={resp.status_code} | API articles={len(articles)}")
-
-    if len(query_tokens) >= 3 and len(articles) < max(10, limit * 2):
-        # Recall fallback keeps the aircraft family and issue terms while relaxing the engine-specific
-        #   constraint.
-        fallback_q = " AND ".join(query_tokens[:2])
-        fallback_params = {**params, "q": fallback_q, "pageSize": min(100, max(20, limit * 4))}
-        cache_key = (
-            fallback_q,
-            str(fallback_params.get("from", "")),
-            str(fallback_params.get("to", "")),
-            fallback_params["pageSize"],
-        )
-
+        if stage == "ALIASES" and coverage >= coverage_target:
+            continue
+        if stage == "CONTEXT" and coverage >= coverage_target:
+            break
+        stage_params = {**params, "q": expression}
+        cache_key = (expression, params["from"], params["to"], params["pageSize"],
+                     hashlib.sha256(key.encode()).hexdigest()[:16])
         with _COLLECTION_LOCK:
-            # Reuse a bounded broad-search response to avoid redundant NewsAPI quota consumption.
-            cached_articles = NEWS_FALLBACK_CACHE.get(cache_key)
-
-        if cached_articles is None:
-
-            logger.info(
-                "[NEWS API REQUEST] recall=%r",
-                fallback_q,
-            )
-
-            fb_resp = safe_http_get(
-                url,
-                source_id="SRC_004",
-                params=fallback_params,
-                timeout=15,
-            )
-
-            if fb_resp is not None and fb_resp.status_code == 200:
-
-                cached_articles = (
-                        fb_resp.json().get("articles", []) or []
-                )
-
-                with _COLLECTION_LOCK:
-                    NEWS_FALLBACK_CACHE[cache_key] = list(
-                        cached_articles
+            cached = NEWS_FALLBACK_CACHE.get(cache_key) if stage != "EXACT" else None
+        if cached is None:
+            payload, current_state, code = _newsapi_request(stage_params, key)
+            if payload is None:
+                recall_state = current_state
+                stage_errors.append(f"{stage}:{current_state.value}:{code}")
+                if stage == "EXACT":
+                    record_connector_telemetry(
+                        "News API", "SRC_004", safe_query, error=stage_errors[-1],
+                        operational_status=current_state.value, search_outcome="RETRIEVAL_FAILED",
+                        coverage_window=window,
+                        coverage_note=f"NEWSAPI_COVERAGE={window['coverage_status']}; archive_limit_days={archive_days}",
                     )
+                    return coverage_line + f"News API: {current_state.value} (source unavailable; {code})."
+                break  # Do not retry a blocked or exhausted source with broader queries.
+            cached = payload["articles"]
+            if stage != "EXACT":
+                with _COLLECTION_LOCK:
+                    NEWS_FALLBACK_CACHE[cache_key] = list(cached)
+        searched_stages.append(stage)
+        for article in cached:
+            url = article.get("url")
+            if url and url not in seen_urls:
+                articles.append(article)
+                seen_urls.add(url)
+        logger.info("[NEWS API STAGE] %s candidates=%d cumulative=%d", stage, len(cached), len(articles))
 
-            else:
-
-                status = (
-                    fb_resp.status_code
-                    if fb_resp is not None
-                    else "NO_RESPONSE_OR_COMPLIANCE_BLOCK"
-                )
-
-                if status in {401, 403, 429}:
-                    _NEWSAPI_DISABLED_REASON = f"HTTP_{status}"
-                    _NEWSAPI_DISABLED_UNTIL = float("inf") if status in {401, 403} else time.monotonic() + 600
-                logger.warning(
-                    "[NEWS API RECALL ERROR] query=%r status=%s",
-                    fallback_q,
-                    status,
-                )
-
-                record_connector_telemetry(
-                    "News API",
-                    "SRC_004",
-                    safe_query,
-                    error=f"RECALL_HTTP_{status}",
-                )
-
-                cached_articles = []
-
-        existing_urls = {a.get("url") for a in articles}
-        for candidate in cached_articles:
-            article_url = candidate.get("url")
-            if article_url and article_url not in existing_urls:
-                articles.append(candidate)
-                existing_urls.add(article_url)
-
-        logger.info("[NEWS API RECALL] Broad query %r, %d combined candidates", fallback_q, len(articles))
-
-    if not articles:
-        logger.info(
-            "[NEWS API NO MATCH] primary and recall yielded "
-            "0 articles; query=%r",
-            safe_query,
-        )
-
+    recall_failed = bool(stage_errors)
+    articles.sort(key=lambda item: (
+        any(_model_matches(identity, f"{item.get('title', '')} {item.get('description', '')}")
+            for identity in identities) if identities else True,
+        str(item.get("publishedAt") or ""),
+    ), reverse=True)
+    if not articles and recall_failed:
         record_connector_telemetry(
-            "News API",
-            "SRC_004",
-            safe_query,
-            0,
-            0,
-            0,
+            "News API", "SRC_004", safe_query, error="; ".join(stage_errors),
+            operational_status=recall_state.value, search_outcome="PARTIAL_RESULT",
+            coverage_window=window,
+            coverage_note=f"NEWSAPI_COVERAGE={window['coverage_status']}; archive_limit_days={archive_days}",
         )
+        return coverage_line + "News API: PARTIAL_RESULT (search coverage incomplete; no documents retrieved)."
 
     extracted_content = ""
     query_words = [w.lower() for w in safe_query.split() if len(w) > 2]
-    count = rejected_scope = unknown_dates = rejected_missing_url = rejected_duplicate = rejected_model = metadata_only = 0
-
-    model_anchor = query_tokens[0].strip('"').lower() if query_tokens else ""
-    model_pattern = re.compile(rf"(?<!\w){re.escape(model_anchor)}(?!\w)") if (
-            model_anchor and any(c.isdigit() for c in model_anchor)) else None
+    count = rejected_scope = unknown_dates = rejected_missing_url = rejected_duplicate = model_unconfirmed = metadata_only = 0
+    observed_dates: list[str] = []
 
     for article in articles:
         if count >= limit:
@@ -1961,6 +1799,10 @@ def search_aerospace_news(query: str) -> str:
         article_url = article.get("url", "")
         if not article_url:
             rejected_missing_url += 1
+            continue
+        article_host = (urlparse(article_url).hostname or "").lower().removeprefix("www.")
+        if any(article_host == d or article_host.endswith("." + d) for d in _NEWS_NOISE_DOMAINS):
+            rejected_scope += 1
             continue
         if article_url in COLLECTED_URLS:
             rejected_duplicate += 1
@@ -1974,11 +1816,13 @@ def search_aerospace_news(query: str) -> str:
             continue
 
         pub_date = raw_date.split("T")[0] if "T" in raw_date else raw_date
-        if not normalize_date_str(pub_date):
+        normalized_pub_date = normalize_date_str(pub_date)
+        if not normalized_pub_date:
             unknown_dates += 1
 
         # Retrieve full article bodies when permitted; mark metadata-only results honestly.
         body_text = ""
+        body_complete = False
         page_resp = safe_http_get(article_url, source_id="SRC_004", timeout=10, check_robots=True)
         if page_resp is not None and page_resp.status_code == 200:
             content_type = page_resp.headers.get("Content-Type", "").lower()
@@ -1992,6 +1836,8 @@ def search_aerospace_news(query: str) -> str:
                 body_terms = set(re.findall(r"[a-z]{4,}", article_body.lower()))
                 if article_body and (not title_terms or title_terms & body_terms):
                     body_text = smart_context_filter(article_body, query_words)
+                    body_complete = (body_text.strip() == article_body.strip()
+                                     and not getattr(page_resp, "aero_content_truncated", False))
                 elif article_body:
                     logger.warning("[NEWS BODY MISMATCH] %s: title does not match article text", article_url)
 
@@ -2002,16 +1848,26 @@ def search_aerospace_news(query: str) -> str:
                     + (desc.strip() or "No article description available.")
             )
 
-        if model_pattern and not model_pattern.search(f"{title} {desc} {body_text}".lower()):
+        if identities and not any(_model_matches(identity, f"{title} {desc} {body_text}")
+                                  for identity in identities):
+            model_unconfirmed += 1
             logger.info(
-                "[NEWS API SCOPE REVIEW] Model %r not explicitly mentioned in %r; retaining for semantic filtering.",
-                model_anchor, title[:100],
+                "[NEWS API SCOPE REVIEW] Exact target not established in %r; retaining for FR03.",
+                title[:100],
             )
 
         doc = register_collected_document(
             source_id="SRC_004", connector_name="News API", url=article_url,
             title=title, raw_text=body_text, published_at=pub_date, query_used=safe_query,
         )
+        excerpted = not body_complete and not body_text.startswith("[NEWSAPI_METADATA_ONLY:")
+        doc.update(content_status="FULL_TEXT" if body_complete else
+                   "PARTIAL_TEXT" if excerpted else "METADATA_ONLY",
+                   content_truncated=excerpted,
+                   content_limit_reason="EXCERPT_SELECTION" if excerpted else "",
+                   event_date="NOT_ESTABLISHED", event_date_basis="PUBLICATION_DATE_ONLY")
+        if normalized_pub_date:
+            observed_dates.append(normalized_pub_date)
         extracted_content += (
                 f"\n<untrusted_osint_document id=\"{doc['doc_id']}\" source_id=\"SRC_004\">\n"
                 f"DOC_ID: {doc['doc_id']}\n"
@@ -2025,19 +1881,33 @@ def search_aerospace_news(query: str) -> str:
         )
         count += 1
 
+    window.update(observed_publication_from=min(observed_dates) if observed_dates else None,
+                  observed_publication_to=max(observed_dates) if observed_dates else None,
+                  observed_document_count=count)
+
     logger.info(
-        "[NEWS API AUDIT] query=%r candidates=%d accepted=%d missing_url=%d duplicate=%d out_of_scope=%d model_mismatch=%d metadata_only=%d",
-        safe_query, len(articles), count, rejected_missing_url, rejected_duplicate, rejected_scope, rejected_model,
+        "[NEWS API AUDIT] query=%r candidates=%d accepted=%d missing_url=%d duplicate=%d out_of_scope=%d model_unconfirmed=%d metadata_only=%d",
+        safe_query, len(articles), count, rejected_missing_url, rejected_duplicate, rejected_scope, model_unconfirmed,
         metadata_only,
     )
-    record_connector_telemetry("News API", "SRC_004", safe_query, len(articles), count, rejected_scope, unknown_dates)
+    record_connector_telemetry(
+        "News API", "SRC_004", safe_query, len(articles), count, rejected_scope, unknown_dates,
+        coverage_note=(f"STAGES={','.join(searched_stages)}; "
+                       f"NEWSAPI_COVERAGE={window['coverage_status']}; "
+                       f"requested_days={window['requested_horizon_days']}; searchable_days={searchable_days}; "
+                       f"archive_limit_days={archive_days}; "
+                       f"SEARCH_STATUS={'PARTIAL_RESULT' if recall_failed else ('NO_MATCH' if not articles else 'RESULTS_RETRIEVED')}"),
+        operational_status=recall_state.value,
+        search_outcome="PARTIAL_RESULT" if recall_failed else ("NO_MATCH" if not articles else "RESULTS_RETRIEVED"),
+        coverage_window=window,
+        error="; ".join(stage_errors) if stage_errors else None,
+    )
 
     if count == 0:
-        return f"No relevant articles found in News API for query '{query}'."
+        return coverage_line + f"News API: {'PARTIAL_RESULT' if recall_failed else 'NO_MATCH'} (no relevant articles for '{query}')."
 
     logger.info(f"[OSINT GATHERER] News API extraction completed ({count} articles).")
-    return extracted_content
-
+    return coverage_line + extracted_content
 
 # Retrieve recent NTSB investigation announcements within the analysis scope.
 # Keep official investigation identifiers and publication dates in each record.
@@ -2055,23 +1925,35 @@ def scrape_ntsb_investigations(query: str = "latest") -> str:
         return "NTSB: missing NTSB_API_KEY in .env"
 
     start, end = get_time_window_utc()
-    max_windows = max(1, min(
-        20, int(os.getenv("EWS_NTSB_MAX_WINDOWS", "8"))
-    ))
+    case_ids = {m.group(0).upper() for m in re.finditer(r"\b[A-Z]{3}\d{2}[A-Z]{2}\d{3}\b", query or "", re.I)}
+    explicit_years = sorted({int(y) for y in re.findall(r"\b(20\d{2})\b", query or "")})
+    max_windows = max(1, min(36, int(os.getenv("EWS_NTSB_MAX_WINDOWS", "14" if case_ids else "12"))))
 
     if start is None:
-        start = end - timedelta(days=30 * max_windows)
+        if case_ids:
+            # NTSB case prefix obsahuje fiskální rok USA (např. DCA24MA063 -> FY2024: říjen 2023 – říjen 2024).
+            fy = 2000 + int(next(iter(case_ids))[3:5])
+            start = datetime(fy - 1, 10, 1, tzinfo=timezone.utc)
+            end = min(end, datetime(fy, 10, 15, 23, 59, 59, tzinfo=timezone.utc))
+        elif explicit_years:
+            start = datetime(explicit_years[0], 1, 1, tzinfo=timezone.utc)
+            end = min(end, datetime(explicit_years[-1], 12, 31, 23, 59, 59, tzinfo=timezone.utc))
+        else:
+            start = end - timedelta(days=30 * max_windows)
 
     limit = max(1, get_dynamic_limit())
+    ntsb_stop = {
+        "latest", "ntsb", "aviation", "accident", "incident", "aircraft",
+        "investigation", "findings", "faa", "easa", "airworthiness", "directive",
+        "directives", "federal", "register", "proposed", "safety", "status", "report",
+    }
+    generic_ntsb = {"boeing", "airbus", "embraer", "comac", "737", "a320", "a350", "787", "777", "max", "neo",
+                    "airlines"}
     tokens = [
-        word for word in re.findall(
-            r"[a-z0-9-]{3,}", query.lower()
-        )
-        if word not in {
-            "latest", "ntsb", "aviation", "accident",
-            "incident", "aircraft", "investigation"
-        }
+        word for word in re.findall(r"[a-z0-9-]{3,}", (query or "").lower())
+        if word not in ntsb_stop
     ]
+    specific_tokens = [t for t in tokens if t not in generic_ntsb]
 
     headers = {
         "Ocp-Apim-Subscription-Key": api_key,
@@ -2079,10 +1961,7 @@ def scrape_ntsb_investigations(query: str = "latest") -> str:
         "User-Agent": "AeroEWS Academic Research/2.0",
     }
 
-    endpoint = (
-        "https://api.ntsb.gov/public/api/"
-        "Common/v2/GetCasesByDateRange/"
-    )
+    endpoint = 'https://api.ntsb.gov/public/api/Common/v2/GetCasesByDateRange/'
 
     output = []
     seen = set()
@@ -2094,10 +1973,7 @@ def scrape_ntsb_investigations(query: str = "latest") -> str:
         if cursor_end < start.date() or len(output) >= limit:
             break
 
-        cursor_start = max(
-            start.date(),
-            cursor_end - timedelta(days=29),
-        )
+        cursor_start = max(start.date(), cursor_end - timedelta(days=29))
 
         marker = None
 
@@ -2157,15 +2033,12 @@ def scrape_ntsb_investigations(query: str = "latest") -> str:
                 seen.add(number)
 
                 event_date = str(case.get("eventDate") or "")
-                published = str(
-                    case.get("publishDateTime") or ""
-                )[:10]
+                published = str(case.get('publishDateTime') or '')[:10]
 
                 aircraft = case.get("aircrafts") or []
                 models = [
                     (
-                        str(a.get("aircraftMake") or
-                            a.get("aircraftManufacturer") or "")
+                        str(a.get('aircraftMake') or a.get('aircraftManufacturer') or '')
                         + " "
                         + str(a.get("aircraftModel") or "")
                     ).strip()
@@ -2173,45 +2046,65 @@ def scrape_ntsb_investigations(query: str = "latest") -> str:
                 ]
                 models_text = "; ".join(models)
 
+                narrative_parts = [
+                    str(case.get(k) or "").strip()
+                    for k in ("probableCause", "analysisNarrative", "factualNarrative",
+                              "preliminaryNarrative", "eventDescription")
+                    if str(case.get(k) or "").strip()
+                ]
+                operators = [
+                    str(a.get("operatorName") or a.get("operator") or "").strip()
+                    for a in aircraft if isinstance(a, dict)
+                ]
                 searchable = " ".join([
                     number,
                     models_text,
+                    " ".join(operators),
+                    " ".join(narrative_parts),
                     str(case.get("eventType") or ""),
                     str(case.get("eventCity") or ""),
                     str(case.get("eventStateOrRegion") or ""),
                 ]).lower()
 
-                if tokens and not any(t in searchable for t in tokens):
+                if case_ids:
+                    if number.upper() not in case_ids:
+                        continue
+                elif specific_tokens:
+                    if not any(t in searchable for t in specific_tokens):
+                        continue
+                elif tokens and not any(t in searchable for t in tokens):
                     continue
 
                 if not event_date or not is_date_within_scope(event_date):
                     continue
 
                 classification = [
-                    str(e.get("cicttEventSOEGroup") or
-                        e.get("eventTier2Name") or "")
+                    str(e.get('cicttEventSOEGroup') or e.get('eventTier2Name') or '')
                     for a in aircraft
                     for e in (a.get("events") or [])
                 ]
+                narrative_text = " ".join(narrative_parts).strip()
+                has_substantive_narrative = len(narrative_text) >= 120
 
                 body = (
-                    f"NTSB case {number}. "
-                    f"Occurrence date: {event_date}. "
-                    f"Publication: {published or 'UNKNOWN'}. "
-                    f"Event type: {case.get('eventType')}. "
-                    f"Aircraft: {models_text or 'UNKNOWN'}. "
-                    f"Location: {case.get('eventCity')}, "
-                    f"{case.get('eventStateOrRegion')}, "
-                    f"{case.get('eventCountry')}. "
-                    f"Injury level: {case.get('highestInjuryLevel')}. "
-                    f"Investigation status: {case.get('completionStatus')}. "
-                    f"Case closed: {case.get('caseClosed')}. "
-                    f"Event classification: {', '.join(classification[:4])}. "
-                    "These metadata do not establish a final root cause."
+                        f"NTSB case {number}. "
+                        f"Occurrence date: {event_date}. "
+                        f"Publication: {published or 'UNKNOWN'}. "
+                        f"Event type: {case.get('eventType')}. "
+                        f"Aircraft: {models_text or 'UNKNOWN'}. "
+                        f"Operator: {', '.join(o for o in operators if o) or 'UNKNOWN'}. "
+                        f"Location: {case.get('eventCity')}, "
+                        f"{case.get('eventStateOrRegion')}, "
+                        f"{case.get('eventCountry')}. "
+                        f"Injury level: {case.get('highestInjuryLevel')}. "
+                        f"Investigation status: {case.get('completionStatus')}. "
+                        f"Case closed: {case.get('caseClosed')}. "
+                        f"Event classification: {', '.join(classification[:4])}. "
+                        + (f"Official NTSB Narrative / Findings: {narrative_text[:4000]}"
+                           if has_substantive_narrative
+                           else "These metadata do not establish a final root cause.")
                 )
 
-                # API request URL with case ID as a reference fragment.
-                # This is not a verified case-specific web page.
                 case_url = response.url.split("#")[0] + "#" + urllib.parse.quote(number)
 
                 doc = register_collected_document(
@@ -2227,8 +2120,8 @@ def scrape_ntsb_investigations(query: str = "latest") -> str:
                 doc.update({
                     "ntsb_number": number,
                     "event_date": event_date,
-                    "document_type": "NTSB_CASE_METADATA_ONLY",
-                    "content_status": "METADATA_ONLY",
+                    "document_type": "NTSB_CASE_SUMMARY" if has_substantive_narrative else "NTSB_CASE_METADATA_ONLY",
+                    "content_status": "PARTIAL_TEXT" if has_substantive_narrative else "METADATA_ONLY",
                     "investigation_status": case.get("completionStatus"),
                 })
 
@@ -2265,6 +2158,16 @@ def scrape_ntsb_investigations(query: str = "latest") -> str:
         query,
         found_count=len(seen),
         accepted_count=len(output),
+        operational_status=(
+            "TEMPORARILY_UNAVAILABLE" if partial and not requests_count
+            else "PARTIAL_COVERAGE" if partial
+            else "AVAILABLE"
+        ),
+        search_outcome=(
+            "PARTIAL_RESULT" if partial
+            else "RESULTS_RETRIEVED" if output
+            else "NO_MATCH"
+        ),
         coverage_note=(
             f"requests={requests_count}; "
             f"partial={partial}; max_windows={max_windows}"
@@ -2272,98 +2175,466 @@ def scrape_ntsb_investigations(query: str = "latest") -> str:
     )
 
     if not output:
-        return (
-            "NTSB: no matching cases in scanned windows. "
-            f"Partial coverage: {partial}"
-        )
+        return f'NTSB: no matching cases in scanned windows. Partial coverage: {partial}'
 
     return "\n".join(output)
-
-
 
 _FAA_LIFECYCLE_FIELDS = [
     "document_number", "docket_id", "docket_ids", "title", "abstract",
     "action", "type", "html_url", "raw_text_url", "publication_date", "effective_on",
 ]
 
+_FAA_DOCKET_RE = re.compile(r"(?<![A-Z0-9])FAA-20\d{2}-\d{3,7}(?!\d)", re.I)
+_FAA_NUMBER_RE = re.compile(r"(?<![A-Z0-9-])20\d{2}-\d{4,6}(?!\d)", re.I)
+_FAA_CERTIFICATION_INTENT = re.compile(
+    r"\b(?:certif\w*|approv\w*|type\s+certificate)\b", re.I,
+)
+_FAA_CACHE_LOCK = threading.RLock()
+_FAA_OVERSIZE_FAILURES: Dict[str, float] = {}
+
+
+def _faa_cache_file(url: str, params: Optional[Dict[str, Any]] = None) -> Path:
+    root = Path(os.getenv("EWS_FAA_CACHE_DIR") or Path(__file__).resolve().parent / ".aero_ews_cache" / "faa")
+    identifier = json.dumps([url, params or {}], sort_keys=True, default=str)
+    return root / hashlib.sha256(identifier.encode("utf-8")).hexdigest()
+
+
+def _faa_cache_read(path: Path, max_bytes: int) -> Optional[requests.Response]:
+    try:
+        metadata = json.loads(path.with_suffix(".json").read_text(encoding="utf-8"))
+        body = path.with_suffix(".body").read_bytes()
+        if len(body) > max_bytes or hashlib.sha256(body).hexdigest() != metadata["sha256"]:
+            return None
+        response = requests.Response()
+        response.status_code = 200
+        response.headers.update(metadata.get("headers", {}))
+        response._content = body
+        response.url = metadata["url"]
+        response.aero_content_truncated = False
+        return response
+    except (OSError, ValueError, KeyError):
+        return None
+
+
+def _faa_cache_write(path: Path, response: requests.Response) -> None:
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        metadata = {
+            "url": response.url, "sha256": hashlib.sha256(response.content).hexdigest(),
+            "headers": {name: value for name, value in response.headers.items()
+                        if name.lower() in {"etag", "last-modified", "content-type"}},
+        }
+        suffix = f".{threading.get_ident()}.tmp"
+        body_tmp = Path(f"{path}.body{suffix}")
+        meta_tmp = Path(f"{path}.json{suffix}")
+        with _FAA_CACHE_LOCK:
+            body_tmp.write_bytes(response.content)
+            os.replace(body_tmp, path.with_suffix(".body"))
+            meta_tmp.write_text(json.dumps(metadata), encoding="utf-8")
+            os.replace(meta_tmp, path.with_suffix(".json"))
+    except OSError as exc:
+        logger.debug("[FAA CACHE] Could not persist response: %s", exc)
+
+
+def _faa_cached_get(url: str, *, params: Optional[Dict[str, Any]] = None,
+                    immutable: bool = False, max_bytes: int = 2_000_000,
+                    check_robots: bool = False) -> HTTPResult:
+    """On-disk FAA cache; immutable hits bypass HTTP, mutable hits revalidate."""
+    parsed = urlparse(url)
+    if (parsed.scheme != "https" or parsed.hostname not in {"federalregister.gov", "www.federalregister.gov"}
+            or not is_source_allowed("SRC_001")):
+        _note_blocked_request("SRC_001")
+        return HTTPResult(error_type="SOURCE_POLICY_OR_HOST_BLOCKED")
+    if check_robots and not check_robots_and_tdm_compliance(url, "SRC_001")[0]:
+        _note_blocked_request("SRC_001")
+        return HTTPResult(error_type="ROBOTS_OR_TDM_BLOCKED")
+    path = _faa_cache_file(url, params)
+    cached = _faa_cache_read(path, max_bytes)
+    if immutable and cached is not None:
+        return HTTPResult(response=cached, status_code=200, response_complete=True,
+                          bytes_received=len(cached.content))
+    validators = {}
+    if cached is not None:
+        for field, header in (("ETag", "If-None-Match"), ("Last-Modified", "If-Modified-Since")):
+            if cached.headers.get(field):
+                validators[header] = cached.headers[field]
+    result = _safe_http_request(url, "SRC_001", params=params, headers=validators or None,
+                                timeout=18, max_bytes=max_bytes, check_robots=check_robots)
+    if result.status_code == 304 and cached is not None:
+        return HTTPResult(response=cached, status_code=200, response_complete=True,
+                          bytes_received=len(cached.content), attempts=result.attempts,
+                          wait_seconds=result.wait_seconds)
+    if result.status_code == 200 and result.response_complete and result.response is not None:
+        _faa_cache_write(path, result.response)
+    return result
+
+
+def _faa_json_result(url: str, *, params: Optional[Dict[str, Any]] = None,
+                     max_bytes: int = 2_000_000, immutable: bool = False) -> Tuple[Optional[Dict[str, Any]], HTTPResult]:
+    """Classify FAA API replies without logging bodies or confusing HTTP 200 with success."""
+    result = _faa_cached_get(url, params=params, max_bytes=max_bytes, immutable=immutable)
+    blocked = result.status_code in {401, 403} or result.error_type in {
+        "SOURCE_POLICY_BLOCKED", "SOURCE_POLICY_OR_HOST_BLOCKED",
+        "ROBOTS_OR_TDM_BLOCKED", "RESPONSE_TDM_BLOCKED", "HTML_TDM_BLOCKED",
+    }
+    if blocked:
+        result.payload_classification = "ACCESS_BLOCKED"
+        return None, result
+    if result.status_code != 200 or not result.response_complete or result.response is None:
+        result.payload_classification = "HTTP_ERROR" if result.status_code and result.status_code >= 400 else "SOURCE_UNAVAILABLE"
+        return None, result
+    try:
+        payload = result.response.json()
+    except ValueError:
+        result.error_type = result.payload_classification = "INVALID_JSON"
+        return None, result
+    if not isinstance(payload, dict):
+        result.error_type = result.payload_classification = "UNEXPECTED_SCHEMA"
+        result.payload_shape = {"json_type": type(payload).__name__}
+        return None, result
+
+    error = payload.get("error") or payload.get("errors")
+    api_code = payload.get("code") or payload.get("error_code")
+    if isinstance(error, dict):
+        api_code = api_code or error.get("code") or error.get("error_code")
+    elif isinstance(error, list) and error and isinstance(error[0], dict):
+        api_code = api_code or error[0].get("code") or error[0].get("error_code")
+    result.payload_shape = {
+        "keys": sorted(str(key) for key in payload)[:20],
+        "types": {str(key): type(value).__name__ for key, value in list(payload.items())[:20]},
+        "api_error_code": str(api_code or "")[:48],
+        "declared_count": (payload.get("count")
+                           if isinstance(payload.get("count"), int)
+                           and not isinstance(payload.get("count"), bool) else None),
+        "results_present": "results" in payload,
+        "results_type": type(payload.get("results")).__name__,
+    }
+    if error:
+        result.error_type = result.payload_classification = "API_ERROR_RESPONSE"
+        return None, result
+    search_response = urlparse(url).path.endswith("/documents.json")
+    if search_response:
+        # Federal Register can represent a valid empty result without a
+        # results array. Normalize only an explicit zero count, never failures.
+        if (type(payload.get("count")) is int and payload["count"] == 0
+                and "results" not in payload
+                and isinstance(payload.get("description"), str)
+                and not payload.get("next_page_url")):
+            payload = {**payload, "results": []}
+            result.payload_shape["empty_results_normalized"] = True
+        valid = (isinstance(payload.get("results"), list)
+                 and isinstance(payload.get("count"), int)
+                 and not isinstance(payload["count"], bool)
+                 and payload["count"] >= 0
+                 and all(isinstance(item, dict) for item in payload["results"]))
+    else:
+        valid = isinstance(payload.get("document_number"), str)
+    result.payload_classification = "VALID_SEARCH_RESPONSE" if valid and search_response else (
+        "VALID_DOCUMENT_RESPONSE" if valid else "UNEXPECTED_SCHEMA"
+    )
+    if not valid:
+        result.error_type = result.payload_classification
+        return None, result
+    return payload, result
+
+
+def _faa_search_pages_once(params: Dict[str, Any], limit: int) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    """Execute one FAA search shape with bounded, audited pagination and per-run deduplication."""
+    url = "https://www.federalregister.gov/api/v1/documents.json"
+    params = dict(params)  # Preserve omission of fields[] for schema-repair requests.
+    page_size = min(25, max(10, limit * 3))
+    page_budget = min(20, max(1, int(os.getenv("EWS_FAA_MAX_PAGES", "12"))))
+    doc_cap = min(200, max(limit * 10, 80))
+    request_budget = page_budget * 3 + 8
+    run_cache_key = hashlib.sha256(json.dumps(params, sort_keys=True, default=str).encode()).hexdigest()
+    with _COLLECTION_LOCK:
+        cached_run = FAA_SEARCH_CACHE.get(run_cache_key)
+    if cached_run is not None:
+        cached_docs, cached_audit = cached_run
+        return list(cached_docs), {**cached_audit, "request_calls": 0, "dedup_cache_hit": True}
+
+    cache_key = hashlib.sha256(json.dumps([params, page_size], sort_keys=True, default=str).encode()).hexdigest()
+    with _FAA_CACHE_LOCK:
+        recent_failure = _FAA_OVERSIZE_FAILURES.get(cache_key, 0) > time.monotonic()
+    if recent_failure:
+        return [], {"status": "SOURCE_UNAVAILABLE", "declared_count": 0, "processed_count": 0,
+                    "access_restricted": False, "pages": 0, "page_size": page_size,
+                    "pagination_complete": False, "last_error": "PREVIOUS_OVERSIZE_FAILURE",
+                    "attempts": [], "request_calls": 0, "retry_suppressed": True}
+
+    pages, page, requests_made, declared = 0, 1, 0, 0
+    seen, docs, attempts = set(), [], []
+    access_restricted, complete, last_error = False, False, ""
+    status = "RESULTS_RETRIEVED"
+    while pages < page_budget and len(docs) < doc_cap:
+        max_bytes = 600_000
+        while requests_made < request_budget:
+            payload, http = _faa_json_result(
+                url, params={**params, "page": page, "per_page": page_size}, max_bytes=max_bytes,
+            )
+            requests_made += 1
+            results = payload.get("results") if payload else None
+            headers = http.response.headers if http.response is not None else {}
+            attempts.append({
+                "page": page, "requested_page_size": page_size, "max_bytes": max_bytes,
+                "http_status": http.status_code, "content_type": headers.get("Content-Type"),
+                "content_length": headers.get("Content-Length"), "received_bytes": http.bytes_received,
+                "http_attempts": http.attempts,
+                "requested_fields": list(params.get("fields[]") or []),
+                "actual_results_count": len(results) if isinstance(results, list) else None,
+                "pagination_honored": len(results) <= page_size if isinstance(results, list) else None,
+                "error_code": http.error_type or (f"HTTP_{http.status_code}" if payload is None else None),
+                "response_classification": http.payload_classification,
+                "response_schema": http.payload_shape,
+            })
+            if payload is not None or http.error_type != "BODY_TRUNCATED":
+                break
+            if page_size > 1:
+                page_size = max(1, page_size // 2)
+            elif max_bytes < 2_400_000:
+                max_bytes *= 2
+            else:
+                with _FAA_CACHE_LOCK:
+                    if len(_FAA_OVERSIZE_FAILURES) >= 128:
+                        _FAA_OVERSIZE_FAILURES.clear()
+                    _FAA_OVERSIZE_FAILURES[cache_key] = time.monotonic() + 600
+                break
+            logger.warning("[FAA PAGINATION] Incomplete page %d; trying size=%d, cap=%d",
+                           page, page_size, max_bytes)
+        else:
+            payload, http = None, None
+            last_error = "REQUEST_BUDGET_EXHAUSTED"
+
+        if payload is None:
+            if http is not None:
+                access_restricted = (http.status_code in {401, 403} or http.error_type in {
+                    "SOURCE_POLICY_BLOCKED", "SOURCE_POLICY_OR_HOST_BLOCKED", "ROBOTS_OR_TDM_BLOCKED",
+                    "RESPONSE_TDM_BLOCKED", "HTML_TDM_BLOCKED",
+                })
+                # The transport may report HTTP_400 or STATUS_400; the semantic
+                # classification must drive repair and availability decisions.
+                last_error = http.payload_classification or http.error_type or f"HTTP_{http.status_code}"
+            malformed = last_error in {
+                "API_ERROR_RESPONSE", "UNEXPECTED_SCHEMA", "INVALID_JSON", "INVALID_RESULT_SCHEMA",
+            } or (last_error == "HTTP_ERROR" and http is not None
+                  and http.status_code in {400, 414, 422})
+            status = ("PARTIAL_COVERAGE" if docs else "ACCESS_BLOCKED" if access_restricted
+                      else "RETRIEVAL_FAILED" if malformed else "SOURCE_UNAVAILABLE")
+            break
+
+        results, count = payload.get("results"), payload.get("count")
+        if (not isinstance(results, list) or not isinstance(count, int) or count < 0
+                or any(not isinstance(row, dict) for row in results)):
+            status, last_error = ("PARTIAL_COVERAGE" if docs else "RETRIEVAL_FAILED"), "UNEXPECTED_SCHEMA"
+            attempts[-1]["error_code"] = last_error
+            break
+        if len(results) > page_size:
+            status, last_error = "PARTIAL_COVERAGE", "PAGINATION_IGNORED"
+            attempts[-1]["error_code"] = last_error
+            break
+        pages += 1
+        declared = max(declared, count)
+        for entry in results:
+            number = entry.get("document_number")
+            if number and number not in seen:
+                seen.add(number)
+                docs.append(entry)
+        if not payload.get("next_page_url"):
+            complete = len(docs) >= declared
+            break
+        page += 1
+    if status == "RESULTS_RETRIEVED":
+        status = ("RESULTS_RETRIEVED" if docs else "NO_RESULTS") if complete else "PARTIAL_COVERAGE"
+    audit_out = {
+        "status": status, "declared_count": declared, "processed_count": len(docs),
+        "access_restricted": access_restricted, "pages": pages, "page_size": page_size,
+        "pagination_complete": complete, "last_error": last_error, "attempts": attempts,
+        "request_calls": requests_made, "retry_suppressed": False,
+    }
+    if status in {"RESULTS_RETRIEVED", "NO_RESULTS", "PARTIAL_COVERAGE"}:
+        with _COLLECTION_LOCK:
+            FAA_SEARCH_CACHE[run_cache_key] = (list(docs), dict(audit_out))
+    return docs, audit_out
+
+
+def _faa_native_term(query: str, *, compact: bool = False) -> str:
+    """Translate web-search syntax into bounded native full-text terms."""
+    clean = re.sub(r"(?<!\w)-?(?:site|inurl|filetype):\S+", " ", str(query), flags=re.I)
+    clean = re.sub(r"\b(?:AND|OR)\b|[()\"']", " ", clean)
+    clean = " ".join(clean.split())
+    identities = list(dict.fromkeys(identity.aliases[0] for identity in _model_identities(clean)))
+    issue = next((label for pattern, label in (
+        (r"\bairworthiness\s+directiv\w*\b", "airworthiness directive"),
+        (r"\binspect\w*\b", "inspection"),
+        (r"\bcertif\w*\b", "certification"),
+        (r"\bdefect\w*\b", "defect"),
+        (r"\b(?:failure|fault)\b", "failure"),
+        (r"\bturbine\b", "turbine"),
+        (r"\bengine\b", "engine"),
+        (r"\bproduction\b", "production"),
+        (r"\bsafety\b", "safety"),
+    ) if re.search(pattern, clean, re.I)), "")
+    if identities:
+        terms = [*identities[:1 if compact else 2], issue]
+        return " ".join(term for term in terms if term)[:120]
+    _, extracted = parse_query_intent(clean)
+    meaningful = " ".join(extracted.split())[:120] or clean[:120]
+    if compact and issue and issue.casefold() not in meaningful.casefold():
+        meaningful = f"{meaningful[:75]} {issue}"
+    return meaningful.strip()
+
+
+def _faa_search_pages(params: Dict[str, Any], limit: int) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    """Retry at most two distinct, scope-preserving shapes after actionable schema errors."""
+    base = dict(params)
+    variants: List[Tuple[str, Dict[str, Any]]] = [("ORIGINAL", base)]
+    no_fields = {key: value for key, value in base.items() if key != "fields[]"}
+    if no_fields != base:
+        variants.append(("DEFAULT_FIELDS", no_fields))
+    if base.get("conditions[docket_id]"):
+        docket = str(base["conditions[docket_id]"])
+        fallback = {key: value for key, value in no_fields.items()
+                    if key != "conditions[docket_id]"}
+        fallback["conditions[term]"] = docket
+    elif base.get("conditions[term]"):
+        fallback = dict(no_fields)
+        fallback["conditions[term]"] = _faa_native_term(str(base["conditions[term]"]), compact=True)
+    else:
+        fallback = dict(no_fields)
+    if fallback and all(fallback != previous for _, previous in variants):
+        variants.append(("IDENTITY_PRESERVING_TERM", fallback))
+
+    all_attempts: List[Dict[str, Any]] = []
+    calls, attempts_tried = 0, []
+    final_docs: List[Dict[str, Any]] = []
+    final_audit: Dict[str, Any] = {}
+    for index, (kind, variant) in enumerate(variants[:3]):
+        docs, audit = _faa_search_pages_once(variant, limit)
+        attempts_tried.append(kind)
+        calls += int(audit.get("request_calls") or 0)
+        all_attempts.extend({**attempt, "query_variant": kind} for attempt in audit.get("attempts") or [])
+        final_docs, final_audit = docs, dict(audit)
+        failure = str(audit.get("last_error") or "")
+        last_attempt = (audit.get("attempts") or [{}])[-1]
+        last_http = last_attempt.get("http_status")
+        api_code = str((last_attempt.get("response_schema") or {}).get("api_error_code") or "")
+        repairable = failure in {"UNEXPECTED_SCHEMA", "INVALID_RESULT_SCHEMA"} or (
+            failure == "API_ERROR_RESPONSE"
+            and bool(re.search(r"INVALID|QUERY|PARAM|FIELD|BAD_REQUEST|SCHEMA", api_code, re.I))
+        ) or (failure == "HTTP_ERROR" and last_http in {400, 414, 422})
+        if docs or not repairable or index >= 2:
+            if index and kind == "IDENTITY_PRESERVING_TERM" and audit["status"] in {
+                "RESULTS_RETRIEVED", "NO_RESULTS"
+            }:
+                final_audit["status"] = "PARTIAL_COVERAGE"
+                final_audit["last_error"] = "ORIGINAL_QUERY_SCHEMA_FAILURE"
+            break
+        if index + 1 >= len(variants):
+            break
+        logger.warning(
+            "[FAA API] %s, HTTP=%s, schema=%s; trying bounded query repair %d/2",
+            failure, last_http,
+            (audit.get("attempts") or [{}])[-1].get("response_classification"), index + 1,
+        )
+    final_audit.update({
+        "attempts": all_attempts, "request_calls": calls,
+        "search_variants": attempts_tried,
+        "repair_used": len(attempts_tried) > 1,
+    })
+    return final_docs, final_audit
+
+
+def _faa_full_text(response: requests.Response, url: str) -> str:
+    """Cache normalized FAA text against the exact retrieved response bytes."""
+    path = _faa_cache_file(url).with_suffix("." + hashlib.sha256(response.content).hexdigest()[:16] + ".txt")
+    try:
+        return path.read_text(encoding="utf-8")
+    except OSError:
+        pass
+    mime = response.headers.get("Content-Type", "").lower()
+    if "html" in mime:
+        soup = BeautifulSoup(response.text, "html.parser")
+        for element in soup.select("script, style, nav, footer, aside, header"):
+            element.decompose()
+        text = (soup.select_one("article") or soup.select_one("main") or soup).get_text(" ", strip=True)
+    else:
+        text = response.text.strip() if "text/plain" in mime else ""
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8")
+    except OSError:
+        pass
+    return text
 
 # Resolve FAA notices by docket and distinguish their regulatory lifecycle.
 # Track proposed, final and effective stages separately for each docket.
 def _faa_resolve_docket(
         doc: Dict[str, Any], as_of: str, cache: Dict[str, Tuple[Dict[str, Any], bool]]
 ) -> Tuple[Dict[str, Any], str, bool]:
-    # Resolve FAA docket lifecycle before attributing regulatory effect.
-    """Resolve the latest published FAA rule/proposed rule within the same docket."""
+    """Enrich original notice with docket lifecycle without replacing its identity."""
     number = str(doc.get("document_number") or "")
     full_doc = dict(doc)
 
-    if re.fullmatch(r"\d{4}-\d{4,6}", number):
-        response = safe_http_get(
+    if _FAA_NUMBER_RE.fullmatch(number):
+        detail, _ = _faa_json_result(
             f"https://www.federalregister.gov/api/v1/documents/{number}.json",
-            source_id="SRC_001", params={"fields[]": _FAA_LIFECYCLE_FIELDS}, timeout=12,
+            params={"fields[]": _FAA_LIFECYCLE_FIELDS}, immutable=True,
         )
-        if response is not None and response.status_code == 200:
-            full_doc.update(response.json())
+        if detail and detail.get("document_number") == number:
+            full_doc.update(detail)
 
     docket_data = json.dumps({"docket_ids": full_doc.get("docket_ids"), "docket_id": full_doc.get("docket_id")})
-    match = re.search(r"\bFAA-\d{4}-\d+\b", docket_data, re.I)
+    match = _FAA_DOCKET_RE.search(docket_data)
     docket = match.group(0).upper() if match else ""
 
     if not docket and (url := full_doc.get("html_url") or doc.get("html_url")):
-        page = safe_http_get(url, source_id="SRC_001", timeout=12)
-        if page is not None and page.status_code == 200:
-            plain = BeautifulSoup(page.text, "html.parser").get_text(" ", strip=True)
-            if m := re.search(r"\bDocket\s+(?:No\.?|Number)\s*[:#]?\s*(FAA-\d{4}-\d+)\b", plain, re.I):
-                docket = m.group(1).upper()
+        page = _faa_cached_get(url, immutable=True)
+        if page.response is not None and page.response_complete:
+            plain = BeautifulSoup(page.response.text, "html.parser").get_text(" ", strip=True)
+            if m := _FAA_DOCKET_RE.search(plain):
+                docket = m.group(0).upper()
 
     if not docket:
         logger.info("[FAA LIFECYCLE] Docket unavailable for document %s", number)
         return full_doc, "", False
 
     if docket not in cache:
-        response = safe_http_get(
-            "https://www.federalregister.gov/api/v1/documents.json",
-            source_id="SRC_001",
-            params={
+        results, metadata = _faa_search_pages(
+            {
                 "conditions[docket_id]": docket,
                 "conditions[publication_date][lte]": as_of,
-                "per_page": 100,
                 "order": "newest",
                 "fields[]": _FAA_LIFECYCLE_FIELDS,
             },
-            timeout=12,
+            limit=20,
         )
-        results = response.json().get("results", []) if (response is not None and response.status_code == 200) else []
         relevant = [
             item for item in results
-            if item.get("publication_date", "") <= as_of
-               and str(item.get("type") or "").strip().upper() in {"RULE", "PROPOSED RULE", "PRORULE"}
+            if item.get("publication_date") and str(item["publication_date"]) <= as_of
+               and docket in {str(v).upper() for v in (
+                   [item.get("docket_id")] + (item.get("docket_ids") if isinstance(item.get("docket_ids"), list) else [])
+               ) if v}
         ]
 
         if relevant:
             newest = max(relevant, key=lambda item: (item.get("publication_date", ""), item.get("document_number", "")))
-            if latest_num := str(newest.get("document_number") or ""):
-                detail = safe_http_get(
-                    f"https://www.federalregister.gov/api/v1/documents/{latest_num}.json",
-                    source_id="SRC_001", params={"fields[]": _FAA_LIFECYCLE_FIELDS}, timeout=12,
-                )
-                if detail is not None and detail.status_code == 200:
-                    newest = {**newest, **detail.json()}
-            cache[docket] = (newest, True)
-            logger.info("[FAA LIFECYCLE] Docket %s: %s -> %s", docket, number, latest_num)
+            cache[docket] = (newest, metadata["status"] == "RESULTS_RETRIEVED")
         else:
             cache[docket] = (full_doc, False)
-            logger.warning("[FAA LIFECYCLE] No verified rule found for docket %s", docket)
 
     latest, checked = cache[docket]
-    return latest, docket, checked
-
+    full_doc["lifecycle_latest_document_number"] = latest.get("document_number", "")
+    full_doc["lifecycle_latest_publication_date"] = latest.get("publication_date", "")
+    full_doc["lifecycle_relation"] = (
+        "SAME_DOCUMENT" if latest.get("document_number") == number else "LATER_DOCUMENT_IN_SAME_DOCKET"
+    )
+    return full_doc, docket, checked
 
 _EASA_PRIMARY_INDEX_PAGES = (
+    "https://ad.easa.europa.eu/",
     "https://www.easa.europa.eu/en/domains/aircraft-products/airworthiness-directives-ad/safety-publications-tool-interim-solution",
     "https://www.easa.europa.eu/en/domains/aircraft-products/airworthiness-directives-ad/archive-airworthiness-directives",
 )
-
 
 # Convert EASA publication dates into the standard internal date format.
 def _easa_iso_date(value: str) -> str:
@@ -2376,14 +2647,9 @@ def _easa_iso_date(value: str) -> str:
             return ""
     return normalize_date_str(value)
 
-
 # Distinguish airframe-level from engine-level EASA applicability.
 # Engine-only and airframe-level applicability are not interchangeable.
-def _easa_applicability(
-        query: str,
-        subject: str,
-        approved_types: str,
-) -> str:
+def _easa_applicability(query: str, subject: str, approved_types: str) -> str:
     """
     Determine EASA applicability using centralized aircraft
     and engine identity recognition.
@@ -2395,7 +2661,7 @@ def _easa_applicability(
     """
 
     # Local import prevents circular module dependencies.
-    from ews_validation import (
+    from aero_ews.domain.identity import (
         _detect_aircraft_families,
         _detect_specific_variants,
         _detect_exact_variants,
@@ -2403,11 +2669,17 @@ def _easa_applicability(
         _engine_models_match,
     )
 
+    query = re.split(
+        r"\b(?:excluding|exclude|except(?:\s+for)?|without|not\s+including|kromě|vyjma)\b",
+        query or "", maxsplit=1, flags=re.I,
+    )[0].strip()
     text = f"{subject} {approved_types}"
 
     # Aircraft family identification.
     requested_families = _detect_aircraft_families(query)
     source_families = _detect_aircraft_families(text)
+    if re.search(r"\bBD-?500-?1A1[01]\b|\bCS(?:100|300)\b", text, re.I):
+        source_families = set(source_families) | {"A220"}
 
     # Aircraft program and generation identification.
     requested_specific = _detect_specific_variants(query)
@@ -2427,27 +2699,17 @@ def _easa_applicability(
         return "NONE"
 
     # Basic aircraft family compatibility.
-    aircraft_match = bool(
-        requested_families & source_families
-    )
+    aircraft_match = bool(requested_families & source_families)
 
     # Prevent matching different known aircraft programs.
-    if (
-            requested_specific
-            and source_specific
-            and not (requested_specific & source_specific)
-    ):
+    if requested_specific and source_specific and (not requested_specific & source_specific):
         aircraft_match = False
 
     # Prevent a generic family match from overriding
     # a known mismatch between exact variants.
     # Generic neo designation may match an N-suffixed
     # Airbus type designation of the same aircraft model.
-    neo_query = re.search(
-        r"\b(a3(?:19|20|21))[\s-]*neo\b",
-        query,
-        re.I,
-    )
+    neo_query = re.search('\\b(a3(?:19|20|21))[\\s-]*neo\\b', query, re.I)
 
     neo_cert_match = bool(
         neo_query
@@ -2459,29 +2721,16 @@ def _easa_applicability(
         )
     )
 
-    if (
-            requested_exact
-            and not (requested_exact & source_exact)
-            and not neo_cert_match
-    ):
+    if requested_exact and (not requested_exact & source_exact) and (not neo_cert_match):
         aircraft_match = False
 
     # A KIT naming an individual certified type must not
     # be satisfied by a different certified type.
-    cert_pattern = re.compile(
-        r"\bA3(?:19|20|21)-\d{3}N[A-Z]?\b",
-        re.I,
-    )
+    cert_pattern = re.compile('\\bA3(?:19|20|21)-\\d{3}N[A-Z]?\\b', re.I)
 
-    requested_cert = {
-        value.upper()
-        for value in cert_pattern.findall(query)
-    }
+    requested_cert = {value.upper() for value in cert_pattern.findall(query)}
 
-    source_cert = {
-        value.upper()
-        for value in cert_pattern.findall(text)
-    }
+    source_cert = {value.upper() for value in cert_pattern.findall(text)}
 
     if requested_cert and requested_cert.isdisjoint(source_cert):
         aircraft_match = False
@@ -2498,37 +2747,75 @@ def _easa_applicability(
     if requested_engines:
         return "ENGINE_ONLY"
 
-    # Generic manufacturer-level KIT without a model.
-    q_lower = query.lower()
-    source_lower = text.lower()
+        # Generic manufacturer/supplier/component KIT without a model: require an explicit match in EASA metadata.
+        q_lower = query.lower()
+        source_lower = text.lower()
 
-    if (
-            re.search(r"\bairbus\b", q_lower)
-            and "airbus" not in source_lower
-    ):
+        if re.search(r"\bairbus\b", q_lower) and "airbus" not in source_lower:
+            return "NONE"
+        if re.search(r"\bboeing\b", q_lower) and "boeing" not in source_lower:
+            return "NONE"
+
+        generic_stop = {
+            "aerospace", "aviation", "aircraft", "engine", "engines", "supply", "chain",
+            "shortage", "impact", "production", "delivery", "deliveries", "supplier",
+            "suppliers", "labor", "labour", "strike", "status", "current", "latest",
+            "issues", "issue", "delays", "delay", "orders", "order", "directive",
+            "directives", "airworthiness", "inspection", "certification", "between",
+            "acquisition", "manufacturing", "defects", "defect", "quality", "safety",
+        }
+        anchors = [
+            tok for tok in re.findall(r"[a-z0-9-]{4,}", q_lower)
+            if tok not in generic_stop and not re.fullmatch(r"20\d{2}", tok)
+        ]
+        if anchors and any(re.search(rf"(?<![a-z0-9]){re.escape(tok)}(?![a-z0-9])", source_lower) for tok in anchors):
+            return "AIRCRAFT"
         return "NONE"
 
-    if (
-            re.search(r"\bboeing\b", q_lower)
-            and "boeing" not in source_lower
-    ):
-        return "NONE"
-
-    return "AIRCRAFT"
-
+    def _extract_easa_pdf_text(pdf_bytes: bytes, max_chars: int = 12000) -> str:
+        """Extract text from an official EASA AD PDF using whichever local PDF reader is installed."""
+        if not pdf_bytes or not pdf_bytes.startswith(b"%PDF"):
+            return ""
+        for mod_name in ("pypdf", "PyPDF2"):
+            try:
+                mod = __import__(mod_name)
+                reader = mod.PdfReader(io.BytesIO(pdf_bytes))
+                parts = []
+                for page in reader.pages[:12]:
+                    page_txt = page.extract_text() or ""
+                    if page_txt.strip():
+                        parts.append(page_txt.strip())
+                    if sum(len(p) for p in parts) >= max_chars:
+                        break
+                text = re.sub(r"\s+", " ", "\n".join(parts)).strip()
+                if text:
+                    return text[:max_chars]
+            except Exception:
+                continue
+        try:
+            import fitz  # PyMuPDF
+            with fitz.open(stream=pdf_bytes, filetype="pdf") as doc:
+                parts = [page.get_text("text").strip() for page in list(doc)[:12]]
+            text = re.sub(r"\s+", " ", "\n".join(p for p in parts if p)).strip()
+            if text:
+                return text[:max_chars]
+        except Exception:
+            pass
+        return ""
 
 # Parse EASA directive index metadata across supported page layouts.
 # Preserve directive numbers and links from official EASA metadata.
 def _easa_parse_table(html_text: str, base_url: str) -> tuple[list[dict], str | None]:
     # Parse official EASA index rows into standardized directive metadata.
-    """Parse both EASA interim and archive table formats."""
+    """Parse EASA Safety Publications Tool (ad.easa.europa.eu) and legacy archive tables."""
     soup = BeautifulSoup(html_text, "html.parser")
     records = []
 
     for table in soup.find_all("table"):
         headers = [re.sub(r"\s+", " ", h.get_text(" ", strip=True)).lower() for h in table.select("thead th")]
         if not headers and (first := table.find("tr")):
-            headers = [h.get_text(" ", strip=True).lower() for h in first.find_all("th", recursive=False)]
+            headers = [re.sub(r"\s+", " ", h.get_text(" ", strip=True)).lower()
+                       for h in first.find_all("th", recursive=False)]
 
         if not ("issue date" in headers and "subject" in headers):
             continue
@@ -2545,20 +2832,35 @@ def _easa_parse_table(html_text: str, base_url: str) -> tuple[list[dict], str | 
 
             cols = {header: cells[i] for i, header in enumerate(headers)}
             number = cols[number_col].get_text(" ", strip=True)
-            if not re.fullmatch(r"20\d{2}-\d{4}(?:[RC]\d+)?", number):
+            subject_cell = cols["subject"]
+            is_pad = bool(subject_cell.find("img", attrs={"alt": re.compile(r"^PAD$", re.I)}))
+
+            if is_pad:
+                if not re.fullmatch(r"(?:20)?\d{2}-\d{3,4}(?:[RC]\d+)?", number):
+                    continue
+            elif not re.fullmatch(r"20\d{2}-\d{4}(?:[RC]\d+)?", number):
                 continue
-            if "issued by" in cols and cols["issued by"].get_text(" ", strip=True).upper() != "EU":
-                continue
-            if "ad class" in cols and cols["ad class"].get_text(" ", strip=True).upper() != "AD":
+
+            if "issued by" in cols:
+                issuer_cell = cols["issued by"]
+                issuer = issuer_cell.get_text(" ", strip=True).upper()
+                if not issuer and (flag := issuer_cell.find("img")):
+                    issuer = str(flag.get("alt") or flag.get("title") or "").strip().upper()
+                if issuer != "EU":
+                    continue
+            if "ad class" in cols and cols["ad class"].get_text(" ", strip=True).upper() not in {"AD", "PAD"}:
                 continue
 
             published = _easa_iso_date(cols["issue date"].get_text(" ", strip=True))
             if not published:
                 continue
 
-            subject = cols["subject"].get_text(" ", strip=True)
+            for comment_link in subject_cell.find_all("a"):
+                if "send comment" in comment_link.get_text(" ", strip=True).lower():
+                    comment_link.decompose()
+            subject = re.sub(r"\s+", " ", subject_cell.get_text(" ", strip=True))
             types = cols.get("approval holder / type designation")
-            applicability = types.get_text(" ", strip=True) if types else ""
+            applicability = re.sub(r"\s+", " ", types.get_text(" ", strip=True)) if types else ""
             effective = cols.get("effective date")
             effective_date = _easa_iso_date(effective.get_text(" ", strip=True)) if effective else ""
 
@@ -2571,25 +2873,37 @@ def _easa_parse_table(html_text: str, base_url: str) -> tuple[list[dict], str | 
                 if is_official and is_pdf:
                     pdf_url = candidate
                     break
+            if not pdf_url and (detail_a := cols[number_col].find("a", href=True)):
+                candidate = urljoin(base_url, detail_a["href"])
+                host = (urlparse(candidate).hostname or "").lower()
+                if host == "easa.europa.eu" or host.endswith(".easa.europa.eu"):
+                    pdf_url = candidate
 
             if pdf_url:
                 records.append({
                     "number": number, "published": published, "subject": subject,
-                    "applicability": applicability, "effective": effective_date, "pdf_url": pdf_url,
+                    "applicability": applicability, "effective": effective_date,
+                    "pdf_url": pdf_url, "is_pad": is_pad,
                 })
 
     next_url = None
-    for a in soup.find_all("a", href=True):
+    for a in soup.find_all("a"):
         label = a.get_text(" ", strip=True).lower()
         relation = str(a.get("rel", "")).lower()
         if label in {"next", "next ›", "next »", "›", "»"} or "next" in relation:
-            candidate = urljoin(base_url, a["href"])
-            if urlparse(candidate).netloc == urlparse(base_url).netloc:
-                next_url = candidate
-                break
+            if a.get("href"):
+                candidate = urljoin(base_url, a["href"])
+                if urlparse(candidate).netloc == urlparse(base_url).netloc:
+                    next_url = candidate
+                    break
+            elif onclick := str(a.get("onclick") or ""):
+                if page_match := re.search(r"pageNumber\s*=\s*['\"](\d+)['\"]", onclick):
+                    parsed_base = urlparse(base_url)
+                    prefix = re.sub(r"page-\d+.*$", "", parsed_base.path).rstrip("/")
+                    next_url = f"{parsed_base.scheme}://{parsed_base.netloc}{prefix}/page-{page_match.group(1)}"
+                    break
 
     return records, next_url
-
 
 # Read official EASA CSV exports as structured metadata.
 # CSV rows are index metadata, not the complete directive text.
@@ -2650,9 +2964,7 @@ def _easa_biweekly_csv_rows(index_html: str, base_url: str, max_archives: int = 
                             "AD number", "Issue date", "Approval holder",
                             "Type designation", "Subject"
                         ]
-                        reader.fieldnames = names + [
-                            f"Other {i}" for i in range(len(first_row) - 5)
-                        ]
+                        reader.fieldnames = names + [f'Other {i}' for i in range(len(first_row) - 5)]
                         csv_rows = [dict(zip(reader.fieldnames, first_row)), *reader]
                     else:
                         csv_rows = list(reader)
@@ -2703,95 +3015,90 @@ def _easa_biweekly_csv_rows(index_html: str, base_url: str, max_archives: int = 
         issues.append("NO_BIWEEKLY_CSV_LINKS")
     return parsed, issues
 
-
 # Collect current EASA directive metadata from the official index.
 # Index records cannot substitute for reading the underlying AD PDF.
+def _extract_easa_pdf_text(pdf_bytes: bytes, max_chars: int = 12000) -> str:
+    """Extract text from an official EASA AD PDF using whichever local PDF reader is installed."""
+    if not pdf_bytes or not pdf_bytes.startswith(b"%PDF"):
+        return ""
+    for mod_name in ("pypdf", "PyPDF2"):
+        try:
+            mod = __import__(mod_name)
+            reader = mod.PdfReader(io.BytesIO(pdf_bytes))
+            parts = []
+            for page in reader.pages[:12]:
+                page_txt = page.extract_text() or ""
+                if page_txt.strip():
+                    parts.append(page_txt.strip())
+                if sum(len(p) for p in parts) >= max_chars:
+                    break
+            text = re.sub(r"\s+", " ", "\n".join(parts)).strip()
+            if text:
+                return text[:max_chars]
+        except Exception:
+            continue
+    try:
+        import fitz
+        with fitz.open(stream=pdf_bytes, filetype="pdf") as doc:
+            parts = [page.get_text("text").strip() for page in list(doc)[:12]]
+        text = re.sub(r"\s+", " ", "\n".join(p for p in parts if p)).strip()
+        if text:
+            return text[:max_chars]
+    except Exception:
+        pass
+    return ""
+
+
 def _collect_easa_primary_index(query: str, limit: int) -> tuple[str, int]:
     # Collect EASA directives without assuming an index entry provides the full PDF.
-    """Collect official EASA AD index metadata."""
+    """Collect official EASA AD index metadata from ad.easa.europa.eu."""
     output = ">> EASA OFFICIAL AD INDEX (METADATA ONLY; PDF NOT READ):\n"
     accepted = examined = pages = 0
-    seen_ad, failures = set(), []
+    seen_ad, failures, advisories = set(), [], []
+    oldest_dates: List[str] = []
 
     start, end = get_time_window_utc()
     span = (end - start).days if start else 365
-    max_archive_pages = min(40, max(1, int(os.getenv("EWS_EASA_ARCHIVE_MAX_PAGES", "12" if span <= 90 else "35"))))
+    max_archive_pages = min(25, max(1, int(os.getenv("EWS_EASA_ARCHIVE_MAX_PAGES", "10" if span <= 90 else "20"))))
 
     for first_url in _EASA_PRIMARY_INDEX_PAGES[:1]:
-        archive = "archive-airworthiness-directives" in first_url
+        is_sp_tool = "ad.easa.europa.eu" in first_url
+        paginated = is_sp_tool or "archive-airworthiness-directives" in first_url
         url = first_url
         visited = set()
-        max_pages = max_archive_pages if archive else 1
+        max_pages = max_archive_pages if paginated else 1
 
         for _ in range(max_pages):
             if not url or url in visited or accepted >= limit:
                 break
             visited.add(url)
 
-            response = safe_http_get(url, source_id="SRC_002", timeout=12, check_robots=True, max_bytes=5_000_000)
-            if response is None or response.status_code != 200:
-                failures.append(f"HTTP/COMPLIANCE:{url}")
-                break
+            with _COLLECTION_LOCK:
+                index_html = EASA_PAGE_CACHE.get(url)
+            if index_html is None:
+                response = safe_http_get(url, source_id="SRC_002", timeout=15, check_robots=True, max_bytes=5_000_000)
+                if response is None or response.status_code != 200:
+                    failures.append("ACCESS_RESTRICTED" if response is not None
+                                    and response.status_code in {401, 403} else f"HTTP/COMPLIANCE:{url}")
+                    break
+                index_html = response.text
+                with _COLLECTION_LOCK:
+                    EASA_PAGE_CACHE[url] = index_html
 
-            index_html = response.text
             records, next_page = _easa_parse_table(index_html, url)
             pages += 1
             examined += len(records)
 
-            csv_rows = []
-            if os.getenv("EWS_EASA_CSV_ENABLED", "1") == "1" and index_html and accepted < limit:
-                csv_rows, csv_issues = _easa_biweekly_csv_rows(index_html, _EASA_PRIMARY_INDEX_PAGES[0])
-                failures.extend(csv_issues)
+            if not is_sp_tool and os.getenv("EWS_EASA_CSV_ENABLED", "1") == "1" and index_html and accepted < limit:
+                csv_rows, csv_issues = _easa_biweekly_csv_rows(index_html, first_url)
+                advisories.extend(csv_issues)
                 examined += len(csv_rows)
+                records.extend(csv_rows)
 
-                for row in csv_rows:
-                    if accepted >= limit:
-                        break
-                    if row["number"] in seen_ad:
-                        continue
-                    seen_ad.add(row["number"])
-
-                    if not is_date_within_scope(row["published"]):
-                        continue
-                    applicability = _easa_applicability(query, row["subject"], row["applicability"])
-                    if applicability == "NONE" or row["pdf_url"] in COLLECTED_URLS:
-                        continue
-
-                    summary = (
-                        "Official EASA biweekly CSV archive record. "
-                        "This record is metadata only; the corresponding AD PDF has NOT been read. "
-                        f"EASA AD: {row['number']}. Issue date: {row['published']}. "
-                        f"Subject: {row['subject']}. Type designation: {row['applicability']}. "
-                        f"Applicability class: {applicability}. "
-                        "Technical requirements and operational effects require direct PDF verification."
-                    )
-                    doc = register_collected_document(
-                        source_id="SRC_002", connector_name="EASA Biweekly CSV Archive",
-                        url=row["pdf_url"], title=f"EASA AD {row['number']}: {row['subject']}",
-                        raw_text=summary, published_at=row["published"], query_used=query,
-                    )
-                    doc["origin_type"] = "PRIMARY_OFFICIAL_INDEX_METADATA"
-                    doc["regulatory_applicability_scope"] = applicability
-                    doc["verified_domain"] = True
-
-                    output += (
-                        f"DOC_ID: {doc['doc_id']} | SOURCE_ID: SRC_002\n"
-                        f"DATE: {doc['published_at']}\nTitle: {doc['title']}\n"
-                        f"Link: {doc['url']}\nSummary: {doc['text']}\n---\n"
-                    )
-                    accepted += 1
-
-                logger.info("[EASA CSV AUDIT] parsed=%d accepted_total=%d issues=%s", len(csv_rows), accepted,
-                            csv_issues or "none")
-
-            dated_rows = [str(r.get("published", "")) for r in (records + csv_rows) if
-                          re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(r.get("published", "")))]
-            oldest_index_date = min(dated_rows, default="")
-            if (
-                    start and oldest_index_date and start.date().isoformat() < oldest_index_date
-                    and "HISTORICAL_COVERAGE_NOT_ESTABLISHED" not in failures
-            ):
-                failures.append("HISTORICAL_COVERAGE_NOT_ESTABLISHED")
+            dated_rows = [str(r.get("published", "")) for r in records
+                          if re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(r.get("published", "")))]
+            if dated_rows:
+                oldest_dates.append(min(dated_rows))
 
             logger.info("[EASA PRIMARY AUDIT] page=%s extracted_rows=%d next=%s", url, len(records), bool(next_page))
             if not records:
@@ -2811,25 +3118,66 @@ def _collect_easa_primary_index(query: str, limit: int) -> tuple[str, int]:
                 if scope == "NONE" or row["pdf_url"] in COLLECTED_URLS:
                     continue
 
+                is_pad = bool(row.get("is_pad"))
+                kind_label = "EASA PAD" if is_pad else "EASA AD"
+                stage_label = "PROPOSED" if is_pad else "FINAL_ISSUED"
                 note = (
                     "ENGINE-LEVEL AD: aircraft installation NOT established by this index."
                     if scope == "ENGINE_ONLY"
                     else "AIRCRAFT-LEVEL AD: exact variant and technical applicability require PDF review."
                 )
+                pdf_text = ""
+                pdf_truncated = False
+                pdf_url = str(row.get("pdf_url") or "")
+                if (
+                        os.getenv("EWS_EASA_FETCH_PDF_TEXT", "1") == "1"
+                        and pdf_url.startswith("https://")
+                        and "#ad=" not in pdf_url
+                        and ".pdf" in pdf_url.lower()
+                ):
+                    pdf_resp = safe_http_get(
+                        pdf_url, source_id="SRC_002", timeout=15,
+                        max_bytes=5_000_000, check_robots=True,
+                    )
+                    if pdf_resp is not None and pdf_resp.status_code == 200 and pdf_resp.content:
+                        pdf_text = _extract_easa_pdf_text(pdf_resp.content, max_chars=12000)
+                        pdf_truncated = bool(
+                            getattr(pdf_resp, "aero_content_truncated", False)
+                            or len(pdf_text) >= 12000
+                        )
+
+                has_pdf_text = len(pdf_text) >= 200
                 text = (
-                    "Official EASA index entry; PDF text NOT extracted. "
-                    f"EASA AD: {row['number']}. Issued: {row['published']}. Subject: {row['subject']}. "
-                    f"Approval Holder / Type Designation: {row['applicability']}. "
-                    f"Effective date: {row['effective'] or 'UNKNOWN'}. Applicability class: {scope}. {note}"
+                        (f"Official EASA {kind_label} PDF text extracted. "
+                         if has_pdf_text else
+                         "Official EASA Safety Publications Tool index entry; PDF text NOT extracted. ")
+                        + f"Regulatory Stage: {stage_label}. "
+                        + f"{kind_label}: {row['number']}. Issued: {row['published']}. Subject: {row['subject']}. "
+                        + f"Approval Holder / Type Designation: {row['applicability']}. "
+                        + f"Effective date: {row['effective'] or 'UNKNOWN'}. Applicability class: {scope}. {note}"
+                        + (f"\nOfficial EASA AD Full Text: {pdf_text}" if has_pdf_text else "")
                 )
                 doc = register_collected_document(
                     source_id="SRC_002", connector_name="EASA Official Index",
-                    url=row["pdf_url"], title=f"EASA AD {row['number']}: {row['subject']}",
+                    url=pdf_url, title=f"{kind_label} {row['number']}: {row['subject']}",
                     raw_text=text, published_at=row["published"], query_used=query,
                 )
-                doc["origin_type"] = "PRIMARY_OFFICIAL_INDEX_METADATA"
+                doc["origin_type"] = "PRIMARY_OFFICIAL_FULL_TEXT" if has_pdf_text else "PRIMARY_OFFICIAL_INDEX_METADATA"
                 doc["verified_domain"] = True
+                doc["regulatory_stage"] = stage_label
                 doc["regulatory_applicability_scope"] = scope
+                doc["content_status"] = (
+                    ("PARTIAL_TEXT" if pdf_truncated else "FULL_TEXT") if has_pdf_text else "METADATA_ONLY"
+                )
+                doc["content_truncated"] = bool(has_pdf_text and pdf_truncated)
+                doc["regulatory_record_type"] = (
+                    ("PROPOSED_AD" if is_pad else "AIRWORTHINESS_DIRECTIVE")
+                    if has_pdf_text else
+                    ("PROPOSED_AD_INDEX" if is_pad else "AIRWORTHINESS_DIRECTIVE_INDEX")
+                )
+                doc["regulatory_evidence_role"] = (
+                    "OFFICIAL_EASA_AD_PDF_TEXT" if has_pdf_text else "INDEX_METADATA_ONLY; CHECK_APPLICABLE_PDF"
+                )
 
                 output += (
                     f"DOC_ID: {doc['doc_id']} | SOURCE_ID: SRC_002\n"
@@ -2838,27 +3186,205 @@ def _collect_easa_primary_index(query: str, limit: int) -> tuple[str, int]:
                 )
                 accepted += 1
 
-            if archive and not next_page and len(records) >= 25 and accepted < limit:
-                failures.append("ARCHIVE_NEXT_PAGE_NOT_DISCOVERED")
-
-            if archive and start and records and all(r["published"] < start.date().isoformat() for r in records):
+            if paginated and start and dated_rows and min(dated_rows) < start.date().isoformat():
                 url = None
             else:
-                url = next_page if archive else None
+                url = next_page if paginated else None
 
-        if archive and len(visited) >= max_pages and url and accepted < limit:
-            failures.append("ARCHIVE_PAGINATION_BUDGET_EXHAUSTED")
+        if paginated and len(visited) >= max_pages and url and accepted < limit:
+            advisories.append(f"PAGINATION_BUDGET_REACHED:pages={pages}")
 
-    logger.info("[EASA PRIMARY AUDIT] accepted=%d examined=%d pages=%d issues=%s", accepted, examined, pages,
-                failures or "none")
+    oldest_seen = min(oldest_dates, default="")
+    if start and oldest_seen and start.date().isoformat() < oldest_seen:
+        advisories.append(f"PARTIAL_COVERAGE:oldest_scanned={oldest_seen}")
+
+    logger.info("[EASA PRIMARY AUDIT] accepted=%d examined=%d pages=%d issues=%s advisories=%s",
+                accepted, examined, pages, failures or "none", advisories or "none")
     if failures:
-        logger.warning("[EASA COVERAGE] Partial or unavailable official archive: %s", failures)
+        logger.warning("[EASA COVERAGE] Official archive failure: %s", failures)
 
     record_connector_telemetry(
         "EASA Official Index", "SRC_002", query, examined, accepted, 0,
-        error="; ".join(failures) if failures else "",
+        error="; ".join(failures) if failures else None,
+        coverage_note="; ".join(dict.fromkeys(advisories)) if advisories else None,
+        operational_status=("ACCESS_RESTRICTED" if "ACCESS_RESTRICTED" in failures
+                            else "TEMPORARILY_UNAVAILABLE" if failures and not pages
+                            else "PARTIAL_COVERAGE" if advisories and not failures
+                            else "AVAILABLE"),
+        search_outcome=("RETRIEVAL_FAILED" if failures and not pages
+                        else "PARTIAL_RESULT" if (failures or advisories)
+                        else "RESULTS_RETRIEVED" if accepted else "NO_MATCH"),
     )
     return (output if accepted else "", accepted)
+
+def _faa_model_mentioned(models: List[str], text: str) -> bool:
+    """Use the same variant identity checks as NewsAPI and manufacturer PR."""
+    return any(_model_matches(identity, text)
+               for model in models for identity in _model_identities(model))
+
+
+def _faa_newsroom_model_match(models: List[str], title: str, body: str) -> bool:
+    """Require an exact variant in the article body and its title or certification statement."""
+    if not models:
+        return True
+    sentences = re.split(r"(?<=[.!?])\s+", body)
+    return any(
+        _faa_model_mentioned([model], body) and (
+            _faa_model_mentioned([model], title) or any(
+                _faa_model_mentioned([model], sentence) and _FAA_CERTIFICATION_INTENT.search(sentence)
+                for sentence in sentences
+            )
+        ) for model in models
+    )
+
+
+def _collect_faa_certification_news(query: str, limit: int) -> Tuple[str, int]:
+    """Search FAA announcements separately; an article is not a verified type certificate."""
+    models = [identity.aliases[0] for identity in _model_identities(query)]
+    entity = lookup_supplier_in_registry(query) if not models else None
+    search = models[0] if models else (entity["official_name"] if entity else query[:80])
+    requested_docket = _FAA_DOCKET_RE.search(query)
+    requested_document = _FAA_NUMBER_RE.search(query)
+    listing_url = "https://www.faa.gov/newsroom/press_releases"
+    candidates: Dict[str, Tuple[str, str]] = {}
+    errors: List[str] = []
+    fetched = False
+
+    def failure(result: HTTPResult) -> str:
+        if result.status_code in {401, 403} or result.error_type in {
+            "ROBOTS_OR_TDM_BLOCKED", "HTML_TDM_BLOCKED", "RESPONSE_TDM_BLOCKED",
+            "SOURCE_POLICY_BLOCKED", "SOURCE_POLICY_OR_HOST_BLOCKED",
+        }:
+            return "ACCESS_BLOCKED"
+        if result.status_code == 429:
+            return "RATE_LIMITED"
+        return result.error_type or f"HTTP_{result.status_code}"
+
+    for page in range(min(4, max(1, int(os.getenv("EWS_FAA_NEWS_MAX_PAGES", "2"))))):
+        result = _safe_http_request(
+            listing_url, "SRC_001", params={"keys": search, "page": page},
+            check_robots=True, timeout=15, max_bytes=1_500_000,
+        )
+        if not result.response_complete or result.status_code != 200 or result.response is None:
+            errors.append(failure(result))
+            break
+        fetched = True
+        new = 0
+        soup = BeautifulSoup(result.response.text, "html.parser")
+        for anchor in soup.select("a[href]"):
+            link = urljoin(listing_url, anchor["href"])
+            parsed = urlparse(link)
+            if (parsed.scheme != "https" or parsed.hostname not in {"faa.gov", "www.faa.gov"}
+                    or not re.fullmatch(r"/newsroom/[a-z0-9-]+/?", parsed.path, re.I)):
+                continue
+            title = anchor.get_text(" ", strip=True)
+            if len(title) < 15 or link in candidates:
+                continue
+            card = anchor.find_parent("article") or anchor.parent.parent or anchor
+            candidates[link] = (title, normalize_date_str(card.get_text(" ", strip=True)))
+            new += 1
+            if len(candidates) >= max(limit * 4, 20):
+                break
+        if not new or len(candidates) >= max(limit * 4, 20):
+            break
+
+    # A blocked listing must not trigger an alternate route around access restrictions.
+    if not candidates and "ACCESS_BLOCKED" not in errors:
+        rss = _safe_http_request(
+            listing_url + "/rss", "SRC_001", check_robots=True, timeout=12,
+        )
+        if rss.status_code == 200 and rss.response_complete and rss.response is not None:
+            fetched = True
+            for entry in feedparser.parse(rss.response.content).entries[:max(limit * 3, 15)]:
+                link = str(entry.get("link") or "")
+                candidates[link] = (str(entry.get("title") or ""),
+                                    normalize_date_str(entry.get("published") or entry.get("updated") or ""))
+        else:
+            errors.append(failure(rss))
+
+    output, accepted, certificate_reports, examined = "", 0, 0, 0
+    for link, (title, listed_date) in candidates.items():
+        parsed = urlparse(link)
+        if (accepted >= limit or examined >= max(limit * 3, 6) or link in COLLECTED_URLS
+                or parsed.scheme != "https" or parsed.hostname not in {"faa.gov", "www.faa.gov"}
+                or not re.fullmatch(r"/newsroom/[a-z0-9-]+/?", parsed.path, re.I)):
+            continue
+        examined += 1
+        page = _safe_http_request(link, "SRC_001", check_robots=True, timeout=15, max_bytes=2_000_000)
+        if not page.response_complete or page.status_code != 200 or page.response is None:
+            errors.append(failure(page))
+            continue
+        raw_html = page.response.text
+        body = _extract_news_article_body(raw_html)
+        publication = extract_article_date(raw_html, body, link, listed_date)
+        if (len(body) < 120 or publication == "DATE_UNKNOWN" or not is_date_within_scope(publication)
+                or not _FAA_CERTIFICATION_INTENT.search(f"{title} {body}")
+                or not _faa_newsroom_model_match(models, title, body)
+                or requested_docket and requested_docket.group().upper() not in body.upper()
+                or requested_document and requested_document.group() not in body):
+            continue
+        if entity:
+            searchable = _supplier_name_key(f"{title} {body}")
+            aliases = (entity["official_name"], *entity.get("aliases", []))
+            if not any(re.search(rf"(?<![a-z0-9]){re.escape(_supplier_name_key(alias))}(?![a-z0-9])",
+                                 searchable) for alias in aliases if len(alias) >= 4 and not any(c.isdigit() for c in alias)):
+                continue
+
+        issued_match = re.search(
+            r"\b(?:issued|granted|approved)\b[^.!?]{0,100}\b(?:amended\s+)?type\s+certificate\b"
+            r"|\btype\s+certificate\b[^.!?]{0,100}\b(?:issued|granted|approved)\b", body, re.I,
+        )
+        issuance = bool(issued_match and not re.search(
+            r"\b(?:not|never|without|pending|proposed|expected|planned)\b.{0,30}"
+            r"\b(?:issued|granted|approved)\b",
+            body[max(0, issued_match.start() - 35):issued_match.end()], re.I,
+        ))
+        category = "FAA_TYPE_CERTIFICATION" if issuance else "FAA_NEWSROOM_ANNOUNCEMENT"
+        doc = register_collected_document(
+            source_id="SRC_001", connector_name="FAA Type Certification" if issuance else "FAA Newsroom",
+            url=link, title=title, raw_text=body, published_at=publication, query_used=query,
+        )
+        doc.update(
+            content_status="FULL_TEXT", origin_type="PRIMARY_OFFICIAL_ANNOUNCEMENT",
+            verified_domain=True, faa_record_category=category, regulatory_authority="FAA",
+            regulatory_publication_date=publication, regulatory_decision_date="NOT_ESTABLISHED",
+            regulatory_decision_type=("TYPE_CERTIFICATE_ISSUANCE_REPORTED" if issuance
+                                      else "CERTIFICATION_STATUS_ANNOUNCEMENT"),
+            regulatory_record_type="REGULATOR_NEWSROOM_ANNOUNCEMENT",
+            regulatory_evidence_role="OFFICIAL_STATEMENT_NOT_TYPE_CERTIFICATE",
+            primary_evidence_url=link, certificate_document_verified=False,
+            certificate_verification_status="OFFICIAL_STATEMENT_ONLY",
+        )
+        output += (f"DOC_ID: {doc['doc_id']} | SOURCE_ID: SRC_001\nDATE: {publication}\n"
+                   f"Category: {category} | Decision: {doc['regulatory_decision_type']}\n"
+                   f"Title: {doc['title']}\nLink: {link}\nCONTENT_STATUS: FULL_TEXT\n"
+                   f"Certificate document independently verified: NO\nSummary: {doc['text'][:1500]}\n---\n")
+        accepted += 1
+        certificate_reports += issuance
+
+    blocked = "ACCESS_BLOCKED" in errors
+    if blocked and not accepted:
+        record_connector_telemetry(
+            "FAA Newsroom", "SRC_001", query, len(candidates), 0,
+            error=None,
+            coverage_note="OPTIONAL_FAA_NEWSROOM_SKIPPED: www.faa.gov robots.txt HTTP 403 (Federal Register API remains primary SRC_001)",
+            operational_status="UNAVAILABLE_OPTIONAL",
+            search_outcome="NOT_EXECUTED",
+        )
+        return "", 0
+    status = ("PARTIAL_RESULT" if accepted and errors else "RESULTS_RETRIEVED" if accepted
+    else "RETRIEVAL_FAILED" if not fetched
+    else "RETRIEVAL_INCOMPLETE" if errors else "NO_MATCH")
+    record_connector_telemetry(
+        "FAA Newsroom", "SRC_001", query, len(candidates), accepted,
+        error="; ".join(dict.fromkeys(errors)) if errors else None,
+        coverage_note=f"type_certificate_issuance_reported={certificate_reports}; certificate_document_verified=0",
+        operational_status=("RATE_LIMITED" if "RATE_LIMITED" in errors
+                            else "AVAILABLE" if fetched else "TEMPORARILY_UNAVAILABLE"),
+        search_outcome=status,
+    )
+    return (">> FAA Official Certification Announcements (not certificates):\n" + output if accepted
+            else "", accepted)
 
 
 # Gather FAA and EASA notices while preserving scope and lifecycle metadata.
@@ -2872,105 +3398,135 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
     limit = get_dynamic_limit()
     start_utc, end_utc = get_time_window_utc()
     scope_days = get_scope_days()
-    required_words, search_term = parse_query_intent(query)
-    search_term = re.sub(r"\b(?:FAA|EASA|NTSB)\b", "", search_term, flags=re.I).strip() or query
+    requested_document = _FAA_NUMBER_RE.search(query)
+    requested_docket = _FAA_DOCKET_RE.search(query)
+    exact_number = requested_document.group(0) if requested_document else ""
+    exact_docket = requested_docket.group(0).upper() if requested_docket else ""
+    remaining_query = _FAA_NUMBER_RE.sub(" ", _FAA_DOCKET_RE.sub(" ", query)).strip()
+    native_query = re.sub(
+        r"(?<!\w)-?(?:site|inurl|filetype):\S+", " ", remaining_query, flags=re.I,
+    )
+    native_query = re.sub(r"\b(?:FAA|EASA|NTSB)\b", " ", native_query, flags=re.I).strip()
+    certification_query = bool(re.search(
+        r"\b(?:certif\w*|approv\w*|type\s+certificate)\b",
+        query, re.I,
+    ))
+    exact_models = _model_tokens(remaining_query) if certification_query else []
+    required_words, _ = parse_query_intent(native_query) if native_query else ([], "")
+    search_term = _faa_native_term(native_query) if native_query else ""
 
     logger.info(
         f"[OSINT GATHERER] Querying FAA and EASA databases for: '{query}' (limit: {limit}, scope: {scope_days or 'all'} days)")
     extracted_text = f"--- REGULATORY DIRECTIVES AND NOTICES (FAA & EASA) FOR '{query}' ---\n"
 
+    retrieval_status = "RETRIEVAL_FAILED"
     try:
         params: Dict[str, Any] = {
-            "conditions[term]": search_term,
             "conditions[agencies][]": "federal-aviation-administration",
             "order": "newest",
-            "per_page": min(100, max(15, limit * 3)),
+            "fields[]": _FAA_LIFECYCLE_FIELDS,
             "conditions[publication_date][lte]": end_utc.strftime("%Y-%m-%d"),
         }
         if start_utc is not None:
             params["conditions[publication_date][gte]"] = start_utc.strftime("%Y-%m-%d")
 
-
-        faa_url = "https://www.federalregister.gov/api/v1/documents.json"
-
-        # Prefer exact Federal Register document numbers.
-        exact = re.search(r"(?<!\d)20\d{2}-\d{5}(?!\d)", query)
-        exact_doc = None
-
-        if exact:
-            number = exact.group()
-            direct = safe_http_get(
-                f"https://www.federalregister.gov/api/v1/documents/{number}.json",
-                source_id="SRC_001",
-                params={"fields[]": _FAA_LIFECYCLE_FIELDS},
-                timeout=12,
+        docs: List[Dict[str, Any]] = []
+        audits: List[Dict[str, Any]] = []
+        if exact_number:
+            detail_url = f"https://www.federalregister.gov/api/v1/documents/{exact_number}.json"
+            candidate, http = _faa_json_result(
+                detail_url,
+                params={"fields[]": _FAA_LIFECYCLE_FIELDS}, immutable=True,
             )
-            candidate = (
-                direct.json()
-                if direct is not None and direct.status_code == 200
-                else {}
+            direct_calls = 1
+            if candidate is None and http.payload_classification in {
+                "UNEXPECTED_SCHEMA", "API_ERROR_RESPONSE",
+            }:
+                # Retry the same immutable document identity without optional fields.
+                # A blocked or unavailable source must never be bypassed.
+                candidate, http = _faa_json_result(detail_url, immutable=False)
+                direct_calls += 1
+            identity_ok = bool(candidate and candidate.get("document_number") == exact_number)
+            date_known = bool(identity_ok and candidate.get("publication_date"))
+            in_scope = bool(date_known and is_date_within_scope(candidate.get("publication_date")))
+            if in_scope:
+                docs.append(candidate)
+            blocked = http.payload_classification == "ACCESS_BLOCKED"
+            direct_status = (
+                "RESULTS_RETRIEVED" if in_scope else
+                "NO_RESULTS" if date_known and not in_scope else
+                "ACCESS_BLOCKED" if blocked else
+                "SOURCE_UNAVAILABLE" if http.payload_classification in {
+                    "SOURCE_UNAVAILABLE", "HTTP_ERROR"
+                } and http.status_code not in {400, 404, 414, 422} else
+                "RETRIEVAL_FAILED"
             )
-            if (
-                candidate.get("document_number") == number
-                and is_date_within_scope(candidate.get("publication_date"))
-            ):
-                exact_doc = candidate
+            audits.append({
+                "status": direct_status, "declared_count": 1 if identity_ok else 0,
+                "processed_count": int(in_scope), "access_restricted": blocked,
+                "last_error": ("OUTSIDE_TIME_SCOPE" if date_known and not in_scope
+                               else "MISSING_PUBLICATION_DATE" if identity_ok and not date_known
+                               else (http.error_type or "IDENTIFIER_MISMATCH") if not identity_ok
+                               else ""),
+                "request_calls": direct_calls,
+                "attempts": [{"http_status": http.status_code,
+                              "response_classification": http.payload_classification,
+                              "response_schema": http.payload_shape,
+                              "error_code": http.error_type}],
+            })
+
+        if exact_docket:
+            docket_docs, audit = _faa_search_pages({**params, "conditions[docket_id]": exact_docket}, limit)
+            docs.extend(docket_docs)
+            audits.append(audit)
+
+        if search_term and not (exact_docket or exact_number):
+            general_docs, audit = _faa_search_pages({**params, "conditions[term]": search_term}, limit)
+            docs.extend(general_docs)
+            audits.append(audit)
+        elif not exact_docket and not exact_number:
+            general_docs, audit = _faa_search_pages({**params, "conditions[term]": _faa_native_term(query)}, limit)
+            docs.extend(general_docs)
+            audits.append(audit)
+
+        docs = list({d["document_number"]: d for d in reversed(docs)
+                     if d.get("document_number")}.values())[::-1]
+        if (not docs and not exact_docket and not exact_number and not certification_query
+                and audits and all(a["status"] == "NO_RESULTS" for a in audits)):
+            engine_topic = bool(re.search(
+                r"\b(?:engine|engines|turbine|hpt|hpc|propulsion|gearbox|gtf|leap|pw1100g)\b",
+                query, re.I,
+            ))
+            domain_info = get_program_engine_domain(query) if engine_topic else {
+                "engine_models": (), "engine_manufacturers": (),
+            }
+            fallback_terms: List[str] = []
+            if engine_topic and (domain_info["engine_models"] or domain_info["engine_manufacturers"]):
+                fallback_terms.extend(domain_info["engine_models"][:2])
+                fallback_terms.extend(domain_info["engine_manufacturers"][:3])
             else:
-                logger.warning("[FAA EXACT LOOKUP] Not retrieved/in scope: %s", number)
-
-        resp = safe_http_get(faa_url, source_id="SRC_001", params=params, timeout=12)
-
-        if (resp is not None and resp.status_code == 200) or exact_doc:
-            payload = resp.json() if resp is not None and resp.status_code == 200 else {}
-            docs = list(payload.get("results", []) or [])
-
-            if exact_doc:
-                docs = [exact_doc] + [
-                    d for d in docs
-                    if d.get("document_number") != exact_doc["document_number"]
-                ]
-
-            if scope_days is None or scope_days > 90:
-                pages = min(
-                    5, max(1, int(os.getenv("EWS_FAA_MAX_PAGES", str((limit * 3 + 99) // 100))))
-                )
-
-                for _ in range(pages - 1):
-                    next_url = payload.get("next_page_url", "")
-
-                    if urlparse(next_url).hostname not in {
-                        "federalregister.gov",
-                        "www.federalregister.gov",
-                    }:
-                        break
-
-                    response = safe_http_get(
-                        next_url,
-                        source_id="SRC_001",
-                        timeout=12,
-                    )
-
-                    if response is None or response.status_code != 200:
-                        break
-
-                    payload = response.json()
-                    docs.extend(payload.get("results", []) or [])
-
-            if not docs:
                 entity = lookup_supplier_in_registry(query)
                 broad_term = (
                     re.sub(r"\s*\([^)]*\)", "", entity["official_name"]).strip()
                     if entity else next(iter(_model_tokens(query)), "")
                 )
-                if broad_term and broad_term.casefold() != search_term.casefold():
-                    broad_resp = safe_http_get(
-                        faa_url, source_id="SRC_001",
-                        params={**params, "conditions[term]": broad_term}, timeout=12,
-                    )
-                    if broad_resp is not None and broad_resp.status_code == 200:
-                        docs = broad_resp.json().get("results", []) or []
-                        logger.info("[FAA RECALL] Broad query %r returned %d records", broad_term, len(docs))
+                if broad_term:
+                    fallback_terms.append(broad_term)
 
+            for broad_term in list(dict.fromkeys(fallback_terms))[:4]:
+                if broad_term.casefold() == search_term.casefold():
+                    continue
+                fb_docs, audit = _faa_search_pages({**params, "conditions[term]": broad_term}, limit)
+                audits.append(audit)
+                if fb_docs:
+                    docs.extend(fb_docs)
+                    logger.info("[FAA RECALL] Broad query %r returned %d records", broad_term, len(fb_docs))
+                    if len(docs) >= limit * 2:
+                        break
+            docs = list({d["document_number"]: d for d in reversed(docs)
+                         if d.get("document_number")}.values())[::-1]
+
+        if docs:
             faa_count = faa_rejected = 0
             docket_cache: Dict[str, Tuple[Dict[str, Any], bool]] = {}
             faa_block = ">> FAA (Federal Aviation Administration - Federal Register):\n"
@@ -2980,12 +3536,18 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
                     break
                 title = str(found_doc.get("title") or "")
                 abstract = str(found_doc.get("abstract") or "")
-                if not any(rw in f"{title} {abstract}".lower() for rw in required_words) and not (
-                        exact and found_doc.get("document_number") == exact.group()
-                ):
+                if (certification_query and exact_models and not (exact_docket or exact_number)
+                        and not _faa_model_mentioned(
+                    exact_models, f"{title} {abstract}"
+                )):
                     continue
-
                 doc, docket, checked = _faa_resolve_docket(found_doc, end_utc.strftime("%Y-%m-%d"), docket_cache)
+                identifier_match = ((exact_number and doc.get("document_number") == exact_number)
+                                    or (exact_docket and docket == exact_docket))
+                if exact_docket and docket != exact_docket:
+                    continue  # Other dockets are not evidence for a specifically requested docket.
+                if not identifier_match and not any(rw in f"{title} {abstract}".lower() for rw in required_words):
+                    continue
                 link = doc.get("html_url") or ""
                 pub_date = doc.get("publication_date") or "DATE_UNKNOWN"
 
@@ -3024,6 +3586,9 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
                 summary = str(doc.get("abstract") or "").replace("\n", " ").strip()
                 old_url = found_doc.get("html_url") or ""
                 history = f"Related earlier document: {old_url}\n" if (old_url and old_url != link) else ""
+                latest_number = doc.get("lifecycle_latest_document_number") or ""
+                if latest_number and latest_number != doc.get("document_number"):
+                    history += f"Later document in same docket: {latest_number} (separate publication)\n"
 
                 raw_text = (
                     f"Regulatory Stage: {stage}\n"
@@ -3041,27 +3606,14 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
                 if full_url.startswith("https://") and full_host in {
                     "federalregister.gov", "www.federalregister.gov",
                 } and os.getenv("EWS_FAA_FETCH_FULL_TEXT", "1") == "1":
-                    full_page = safe_http_get(
-                        full_url, source_id="SRC_001", timeout=18,
-                        max_bytes=8_000_000, check_robots=True,
+                    full_page = _faa_cached_get(
+                        full_url, immutable=True, max_bytes=8_000_000, check_robots=True,
                     )
-                    if full_page is not None and full_page.status_code == 200:
-                        mime = full_page.headers.get("Content-Type", "").lower()
-                        if "html" in mime:
-                            soup = BeautifulSoup(full_page.text, "html.parser")
-                            for el in soup.select("script, style, nav, footer, aside, header"):
-                                el.decompose()
-                            article = soup.select_one("article") or soup.select_one("main")
-                            full_text = (article or soup).get_text(" ", strip=True)
-                        elif "text/plain" in mime:
-                            full_text = full_page.text.strip()
-                        else:
-                            full_text = ""
+                    if full_page.response is not None and full_page.response_complete:
+                        full_text = _faa_full_text(full_page.response, full_url)
                         if len(full_text) >= 500:
                             raw_text += "\nOfficial Full Text: " + full_text
-                            content_status = (
-                                "PARTIAL_TEXT" if getattr(full_page, "aero_content_truncated", False) else "FULL_TEXT"
-                            )
+                            content_status = "FULL_TEXT"
                 doc_rec = register_collected_document(
                     source_id="SRC_001", connector_name="FAA Federal Register", url=link,
                     title=doc.get("title") or title, raw_text=raw_text, published_at=pub_date, query_used=query,
@@ -3073,6 +3625,10 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
                         r"[^.!?\n]{0,250}[.!?]", raw_text,
                     )
                     obligation = match.group(0) if match else ""
+                airworthiness_directive = bool(re.search(
+                    r"\bairworthiness\s+directiv\w*\b|\bAD\s+20\d{2}",
+                    f"{doc.get('title') or ''} {doc.get('abstract') or ''}", re.I,
+                ))
                 doc_rec.update(
                     content_status=content_status,
                     content_truncated=content_status == "PARTIAL_TEXT",
@@ -3084,6 +3640,16 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
                     regulatory_effective_date=effective_on or "DATE_UNKNOWN",
                     regulatory_compliance_deadline="NOT_ESTABLISHED",
                     regulatory_obligation_quote_candidate=obligation,
+                    faa_document_number=doc.get("document_number", ""),
+                    faa_docket_id=docket,
+                    faa_latest_docket_document_number=latest_number,
+                    faa_lifecycle_relation=doc.get("lifecycle_relation", "UNKNOWN"),
+                    faa_record_category=("FAA_AIRWORTHINESS_DIRECTIVE" if airworthiness_directive
+                                         else "FAA_FEDERAL_REGISTER_NOTICE"),
+                    regulatory_record_type=("AIRWORTHINESS_DIRECTIVE" if airworthiness_directive
+                                            else "FEDERAL_REGISTER_RULE_OR_NOTICE"),
+                    regulatory_evidence_role="PUBLICATION_NOT_AUTOMATIC_TYPE_CERTIFICATION",
+                    requested_identifier_match=bool(identifier_match),
                 )
                 faa_block += (
                     f"DOC_ID: {doc_rec['doc_id']} | SOURCE_ID: SRC_001\n"
@@ -3091,51 +3657,131 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
                     f"Document Type: {doc_type} | Regulatory Stage: {stage}\n"
                     f"Title: {doc_rec['title']}\nLink: {link}\n"
                     f"CONTENT_STATUS: {content_status}\n"
-                    f"Summary: {doc_rec['text'][:1500]}\n---\n"
+                    f"Summary: {doc_rec['text'][:5000]}\n---\n"
                 )
                 faa_count += 1
 
-            record_connector_telemetry("FAA Federal Register", "SRC_001", query, len(docs), faa_count, faa_rejected)
+            hard_errors = [
+                f"{a['status']}:{a.get('last_error') or 'UNKNOWN'}" for a in audits
+                if a["status"] in {"SOURCE_UNAVAILABLE", "RETRIEVAL_FAILED", "ACCESS_BLOCKED"}
+            ]
+            partial_only = any(a["status"] == "PARTIAL_COVERAGE" for a in audits) and not hard_errors
+            retrieval_status = (
+                "ACCESS_BLOCKED" if any(a.get("access_restricted") for a in audits)
+                else "PARTIAL_COVERAGE" if (partial_only or hard_errors)
+                else "RESULTS_RETRIEVED"
+            )
+            record_connector_telemetry(
+                "FAA Federal Register", "SRC_001", query, len(docs), faa_count, faa_rejected,
+                coverage_note=(f"{retrieval_status}; api_declared={sum(a['declared_count'] for a in audits)}; "
+                               f"retrieved={len(docs)}; accepted={faa_count}; "
+                               f"pagination_complete={all(a.get('pagination_complete', True) for a in audits)}"),
+                diagnostics={"page_audits": audits},
+                http_requests=sum(a.get("request_calls", 0) for a in audits),
+                http_status_counts={str(code): sum(1 for a in audits for attempt in a.get("attempts", [])
+                                                   if str(attempt.get("http_status")) == str(code))
+                                    for code in {attempt.get("http_status") for a in audits
+                                                 for attempt in a.get("attempts", []) if attempt.get("http_status")}},
+                error="; ".join(hard_errors) if hard_errors else None,
+                operational_status=(
+                    "ACCESS_RESTRICTED" if any(a.get("access_restricted") for a in audits)
+                    else "TEMPORARILY_UNAVAILABLE" if hard_errors
+                    else "PARTIAL_COVERAGE" if partial_only
+                    else "AVAILABLE"
+                ),
+                search_outcome="PARTIAL_RESULT" if (partial_only or hard_errors)
+                else "RESULTS_RETRIEVED" if faa_count else "NO_MATCH",
+            )
             if faa_count > 0:
                 extracted_text += faa_block
+        else:
+            retrieval_status = ("ACCESS_BLOCKED" if any(a.get("access_restricted") for a in audits)
+                                else "SOURCE_UNAVAILABLE" if any(
+                    a["status"] == "SOURCE_UNAVAILABLE" for a in audits)
+                else "RETRIEVAL_FAILED" if any(
+                    a["status"] == "RETRIEVAL_FAILED" for a in audits)
+                else "PARTIAL_COVERAGE" if any(
+                    a["status"] == "PARTIAL_COVERAGE" for a in audits) else "NO_RESULTS")
+            record_connector_telemetry(
+                "FAA Federal Register", "SRC_001", query,
+                coverage_note=(f"{retrieval_status}; api_declared={sum(a['declared_count'] for a in audits)}; retrieved=0"),
+                diagnostics={"page_audits": audits},
+                http_requests=sum(a.get("request_calls", 0) for a in audits),
+                error="; ".join(f"{a['status']}:{a.get('last_error') or 'UNKNOWN'}" for a in audits
+                                if a["status"] not in {"RESULTS_RETRIEVED", "NO_RESULTS"}) or None,
+                operational_status="ACCESS_BLOCKED" if any(a.get("access_restricted") for a in audits)
+                                   else "TEMPORARILY_UNAVAILABLE" if retrieval_status != "NO_RESULTS"
+                                   else "AVAILABLE",
+                search_outcome="ACCESS_BLOCKED" if retrieval_status == "ACCESS_BLOCKED"
+                               else "SOURCE_UNAVAILABLE" if retrieval_status == "SOURCE_UNAVAILABLE"
+                               else "PARTIAL_RESULT" if retrieval_status == "PARTIAL_COVERAGE"
+                               else "RETRIEVAL_FAILED" if retrieval_status == "RETRIEVAL_FAILED" else "NO_MATCH",
+            )
     except Exception as e:
         logger.error(f"[OSINT GATHERER] Federal Register FAA API error: {e}")
-        record_connector_telemetry("FAA Federal Register", "SRC_001", query, error=str(e))
+        record_connector_telemetry("FAA Federal Register", "SRC_001", query, error=str(e),
+                                   operational_status="TEMPORARILY_UNAVAILABLE",
+                                   search_outcome="RETRIEVAL_FAILED")
+
+    easa_only_query = (
+            bool(re.search(r"\b(?:easa|caac|tcca|anac|uk\s+caa|european)\b", query, re.I))
+            and not bool(
+        re.search(r"\b(?:faa|federal\s+aviation\s+administration|20\d{2}-\d{5}|faa-20\d{2})\b", query, re.I))
+    )
+    if easa_only_query:
+        logger.info("[FAA NEWSROOM ROUTING] Skipped FAA Newsroom for non-FAA/EASA-specific query.")
+    elif certification_query and os.getenv("EWS_FAA_NEWSROOM_ENABLED", "0") == "1":
+        try:
+            newsroom, _ = _collect_faa_certification_news(query, limit)
+            extracted_text += newsroom
+        except Exception as exc:
+            logger.warning("[FAA NEWSROOM] Certification search unavailable: %s", exc)
+            record_connector_telemetry("FAA Newsroom", "SRC_001", query, error=None,
+                                       coverage_note=f"OPTIONAL_FAA_NEWSROOM_ERROR: {exc}",
+                                       operational_status="UNAVAILABLE_OPTIONAL",
+                                       search_outcome="NOT_EXECUTED")
 
     primary_count = 0
 
-    if os.getenv("EWS_EASA_SAFETY_PUBLICATIONS_ENABLED", "0") == "1":
+    faa_only_query = (
+            bool(re.search(r"\b(?:faa|20\d{2}-\d{5})\b", query, re.I))
+            and not bool(re.search(r"\b(?:easa|european|airbus|a320|a321|a350|a330|a220)\b", query, re.I))
+    )
+    easa_env_enabled = os.getenv("EWS_EASA_SAFETY_PUBLICATIONS_ENABLED", "1") == "1"
+    if faa_only_query:
+        logger.info("[EASA ROUTING] Skipped EASA Official Index for FAA-specific query.")
+    elif not easa_env_enabled:
+        record_connector_telemetry(
+            "EASA Official Index", "SRC_002", query,
+            coverage_note="DISABLED_BY_CONFIG: EWS_EASA_SAFETY_PUBLICATIONS_ENABLED=0",
+            operational_status="DISABLED_BY_CONFIG", search_outcome="NOT_EXECUTED",
+        )
+    elif not is_source_allowed("SRC_002"):
+        record_connector_telemetry(
+            "EASA Official Index", "SRC_002", query,
+            coverage_note="POLICY_REQUIRES_REVIEW: set EWS_TEST_REVIEW_SOURCES=1 or approve SRC_002 in registry.py",
+            operational_status="POLICY_REQUIRES_REVIEW", search_outcome="NOT_EXECUTED",
+        )
+    else:
         try:
-            primary_block, primary_count = _collect_easa_primary_index(
-                query, limit
-            )
+            primary_block, primary_count = _collect_easa_primary_index(query, limit)
             if primary_count:
                 extracted_text += primary_block
         except Exception as exc:
-            logger.warning(
-                "[EASA INDEX] Source unavailable: %s",
-                exc,
-            )
-            record_connector_telemetry(
-                "EASA Official Index",
-                "SRC_002",
-                query,
-                error=str(exc),
-            )
-    else:
-        record_connector_telemetry(
-            "EASA Official Index",
-            "SRC_002",
-            query,
-            coverage_note="TEMPORARILY_UNAVAILABLE; collection paused",
-        )
+            logger.warning('[EASA INDEX] Source unavailable: %s', exc)
+            record_connector_telemetry('EASA Official Index', 'SRC_002', query, error=str(exc),
+                                       operational_status="TEMPORARILY_UNAVAILABLE",
+                                       search_outcome="RETRIEVAL_FAILED")
 
     if "Title:" not in extracted_text:
-        return f"No specific records found in FAA or EASA databases for '{query}' within the selected time scope."
+        if retrieval_status in {"ACCESS_BLOCKED", "RETRIEVAL_FAILED", "SOURCE_UNAVAILABLE", "PARTIAL_COVERAGE"}:
+            return (f"FAA {retrieval_status}; absence of relevant records NOT established for '{query}' "
+                    "(EASA separately subject to its source status).")
+        return (f"FAA {retrieval_status}; no qualifying records for '{query}' "
+                "in the selected time scope (EASA separately subject to its source status).")
 
     logger.warning(f"[OSINT DEBUG] Regulatory module returned records for '{query}'.")
     return extracted_text
-
 
 # Collect official aerospace manufacturer announcements and release timestamps.
 # A manufacturer release is primary evidence of its statement, not all implied impacts.
@@ -3143,104 +3789,171 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
 @retry(stop=stop_after_attempt(2), wait=wait_exponential(multiplier=1, min=2, max=5))
 def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
     # Collect primary-source aerospace announcements with publication metadata.
-    """Fetch official press releases from Airbus, Boeing, and COMAC feeds."""
+    """Fetch only configured, approved manufacturer announcements."""
     original_query = query.replace(",", "").replace("  ", " ").strip()
     required_words, safe_query = parse_query_intent(original_query)
     limit_per_feed = get_dynamic_limit()
     scope_days = get_scope_days()
-    time_filter = f" when:{scope_days}d" if scope_days else ""
-
     logger.info(
         f"[OSINT GATHERER] Fetching manufacturer PR feeds for: '{safe_query}' (limit: {limit_per_feed}, scope: {scope_days or 'all'} days)"
     )
     extracted_text = f"--- OFFICIAL MANUFACTURER PRESS RELEASES FOR '{safe_query}' ---\n"
 
     feeds = {
-        "Airbus": "https://www.airbus.com/en/generate-rss-feeds?type=all-press-releases",
-        "Boeing": "https://boeing.mediaroom.com/news-releases-statements?pagetemplate=rss",
+        "Airbus": ("SRC_005", "https://www.airbus.com/en/generate-rss-feeds?type=all-press-releases"),
+        "Boeing": ("SRC_030", "https://boeing.mediaroom.com/news-releases-statements?pagetemplate=rss"),
     }
-    mentioned = {
-        name for name in feeds
-        if re.search(
-            rf"\b{re.escape('Boeing' if name.startswith('Boeing') else name)}\b",
-            original_query,
-            re.I,
-        )
-    }
+    # Volitelné oficiální RSS kanály výrobců motorů (konfigurovatelné v .env, aby se nehádaly neověřené URL).
+    if rtx_rss := os.getenv("EWS_RTX_RSS_URL", "").strip():
+        feeds["RTX / Pratt & Whitney"] = ("SRC_011", rtx_rss)
+    if ge_rss := os.getenv("EWS_GE_RSS_URL", "").strip():
+        feeds["GE Aerospace"] = ("SRC_010", ge_rss)
 
-    if re.search(
-            r"\b(?:faa|type certif\w*|aircraft certif\w*|certif\w*|regulatory approv\w*)\b",
-            original_query,
-            re.I,
+    mentioned = set()
+    if re.search(r"\bairbus\b", original_query, re.I):
+        mentioned.add("Airbus")
+    if re.search(r"\bboeing\b", original_query, re.I):
+        mentioned.add("Boeing")
+    if "RTX / Pratt & Whitney" in feeds and re.search(
+            r"\b(?:pratt\s*(?:&|and)?\s*whitney|rtx|pw1100g|pw1500g|gtf|international\s+aero\s+engines)\b",
+            original_query, re.I,
     ):
-        mentioned.add("FAA")
-
-    if re.search(
-            r"\b(?:ge aerospace|cfm|leap|ge9x|genx)\b",
+        mentioned.add("RTX / Pratt & Whitney")
+    if "GE Aerospace" in feeds and re.search(
+            r"\b(?:ge\s+aerospace|general\s+electric|cfm|leap-?1[abc]|genx|ge9x)\b",
             original_query, re.I,
     ):
         mentioned.add("GE Aerospace")
 
-    if re.search(
-            r"\b(?:rtx|pratt|whitney|collins|gtf|pw1100g)\b",
-            original_query, re.I,
-    ):
-        mentioned.add("RTX")
+    targets = _model_identities(original_query)
+    unknown_models = [target for target in targets if target.kind == "unknown_technical_identifier"]
+    aircraft_models = [target for target in targets if target.kind == "aircraft_model"]
+    inferred = {"Boeing" if re.match(r"(?:B)?7\d{2}", target.canonical_id, re.I) else "Airbus"
+                for target in aircraft_models if re.match(r"(?:B)?7\d{2}|A\d{3}", target.canonical_id, re.I)}
+    if re.search(r"\b(?:engine|engines|turbine|propulsion|gtf|leap|pw1100g)\b", original_query, re.I):
+        domain_oems = " ".join(get_program_engine_domain(original_query)["engine_manufacturers"]).lower()
+        if "RTX / Pratt & Whitney" in feeds and ("pratt" in domain_oems or "international aero engines" in domain_oems):
+            inferred.add("RTX / Pratt & Whitney")
+        if "GE Aerospace" in feeds and ("ge aerospace" in domain_oems or "cfm" in domain_oems):
+            inferred.add("GE Aerospace")
 
-    if mentioned:
-        feeds = {
-            name: url
-            for name, url in feeds.items()
-            if name in mentioned
-        }
+    selection_status, selection_reason = "SOURCE_SELECTED", "EXPLICIT_MANUFACTURER" if mentioned else "AIRCRAFT_IDENTITY"
+    if not mentioned:
+        mentioned = inferred
+    else:
+        # U motorového KITu přidej ke jmenovanému OEM draku i odpovídající výrobce motorů.
+        mentioned |= (inferred - {"Airbus", "Boeing"})
+    if unknown_models and not mentioned:
+        selection_status, selection_reason = "ENTITY_UNRESOLVED", "UNKNOWN_TECHNICAL_IDENTIFIER"
+    elif mentioned and inferred and not (mentioned & inferred):
+        selection_status, selection_reason = "ENTITY_UNRESOLVED", "MANUFACTURER_MODEL_CONFLICT"
+    elif not mentioned:
+        selection_status, selection_reason = (
+            "SOURCE_NOT_CONFIGURED", "NO_APPROVED_MANUFACTURER_CONNECTOR"
+        ) if (find_supplier_mentions(original_query) or any(t.kind == "engine_model" for t in targets)
+              or any(re.search(rf"\b{re.escape(name)}\b", original_query, re.I)
+                     for name in GENERIC_MANUFACTURERS - feeds.keys())) else (
+            "ENTITY_UNRESOLVED", "NO_IDENTIFIABLE_OEM_OR_PROGRAM"
+        )
+    elif re.search(r"\b(?:airworthiness\s+directives?|inspection\s+requirements?|"
+                   r"regulatory\s+compliance\s+deadline)\b", original_query, re.I) and not re.search(
+            r"\b(?:press|statement|news|announc\w*)\b", original_query, re.I):
+        selection_status, selection_reason = "SOURCE_NOT_RELEVANT", "OFFICIAL_REGULATORY_EVIDENCE_REQUIRED"
+    if selection_status != "SOURCE_SELECTED":
+        record_connector_telemetry(
+            "Official Industry PR", "", original_query,
+            operational_status=selection_status, search_outcome="NOT_EXECUTED",
+            coverage_note=selection_reason,
+        )
+        return f"Official Industry PR: {selection_status} ({selection_reason}; no HTTP request)."
+    feeds = {name: item for name, item in feeds.items() if name in mentioned}
+    for brand, (source_id, _) in feeds.items():
+        record_connector_telemetry(
+            f"Official Industry PR / {brand}", source_id, original_query,
+            operational_status="SOURCE_SELECTED", search_outcome="NOT_EXECUTED",
+            diagnostics={"selection_reason": selection_reason, "selected_manufacturer": brand},
+        )
 
-    total_processed = found_total = rejected_total = 0
+    total_processed = accessible_feeds = parse_failures = 0
+    blocked_feeds = unavailable_feeds = partial_feeds = 0
     noise_tokens = ("#shorts", "compilation", "takeoff", "landing", "cabin", "trip report", "flight simulator", "msfs")
 
-    for i, (brand, url) in enumerate(feeds.items()):
+    for i, (brand, (source_id, url)) in enumerate(feeds.items()):
         if total_processed >= limit_per_feed:
             break
 
         remaining = limit_per_feed - total_processed
-        brand_quota = max(
-            1, (remaining + len(feeds) - i - 1) // (len(feeds) - i)
-        )
+        brand_quota = max(1, (remaining + len(feeds) - i - 1) // (len(feeds) - i))
 
         try:
-            source_id = "SRC_030" if brand.startswith("Boeing") else "SRC_005"
-
             if not is_source_allowed(source_id):
+                blocked_feeds += 1
+                record_connector_telemetry(
+                    f"Official Industry PR / {brand}", source_id, original_query,
+                    operational_status="ACCESS_RESTRICTED", search_outcome="NOT_EXECUTED",
+                    error="SOURCE_POLICY_RESTRICTED",
+                )
                 continue
 
-            resp = safe_http_get(
-                url,
-                source_id=source_id,
-                timeout=12,
-                check_robots=True,
-            )
+            feed_result = _safe_http_request(url, source_id=source_id, timeout=12, check_robots=True)
+            resp = feed_result.response
             if resp is None or resp.status_code != 200:
+                restricted = feed_result.status_code in {401, 403} or feed_result.error_type in {
+                    "SOURCE_POLICY_BLOCKED", "ROBOTS_OR_TDM_BLOCKED", "RESPONSE_TDM_BLOCKED",
+                    "HTML_TDM_BLOCKED",
+                }
+                blocked_feeds += bool(restricted)
+                unavailable_feeds += not restricted
+                record_connector_telemetry(
+                    f"Official Industry PR / {brand}", source_id, original_query,
+                    operational_status="ACCESS_RESTRICTED" if restricted else "TEMPORARILY_UNAVAILABLE",
+                    search_outcome="ACCESS_BLOCKED" if restricted else "RETRIEVAL_FAILED",
+                    error=feed_result.error_type or f"RSS_HTTP_{feed_result.status_code}",
+                )
                 continue
+            accessible_feeds += 1
             feed = feedparser.parse(resp.content)
             if not feed.entries:
+                parse_failures += bool(feed.bozo)
+                record_connector_telemetry(
+                    f"Official Industry PR / {brand}", source_id, original_query,
+                    operational_status="TEMPORARILY_UNAVAILABLE" if feed.bozo else "AVAILABLE",
+                    search_outcome="RETRIEVAL_FAILED" if feed.bozo else "NO_MATCH",
+                    error="RSS_PARSE_ERROR" if feed.bozo else None,
+                )
                 continue
 
             brand_block = f"\n>> {brand} Official Newsroom:\n"
-            brand_count = 0
-            for entry in feed.entries:
-                found_total += 1
+            brand_count = brand_rejected = screened_out = detail_blocked = detail_unavailable = metadata_only = 0
+            examined_count = 0
+            candidate_outcomes: Dict[str, str] = {}
+            candidate_budget = min(100, max(50, brand_quota * 10))
+            technical_query = bool(re.search(
+                r"\b(?:engine|engines|defect|problem|problems|issue|issues|inspect|turbine|delay|shortage|ground|safety)\b",
+                original_query, re.I,
+            )) and not bool(re.search(r"\b(?:order|orders|delivery|deliveries|contract|fleet)\b", original_query, re.I))
+            commercial_pr_re = re.compile(
+                r"\b(?:orders?\s+(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten|additional|more)|"
+                r"firm\s+order|places?\s+(?:an?\s+|firm\s+)?orders?|takes\s+delivery|share\s+buyback)\b",
+                re.I,
+            )
+            topic_words = {word.casefold() for word in required_words
+                           if len(word) >= 4 and word.casefold() not in {
+                               "airbus", "boeing", "risks", "risk", "aviation", "aerospace", "news", "latest"
+                           } and not any(ch.isdigit() for ch in word)}
+            for entry in feed.entries[:candidate_budget]:
                 if brand_count >= brand_quota:
                     break
+                examined_count += 1
 
                 link = entry.get("link", f"https://www.{brand.lower()}.com")
                 if link in COLLECTED_URLS:
+                    candidate_outcomes[link] = "DUPLICATE"
                     continue
 
                 raw_date = entry.get("published") or entry.get("updated") or ""
 
-                numeric_date = re.search(
-                    r"\b(\d{1,2})/(\d{1,2})/(20\d{2})\b",
-                    raw_date
-                )
+                numeric_date = re.search('\\b(\\d{1,2})/(\\d{1,2})/(20\\d{2})\\b', raw_date)
 
                 if numeric_date:
                     month, day, year = map(int, numeric_date.groups())
@@ -3252,97 +3965,95 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
                     pub_date = normalize_date_str(raw_date) or "DATE_UNKNOWN"
 
                 if not is_date_within_scope(pub_date):
-                    rejected_total += 1
+                    brand_rejected += 1
+                    candidate_outcomes[link] = "DATE_OUT_OF_SCOPE"
                     continue
 
                 title = entry.get("title", "Untitled release")
                 if any(k in title.lower() for k in noise_tokens):
+                    candidate_outcomes[link] = "UNRELATED_RELEASE_TYPE"
+                    continue
+                if technical_query and commercial_pr_re.search(title):
+                    screened_out += 1
+                    candidate_outcomes[link] = "COMMERCIAL_ORDER_PR_SKIPPED"
                     continue
 
-                desc = BeautifulSoup(
-                    entry.get("summary") or entry.get("description") or "",
-                    "html.parser"
-                ).get_text(" ", strip=True)[:400]
-                # Preserve explicit aircraft/engine model relevance.
-                # financial press releases merely because Airbus published them.
-
-                specific_models = _model_tokens(original_query)
-
-                if specific_models:
-                    searchable_metadata = f"{title} {desc}".lower()
-
-                    model_matched = any(
-                        re.search(
-                            rf"(?<![a-z0-9]){re.escape(model)}(?![a-z0-9])",
-                            searchable_metadata,
-                            re.I,
-                        )
-                        for model in specific_models
-                    )
-
-                    if not model_matched:
-                        rejected_total += 1
-                        continue
+                raw_rss_content = ""
+                if isinstance(entry.get("content"), list) and entry["content"]:
+                    raw_rss_content = str(entry["content"][0].get("value") or "")
+                raw_rss_html = raw_rss_content or entry.get("summary") or entry.get("description") or ""
+                full_rss_text = BeautifulSoup(raw_rss_html, "html.parser").get_text("\n", strip=True)[:6000]
+                desc = full_rss_text[:400]
+                metadata_text = f"{title} {desc}"
+                if (targets and not any(_model_matches(target, metadata_text) for target in targets)
+                        or not targets and topic_words and not any(
+                            re.search(rf"\b{re.escape(word)}\w*\b", metadata_text, re.I)
+                            for word in topic_words)):
+                    screened_out += 1
+                    candidate_outcomes[link] = "RSS_METADATA_NOT_RELEVANT"
+                    continue  # Screen RSS metadata before requesting full article HTML.
                 host = (urlparse(link).hostname or "").lower()
                 domains = {
                     "Airbus": ("airbus.com",),
                     "Boeing": ("boeing.com", "boeing.mediaroom.com"),
+                    "RTX / Pratt & Whitney": ("rtx.com", "prattwhitney.com"),
+                    "GE Aerospace": ("geaerospace.com", "cfmaeroengines.com"),
                 }
-                official = any(host == d or host.endswith("." + d) for d in domains[brand])
-                doc_source_id = source_id if official else "SRC_004"
+                official = any(host == d or host.endswith("." + d) for d in domains.get(brand, ()))
+                if not official:
+                    brand_rejected += 1
+                    candidate_outcomes[link] = "UNAPPROVED_HOST"
+                    continue
+                doc_source_id = source_id
 
                 body = ""
+                detail_result = _safe_http_request(link, source_id=doc_source_id, timeout=8,
+                                                   check_robots=True)
+                page = detail_result.response
+                if page is None or page.status_code != 200:
+                    if detail_result.status_code in {401, 403} or detail_result.error_type in {
+                        "SOURCE_POLICY_BLOCKED", "ROBOTS_OR_TDM_BLOCKED", "RESPONSE_TDM_BLOCKED",
+                        "HTML_TDM_BLOCKED",
+                    }:
+                        detail_blocked += 1
+                    else:
+                        detail_unavailable += 1
+                rss_body_used = False
+                if (page is not None and page.status_code == 200
+                        and "html" in page.headers.get("Content-Type", "").lower()):
+                    extracted = _extract_news_article_body(page.text)
 
-                if official:
-                    page = safe_http_get(
-                        link,
-                        source_id=doc_source_id,
-                        timeout=8,
-                        check_robots=True,
-                    )
+                    title_terms = {
+                        w for w in re.findall(r"[a-z0-9]{3,}", title.lower())
+                        if w not in {"boeing", "airbus", "with", "from", "this", "that", "for", "and", "the"}
+                    }
 
-                    if (
-                            page is not None
-                            and page.status_code == 200
-                            and "html" in page.headers.get(
-                        "Content-Type", ""
-                    ).lower()
-                    ):
-                        extracted = _extract_news_article_body(page.text)
+                    body_terms = set(re.findall(r"[a-z0-9]{3,}", extracted.lower()))
+                    min_overlap = min(2, len(title_terms)) if len(extracted) < 400 else min(1, len(title_terms))
 
-                        title_terms = {
-                            w for w in re.findall(
-                                r"[a-z]{4,}", title.lower()
-                            )
-                            if w not in {
-                                "boeing", "airbus", "with",
-                                "from", "this", "that",
-                            }
-                        }
+                    if len(extracted) >= 220 and len(title_terms & body_terms) >= min_overlap:
+                        body = extracted
 
-                        body_terms = set(
-                            re.findall(r"[a-z]{4,}", extracted.lower())
-                        )
+                if not body and len(full_rss_text) >= 220 and full_rss_text.casefold() != title.strip().casefold():
+                    body = full_rss_text
+                    rss_body_used = True
 
-                        if (
-                                len(extracted) >= 220
-                                and len(title_terms & body_terms) >= 2
-                        ):
-                            body = extracted
+                if targets and not any(_model_matches(target, f"{title} {desc} {body}")
+                                       for target in targets):
+                    brand_rejected += 1
+                    candidate_outcomes[link] = "MODEL_NOT_VERIFIED"
+                    continue
 
                 raw_text = body if body else (
                         "[OFFICIAL_RSS_METADATA_ONLY: "
                         "FULL ARTICLE UNAVAILABLE]\n"
                         + (desc or title)
                 )
+                metadata_only += not bool(body)
 
                 doc_rec = register_collected_document(
                     source_id=doc_source_id,
-                    connector_name=(
-                        "FAA Newsroom RSS"
-                        if brand == "FAA"
-                        else "Official Industry PR"
-                    ),
+                    connector_name=f"Official Industry PR / {brand}",
                     url=link,
                     title=title,
                     raw_text=raw_text,
@@ -3351,43 +4062,68 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
                 )
 
                 doc_rec["content_status"] = (
+                    "PARTIAL_TEXT" if rss_body_used else
                     ("PARTIAL_TEXT" if getattr(page, "aero_content_truncated", False) else "FULL_TEXT")
                     if body else "METADATA_ONLY"
                 )
-                doc_rec["content_truncated"] = bool(body and getattr(page, "aero_content_truncated", False))
-                doc_rec["content_limit_reason"] = "HTTP_MAX_BYTES" if doc_rec["content_truncated"] else ""
-                doc_rec["origin_type"] = (
-                    "PRIMARY_OFFICIAL_FULL_TEXT"
-                    if body
-                    else (
-                        "OFFICIAL_RSS_METADATA_ONLY"
-                        if official
-                        else "THIRD_PARTY_RSS_METADATA_ONLY"
-                    )
+                doc_rec["content_truncated"] = bool(
+                    body and not rss_body_used and getattr(page, "aero_content_truncated", False))
+                doc_rec["content_limit_reason"] = (
+                    "RSS_BODY_EXCERPT" if rss_body_used else
+                    "HTTP_MAX_BYTES" if doc_rec["content_truncated"] else ""
                 )
+                doc_rec["origin_type"] = (
+                    "PRIMARY_OFFICIAL_RSS_BODY" if rss_body_used else
+                    "PRIMARY_OFFICIAL_FULL_TEXT" if body else "OFFICIAL_RSS_METADATA_ONLY"
+                )
+                doc_rec.update(verified_domain=True, event_date="NOT_ESTABLISHED",
+                               event_date_basis="PUBLICATION_DATE_ONLY")
                 brand_block += (
                     f"DOC_ID: {doc_rec['doc_id']} | SOURCE_ID: {doc_source_id}\n"
                     f"DATE: {doc_rec['published_at']}\nTitle: {doc_rec['title']}\n"
                     f"Link: {link}\nCONTENT_STATUS: {doc_rec['content_status']}\n"
-                    f"Summary: {doc_rec['text'][:1500]}\n---\n"
+                    f"Summary: {doc_rec['text'][:5000]}\n---\n"
                 )
                 brand_count += 1
                 total_processed += 1
+                candidate_outcomes[link] = "COLLECTED_METADATA_ONLY" if not body else "COLLECTED_FULL_TEXT"
 
             # Outside the "for entry in feed.entries" loop.
             if brand_count:
                 extracted_text += brand_block
 
+            partial_feeds += bool(feed.bozo or len(feed.entries) > examined_count or
+                                  detail_blocked or detail_unavailable or metadata_only)
             record_connector_telemetry(
                 f"Official Industry PR / {brand}",
                 source_id,
                 safe_query,
                 found_count=len(feed.entries),
                 accepted_count=brand_count,
+                rejected_out_of_scope=brand_rejected,
+                operational_status="AVAILABLE",
+                search_outcome=("PARTIAL_RESULT" if feed.bozo or len(feed.entries) > examined_count
+                                or metadata_only or detail_blocked or detail_unavailable else
+                                "RESULTS_RETRIEVED" if brand_count else
+                                "NO_MATCH"),
+                coverage_note=("RSS_METADATA_SCREENING_NOT_FULL_TEXT_VERIFICATION"
+                               if screened_out or metadata_only or detail_blocked or detail_unavailable else None),
+                diagnostics={"rss_candidates_examined": examined_count,
+                             "rss_metadata_rejected": screened_out,
+                             "rss_candidates_unexamined": max(0, len(feed.entries) - examined_count),
+                             "candidate_outcomes": candidate_outcomes,
+                             "metadata_only_records": metadata_only,
+                             "article_access_blocked": detail_blocked,
+                             "article_unavailable": detail_unavailable},
             )
 
         except Exception as e:
             logger.error(f"[OSINT GATHERER] PR feed error for {brand}: {str(e)}")
+            record_connector_telemetry(
+                f"Official Industry PR / {brand}", source_id, original_query,
+                operational_status="TEMPORARILY_UNAVAILABLE", search_outcome="RETRIEVAL_FAILED",
+                error=str(e),
+            )
 
     # Optional historical Boeing archive – metadata only.
     if "Boeing" in feeds and os.getenv("EWS_BOEING_ARCHIVE_APPROVED") == "1":
@@ -3396,23 +4132,13 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
         if start and (end - start).days > 90:
             max_years = min(5, int(os.getenv("EWS_BOEING_MAX_YEARS", "2")))
 
-            for year in range(
-                    end.year,
-                    max(start.year, end.year - max_years + 1) - 1,
-                    -1,
-            ):
+            for year in range(end.year, max(start.year, end.year - max_years + 1) - 1, -1):
                 if total_processed >= limit_per_feed:
                     break
 
-                url = (
-                    "https://boeing.mediaroom.com/"
-                    f"news-releases-statements?year={year}"
-                )
+                url = f'https://boeing.mediaroom.com/news-releases-statements?year={year}'
 
-                resp = safe_http_get(
-                    url, source_id="SRC_030",
-                    timeout=12, check_robots=True,
-                )
+                resp = safe_http_get(url, source_id='SRC_030', timeout=12, check_robots=True)
                 if resp is None or resp.status_code != 200:
                     continue
 
@@ -3455,8 +4181,17 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
                     total_processed += 1
 
     logger.warning(f"[OSINT DEBUG] PR module downloaded {total_processed} releases.")
-    return extracted_text
-
+    if total_processed:
+        return extracted_text
+    if not accessible_feeds:
+        return ("Official Industry PR: SOURCE_ACCESS_BLOCKED (access/policy restriction)"
+                if blocked_feeds and not unavailable_feeds else
+                "Official Industry PR: SOURCE_UNAVAILABLE (no feed successfully retrieved)")
+    if parse_failures:
+        return "Official Industry PR: PARTIAL_RESULT (one or more RSS feeds could not be parsed)"
+    if partial_feeds:
+        return "Official Industry PR: PARTIAL_RESULT (candidate limit or article access prevented full coverage)"
+    return "Official Industry PR: NO_MATCH (accessible feeds searched; no applicable releases)"
 
 # Find public aviation posts and suppress automated tracking chatter.
 # Treat community posts as leads until independently corroborated.
@@ -3473,17 +4208,24 @@ def search_bluesky_aviation(query: str) -> str:
     headers = {"Accept": "application/json", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AeroEWS/2.0"}
 
     if handle and password:
+        auth_resp = None
         try:
             auth_resp = requests.post(
                 "https://bsky.social/xrpc/com.atproto.server.createSession",
                 json={"identifier": handle, "password": password}, timeout=10,
             )
+            _note_http_request("SRC_007", auth_resp.status_code)
             auth_resp.raise_for_status()
             headers["Authorization"] = f"Bearer {auth_resp.json().get('accessJwt')}"
         except Exception as e:
+            if auth_resp is None and isinstance(e, requests.RequestException):
+                _note_http_request("SRC_007", None, timed_out=isinstance(e, requests.Timeout))
             logger.error(f"[OSINT DEBUG] Bluesky authentication failed: {e}")
-            record_connector_telemetry("Bluesky Social Network", "SRC_007", query, error=str(e))
-            return "Bluesky authentication failed."
+            blocked = auth_resp is not None and auth_resp.status_code in {401, 403}
+            record_connector_telemetry("Bluesky Social Network", "SRC_007", query, error=str(e),
+                                       operational_status="ACCESS_BLOCKED" if blocked else "TEMPORARILY_UNAVAILABLE",
+                                       search_outcome="NOT_EXECUTED")
+            return "Bluesky: ACCESS_BLOCKED (authentication rejected)." if blocked else "Bluesky: SOURCE_UNAVAILABLE (authentication failed)."
 
     params: Dict[str, Any] = {
         "q": query,
@@ -3499,23 +4241,34 @@ def search_bluesky_aviation(query: str) -> str:
             source_id="SRC_007", params=params, headers=headers, timeout=15,
         )
         if response is None or response.status_code in (401, 403):
-            record_connector_telemetry("Bluesky Social Network", "SRC_007", query, error="Blocked or unauthorized")
-            return "Bluesky request blocked by server."
+            blocked = response is not None
+            record_connector_telemetry("Bluesky Social Network", "SRC_007", query,
+                                       error="ACCESS_BLOCKED" if blocked else "SOURCE_UNAVAILABLE",
+                                       operational_status="ACCESS_BLOCKED" if blocked else "TEMPORARILY_UNAVAILABLE",
+                                       search_outcome="RETRIEVAL_FAILED")
+            return "Bluesky: ACCESS_BLOCKED (request denied)." if blocked else "Bluesky: SOURCE_UNAVAILABLE (request failed)."
 
         response.raise_for_status()
         posts = response.json().get("posts", []) or []
         logger.info("[BLUESKY AUDIT] HTTP=%s raw_posts=%d query=%r", response.status_code, len(posts), query)
 
-        if not posts and len(query.split()) >= 4:
+        if not posts:
             _, short_query = parse_query_intent(query)
-            if short_query and short_query.casefold() != query.casefold():
+            fb_candidates = list(dict.fromkeys(
+                q for q in (*build_social_video_queries(query), short_query)
+                if q and q.casefold() != query.casefold()
+            ))
+            for fb_q in fb_candidates[:2]:
                 fb_resp = safe_http_get(
                     "https://bsky.social/xrpc/app.bsky.feed.searchPosts",
-                    source_id="SRC_007", params={**params, "q": short_query}, headers=headers, timeout=15,
+                    source_id="SRC_007", params={**params, "q": fb_q}, headers=headers, timeout=15,
                 )
                 if fb_resp is not None and fb_resp.status_code == 200:
-                    posts = fb_resp.json().get("posts", []) or []
-                    logger.info("[BLUESKY FALLBACK] q=%r raw_posts=%d", short_query, len(posts))
+                    fb_posts = fb_resp.json().get("posts", []) or []
+                    logger.info("[BLUESKY FALLBACK] q=%r raw_posts=%d", fb_q, len(fb_posts))
+                    if fb_posts:
+                        posts = fb_posts
+                        break
 
         official_handles = [
             h.strip()
@@ -3523,22 +4276,21 @@ def search_bluesky_aviation(query: str) -> str:
             if h.strip()
         ]
 
-        for account in official_handles[:10]:
+        for account in official_handles[:50]:
             resp = safe_http_get(
                 "https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed",
                 source_id="SRC_007",
                 params={"actor": account, "limit": min(limit, 100)},
             )
             if resp is not None and resp.status_code == 200:
-                posts.extend(
-                    item["post"]
-                    for item in resp.json().get("feed", [])
-                    if "post" in item
-                )
+                posts.extend((item['post'] for item in resp.json().get('feed', []) if 'post' in item))
         extracted_text = f"--- BLUESKY POSTS FOR '{query}' ---\n"
         count = rejected_scope = rejected_bots = rejected_duplicates = 0
         seen_post_texts = set()
-        bot_keywords = ("acarsdrama", "tlsflights", "adsbexchange", "adsb.fi", "air to ground message:")
+        bot_keywords = (
+            "acarsdrama", "tlsflights", "adsbexchange", "adsb.fi", "air to ground message:",
+            "boeingtracker", "airbustracker", "zenithboard", "#adsb", "ferried ",
+        )
 
         for post in posts:
             if count >= limit:
@@ -3595,7 +4347,11 @@ def search_bluesky_aviation(query: str) -> str:
             "[BLUESKY FILTER AUDIT] raw=%d kept=%d out_of_scope_or_personal=%d bots=%d duplicates_or_empty=%d",
             len(posts), count, rejected_scope, rejected_bots, rejected_duplicates,
         )
-        record_connector_telemetry("Bluesky Social Network", "SRC_007", query, len(posts), count, rejected_scope)
+        record_connector_telemetry(
+            "Bluesky Social Network", "SRC_007", query, len(posts), count, rejected_scope,
+            operational_status="AVAILABLE",
+            search_outcome="RESULTS_RETRIEVED" if count else "NO_MATCH",
+        )
         if count == 0:
             return f"No relevant Bluesky posts found for '{query}'."
 
@@ -3606,12 +4362,10 @@ def search_bluesky_aviation(query: str) -> str:
         record_connector_telemetry("Bluesky Social Network", "SRC_007", query, error=str(e))
         return "Unable to connect to Bluesky server."
 
-
 _AIRSHOW_IRRELEVANT_PATHS = (
     "/visit/", "/attractions/", "/beauty-n-wellness/", "/shopping/",
     "/accommodation/", "/dining/", "/restaurants/", "/ticketing/", "/hospitality-packages/",
 )
-
 
 # Collect airshow newsroom updates through a governed browser session.
 # Bound the crawl and retain only permitted newsroom source records.
@@ -3740,10 +4494,7 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
 
                     # Prefer the newest explicitly dated newsroom candidates.
                     # Unknown dates remain at the end.
-                    candidate_links.sort(
-                        key=lambda item: item.get("date") or "",
-                        reverse=True,
-                    )
+                    candidate_links.sort(key=lambda item: item.get('date') or '', reverse=True)
 
                     filtered_overview = filter_relevant_paragraphs("\n".join(all_raw_texts), required_words)
                     link_date_map = {l["url"]: l.get("date", "") for l in candidate_links if l.get("date")}
@@ -3874,7 +4625,9 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
 
     record_connector_telemetry(
         "Airshow Websites", "SRC_006", safe_query, total_articles + rejected_scope, total_articles, rejected_scope,
-        unknown_dates
+        unknown_dates,
+        operational_status="AVAILABLE",
+        search_outcome="RESULTS_RETRIEVED" if total_articles else "NO_MATCH",
     )
     if processed_shows == 0:
         return f"No information found for '{safe_query}' on any monitored airshow websites within the selected time scope."
@@ -3883,10 +4636,8 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
         f"[OSINT DEBUG] Extracted {total_articles} articles across {processed_shows} airshows (limit: {user_limit}).")
     return extracted_text
 
-
 YOUTUBE_CACHE_FILE = "youtube_transcript_cache.json"
 _YT_CACHE_LOCK = threading.Lock()
-
 
 # Read a cached transcript to avoid repeated remote retrieval.
 def _load_yt_transcript_cache() -> Dict[str, str]:
@@ -3898,7 +4649,6 @@ def _load_yt_transcript_cache() -> Dict[str, str]:
             return data if isinstance(data, dict) else {}
     except Exception:
         return {}
-
 
 # Persist an acquired transcript for reuse by later scans.
 def _save_yt_transcript_cache(video_id: str, transcript: str) -> None:
@@ -3912,7 +4662,6 @@ def _save_yt_transcript_cache(video_id: str, transcript: str) -> None:
     except Exception as e:
         logger.debug(f"[YT CACHE] Could not write transcript cache: {e}")
 
-
 # Collect KIT-related videos and recover usable text from transcripts.
 # A transcript supports what was said, not independent truth of the claim.
 @tool("Search and Extract YouTube")
@@ -3921,8 +4670,10 @@ def extract_youtube_transcript(query: str) -> str:
     # Prefer cached source transcripts and conserve external transcript/model requests.
     """Search YouTube for aviation videos, pre-filter by KIT relevance, and use local transcript caching before Gemini."""
     if not YOUTUBE_API_KEY:
-        record_connector_telemetry("YouTube Videos", "SRC_008", query, error="Missing API keys")
-        return "Error: Missing YOUTUBE_API_KEY or GEMINI_API_KEY in .env."
+        record_connector_telemetry("YouTube Videos", "SRC_008", query, error="MISSING_YOUTUBE_API_KEY",
+                                   operational_status="MISCONFIGURED", search_outcome="NOT_EXECUTED",
+                                   diagnostics={"zero_result_reason": "MISSING_API_KEY"})
+        return "YouTube: MISCONFIGURED (YOUTUBE_API_KEY is missing)."
 
     limit = get_dynamic_limit()
     start_utc, end_utc = get_time_window_utc()
@@ -3931,11 +4682,12 @@ def extract_youtube_transcript(query: str) -> str:
 
     logger.info(f"[OSINT GATHERER] Querying YouTube Data API v3 for: '{query}' (limit: {limit})")
 
+    short_yt_queries = build_social_video_queries(query)
+    primary_yt_q = short_yt_queries[0] if (len(query.split()) > 5 and short_yt_queries) else query
     search_params: Dict[str, Any] = {
         "part": "snippet",
-        "q": f"{query} -shorts -compilation -landing -takeoff -flightsimulator -msfs",
+        "q": f"{primary_yt_q} -shorts -compilation -landing -takeoff -flightsimulator -msfs",
         "type": "video",
-        "videoDuration": "medium",
         "maxResults": min(20, limit * 3),
         "relevanceLanguage": "en",
         "key": YOUTUBE_API_KEY,
@@ -3944,40 +4696,104 @@ def extract_youtube_transcript(query: str) -> str:
     if start_utc is not None:
         search_params["publishedAfter"] = start_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    try:
-        search_resp = safe_http_get("https://www.googleapis.com/youtube/v3/search", source_id="SRC_008",
-                                    params=search_params, timeout=10)
-        if search_resp is None or search_resp.status_code != 200:
-            record_connector_telemetry("YouTube Videos", "SRC_008", query, error="YouTube API HTTP failure")
-            return "Error fetching video data from API."
+    diagnostics: Dict[str, Any] = {"search_query": search_params["q"], "http_status": None,
+                                   "api_error_reason": "", "api_items_returned": 0,
+                                   "candidates_accepted": 0, "zero_result_reason": ""}
 
-        videos, rejected_scope = [], 0
+    def audit(found: int = 0, accepted: int = 0, rejected: int = 0, *,
+              state: str = "AVAILABLE", outcome: str = "RESULTS_RETRIEVED", error: str = "") -> None:
+        if accepted == 0 and not diagnostics["zero_result_reason"]:
+            diagnostics["zero_result_reason"] = outcome
+        record_connector_telemetry("YouTube Videos", "SRC_008", query, found, accepted, rejected,
+                                   operational_status=state, search_outcome=outcome, error=error or None,
+                                   diagnostics=diagnostics)
+
+    try:
+        http = _safe_http_request("https://www.googleapis.com/youtube/v3/search", "SRC_008",
+                                  params=search_params, timeout=10, max_bytes=400_000)
+        diagnostics["http_status"] = http.status_code
+        search_resp = http.response
+        if http.status_code != 200 or not http.response_complete or search_resp is None:
+            reason = http.error_type or "HTTP_ERROR"
+            if search_resp is not None and http.status_code and http.status_code >= 400:
+                try:
+                    api_error = search_resp.json().get("error", {})
+                    reason = next((e.get("reason", "") for e in api_error.get("errors", [])
+                                   if isinstance(e, dict) and e.get("reason")), reason)
+                except (ValueError, AttributeError, TypeError):
+                    pass
+            diagnostics["api_error_reason"] = reason
+            state = ("RATE_LIMITED" if http.status_code == 429 or reason in {
+                "quotaExceeded", "rateLimitExceeded", "userRateLimitExceeded"
+            } else "ACCESS_BLOCKED" if http.status_code in {401, 403} or reason in {
+                "SOURCE_POLICY_BLOCKED", "ROBOTS_OR_TDM_BLOCKED", "RESPONSE_TDM_BLOCKED", "HTML_TDM_BLOCKED"
+            } else "TEMPORARILY_UNAVAILABLE" if http.status_code and http.status_code >= 500
+                    else "TECHNICAL_ERROR")
+            diagnostics["zero_result_reason"] = state
+            audit(state=state, outcome="RETRIEVAL_FAILED", error=reason)
+            return f"YouTube: {state} (search failed: {reason})."
+
+        payload = search_resp.json()
+        if not isinstance(payload, dict) or not isinstance(payload.get("items"), list):
+            raise ValueError("INVALID_YOUTUBE_RESPONSE_SCHEMA")
+        items = payload["items"]
+        if not items:
+            for fb_q in short_yt_queries:
+                if fb_q.casefold() == primary_yt_q.casefold():
+                    continue
+                fb_params = {**search_params, "q": f"{fb_q} -shorts -compilation -flightsimulator -msfs"}
+                fb_http = _safe_http_request(
+                    "https://www.googleapis.com/youtube/v3/search", "SRC_008",
+                    params=fb_params, timeout=10, max_bytes=400_000,
+                )
+                if fb_http.status_code == 200 and fb_http.response_complete and fb_http.response is not None:
+                    fb_payload = fb_http.response.json()
+                    if isinstance(fb_payload, dict) and fb_payload.get("items"):
+                        payload = fb_payload
+                        items = fb_payload["items"]
+                        diagnostics["search_query"] = fb_params["q"]
+                        break
+        diagnostics.update(api_response_status="OK", api_items_returned=len(items),
+                           api_total_results=(payload.get("pageInfo") or {}).get("totalResults"),
+                           has_next_page=bool(payload.get("nextPageToken")))
+
+        videos, rejected_scope, duplicates, malformed = [], 0, 0, 0
         yt_noise = ("#shorts", "compilation", "1:200", "1:400", "scale model", "msfs", "flight simulator",
                     "trip report")
 
-        for item in search_resp.json().get("items", []):
-            vid_id = item["id"]["videoId"]
+        for item in items:
+            if not isinstance(item, dict) or not isinstance(item.get("id"), dict) or not isinstance(item.get("snippet"), dict):
+                malformed += 1
+                continue
+            vid_id = item["id"].get("videoId")
+            snippet = item["snippet"]
+            if (not isinstance(vid_id, str) or not isinstance(snippet.get("title"), str)
+                    or not isinstance(snippet.get("publishedAt"), str)
+                    or not snippet["title"] or not snippet["publishedAt"]):
+                malformed += 1
+                continue
             vid_url = f"https://www.youtube.com/watch?v={vid_id}"
             if vid_url in COLLECTED_URLS:
+                duplicates += 1
                 continue
 
-            title = html.unescape(item["snippet"]["title"])
-            desc = html.unescape(item["snippet"].get("description", ""))
+            title = html.unescape(snippet["title"])
+            desc = html.unescape(snippet.get("description") or "")
             combined_meta_low = f"{title} {desc}".lower()
 
             if (
                     any(noise in combined_meta_low for noise in yt_noise)
-                    or (num_model_words and not any(mw in combined_meta_low for mw in num_model_words))
-                    or not is_date_within_scope(item["snippet"]["publishedAt"])
+                    or (num_model_words and not any(mw.lower() in combined_meta_low for mw in num_model_words))
+                    or not is_date_within_scope(snippet["publishedAt"])
             ):
                 rejected_scope += 1
                 continue
 
-            raw_date = item["snippet"]["publishedAt"]
+            raw_date = snippet["publishedAt"]
             videos.append({
                 "id": vid_id,
                 "title": title,
-                "channel": item["snippet"]["channelTitle"],
+                "channel": snippet.get("channelTitle", ""),
                 "desc": desc,
                 "date": raw_date.split("T")[0] if "T" in raw_date else raw_date,
                 "url": vid_url,
@@ -3985,9 +4801,15 @@ def extract_youtube_transcript(query: str) -> str:
             if len(videos) >= limit:
                 break
 
+        diagnostics.update(candidates_accepted=len(videos), duplicates=duplicates,
+                           malformed_items=malformed, rejected_out_of_scope=rejected_scope)
         if not videos:
-            record_connector_telemetry("YouTube Videos", "SRC_008", query, 0, 0, rejected_scope)
-            return f"No relevant news videos found on YouTube for '{query}' within the selected time scope."
+            reason = ("NO_RESULTS" if not items else "ALREADY_COLLECTED" if duplicates == len(items)
+                      else "MALFORMED_ITEMS" if malformed == len(items) else "NO_RELEVANT_MATCH")
+            diagnostics["zero_result_reason"] = reason
+            audit(len(items), rejected=rejected_scope, outcome="NO_MATCH" if reason != "MALFORMED_ITEMS"
+                  else "RETRIEVAL_FAILED", state="TECHNICAL_ERROR" if reason == "MALFORMED_ITEMS" else "AVAILABLE")
+            return f"YouTube: {reason} (API returned {len(items)} candidates; 0 accepted)."
 
         if os.getenv("EWS_YOUTUBE_TRANSCRIPTS_APPROVED", "0") != "1":
             results = []
@@ -4012,6 +4834,7 @@ def extract_youtube_transcript(query: str) -> str:
                     f"Summary: {doc['text']}\n---"
                 )
 
+            audit(len(items), len(results), rejected_scope)
             return "\n".join(results)
 
         extracted_text = f"--- RAW VIDEO TRANSCRIPTS FOR '{query}' ---\n"
@@ -4022,7 +4845,7 @@ def extract_youtube_transcript(query: str) -> str:
         client = genai.Client(
             api_key=GEMINI_API_KEY,
             http_options=types.HttpOptions(timeout=30_000, retry_options=types.HttpRetryOptions(attempts=1)),
-        )
+        ) if GEMINI_API_KEY else None
         transcript_prompt = (
             "Return ONLY the exact, verbatim transcript of the spoken words in this video. "
             "Do NOT summarize, do NOT analyze, do NOT add introductory or concluding remarks. "
@@ -4048,7 +4871,7 @@ def extract_youtube_transcript(query: str) -> str:
                     _save_yt_transcript_cache(v["id"], transcript_text)
                     logger.info(f"[OSINT GATHERER] Fast transcript fetched via YouTubeTranscriptApi for {v['id']}.")
                 except Exception as yt_err:
-                    if gemini_calls_made >= max_gemini_transcriptions:
+                    if client is None or gemini_calls_made >= max_gemini_transcriptions:
                         logger.info(
                             f"[OSINT GATHERER] Skipping slow Gemini audio transcription for {v['id']} (budget {max_gemini_transcriptions} reached).")
                         continue
@@ -4096,11 +4919,16 @@ def extract_youtube_transcript(query: str) -> str:
             if used_gemini_fallback:
                 time.sleep(2)
 
-        record_connector_telemetry("YouTube Videos", "SRC_008", query, len(videos), processed_videos, rejected_scope)
+        diagnostics.update(transcripts_accepted=processed_videos, gemini_attempts=gemini_calls_made)
+        if not processed_videos:
+            diagnostics["zero_result_reason"] = "NO_USABLE_TRANSCRIPT"
+        audit(len(items), processed_videos, rejected_scope,
+              outcome="RESULTS_RETRIEVED" if processed_videos else "NO_USABLE_TRANSCRIPT")
         logger.info(f"[OSINT GATHERER] YouTube processing completed for {processed_videos} videos.")
         return extracted_text
 
     except Exception as e:
-        logger.error(f"[OSINT GATHERER] YouTube API error: {str(e)}")
-        record_connector_telemetry("YouTube Videos", "SRC_008", query, error=str(e))
-        return "Error fetching video data from API."
+        logger.error("[OSINT GATHERER] YouTube processing error: %s", type(e).__name__)
+        diagnostics["zero_result_reason"] = "TECHNICAL_ERROR"
+        audit(state="TECHNICAL_ERROR", outcome="RETRIEVAL_FAILED", error=type(e).__name__)
+        return "YouTube: TECHNICAL_ERROR (search or response processing failed)."
