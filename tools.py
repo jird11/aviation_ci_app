@@ -8,8 +8,6 @@
 # =============================================================================
 
 import csv
-from dataclasses import dataclass
-from functools import lru_cache
 import email.utils
 import hashlib
 import html
@@ -18,17 +16,20 @@ import ipaddress
 import json
 import logging
 import os
-from pathlib import Path
 import re
 import socket
 import threading
 import time
+import unicodedata
 import urllib.parse
 import urllib.robotparser
 import zipfile
-from datetime import datetime, timedelta, timezone
+from dataclasses import dataclass
+from datetime import UTC, datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
 from urllib.parse import quote_plus, urljoin, urlparse
 
 import feedparser
@@ -41,7 +42,6 @@ from google.genai import types
 from playwright.sync_api import sync_playwright
 from tenacity import retry, stop_after_attempt, wait_exponential
 from youtube_transcript_api import YouTubeTranscriptApi
-import unicodedata
 
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -53,7 +53,7 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Provide a normalized UTC timestamp for report metadata and audit records.
 def _now_iso() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 # Canonical monitoring date-window choices.
 class AnalysisScope(str, Enum):
@@ -105,22 +105,20 @@ def normalize_scope_value(raw_scope: str) -> AnalysisScope:
 from aero_ews.collection.registry import (
     AEROSPACE_SUPPLIER_REGISTRY,
     SOURCE_REGISTRY,
-    SourceLegalStatus,
-    _SRC_DEFAULTS,
-    registry_additions,
 )
+
 
 # Resolve aerospace organizations against controlled supplier metadata.
 def _supplier_name_key(value: str) -> str:
     text = unicodedata.normalize('NFKD', str(value or '').casefold()).replace('&', ' and ')
 
-    text = ''.join((ch for ch in text if not unicodedata.combining(ch)))
+    text = ''.join(ch for ch in text if not unicodedata.combining(ch))
 
     text = re.sub(r"[^a-z0-9]+", " ", text)
 
     return re.sub(r"\s+", " ", text).strip()
 
-def find_supplier_mentions(text: str) -> List[Dict[str, Any]]:
+def find_supplier_mentions(text: str) -> list[dict[str, Any]]:
     """Return all distinct explicitly mentioned registry entities."""
     normalized = _supplier_name_key(text)
 
@@ -146,7 +144,7 @@ def find_supplier_mentions(text: str) -> List[Dict[str, Any]]:
 
     return matches
 
-def lookup_supplier_in_registry(text_or_company: str, exact: bool=False) -> Optional[Dict[str, Any]]:
+def lookup_supplier_in_registry(text_or_company: str, exact: bool=False) -> dict[str, Any] | None:
     """Resolve an entity only when exactly one registry entry matches."""
 
     if not text_or_company:
@@ -181,7 +179,7 @@ class CentralRateLimiter:
     def __init__(self) -> None:
         # Coordinate network rate limits across source connectors.
         self._lock = threading.Lock()
-        self._last_call: Dict[str, float] = {}
+        self._last_call: dict[str, float] = {}
 
     # Enforce a centralized retrieval rate budget before network access.
     def wait_for_slot(self, source_id: str) -> None:
@@ -220,7 +218,7 @@ def is_source_allowed(source_id: str) -> bool:
         in {"dev", "development", "test"}
     )
 
-_ROBOTS_CACHE: Dict[str, urllib.robotparser.RobotFileParser] = {}
+_ROBOTS_CACHE: dict[str, urllib.robotparser.RobotFileParser] = {}
 
 # Reject local, private, and restricted IP targets to reduce SSRF exposure.
 def is_ip_public_and_safe(hostname: str) -> bool:
@@ -246,14 +244,14 @@ def is_ip_public_and_safe(hostname: str) -> bool:
 
 HTML_TDM_OPT_OUT_REGEX = re.compile(
     r"<meta[^>]+(?:name|property)\s*=\s*[\"'](?:tdm-reservation|robots|googlebot)[\"'][^>]+content\s*=\s*[\"'][^\"']*(?:1|noai|notdm|noarchive|noindex)[^\"']*[\"']",
-    re.I,
+    re.IGNORECASE,
 )
 
 # Apply robots.txt and text-and-data-mining access restrictions.
 # Apply source-specific robots and text/data-mining restrictions before retrieval.
 def check_robots_and_tdm_compliance(
         url: str, source_id: str = "SRC_004", user_agent: str = "AeroEWSBot"
-) -> Tuple[bool, str]:
+) -> tuple[bool, str]:
     # Check both automated-access rules and documented TDM restrictions.
     """Apply configured robots.txt and text-and-data-mining access checks."""
     parsed = urlparse(url)
@@ -322,20 +320,20 @@ def check_robots_and_tdm_compliance(
 
 @dataclass
 class HTTPResult:
-    response: Optional[requests.Response] = None
-    status_code: Optional[int] = None
+    response: requests.Response | None = None
+    status_code: int | None = None
     error_type: str = ""
     retryable: bool = False
-    retry_after: Optional[float] = None
+    retry_after: float | None = None
     response_complete: bool = False
     bytes_received: int = 0
     attempts: int = 0
     wait_seconds: float = 0.0
     payload_classification: str = ""
-    payload_shape: Optional[Dict[str, Any]] = None
+    payload_shape: dict[str, Any] | None = None
 
 
-def _retry_after_seconds(value: str) -> Optional[float]:
+def _retry_after_seconds(value: str) -> float | None:
     if not value:
         return None
     try:
@@ -343,7 +341,7 @@ def _retry_after_seconds(value: str) -> Optional[float]:
     except ValueError:
         try:
             parsed = email.utils.parsedate_to_datetime(value)
-            return max(0.0, (parsed - datetime.now(timezone.utc)).total_seconds())
+            return max(0.0, (parsed - datetime.now(UTC)).total_seconds())
         except (ValueError, TypeError, OverflowError):
             return None
 
@@ -351,8 +349,8 @@ def _retry_after_seconds(value: str) -> Optional[float]:
 def _safe_http_request(
         url: str,
         source_id: str = "SRC_004",
-        params: Optional[Dict[str, Any]] = None,
-        headers: Optional[Dict[str, str]] = None,
+        params: dict[str, Any] | None = None,
+        headers: dict[str, str] | None = None,
         timeout: int = 12,
         max_redirects: int = 3,
         max_bytes: int = 2_000_000,
@@ -492,11 +490,11 @@ def _safe_http_request(
 
 
 def safe_http_get(
-        url: str, source_id: str = "SRC_004", params: Optional[Dict[str, Any]] = None,
-        headers: Optional[Dict[str, str]] = None, timeout: int = 12,
+        url: str, source_id: str = "SRC_004", params: dict[str, Any] | None = None,
+        headers: dict[str, str] | None = None, timeout: int = 12,
         max_redirects: int = 3, max_bytes: int = 2_000_000,
         check_robots: bool = False,
-) -> Optional[requests.Response]:
+) -> requests.Response | None:
     """Backward-compatible GET; inspect `_safe_http_request` for failure details."""
     return _safe_http_request(url, source_id, params, headers, timeout,
                               max_redirects, max_bytes, check_robots).response
@@ -507,7 +505,7 @@ PROMPT_INJECTION_REGEX = re.compile(
     r"you\s+are\s+now\s+a\s+|system\s+override\s*:|new\s+directive\s*:|"
     r"forget\s+everything|do\s+not\s+mention\s+this\s+instruction|"
     r"output\s+threat_score\s*=\s*10|<\s*/?\s*system\s*>)",
-    re.I,
+    re.IGNORECASE,
 )
 
 PII_EMAIL_REGEX = re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b")
@@ -515,7 +513,7 @@ PII_PHONE_REGEX = re.compile(r"(?:\+\d{1,3}[\s-]?)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\
 PII_SOCIAL_HANDLE_REGEX = re.compile(r"(?<!\w)@[A-Za-z0-9_.-]{3,40}\b")
 PII_PERSONAL_BYLINE_REGEX = re.compile(
     r"\b(?:contact\s+person|media\s+contact|press\s+contact|written\s+by|reported\s+by)\s*:\s*[A-Z][a-z]+\s+[A-Z][a-z]+",
-    re.I,
+    re.IGNORECASE,
 )
 
 _PII_REDACTION_RULES = (
@@ -529,14 +527,14 @@ PERSONAL_NON_INDUSTRIAL_POST_REGEX = re.compile(
     r"\b(?:my\s+flight\s+was|my\s+luggage|lost\s+my\s+bag|vacation|holiday\s+vlog|hotel\s+room|"
     r"my\s+seat\s+on|flight\s+attendant\s+was\s+rude|looking\s+for\s+a\s+job|hiring\s+me|"
     r"my\s+personal|family\s+trip|birthday|wedding|selfie|rate\s+my\s+landing|plane\s+spotting\s+at)\b",
-    re.I,
+    re.IGNORECASE,
 )
 
 AEROSPACE_B2B_RELEVANCE_ANCHORS = re.compile(
     r"\b(?:airbus|boeing|comac|embraer|pratt|whitney|cfm|safran|rolls-royce|ge\s+aerospace|spirit\s+aerosystems|"
     r"collins|faa|easa|ntsb|airworthiness|directive|supply\s+chain|tier\s*[123]|delivery\s+delay|shortage|"
     r"production|grounding|grounded|mro|turbine|fuselage|titanium|forging|defect|inspection|fleet\s+order)\b",
-    re.I,
+    re.IGNORECASE,
 )
 
 # Flag community text unrelated to the monitored industrial intelligence question.
@@ -549,7 +547,7 @@ def is_unrelated_personal_post(text: str, title: str = "") -> bool:
     )
 
 # Remove unnecessary personal or unsafe content before storing source excerpts.
-def sanitize_and_minimize_osint_text(raw_text: str) -> Tuple[str, bool, int]:
+def sanitize_and_minimize_osint_text(raw_text: str) -> tuple[str, bool, int]:
     if not raw_text:
         return "", False, 0
     cleaned, inj_count = PROMPT_INJECTION_REGEX.subn("[REDACTED_PROMPT_INJECTION_ATTEMPT]", raw_text)
@@ -560,12 +558,12 @@ def sanitize_and_minimize_osint_text(raw_text: str) -> Tuple[str, bool, int]:
     return cleaned, inj_count > 0, pii_count
 
 COLLECTED_URLS: set[str] = set()
-COLLECTED_DOCUMENTS: List[Dict[str, Any]] = []
-CONNECTOR_TELEMETRY: Dict[str, Dict[str, Any]] = {}
-HTTP_TELEMETRY: Dict[str, Dict[str, Any]] = {}
-NEWS_FALLBACK_CACHE: Dict[Tuple[str, str, str, int, str], List[Dict[str, Any]]] = {}
-FAA_SEARCH_CACHE: Dict[str, Tuple[List[Dict[str, Any]], Dict[str, Any]]] = {}
-EASA_PAGE_CACHE: Dict[str, str] = {}
+COLLECTED_DOCUMENTS: list[dict[str, Any]] = []
+CONNECTOR_TELEMETRY: dict[str, dict[str, Any]] = {}
+HTTP_TELEMETRY: dict[str, dict[str, Any]] = {}
+NEWS_FALLBACK_CACHE: dict[tuple[str, str, str, int, str], list[dict[str, Any]]] = {}
+FAA_SEARCH_CACHE: dict[str, tuple[list[dict[str, Any]], dict[str, Any]]] = {}
+EASA_PAGE_CACHE: dict[str, str] = {}
 _COLLECTION_LOCK = threading.Lock()
 
 class NewsAPIState(str, Enum):
@@ -578,7 +576,7 @@ class NewsAPIState(str, Enum):
 
 
 _NEWSAPI_LOCK = threading.Lock()
-_NEWSAPI_HEALTH: Dict[str, Any] = {
+_NEWSAPI_HEALTH: dict[str, Any] = {
     "state": NewsAPIState.AVAILABLE, "key_digest": "", "until": 0.0, "error_code": "",
     "restricted_queries": set(),
 }
@@ -588,7 +586,7 @@ def _newsapi_key() -> str:
     return os.getenv("NEWS_API_KEY", "").strip()
 
 
-def reload_newsapi_configuration() -> Dict[str, Any]:
+def reload_newsapi_configuration() -> dict[str, Any]:
     """Reload a changed .env key without restarting the worker process."""
     load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env", override=True)
     return check_newsapi_availability()
@@ -612,13 +610,13 @@ def _newsapi_current_state(key: str, query: str = "") -> NewsAPIState:
         return state
 
 
-def _newsapi_request(params: Dict[str, Any], key: str, max_attempts: int = 3) -> Tuple[Optional[Dict[str, Any]], NewsAPIState, str]:
+def _newsapi_request(params: dict[str, Any], key: str, max_attempts: int = 3) -> tuple[dict[str, Any] | None, NewsAPIState, str]:
     response = _safe_http_request(
         "https://newsapi.org/v2/everything", source_id="SRC_004",
         params=params, headers={"X-Api-Key": key, "User-Agent": "AeroEWS/2.0"},
         timeout=15, max_attempts=max_attempts,
     )
-    data: Dict[str, Any] = {}
+    data: dict[str, Any] = {}
     if response.response is not None and response.response_complete:
         try:
             data = response.response.json()
@@ -656,7 +654,7 @@ def _newsapi_request(params: Dict[str, Any], key: str, max_attempts: int = 3) ->
     return None, state, code
 
 
-def check_newsapi_availability(probe: bool = False) -> Dict[str, Any]:
+def check_newsapi_availability(probe: bool = False) -> dict[str, Any]:
     """Cheap preflight (no API request by default; probe=True uses exactly one)."""
     key = _newsapi_key()
     state = _newsapi_current_state(key)
@@ -672,7 +670,7 @@ def check_newsapi_availability(probe: bool = False) -> Dict[str, Any]:
     return {"state": state.value, "reason": reason or ("MISSING_API_KEY" if not key else ""),
             "retry_after_seconds": round(remaining, 1), "requests": 0}
 
-def _note_http_request(source_id: str, status_code: Optional[int], *, timed_out: bool = False) -> None:
+def _note_http_request(source_id: str, status_code: int | None, *, timed_out: bool = False) -> None:
     """Count physical HTTP attempts, including retries and robots.txt checks."""
     with _COLLECTION_LOCK:
         item = HTTP_TELEMETRY.setdefault(source_id, {"http_requests": 0, "http_status_counts": {}})
@@ -707,12 +705,12 @@ def reset_collected_urls() -> None:
         HTTP_TELEMETRY.clear()
 
 # Return the current run’s collected document records.
-def get_collected_documents() -> List[Dict[str, Any]]:
+def get_collected_documents() -> list[dict[str, Any]]:
     with _COLLECTION_LOCK:
         return list(COLLECTED_DOCUMENTS)
 
 # Read per-connector retrieval and rejection statistics.
-def get_connector_telemetry() -> Dict[str, Dict[str, Any]]:
+def get_connector_telemetry() -> dict[str, dict[str, Any]]:
     with _COLLECTION_LOCK:
         snapshot = {name: {**entry, "http_status_counts": dict(entry["http_status_counts"]),
                            "content_status_counts": dict(entry["content_status_counts"])}
@@ -759,15 +757,15 @@ def record_connector_telemetry(
         accepted_count: int = 0,
         rejected_out_of_scope: int = 0,
         unknown_date_count: int = 0,
-        error: Optional[str] = None,
-        coverage_note: Optional[str] = None,
+        error: str | None = None,
+        coverage_note: str | None = None,
         http_requests: int = 0,
-        http_status_counts: Optional[Dict[str, int]] = None,
-        content_status_counts: Optional[Dict[str, int]] = None,
-        operational_status: Optional[str] = None,
-        search_outcome: Optional[str] = None,
-        coverage_window: Optional[Dict[str, Any]] = None,
-        diagnostics: Optional[Dict[str, Any]] = None,
+        http_status_counts: dict[str, int] | None = None,
+        content_status_counts: dict[str, int] | None = None,
+        operational_status: str | None = None,
+        search_outcome: str | None = None,
+        coverage_window: dict[str, Any] | None = None,
+        diagnostics: dict[str, Any] | None = None,
 ) -> None:
     now_str = _now_iso()
     reg = SOURCE_REGISTRY.get(source_id, {})
@@ -842,7 +840,7 @@ def register_collected_document(
         raw_text: str,
         published_at: str,
         query_used: str = "",
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     # Normalize source records, compute provenance fingerprints, and assign stable document IDs.
     """Assign a unique DOC_xxx identifier, compute syndication fingerprint, sanitize text, and store metadata."""
     clean_text, injection_flag, pii_redacted = sanitize_and_minimize_osint_text(raw_text)
@@ -901,7 +899,7 @@ def register_collected_document(
         doc_record = {
             "doc_id": doc_id,
             "global_document_id": hashlib.sha256(
-                f"{source_id}:{canonical_url.lower()}".encode("utf-8")
+                f"{source_id}:{canonical_url.lower()}".encode()
             ).hexdigest()[:24],
             "source_id": source_id,
             "connector_name": connector_name,
@@ -989,13 +987,13 @@ IRRELEVANT_TEXT_REGEX = re.compile(
     r"\b(?:careers?|apprentices?|apprenticeships?|graduates?|intern|interns|internships?|"
     r"genz|traffic-arrangements?|transportation-advisory|public-days?|wedding|brewerkz|dorscon|coronavirus)\b|"
     r"(?:was appointed|prior to this,\s+\w+\s+held|in this role\s+(?:she|he)\s+manages)",
-    re.I,
+    re.IGNORECASE,
 )
 
 IRRELEVANT_URL_REGEX = re.compile(
     r"/(?:speakers?|aeroforum|archive|contact-us|faqs?|gallery|book-a-booth|201\d|2020|2021)(?:/|-|$)|"
     r"announces-.*-wave-of-speakers",
-    re.I,
+    re.IGNORECASE,
 )
 
 MONTH_MAP = {
@@ -1006,29 +1004,29 @@ MONTH_MAP = {
 }
 
 _DATE_RANGE_RE = re.compile(
-    r"\b\d{1,2}\s*(?:\([A-Za-z]+\)\s*)?(?:–|-|to)\s*\d{1,2}\s*(?:\([A-Za-z]+\)\s*)?[A-Za-z]+\s+20[12]\d\b", re.I
+    r"\b\d{1,2}\s*(?:\([A-Za-z]+\)\s*)?(?:–|-|to)\s*\d{1,2}\s*(?:\([A-Za-z]+\)\s*)?[A-Za-z]+\s+20[12]\d\b", re.IGNORECASE
 )
 _ISO_DATE_RE = re.compile(r"(20[12]\d-\d{2}-\d{2})")
 _ISO_EXACT_RE = re.compile(r"^20[12]\d-\d{2}-\d{2}$")
 _ISO_FULL_RE = re.compile(r"(20[12]\d-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})?)")
 _MONTH_NAMES_PAT = r"(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*"
-_DMY_RE = re.compile(rf"\b(\d{{1,2}})\s+{_MONTH_NAMES_PAT}\s+(20[12]\d)\b", re.I)
-_MDY_RE = re.compile(rf"\b{_MONTH_NAMES_PAT}\s+(\d{{1,2}}),?\s+(20[12]\d)\b", re.I)
-_COMPACT_DMY_RE = re.compile(r"(?:airshow|news|pr)[-_]?(\d{2})(\d{2})(202\d)", re.I)
+_DMY_RE = re.compile(rf"\b(\d{{1,2}})\s+{_MONTH_NAMES_PAT}\s+(20[12]\d)\b", re.IGNORECASE)
+_MDY_RE = re.compile(rf"\b{_MONTH_NAMES_PAT}\s+(\d{{1,2}}),?\s+(20[12]\d)\b", re.IGNORECASE)
+_COMPACT_DMY_RE = re.compile(r"(?:airshow|news|pr)[-_]?(\d{2})(\d{2})(202\d)", re.IGNORECASE)
 _JSON_DATE_RE = re.compile(
     r'\\?"(?:datePublished|publishedAt|publishDate|articlePublishedTime)\\?"\s*:\s*\\?"(20[12]\d-\d{2}-\d{2})')
-_LAYOUT_NOISE_RE = re.compile(r"masthead|footer|sidebar|sitemenu|banner|timer", re.I)
-_DATE_CLASS_RE = re.compile(r"blogpost-date|post-date|article-date|publish", re.I)
+_LAYOUT_NOISE_RE = re.compile(r"masthead|footer|sidebar|sitemenu|banner|timer", re.IGNORECASE)
+_DATE_CLASS_RE = re.compile(r"blogpost-date|post-date|article-date|publish", re.IGNORECASE)
 _VALID_AIRCRAFT_TOKEN_RE = re.compile(
-    r"^(?:a(?:220|319|320|321|330|340|350|380)|737|747|757|767|777|787|c919)(?:[a-z0-9-]*)$", re.I
+    r"^(?:a(?:220|319|320|321|330|340|350|380)|737|747|757|767|777|787|c919)(?:[a-z0-9-]*)$", re.IGNORECASE
 )
-_PAGINATION_CONTAINER_RE = re.compile(r"pagin|pager|page-numbers|nav-links", re.I)
-_PAGINATION_QUERY_RE = re.compile(r"[?&](?:page|pageNo|pageno|paged|p|start)=([2-9]|\d{2,})\b", re.I)
-_PAGINATION_PATH_RE = re.compile(r"/page/([2-9]|\d{2,})(?:/|$|\?)", re.I)
+_PAGINATION_CONTAINER_RE = re.compile(r"pagin|pager|page-numbers|nav-links", re.IGNORECASE)
+_PAGINATION_QUERY_RE = re.compile(r"[?&](?:page|pageNo|pageno|paged|p|start)=([2-9]|\d{2,})\b", re.IGNORECASE)
+_PAGINATION_PATH_RE = re.compile(r"/page/([2-9]|\d{2,})(?:/|$|\?)", re.IGNORECASE)
 _NOISE_ATTR_RE = re.compile(
     r"cookie|consent|modal|signup|top-signup|mega-menu|navbar|"
     r"sitemenu_area|masthead_area|masthead2_area|sidebar_area|footer_area|mobile-menu|path_box",
-    re.I,
+    re.IGNORECASE,
 )
 _CARD_ANCHOR_RE = re.compile(r"BlockWrapper_anchor|informa-module-block")
 
@@ -1042,12 +1040,12 @@ def get_reference_now_utc() -> datetime:
     if as_of:
         try:
             if "T" in as_of:
-                dt = datetime.fromisoformat(as_of.replace("Z", "+00:00"))
-                return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
-            return datetime.strptime(as_of[:10], "%Y-%m-%d").replace(hour=23, minute=59, second=59, tzinfo=timezone.utc)
+                dt = datetime.fromisoformat(as_of)
+                return dt if dt.tzinfo else dt.replace(tzinfo=UTC)
+            return datetime.strptime(as_of[:10], "%Y-%m-%d").replace(hour=23, minute=59, second=59, tzinfo=UTC)
         except Exception:
             pass
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 # Translate normalized monitoring scope into an optional day limit.
 def get_scope_days() -> int | None:
@@ -1066,7 +1064,7 @@ def get_scope_days() -> int | None:
     return mapping.get(scope_enum)
 
 # Calculate the active UTC retrieval window from request scope.
-def get_time_window_utc() -> Tuple[Optional[datetime], datetime]:
+def get_time_window_utc() -> tuple[datetime | None, datetime]:
     # Compute consistent UTC date bounds for all collection channels.
     end_utc = get_reference_now_utc()
     scope_enum = normalize_scope_value(os.getenv("EWS_DYNAMIC_SCOPE", "7d"))
@@ -1076,13 +1074,13 @@ def get_time_window_utc() -> Tuple[Optional[datetime], datetime]:
     if scope_enum == AnalysisScope.CUSTOM and custom_to:
         try:
             end_utc = datetime.strptime(custom_to[:10], "%Y-%m-%d").replace(hour=23, minute=59, second=59,
-                                                                            tzinfo=timezone.utc)
+                                                                            tzinfo=UTC)
         except ValueError:
             pass
 
     if scope_enum == AnalysisScope.CUSTOM and custom_from:
         try:
-            return datetime.strptime(custom_from[:10], "%Y-%m-%d").replace(tzinfo=timezone.utc), end_utc
+            return datetime.strptime(custom_from[:10], "%Y-%m-%d").replace(tzinfo=UTC), end_utc
         except ValueError:
             pass
 
@@ -1093,27 +1091,27 @@ def get_time_window_utc() -> Tuple[Optional[datetime], datetime]:
     return end_utc - timedelta(days=get_scope_days() or 7), end_utc
 
 # Parse source timestamps into normalized timezone-aware UTC values.
-def parse_datetime_utc(date_str: str) -> Optional[datetime]:
+def parse_datetime_utc(date_str: str) -> datetime | None:
     if not date_str or date_str in {"N/A", "Unknown", "DATE_UNKNOWN"} or "unknown" in date_str.lower():
         return None
     raw = date_str.strip()
     try:
         parsed_rss = email.utils.parsedate_to_datetime(raw)
-        return (parsed_rss if parsed_rss.tzinfo else parsed_rss.replace(tzinfo=timezone.utc)).astimezone(timezone.utc)
+        return (parsed_rss if parsed_rss.tzinfo else parsed_rss.replace(tzinfo=UTC)).astimezone(UTC)
     except Exception:
         pass
 
     if iso_full := _ISO_FULL_RE.search(raw):
         try:
-            dt = datetime.fromisoformat(iso_full.group(1).replace("Z", "+00:00"))
-            return dt.astimezone(timezone.utc) if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
+            dt = datetime.fromisoformat(iso_full.group(1))
+            return dt.astimezone(UTC) if dt.tzinfo else dt.replace(tzinfo=UTC)
         except Exception:
             pass
 
     norm = normalize_date_str(raw)
     if norm and _ISO_EXACT_RE.match(norm):
         try:
-            return datetime.strptime(norm, "%Y-%m-%d").replace(hour=12, minute=0, second=0, tzinfo=timezone.utc)
+            return datetime.strptime(norm, "%Y-%m-%d").replace(hour=12, minute=0, second=0, tzinfo=UTC)
         except ValueError:
             return None
     return None
@@ -1216,14 +1214,19 @@ def extract_article_date(
 
 # Preserve the legacy search-query API for existing callers.
 from aero_ews.collection.queries import (
-    MODEL_TOKEN_RE,
     _model_tokens,
-    build_federal_register_queries,
     build_social_video_queries,
     get_program_engine_domain,
+)
+from aero_ews.collection.queries import (
     news_api_search_key as _compile_newsapi_query,
 )
-from aero_ews.domain.identity import EntityType, IdentityStatus, resolve_technical_identity
+from aero_ews.domain.identity import (
+    EntityType,
+    IdentityStatus,
+    resolve_technical_identity,
+)
+
 
 def news_api_search_key(query: str) -> str:
     """Keep the established query API while delegating its implementation."""
@@ -1243,7 +1246,7 @@ def _model_identities(query: str) -> list[ModelIdentity]:
     candidates.extend(match.group() for match in re.finditer(
         r"(?<!\w)737[ -]*(?:MAX[ -]*)?(?:7|8|9|10)(?!\w)"
         r"|(?<!\w)A\d{3}[ -]*(?:NEO|XLR)(?!\w)"
-        r"|(?<!\w)LEAP[ -]*1[ -]*[AB](?!\w)", query, re.I,
+        r"|(?<!\w)LEAP[ -]*1[ -]*[AB](?!\w)", query, re.IGNORECASE,
     ))
     if not candidates:
         subject = resolve_technical_identity(query)
@@ -1289,7 +1292,7 @@ def _model_matches(identity: ModelIdentity, text: str) -> bool:
 def _model_alias_pattern(alias: str) -> re.Pattern:
     return re.compile(
         r"(?<![a-z0-9])" + r"[\s-]*".join(map(re.escape, re.findall(r"[A-Za-z]+|\d+", alias)))
-        + r"(?![a-z0-9])", re.I,
+        + r"(?![a-z0-9])", re.IGNORECASE,
     )
 
 
@@ -1325,12 +1328,12 @@ def _newsapi_search_stages(query: str) -> list[tuple[str, str]]:
     alternative = _compile_newsapi_query(query, mode="alternative")
     recall = _compile_newsapi_query(query, mode="recall")
     aliases = list(dict.fromkeys(alias for item in identities for alias in item.aliases))[:8]
-    entity = next((name for name in ("Airbus", "Boeing") if re.search(rf"\b{name}\b", query, re.I)), "")
+    entity = next((name for name in ("Airbus", "Boeing") if re.search(rf"\b{name}\b", query, re.IGNORECASE)), "")
     subject = "(" + " OR ".join(f'"{alias}"' for alias in aliases) + ")" if aliases else (
         f'"{entity}"' if entity else ""
     )
     topics = [(name, match.group()) for name in _NEWS_STATUS_TOPICS
-              if (match := re.search(rf"\b\w*{name}\w*\b", query, re.I))]
+              if (match := re.search(rf"\b\w*{name}\w*\b", query, re.IGNORECASE))]
     topic_query = " OR ".join(f'"{term}"' for _, term in topics[:3])
     state_query = " OR ".join(dict.fromkeys(
         term.strip() for topic, _ in topics[:2]
@@ -1476,9 +1479,8 @@ def extract_clean_blocks(soup: BeautifulSoup, base_url: str) -> tuple[str, list[
                     or _PAGINATION_PATH_RE.search(full_href)
                     or a_text in {"next", "next page", "›", "»", "older posts", "more"}
                     or (in_pag and a_text.isdigit() and int(a_text) >= 2)
-            ):
-                if full_href not in pagination_urls:
-                    pagination_urls.append(full_href)
+            ) and full_href not in pagination_urls:
+                pagination_urls.append(full_href)
 
     if "farnboroughairshow.com" in base_domain:
         for li_tag in soup.find_all("li", attrs={"data-page": True}):
@@ -1670,7 +1672,7 @@ def search_aerospace_news(query: str) -> str:
         f"[OSINT GATHERER] Querying News API for: '{and_query}' "
         f"(limit: {limit}, from: {start_utc.strftime('%Y-%m-%d') if start_utc else 'unrestricted'})"
     )
-    params: Dict[str, Any] = {
+    params: dict[str, Any] = {
         "q": and_query,
         "language": "en",
         "sortBy": "relevancy",
@@ -1679,7 +1681,7 @@ def search_aerospace_news(query: str) -> str:
     }
     # A plan-limited publication archive is never equivalent to the KIT window.
     archive_days = max(1, int(os.getenv("EWS_NEWSAPI_HISTORY_DAYS", "29")))
-    earliest = datetime.now(timezone.utc) - timedelta(days=archive_days)
+    earliest = datetime.now(UTC) - timedelta(days=archive_days)
     effective_start = max(filter(None, (start_utc, earliest)))
     partial_window = start_utc is None or effective_start > start_utc
     searchable_days = round(max(0.0, (end_utc - effective_start).total_seconds() / 86400), 2)
@@ -1925,7 +1927,7 @@ def scrape_ntsb_investigations(query: str = "latest") -> str:
         return "NTSB: missing NTSB_API_KEY in .env"
 
     start, end = get_time_window_utc()
-    case_ids = {m.group(0).upper() for m in re.finditer(r"\b[A-Z]{3}\d{2}[A-Z]{2}\d{3}\b", query or "", re.I)}
+    case_ids = {m.group(0).upper() for m in re.finditer(r"\b[A-Z]{3}\d{2}[A-Z]{2}\d{3}\b", query or "", re.IGNORECASE)}
     explicit_years = sorted({int(y) for y in re.findall(r"\b(20\d{2})\b", query or "")})
     max_windows = max(1, min(36, int(os.getenv("EWS_NTSB_MAX_WINDOWS", "14" if case_ids else "12"))))
 
@@ -1933,11 +1935,11 @@ def scrape_ntsb_investigations(query: str = "latest") -> str:
         if case_ids:
             # NTSB case prefix obsahuje fiskální rok USA (např. DCA24MA063 -> FY2024: říjen 2023 – říjen 2024).
             fy = 2000 + int(next(iter(case_ids))[3:5])
-            start = datetime(fy - 1, 10, 1, tzinfo=timezone.utc)
-            end = min(end, datetime(fy, 10, 15, 23, 59, 59, tzinfo=timezone.utc))
+            start = datetime(fy - 1, 10, 1, tzinfo=UTC)
+            end = min(end, datetime(fy, 10, 15, 23, 59, 59, tzinfo=UTC))
         elif explicit_years:
-            start = datetime(explicit_years[0], 1, 1, tzinfo=timezone.utc)
-            end = min(end, datetime(explicit_years[-1], 12, 31, 23, 59, 59, tzinfo=timezone.utc))
+            start = datetime(explicit_years[0], 1, 1, tzinfo=UTC)
+            end = min(end, datetime(explicit_years[-1], 12, 31, 23, 59, 59, tzinfo=UTC))
         else:
             start = end - timedelta(days=30 * max_windows)
 
@@ -2184,22 +2186,22 @@ _FAA_LIFECYCLE_FIELDS = [
     "action", "type", "html_url", "raw_text_url", "publication_date", "effective_on",
 ]
 
-_FAA_DOCKET_RE = re.compile(r"(?<![A-Z0-9])FAA-20\d{2}-\d{3,7}(?!\d)", re.I)
-_FAA_NUMBER_RE = re.compile(r"(?<![A-Z0-9-])20\d{2}-\d{4,6}(?!\d)", re.I)
+_FAA_DOCKET_RE = re.compile(r"(?<![A-Z0-9])FAA-20\d{2}-\d{3,7}(?!\d)", re.IGNORECASE)
+_FAA_NUMBER_RE = re.compile(r"(?<![A-Z0-9-])20\d{2}-\d{4,6}(?!\d)", re.IGNORECASE)
 _FAA_CERTIFICATION_INTENT = re.compile(
-    r"\b(?:certif\w*|approv\w*|type\s+certificate)\b", re.I,
+    r"\b(?:certif\w*|approv\w*|type\s+certificate)\b", re.IGNORECASE,
 )
 _FAA_CACHE_LOCK = threading.RLock()
-_FAA_OVERSIZE_FAILURES: Dict[str, float] = {}
+_FAA_OVERSIZE_FAILURES: dict[str, float] = {}
 
 
-def _faa_cache_file(url: str, params: Optional[Dict[str, Any]] = None) -> Path:
+def _faa_cache_file(url: str, params: dict[str, Any] | None = None) -> Path:
     root = Path(os.getenv("EWS_FAA_CACHE_DIR") or Path(__file__).resolve().parent / ".aero_ews_cache" / "faa")
     identifier = json.dumps([url, params or {}], sort_keys=True, default=str)
     return root / hashlib.sha256(identifier.encode("utf-8")).hexdigest()
 
 
-def _faa_cache_read(path: Path, max_bytes: int) -> Optional[requests.Response]:
+def _faa_cache_read(path: Path, max_bytes: int) -> requests.Response | None:
     try:
         metadata = json.loads(path.with_suffix(".json").read_text(encoding="utf-8"))
         body = path.with_suffix(".body").read_bytes()
@@ -2236,7 +2238,7 @@ def _faa_cache_write(path: Path, response: requests.Response) -> None:
         logger.debug("[FAA CACHE] Could not persist response: %s", exc)
 
 
-def _faa_cached_get(url: str, *, params: Optional[Dict[str, Any]] = None,
+def _faa_cached_get(url: str, *, params: dict[str, Any] | None = None,
                     immutable: bool = False, max_bytes: int = 2_000_000,
                     check_robots: bool = False) -> HTTPResult:
     """On-disk FAA cache; immutable hits bypass HTTP, mutable hits revalidate."""
@@ -2269,8 +2271,8 @@ def _faa_cached_get(url: str, *, params: Optional[Dict[str, Any]] = None,
     return result
 
 
-def _faa_json_result(url: str, *, params: Optional[Dict[str, Any]] = None,
-                     max_bytes: int = 2_000_000, immutable: bool = False) -> Tuple[Optional[Dict[str, Any]], HTTPResult]:
+def _faa_json_result(url: str, *, params: dict[str, Any] | None = None,
+                     max_bytes: int = 2_000_000, immutable: bool = False) -> tuple[dict[str, Any] | None, HTTPResult]:
     """Classify FAA API replies without logging bodies or confusing HTTP 200 with success."""
     result = _faa_cached_get(url, params=params, max_bytes=max_bytes, immutable=immutable)
     blocked = result.status_code in {401, 403} or result.error_type in {
@@ -2338,7 +2340,7 @@ def _faa_json_result(url: str, *, params: Optional[Dict[str, Any]] = None,
     return payload, result
 
 
-def _faa_search_pages_once(params: Dict[str, Any], limit: int) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+def _faa_search_pages_once(params: dict[str, Any], limit: int) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Execute one FAA search shape with bounded, audited pagination and per-run deduplication."""
     url = "https://www.federalregister.gov/api/v1/documents.json"
     params = dict(params)  # Preserve omission of fields[] for schema-repair requests.
@@ -2459,7 +2461,7 @@ def _faa_search_pages_once(params: Dict[str, Any], limit: int) -> Tuple[List[Dic
 
 def _faa_native_term(query: str, *, compact: bool = False) -> str:
     """Translate web-search syntax into bounded native full-text terms."""
-    clean = re.sub(r"(?<!\w)-?(?:site|inurl|filetype):\S+", " ", str(query), flags=re.I)
+    clean = re.sub(r"(?<!\w)-?(?:site|inurl|filetype):\S+", " ", str(query), flags=re.IGNORECASE)
     clean = re.sub(r"\b(?:AND|OR)\b|[()\"']", " ", clean)
     clean = " ".join(clean.split())
     identities = list(dict.fromkeys(identity.aliases[0] for identity in _model_identities(clean)))
@@ -2473,7 +2475,7 @@ def _faa_native_term(query: str, *, compact: bool = False) -> str:
         (r"\bengine\b", "engine"),
         (r"\bproduction\b", "production"),
         (r"\bsafety\b", "safety"),
-    ) if re.search(pattern, clean, re.I)), "")
+    ) if re.search(pattern, clean, re.IGNORECASE)), "")
     if identities:
         terms = [*identities[:1 if compact else 2], issue]
         return " ".join(term for term in terms if term)[:120]
@@ -2484,10 +2486,10 @@ def _faa_native_term(query: str, *, compact: bool = False) -> str:
     return meaningful.strip()
 
 
-def _faa_search_pages(params: Dict[str, Any], limit: int) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+def _faa_search_pages(params: dict[str, Any], limit: int) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Retry at most two distinct, scope-preserving shapes after actionable schema errors."""
     base = dict(params)
-    variants: List[Tuple[str, Dict[str, Any]]] = [("ORIGINAL", base)]
+    variants: list[tuple[str, dict[str, Any]]] = [("ORIGINAL", base)]
     no_fields = {key: value for key, value in base.items() if key != "fields[]"}
     if no_fields != base:
         variants.append(("DEFAULT_FIELDS", no_fields))
@@ -2504,10 +2506,10 @@ def _faa_search_pages(params: Dict[str, Any], limit: int) -> Tuple[List[Dict[str
     if fallback and all(fallback != previous for _, previous in variants):
         variants.append(("IDENTITY_PRESERVING_TERM", fallback))
 
-    all_attempts: List[Dict[str, Any]] = []
+    all_attempts: list[dict[str, Any]] = []
     calls, attempts_tried = 0, []
-    final_docs: List[Dict[str, Any]] = []
-    final_audit: Dict[str, Any] = {}
+    final_docs: list[dict[str, Any]] = []
+    final_audit: dict[str, Any] = {}
     for index, (kind, variant) in enumerate(variants[:3]):
         docs, audit = _faa_search_pages_once(variant, limit)
         attempts_tried.append(kind)
@@ -2520,7 +2522,7 @@ def _faa_search_pages(params: Dict[str, Any], limit: int) -> Tuple[List[Dict[str
         api_code = str((last_attempt.get("response_schema") or {}).get("api_error_code") or "")
         repairable = failure in {"UNEXPECTED_SCHEMA", "INVALID_RESULT_SCHEMA"} or (
             failure == "API_ERROR_RESPONSE"
-            and bool(re.search(r"INVALID|QUERY|PARAM|FIELD|BAD_REQUEST|SCHEMA", api_code, re.I))
+            and bool(re.search(r"INVALID|QUERY|PARAM|FIELD|BAD_REQUEST|SCHEMA", api_code, re.IGNORECASE))
         ) or (failure == "HTTP_ERROR" and last_http in {400, 414, 422})
         if docs or not repairable or index >= 2:
             if index and kind == "IDENTITY_PRESERVING_TERM" and audit["status"] in {
@@ -2569,8 +2571,8 @@ def _faa_full_text(response: requests.Response, url: str) -> str:
 # Resolve FAA notices by docket and distinguish their regulatory lifecycle.
 # Track proposed, final and effective stages separately for each docket.
 def _faa_resolve_docket(
-        doc: Dict[str, Any], as_of: str, cache: Dict[str, Tuple[Dict[str, Any], bool]]
-) -> Tuple[Dict[str, Any], str, bool]:
+        doc: dict[str, Any], as_of: str, cache: dict[str, tuple[dict[str, Any], bool]]
+) -> tuple[dict[str, Any], str, bool]:
     """Enrich original notice with docket lifecycle without replacing its identity."""
     number = str(doc.get("document_number") or "")
     full_doc = dict(doc)
@@ -2663,22 +2665,22 @@ def _easa_applicability(query: str, subject: str, approved_types: str) -> str:
     # Local import prevents circular module dependencies.
     from aero_ews.domain.identity import (
         _detect_aircraft_families,
-        _detect_specific_variants,
-        _detect_exact_variants,
         _detect_engine_models,
+        _detect_exact_variants,
+        _detect_specific_variants,
         _engine_models_match,
     )
 
     query = re.split(
         r"\b(?:excluding|exclude|except(?:\s+for)?|without|not\s+including|kromě|vyjma)\b",
-        query or "", maxsplit=1, flags=re.I,
+        query or "", maxsplit=1, flags=re.IGNORECASE,
     )[0].strip()
     text = f"{subject} {approved_types}"
 
     # Aircraft family identification.
     requested_families = _detect_aircraft_families(query)
     source_families = _detect_aircraft_families(text)
-    if re.search(r"\bBD-?500-?1A1[01]\b|\bCS(?:100|300)\b", text, re.I):
+    if re.search(r"\bBD-?500-?1A1[01]\b|\bCS(?:100|300)\b", text, re.IGNORECASE):
         source_families = set(source_families) | {"A220"}
 
     # Aircraft program and generation identification.
@@ -2709,7 +2711,7 @@ def _easa_applicability(query: str, subject: str, approved_types: str) -> str:
     # a known mismatch between exact variants.
     # Generic neo designation may match an N-suffixed
     # Airbus type designation of the same aircraft model.
-    neo_query = re.search('\\b(a3(?:19|20|21))[\\s-]*neo\\b', query, re.I)
+    neo_query = re.search('\\b(a3(?:19|20|21))[\\s-]*neo\\b', query, re.IGNORECASE)
 
     neo_cert_match = bool(
         neo_query
@@ -2717,7 +2719,7 @@ def _easa_applicability(query: str, subject: str, approved_types: str) -> str:
             rf"\b{re.escape(neo_query.group(1))}"
             rf"-\d{{3}}N[A-Z]?\b",
             text,
-            re.I,
+            re.IGNORECASE,
         )
     )
 
@@ -2726,7 +2728,7 @@ def _easa_applicability(query: str, subject: str, approved_types: str) -> str:
 
     # A KIT naming an individual certified type must not
     # be satisfied by a different certified type.
-    cert_pattern = re.compile('\\bA3(?:19|20|21)-\\d{3}N[A-Z]?\\b', re.I)
+    cert_pattern = re.compile('\\bA3(?:19|20|21)-\\d{3}N[A-Z]?\\b', re.IGNORECASE)
 
     requested_cert = {value.upper() for value in cert_pattern.findall(query)}
 
@@ -2833,7 +2835,7 @@ def _easa_parse_table(html_text: str, base_url: str) -> tuple[list[dict], str | 
             cols = {header: cells[i] for i, header in enumerate(headers)}
             number = cols[number_col].get_text(" ", strip=True)
             subject_cell = cols["subject"]
-            is_pad = bool(subject_cell.find("img", attrs={"alt": re.compile(r"^PAD$", re.I)}))
+            is_pad = bool(subject_cell.find("img", attrs={"alt": re.compile(r"^PAD$", re.IGNORECASE)}))
 
             if is_pad:
                 if not re.fullmatch(r"(?:20)?\d{2}-\d{3,4}(?:[RC]\d+)?", number):
@@ -3055,7 +3057,7 @@ def _collect_easa_primary_index(query: str, limit: int) -> tuple[str, int]:
     output = ">> EASA OFFICIAL AD INDEX (METADATA ONLY; PDF NOT READ):\n"
     accepted = examined = pages = 0
     seen_ad, failures, advisories = set(), [], []
-    oldest_dates: List[str] = []
+    oldest_dates: list[str] = []
 
     start, end = get_time_window_utc()
     span = (end - start).days if start else 365
@@ -3217,13 +3219,13 @@ def _collect_easa_primary_index(query: str, limit: int) -> tuple[str, int]:
     )
     return (output if accepted else "", accepted)
 
-def _faa_model_mentioned(models: List[str], text: str) -> bool:
+def _faa_model_mentioned(models: list[str], text: str) -> bool:
     """Use the same variant identity checks as NewsAPI and manufacturer PR."""
     return any(_model_matches(identity, text)
                for model in models for identity in _model_identities(model))
 
 
-def _faa_newsroom_model_match(models: List[str], title: str, body: str) -> bool:
+def _faa_newsroom_model_match(models: list[str], title: str, body: str) -> bool:
     """Require an exact variant in the article body and its title or certification statement."""
     if not models:
         return True
@@ -3238,7 +3240,7 @@ def _faa_newsroom_model_match(models: List[str], title: str, body: str) -> bool:
     )
 
 
-def _collect_faa_certification_news(query: str, limit: int) -> Tuple[str, int]:
+def _collect_faa_certification_news(query: str, limit: int) -> tuple[str, int]:
     """Search FAA announcements separately; an article is not a verified type certificate."""
     models = [identity.aliases[0] for identity in _model_identities(query)]
     entity = lookup_supplier_in_registry(query) if not models else None
@@ -3246,8 +3248,8 @@ def _collect_faa_certification_news(query: str, limit: int) -> Tuple[str, int]:
     requested_docket = _FAA_DOCKET_RE.search(query)
     requested_document = _FAA_NUMBER_RE.search(query)
     listing_url = "https://www.faa.gov/newsroom/press_releases"
-    candidates: Dict[str, Tuple[str, str]] = {}
-    errors: List[str] = []
+    candidates: dict[str, tuple[str, str]] = {}
+    errors: list[str] = []
     fetched = False
 
     def failure(result: HTTPResult) -> str:
@@ -3275,7 +3277,7 @@ def _collect_faa_certification_news(query: str, limit: int) -> Tuple[str, int]:
             link = urljoin(listing_url, anchor["href"])
             parsed = urlparse(link)
             if (parsed.scheme != "https" or parsed.hostname not in {"faa.gov", "www.faa.gov"}
-                    or not re.fullmatch(r"/newsroom/[a-z0-9-]+/?", parsed.path, re.I)):
+                    or not re.fullmatch(r"/newsroom/[a-z0-9-]+/?", parsed.path, re.IGNORECASE)):
                 continue
             title = anchor.get_text(" ", strip=True)
             if len(title) < 15 or link in candidates:
@@ -3307,7 +3309,7 @@ def _collect_faa_certification_news(query: str, limit: int) -> Tuple[str, int]:
         parsed = urlparse(link)
         if (accepted >= limit or examined >= max(limit * 3, 6) or link in COLLECTED_URLS
                 or parsed.scheme != "https" or parsed.hostname not in {"faa.gov", "www.faa.gov"}
-                or not re.fullmatch(r"/newsroom/[a-z0-9-]+/?", parsed.path, re.I)):
+                or not re.fullmatch(r"/newsroom/[a-z0-9-]+/?", parsed.path, re.IGNORECASE)):
             continue
         examined += 1
         page = _safe_http_request(link, "SRC_001", check_robots=True, timeout=15, max_bytes=2_000_000)
@@ -3332,12 +3334,12 @@ def _collect_faa_certification_news(query: str, limit: int) -> Tuple[str, int]:
 
         issued_match = re.search(
             r"\b(?:issued|granted|approved)\b[^.!?]{0,100}\b(?:amended\s+)?type\s+certificate\b"
-            r"|\btype\s+certificate\b[^.!?]{0,100}\b(?:issued|granted|approved)\b", body, re.I,
+            r"|\btype\s+certificate\b[^.!?]{0,100}\b(?:issued|granted|approved)\b", body, re.IGNORECASE,
         )
         issuance = bool(issued_match and not re.search(
             r"\b(?:not|never|without|pending|proposed|expected|planned)\b.{0,30}"
             r"\b(?:issued|granted|approved)\b",
-            body[max(0, issued_match.start() - 35):issued_match.end()], re.I,
+            body[max(0, issued_match.start() - 35):issued_match.end()], re.IGNORECASE,
         ))
         category = "FAA_TYPE_CERTIFICATION" if issuance else "FAA_NEWSROOM_ANNOUNCEMENT"
         doc = register_collected_document(
@@ -3404,12 +3406,12 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
     exact_docket = requested_docket.group(0).upper() if requested_docket else ""
     remaining_query = _FAA_NUMBER_RE.sub(" ", _FAA_DOCKET_RE.sub(" ", query)).strip()
     native_query = re.sub(
-        r"(?<!\w)-?(?:site|inurl|filetype):\S+", " ", remaining_query, flags=re.I,
+        r"(?<!\w)-?(?:site|inurl|filetype):\S+", " ", remaining_query, flags=re.IGNORECASE,
     )
-    native_query = re.sub(r"\b(?:FAA|EASA|NTSB)\b", " ", native_query, flags=re.I).strip()
+    native_query = re.sub(r"\b(?:FAA|EASA|NTSB)\b", " ", native_query, flags=re.IGNORECASE).strip()
     certification_query = bool(re.search(
         r"\b(?:certif\w*|approv\w*|type\s+certificate)\b",
-        query, re.I,
+        query, re.IGNORECASE,
     ))
     exact_models = _model_tokens(remaining_query) if certification_query else []
     required_words, _ = parse_query_intent(native_query) if native_query else ([], "")
@@ -3421,7 +3423,7 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
 
     retrieval_status = "RETRIEVAL_FAILED"
     try:
-        params: Dict[str, Any] = {
+        params: dict[str, Any] = {
             "conditions[agencies][]": "federal-aviation-administration",
             "order": "newest",
             "fields[]": _FAA_LIFECYCLE_FIELDS,
@@ -3430,8 +3432,8 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
         if start_utc is not None:
             params["conditions[publication_date][gte]"] = start_utc.strftime("%Y-%m-%d")
 
-        docs: List[Dict[str, Any]] = []
-        audits: List[Dict[str, Any]] = []
+        docs: list[dict[str, Any]] = []
+        audits: list[dict[str, Any]] = []
         if exact_number:
             detail_url = f"https://www.federalregister.gov/api/v1/documents/{exact_number}.json"
             candidate, http = _faa_json_result(
@@ -3495,12 +3497,12 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
                 and audits and all(a["status"] == "NO_RESULTS" for a in audits)):
             engine_topic = bool(re.search(
                 r"\b(?:engine|engines|turbine|hpt|hpc|propulsion|gearbox|gtf|leap|pw1100g)\b",
-                query, re.I,
+                query, re.IGNORECASE,
             ))
             domain_info = get_program_engine_domain(query) if engine_topic else {
                 "engine_models": (), "engine_manufacturers": (),
             }
-            fallback_terms: List[str] = []
+            fallback_terms: list[str] = []
             if engine_topic and (domain_info["engine_models"] or domain_info["engine_manufacturers"]):
                 fallback_terms.extend(domain_info["engine_models"][:2])
                 fallback_terms.extend(domain_info["engine_manufacturers"][:3])
@@ -3528,7 +3530,7 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
 
         if docs:
             faa_count = faa_rejected = 0
-            docket_cache: Dict[str, Tuple[Dict[str, Any], bool]] = {}
+            docket_cache: dict[str, tuple[dict[str, Any], bool]] = {}
             faa_block = ">> FAA (Federal Aviation Administration - Federal Register):\n"
 
             for found_doc in docs:
@@ -3568,10 +3570,10 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
 
                 withdrawn = bool(re.search(
                     r"\b(?:withdraw(?:n|s|al|ing)?|rescinds?|rescission)\b",
-                    f"{action} {doc.get('abstract') or ''}", re.I,
+                    f"{action} {doc.get('abstract') or ''}", re.IGNORECASE,
                 ) and re.search(
                     r"\b(?:nprm|notice of proposed rulemaking|proposed rule|proposal)\b",
-                    f"{action} {doc.get('abstract') or ''}", re.I,
+                    f"{action} {doc.get('abstract') or ''}", re.IGNORECASE,
                 ))
                 if withdrawn:
                     stage = "WITHDRAWN"
@@ -3627,7 +3629,7 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
                     obligation = match.group(0) if match else ""
                 airworthiness_directive = bool(re.search(
                     r"\bairworthiness\s+directiv\w*\b|\bAD\s+20\d{2}",
-                    f"{doc.get('title') or ''} {doc.get('abstract') or ''}", re.I,
+                    f"{doc.get('title') or ''} {doc.get('abstract') or ''}", re.IGNORECASE,
                 ))
                 doc_rec.update(
                     content_status=content_status,
@@ -3724,9 +3726,9 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
                                    search_outcome="RETRIEVAL_FAILED")
 
     easa_only_query = (
-            bool(re.search(r"\b(?:easa|caac|tcca|anac|uk\s+caa|european)\b", query, re.I))
+            bool(re.search(r"\b(?:easa|caac|tcca|anac|uk\s+caa|european)\b", query, re.IGNORECASE))
             and not bool(
-        re.search(r"\b(?:faa|federal\s+aviation\s+administration|20\d{2}-\d{5}|faa-20\d{2})\b", query, re.I))
+        re.search(r"\b(?:faa|federal\s+aviation\s+administration|20\d{2}-\d{5}|faa-20\d{2})\b", query, re.IGNORECASE))
     )
     if easa_only_query:
         logger.info("[FAA NEWSROOM ROUTING] Skipped FAA Newsroom for non-FAA/EASA-specific query.")
@@ -3744,8 +3746,8 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
     primary_count = 0
 
     faa_only_query = (
-            bool(re.search(r"\b(?:faa|20\d{2}-\d{5})\b", query, re.I))
-            and not bool(re.search(r"\b(?:easa|european|airbus|a320|a321|a350|a330|a220)\b", query, re.I))
+            bool(re.search(r"\b(?:faa|20\d{2}-\d{5})\b", query, re.IGNORECASE))
+            and not bool(re.search(r"\b(?:easa|european|airbus|a320|a321|a350|a330|a220)\b", query, re.IGNORECASE))
     )
     easa_env_enabled = os.getenv("EWS_EASA_SAFETY_PUBLICATIONS_ENABLED", "1") == "1"
     if faa_only_query:
@@ -3810,27 +3812,27 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
         feeds["GE Aerospace"] = ("SRC_010", ge_rss)
 
     mentioned = set()
-    if re.search(r"\bairbus\b", original_query, re.I):
+    if re.search(r"\bairbus\b", original_query, re.IGNORECASE):
         mentioned.add("Airbus")
-    if re.search(r"\bboeing\b", original_query, re.I):
+    if re.search(r"\bboeing\b", original_query, re.IGNORECASE):
         mentioned.add("Boeing")
     if "RTX / Pratt & Whitney" in feeds and re.search(
             r"\b(?:pratt\s*(?:&|and)?\s*whitney|rtx|pw1100g|pw1500g|gtf|international\s+aero\s+engines)\b",
-            original_query, re.I,
+            original_query, re.IGNORECASE,
     ):
         mentioned.add("RTX / Pratt & Whitney")
     if "GE Aerospace" in feeds and re.search(
             r"\b(?:ge\s+aerospace|general\s+electric|cfm|leap-?1[abc]|genx|ge9x)\b",
-            original_query, re.I,
+            original_query, re.IGNORECASE,
     ):
         mentioned.add("GE Aerospace")
 
     targets = _model_identities(original_query)
     unknown_models = [target for target in targets if target.kind == "unknown_technical_identifier"]
     aircraft_models = [target for target in targets if target.kind == "aircraft_model"]
-    inferred = {"Boeing" if re.match(r"(?:B)?7\d{2}", target.canonical_id, re.I) else "Airbus"
-                for target in aircraft_models if re.match(r"(?:B)?7\d{2}|A\d{3}", target.canonical_id, re.I)}
-    if re.search(r"\b(?:engine|engines|turbine|propulsion|gtf|leap|pw1100g)\b", original_query, re.I):
+    inferred = {"Boeing" if re.match(r"(?:B)?7\d{2}", target.canonical_id, re.IGNORECASE) else "Airbus"
+                for target in aircraft_models if re.match(r"(?:B)?7\d{2}|A\d{3}", target.canonical_id, re.IGNORECASE)}
+    if re.search(r"\b(?:engine|engines|turbine|propulsion|gtf|leap|pw1100g)\b", original_query, re.IGNORECASE):
         domain_oems = " ".join(get_program_engine_domain(original_query)["engine_manufacturers"]).lower()
         if "RTX / Pratt & Whitney" in feeds and ("pratt" in domain_oems or "international aero engines" in domain_oems):
             inferred.add("RTX / Pratt & Whitney")
@@ -3851,13 +3853,13 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
         selection_status, selection_reason = (
             "SOURCE_NOT_CONFIGURED", "NO_APPROVED_MANUFACTURER_CONNECTOR"
         ) if (find_supplier_mentions(original_query) or any(t.kind == "engine_model" for t in targets)
-              or any(re.search(rf"\b{re.escape(name)}\b", original_query, re.I)
+              or any(re.search(rf"\b{re.escape(name)}\b", original_query, re.IGNORECASE)
                      for name in GENERIC_MANUFACTURERS - feeds.keys())) else (
             "ENTITY_UNRESOLVED", "NO_IDENTIFIABLE_OEM_OR_PROGRAM"
         )
     elif re.search(r"\b(?:airworthiness\s+directives?|inspection\s+requirements?|"
-                   r"regulatory\s+compliance\s+deadline)\b", original_query, re.I) and not re.search(
-            r"\b(?:press|statement|news|announc\w*)\b", original_query, re.I):
+                   r"regulatory\s+compliance\s+deadline)\b", original_query, re.IGNORECASE) and not re.search(
+            r"\b(?:press|statement|news|announc\w*)\b", original_query, re.IGNORECASE):
         selection_status, selection_reason = "SOURCE_NOT_RELEVANT", "OFFICIAL_REGULATORY_EVIDENCE_REQUIRED"
     if selection_status != "SOURCE_SELECTED":
         record_connector_telemetry(
@@ -3926,16 +3928,16 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
             brand_block = f"\n>> {brand} Official Newsroom:\n"
             brand_count = brand_rejected = screened_out = detail_blocked = detail_unavailable = metadata_only = 0
             examined_count = 0
-            candidate_outcomes: Dict[str, str] = {}
+            candidate_outcomes: dict[str, str] = {}
             candidate_budget = min(100, max(50, brand_quota * 10))
             technical_query = bool(re.search(
                 r"\b(?:engine|engines|defect|problem|problems|issue|issues|inspect|turbine|delay|shortage|ground|safety)\b",
-                original_query, re.I,
-            )) and not bool(re.search(r"\b(?:order|orders|delivery|deliveries|contract|fleet)\b", original_query, re.I))
+                original_query, re.IGNORECASE,
+            )) and not bool(re.search(r"\b(?:order|orders|delivery|deliveries|contract|fleet)\b", original_query, re.IGNORECASE))
             commercial_pr_re = re.compile(
                 r"\b(?:orders?\s+(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten|additional|more)|"
                 r"firm\s+order|places?\s+(?:an?\s+|firm\s+)?orders?|takes\s+delivery|share\s+buyback)\b",
-                re.I,
+                re.IGNORECASE,
             )
             topic_words = {word.casefold() for word in required_words
                            if len(word) >= 4 and word.casefold() not in {
@@ -3987,7 +3989,7 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
                 metadata_text = f"{title} {desc}"
                 if (targets and not any(_model_matches(target, metadata_text) for target in targets)
                         or not targets and topic_words and not any(
-                            re.search(rf"\b{re.escape(word)}\w*\b", metadata_text, re.I)
+                            re.search(rf"\b{re.escape(word)}\w*\b", metadata_text, re.IGNORECASE)
                             for word in topic_words)):
                     screened_out += 1
                     candidate_outcomes[link] = "RSS_METADATA_NOT_RELEVANT"
@@ -4118,7 +4120,7 @@ def scrape_manufacturer_pr_news(query: str = "Aviation") -> str:
             )
 
         except Exception as e:
-            logger.error(f"[OSINT GATHERER] PR feed error for {brand}: {str(e)}")
+            logger.error(f"[OSINT GATHERER] PR feed error for {brand}: {e!s}")
             record_connector_telemetry(
                 f"Official Industry PR / {brand}", source_id, original_query,
                 operational_status="TEMPORARILY_UNAVAILABLE", search_outcome="RETRIEVAL_FAILED",
@@ -4227,7 +4229,7 @@ def search_bluesky_aviation(query: str) -> str:
                                        search_outcome="NOT_EXECUTED")
             return "Bluesky: ACCESS_BLOCKED (authentication rejected)." if blocked else "Bluesky: SOURCE_UNAVAILABLE (authentication failed)."
 
-    params: Dict[str, Any] = {
+    params: dict[str, Any] = {
         "q": query,
         "limit": min(100, limit * 4),
         "until": end_utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -4283,7 +4285,7 @@ def search_bluesky_aviation(query: str) -> str:
                 params={"actor": account, "limit": min(limit, 100)},
             )
             if resp is not None and resp.status_code == 200:
-                posts.extend((item['post'] for item in resp.json().get('feed', []) if 'post' in item))
+                posts.extend(item['post'] for item in resp.json().get('feed', []) if 'post' in item)
         extracted_text = f"--- BLUESKY POSTS FOR '{query}' ---\n"
         count = rejected_scope = rejected_bots = rejected_duplicates = 0
         seen_post_texts = set()
@@ -4358,7 +4360,7 @@ def search_bluesky_aviation(query: str) -> str:
         logger.warning(f"[OSINT DEBUG] Bluesky API returned {count} filtered posts.")
         return extracted_text
     except Exception as e:
-        logger.error(f"[OSINT GATHERER] Bluesky fetch error: {str(e)}")
+        logger.error(f"[OSINT GATHERER] Bluesky fetch error: {e!s}")
         record_connector_telemetry("Bluesky Social Network", "SRC_007", query, error=str(e))
         return "Unable to connect to Bluesky server."
 
@@ -4496,7 +4498,7 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
                     # Unknown dates remain at the end.
                     candidate_links.sort(key=lambda item: item.get('date') or '', reverse=True)
 
-                    filtered_overview = filter_relevant_paragraphs("\n".join(all_raw_texts), required_words)
+                    filter_relevant_paragraphs("\n".join(all_raw_texts), required_words)
                     link_date_map = {l["url"]: l.get("date", "") for l in candidate_links if l.get("date")}
                     num_words = [rw for rw in required_words if any(c.isdigit() for c in rw)]
                     tier1_links, tier2_links, tier3_links = [], [], []
@@ -4614,7 +4616,7 @@ def scrape_airshow_website(query: str = "Airbus") -> str:
 
                 except Exception as e:
                     logger.error(f"[OSINT GATHERER] Error scraping {airshow_name}: {e}")
-                    extracted_text += f"\n>> {airshow_name} ({url}): Failed to load content ({str(e)})\n---\n"
+                    extracted_text += f"\n>> {airshow_name} ({url}): Failed to load content ({e!s})\n---\n"
 
             browser.close()
 
@@ -4640,7 +4642,7 @@ YOUTUBE_CACHE_FILE = "youtube_transcript_cache.json"
 _YT_CACHE_LOCK = threading.Lock()
 
 # Read a cached transcript to avoid repeated remote retrieval.
-def _load_yt_transcript_cache() -> Dict[str, str]:
+def _load_yt_transcript_cache() -> dict[str, str]:
     if not os.path.exists(YOUTUBE_CACHE_FILE):
         return {}
     try:
@@ -4684,7 +4686,7 @@ def extract_youtube_transcript(query: str) -> str:
 
     short_yt_queries = build_social_video_queries(query)
     primary_yt_q = short_yt_queries[0] if (len(query.split()) > 5 and short_yt_queries) else query
-    search_params: Dict[str, Any] = {
+    search_params: dict[str, Any] = {
         "part": "snippet",
         "q": f"{primary_yt_q} -shorts -compilation -landing -takeoff -flightsimulator -msfs",
         "type": "video",
@@ -4696,7 +4698,7 @@ def extract_youtube_transcript(query: str) -> str:
     if start_utc is not None:
         search_params["publishedAfter"] = start_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    diagnostics: Dict[str, Any] = {"search_query": search_params["q"], "http_status": None,
+    diagnostics: dict[str, Any] = {"search_query": search_params["q"], "http_status": None,
                                    "api_error_reason": "", "api_items_returned": 0,
                                    "candidates_accepted": 0, "zero_result_reason": ""}
 

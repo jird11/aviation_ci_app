@@ -313,12 +313,32 @@
             headline.textContent = 'ASSESSMENT INCOMPLETE';
             detail.textContent = ` – Risk status cannot be determined (${outcome})`;
         } else if (outcome === 'PARTIAL_SUCCESS' || md.pipeline_degraded) {
+    const stageUnavailable = Boolean(
+        Number(md.batches_failed || 0) > 0 ||
+        md.qa_failed ||
+        md.editor_failed ||
+        Number(md.semantic_filter_unavailable_count || 0) > 0 ||
+        md.planner_status === 'FALLBACK'
+    );
     banner.className = confirmed.length
         ? 'status-banner variant-critical'
-        : 'status-banner variant-failed';
+        : stageUnavailable
+            ? 'status-banner variant-failed'
+            : 'status-banner variant-verify';
 
     headline.textContent = 'PARTIAL RESULTS';
-    detail.textContent = ' – Some processing stages were unavailable';
+    if (stageUnavailable) {
+        detail.textContent = ' – Some processing stages were unavailable';
+    } else if (md.degradation_category === 'SOURCE_COVERAGE_LIMITED') {
+        detail.textContent = ' – All stages completed with partial source coverage';
+    } else if (md.degradation_category === 'ANALYSIS_INCOMPLETE') {
+        const issueNote = (md.analysis_issues || []).slice(0, 2).join('; ');
+        detail.textContent = issueNote
+            ? ` – All stages completed with audit warnings (${issueNote})`
+            : ' – All stages completed with incomplete claim or evidence audit';
+    } else {
+        detail.textContent = ' – All stages completed; review open verification gaps';
+    }
 
     if (confirmed.length) {
         detail.textContent += ` · ${confirmed.length} confirmed critical alert(s)`;

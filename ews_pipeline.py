@@ -199,14 +199,14 @@ def _estimate_llm_cost(
 
 
 def _audited_call_models(audit: Any) -> set[str]:
-    """Only explicit per-call model IDs can corroborate the usage breakdown."""
+    """Only explicit per-call model IDs from non-failed calls corroborate the usage breakdown."""
     if isinstance(audit, dict):
         audit = audit.get("calls", audit.get("records", []))
     if not isinstance(audit, (list, tuple)):
         return set()
     return {
         model.strip()
-        for call in audit if isinstance(call, dict)
+        for call in audit if isinstance(call, dict) and str(call.get("status") or "").upper() != "FAILED"
         for model in [call.get("model_id") or call.get("model")]
         if isinstance(model, str) and model.strip()
     }
@@ -1117,8 +1117,13 @@ def _editor_claim_audit(
         r"therefore|naznač\w*|pravděpodobn\w*|vyplýv\w*)\b", re.I,
     )
     qualifier = re.compile(
-        r"\b(?:according to|reported|claims?|alleged|unverified|preliminary|"
-        r"reportedly|údajně|podle|neověřen\w*|tvrdí|hypothes\w*|hypotéz\w*)\b", re.I,
+        r"\b(?:according to|reported|reports?\s+(?:suggest|indicate|claim|note|state)|"
+        r"secondary\s+(?:reports?|sources?)|claims?|alleged|unverified|unconfirmed|"
+        r"preliminary|reportedly|suggest(?:s|ed|ing)?|"
+        r"not\s+(?:yet\s+)?(?:confirmed|verified)|"
+        r"lacks?\b.{0,45}\b(?:confirm\w*|verif\w*)|"
+        r"without\b.{0,30}\b(?:confirm\w*|verif\w*)|"
+        r"hypothes\w*)\b", re.I,
     )
     official_ids = {
         "SRC_001", "SRC_002", "SRC_003", "SRC_019", "SRC_020",
@@ -1221,9 +1226,14 @@ def _editor_claim_audit(
                     review(section, "SEMANTIC_EVIDENCE_REVIEW_REQUIRED", sentence, refs, kind)
 
                 models, engines = _detect_exact_variants(assertion), _detect_engine_models(assertion)
-                if models and not any(models.issubset(_detect_exact_variants(body)) for body in bodies):
+                cited_variants = set().union(*(_detect_exact_variants(body) for body in bodies))
+                cited_engines = set().union(*(_detect_engine_models(body) for body in bodies))
+                if models and not models.issubset(cited_variants):
                     flag("entity_program_match", section, "PROGRAM_SCOPE_MISMATCH", sentence)
-                if engines and not any(_engine_models_match(assertion, body) for body in bodies):
+                if engines and not (
+                        any(_engine_models_match(assertion, body) for body in bodies)
+                        or engines.issubset(cited_engines)
+                ):
                     flag("entity_program_match", section, "ENGINE_SCOPE_MISMATCH", sentence)
                 qualified = bool(qualifier.search(sentence) or hypothesis.search(sentence))
                 if not qualified and re.search(
@@ -1410,11 +1420,13 @@ def _evidence_flow_audit(
         unexpected = gap in {"FILTER_UNAVAILABLE", "ANALYSIS_NOT_COMPLETED", "HANDOFF_ERROR"}
         direct_verified = (doc.get("semantic_relevance_level") == "DIRECT_KIT_EVIDENCE"
                            and doc.get("semantic_evidence_verified") is True)
-        potential_loss = (unexpected or (primary and checks["CLAIMS_VALIDATED"]
-                                         and (not checks["KIQ_LINKED"]
-                                              or not checks["REPORT_REFERENCED"]))
-                          or (direct_verified and not checks["REPORT_USED"]
-                              and gap not in {"NONE", "OUTSIDE_TIME_SCOPE"}))
+        potential_loss = (
+                unexpected
+                or (primary and checks["CLAIMS_VALIDATED"]
+                    and (not checks["KIQ_LINKED"] or not checks["REPORT_REFERENCED"]))
+                or (primary and direct_verified and not checks["REPORT_USED"]
+                    and gap not in {"NONE", "OUTSIDE_TIME_SCOPE"})
+        )
         entries.append({
             "doc_id": did, "stages": checks, "gap": gap,
             "interruption_reason": gap,
@@ -2925,11 +2937,17 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
             if model_id == "UNKNOWN":
                 model_id = next(iter(direct_sdk_usage))
 
+        failed_unknown_calls = sum(
+            1 for c in llm_call_audit
+            if isinstance(c, dict) and str(c.get("status") or "").upper() == "FAILED"
+            and c.get("usage_status") == "UNKNOWN"
+        )
+        billed_unknown_calls = max(0, (rt_stats.get("usage_unknown_calls") or 0) - failed_unknown_calls)
         try:
             cost_audit = _estimate_llm_cost(
                 model_usage, llm_meta,
                 complete=token_accounting_method in {"SHARED_LLM_DELTA", "DIRECT_SDK_MEASURED"},
-                unknown_calls=rt_stats.get("usage_unknown_calls") or 0,
+                unknown_calls=billed_unknown_calls,
             )
             unmatched_models = _audited_call_models(llm_call_audit) - {
                 row["model_id"] for row in cost_audit["model_usage"] if row["model_id"]
@@ -3512,7 +3530,7 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                 "tokens_input": tokens_in,
                 "tokens_output": tokens_out,
                 "token_usage_status": (
-                    "PARTIAL_UNKNOWN" if rt_stats.get("usage_unknown_calls")
+                    "PARTIAL_UNKNOWN" if billed_unknown_calls
                     else "MEASURED" if token_accounting_method in {"SHARED_LLM_DELTA", "DIRECT_SDK_MEASURED"}
                     else "PROVISIONAL"
                 ),
@@ -3611,7 +3629,7 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                     bool(claim_audit.get("all_supported"))
                     and bool(claim_audit.get("citations_match"))
             )
-            if editor_raw_text and not claims_verified:
+            if editor_raw_text and claim_audit["status"] == "FAILED":
                 report_obj.run_metadata["analysis_issues"].append(
                     f"Editor claim audit: {claim_audit['status']}; see editor_claim_audit."
                 )
@@ -3624,6 +3642,8 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                 if report_obj.outcome_status == RunOutcomeStatus.COMPLETED:
                     report_obj.outcome_status = RunOutcomeStatus.PARTIAL_SUCCESS
                     report_obj.run_metadata["outcome_status"] = report_obj.outcome_status.value
+            elif editor_raw_text and not claims_verified:
+                report_obj.qa_audit_summary += f" | Editor claim audit: {claim_audit['status']}."
 
             report_obj.run_metadata.update({
                 "editor_executive_summary": summary,

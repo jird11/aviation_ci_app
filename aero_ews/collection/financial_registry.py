@@ -1,199 +1,58 @@
 """Configured supplementary OSINT sources and SEC issuer aliases."""
 
-# ID: name, group, status, method, endpoint
+# Supplementary official source definitions: source_id -> (name, group, status, method, endpoint).
 SOURCES = {
-    "SRC_012": ("Eurostat API", "news", "ENABLED", "API",
-                "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_paoc"),
-    "SRC_013": ("Eurostat Statistics RSS", "news", "ENABLED", "RSS",
-                "https://ec.europa.eu/eurostat/api/dissemination/catalogue/rss/en/statistics-update.rss"),
+    "SRC_012": ("Eurostat API", "news", "ENABLED", "API", "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_paoc"),
+    "SRC_013": ("Eurostat Statistics RSS", "news", "ENABLED", "RSS", "https://ec.europa.eu/eurostat/api/dissemination/catalogue/rss/en/statistics-update.rss"),
     "SRC_014": ("BTS TranStats", "news", "ENABLED", "CSV_IMPORT", "https://www.transtats.bts.gov/"),
     "SRC_015": ("BTS Schedule B-43", "news", "ENABLED", "CSV_IMPORT", "https://www.transtats.bts.gov/"),
-    "SRC_019": ("EASA News RSS", "regulatory", "ENABLED", "RSS",
-                "https://www.easa.europa.eu/newsroom-and-events/news/feed.xml"),
-    "SRC_020": ("EASA Press Releases RSS", "regulatory", "ENABLED", "RSS",
-                "https://www.easa.europa.eu/newsroom-and-events/press-releases/feed.xml"),
-    "SRC_021": ("EASA Suspected Unapproved Parts RSS", "regulatory", "ENABLED", "RSS",
-                "https://www.easa.europa.eu/en/domains/aircraft-products/suspected-unapproved-parts/feed.xml"),
-    "SRC_022": ("EASA Type Certificates RSS", "regulatory", "ENABLED", "RSS",
-                "https://www.easa.europa.eu/en/document-library/type-certificates/feed.xml"),
-    "SRC_023": ("EASA Easy Access Rules XML", "regulatory", "ENABLED", "XML_IMPORT",
-                "https://www.easa.europa.eu/en/document-library/easy-access-rules"),
-    "SRC_024": ("EASA Airworthiness Directives", "regulatory", "REQUIRES_REVIEW", "MANUAL",
-                "https://ad.easa.europa.eu/"),
+    "SRC_019": ("EASA News RSS", "regulatory", "ENABLED", "RSS", "https://www.easa.europa.eu/newsroom-and-events/news/feed.xml"),
+    "SRC_020": ("EASA Press Releases RSS", "regulatory", "ENABLED", "RSS", "https://www.easa.europa.eu/newsroom-and-events/press-releases/feed.xml"),
+    "SRC_021": ("EASA Suspected Unapproved Parts RSS", "regulatory", "ENABLED", "RSS", "https://www.easa.europa.eu/en/domains/aircraft-products/suspected-unapproved-parts/feed.xml"),
+    "SRC_022": ("EASA Type Certificates RSS", "regulatory", "ENABLED", "RSS", "https://www.easa.europa.eu/en/document-library/type-certificates/feed.xml"),
+    "SRC_023": ("EASA Easy Access Rules XML", "regulatory", "ENABLED", "XML_IMPORT", "https://www.easa.europa.eu/en/document-library/easy-access-rules"),
+    "SRC_024": ("EASA Airworthiness Directives", "regulatory", "REQUIRES_REVIEW", "MANUAL", "https://ad.easa.europa.eu/"),
     "SRC_025": ("EASA Safety Publications", "regulatory", "REQUIRES_REVIEW", "MANUAL", "https://ad.easa.europa.eu/"),
-    "SRC_026": (
-        "NTSB CAROL Historical Export", "regulatory",
-        "REQUIRES_REVIEW", "CSV_IMPORT",
-        "https://data.ntsb.gov/carol-main-public/basic-search"
-    ),
-    "SRC_027": (
-        "SEC EDGAR", "pr", "ENABLED", "API",
-        "https://data.sec.gov/"
-    ),
+    "SRC_026": ("NTSB CAROL Historical Export", "regulatory", "REQUIRES_REVIEW", "CSV_IMPORT", "https://data.ntsb.gov/carol-main-public/basic-search"),
+    "SRC_027": ("SEC EDGAR", "pr", "ENABLED", "API", "https://data.sec.gov/"),
     "SRC_028": ("TED Search API", "airshow", "ENABLED", "API", "https://api.ted.europa.eu/v3/notices/search"),
-    "SRC_029": ("USAspending API", "airshow", "ENABLED", "API",
-                "https://api.usaspending.gov/api/v2/search/spending_by_award/"),
-    "SRC_031": (
-        "XBRL International ESEF Filing Index",
-        "pr",
-        "ENABLED",
-        "API",
-        "https://filings.xbrl.org/api/filings",
-    ),
+    "SRC_029": ("USAspending API", "airshow", "ENABLED", "API", "https://api.usaspending.gov/api/v2/search/spending_by_award/"),
+    "SRC_031": ("XBRL International ESEF Filing Index", "pr", "ENABLED", "API", "https://filings.xbrl.org/api/filings"),
 }
 
-# SEC EDGAR monitored entities.
-# Tickers are candidates resolved against the live SEC ticker/CIK
-# directory. Missing or retired tickers must never be guessed.
+# SEC EDGAR monitored entities; tickers are candidates resolved against the live SEC directory.
 SEC_WATCHLIST = {
-    "AIRCRAFT_OEM_AND_PRIMES": {
-        "Boeing": "BA",
-        "Embraer": "ERJ",
-        "Textron": "TXT",
-        "General Dynamics": "GD",
-        "Lockheed Martin": "LMT",
-        "Northrop Grumman": "NOC",
-        "Huntington Ingalls": "HII",
-    },
-    "ENGINES_AND_SYSTEMS": {
-        "GE Aerospace": "GE",
-        "RTX": "RTX",
-        "Honeywell": "HON",
-        "TransDigm": "TDG",
-        "Woodward": "WWD",
-        "HEICO": "HEI",
-        "Parker-Hannifin": "PH",
-        "Eaton": "ETN",
-        "Crane Company": "CR",
-        "Curtiss-Wright": "CW",
-        "Moog": "MOG.A",
-        "Teledyne": "TDY",
-        "Amphenol": "APH",
-        "TE Connectivity": "TEL",
-    },
-    "AEROSTRUCTURES_AND_MATERIALS": {
-        "Howmet Aerospace": "HWM",
-        "Hexcel": "HXL",
-        "ATI": "ATI",
-        "Carpenter Technology": "CRS",
-        "RBC Bearings": "RBC",
-        "Albany International": "AIN",
-        "Ducommun": "DCO",
-        "Kaiser Aluminum": "KALU",
-        "Materion": "MTRN",
-        "Loar Holdings": "LOAR",
-        "Karman Holdings": "KRMN",
-    },
-    "MRO_AND_AFTERMARKET": {
-        "AAR": "AIR",
-        "StandardAero": "SARO",
-        "VSE Corporation": "VSEC",
-        "FTAI Aviation": "FTAI",
-        "CAE": "CAE",
-    },
-    "DEFENSE_AND_AVIONICS": {
-        "L3Harris": "LHX",
-        "Leonardo DRS": "DRS",
-        "Elbit Systems": "ESLT",
-        "Mercury Systems": "MRCY",
-        "Astronics": "ATRO",
-        "AeroVironment": "AVAV",
-        "Kratos Defense": "KTOS",
-        "Leidos": "LDOS",
-        "SAIC": "SAIC",
-        "CACI": "CACI",
-        "BWX Technologies": "BWXT",
-        "OSI Systems": "OSIS",
-        "Viasat": "VSAT",
-        "KBR": "KBR",
-    },
-    "SPACE_AND_NEW_AIRCRAFT": {
-        "Rocket Lab": "RKLB",
-        "Redwire": "RDW",
-        "Intuitive Machines": "LUNR",
-        "Planet Labs": "PL",
-        "BlackSky": "BKSY",
-        "Iridium": "IRDM",
-        "AST SpaceMobile": "ASTS",
-        "Joby Aviation": "JOBY",
-        "Archer Aviation": "ACHR",
-        "Vertical Aerospace": "EVTL",
-        "Eve Holding": "EVEX",
-    },
-    "AIRLINES_AND_LESSORS": {
-        "Delta Air Lines": "DAL",
-        "United Airlines": "UAL",
-        "American Airlines": "AAL",
-        "Southwest Airlines": "LUV",
-        "Alaska Air Group": "ALK",
-        "JetBlue": "JBLU",
-        "SkyWest": "SKYW",
-        "Ryanair": "RYAAY",
-        "Copa Holdings": "CPA",
-        "Volaris": "VLRS",
-        "Frontier Group": "ULCC",
-        "Allegiant Travel": "ALGT",
-        "Sun Country Airlines": "SNCY",
-        "LATAM Airlines": "LTM",
-        "AerCap": "AER",
-        "Sumisho Air Lease": "AL",
-        "Willis Lease Finance": "WLFC",
-    },
+    "AIRCRAFT_OEM_AND_PRIMES": {"Boeing": "BA", "Embraer": "ERJ", "Textron": "TXT", "General Dynamics": "GD", "Lockheed Martin": "LMT", "Northrop Grumman": "NOC", "Huntington Ingalls": "HII"},
+    "ENGINES_AND_SYSTEMS": {"GE Aerospace": "GE", "RTX": "RTX", "Honeywell": "HON", "TransDigm": "TDG", "Woodward": "WWD", "HEICO": "HEI", "Parker-Hannifin": "PH", "Eaton": "ETN", "Crane Company": "CR", "Curtiss-Wright": "CW", "Moog": "MOG.A", "Teledyne": "TDY", "Amphenol": "APH", "TE Connectivity": "TEL"},
+    "AEROSTRUCTURES_AND_MATERIALS": {"Howmet Aerospace": "HWM", "Hexcel": "HXL", "ATI": "ATI", "Carpenter Technology": "CRS", "RBC Bearings": "RBC", "Albany International": "AIN", "Ducommun": "DCO", "Kaiser Aluminum": "KALU", "Materion": "MTRN", "Loar Holdings": "LOAR", "Karman Holdings": "KRMN"},
+    "MRO_AND_AFTERMARKET": {"AAR": "AIR", "StandardAero": "SARO", "VSE Corporation": "VSEC", "FTAI Aviation": "FTAI", "CAE": "CAE"},
+    "DEFENSE_AND_AVIONICS": {"L3Harris": "LHX", "Leonardo DRS": "DRS", "Elbit Systems": "ESLT", "Mercury Systems": "MRCY", "Astronics": "ATRO", "AeroVironment": "AVAV", "Kratos Defense": "KTOS", "Leidos": "LDOS", "SAIC": "SAIC", "CACI": "CACI", "BWX Technologies": "BWXT", "OSI Systems": "OSIS", "Viasat": "VSAT", "KBR": "KBR"},
+    "SPACE_AND_NEW_AIRCRAFT": {"Rocket Lab": "RKLB", "Redwire": "RDW", "Intuitive Machines": "LUNR", "Planet Labs": "PL", "BlackSky": "BKSY", "Iridium": "IRDM", "AST SpaceMobile": "ASTS", "Joby Aviation": "JOBY", "Archer Aviation": "ACHR", "Vertical Aerospace": "EVTL", "Eve Holding": "EVEX"},
+    "AIRLINES_AND_LESSORS": {"Delta Air Lines": "DAL", "United Airlines": "UAL", "American Airlines": "AAL", "Southwest Airlines": "LUV", "Alaska Air Group": "ALK", "JetBlue": "JBLU", "SkyWest": "SKYW", "Ryanair": "RYAAY", "Copa Holdings": "CPA", "Volaris": "VLRS", "Frontier Group": "ULCC", "Allegiant Travel": "ALGT", "Sun Country Airlines": "SNCY", "LATAM Airlines": "LTM", "AerCap": "AER", "Sumisho Air Lease": "AL", "Willis Lease Finance": "WLFC"},
 }
 
-# Some valid foreign SEC filers may be missing from the
-# SEC company_tickers.json search directory.
-# These CIKs are sourced from actual SEC filings.
-SEC_CIK_OVERRIDES = {'Embraer': 1355444, 'Elbit Systems': 1027664, 'Sumisho Air Lease': 1487712}
+# Verified CIK overrides for foreign SEC filers that may be absent from company_tickers.json.
+SEC_CIK_OVERRIDES = {"Embraer": 1355444, "Elbit Systems": 1027664, "Sumisho Air Lease": 1487712}
 
-# Resolve brand names and subsidiaries to their reporting parent.
+# Core brand and subsidiary aliases mapped to their reporting parent.
 SEC_ALIASES = {
-    "Boeing": (
-        "boeing", "737 max", "787 dreamliner", "777x",
-    ),
-    "Embraer": (
-        "embraer", "e190-e2", "e195-e2",
-    ),
-    "Textron": (
-        "textron", "cessna", "beechcraft", "bell textron",
-    ),
-    "General Dynamics": (
-        "general dynamics", "gulfstream",
-    ),
-    "GE Aerospace": (
-        "ge aerospace", "ge aviation", "general electric",
-        "ge9x", "genx",
-    ),
-    "RTX": (
-        "rtx", "raytheon", "pratt & whitney",
-        "pratt and whitney", "collins aerospace",
-        "pw1100g", "pw1500g", "pw1900g",
-    ),
-    "Honeywell": (
-        "honeywell", "honeywell aerospace",
-    ),
-    "Crane Company": (
-        "crane company", "crane aerospace",
-    ),
-    "Parker-Hannifin": (
-        "parker-hannifin", "parker hannifin",
-        "parker aerospace",
-    ),
+    "Boeing": ("boeing", "737 max", "787 dreamliner", "777x"),
+    "Embraer": ("embraer", "e190-e2", "e195-e2"),
+    "Textron": ("textron", "cessna", "beechcraft", "bell textron"),
+    "General Dynamics": ("general dynamics", "gulfstream"),
+    "GE Aerospace": ("ge aerospace", "ge aviation", "general electric", "ge9x", "genx"),
+    "RTX": ("rtx", "raytheon", "pratt & whitney", "pratt and whitney", "collins aerospace", "pw1100g", "pw1500g", "pw1900g"),
+    "Honeywell": ("honeywell", "honeywell aerospace"),
+    "Crane Company": ("crane company", "crane aerospace"),
+    "Parker-Hannifin": ("parker-hannifin", "parker hannifin", "parker aerospace"),
     "AAR": ("aar corp", "aar corporation", "aar"),
     "L3Harris": ("l3harris", "l3 harris"),
     "Leonardo DRS": ("leonardo drs",),
-    "Sumisho Air Lease": (
-    "sumisho air lease",
-    "air lease",
-    "air lease corporation",
-    ),
+    "Sumisho Air Lease": ("sumisho air lease", "air lease", "air lease corporation"),
     "Ryanair": ("ryanair",),
 }
 
-# Additional issuer names, historical brands, divisions and product identifiers.
-# These are discovery aliases, NOT proof of a reporting relationship.
-# Keep SEC_WATCHLIST tickers and SEC_CIK_OVERRIDES unchanged.
-
+# Extended discovery aliases (historical brands, divisions, and product IDs; not proof of reporting ties).
 SEC_MORE_ALIASES = {
     "Boeing": (
         "the boeing company", "boeing commercial airplanes", "boeing defense",
@@ -218,294 +77,128 @@ SEC_MORE_ALIASES = {
         "e190-e2", "e190 e2", "e195-e2", "e195 e2",
         "embraer 170", "embraer 175", "embraer 190", "embraer 195",
         "kc-390", "kc-390 millennium", "phenom 100", "phenom 300",
-        "praetor 500", "praetor 600", "legacy 450", "legacy 500",
-        "erj 145", "erj-145",
+        "praetor 500", "praetor 600", "legacy 450", "legacy 500", "erj 145", "erj-145",
     ),
     "Textron": (
         "textron aviation", "cessna", "cessna aircraft", "citation",
         "citation latitude", "citation longitude", "citation cj3", "citation cj4", "citation x",
-        "beechcraft", "king air", "king air 350", "king air 260",
-        "caravan", "grand caravan",
-        "bell textron", "bell helicopter", "bell 407", "bell 429", "bell 505",
-        "bell v-280", "bell v-280 valor",
+        "beechcraft", "king air", "king air 350", "king air 260", "caravan", "grand caravan",
+        "bell textron", "bell helicopter", "bell 407", "bell 429", "bell 505", "bell v-280", "bell v-280 valor",
     ),
     "General Dynamics": (
         "general dynamics", "gulfstream", "gulfstream aerospace", "gulfstream aircraft",
         "g280", "g500", "g600", "g650", "g650er", "g700", "g800",
         "gulfstream g280", "gulfstream g500", "gulfstream g600",
-        "gulfstream g650", "gulfstream g650er", "gulfstream g700", "gulfstream g800",
-        "gulfstream iv", "gulfstream v",
+        "gulfstream g650", "gulfstream g650er", "gulfstream g700", "gulfstream g800", "gulfstream iv", "gulfstream v",
     ),
     "Lockheed Martin": (
         "lockheed martin corporation", "lockheed", "lockheed martin aeronautics",
         "f-35", "f-35a", "f-35b", "f-35c", "f-35 lightning ii",
         "f-16", "f-16 fighting falcon", "f-22", "f-22 raptor",
-        "c-130j", "c-130j super hercules", "super hercules",
-        "sikorsky", "uh-60", "black hawk", "s-70", "ch-53k",
+        "c-130j", "c-130j super hercules", "super hercules", "sikorsky", "uh-60", "black hawk", "s-70", "ch-53k",
     ),
-    "Northrop Grumman": (
-        "northrop grumman corporation", "northrop",
-        "b-2", "b-2 spirit", "b-21", "b-21 raider",
-        "global hawk", "rq-4", "mq-4c", "triton", "e-2d", "e-2d hawkeye",
-    ),
-    "Huntington Ingalls": (
-        "huntington ingalls industries", "hii inc", "ingalls shipbuilding", "newport news shipbuilding",
-    ),
+    "Northrop Grumman": ("northrop grumman corporation", "northrop", "b-2", "b-2 spirit", "b-21", "b-21 raider", "global hawk", "rq-4", "mq-4c", "triton", "e-2d", "e-2d hawkeye"),
+    "Huntington Ingalls": ("huntington ingalls industries", "hii inc", "ingalls shipbuilding", "newport news shipbuilding"),
     "GE Aerospace": (
         "general electric aerospace", "ge aviation", "general electric",
-        "ge9x", "ge 9x", "ge90", "ge90-115b", "ge90-94b",
-        "genx", "ge nx", "genx-1b", "genx-2b",
+        "ge9x", "ge 9x", "ge90", "ge90-115b", "ge90-94b", "genx", "ge nx", "genx-1b", "genx-2b",
         "cf6", "cf6-80c2", "cf6-80e1", "cf34", "cf34-8e", "cf34-10e",
         "cfm56", "leap-1a", "leap-1b", "leap-1c", "cfm international",
-        "catalyst", "ge catalyst", "f110", "f404", "f404-ge", "f414", "f414-ge",
-        "t700", "ct7", "ct7-8", "h80",
+        "catalyst", "ge catalyst", "f110", "f404", "f404-ge", "f414", "f414-ge", "t700", "ct7", "ct7-8", "h80",
     ),
     "RTX": (
         "rtx corp", "rtx corporation", "raytheon technologies", "raytheon",
         "pratt & whitney rtx", "international aero engines", "iae", "iae llc", "iae ag",
         "pratt & whitney", "pratt and whitney", "pratt whitney", "p&w",
-        "pratt & whitney canada", "pratt whitney canada",
-        "collins aerospace", "rockwell collins", "goodrich", "utr",
+        "pratt & whitney canada", "pratt whitney canada", "collins aerospace", "rockwell collins", "goodrich", "utr",
         "pw1100g", "pw1100g-jm", "pw1100g jm", "pw1124g",
         "pw1127g", "pw1127g-jm", "pw1130g-jm", "pw1133g", "pw1133g-jm",
         "pw1500g", "pw1519g", "pw1521g", "pw1524g", "pw1525g",
         "pw1900g", "pw1919g", "pw1921g", "pw1922g", "pw1923g", "pw1923g-a",
         "pw1000g", "gtf", "gtf engine", "geared turbofan",
-        "pw2000", "v2500", "v2500-a5", "v2527-a5",
-        "pw4000", "pw4062", "pw4090",
-        "pw127", "pw127m", "pw127xt", "pw150a", "pt6", "pt6a",
-        "pw800", "pw814ga", "pw815ga",
+        "pw2000", "v2500", "v2500-a5", "v2527-a5", "pw4000", "pw4062", "pw4090",
+        "pw127", "pw127m", "pw127xt", "pw150a", "pt6", "pt6a", "pw800", "pw814ga", "pw815ga",
         "f135", "f135-pw-100", "f135-pw-600",
     ),
-    "Honeywell": (
-        "honeywell international", "honeywell aerospace",
-        "htf7000", "htf7250g", "tfe731", "tfe731-5",
-        "131-9", "131-9a", "131-9b", "131-9d", "331-350", "primus epic",
-    ),
-    "TransDigm": (
-        "transdigm group", "transdigm group inc",
-    ),
-    "Woodward": (
-        "woodward inc", "woodward l orange",
-    ),
-    "HEICO": (
-        "heico corporation", "heico aerospace", "pmas",
-    ),
-    "Parker-Hannifin": (
-        "parker hannifin", "parker-hannifin", "parker hannifin corporation",
-        "parker aerospace", "meggitt",
-    ),
-    "Eaton": (
-        "eaton corporation", "eaton aerospace",
-    ),
-    "Crane Company": (
-        "crane company", "crane aerospace",
-        "crane aerospace and electronics", "crane co",
-    ),
-    "Curtiss-Wright": (
-        "curtiss wright", "curtiss-wright", "curtiss wright corporation",
-    ),
-    "Moog": (
-        "moog inc", "moog aircraft group", "moog aerospace",
-    ),
-    "Teledyne": (
-        "teledyne technologies", "teledyne flir", "flir systems",
-    ),
-    "Amphenol": (
-        "amphenol corporation", "amphenol aerospace",
-    ),
-    "TE Connectivity": (
-        "te connectivity ltd", "te connectivity limited", "tyco electronics",
-    ),
-    "Howmet Aerospace": (
-        "howmet", "howmet aerospace inc", "arconic",
-        "howmet fastening systems", "howmet engines", "howmet wheels",
-    ),
-    "Hexcel": (
-        "hexcel corporation", "hexcel composites", "hexply", "hexmc",
-    ),
-    "ATI": (
-        "ati inc", "allegheny technologies", "allegheny technologies incorporated",
-        "ati titanium", "ati forgings", "ati castings", "ati aerospace", "ati materials",
-    ),
-    "Carpenter Technology": (
-        "carpenter technology corporation", "carpenter technology corp",
-    ),
-    "RBC Bearings": (
-        "rbc bearings inc",
-    ),
-    "Albany International": (
-        "albany engineered composites", "albany international corp",
-    ),
-    "Ducommun": (
-        "ducommun inc",
-    ),
-    "Kaiser Aluminum": (
-        "kaiser aluminium", "kaiser aluminum corporation",
-    ),
-    "Materion": (
-        "materion corporation", "brush wellman",
-    ),
-    "Loar Holdings": (
-        "loar holdings inc", "loar group",
-    ),
-    "Karman Holdings": (
-        "karman space and defense", "karman space & defense", "karman holdings inc",
-    ),
-    "AAR": (
-        "aar corp", "aar corporation", "aar aircraft services",
-    ),
-    "StandardAero": (
-        "standard aero", "standardaero inc",
-    ),
-    "VSE Corporation": (
-        "vse corp", "vse aviation",
-    ),
-    "FTAI Aviation": (
-        "ftai aviation ltd", "ftai", "ftai power", "cfm56 exchange", "v2500 exchange",
-    ),
-    "L3Harris": (
-        "l3 harris", "l3-harris", "l3harris", "l3harris technologies",
-    ),
-    "Leonardo DRS": (
-        "leonardo drs inc", "leonardo drs", "drs technologies",
-    ),
-    "Elbit Systems": (
-        "elbit systems ltd", "elbit systems limited",
-    ),
-    "Mercury Systems": (
-        "mercury systems inc",
-    ),
-    "Astronics": (
-        "astronics corporation", "astronics advanced electronics",
-    ),
-    "AeroVironment": (
-        "aero vironment", "aerovironment inc",
-    ),
-    "Kratos Defense": (
-        "kratos defense and security solutions",
-        "kratos defense & security solutions",
-    ),
-    "Leidos": (
-        "leidos holdings", "leidos inc",
-    ),
-    "SAIC": (
-        "science applications international corporation", "saic inc",
-    ),
-    "CACI": (
-        "caci international", "caci inc",
-    ),
-    "BWX Technologies": (
-        "bwx technologies inc",
-    ),
-    "OSI Systems": (
-        "osi systems inc",
-    ),
-    "Viasat": (
-        "viasat inc",
-    ),
-    "KBR": (
-        "kbr inc",
-    ),
-    "Rocket Lab": (
-        "rocketlab", "rocket lab usa", "electron", "neutron",
-    ),
-    "Redwire": (
-        "redwire space", "redwire corporation",
-    ),
-    "Intuitive Machines": (
-        "intuitive machines inc",
-    ),
-    "Planet Labs": (
-        "planet labs pbc", "planet labs inc",
-    ),
-    "BlackSky": (
-        "blacksky technology",
-    ),
-    "Iridium": (
-        "iridium communications",
-    ),
-    "AST SpaceMobile": (
-        "ast space mobile", "ast spacemobile inc",
-    ),
-    "Joby Aviation": (
-        "joby aviation inc", "joby evtol",
-    ),
-    "Archer Aviation": (
-        "archer aviation inc", "midnight evtol",
-    ),
-    "Vertical Aerospace": (
-        "vertical aerospace ltd", "vx4", "vx4 evtol",
-    ),
-    "CAE": (
-        "cae inc", "cae aviation",
-    ),
-    "Eve Holding": (
-        "eve holding inc", "eve air mobility",
-    ),
-    "Delta Air Lines": (
-        "delta airlines", "delta air lines inc",
-    ),
-    "United Airlines": (
-        "united airlines holdings", "united air lines", "united airlines inc",
-    ),
-    "American Airlines": (
-        "american airlines group", "american air lines",
-    ),
-    "Southwest Airlines": (
-        "southwest airlines co", "southwest airlines",
-    ),
-    "Alaska Air Group": (
-        "alaska airlines", "alaska air group inc", "hawaiian airlines", "horizon air",
-    ),
-    "JetBlue": (
-        "jetblue airways", "jet blue", "jetblue airways corporation", "jetblue",
-    ),
-    "SkyWest": (
-        "skywest airlines", "skywest inc", "skywest",
-    ),
-    "Ryanair": (
-        "ryanair holdings", "ryanair dac", "ryanair group", "ryanair",
-    ),
-    "Copa Holdings": (
-        "copa airlines", "copa holdings sa",
-    ),
-    "Volaris": (
-        "volaris airlines", "controladora vuela compania de aviacion", "volaris",
-    ),
-    "Frontier Group": (
-        "frontier airlines", "frontier group holdings",
-    ),
-    "Allegiant Travel": (
-        "allegiant air", "allegiant travel company",
-    ),
-    "Sun Country Airlines": (
-        "sun country airlines holdings", "sun country",
-    ),
-    "LATAM Airlines": (
-        "latam airlines group", "latam airlines",
-    ),
-    "AerCap": (
-        "aercap holdings", "aercap holdings nv", "aercap",
-    ),
-    "Sumisho Air Lease": (
-        "air lease corp", "air lease corporation", "sumisho air lease", "air lease",
-    ),
-    "Willis Lease Finance": (
-        "willis lease finance corporation", "willis lease finance corp", "willis lease",
-    ),
+    "Honeywell": ("honeywell international", "honeywell aerospace", "htf7000", "htf7250g", "tfe731", "tfe731-5", "131-9", "131-9a", "131-9b", "131-9d", "331-350", "primus epic"),
+    "TransDigm": ("transdigm group", "transdigm group inc"),
+    "Woodward": ("woodward inc", "woodward l orange"),
+    "HEICO": ("heico corporation", "heico aerospace", "pmas"),
+    "Parker-Hannifin": ("parker hannifin", "parker-hannifin", "parker hannifin corporation", "parker aerospace", "meggitt"),
+    "Eaton": ("eaton corporation", "eaton aerospace"),
+    "Crane Company": ("crane company", "crane aerospace", "crane aerospace and electronics", "crane co"),
+    "Curtiss-Wright": ("curtiss wright", "curtiss-wright", "curtiss wright corporation"),
+    "Moog": ("moog inc", "moog aircraft group", "moog aerospace"),
+    "Teledyne": ("teledyne technologies", "teledyne flir", "flir systems"),
+    "Amphenol": ("amphenol corporation", "amphenol aerospace"),
+    "TE Connectivity": ("te connectivity ltd", "te connectivity limited", "tyco electronics"),
+    "Howmet Aerospace": ("howmet", "howmet aerospace inc", "arconic", "howmet fastening systems", "howmet engines", "howmet wheels"),
+    "Hexcel": ("hexcel corporation", "hexcel composites", "hexply", "hexmc"),
+    "ATI": ("ati inc", "allegheny technologies", "allegheny technologies incorporated", "ati titanium", "ati forgings", "ati castings", "ati aerospace", "ati materials"),
+    "Carpenter Technology": ("carpenter technology corporation", "carpenter technology corp"),
+    "RBC Bearings": ("rbc bearings inc",),
+    "Albany International": ("albany engineered composites", "albany international corp"),
+    "Ducommun": ("ducommun inc",),
+    "Kaiser Aluminum": ("kaiser aluminium", "kaiser aluminum corporation"),
+    "Materion": ("materion corporation", "brush wellman"),
+    "Loar Holdings": ("loar holdings inc", "loar group"),
+    "Karman Holdings": ("karman space and defense", "karman space & defense", "karman holdings inc"),
+    "AAR": ("aar corp", "aar corporation", "aar aircraft services"),
+    "StandardAero": ("standard aero", "standardaero inc"),
+    "VSE Corporation": ("vse corp", "vse aviation"),
+    "FTAI Aviation": ("ftai aviation ltd", "ftai", "ftai power", "cfm56 exchange", "v2500 exchange"),
+    "L3Harris": ("l3 harris", "l3-harris", "l3harris", "l3harris technologies"),
+    "Leonardo DRS": ("leonardo drs inc", "leonardo drs", "drs technologies"),
+    "Elbit Systems": ("elbit systems ltd", "elbit systems limited"),
+    "Mercury Systems": ("mercury systems inc",),
+    "Astronics": ("astronics corporation", "astronics advanced electronics"),
+    "AeroVironment": ("aero vironment", "aerovironment inc"),
+    "Kratos Defense": ("kratos defense and security solutions", "kratos defense & security solutions"),
+    "Leidos": ("leidos holdings", "leidos inc"),
+    "SAIC": ("science applications international corporation", "saic inc"),
+    "CACI": ("caci international", "caci inc"),
+    "BWX Technologies": ("bwx technologies inc",),
+    "OSI Systems": ("osi systems inc",),
+    "Viasat": ("viasat inc",),
+    "KBR": ("kbr inc",),
+    "Rocket Lab": ("rocketlab", "rocket lab usa", "electron", "neutron"),
+    "Redwire": ("redwire space", "redwire corporation"),
+    "Intuitive Machines": ("intuitive machines inc",),
+    "Planet Labs": ("planet labs pbc", "planet labs inc"),
+    "BlackSky": ("blacksky technology",),
+    "Iridium": ("iridium communications",),
+    "AST SpaceMobile": ("ast space mobile", "ast spacemobile inc"),
+    "Joby Aviation": ("joby aviation inc", "joby evtol"),
+    "Archer Aviation": ("archer aviation inc", "midnight evtol"),
+    "Vertical Aerospace": ("vertical aerospace ltd", "vx4", "vx4 evtol"),
+    "CAE": ("cae inc", "cae aviation"),
+    "Eve Holding": ("eve holding inc", "eve air mobility"),
+    "Delta Air Lines": ("delta airlines", "delta air lines inc"),
+    "United Airlines": ("united airlines holdings", "united air lines", "united airlines inc"),
+    "American Airlines": ("american airlines group", "american air lines"),
+    "Southwest Airlines": ("southwest airlines co", "southwest airlines"),
+    "Alaska Air Group": ("alaska airlines", "alaska air group inc", "hawaiian airlines", "horizon air"),
+    "JetBlue": ("jetblue airways", "jet blue", "jetblue airways corporation", "jetblue"),
+    "SkyWest": ("skywest airlines", "skywest inc", "skywest"),
+    "Ryanair": ("ryanair holdings", "ryanair dac", "ryanair group", "ryanair"),
+    "Copa Holdings": ("copa airlines", "copa holdings sa"),
+    "Volaris": ("volaris airlines", "controladora vuela compania de aviacion", "volaris"),
+    "Frontier Group": ("frontier airlines", "frontier group holdings"),
+    "Allegiant Travel": ("allegiant air", "allegiant travel company"),
+    "Sun Country Airlines": ("sun country airlines holdings", "sun country"),
+    "LATAM Airlines": ("latam airlines group", "latam airlines"),
+    "AerCap": ("aercap holdings", "aercap holdings nv", "aercap"),
+    "Sumisho Air Lease": ("air lease corp", "air lease corporation", "sumisho air lease", "air lease"),
+    "Willis Lease Finance": ("willis lease finance corporation", "willis lease finance corp", "willis lease"),
 }
 
-# Merge without losing the existing, tested aliases.
+# Merge extended aliases into SEC_ALIASES while preserving original order and module bindings.
 for _company, _extra_aliases in SEC_MORE_ALIASES.items():
     SEC_ALIASES[_company] = tuple(dict.fromkeys((*SEC_ALIASES.get(_company, ()), *_extra_aliases)))
 
-# Ambiguous words can identify unrelated organizations or concepts.
-# Accept them alone as explicit, exact queries, not as weak substrings.
+# Ambiguous terms accepted only as exact standalone queries, never as substring matches.
 SEC_WEAK_AUTO_ALIASES = {
-    "aar", "ati", "saic", "moog", "iridium", "air lease",
-    "ftai", "bell", "cessna", "king air", "midnight", "electron",
-    "apache", "chinook", "triton", "catalyst", "caravan", "citation",
-    "cae", "iae",
+    "aar", "ati", "saic", "moog", "iridium", "air lease", "ftai", "bell", "cessna",
+    "king air", "midnight", "electron", "apache", "chinook", "triton", "catalyst",
+    "caravan", "citation", "cae", "iae",
 }
-
