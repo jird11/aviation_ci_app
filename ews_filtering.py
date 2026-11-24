@@ -38,8 +38,8 @@ OBVIOUS_NOISE_REGEX = re.compile(
     r"\b(?:1:200|1:400|scale\s+model|diecast|unboxing|flight\s+simulator|msfs\s*202\d|x-plane|infinite\s+flight)\b",
     re.I,
 )
-_SEMANTIC_CACHE_VERSION = "FR03-RELEVANCE-14"
-_FR03_RULES_VERSION = "FR03-MULTILEVEL-10"
+_SEMANTIC_CACHE_VERSION = "FR03-RELEVANCE-16"
+_FR03_RULES_VERSION = "FR03-MULTILEVEL-12"
 _FAA_DOCKET_PATTERN = re.compile(r"(?<![A-Z0-9])FAA-20\d{2}-\d{3,7}(?!\d)", re.I)
 _FEDERAL_REGISTER_NUMBER = re.compile(r"(?<![A-Z0-9])20\d{2}-\d{5,6}(?!\d)", re.I)
 # Retain Czech exclusion keywords ("kromě", "vyjma") for bilingual query parity.
@@ -60,13 +60,14 @@ _AUTHORITIES = ("FAA", "EASA", "NTSB", "SEC", "CAA", "TCCA", "TSB", "CAAC", "ANA
 _ISSUE_CONCEPTS = {
     "CERTIFICATION": (
         r"\b(?:certif\w*|type\s+approv\w*|regulatory\s+approv\w*|approval|airworthiness\s+approv\w*|"
-        r"type\s+certificate|clearance\s+for\s+passenger\s+service|cleared\s+to\s+fly|"
+        r"type\s+certificate|type\s+inspection\s+authoriz\w*|TIA|special\s+conditions?|"
+        r"clearance\s+for\s+passenger\s+service|cleared\s+to\s+fly|"
         r"musterzulassung|zulassung|zugelassen|homologation)\b"
     ),
     "DELAY": r"\b(?:delay\w*|postpon\w*|reschedul\w*|slipp?\w*|push(?:ed)?\s+back|behind\s+schedule|setback\w*|defer\w*)\b",
     "DEFECT": r"\b(?:defect\w*|fault\w*|failure\w*|crack\w*|malfunction\w*|nonconform\w*|quality\s+issue\w*|durabilit\w*)\b",
     "INSPECTION": r"\b(?:inspect\w*|audit\w*|airworthiness\s+directive|\bAD\b|service\s+bulletin)\b",
-    "PRODUCTION": r"\b(?:produc\w*|manufactur\w*|assembly|output|capacity|factory|line\s+rate|ramp[ -]?up)\b",
+    "PRODUCTION": r"\b(?:produc(?:e[ds]?|ing|tion)|manufactur(?:ing|ed)|assembly|output|capacity|factory|line\s+rate|ramp[ -]?up)\b",
     "SUPPLY": (
         r"\b(?:supply\w*|shortag\w*|bottleneck\w*|scarcity|supplier\w*|backlog\w*|"
         r"export\s+(?:control\w*|licen[cs]e\w*|restrict\w*)|control\s+measures?|constraint\w*)\b"
@@ -155,32 +156,13 @@ _SEC_ISSUER_EQUIVALENTS = (
     ("textron", "cessna", "beechcraft", "bell"),
 )
 _ENTITY_SYNONYMS = {
-    "faa": ("faa", "federal aviation administration", "us aviation body", "us regulators", "us regulator"),
-    "easa": ("easa", "european union aviation safety agency", "european regulators"),
+    "faa": ("faa", "federal aviation administration"),
+    "easa": ("easa", "european union aviation safety agency"),
     "ntsb": ("ntsb", "national transportation safety board"),
-    "cfm": ("cfm", "cfm international", "american french partnership"),
+    "cfm": ("cfm", "cfm international"),
     "ge aerospace": ("ge aerospace", "general electric", "ge aviation", "ge"),
     "rolls royce deutschland": ("rolls royce deutschland", "rolls royce"),
 }
-_EXTRA_ENGINE_PATTERNS = (
-    (r"\bPW11\d{2}G(?:[- ]?JM|[- ]?\d[A-Z]?)?\b", "PW1100G_GTF"),
-    (r"\bPW15\d{2}G(?:[- ]?[A-Z0-9]+)?\b", "PW1500G_GTF"),
-    (r"\bPW19\d{2}G(?:[- ]?[A-Z0-9]+)?\b", "PW1900G_GTF"),
-    (r"\bPW14\d{2}G(?:[- ]?[A-Z0-9]+)?\b", "PW1400G_GTF"),
-    (r"\bLEAP[- ]?1A\b", "LEAP-1A"),
-    (r"\bLEAP[- ]?1B\b", "LEAP-1B"),
-    (r"\bLEAP[- ]?1C\b", "LEAP-1C"),
-    (r"\bTRENT[- ]?XWB(?:[- ]?(?:75|84|97))?\b", "TRENT_XWB"),
-    (r"\bGE9X\b", "GE9X"),
-    (r"\bPW127(?:XT|M|F|G|E)?\b", "PW127"),
-    (r"\bPW150A?\b", "PW150"),
-)
-_EXTRA_VARIANT_PATTERNS = (
-    (r"\bBD-?500-?1A10\b", "220:100"),
-    (r"\bBD-?500-?1A11\b", "220:300"),
-    (r"\bA350-?1041\b|\bA350-?941\s*(?:,|and|&)\s*-?1041\b", "350:1000"),
-    (r"\bA350-?941\b", "350:900"),
-)
 _COMPONENT_KNOWN_PATTERNS = (
     (r"\bfuel\s+manifold\b", "fuel manifold"),
     (r"\bdoor\s+plug\b", "door plug"),
@@ -360,7 +342,11 @@ def _entity_provenance(doc: Dict[str, Any], entity: str, quote: str, context: st
         return "LOCAL_CONTEXT_ENTITY"
     if str(doc.get("origin_type") or "").upper().startswith("PRIMARY_OFFICIAL") and has_any(title) and body_context:
         return "OFFICIAL_DOCUMENT_HEADING"
-    return "LOCAL_CONTEXT_ENTITY" if (title and has_any(title) and quote) else "UNVERIFIED_ENTITY"
+    if title and has_any(title) and quote:
+        return "LOCAL_CONTEXT_ENTITY"
+    if quote and has_any(str(doc.get("text") or "")):
+        return "DOCUMENT_CONTEXT_ENTITY"
+    return "UNVERIFIED_ENTITY"
 
 
 def _issue_categories(text: str) -> set[str]:
@@ -379,10 +365,16 @@ def _excluded_kit(query: str) -> str:
     return parts[1].strip() if len(parts) > 1 else ""
 
 
+def _normalize_model_hyphens(text: str) -> str:
+    """Normalize hyphenated letter-digit model codes (e.g. C-919 -> C919) without altering dates or dockets."""
+    return re.sub(r"\b([A-Za-z]{1,3})-(?!19\d{2}\b|20\d{2}\b)(\d{3,4}[A-Za-z0-9]*)\b", r"\1\2", str(text or ""))
+
+
 def _detect_engine_models_ext(text: str) -> set[str]:
-    """Extend base engine detector with FAA/EASA certified sub-model designations."""
+    """Delegate engine detection to the central identity catalog with generic hyphen normalization."""
     raw = str(text or "")
-    return set(_detect_engine_models(raw)) | {label for pat, label in _EXTRA_ENGINE_PATTERNS if re.search(pat, raw, re.I)}
+    norm = _normalize_model_hyphens(raw)
+    return set(_detect_engine_models(raw)) | (set(_detect_engine_models(norm)) if norm != raw else set())
 
 
 def _engine_models_compatible(query_text: str, doc_text: str) -> bool:
@@ -395,18 +387,17 @@ def _engine_models_compatible(query_text: str, doc_text: str) -> bool:
 
 
 def _detect_exact_variants_ext(text: str) -> set[str]:
-    """Include legal FAA/EASA type-certificate codes (BD-500-1A10/11, A350-941/-1041)."""
+    """Delegate exact variant detection to the central identity catalog with generic hyphen normalization."""
     raw = str(text or "")
-    return set(_detect_exact_variants(raw)) | {code for pat, code in _EXTRA_VARIANT_PATTERNS if re.search(pat, raw, re.I)}
+    norm = _normalize_model_hyphens(raw)
+    return set(_detect_exact_variants(raw)) | (set(_detect_exact_variants(norm)) if norm != raw else set())
 
 
 def _detect_aircraft_families_ext(text: str) -> set[str]:
-    """Extend aircraft family detection with C Series / BD-500 A220 type codes."""
+    """Delegate aircraft family detection to the central identity catalog with generic hyphen normalization."""
     raw = str(text or "")
-    found = set(_detect_aircraft_families(raw))
-    if re.search(r"\bBD-?500-?1A1[01]\b|\bCS(?:100|300)\b|\bC\s*Series\b", raw, re.I):
-        found.add("A220")
-    return found
+    norm = _normalize_model_hyphens(raw)
+    return set(_detect_aircraft_families(raw)) | (set(_detect_aircraft_families(norm)) if norm != raw else set())
 
 
 def _component_requirements(query: str) -> set[str]:
@@ -645,9 +636,20 @@ def _identity_checks(query: str, doc: Dict[str, Any], passage: str = "") -> Dict
             unverified.remove("REQUIRED_ENGINE")
 
     req_auths = _requested_authorities(q)
-    matched_auths = {a for a in req_auths if a in _requested_authorities(local) or _source_authority(doc) == a}
+    src_auth = _source_authority(doc)
+    effective_src_auth = "FAA" if (src_auth == "FEDERAL_REGISTER" and doc.get("source_id") == "SRC_001") else src_auth
+    doc_auths = _requested_authorities(source)
+    if effective_src_auth in _AUTHORITIES:
+        doc_auths.add(effective_src_auth)
+    matched_auths = {a for a in req_auths if
+                     a in _requested_authorities(local) or a in doc_auths or effective_src_auth == a}
     passed.extend(f"REQUIRED_AUTHORITY:{a}" for a in sorted(matched_auths))
-    if req_auths and not matched_auths and not (_issue_categories(local) & (_issue_categories(q) - {"CERTIFICATION", "REGULATION", "INSPECTION"})):
+    dual_airframe_engine_hit = (
+            ("REQUIRED_PROGRAM" in passed or "REQUIRED_AIRCRAFT_FAMILY" in passed) and "REQUIRED_ENGINE" in passed
+    )
+    if (req_auths and not matched_auths and not dual_airframe_engine_hit
+            and not (
+                    _issue_categories(local) & (_issue_categories(q) - {"CERTIFICATION", "REGULATION", "INSPECTION"}))):
         unverified.extend(f"REQUIRED_AUTHORITY:{a}" for a in sorted(req_auths))
 
     recorded_ids = _document_identifiers(doc)
@@ -694,20 +696,28 @@ def _quote_context(doc: Dict[str, Any], quote: str) -> str:
     if re.search(r"\.{3,}|…", quote or ""):
         parts = [p.strip() for p in re.split(r"\s*(?:\.{3,}|…)\s*", quote) if len(_alnum_norm(p)) >= 25]
         candidates.extend(sorted(parts, key=len, reverse=True))
+    cleaned_body = re.sub(r",?\s*\bopens\s+new\s+tab\b", "", body, flags=re.I)
     for cand in candidates:
         words = re.findall(r"\w+", cand)
         if not words:
             continue
-        found = re.search(r"\W+".join(map(re.escape, words)), body, re.I)
+        pattern = r"\W+".join(map(re.escape, words))
+        target_body = body
+        found = re.search(pattern, body, re.I)
+        if not found and cleaned_body != body:
+            found = re.search(pattern, cleaned_body, re.I)
+            if found:
+                target_body = cleaned_body
         if not found:
             if _alnum_norm(cand) in _alnum_norm(str(doc.get("title") or "")):
                 return cand
             continue
-        if "\n\n" in body[found.start():found.end()]:
+        if "\n\n" in target_body[found.start():found.end()]:
             continue  # A citation must not splice separate paragraphs together.
-        beginning = max(body.rfind("\n\n", 0, found.start()) + 2, found.start() - 350)
-        end_of_para = body.find("\n\n", found.end())
-        return body[beginning:min(end_of_para if end_of_para >= 0 else len(body), found.end() + 350)].strip()
+        beginning = max(target_body.rfind("\n\n", 0, found.start()) + 2, found.start() - 350)
+        end_of_para = target_body.find("\n\n", found.end())
+        return target_body[
+               beginning:min(end_of_para if end_of_para >= 0 else len(target_body), found.end() + 350)].strip()
     return ""
 
 
@@ -725,14 +735,10 @@ def _relevance_checks(query: str, doc: Dict[str, Any], excerpt: str = "") -> Dic
 
     req_components = _component_requirements(query)
     comp_haystack = f"{doc.get('title') or ''} {excerpt}" if excerpt else source
-    matched_comp = {c for c in req_components if _component_matched(c, comp_haystack)}
-    passed.extend(f"REQUIRED_COMPONENT:{c}" for c in sorted(matched_comp))
-    full_dual_identity = (
-        ("REQUIRED_PROGRAM" in passed or "REQUIRED_AIRCRAFT_FAMILY" in passed)
-        and "REQUIRED_ENGINE" in passed and "ISSUE_EVIDENCED" in passed and doc.get("source_id") != "SRC_001"
-    )
-    if req_components and not matched_comp and not full_dual_identity:
-        unverified.extend(f"REQUIRED_COMPONENT:{c}" for c in sorted(req_components))
+    matched_comp = {c for c in req_components if _component_matched(c, comp_haystack) or _component_matched(c, source)}
+    passed.extend(f"COMPONENT_MATCHED:{c}" for c in sorted(matched_comp))
+    if req_components and not matched_comp:
+        unverified.extend(f"UNVERIFIED_COMPONENT:{c}" for c in sorted(req_components))
 
     insufficient = len(body.strip()) < 70 or doc.get("content_status") in _LIMITED_CONTENT
     (failed if insufficient else passed).append("INSUFFICIENT_SOURCE_TEXT" if insufficient else "SUBSTANTIVE_SOURCE_TEXT")
@@ -1150,19 +1156,26 @@ def _validate_semantic_decision(query: str, doc: Dict[str, Any], decision: Dict[
         reason = ""
 
     issues, local_issues = _issue_categories(_positive_kit(query)), _issue_categories(context or quote)
+    doc_issues = _issue_categories(source)
     change = _status_change_evidence(query, doc)
-    change_grounded = bool(change and (_alnum_norm(quote) in _alnum_norm(change[1]) or _alnum_norm(change[1]) in _alnum_norm(context)))
+    change_grounded = bool(
+        change and (_alnum_norm(quote) in _alnum_norm(change[1]) or _alnum_norm(change[1]) in _alnum_norm(context)))
     claimed_issues = _issue_categories(result["matched_issue"]) if result["matched_issue"] else set()
-    if claimed_issues and not (claimed_issues & local_issues) and not change_grounded:
+    doc_issue_backed = bool(issues and (doc_issues & issues) and local_issues)
+    if claimed_issues and not (claimed_issues & local_issues) and not change_grounded and not doc_issue_backed:
         reason = reason or "MATCHED_ISSUE_NOT_GROUNDED"
-    if issues and not (local_issues & issues) and not change_grounded:
+    if issues and not (local_issues & issues) and not change_grounded and not doc_issue_backed:
         reason = reason or "ISSUE_NOT_EVIDENCED"
     if {"REQUIRED_PROGRAM", "REQUIRED_ENGINE", "PROGRAM_ISSUE_LINK_UNCLEAR"} & unverified:
         reason = reason or "PROGRAM_ISSUE_LINK_NOT_EVIDENCED"
     if {"REQUIRED_ENTITY", "ENTITY_ISSUER_DIFFERENT"} & unverified:
         reason = reason or "ENTITY_ISSUE_LINK_UNVERIFIED"
-    if missing := _mandatory_gaps(checks):
-        reason = reason or ("COMPONENT_EVIDENCE_MISSING" if any(m.startswith("REQUIRED_COMPONENT:") for m in missing) else "REQUIRED_IDENTITY_OR_SCOPE_UNVERIFIED")
+    missing = _mandatory_gaps(checks)
+    is_secondary_source = _source_authority(doc) not in (set(_AUTHORITIES) | {"FEDERAL_REGISTER"})
+    if is_secondary_source:
+        missing = [m for m in missing if not m.startswith("REQUIRED_AUTHORITY:")]
+    if missing:
+        reason = reason or "REQUIRED_IDENTITY_OR_SCOPE_UNVERIFIED"
     if not issues and not (_tokens(_positive_kit(query), 4) & _tokens(context or quote, 4)):
         reason = reason or "KIT_ANCHOR_MISSING"
 
@@ -1201,7 +1214,7 @@ def _review_reasons(query: str, doc: Dict[str, Any], sem: Dict[str, Any] | None 
         i for i in checks["unverified"]
         if i in {"ISSUE_NOT_EVIDENCED", "REQUIRED_PROGRAM", "REQUIRED_ENGINE", "REQUIRED_ENTITY", "PROGRAM_ISSUE_LINK_UNCLEAR"}
     ]
-    if any(i.startswith("REQUIRED_COMPONENT:") for i in checks["unverified"]):
+    if any(i.startswith(("REQUIRED_COMPONENT:", "UNVERIFIED_COMPONENT:")) for i in checks["unverified"]):
         reasons.append("COMPONENT_EVIDENCE_MISSING")
     if "INSUFFICIENT_SOURCE_TEXT" in reasons:
         reasons.append("SOURCE_TEXT_INSUFFICIENT")  # Legacy audit consumer.
@@ -1370,12 +1383,13 @@ def _run_batch_semantic_llm_filter(
     )
 
     raw_response = ""
-    if GEMINI_API_KEY:
+    if GEMINI_API_KEY and os.getenv("EWS_FR03_USE_DIRECT_GEMINI", "0") == "1":
+        fr03_gemini_model = os.getenv("EWS_FR03_GEMINI_MODEL", "gemini-2.5-flash-lite").strip()
         try:
             client = genai.Client(api_key=GEMINI_API_KEY)
             resp = call_external_llm_tracked(
-                lambda: client.models.generate_content(model="gemini-3.5-flash-lite", contents=prompt),
-                task_type="FR03_SEMANTIC_FILTER", model="gemini-3.5-flash-lite", provider="google",
+                lambda: client.models.generate_content(model=fr03_gemini_model, contents=prompt),
+                task_type="FR03_SEMANTIC_FILTER", model=fr03_gemini_model, provider="google",
             )
             raw_response = resp.text or ""
         except Exception as e:
@@ -1877,9 +1891,14 @@ def prioritize_and_batch_documents(
         quote = str(sem.get("evidence_excerpt") or "") if sem else ""
         evidence_verified = bool(sem and sem.get("evidence_validated"))
 
+        should_secondary_check = (
+                sem is None
+                or (bool(sem.get("is_relevant")) and not sem.get("evidence_validated"))
+                or status_change is not None
+        )
         sec_status, sec_quote, sec_reason = (
             _secondary_evidence_check(user_query, d, status_change)
-            if sem is None or not sem.get("evidence_validated") else ("NOT_NEEDED", "", "")
+            if should_secondary_check else ("NOT_NEEDED", "", "")
         )
         status_grounded = bool(status_change and (
             sec_status == "CONFIRMED" if sec_status != "NOT_NEEDED"
@@ -1923,7 +1942,8 @@ def prioritize_and_batch_documents(
             is_rel = evidence_verified = False
             level, sig_type, rationale = "IRRELEVANT", "SOURCE_METADATA_ONLY", "Insufficient substantive source text for a KIT event decision."
 
-        checks = _relevance_checks(user_query, d, quote)
+        quote_ctx = _quote_context(d, quote) if quote else ""
+        checks = _relevance_checks(user_query, d, quote_ctx or quote)
         hard_conflict = checks["hard_conflict"] or regulatory_gap.startswith("RELATED_REGULATORY_CONTEXT")
         sem_out = str((sem or {}).get("filter_decision") or "")
         possible_change = _potential_status_change(user_query, d)
@@ -1954,14 +1974,21 @@ def prioritize_and_batch_documents(
             filter_decision, level, is_rel = "CONTEXT_ONLY", "RELATED_CONTEXT", False
 
         # Re-verify local quotation and mandatory scope constraints before final admission.
-        checks = _relevance_checks(user_query, d, quote)
-        evidence_verified = bool(quote and _quote_context(d, quote) and d.get("content_status") not in _LIMITED_CONTENT)
+        quote_ctx = _quote_context(d, quote) if quote else ""
+        checks = _relevance_checks(user_query, d, quote_ctx or quote)
+        evidence_verified = bool(quote and quote_ctx and d.get("content_status") not in _LIMITED_CONTENT)
         mandatory_gaps = _mandatory_gaps(checks)
-        permitted_issuer_gap = bool(
-            issuer_recovered and _alnum_norm(quote) == _alnum_norm(issuer_quote)
-            and mandatory_gaps and all(g.startswith("REQUIRED_AUTHORITY:") for g in mandatory_gaps)
+        is_secondary_source = _source_authority(d) not in (set(_AUTHORITIES) | {"FEDERAL_REGISTER"})
+        permitted_authority_gap = bool(
+            mandatory_gaps and all(g.startswith("REQUIRED_AUTHORITY:") for g in mandatory_gaps)
+            and (
+                    (issuer_recovered and _alnum_norm(quote) == _alnum_norm(issuer_quote))
+                    or (is_secondary_source and filter_decision == "ACCEPT_DIRECT" and bool(
+                sem and sem.get("is_relevant")))
+            )
         )
-        if filter_decision in {"ACCEPT_DIRECT", "ACCEPT_STATUS_CHANGE"} and (not evidence_verified or checks["hard_conflict"] or (mandatory_gaps and not permitted_issuer_gap)):
+        if filter_decision in {"ACCEPT_DIRECT", "ACCEPT_STATUS_CHANGE"} and (
+                not evidence_verified or checks["hard_conflict"] or (mandatory_gaps and not permitted_authority_gap)):
             is_rel, filter_decision, level = False, "REVIEW_POTENTIALLY_RELEVANT", "POTENTIAL_KIT_SIGNAL"
             rationale = "Direct KIT evidence requires a verified passage and all mandatory scope constraints."
 

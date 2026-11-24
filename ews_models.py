@@ -29,6 +29,7 @@ _ALLOWED_PLATFORMS = {
     "news", "news api", "regulatory", "faa", "easa", "faa & easa regulations",
     "ntsb", "ntsb investigations", "pr", "official pr releases", "bluesky",
     "bluesky social network", "youtube", "youtube videos", "airshow", "airshow websites",
+    "exa", "exa semantic search",
 }
 
 
@@ -41,6 +42,7 @@ class EWSRequest(BaseModel):
     as_of_date: Optional[str] = None
     platforms: List[str] = Field(min_length=1)
     limit: int = Field(default=5, ge=1, le=100, strict=True)
+    collection_mode: Literal["agentic_exa"] = "agentic_exa"
     auto_approve: bool = False
     replay_run_id: Optional[str] = None
     enable_qa_agent: Literal[True] = True

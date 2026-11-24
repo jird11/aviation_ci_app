@@ -391,3 +391,92 @@ def compute_evaluation_metrics():
         "precision_metric_scope": "INDEPENDENTLY_ANNOTATED_DOCUMENT_FILTER_LOG",
         "threat_score_mae": None,
     }
+
+@app.get("/api/evaluation/collection-modes")
+def compare_collection_modes():
+    """Aggregate A/B metrics comparing deterministic vs. agentic_exa runs stored in SQLite."""
+    with DB_LOCK, sqlite3.connect(SQLITE_DB) as conn:
+        conn.row_factory = sqlite3.Row
+        runs = [
+            dict(r) for r in conn.execute(
+                "SELECT run_id, query, analysis_scope, outcome_status, documents_collected, "
+                "documents_analyzed, documents_rejected, events_identified, collection_duration, "
+                "total_duration, llm_calls, estimated_cost, ablation_config_json, completed_at "
+                "FROM analytical_runs WHERE status = 'completed' ORDER BY completed_at DESC"
+            ).fetchall()
+        ]
+        reports_by_run = {
+            r["run_id"]: r["report_json"]
+            for r in conn.execute("SELECT run_id, report_json FROM reports").fetchall()
+        }
+
+    buckets: Dict[str, List[Dict[str, Any]]] = {"deterministic": [], "agentic_exa": []}
+    for row in runs:
+        try:
+            cfg = json.loads(row.get("ablation_config_json") or "{}")
+        except (TypeError, ValueError):
+            cfg = {}
+        mode = str(cfg.get("collection_mode") or "").strip().lower()
+        rep_meta: Dict[str, Any] = {}
+        if raw_rep := reports_by_run.get(row["run_id"]):
+            try:
+                rep_obj = json.loads(raw_rep)
+                rep_meta = rep_obj.get("run_metadata") or {}
+                if not mode:
+                    mode = str(rep_meta.get("collection_mode") or "deterministic").lower()
+            except (TypeError, ValueError):
+                rep_meta = {}
+        if mode not in buckets:
+            mode = "deterministic"
+
+        acq = rep_meta.get("acquisition_trace") or {}
+        collected = int(row.get("documents_collected") or 0)
+        analyzed = int(row.get("documents_analyzed") or 0)
+        rkiq_total = int(rep_meta.get("runtime_kiq_count") or 0)
+        rkiq_hit = int(rep_meta.get("runtime_kiq_answered") or 0) + int(rep_meta.get("runtime_kiq_partially_answered") or 0)
+
+        buckets[mode].append({
+            "run_id": row["run_id"],
+            "query": row["query"],
+            "scope": row["analysis_scope"],
+            "outcome_status": row["outcome_status"],
+            "documents_collected": collected,
+            "documents_analyzed": analyzed,
+            "fr03_acceptance_pct": _pct(analyzed, collected),
+            "primary_documents": int(acq.get("primary_documents") or 0),
+            "events_identified": int(row.get("events_identified") or 0),
+            "supported_events": int(rep_meta.get("direct_kit_confirmed_count") or 0),
+            "rkiq_total": rkiq_total,
+            "rkiq_covered": rkiq_hit,
+            "acquisition_steps": len(acq.get("steps") or []),
+            "exa_calls": int(acq.get("exa_calls_executed") or 0),
+            "collection_duration_sec": float(row.get("collection_duration") or 0.0),
+            "total_duration_sec": float(row.get("total_duration") or 0.0),
+            "llm_calls": int(row.get("llm_calls") or 0),
+            "estimated_cost_usd": float(row["estimated_cost"]) if row.get("estimated_cost") is not None else None,
+        })
+
+    def _summarize(items: List[Dict[str, Any]]) -> Dict[str, Any]:
+        if not items:
+            return {"run_count": 0}
+        avg = lambda key: round(sum(float(i[key]) for i in items if i.get(key) is not None) / max(1, sum(i.get(key) is not None for i in items)), 3)
+        costs = [i["estimated_cost_usd"] for i in items if i["estimated_cost_usd"] is not None]
+        return {
+            "run_count": len(items),
+            "avg_documents_collected": round(avg("documents_collected"), 2),
+            "avg_documents_analyzed": round(avg("documents_analyzed"), 2),
+            "avg_fr03_acceptance_pct": round(avg("fr03_acceptance_pct"), 1),
+            "avg_primary_documents": round(avg("primary_documents"), 2),
+            "avg_events_identified": round(avg("events_identified"), 2),
+            "avg_rkiq_covered": round(avg("rkiq_covered"), 2),
+            "avg_acquisition_steps": round(avg("acquisition_steps"), 2),
+            "avg_exa_calls": round(avg("exa_calls"), 2),
+            "avg_collection_duration_sec": round(avg("collection_duration_sec"), 2),
+            "avg_total_duration_sec": round(avg("total_duration_sec"), 2),
+            "avg_cost_usd": round(sum(costs) / len(costs), 5) if costs else None,
+        }
+
+    return {
+        "summary_by_mode": {m: _summarize(rows) for m, rows in buckets.items()},
+        "runs_by_mode": buckets,
+    }

@@ -76,6 +76,8 @@ LLM_PROVIDER_REGISTRY: Dict[str, Any] = {
     "fast_model": os.getenv("EWS_FAST_MODEL", _PRIMARY_MODEL),
     "reasoning_model": os.getenv("EWS_REASONING_MODEL", _PRIMARY_MODEL),
     "temperature": _temperature,
+    "planner_temperature": 0.0,
+    "acquisition_temperature": 0.0,
     "provider": os.getenv("EWS_LLM_PROVIDER", "Configurable (.env)"),
     "config_version": PROMPT_VERSION,
     "pii_policy": "REDACTED_BEFORE_DISPATCH",
@@ -205,21 +207,63 @@ fast_llm = build_resilient_llm("fast")
 reasoning_llm = build_resilient_llm("reasoning")
 
 
-def _build_single_pass_agent(role: str, goal: str, backstory: str, llm: LLM = reasoning_llm, *, max_iter: int = 1) -> Agent:
+def _build_single_pass_agent(
+    role: str,
+    goal: str,
+    backstory: str,
+    llm: LLM = reasoning_llm,
+    *,
+    max_iter: int = 1,
+    tools: Optional[list] = None,
+) -> Agent:
     """Construct a non-delegating CrewAI agent appended with the shared evidence policy."""
     return Agent(
-        role=role, goal=goal, backstory=f"{backstory} {_EVIDENCE_POLICY}",
-        llm=llm, verbose=False, allow_delegation=False, max_iter=max_iter, max_retry_limit=_retry_limit,
+        role=role,
+        goal=goal,
+        backstory=f"{backstory} {_EVIDENCE_POLICY}",
+        llm=llm,
+        tools=list(tools or []),
+        verbose=False,
+        allow_delegation=False,
+        max_iter=max_iter,
+        max_retry_limit=_retry_limit,
     )
 
 
-# Stage-specific CrewAI agent factories (role/goal/backstory prompts preserved verbatim).
+def _build_deterministic_fast_llm() -> LLM:
+    """Create a temperature=0.0 instance of the fast model for planning and acquisition."""
+    model = LLM_PROVIDER_REGISTRY["fast_model"]
+    options: Dict[str, Any] = {"model": model, "temperature": 0.0}
+    if model.startswith("ollama/"):
+        options["base_url"] = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+    else:
+        api_key = _resolve_api_key(model)
+        if not api_key:
+            return fast_llm
+        options.update(is_litellm=True, api_key=api_key)
+    return LLM(**options)
+
+
+# Stage-specific CrewAI agent factories (4-agent architecture).
 def create_planner_agent() -> Agent:
     return _build_single_pass_agent(
         "Chief Intelligence Planner",
         "Deconstruct the user KIT and cataloged indicators into concise search queries (KIQs).",
         "Aerospace CI strategist specializing in targeted OSINT query formulation across OEMs, Tier 1-3 suppliers, and regulators.",
-        llm=fast_llm, max_iter=2,
+        llm=_build_deterministic_fast_llm(),
+        max_iter=2,
+    )
+
+
+def create_planning_and_acquisition_agent(tools: Optional[list] = None, max_iter: int = 8) -> Agent:
+    """Agent 1 (Acquisition phase): autonomously execute and adapt OSINT searches within budget."""
+    return _build_single_pass_agent(
+        "Intelligence Planning & Acquisition Agent",
+        "Autonomously gather high-signal aerospace OSINT evidence across Exa semantic search, official regulators, corporate filings, and media/social tools while closing KIQ gaps within the strict call budget.",
+        "Senior aerospace OSINT acquisition specialist. Evaluates retrieved coverage after each search, corroborates secondary leads with primary FAA/EASA/SEC/OEM records, refines queries on exact aircraft/engine variants, and stops once KIQ coverage is adequate or budget is exhausted.",
+        llm=_build_deterministic_fast_llm(),
+        max_iter=max(2, int(max_iter)),
+        tools=tools,
     )
 
 
@@ -245,12 +289,4 @@ def create_editor_agent() -> Agent:
         "EWS Editor",
         "Produce an evidence-grounded executive summary and proportional management action plan. Never recreate or modify ThreatAssessment objects.",
         "Executive intelligence editor proposing concise, evidence-bounded management actions and Pros/Cons in plain text. Python creates and validates the final structured JSON.",
-    )
-
-
-def create_scoring_agent() -> Agent:
-    return _build_single_pass_agent(
-        "Aviation Risk Scoring Specialist",
-        "Independently assess the potential severity of evidence-backed aviation intelligence events using a consistent 1-10 risk scoring methodology.",
-        "Aerospace risk assessment specialist evaluating operational impact, supplier criticality, substitutability, and temporal urgency. Separates potential severity from source confidence.",
     )

@@ -86,13 +86,10 @@ _GENERIC_RSS_WORDS = {
 }
 _SEC_ALLOWED_FORMS = {"8-K", "8-K/A", "10-Q", "10-Q/A", "10-K", "10-K/A", "6-K", "20-F", "20-F/A", "40-F"}
 _SEC_PERIODIC_FORMS = {"10-Q", "10-Q/A", "10-K", "10-K/A", "20-F", "20-F/A", "40-F"}
-_OFFICIAL_POST_ENDPOINTS = {
-    "SRC_028": {"https://api.ted.europa.eu/v3/notices/search"},
-    "SRC_029": {
-        "https://api.usaspending.gov/api/v2/search/spending_by_award/",
-        "https://api.usaspending.gov/api/v2/transactions/",
-    },
-}
+
+
+def _is_deprecated_extra_source(sid: str, name: str = "") -> bool:
+    return False
 
 
 def _sha256(data):
@@ -317,9 +314,11 @@ def registry_additions():
     kind_map = {"news": "MARKET_DATA", "regulatory": "REGULATORY", "pr": "OEM_PR", "airshow": "INDUSTRY_EVENT"}
     result = {}
     for sid, (name, group, status, method, url) in SOURCES.items():
+        effective_status = "DISABLED" if _is_deprecated_extra_source(sid, name) else status
         entry = {
-            "source_id": sid, "name": name, "category": group, "policy_status": status,
-            "legal_status": "ALLOWED" if status == "ENABLED" else status, "source_type": kind_map[group],
+            "source_id": sid, "name": name, "category": group, "policy_status": effective_status,
+            "legal_status": "ALLOWED" if effective_status == "ENABLED" else effective_status,
+            "source_type": kind_map[group],
             "origin": "PRIMARY", "domain": urlparse(url).hostname, "access_method": method, "tos_url": url,
             "last_legal_review_date": "2026-11-09", "verified_domain": True, "rate_limit_rpm": 8,
             "min_interval_sec": 2, "usage_restrictions": "Official API/RSS or manual export; provider terms apply",
@@ -794,6 +793,8 @@ def collect_extra(query, platforms, limit):
         return safe_http_get(url or SOURCES[sid][4], source_id=sid, timeout=15, **kwargs)
 
     for sid, (name, group, status, method, url) in SOURCES.items():
+        if _is_deprecated_extra_source(sid, name):
+            continue
         if group not in selected or (status != "ENABLED" and not (review_test and status == "REQUIRES_REVIEW")):
             continue
         group_start = len(output)
@@ -816,56 +817,12 @@ def collect_extra(query, platforms, limit):
                         from tools import normalize_date_str
                         pub_date = normalize_date_str(raw_date) or "DATE_UNKNOWN"
                     link = entry.get("link") or url
-                    if sid == "SRC_013":
-                        code = title.split(" - ", 1)[0].strip().upper()
-                        if not code.startswith(("AVIA_", "AIRP_")):
-                            continue
-                        cat = str(entry.get("category") or "")
-                        add(sid, title, link, f"EUROSTAT DATASET METADATA UPDATE. Dataset: {code}. Update category: {cat}. Description: {summary}. This is not a confirmed aviation safety incident.", pub_date, force=True, document_type="STATISTICAL_METADATA_UPDATE", dataset_code=code, update_category=cat)
-                    else:
-                        add(sid, title, link, summary or title, pub_date)
-                        if len(output) - group_start >= limit:
-                            break
-                    rss_added = len(output) - group_start
-                    record_connector_telemetry(name, sid, query, len(entries), rss_added, 0, operational_status="AVAILABLE", search_outcome="RESULTS_RETRIEVED" if rss_added else "NO_MATCH")
-
-            elif sid == "SRC_012":
-                resp = get(sid, params={"geo": "EU27_2020", "freq": "M", "lastTimePeriod": 3})
-                if resp is None or resp.status_code != 200 or not (values := (data := resp.json()).get("value") or {}):
-                    continue
-                time_idx = data.get("dimension", {}).get("time", {}).get("category", {}).get("index", {})
-                periods = list(time_idx.keys()) if isinstance(time_idx, dict) else []
-                from tools import normalize_date_str
-                updated_at = normalize_date_str(str(data.get("updated") or "")) or "DATE_UNKNOWN"
-                sample = list(values.items())[-8:]
-                body = (
-                    f"EUROSTAT MONTHLY AVIATION STATISTICAL SERIES. Dataset: avia_paoc. Number of returned statistical values: {len(values)}. "
-                    f"Recent periods: {periods[-3:]}. Sample JSON-stat indices and values: {sample}. Dataset updated: {updated_at}. "
-                    "Dataset update time is not an aircraft incident date. A period-over-period comparison is required before concluding that traffic increased or decreased."
-                )
-                add(sid, "Eurostat monthly aviation statistics – avia_paoc", resp.url, body, updated_at, force=True, document_type="STATISTICAL_SERIES", dataset_code="avia_paoc", sample_values=sample, reference_periods=periods[-3:])
-
-            elif method in {"CSV_IMPORT", "XML_IMPORT"}:
-                root = Path(os.getenv("EWS_OFFICIAL_EXPORT_DIR", "data/official_exports"))
-                if method == "CSV_IMPORT":
-                    for path in sorted(root.glob(f"{sid}_*.csv"))[-2:]:
-                        with path.open(encoding="utf-8-sig", errors="replace", newline="") as f:
-                            for i, row in enumerate(csv.DictReader(f)):
-                                if i >= 3000:
-                                    break
-                                add(sid, f"{name} – {path.stem} / {i + 1}", f"{url}#row-{path.stem}-{i + 1}", f"Official historical export {path.name}: " + " | ".join(f"{k}: {v}" for k, v in row.items() if v)[:900])
-                else:
-                    from defusedxml import ElementTree as ET
-                    for path in sorted(root.glob(f"{sid}_*.xml"))[-2:]:
-                        if path.stat().st_size > 15_000_000:
-                            continue
-                        for i, (_, elem) in enumerate(ET.iterparse(path, events=("end",))):
-                            if i > 5000:
-                                break
-                            if (body := " ".join(elem.itertext())[:900]).strip():
-                                add(sid, f"EASA Rules – {path.stem} / {i}", f"{url}#xml-{path.stem}-{i}", body)
-                            elem.clear()
-
+                    add(sid, title, link, summary or title, pub_date)
+                    if len(output) - group_start >= limit:
+                        break
+                rss_added = len(output) - group_start
+                record_connector_telemetry(name, sid, query, len(entries), rss_added, 0, operational_status="AVAILABLE",
+                                           search_outcome="RESULTS_RETRIEVED" if rss_added else "NO_MATCH")
             elif sid == "SRC_031":
                 contact = os.getenv("EWS_CONTACT_EMAIL", "").strip().removeprefix("mailto:")
                 if "@" not in contact:
@@ -886,54 +843,6 @@ def collect_extra(query, platforms, limit):
 
             elif sid == "SRC_027":
                 _collect_sec_edgar(sid, query, limit, output, group_start, get, add, is_date_within_scope, record_connector_telemetry)
-
-            elif sid == "SRC_028":
-                from tools import get_time_window_utc
-                scope_start, _ = get_time_window_utc()
-                term = query[:75].replace('"', " ").strip() or "aircraft"
-                date_f = f" AND PD>={scope_start:%Y%m%d}" if scope_start else ""
-                payload = {"query": f'FT~"{term}"{date_f} SORT BY publication-date DESC', "fields": ["publication-number", "publication-date", "notice-title"], "page": 1, "limit": max(10, limit), "scope": "ALL"}
-                for item in (official_api_post(sid, url, payload) or {}).get("notices", []):
-                    if len(output) - group_start >= limit:
-                        break
-                    number, pub_date = str(item.get("publication-number") or ""), str(item.get("publication-date") or "DATE_UNKNOWN")
-                    if not number or not is_date_within_scope(pub_date):
-                        continue
-                    titles = item.get("notice-title") or {}
-                    title = (titles.get("eng") or next(iter(titles.values()), "")) if isinstance(titles, dict) else str(titles)
-                    add(sid, f"TED {number} – {str(title)[:150]}", "https://ted.europa.eu/en/notice/" + quote(number),
-                        f"TED PROCUREMENT NOTICE. Number: {number}. Publication date: {pub_date}. Title: {title}. This is a procurement signal, not a safety incident.",
-                        pub_date, force=True, document_type="PROCUREMENT_NOTICE", notice_number=number)
-
-            elif sid == "SRC_029":
-                from tools import get_time_window_utc
-                scope_start, scope_end = get_time_window_utc()
-                payload = {
-                    "filters": {"keywords": [query[:160]], "award_type_codes": ["A", "B", "C", "D"], "time_period": [{"start_date": scope_start.date().isoformat() if scope_start else "2000-01-01", "end_date": scope_end.date().isoformat(), "date_type": "action_date"}]},
-                    "fields": ["Award ID", "Recipient Name", "Start Date", "End Date", "Award Amount", "Description"],
-                    "page": 1, "limit": max(5, limit), "sort": "Award Amount", "order": "desc",
-                }
-                for award in (official_api_post(sid, url, payload) or {}).get("results", []):
-                    if len(output) - group_start >= limit:
-                        break
-                    award_id, internal_id = str(award.get("Award ID") or ""), award.get("generated_internal_id") or award.get("internal_id")
-                    if not award_id or not internal_id:
-                        continue
-                    txs = official_api_post(sid, "https://api.usaspending.gov/api/v2/transactions/", {"award_id": internal_id, "page": 1, "limit": 100}) or {}
-                    recent = sorted((t for t in txs.get("results", []) if t.get("action_date") and is_date_within_scope(str(t["action_date"]))), key=lambda x: str(x["action_date"]), reverse=True)
-                    for tx in recent[:2]:
-                        if len(output) - group_start >= limit:
-                            break
-                        act_date, mod, obl, act_type = str(tx.get("action_date") or ""), str(tx.get("modification_number") or "UNKNOWN"), tx.get("federal_action_obligation"), str(tx.get("action_type_description") or "")
-                        body = (
-                            f"USASPENDING OFFICIAL TRANSACTION. Award: {award_id}. Recipient: {award.get('Recipient Name')}. "
-                            f"Original award start: {award.get('Start Date')}. Transaction date: {act_date}. Modification: {mod}. "
-                            f"Action type: {act_type}. Incremental obligation: {obl}. Total award: {award.get('Award Amount')}. "
-                            f"Description: {str(award.get('Description') or '')[:450]}. This transaction is not necessarily a new contract."
-                        )
-                        add(sid, f"USAspending {award_id} {mod}", f"https://www.usaspending.gov/award/{quote(str(internal_id))}#{quote(act_date + '-' + mod)}",
-                            body, act_date, force=True, document_type="CONTRACT_TRANSACTION" if mod in ("", "UNKNOWN", "0") else "CONTRACT_MODIFICATION",
-                            award_id=award_id, modification_number=mod, action_date=act_date, incremental_obligation=obl)
         except (OSError, ValueError, KeyError, IndexError, requests.RequestException, ImportError) as exc:
             output.append(f"{name}: unavailable ({type(exc).__name__}: {exc})")
 

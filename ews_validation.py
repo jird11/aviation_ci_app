@@ -57,25 +57,6 @@ _PRIMARY_OEM_AND_TIER1_DOMAINS = {
     "spiritaero.com", "mtu.de", "liebherr.com", "howmet.com", "hexcel.com",
 }
 
-# Canonical claim lifecycle state mapping (preserved verbatim).
-_CLAIM_STATES = {
-    "DELAYED": "ISSUE_ACTIVE", "PENDING": "ISSUE_ACTIVE", "ONGOING": "ISSUE_ACTIVE",
-    "STARTED": "ISSUE_ACTIVE", "STRIKE_STARTED": "ISSUE_ACTIVE",
-    "PRODUCTION_HALTED": "ISSUE_ACTIVE", "PRODUCTION_STOPPED": "ISSUE_ACTIVE",
-    "DELIVERIES_SUSPENDED": "ISSUE_ACTIVE", "CERTIFICATION_DELAYED": "ISSUE_ACTIVE",
-    "CERTIFIED": "ISSUE_RESOLVED", "GRANTED": "ISSUE_RESOLVED",
-    "RESOLVED": "ISSUE_RESOLVED", "COMPLETED": "ISSUE_RESOLVED",
-    "STRIKE_ENDED": "ISSUE_RESOLVED", "AGREEMENT_REACHED": "ISSUE_RESOLVED",
-    "PRODUCTION_RESUMED": "ISSUE_RESOLVED", "DELIVERIES_RESUMED": "ISSUE_RESOLVED",
-    "CERTIFICATION_COMPLETED": "ISSUE_RESOLVED", "APPROVED": "ISSUE_RESOLVED",
-    "PROPOSED": "PROCESS_PROPOSED", "NPRM": "PROCESS_PROPOSED",
-    "FINAL_ISSUED": "PROCESS_FINAL", "ADOPTED": "PROCESS_FINAL",
-    "EFFECTIVE": "PROCESS_EFFECTIVE",
-    "PLANNED": "PLANNED_CHANGE", "CAPACITY_INCREASE_PLANNED": "PLANNED_CHANGE",
-    "CAPACITY_INCREASED": "CHANGE_IMPLEMENTED", "CAPACITY_EXPANDED": "CHANGE_IMPLEMENTED",
-    "WITHDRAWN": "ISSUE_WITHDRAWN_OR_REPLACED", "REVOKED": "ISSUE_WITHDRAWN_OR_REPLACED",
-}
-
 _CAUSAL_CONNECTOR = re.compile(
     r"\b(?:due\s+to|because\s+of|because|caused\s+by|prompted\s+by|caus(?:ed|ing|es)|"
     r"(?:led|leading)\s+to|result(?:ed|ing)\s+in|contribut(?:ed|ing)\s+to|"
@@ -132,6 +113,24 @@ _MONTH_NAMES = "january february march april may june july august september octo
 def _strip_exclusions(query: str) -> str:
     """Return the positive KIT text preceding any exclusion clause."""
     return _EXCLUSION_RE.split(str(query or ""), maxsplit=1)[0].strip()
+
+
+def _norm_model_hyphens(text: str) -> str:
+    """Normalize hyphenated letter-digit model codes (e.g. C-919 -> C919) without altering dates or dockets."""
+    return re.sub(r"\b([A-Za-z]{1,3})-(?!19\d{2}\b|20\d{2}\b)(\d{3,4}[A-Za-z0-9]*)\b", r"\1\2", str(text or ""))
+
+
+def _is_short_snippet(doc: Dict[str, Any]) -> bool:
+    """Treat a record as headline/snippet-only only when substantive text is genuinely short or metadata-only."""
+    text = str(doc.get("text") or "").strip()
+    status = str(doc.get("content_status") or "").upper()
+    if status in {"METADATA_ONLY", "SOURCE_METADATA_ONLY", "SUMMARY_ONLY", "UNAVAILABLE"}:
+        return True
+    if "[NEWSAPI_METADATA_ONLY:" in text or "[EXA_METADATA_ONLY]" in text:
+        return True
+    if len(text) >= 320 and len(re.findall(r"\b\w+\b", text)) >= 45:
+        return False
+    return _is_snippet_only(doc)
 
 
 def _doc_full_text(doc: Dict[str, Any]) -> str:
@@ -349,17 +348,6 @@ def _certification_model_ids(text: str) -> set[str]:
     }
     return {c for c in codes if not re.fullmatch(r"\d{3}", c)}
 
-
-def _claim_day(claim: Dict[str, Any]) -> Optional[date]:
-    """Extract the highest-precedence ISO calendar date from a claim record."""
-    for field in ("state_as_of", "event_date", "regulatory_decision_date", "published_at", "publication_date"):
-        try:
-            return date.fromisoformat(str(claim.get(field) or "")[:10])
-        except ValueError:
-            continue
-    return None
-
-
 def _claim_instant(claim: Dict[str, Any]) -> Optional[datetime]:
     """Extract an exact UTC timestamp when two states occurred on the same calendar day."""
     for field in ("state_as_of", "event_date", "regulatory_decision_date"):
@@ -480,8 +468,11 @@ def _kit_fact_audit(query: str, quote: str, doc: Dict[str, Any], cutoff: Optiona
         obs_models = _detect_engine_models(context)
         checks["PROGRAM"] = "POSITIVE" if (_engine_models_match(query, context) or (req_models & obs_models)) else ("NEGATIVE" if obs_models else "UNKNOWN")
 
-    req_ex, req_sp = _detect_exact_variants(query), _detect_specific_variants(query)
-    obs_ex, obs_sp = _detect_exact_variants(context), _detect_specific_variants(context)
+    q_norm, c_norm = _norm_model_hyphens(query), _norm_model_hyphens(context)
+    req_ex = _detect_exact_variants(query) | _detect_exact_variants(q_norm)
+    req_sp = _detect_specific_variants(query) | _detect_specific_variants(q_norm)
+    obs_ex = _detect_exact_variants(context) | _detect_exact_variants(c_norm)
+    obs_sp = _detect_specific_variants(context) | _detect_specific_variants(c_norm)
     if req_ex:
         checks["VARIANT"] = "POSITIVE" if (req_ex & obs_ex) else ("NEGATIVE" if obs_ex and req_ex.isdisjoint(obs_ex) else ("NOT_REQUIRED" if checks["PROGRAM"] == "POSITIVE" else "UNKNOWN"))
     elif req_sp:
@@ -521,181 +512,6 @@ def _claim_model_ids(text: str) -> set[str]:
     """Return the most specific normalized model codes mentioned in text."""
     codes = _certification_model_ids(text)
     return {c for c in codes if not any(c != other and other.startswith(c) for other in codes)}
-
-
-def compare_evidence_claims(
-    earlier: Dict[str, Any], later: Dict[str, Any], as_of_date: str = "",
-) -> Dict[str, Any]:
-    """Compare grounded states without conflating programs, authorities, or reporting dates."""
-    norm = lambda v: re.sub(r"[^a-z0-9]+", "", str(v or "").lower())
-    ident_val = lambda c, f: (c.get("entity") or c.get("issuer_name") or c.get("company")) if f == "entity" else c.get(f)
-    issue_name = lambda v: re.sub(
-        r"(?<=\w)(?:delay(?:ed)?|status|issue|update|halt(?:ed)?|stop(?:ped|page)?|"
-        r"resum(?:ed|ption)|restart(?:ed)?|complet(?:ed|ion)|propos(?:ed|al)|"
-        r"adopt(?:ed|ion)|withdraw(?:n|al)|start(?:ed)?|end(?:ed)?|suspend(?:ed|sion)|plan(?:ned)?|expand(?:ed|sion))$",
-        "", norm(v),
-    )
-
-    def entity_norm(v: Any) -> str:
-        reg = lookup_supplier_in_registry(str(v or ""), exact=True)
-        return norm(reg["official_name"] if reg else v)
-
-    def eligible(c: Dict[str, Any]) -> bool:
-        src = urlparse(str(c.get("source_url") or c.get("url") or ""))
-        if not (c.get("doc_id") and src.scheme == "https" and src.hostname and str(c.get("evidence_excerpt") or c.get("quote") or "").strip() and c.get("verified") is True):
-            return False
-        if str(c.get("verification") or "").upper() == "OFFICIAL_REGULATOR" and not _claim_authority(c):
-            return False
-        return c.get("content_status") not in {"METADATA_ONLY", "SUMMARY_ONLY", "SOURCE_METADATA_ONLY", "SOURCE_POLICY_RESTRICTED", "UNAVAILABLE"} and c.get("source_content_retrieved") is not False
-
-    def forecast(c: Dict[str, Any]) -> bool:
-        if any(str(c.get(k) or "").upper() == "FORECAST" for k in ("modality", "claim_type")):
-            return True
-        if str(c.get("state") or "").upper() in {"CAPACITY_INCREASED", "CAPACITY_EXPANDED", "COMPLETED", "CERTIFIED", "PRODUCTION_RESUMED", "DELIVERIES_RESUMED", "AGREEMENT_REACHED"}:
-            return False
-        return bool(re.search(r"\b(?:expects?|forecast\w*|anticipated|planned|may|might)\b", str(c.get("evidence_excerpt") or ""), re.I))
-
-    both_verified = eligible(earlier) and eligible(later)
-
-    def result(relation: str, reason: str) -> Dict[str, Any]:
-        issue = issue_name(earlier.get("issue"))
-        auth_req = bool(re.search(r"certif|regulat|airworth|approval|directive|nprm", issue))
-        reg_ver = str(later.get("verification") or "").upper() == "OFFICIAL_REGULATOR" and bool(_claim_authority(later)) and _claim_authority(earlier) == _claim_authority(later)
-        status_chg = relation in {"SUPERSEDES", "CORRECTS"} or reason == "FORECAST_FULFILLED_BY_LATER_EVIDENCE"
-        same_issue = relation not in {"RELATES_TO", "CONTRADICTS"}
-        return {
-            "relation": relation, "reason": reason, "evidence_eligible": both_verified,
-            "can_update_status": both_verified and (status_chg or relation == "CORROBORATES") and (not auth_req or reg_ver),
-            "reported_status_change": both_verified and same_issue and status_chg,
-            "issuer_statement_supported": both_verified and same_issue and not reg_ver and (
-                str(later.get("verification") or "").upper() in {"PRIMARY_ISSUER", "ISSUER_DISCLOSURE"}
-                or str(later.get("evidence_authority") or "").upper() in {"ISSUER_OFFICIAL_STATEMENT", "SEC_EDGAR", "OFFICIAL_ISSUER_IR"}
-            ),
-            "regulator_decision_verified": both_verified and auth_req and reg_ver,
-        }
-
-    first_day, second_day = _claim_day(earlier), _claim_day(later)
-    try:
-        cutoff = date.fromisoformat(as_of_date[:10]) if as_of_date else None
-    except ValueError:
-        cutoff = None
-    if cutoff and (not first_day or not second_day or max(first_day, second_day) > cutoff):
-        return result("RELATES_TO", "OUTSIDE_REFERENCE_DATE")
-    if cutoff and any(p and p > cutoff for p in (_claim_day({"published_at": earlier.get("published_at")}), _claim_day({"published_at": later.get("published_at")}))):
-        return result("RELATES_TO", "FUTURE_PUBLICATION_NOT_AVAILABLE_AT_REFERENCE_DATE")
-    if not both_verified:
-        return result("RELATES_TO", "EVIDENCE_NOT_VERIFIED")
-
-    for field in ("entity", "component"):
-        left, right = ident_val(earlier, field), ident_val(later, field)
-        if (field == "entity" and not (left and right)) or (bool(left) != bool(right)):
-            return result("RELATES_TO", f"{field.upper()}_NOT_ESTABLISHED")
-        comp = entity_norm if field == "entity" else norm
-        if left and right and comp(left) != comp(right):
-            return result("RELATES_TO", f"{field.upper()}_CONFLICT")
-
-    p1, p2 = str(earlier.get("program") or ""), str(later.get("program") or "")
-    if bool(p1) != bool(p2):
-        return result("RELATES_TO", "PROGRAM_NOT_ESTABLISHED")
-    if p1 and p2:
-        a, b = _claim_model_ids(p1), _claim_model_ids(p2)
-        if (a and b and a.isdisjoint(b)) or ((not a or not b) and norm(p1) != norm(p2)):
-            return result("RELATES_TO", "PROGRAM_CONFLICT")
-
-    i1, i2 = issue_name(earlier.get("issue")), issue_name(later.get("issue"))
-    if not (i1 and i2):
-        return result("RELATES_TO", "ISSUE_NOT_ESTABLISHED")
-    if i1 != i2:
-        return result("RELATES_TO", "ISSUE_CONFLICT")
-    if earlier.get("episode_id") and later.get("episode_id") and str(earlier["episode_id"]) != str(later["episode_id"]):
-        return result("RELATES_TO", "DIFFERENT_EVENT_EPISODES")
-
-    a1, a2 = _claim_authority(earlier), _claim_authority(later)
-    if a1 and a2 and a1 != a2:
-        return result("RELATES_TO", "REGULATORY_AUTHORITY_CONFLICT")
-    if re.search(r"certif|regulat|airworth|approval|directive|nprm", i1) and not (a1 and a2):
-        return result("RELATES_TO", "REGULATORY_AUTHORITY_UNVERIFIED")
-
-    s1 = _CLAIM_STATES.get(str(earlier.get("state") or "").upper(), str(earlier.get("state") or "").upper())
-    s2 = _CLAIM_STATES.get(str(later.get("state") or "").upper(), str(later.get("state") or "").upper())
-    if not (first_day and second_day and s1 and s2):
-        return result("RELATES_TO", "STATE_OR_DATE_UNESTABLISHED")
-    if str(earlier.get("doc_id") or "") and str(later.get("corrects_doc_id") or later.get("correction_of") or "") == str(earlier.get("doc_id") or "") and second_day >= first_day:
-        return result("CORRECTS", "EXPLICIT_CORRECTION_OF_EARLIER_CLAIM")
-
-    old_t, new_t = norm(earlier.get("evidence_excerpt")), norm(later.get("evidence_excerpt"))
-    is_ref = bool(old_t and new_t.startswith(old_t) and len(new_t) > len(old_t))
-    if second_day > first_day:
-        if forecast(later):
-            return result("RELATES_TO", "LATER_FORECAST_NOT_VERIFIED_AS_ACTUAL_CHANGE")
-        if str(later.get("claim_type") or "").upper() == "HISTORICAL_STATUS" and not any(later.get(k) for k in ("state_as_of", "event_date", "regulatory_decision_date")):
-            return result("RELATES_TO", "LATER_PUBLICATION_DESCRIBES_HISTORY")
-        if forecast(earlier) and s2 in {"ISSUE_RESOLVED", "ISSUE_WITHDRAWN_OR_REPLACED", "CHANGE_IMPLEMENTED", "PROCESS_FINAL"}:
-            return result("REFINES", "FORECAST_FULFILLED_BY_LATER_EVIDENCE")
-        return result("SUPERSEDES", "NEWER_STATE_SAME_ISSUE") if s1 != s2 else (result("REFINES", "ADDITIONAL_DETAIL_SAME_STATE") if is_ref else result("CORROBORATES", "SAME_STATE_AT_LATER_DATE"))
-
-    if second_day == first_day and s1 != s2:
-        t1, t2 = _claim_instant(earlier), _claim_instant(later)
-        if t1 and t2 and t2 > t1 and not forecast(later):
-            return result("SUPERSEDES", "NEWER_STATE_SAME_DAY")
-        if all(c.get("state_date_explicit") or c.get("state_as_of") or c.get("event_date") for c in (earlier, later)):
-            return result("CONTRADICTS" if both_verified else "RELATES_TO", "CONFLICTING_CLAIMS_FOR_SAME_EFFECTIVE_DATE" if both_verified else "UNVERIFIED_CONFLICT_FOR_SAME_EFFECTIVE_DATE")
-    if s1 == s2:
-        return result("REFINES", "ADDITIONAL_DETAIL_SAME_STATE") if is_ref else result("CORROBORATES", "SAME_STATE_SAME_SCOPE")
-    return result("RELATES_TO", "TEMPORAL_CONTEXT_NOT_COMPARABLE")
-
-
-def find_superseding_faa_certification(threat, documents, as_of_date="", kit_query=""):
-    """Find a later primary FAA certification decision for the same exact program."""
-    from aero_ews.collection.queries import AGENCIES
-
-    claim = f"{threat.fact_check_quote or ''} {threat.threat_description or ''}"
-    if {t.lower() for t in re.findall(r"\b[A-Z]{3,5}\b", f"{claim} {kit_query}") if t.lower() in AGENCIES} - {"faa"}:
-        return None
-    if not (re.search(r"\b(?:certif\w*|type\s+approv\w*|faa\s+approv\w*)\b", claim, re.I)
-            and re.search(r"\b(?:delay\w*|pending|await\w*|expect\w*|not\s+yet|not\s+certif\w*|uncertif\w*|imminent|postpon\w*|could\s+come|may\s+come|still\s+(?:in\s+review|uncertified)|unapproved)\b", claim, re.I)):
-        return None
-    models = _certification_model_ids(str(getattr(threat, "affected_program", "") or "")) or _certification_model_ids(claim)
-    try:
-        old_date = date.fromisoformat(str(threat.publication_time)[:10])
-        cutoff = date.fromisoformat(str(as_of_date)[:10]) if as_of_date else datetime.now(timezone.utc).date()
-    except ValueError:
-        return None
-    if not models:
-        return None
-
-    dec_re = re.compile(
-        r"\b(?:issued|granted|approv\w*)\s+(?:(?:an?|the|its)\s+)?(?:amended\s+)?(?:type\s+certificat\w*|certification|type\s+approval)\b"
-        r"|\b(?:type\s+certificat\w*|certification|type\s+approval)\b[^.;!?]{0,55}\b(?:issued|granted|approved|completed)\b"
-        r"|\b(?:received|achieved)\s+(?:amended\s+type\s+)?certification\b"
-        r"|\b(?:FAA|Federal Aviation Administration)\s+(?:has\s+)?certif(?:ied|ies)\b", re.I,
-    )
-    neg_re = re.compile(
-        r"\b(?:not|never|without|pending|planned|proposed|expected|awaiting|denied|revoked|suspended)\b.{0,45}\b(?:issued|granted|approved|completed|certified|certifies|certification)\b"
-        r"|\b(?:certification|type\s+certificate)\b[^.;!?]{0,50}\b(?:pending|expected|awaiting|under\s+review|not\s+yet)\b", re.I,
-    )
-    matches = []
-    for doc in documents:
-        u = urlparse(str(doc.get("url") or ""))
-        if (u.scheme != "https" or u.hostname not in {"faa.gov", "www.faa.gov"} or not re.fullmatch(r"/newsroom/[a-z0-9-]+/?", u.path, re.I)
-                or doc.get("source_id") != "SRC_001" or doc.get("content_status") != "FULL_TEXT" or doc.get("content_truncated")
-                or not doc.get("verified_domain") or str(doc.get("regulatory_authority") or "FAA").upper() != "FAA"
-                or doc.get("faa_record_category") not in {None, "FAA_TYPE_CERTIFICATION", "FAA_NEWSROOM_ANNOUNCEMENT"} or _is_snippet_only(doc)):
-            continue
-        try:
-            pub = date.fromisoformat(str(doc.get("published_at") or "")[:10])
-        except ValueError:
-            continue
-        if not old_date < pub <= cutoff:
-            continue
-        title_models = _certification_model_ids(str(doc.get("title") or ""))
-        for sent in re.split(r"(?<=[.!?])\s+|\n+", str(doc.get("text") or "")):
-            loc = _certification_model_ids(sent)
-            if (models.issubset(loc) or (models.issubset(title_models) and not loc and re.search(r"\b(?:FAA|Federal Aviation Administration|the agency|the regulator|aviation authority)\b", sent, re.I))) and dec_re.search(sent) and not neg_re.search(sent):
-                matches.append((pub, doc))
-                break
-    return max(matches, key=lambda item: item[0])[1] if matches else None
-
 
 def _source_age_days(publication_time: str, as_of_date: str = "") -> Optional[int]:
     """Compute source age in days relative to the analysis reference date."""
@@ -786,17 +602,38 @@ def _evaluate_claim_and_causal_support(
     full_quote_verified: bool, is_unverified_or_community_source: bool,
 ) -> Tuple[str, str, List[str]]:
     """Separate stated source facts from speculative causal explanations."""
+    from aero_ews.collection.queries import get_program_engine_domain
+
     doc_text = (matched_doc.get("text") or "").strip()
     doc_raw_full = f"{(matched_doc.get('title') or '').strip()} {doc_text}"
     claim_comb = f"{threat.company_affected} {threat.threat_description} {threat.confirmed_facts}"
 
-    c_vars, d_vars = _detect_specific_variants(claim_comb), _detect_specific_variants(doc_raw_full)
+    doc_norm_models = _norm_model_hyphens(doc_raw_full)
+    claim_norm_models = _norm_model_hyphens(claim_comb)
+    c_engs = _detect_engine_models(claim_comb) | _detect_engine_models(claim_norm_models)
+    d_engs = _detect_engine_models(doc_raw_full) | _detect_engine_models(doc_norm_models)
+    c_vars = _detect_specific_variants(claim_comb) | _detect_specific_variants(claim_norm_models)
+    d_vars = _detect_specific_variants(doc_raw_full) | _detect_specific_variants(doc_norm_models)
+
     if c_vars and c_vars.isdisjoint(d_vars):
-        return "UNSUPPORTED", "UNSUPPORTED", [f"Variant mismatch: {sorted(c_vars)} vs source {sorted(d_vars)}"]
-    c_fams, d_fams = _detect_aircraft_families(claim_comb), _detect_aircraft_families(doc_raw_full)
+        eng_links_variant = False
+        if not d_vars and d_engs and (not c_engs or _engine_models_match(claim_comb, doc_raw_full)):
+            dom_engines = _detect_engine_models(" ".join(
+                eng for v in c_vars for eng in get_program_engine_domain(v).get("engine_models", ())
+            ))
+            eng_links_variant = bool(dom_engines & d_engs)
+        if not eng_links_variant:
+            return "UNSUPPORTED", "UNSUPPORTED", [f"Variant mismatch: {sorted(c_vars)} vs source {sorted(d_vars)}"]
+
+    c_fams = _detect_aircraft_families(claim_comb) | _detect_aircraft_families(claim_norm_models)
+    d_fams = _detect_aircraft_families(doc_raw_full) | _detect_aircraft_families(doc_norm_models)
     if c_fams and d_fams and not (c_fams & d_fams):
-        return "UNSUPPORTED", "UNSUPPORTED", [f"Aircraft family mismatch: Claim references {sorted(c_fams)} vs source {sorted(d_fams)}"]
-    c_engs, d_engs = _detect_engine_models(claim_comb), _detect_engine_models(doc_raw_full)
+        return (
+            "UNSUPPORTED",
+            "UNSUPPORTED",
+            [f"Aircraft family mismatch: Claim references {sorted(c_fams)} vs source {sorted(d_fams)}"],
+        )
+
     if c_engs and d_engs and not _engine_models_match(claim_comb, doc_raw_full):
         return "UNSUPPORTED", "UNSUPPORTED", [f"Engine mismatch: Claim references {sorted(c_engs)} vs source {sorted(d_engs)}"]
     if not full_quote_verified:
@@ -811,7 +648,7 @@ def _evaluate_claim_and_causal_support(
         return "UNSUPPORTED", "HYPOTHETICAL_ONLY", ["ESEF_METADATA_ONLY_GUARD: Filing index metadata cannot establish financial losses, disruptions or causality."]
 
     notes: List[str] = []
-    is_snippet = _is_snippet_only(matched_doc) and not (sid in {"SRC_027", "SRC_031"} and _verified_filing_passage(matched_doc, threat.fact_check_quote))
+    is_snippet = _is_short_snippet(matched_doc) and not (sid in {"SRC_027", "SRC_031"} and _verified_filing_passage(matched_doc, threat.fact_check_quote))
     doc_norm = _normalize_for_quote_match(doc_raw_full)
     matched_did = str(matched_doc.get("doc_id") or "")
     quotes = [threat.fact_check_quote or ""]
@@ -853,10 +690,10 @@ def _evaluate_claim_and_causal_support(
 
     if is_snippet:
         notes.append("Source record contains only a headline or short snippet; confirms headline publication only")
-        claim_status = "PARTIALLY_STATED_IN_SOURCE" if overlap >= 0.50 else "UNSUPPORTED"
-    elif overlap >= 0.65:
+        claim_status = "PARTIALLY_STATED_IN_SOURCE" if overlap >= 0.45 else "UNSUPPORTED"
+    elif overlap >= 0.55:
         claim_status = "STATED_IN_SOURCE"
-    elif overlap >= 0.45:
+    elif overlap >= 0.35:
         notes.append("Source states only part of the claim details")
         claim_status = "PARTIALLY_STATED_IN_SOURCE"
     else:
@@ -876,7 +713,9 @@ def _evaluate_claim_and_causal_support(
         notes.append("TEMPORAL_SCOPE_MISMATCH: Causal attribution belongs to the prior comparison period, not demonstrably to the current period")
 
     imp_re = r"\b(delay|shortag|disrupt|impact|affect|threaten|ground|halt|caus|trigger|intensif|increas|pressur|strain|bottleneck|constrain|allocat)\w*\b"
-    if {m.lower() for m in re.findall(imp_re, f"{threat.threat_description or ''} {threat.confirmed_facts or ''}", re.I)} - {m.lower() for m in re.findall(imp_re, grounded_text, re.I)}:
+    imp_corpus = f"{grounded_text} {doc_raw_full}" if (
+                full_quote_verified and not is_snippet and not is_unverified_or_community_source) else grounded_text
+    if {m.lower() for m in re.findall(imp_re, f"{threat.threat_description or ''} {threat.confirmed_facts or ''}", re.I)} - {m.lower() for m in re.findall(imp_re, imp_corpus, re.I)}:
         causal_status = "HYPOTHETICAL_ONLY"
         claim_status = "PARTIALLY_STATED_IN_SOURCE" if claim_status == "STATED_IN_SOURCE" else claim_status
         notes.append("Claimed operational impact is not supported by the cited quotation.")
@@ -1051,15 +890,29 @@ def deterministic_harness_validation(
     kit_components = {lbl for kw, lbl in COMPONENT_KEYWORDS_MAP.items() if re.search(rf"\b{re.escape(kw)}\b", pos_kit, re.I)}
     filing_specific_kit = bool(re.search(r"\b(?:sec|edgar|esef|xbrl|10-[kq]|20-f|6-k)\b", active_kit, re.I))
 
-    entity_names = tuple(dict.fromkeys([*(_REGISTRY_CLEAN_RE.sub("", e.get("official_name", "")).strip() for e in AEROSPACE_SUPPLIER_REGISTRY if e.get("official_name")), "Pratt & Whitney", "Aequs"]))
-    oem_programs = {_REGISTRY_CLEAN_RE.sub("", e.get("official_name", "")).strip().lower(): e.get("programs") or [] for e in AEROSPACE_SUPPLIER_REGISTRY if e.get("default_tier") == "OEM (Final Assembler)" and e.get("official_name")}
+    entity_names = tuple(dict.fromkeys(
+        [*(_REGISTRY_CLEAN_RE.sub("", e.get("official_name", "")).strip() for e in AEROSPACE_SUPPLIER_REGISTRY if
+           e.get("official_name")), "Pratt & Whitney", "Aequs"]))
+    oem_programs = {_REGISTRY_CLEAN_RE.sub("", e.get("official_name", "")).strip().lower(): e.get("programs") or [] for
+                    e in AEROSPACE_SUPPLIER_REGISTRY if
+                    e.get("default_tier") == "OEM (Final Assembler)" and e.get("official_name")}
+    entity_aliases = {
+        _REGISTRY_CLEAN_RE.sub("", e.get("official_name", "")).strip().lower(): [
+            a for a in (e.get("aliases") or []) if len(a) >= 4 and not re.search(r"\d", a)
+        ]
+        for e in AEROSPACE_SUPPLIER_REGISTRY if e.get("official_name")
+    }
 
-    def _entity_mentioned(name: str, text: str) -> bool:
+    def _entity_mentioned(name: str, text: str, *, allow_program_inference: bool = True) -> bool:
         pat = r"(?<!\w)pratt\s*(?:&|and)\s*whitney(?!\w)" if name == "Pratt & Whitney" else rf"(?<!\w){re.escape(name)}(?!\w)"
         if re.search(pat, text or "", re.I):
             return True
-        if progs := oem_programs.get(name.lower()):
-            return bool((_detect_exact_variants(text) | _detect_specific_variants(text)) & (_detect_exact_variants(" ".join(progs)) | _detect_specific_variants(" ".join(progs))))
+        if any(re.search(rf"(?<!\w){re.escape(alias)}(?!\w)", text or "", re.I) for alias in
+               entity_aliases.get(name.lower(), ())):
+            return True
+        if allow_program_inference and (progs := oem_programs.get(name.lower())):
+            return bool((_detect_exact_variants(text) | _detect_specific_variants(text)) & (
+                        _detect_exact_variants(" ".join(progs)) | _detect_specific_variants(" ".join(progs))))
         return False
 
     catalog = get_active_kiq_catalog()
@@ -1115,7 +968,22 @@ def deterministic_harness_validation(
             else "SINGLE_PRIMARY_SOURCE" if is_official else "SINGLE_SECONDARY_SOURCE" if (has_media and not is_social_video) else "UNVERIFIED_SINGLE_SOURCE"
         )
 
-        full_quote_verified = bool(full_quote_norm and len(full_quote_norm) >= 12 and _segments_in_corpus(threat.fact_check_quote or "", corpus_norm))
+        full_quote_verified = bool(
+            full_quote_norm and len(full_quote_norm) >= 12 and _segments_in_corpus(threat.fact_check_quote or "",
+                                                                                   corpus_norm))
+        # If the short summary quote slightly abbreviated a term (e.g. "FAA" for "Federal Aviation Administration (FAA)"),
+        # check whether one of the event's own extracted evidence_claims for the same DOC_ID carries the verbatim passage.
+        if (not full_quote_verified or not _verified_filing_passage(matched_doc, threat.fact_check_quote)):
+            matched_did = str(matched_doc.get("doc_id") or "")
+            for c_obj in getattr(threat, "evidence_claims", None) or []:
+                c_did = str(getattr(c_obj, "document_id", "") or "")
+                c_q = str(getattr(c_obj, "quote", "") or "").strip()
+                c_norm = _normalize_for_quote_match(c_q)
+                if (not c_did or c_did == matched_did) and len(c_norm) >= 20 and _segments_in_corpus(c_q,
+                                                                                                     corpus_norm) and _verified_filing_passage(
+                        matched_doc, c_q):
+                    threat.fact_check_quote, full_quote_norm, full_quote_verified = c_q, c_norm, True
+                    break
         if not _verified_filing_passage(matched_doc, threat.fact_check_quote):
             full_quote_verified = False
             audit_notes.append("FILING_PASSAGE_UNVERIFIED: source-exact filing excerpt or stored hash is missing")
@@ -1149,13 +1017,18 @@ def deterministic_harness_validation(
                 threat.threat_description, threat.confirmed_facts = (threat.fact_check_quote or "")[:800], (threat.fact_check_quote or "")[:400]
                 audit_notes.append("FAA regulatory fact kept separate from unverified downstream effects.")
 
-        if is_official and full_quote_verified and (sf := str(threat.fact_check_quote or "").strip()) and not str(threat.confirmed_facts or "").strip() and not _is_snippet_only(matched_doc) and matched_doc.get("content_status") not in _NON_SUBSTANTIVE_STATUSES:
+        if is_official and full_quote_verified and (sf := str(threat.fact_check_quote or "").strip()) and not str(threat.confirmed_facts or "").strip() and not _is_short_snippet(matched_doc) and matched_doc.get("content_status") not in _NON_SUBSTANTIVE_STATUSES:
             threat.confirmed_facts = sf[:400]
             audit_notes.append("Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified.")
 
         threat.claim_support_status, threat.causal_support_status, content_notes = _evaluate_claim_and_causal_support(threat, matched_doc, full_quote_verified, is_unverified_or_community_source=is_social_video)
         claim_text = f"{threat.confirmed_facts} {threat.threat_description}"
-        if unsup_ents := [n for n in entity_names if _entity_mentioned(n, claim_text) and not _entity_mentioned(n, doc_raw_full)]:
+        cited_corpus = " ".join(_doc_full_text(d) for d in corroborating)
+        if unsup_ents := [
+            n for n in entity_names
+            if _entity_mentioned(n, claim_text, allow_program_inference=False)
+               and not _entity_mentioned(n, cited_corpus, allow_program_inference=True)
+        ]:
             threat.claim_support_status = "PARTIALLY_STATED_IN_SOURCE" if threat.claim_support_status == "STATED_IN_SOURCE" else threat.claim_support_status
             threat.causal_support_status = "HYPOTHETICAL_ONLY"
             audit_notes.append(f"Entity relationship requires verification: {', '.join(unsup_ents)} not explicitly identified in cited source.")
@@ -1211,12 +1084,13 @@ def deterministic_harness_validation(
         fact_audit = _kit_fact_audit(active_kit, threat.fact_check_quote, matched_doc, ref_date)
         if unverified_facets := {k: v for k, v in fact_audit.items() if v in {"NEGATIVE", "UNKNOWN"}}:
             audit_notes.append("KIT_FACT_GAP: " + ", ".join(f"{k}={v}" for k, v in unverified_facets.items()))
-            only_issuer_auth = unverified_facets == {"AUTHORITY": "UNKNOWN"} and is_official and matched_doc.get("source_id") in {"SRC_027", "SRC_031", "SRC_005", "SRC_030"}
+            only_auth_unknown = unverified_facets == {"AUTHORITY": "UNKNOWN"}
             if any(fact_audit[k] == "NEGATIVE" for k in ("PROGRAM", "VARIANT", "COMPONENT")):
                 is_sibling, threat.program_relevance = True, "RELATED_PROGRAM_WATCHLIST"
-            elif any(fact_audit[k] == "UNKNOWN" for k in ("ENTITY", "PROGRAM", "VARIANT", "COMPONENT")) and not is_sibling:
+            elif any(fact_audit[k] == "UNKNOWN" for k in
+                     ("ENTITY", "PROGRAM", "VARIANT", "COMPONENT")) and not is_sibling:
                 threat.program_relevance = "PROGRAM_UNVERIFIED"
-            elif not is_sibling and not only_issuer_auth and threat.program_relevance == "DIRECT_KIT_MATCH":
+            elif not is_sibling and not only_auth_unknown and threat.program_relevance == "DIRECT_KIT_MATCH":
                 threat.program_relevance = "RELATED_CONTEXT"
 
         # Assign validation status and confidence; contradictions cannot be proven by isolated negative words.
@@ -1276,7 +1150,7 @@ def deterministic_harness_validation(
         elif threat.validation_status == ValidationStatus.PARTIALLY_SUPPORTED:
             if threat.claim_support_status != "STATED_IN_SOURCE" and full_quote_verified:
                 threat.confirmed_facts = f"Source statement (event not fully verified): {threat.fact_check_quote or ''}"[:600]
-            if _is_snippet_only(matched_doc) and (src_title := str(matched_doc.get("title") or "").strip()):
+            if _is_short_snippet(matched_doc) and (src_title := str(matched_doc.get("title") or "").strip()):
                 did = matched_doc.get("doc_id", "UNKNOWN")
                 threat.confirmed_facts = f"{did}: A source headline was published (underlying claim not independently verified): {src_title}"
                 threat.threat_description = f"Preliminary source report ({did}): {src_title}"[:800]

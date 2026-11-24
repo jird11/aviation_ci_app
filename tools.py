@@ -50,6 +50,7 @@ logger = logging.getLogger(__name__)
 NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+EXA_API_KEY = os.getenv("EXA_API_KEY")
 
 # Provide a normalized UTC timestamp for report metadata and audit records.
 def _now_iso() -> str:
@@ -498,6 +499,94 @@ def safe_http_get(
     """Backward-compatible GET; inspect `_safe_http_request` for failure details."""
     return _safe_http_request(url, source_id, params, headers, timeout,
                               max_redirects, max_bytes, check_robots).response
+
+
+def safe_http_post_json(
+        url: str,
+        payload: dict[str, Any],
+        *,
+        source_id: str,
+        headers: dict[str, str] | None = None,
+        timeout: int = 20,
+        max_bytes: int = 3_000_000,
+        max_attempts: int = 2,
+) -> HTTPResult:
+    """Guarded HTTPS JSON POST enforcing source policy, SSRF safety, rate limits, and telemetry."""
+    result = HTTPResult()
+    if not is_source_allowed(source_id):
+        result.error_type = "SOURCE_POLICY_BLOCKED"
+        _note_blocked_request(source_id)
+        return result
+
+    parsed = urlparse(url)
+    if parsed.scheme != "https" or not is_ip_public_and_safe(parsed.hostname or ""):
+        result.error_type = "SSRF_OR_INVALID_URL"
+        _note_blocked_request(source_id)
+        return result
+
+    req_headers = {
+        "User-Agent": "AeroEWS Academic Research/2.0",
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        **(headers or {}),
+    }
+
+    for attempt in range(max(1, max_attempts)):
+        try:
+            RATE_LIMITER.wait_for_slot(source_id)
+            resp = requests.post(
+                url, json=payload, headers=req_headers,
+                timeout=timeout, allow_redirects=False, stream=True,
+            )
+            result.attempts += 1
+            result.status_code = resp.status_code
+            _note_http_request(source_id, resp.status_code)
+            RATE_LIMITER.record_outcome(source_id, resp.status_code < 400)
+
+            retryable = resp.status_code in {429, 500, 502, 503, 504}
+            retry_after = _retry_after_seconds(resp.headers.get("Retry-After", ""))
+            result.retryable, result.retry_after = retryable, retry_after
+            delay = retry_after if retry_after is not None else min(2 ** attempt, 5)
+            if retryable and attempt < max_attempts - 1 and delay <= 5:
+                resp.close()
+                time.sleep(delay)
+                result.wait_seconds += delay
+                continue
+
+            chunks, downloaded, truncated = [], 0, False
+            for chunk in resp.iter_content(chunk_size=65536):
+                if not chunk:
+                    continue
+                room = max_bytes - downloaded
+                chunks.append(chunk[:room])
+                downloaded += min(len(chunk), room)
+                if len(chunk) > room:
+                    truncated = True
+                    break
+            resp._content = b"".join(chunks)
+            resp.close()
+            resp.aero_content_truncated = truncated
+            result.bytes_received = len(resp._content)
+            result.response_complete = not truncated
+            result.response = resp
+            result.error_type = (
+                "ACCESS_BLOCKED" if resp.status_code in {401, 403}
+                else "RATE_LIMITED" if resp.status_code == 429
+                else "HTTP_ERROR" if resp.status_code >= 400
+                else "BODY_TRUNCATED" if truncated else ""
+            )
+            return result
+        except requests.RequestException as exc:
+            logger.debug("[HTTP POST] Error posting to %s: %s", url, exc)
+            result.attempts += 1
+            result.status_code = None
+            result.error_type = "NETWORK_ERROR"
+            result.retryable = True
+            _note_http_request(source_id, None, timed_out=isinstance(exc, requests.Timeout))
+            RATE_LIMITER.record_outcome(source_id, False)
+            if attempt >= max_attempts - 1:
+                return result
+    return result
 
 PROMPT_INJECTION_REGEX = re.compile(
     r"(?:ignore\s+(?:all\s+)?(?:previous|prior|above)\s+instructions|"
@@ -4882,7 +4971,7 @@ def extract_youtube_transcript(query: str) -> str:
                     gemini_calls_made += 1
                     try:
                         response = client.models.generate_content(
-                            model="gemini-3.5-flash-lite",
+                            model=os.getenv("EWS_YOUTUBE_GEMINI_MODEL", "gemini-2.5-flash-lite").strip(),
                             contents=types.Content(
                                 parts=[
                                     types.Part(file_data=types.FileData(file_uri=v["url"])),

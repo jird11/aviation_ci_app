@@ -586,7 +586,7 @@ def _kickoff_crew_with_smart_recovery(
     crew: Crew, phase_label: str, shrink_callback: Optional[Callable[[], None]] = None,
 ) -> Tuple[Any, int, int]:
     """Execute Crew using the configured LLM only with a bounded smart single retry."""
-    max_attempts = 1 if phase_label.startswith("BATCH_") else 2
+    max_attempts = 1 if phase_label.startswith(("BATCH_", "PHASE_2_ACQUISITION")) else 2
     for attempt in range(1, max_attempts + 1):
         LLM_RUNTIME_STATS["api_calls"] += 1
         try:

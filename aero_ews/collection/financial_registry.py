@@ -2,21 +2,12 @@
 
 # Supplementary official source definitions: source_id -> (name, group, status, method, endpoint).
 SOURCES = {
-    "SRC_012": ("Eurostat API", "news", "ENABLED", "API", "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_paoc"),
-    "SRC_013": ("Eurostat Statistics RSS", "news", "ENABLED", "RSS", "https://ec.europa.eu/eurostat/api/dissemination/catalogue/rss/en/statistics-update.rss"),
-    "SRC_014": ("BTS TranStats", "news", "ENABLED", "CSV_IMPORT", "https://www.transtats.bts.gov/"),
-    "SRC_015": ("BTS Schedule B-43", "news", "ENABLED", "CSV_IMPORT", "https://www.transtats.bts.gov/"),
     "SRC_019": ("EASA News RSS", "regulatory", "ENABLED", "RSS", "https://www.easa.europa.eu/newsroom-and-events/news/feed.xml"),
     "SRC_020": ("EASA Press Releases RSS", "regulatory", "ENABLED", "RSS", "https://www.easa.europa.eu/newsroom-and-events/press-releases/feed.xml"),
     "SRC_021": ("EASA Suspected Unapproved Parts RSS", "regulatory", "ENABLED", "RSS", "https://www.easa.europa.eu/en/domains/aircraft-products/suspected-unapproved-parts/feed.xml"),
     "SRC_022": ("EASA Type Certificates RSS", "regulatory", "ENABLED", "RSS", "https://www.easa.europa.eu/en/document-library/type-certificates/feed.xml"),
     "SRC_023": ("EASA Easy Access Rules XML", "regulatory", "ENABLED", "XML_IMPORT", "https://www.easa.europa.eu/en/document-library/easy-access-rules"),
-    "SRC_024": ("EASA Airworthiness Directives", "regulatory", "REQUIRES_REVIEW", "MANUAL", "https://ad.easa.europa.eu/"),
-    "SRC_025": ("EASA Safety Publications", "regulatory", "REQUIRES_REVIEW", "MANUAL", "https://ad.easa.europa.eu/"),
-    "SRC_026": ("NTSB CAROL Historical Export", "regulatory", "REQUIRES_REVIEW", "CSV_IMPORT", "https://data.ntsb.gov/carol-main-public/basic-search"),
     "SRC_027": ("SEC EDGAR", "pr", "ENABLED", "API", "https://data.sec.gov/"),
-    "SRC_028": ("TED Search API", "airshow", "ENABLED", "API", "https://api.ted.europa.eu/v3/notices/search"),
-    "SRC_029": ("USAspending API", "airshow", "ENABLED", "API", "https://api.usaspending.gov/api/v2/search/spending_by_award/"),
     "SRC_031": ("XBRL International ESEF Filing Index", "pr", "ENABLED", "API", "https://filings.xbrl.org/api/filings"),
 }
 

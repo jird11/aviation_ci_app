@@ -47,7 +47,7 @@
         'Relevance filtering and analysis',
         'Evidence quality assurance',
         'Editorial synthesis',
-        'Independent scoring and validation'
+        'Deterministic 5-factor scoring & Harness'
     ];
 
     const sourceUrl = (v) => {
@@ -291,7 +291,8 @@
         $('header-kit-title').textContent = md.query || $('query')?.value || 'Aerospace Supply Chain Monitoring';
         if (md.completed_at) {
             const staleNote = md.is_stale ? ' · Stale (>24h)' : '';
-            $('run-stamp').textContent = `Last analysis: ${formatHumanDate(md.completed_at, true)} · Scope: ${md.analysis_scope || '—'}${staleNote}`;
+            const modeLabel = 'Agentic + Exa';
+            $('run-stamp').textContent = `Last analysis: ${formatHumanDate(md.completed_at, true)} · Scope: ${md.analysis_scope || '—'} · Collection: ${modeLabel}${staleNote}`;
         } else {
             $('run-stamp').textContent = 'Last analysis: No completed run';
         }
@@ -745,6 +746,69 @@ function renderAnalyst() {
         renderAnalyst();
     }
 
+    // Build a visual 5-factor deterministic I&W breakdown (F1-F5) from scoring_audit or risk_factors.
+    function renderScoringBreakdownHtml(t) {
+        const auditRows = report?.run_metadata?.scoring_audit || [];
+        const auditRow = auditRows.find(r => r.event_id === t.event_id) || null;
+        const weights = auditRow?.weights || report?.run_metadata?.scoring_methodology?.weights || {
+            impact_severity: 0.30,
+            supplier_criticality: 0.20,
+            substitutability_difficulty: 0.15,
+            propagation_scope: 0.15,
+            temporal_urgency: 0.20
+        };
+        const factorMeta = [
+            ['impact_severity', 'F1', 'Impact Severity'],
+            ['supplier_criticality', 'F2', 'Supplier Criticality'],
+            ['substitutability_difficulty', 'F3', 'Substitutability Difficulty'],
+            ['propagation_scope', 'F4', 'Propagation Scope'],
+            ['temporal_urgency', 'F5', 'Temporal Urgency']
+        ];
+
+        const factorsObj = auditRow?.factors || null;
+        const rfObj = t.risk_factors || null;
+        if (!factorsObj && !rfObj) {
+            return `<div><strong>I&amp;W Assessment &amp; Score Basis:</strong><br>${esc(t.adversarial_scenario || '')}<br><span class="tiny muted">${esc(t.score_rationale || '')}</span></div>`;
+        }
+
+        const rowsHtml = factorMeta.map(([key, code, label]) => {
+            const entry = factorsObj?.[key] || rfObj?.[key] || {};
+            const score = Number(entry.score ?? 0);
+            const weight = Number(entry.weight ?? weights[key] ?? 0);
+            const contrib = entry.weighted_contribution != null ? Number(entry.weighted_contribution) : (score * weight);
+            const pct = Math.max(0, Math.min(100, Math.round((score / 5) * 100)));
+            const rationale = entry.rationale || 'No factor rationale recorded.';
+            return `
+                <div class="factor-row">
+                    <div class="factor-row-head">
+                        <span class="factor-label"><strong>${esc(code)}</strong> ${esc(label)}</span>
+                        <span class="factor-metrics">${score ? `${score}/5` : '—'} · w=${weight.toFixed(2)} · +${contrib.toFixed(2)}</span>
+                    </div>
+                    <div class="factor-bar-track"><div class="factor-bar-fill" style="width:${pct}%"></div></div>
+                    <div class="factor-rationale">${esc(rationale)}</div>
+                </div>
+            `;
+        }).join('');
+
+        const formula = auditRow?.formula || `S = round(${Number(auditRow?.weighted_sum ?? 0).toFixed(2)} * 2) = ${esc(t.threat_score)}/10`;
+        const evStatus = auditRow?.factor_evidence_status || (t.validation_status === 'SUPPORTED' ? 'SOURCE_SUPPORTED' : 'PROVISIONAL_UNVERIFIED');
+        const capNote = auditRow?.cap_applied ? ` · Cap: ${auditRow.cap_applied}` : '';
+
+        return `
+            <div class="factor-box">
+                <div class="factor-head">
+                    <div>
+                        <strong>5-Factor Deterministic I&amp;W Score</strong>
+                        <div class="tiny muted">${esc(formula)}${esc(capNote)}</div>
+                    </div>
+                    <span class="mode-pill ${evStatus === 'SOURCE_SUPPORTED' ? 'is-supported' : 'is-provisional'}">${esc(evStatus)}</span>
+                </div>
+                <div class="factor-list">${rowsHtml}</div>
+                <div class="tiny muted" style="margin-top:6px">${esc(t.score_rationale || '')}</div>
+            </div>
+        `;
+    }
+
     // Separate grounded facts from scenarios, uncertainty, and unverified assertions;
     // available review controls also depend on the selected UI role and event state.
     function renderInspectorContent(eventId) {
@@ -829,14 +893,15 @@ function renderAnalyst() {
 
             <!-- Analytical assessment -->
             <div class="inspector-sec">
-                <details>
-                    <summary class="inspector-sec-title" style="cursor:pointer;margin:0">▸ 3. Analytical Assessment (Expand)</summary>
+                <details open>
+                    <summary class="inspector-sec-title" style="cursor:pointer;margin:0">▾ 3. Analytical Assessment &amp; 5-Factor Score (F1–F5)</summary>
                     <div class="small" style="margin-top:10px;display:grid;gap:8px">
+                        ${renderScoringBreakdownHtml(t)}
                         <div><strong>Analytical Interpretation:</strong><br>${esc(t.analytical_interpretation || 'Not available')}</div>
                         <div><strong>Hypothetical Scenario:</strong><br>${esc(t.hypothetical_scenario || 'Not available')}</div>
                         <div><strong>SCM Propagation:</strong> ${esc(t.propagation_effect || 'Direct')} ${t.impact_path?.length ? `<br><span class="tiny muted">${esc(t.impact_path.join(' → '))}</span>` : ''}</div>
                         <div><strong>Affected Programs:</strong> ${esc(t.affected_program || 'Unspecified')} ${t.hypothetical_dependencies?.length ? `<span class="tiny muted">(Shared supplier exposure: ${esc(t.hypothetical_dependencies.join(', '))})</span>` : ''}</div>
-                        <div><strong>I&amp;W Assessment &amp; Score Basis:</strong><br>${esc(t.adversarial_scenario || '')}<br><span class="tiny muted">${esc(t.score_rationale || '')}</span></div>
+                        ${t.adversarial_scenario ? `<div><strong>Adversarial / I&amp;W Scenario:</strong><br>${esc(t.adversarial_scenario)}</div>` : ''}
                     </div>
                 </details>
             </div>
@@ -1128,29 +1193,104 @@ function renderAnalyst() {
         setTimeout(() => URL.revokeObjectURL(url), 1500);
     }
 
-    // Display operational diagnostics separately from decision-oriented intelligence.
+    // Display operational diagnostics, Agent 1 acquisition steps, and 4-agent decision trace.
     function renderTechnical() {
         const md = report?.run_metadata || {};
-            const temporalMetadata =
-        ` · Executed: ${md.run_date_utc || '—'}` +
-        ` · Reference: ${md.analysis_reference_date || md.as_of_date || '—'}` +
-        ` · Reference mode: ${md.reference_date_mode || 'UNKNOWN'}` +
-        ` · Collection window: ${md.collection_window_start_utc || '—'}` +
-        ` → ${md.collection_window_end_utc || '—'}`;
+        const temporalMetadata =
+            ` · Executed: ${md.run_date_utc || '—'}` +
+            ` · Reference: ${md.analysis_reference_date || md.as_of_date || '—'}` +
+            ` · Reference mode: ${md.reference_date_mode || 'UNKNOWN'}` +
+            ` · Collection window: ${md.collection_window_start_utc || '—'}` +
+            ` → ${md.collection_window_end_utc || '—'}`;
+        const costText = md.estimated_cost_usd != null
+            ? `$${Number(md.estimated_cost_usd).toFixed(5)} (${md.estimated_cost_status || 'ESTIMATED'})`
+            : (md.estimated_cost_status || '—');
         $('technical-panel').textContent =
-    `Outcome: ${report?.outcome_status || '—'}` +
-    ` · Run: ${md.run_id || '—'}` +
-    ` · Scope: ${md.analysis_scope || '—'}` +
-    ` · Documents: ${md.documents_analyzed ?? 0}/${md.documents_collected ?? 0}` +
-    ` · Duration: ${md.total_duration_sec ?? '—'}s` +
-    ` · LLM calls: ${md.llm_calls ?? '—'}` +
-    ` · Scoring: ${md.scoring_status || '—'}` +
-    ` · Sources: ${md.source_coverage_status || '—'}` +
-    ` · Text quality: ${Object.entries(md.document_content_status_counts || {}).filter(([, n]) => n).map(([s, n]) => `${s} ${n}`).join(', ') || '—'}` +
-    ` · Limited documents: ${(md.content_limited_document_ids || []).length}` +
-    ` · Evidence: ${md.evidence_result_status || '—'}` +
-    ` · FR03 review: ${md.fr03_rejection_review_candidates ?? 0}` +
-    temporalMetadata;
+            `Outcome: ${report?.outcome_status || '—'}` +
+            ` · Run: ${md.run_id || '—'}` +
+            ` · Collection: ${md.collection_mode || '—'}` +
+            ` · Scope: ${md.analysis_scope || '—'}` +
+            ` · Documents: ${md.documents_analyzed ?? 0}/${md.documents_collected ?? 0}` +
+            ` · Duration: ${md.total_duration_sec ?? '—'}s` +
+            ` · LLM calls: ${md.llm_calls ?? '—'}` +
+            ` · Cost: ${costText}` +
+            ` · Scoring: ${md.scoring_methodology?.method || md.scoring_status || '—'}` +
+            ` · Sources: ${md.source_coverage_status || '—'}` +
+            ` · Text quality: ${Object.entries(md.document_content_status_counts || {}).filter(([, n]) => n).map(([s, n]) => `${s} ${n}`).join(', ') || '—'}` +
+            ` · Limited documents: ${(md.content_limited_document_ids || []).length}` +
+            ` · Evidence: ${md.evidence_result_status || '—'}` +
+            ` · FR03 review: ${md.fr03_rejection_review_candidates ?? 0}` +
+            temporalMetadata;
+
+        // Render Agent 1 Acquisition Trace (Exa + governed tools).
+        const acqBox = $('acquisition-trace-panel');
+        if (acqBox) {
+            const acq = md.acquisition_trace || null;
+            if (scanSession || !acq) {
+                acqBox.innerHTML = `<div class="muted">${scanSession ? 'Acquisition in progress…' : 'No acquisition trace recorded for this run.'}</div>`;
+            } else {
+                const steps = Array.isArray(acq.steps) ? acq.steps : [];
+                const unresolved = Array.isArray(acq.unresolved_requirements) ? acq.unresolved_requirements : [];
+                const stepsHtml = steps.length
+                    ? `<div class="trace-step-list">${steps.map(s => `
+                        <div class="trace-step-card">
+                            <div class="trace-step-head">
+                                <span><strong>#${esc(s.step)}</strong> <code>${esc(s.tool)}</code></span>
+                                <span class="mode-pill ${s.status === 'RESULTS_RETRIEVED' ? 'is-supported' : s.status === 'BUDGET_EXCEEDED' ? 'is-provisional' : ''}">${esc(s.status)}</span>
+                            </div>
+                            <div class="trace-step-query">${esc(s.query)}</div>
+                            <div class="tiny muted">+${esc(s.new_doc_count ?? 0)} doc(s)${(s.new_doc_ids || []).length ? ` [${esc(s.new_doc_ids.join(', '))}]` : ''} · ${esc(s.elapsed_sec ?? '—')}s${s.note ? ` · ${esc(s.note)}` : ''}</div>
+                        </div>
+                    `).join('')}</div>`
+                    : '<div class="tiny muted" style="margin-top:6px">No tool steps recorded.</div>';
+
+                acqBox.innerHTML = `
+                    <div class="trace-summary-grid">
+                        <div class="audit-stat"><strong>${esc(acq.collection_mode || '—')}</strong><span>Collection mode</span></div>
+                        <div class="audit-stat"><strong>${esc(acq.queries_executed ?? 0)} / ${esc(acq.exa_calls_executed ?? 0)}</strong><span>Total / Exa calls</span></div>
+                        <div class="audit-stat"><strong>${esc(acq.primary_documents ?? 0)} / ${esc(acq.secondary_documents ?? 0)}</strong><span>Primary / Secondary docs</span></div>
+                        <div class="audit-stat"><strong>${esc(acq.full_text_documents ?? 0)} / ${esc(acq.metadata_only_documents ?? 0)}</strong><span>Full-text / Metadata</span></div>
+                    </div>
+                    ${acq.fallback_used ? '<div class="audit-review-label" style="margin-bottom:8px">Deterministic fallback was triggered after 0 agent search calls.</div>' : ''}
+                    ${acq.agent_rationale ? `<div style="margin:6px 0"><strong>Agent Rationale:</strong> ${esc(acq.agent_rationale)}</div>` : ''}
+                    ${unresolved.length ? `<div class="tiny muted" style="margin-bottom:6px"><strong>Open acquisition gaps:</strong> ${esc(unresolved.join('; '))}</div>` : ''}
+                    ${stepsHtml}
+                `;
+            }
+        }
+
+        // Render unified 4-Agent Decision Trace.
+        const traceBox = $('agent-trace-panel');
+        if (traceBox) {
+            const agents = Array.isArray(md.agent_decision_trace) ? md.agent_decision_trace : [];
+            if (scanSession || !agents.length) {
+                traceBox.innerHTML = `<div class="muted">${scanSession ? 'Waiting for completed run…' : 'No 4-agent decision trace recorded for this run.'}</div>`;
+            } else {
+                const kvLines = (obj) => Object.entries(obj || {})
+                    .filter(([, v]) => v !== null && v !== undefined && v !== '' && !(Array.isArray(v) && !v.length))
+                    .map(([k, v]) => {
+                        const txt = Array.isArray(v) ? v.join(', ') : String(v);
+                        return `<div><span class="muted">${esc(k.replaceAll('_', ' '))}:</span> ${esc(txt.length > 180 ? txt.slice(0, 179) + '…' : txt)}</div>`;
+                    }).join('');
+                traceBox.innerHTML = `<div class="agent-trace-grid">${agents.map(a => `
+                    <article class="agent-trace-card">
+                        <div class="trace-step-head">
+                            <strong>Agent ${esc(a.agent_index)} · ${esc(a.agent_role)}</strong>
+                            <span class="tiny muted">${esc(a.duration_sec ?? '—')}s</span>
+                        </div>
+                        <details>
+                            <summary class="tiny muted" style="cursor:pointer;margin-top:4px">Inputs, Decisions &amp; Outputs</summary>
+                            <div class="tiny" style="margin-top:6px;display:grid;gap:6px">
+                                <div><strong>Inputs</strong>${kvLines(a.inputs)}</div>
+                                <div><strong>Decisions</strong>${kvLines(a.decisions)}</div>
+                                <div><strong>Outputs</strong>${kvLines(a.outputs)}</div>
+                            </div>
+                        </details>
+                    </article>
+                `).join('')}</div>`;
+            }
+        }
+
         const connBox = $('connector-panel');
         connBox.innerHTML = '';
         for (const [k, c] of Object.entries(report?.connector_status || {})) {
@@ -1237,11 +1377,11 @@ const answeredCount = searchedAnswers.filter(
     function identifyPhase(lines) {
         let n = 0;
         for (const line of lines) {
-            if (/\[PHASE 1 COMPLETE|\[PHASE 2: COLLECTION|\[KIQ COLLECTION|\[OSINT GATHERER/.test(line)) n = Math.max(n, 2);
+            if (/\[PHASE 1|\[PHASE 2:|\[PHASE 2 AGENTIC|\[EXA SEARCH|\[KIQ COLLECTION|\[OSINT GATHERER/.test(line)) n = Math.max(n, 2);
             if (/\[SEMANTIC FILTER|\[PHASE 3:|\[BATCH 1\/|\[BATCH CONSOLIDATION/.test(line)) n = Math.max(n, 3);
             if (/PHASE_3B_QA|\[PHASE 3B|QA audit/.test(line)) n = Math.max(n, 4);
             if (/PHASE_4_EDITOR|\[EDITOR\]|\[PHASE 4/.test(line)) n = Math.max(n, 5);
-            if (/PHASE_5_SCORING|\[SCORING\]|\[HARNESS ENGINEERING|\[EVENT ID RECONCILIATION/.test(line)) n = Math.max(n, 6);
+            if (/PHASE_5_SCORING|\[SCORING|\[HARNESS ENGINEERING|\[EVENT ID RECONCILIATION/.test(line)) n = Math.max(n, 6);
         }
         return n || 1;
     }
@@ -1292,7 +1432,7 @@ const answeredCount = searchedAnswers.filter(
     function applyPreset() {
         const cases = {
             CASE_GTF: ['Pratt Whitney PW1100G engine inspections', '365d'],
-            CASE_MAX9: ['Boeing 737 MAX 9 FAA airworthiness directive', 'all'],
+            CASE_MAX9: ['Boeing 737 MAX 9 FAA airworthiness directive', '365d'],
             CASE_777X: ['Boeing 777X FAA certification', '365d']
         };
         const presetVal = $('preset').value;
@@ -1350,6 +1490,7 @@ const answeredCount = searchedAnswers.filter(
             date_to: $('scope').value === 'custom' ? $('date-to').value : null,
             as_of_date: $('as-of-date').value || null,
             platforms, limit: Number($('limit').value),
+            collection_mode: 'agentic_exa',
             auto_approve: $('auto-approve').checked,
             replay_run_id: replay || null,
             use_keyword_baseline: $('keyword-baseline').checked

@@ -42,7 +42,7 @@ _ALLOWED_FEEDBACK_TYPES = {
     "CONFIRM_RELEVANT", "DISMISS", "CORRECT_RISK_AND_SCORE",
     "FLAG_SOURCE", "ADD_MISSING_INFO", "PROPOSE_KIQ",
 }
-_VALID_FEEDBACK_TARGETS = {"ALL", "PLANNER", "ANALYST", "QA", "EDITOR", "SCORING"}
+_VALID_FEEDBACK_TARGETS = {"ALL", "PLANNER", "ACQUISITION", "ANALYST", "QA", "EDITOR"}
 _OPERATIONAL_NOTICE_STATUSES = {"TECHNICAL_PROBLEM", "INSUFFICIENT_EVIDENCE", "NO_FINDINGS", "EXPERIMENT_ONLY"}
 
 
@@ -276,7 +276,7 @@ def run_ews_pipeline(request: EWSRequest):
                 PIPELINE_STATE.update({"running": False, "state": "FAILED", "last_status": "PIPELINE_START_FAILED"})
         logger.error("[PIPELINE] Worker failed to start: %s", exc)
         raise HTTPException(status_code=503, detail="Pipeline worker could not start") from exc
-    return {"status": "started", "run_id": run_id}
+    return {"status": "started", "run_id": run_id, "collection_mode": request.collection_mode}
 
 
 @app.post("/cancel-ews")

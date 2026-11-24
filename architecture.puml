@@ -1,71 +1,81 @@
 @startuml
-title Aero_EWS 2.0 - Multi-Agent Intelligence Workflow
+title Aero_EWS 2.0 - Hybrid 4-Agent Competitive Intelligence & Early Warning Architecture
 
 autonumber
 
 actor "Human Analyst" as Human
-participant "Web Dashboard" as UI
-participant "FastAPI Backend" as API
-participant "Chief Intelligence Planner" as Planner
-participant "OSINT Collection" as OSINT
-participant "Semantic Filter" as Filter
-participant "Aviation Risk Analyst" as Risk
-participant "Quality Assurance Agent" as QA
-participant "Executive Editor" as Editor
-participant "Scoring Agent" as Scoring
-participant "Deterministic Harness" as Harness
-database "SQLite / Evidence Archive" as DB
+participant "Web Dashboard\n(index.html / dashboard.js)" as UI
+participant "FastAPI Backend\n(ews_api.py / ews_pipeline.py)" as API
+participant "Agent 1: Intelligence Planning\n& Acquisition Agent" as Agent1
+collections "Governed OSINT Tools\n(Exa API, FAA/EASA/NTSB,\nSEC/ESEF, OEM PR, News/Social)" as Tools
+participant "FR03 Two-Stage Filter\n(Deterministic + Semantic)" as Filter
+participant "Agent 2: Aviation Risk Analyst\n(Claim-First + F1-F5 Factors)" as Analyst
+participant "Agent 3: Quality Assurance\nAgent (HRO Auditor)" as QA
+participant "Agent 4: Executive Editor\n(Narrative & Action Plan)" as Editor
+participant "Deterministic 5-Factor\nI&W Scoring (F1-F5)" as Scoring
+participant "Deterministic Harness\n& KIQ Evaluator" as Harness
+database "SQLite & Evidence Archive\n(ews_intelligence.db)" as DB
 
-Human -> UI: Define KIT and time scope
+Human -> UI: Define KIT, time scope, sources & collection_mode
 UI -> API: POST /run-ews
 
-API -> Planner: Generate KIQ search strategy
-Planner --> API: KIQPlan
+API -> Agent1: Deconstruct KIT into KIQPlan
+Agent1 --> API: Guarded KIQPlan (BROAD / PROGRAM / EXACT)
 
-API -> OSINT: Collect public source evidence
-OSINT -> DB: Store collected documents
-OSINT --> API: Source records
+alt collection_mode == "agentic_exa"
+    loop Adaptive Acquisition Loop (bounded by AcquisitionBudget)
+        Agent1 -> Tools: exa_semantic_search / search_official_regulators /\nsearch_corporate_filings / search_media_and_social
+        Tools --> Agent1: Registered DOC_xxx briefs + remaining budget
+        Agent1 -> Tools: inspect_collection_coverage(focus_terms)
+        Tools --> Agent1: Primary/secondary counts & missing facets
+    end
+    Agent1 --> API: Collected DOC_xxx + AcquisitionTrace
+else collection_mode == "deterministic" (Baseline)
+    API -> Tools: Fixed KIQ connector orchestration
+    Tools --> API: Collected DOC_xxx + Connector Telemetry
+end
 
-API -> Filter: Evaluate source relevance
-Filter --> API: Relevant document batches
+API -> DB: Persist source_documents (SHA-256, PII redacted, injection guarded)
 
-API -> Risk: Analyze collected evidence
-Risk --> API: Candidate ThreatAssessments
+API -> Filter: Two-stage relevance & identity screening (FR03)
+Filter -> DB: Log accepted & excluded documents (document_filter_log)
+Filter --> API: Bounded Analyst document batches
 
-API -> QA: Review candidate assessments
-QA --> API: QA findings
+API -> Analyst: Extract candidate events & F1-F5 factor ratings
+Analyst --> API: Candidate ThreatAssessments (facts vs. hypotheses)
 
-opt Corrective agent feedback enabled
-    API -> Risk: Request evidence-grounded correction
-    Risk --> API: Revised candidate assessments
+API -> QA: Audit grounding, variant scope & F1-F5 justifications
+QA --> API: QA audit findings
+
+opt Corrective feedback enabled (EWS_ENABLE_AGENT_FEEDBACK=1)
+    API -> Analyst: Bounded single-iteration correction
+    Analyst --> API: Revised ThreatAssessments
     API -> QA: Recheck revised assessments
     QA --> API: Updated QA findings
 end
 
-API -> Editor: Prepare executive synthesis
-Editor --> API: Executive summary and action plan
+API -> Editor: Synthesize executive summary, analysis & action plan
+Editor --> API: Plain-text editorial blocks (parsed to EditorialOutput)
 
-API -> Scoring: Estimate potential severity
-Scoring --> API: Risk scores
+API -> Scoring: Compute S = round(sum(w_i * F_i) * 2)
+Scoring --> API: Reproducible 1-10 scores + scoring_audit (F1-F5)
 
-API -> Harness: Validate evidence and alert eligibility
-Harness --> API: Verified classification and warnings
+API -> Harness: 5-dimensional grounding, chronology & KIQ evaluation
+Harness --> API: Validated status, confidence & confirmed-critical gate
 
-API -> DB: Reconcile event identities
-API -> DB: Store report and audit metadata
-
-API --> UI: Report waiting for human review
-UI --> Human: Present evidence and recommendations
+API -> DB: Reconcile event IDs, store report, agent_decision_trace & run metrics
+API --> UI: Pending report (WAITING_FOR_HITL)
+UI --> Human: Present Executive/Analyst view, F1-F5 & Agent Traces
 
 alt Report approved
-    Human -> UI: Approve report
-    UI -> API: POST /approve-ews
-    API -> DB: Save approval and report version
-    API --> UI: Publish report
+    Human -> UI: Approve report (X-Review-Key)
+    UI -> API: POST /approve-ews (APPROVE)
+    API -> DB: Persist approval, publish dashboard_data.json & archive CSV
+    API --> UI: Published report
 else Report rejected
     Human -> UI: Reject report
-    UI -> API: POST /approve-ews
-    API -> DB: Record rejection
+    UI -> API: POST /approve-ews (REJECT)
+    API -> DB: Record rejection decision
 end
 
 @enduml

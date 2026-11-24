@@ -164,6 +164,28 @@ SOURCE_REGISTRY["SRC_030"] = {
     "origin": "PRIMARY", "access_method": "RSS", "tos_url": "https://boeing.mediaroom.com/rss-feeds",
     "legal_status": "ALLOWED", "policy_status": "ENABLED",
 }
+SOURCE_REGISTRY["SRC_EXA"] = {
+    **_SRC_DEFAULTS,
+    "source_id": "SRC_EXA",
+    "name": "Exa Semantic Web Search API",
+    "domain": "api.exa.ai",
+    "technical_host": "api.exa.ai",
+    "source_type": "SEMANTIC_WEB_SEARCH",
+    "origin": "SECONDARY",
+    "access_method": "API",
+    "allowed_access_method": "API (Official Exa POST /search endpoint)",
+    "tos_url": "https://exa.ai/terms",
+    "last_legal_review_date": "2026-11-24",
+    "usage_restrictions": "Semantic web discovery for academic CI research; retain short excerpts/highlights & URLs; downstream Harness verifies domain authority.",
+    "tdm_copyright_basis": "Exa API Terms of Service / EU Directive 2019/790 Art. 3/4",
+    "gdpr_legal_basis": "Art. 6(1)(f) GDPR Legitimate Interest (PII redacted prior to storage)",
+    "verified_domain": False,
+    "legal_status": SourceLegalStatus.ALLOWED.value,
+    "policy_status": "ENABLED",
+    "license_notes": "Exa Search API (POST /search) semantic discovery tool",
+    "rate_limit_rpm": 30,
+    "min_interval_sec": 1.0,
+}
 
 # Aerospace OEM and multi-tier supplier registry (all entities, aliases, programs, and tiers preserved verbatim).
 _SUPPLIER_FIELDS = ("entity_id", "official_name", "aliases", "default_tier", "components", "programs", "downstream_oems", "geography", "source_ref")

@@ -19,16 +19,16 @@ from pydantic import BaseModel, Field
 from agents import (
     LLM_RUNTIME_STATS, PROMPT_VERSION, classify_llm_error, create_editor_agent,
     create_planner_agent, create_quality_assurance_agent, create_risk_analyst_agent,
-    create_scoring_agent, fast_llm, get_llm_metadata, get_llm_runtime_stats,
+    fast_llm, get_llm_metadata, get_llm_runtime_stats,
     reset_llm_runtime_stats,
 )
 from tasks import (
     ActionItem, CIDimension, ConfidenceLevel, EWSReport, EditorialOutput,
     EscalationStatus, EventFreshness, EventStatus, IntelligenceGap, KIQAnswer,
     KIQPlan, PropagationEffect, RiskType, RunOutcomeStatus, SCMTier,
-    ThreatAssessment, ThreatReport, ThreatScoringBatch, TripleAPillar,
+    ThreatAssessment, ThreatReport, TripleAPillar,
     UrgencyLevel, ValidationStatus, create_analysis_task, create_editorial_task,
-    create_planning_task, create_quality_assurance_task, create_scoring_task,
+    create_planning_task, create_quality_assurance_task,
 )
 from tools import (
     AEROSPACE_SUPPLIER_REGISTRY, GEMINI_API_KEY, SOURCE_REGISTRY,
