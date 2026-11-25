@@ -66,7 +66,7 @@ _REQUIREMENT_RULES = (
     ("AFFECTED_COMPONENT", "Identity of the affected part or engine", r"\b(?:engine\w*|motor\w*|component\w*|part\w*|součást\w*|komponent\w*|turbine\w*|fan\s+blade\w*)\b", "COMPONENT_IDENTITY"),
     ("PRODUCTION_IMPACT", "Demonstrated impact on production or capacity", r"\b(?:production|manufactur\w*|assembly|capacity|output|výrob\w*|kapacit\w*)\b", "PRODUCTION_OUTCOME"),
     ("DELIVERY_IMPACT", "Demonstrated impact on customer deliveries", r"\b(?:deliver\w*|handover\w*|předáv\w*|dodání|předání)\b", "DELIVERY_OUTCOME"),
-    ("REGULATORY_EXISTENCE", "Existence of the requested regulatory action", r"\b(?:airworthiness|directive\w*|regulation\w*|regulatory\s+action|AD|předpis\w*|nařízení|směrnic\w*)\b|\bFAA-\d{4}-\d+\b|\b20\d{2}-\d{5}\b", "OFFICIAL_REGULATION"),
+    ("REGULATORY_EXISTENCE", "Existence of the requested regulatory action", r"\b(?:airworthiness|directive\w*|regulation\w*|regulatory\s+action|special\s+conditions?|AD|předpis\w*|nařízení|směrnic\w*)\b|\bFAA-\d{4}-\d+\b|\b20\d{2}-\d{5}\b", "OFFICIAL_REGULATION"),
     ("REGULATORY_PUBLICATION", "Official publication date", r"\b(?:publication\s+date|published\s+on|datum\s+zveřejnění|datum\s+publikace)\b", "PUBLICATION_DATE"),
     ("REGULATORY_EFFECTIVENESS", "Effective date and current regulatory stage", r"\b(?:effective\s+(?:date|on|from)|in\s+force|účinn\w*|platnost\w*)\b", "EFFECTIVE_DATE"),
     ("COMPLIANCE_DEADLINE", "Deadline for required compliance", r"\b(?:compliance\s+(?:date|deadline)|deadline|termín\s+(?:splnění|nápravy)|lhůt\w*)\b", "COMPLIANCE_DATE"),
@@ -74,8 +74,12 @@ _REQUIREMENT_RULES = (
     ("CERTIFICATION", "Completed certification or approval milestone", r"\b(?:certif\w*|type\s+approv\w*|certifik\w*|schválen\w*)\b", "CERTIFICATION_RECORD"),
     ("ORDER_CONTRACT", "Confirmed order or contractual commitment", r"\b(?:order\w*|purchas\w*|contract\w*|objednáv\w*|kontrakt\w*)\b", "COMMERCIAL_COMMITMENT"),
     ("ACCIDENT_INCIDENT", "Verified occurrence of the safety incident", r"\b(?:accident\w*|crash\w*|incident\w*|blowout|separation|nehod\w*)\b", "INCIDENT_RECORD"),
-    ("INVESTIGATION_FINDING", "Documented investigation findings or probable cause", r"\b(?:investigat\w*|findings?|probable\s+cause|root\s+cause|lapses?|recommendations?|vyšetřov\w*|zjištění)\b", "INVESTIGATION_RECORD"),
-    ("TECHNICAL_DEFECT", "Documented technical defect or quality finding", r"\b(?:defect\w*|fault\w*|failure\w*|quality\s+control|missing\s+bolts?|poruch\w*|závad\w*|vad\w*)\b", "TECHNICAL_FINDING"),
+    ("INVESTIGATION_FINDING", "Documented investigation findings or technical cause",
+     r"\b(?:investigat\w*|findings?|probable\s+cause|root\s+cause|technical\s+cause\w*|cause\w*\s+of|lapses?|recommendations?|vyšetřov\w*|zjištění|příčin\w*)\b",
+     "INVESTIGATION_RECORD"),
+    ("TECHNICAL_DEFECT", "Documented technical defect, durability or quality finding",
+     r"\b(?:defect\w*|fault\w*|failure\w*|durabilit\w*|wear\s+and\s+tear|degradat\w*|erosion|corrosion|crack\w*|quality\s+control|missing\s+bolts?|poruch\w*|závad\w*|vad\w*)\b",
+     "TECHNICAL_FINDING"),
     ("EMISSIONS", "Documented emissions or environmental claim", r"\b(?:emission\w*|decarbon\w*|sustainab\w*|emis\w*|udržitel\w*)\b", "ENVIRONMENTAL_EVIDENCE"),
     ("FINANCIAL_CLAIM", "The stated financial disclosure", r"\b(?:financial|revenue|earnings|cash\s+flow|10-[kq]|20-f|6-k|(?:sec|edgar|esef|xbrl|corporate|quarterly|annual)\s+filing\w*|tržb\w*|výnos\w*|zisk\w*)\b", "FILING_PASSAGE"),
 )
@@ -107,7 +111,7 @@ _LIFECYCLE_TOPICS = {
     "LABOR": r"\b(?:strik\w*|walkout\w*|stávk\w*)\b",
     "SUPPLY": r"\b(?:suppl\w*|shortag\w*|bottleneck\w*|nedostat\w*|dodavatel\w*)\b",
     "TECHNICAL": r"\b(?:defect\w*|fault\w*|failure\w*|inspect\w*|powder\s+metal|contaminat\w*|durabilit\w*|crack\w*|závad\w*|poruch\w*)\b",
-    "REGULATORY": r"\b(?:regulat\w*|directive\w*|airworthiness|předpis\w*|nařízení)\b",
+    "REGULATORY": r"\b(?:regulat\w*|directive\w*|airworthiness|special\s+conditions?|předpis\w*|nařízení)\b",
     "PRODUCTION": r"\b(?:production|manufactur\w*|assembly|výrob\w*)\b",
     "DELIVERY": r"\b(?:deliver\w*|handover\w*|dodáv\w*|předáv\w*)\b",
     "OPERATIONS": r"\b(?:operat\w*|service|grounding|provoz\w*)\b",
@@ -116,7 +120,7 @@ _TOPIC_PRIORITY = ("CERTIFICATION", "LABOR", "SUPPLY", "TECHNICAL", "REGULATORY"
 _ISSUE_WORDS = (
     r"delay\w*|pending|awaiting|postpon\w*|disrupt\w*|shortag\w*|halt\w*|"
     r"suspend\w*|fail\w*|defect\w*|strike\w*|zpožd\w*|odklad\w*|"
-    r"nedostat\w*|výpad\w*|poruch\w*|závad\w*|stávk\w*|issue\w*|problem\w*|problém\w*"
+    r"nedostat\w*|výpad\w*|poruch\w*|závad\w*|stávk\w*|issues?|problem\w*|problém\w*"
 )
 _CURRENT_WORDS = (
     r"\b(?:current\w*|latest|status|update\w*|still|ongoing|now|"
@@ -129,7 +133,8 @@ _ISSUE_STATE_PATTERNS = {
         r"\bcertif\w*.{0,65}\b(?:granted|issued|complet\w*|approved|finished|obtained)\b|"
         r"\b(?:achiev\w*|secured|attain\w*|issued|granted|received|obtained|completed)\b.{0,65}\b(?:type\s+certificat\w*|certification|approval)\b|"
         r"\b(?:has\s+been|was|were|is)\s+(?:certified|approved)\b|\b(?:has|have)\s+(?:certified|approved)\b",
-        r"\bcertif\w*.{0,55}\b(?:pending|delayed|awaiting|postponed|suspended)\b|\b(?:pending|delayed|awaiting)\b.{0,45}\bcertif\w*",
+        r"\bcertif\w*.{0,70}\b(?:pending|delayed|awaiting|postponed|suspended|ongoing|in\s+progress|underway|not\s+yet\s+granted|validation|flight\s+test\w*|milestones?|testing|hold|acceleration)\b|"
+        r"\b(?:pending|delayed|awaiting|pursuing|post|needs?|requiring|carried\s+out\s+test\s+flights|validation\s+activities|will\s+not\s+certificate)\b.{0,70}\b(?:certif\w*|approv\w*|validation)\b",
     ),
     "LABOR": (
         r"\b(?:strike|walkout|stávk\w*)\b.{0,45}\b(?:end\w*|settled|resolved|over|ukončen\w*|skončil\w*)\b|"
@@ -143,23 +148,23 @@ _ISSUE_STATE_PATTERNS = {
         r"\b(?:shortage|supply\s+(?:constraint|disruption)|nedostat\w*)\b.{0,55}\b(?:continues|persists|ongoing|worsened|remains)\b",
     ),
     "TECHNICAL": (
-        r"\b(?:defect|fault|failure|závad\w*|poruch\w*)\b.{0,55}\b(?:resolved|fixed|corrected|eliminated|repaired|vyřešen\w*)\b",
-        r"\b(?:defect|fault|failure|závad\w*|poruch\w*)\b.{0,55}\b(?:continues|persists|ongoing|worsened|detected|remains)\b",
+        r"\b(?:defect|fault|failure|durabilit\w*|závad\w*|poruch\w*)\b.{0,55}\b(?:resolved|fixed|corrected|eliminated|repaired|vyřešen\w*)\b",
+        r"\b(?:defect\w*|fault\w*|failure\w*|durabilit\w*|wear\s+and\s+tear|degradat\w*|crack\w*|erosion|mid[- ]?seal|závad\w*|poruch\w*)\b.{0,65}\b(?:continues|persists|ongoing|worsened|detected|remains|issue\w*|concern\w*|redesign\w*|upgrad\w*|testing|inspect\w*|enhanc\w*)\b",
     ),
     "REGULATORY": (
         r"\b(?:directive|regulation|rule|order|předpis\w*)\b.{0,55}\b(?:withdr\w*|repeal\w*|rescind\w*|revok\w*|revoked|zrušen\w*)\b|"
         r"\b(?:withdr\w*|repeal\w*|rescind\w*|revok\w*|revoked|zrušen\w*)\b.{0,55}\b(?:directive|regulation|rule|order|předpis\w*)\b",
-        r"\b(?:directive|regulation|rule|order)\b.{0,50}\b(?:effective|in\s+force|issued|enforced)\b",
+        r"\b(?:directive|regulation|rule|order|special\s+conditions?)\b.{0,50}\b(?:effective|in\s+force|issued|enforced|published|superseding|mandat\w*|requir\w*)\b",
     ),
     "PRODUCTION": (
         r"\b(?:production|manufactur\w*|assembly|výrob\w*)\b.{0,50}\b(?:resum\w*|restor\w*|restart\w*|normaliz\w*|obnoven\w*)\b|"
         r"\b(?:resum\w*|restor\w*|restart\w*|obnoven\w*)\b.{0,50}\b(?:production|manufactur\w*|assembly|výrob\w*)\b",
-        r"\b(?:production|manufactur\w*|assembly|výrob\w*)\b.{0,50}\b(?:halted|stopped|delayed|disrupted|suspended)\b",
+        r"\b(?:production|manufactur\w*|assembly|output|ramp[- ]?up|výrob\w*)\b.{0,60}\b(?:halted|stopped|delayed|disrupted|suspended|struggl\w*|shortfall|shortag\w*|slowed|troubled|constrained|fell\s+short|behind|tight\w*)\b",
     ),
     "DELIVERY": (
         r"\b(?:deliver\w*|handover\w*|dodáv\w*)\b.{0,45}\b(?:resum\w*|restor\w*|complet\w*|caught\s+up|obnoven\w*)\b|"
         r"\b(?:resum\w*|restor\w*|complet\w*|obnoven\w*)\b.{0,45}\b(?:deliver\w*|handover\w*|dodáv\w*)\b",
-        r"\b(?:deliver\w*|handover\w*|dodáv\w*)\b.{0,45}\b(?:delayed|halted|disrupted|suspended)\b",
+        r"\b(?:deliver\w*|handover\w*|dodáv\w*)\b.{0,60}\b(?:delayed|halted|disrupted|suspended|fell\s+short|shortfall|slipp\w*|uncertain|below\s+(?:the\s+)?(?:initial|revised)?\s*target)\b",
     ),
     "OPERATIONS": (
         r"\b(?:operations?|service|flights?|provoz\w*)\b.{0,50}\b(?:resum\w*|restor\w*|restart\w*|obnoven\w*)\b|"
@@ -181,7 +186,7 @@ _FAA_FACT_KINDS = {
 }
 _SOURCE_GROUPS = {
     "MEDIA": ({"SRC_004", "SRC_005"}, {"news", "newsapi", "news api", "pr", "official pr releases", "press releases"}),
-    "REG": ({"SRC_001", "SRC_002", "SRC_003", "SRC_019", "SRC_020", "SRC_021", "SRC_022", "SRC_023", "SRC_026"},
+    "REG": ({"SRC_001", "SRC_002", "SRC_003", "SRC_019", "SRC_020", "SRC_021", "SRC_022", "SRC_023"},
             {"regulatory", "faa", "easa", "ntsb", "faa & easa regulations", "easa regulations", "ntsb investigations"}),
     "SOCIAL": ({"SRC_007", "SRC_008"}, {"bluesky", "bluesky social network", "youtube", "youtube videos"}),
     "AIRSHOW": ({"SRC_006"}, {"airshow", "airshow websites"}),
@@ -218,7 +223,14 @@ _NAMED_SUBJECT_STOPWORDS = {
     "Landing", "Avionics", "Controls", "Control", "Export", "Western", "Fuel", "Manifold", "Airways",
     "Pacific", "Investigation", "Findings", "Probable", "Cause", "Quality", "Labor", "Labour", "Strike",
     "Dispute", "Supplier", "Suppliers", "Program", "Timeline", "Requirements", "Exemption", "Exemptions",
-    "Commercial",
+    "Commercial", "Type", "Certificate", "Validation", "Progress", "Ramp", "Phase", "Plant", "Line",
+    "Launch", "Update", "Updates", "Test", "Tests", "Testing", "Acceleration", "Redesign", "Upgrade",
+    "Upgrades", "Operator", "Operators", "Environment", "Environments", "Hot", "Sandy", "Coating",
+    "Coatings", "Blade", "European", "Chinese", "American", "Global", "Explicitly", "Requested", "Facts",
+    "Tooling", "Assembly", "Capability", "Jean-Luc",
+    "Special", "Conditions", "Condition", "Standards", "Standard",
+    "Integration", "Folding", "Wingtips", "Wingtip", "Simulators", "Simulator",
+    "Authorization",
 }
 _AUTHORITY_LABELS = {
     "REGULATOR": "official regulatory record",
@@ -237,6 +249,29 @@ _STATUS_PHRASES = {
     "STATUS_CONFLICTED": "Sources from the same period present conflicting accounts that require reconciliation.",
     "NO_RELEVANT_EVENT": "No relevant event matching this question was found within the searched sources.",
 }
+
+
+def _norm_model_hyphens(text: str) -> str:
+    """Normalize hyphenated letter-digit model codes (e.g. C-919 -> C919) without altering dates or dockets."""
+    return re.sub(r"\b([A-Za-z]{1,3})-(?!19\d{2}\b|20\d{2}\b)(\d{3,4}[A-Za-z0-9]*)\b", r"\1\2", str(text or ""))
+
+
+def _kiq_exact_variants(text: str) -> set[str]:
+    raw = str(text or "")
+    norm = _norm_model_hyphens(raw)
+    return set(_detect_exact_variants(raw)) | (set(_detect_exact_variants(norm)) if norm != raw else set())
+
+
+def _kiq_aircraft_families(text: str) -> set[str]:
+    raw = str(text or "")
+    norm = _norm_model_hyphens(raw)
+    return set(_detect_aircraft_families(raw)) | (set(_detect_aircraft_families(norm)) if norm != raw else set())
+
+
+def _kiq_engine_models(text: str) -> set[str]:
+    raw = str(text or "")
+    norm = _norm_model_hyphens(raw)
+    return set(_detect_engine_models(raw)) | (set(_detect_engine_models(norm)) if norm != raw else set())
 
 
 def _sha256_text(text: str) -> str:
@@ -334,23 +369,36 @@ def _required_evidence_specs(query: str) -> List[Dict[str, str]]:
     explicit_regulator = bool(re.search(r"\b(?:did|has|have|when\s+did)\s+(?:the\s+)?(?:FAA|EASA|regulat\w*)\b.{0,55}\b(?:certif\w*|approv\w*|grant\w*|issu\w*)\b", query, re.I))
     issuer_only = issuer_question and not explicit_regulator
 
-    if "CERTIFICATION" in topics and issue_mentioned:
+    explicit_cert_completion = bool(re.search(
+        r"\b(?:complet\w*|certified|granted|issued|approv\w*|"
+        r"(?:has|have|did)\s+(?:the\s+)?(?:faa|easa|caac|tcca|regulat\w*)\s+(?:certified|approved|granted|issued|certif\w*|approv\w*))\b",
+        query, re.I,
+    ))
+    if "CERTIFICATION" in topics and (issue_mentioned or not explicit_cert_completion):
         requirements = [r for r in requirements if r["key"] != "CERTIFICATION"]
     if "CERTIFICATION" in topics and issuer_only:
-        fin_q = bool(re.search(r"\b(?:financial|revenue|earnings|cash\s+flow|profit|tržb\w*|výnos\w*|zisk\w*)\b", query, re.I))
-        requirements = [r for r in requirements if r["key"] != "CERTIFICATION" and (r["key"] != "FINANCIAL_CLAIM" or fin_q)]
+        fin_q = bool(
+            re.search(r"\b(?:financial|revenue|earnings|cash\s+flow|profit|tržb\w*|výnos\w*|zisk\w*)\b", query, re.I))
+        requirements = [r for r in requirements if
+                        r["key"] != "CERTIFICATION" and (r["key"] != "FINANCIAL_CLAIM" or fin_q)]
         requirements.extend((
-            {"key": "ISSUER_STATEMENT", "required_fact": "Issuer's dated certification statement", "evidence_type": "ISSUER_DISCLOSURE"},
-            {"key": "SOURCE_PROVENANCE", "required_fact": "Verifiable issuer-source reference", "evidence_type": "SOURCE_REFERENCE"},
+            {"key": "ISSUER_STATEMENT", "required_fact": "Issuer's dated certification statement",
+             "evidence_type": "ISSUER_DISCLOSURE"},
+            {"key": "SOURCE_PROVENANCE", "required_fact": "Verifiable issuer-source reference",
+             "evidence_type": "SOURCE_REFERENCE"},
         ))
-    elif "CERTIFICATION" in topics and (current_requested or issue_mentioned or re.search(r"\b(?:complet\w*|certified|approv\w*)\b", query, re.I)):
+    elif "CERTIFICATION" in topics and explicit_cert_completion:
         requirements.extend((
-            {"key": "REGULATOR_DECISION", "required_fact": "Direct certification decision by the responsible regulator", "evidence_type": "OFFICIAL_CERTIFICATION_RECORD"},
-            {"key": "DECISION_DATE", "required_fact": "Date of the actual regulatory decision", "evidence_type": "DATED_REGULATOR_DECISION"},
-            {"key": "SOURCE_PROVENANCE", "required_fact": "Verifiable primary-source reference", "evidence_type": "SOURCE_REFERENCE"},
+            {"key": "REGULATOR_DECISION", "required_fact": "Direct certification decision by the responsible regulator",
+             "evidence_type": "OFFICIAL_CERTIFICATION_RECORD"},
+            {"key": "DECISION_DATE", "required_fact": "Date of the actual regulatory decision",
+             "evidence_type": "DATED_REGULATOR_DECISION"},
+            {"key": "SOURCE_PROVENANCE", "required_fact": "Verifiable primary-source reference",
+             "evidence_type": "SOURCE_REFERENCE"},
         ))
     elif issuer_only:
-        requirements.append({"key": "SOURCE_PROVENANCE", "required_fact": "Verifiable issuer-source reference", "evidence_type": "SOURCE_REFERENCE"})
+        requirements.append({"key": "SOURCE_PROVENANCE", "required_fact": "Verifiable issuer-source reference",
+                             "evidence_type": "SOURCE_REFERENCE"})
 
     if topics and issue_mentioned:
         requirements.append({"key": "HISTORICAL_DELAY", "required_fact": "Evidence of the historical issue or delay", "evidence_type": "HISTORICAL_ISSUE"})
@@ -406,15 +454,25 @@ def _proof_matches(
     if key == "PROGRAM_APPLICABILITY":
         if re.search(r"\b(?:not\s+applicable|does\s+not\s+apply|unaffected|excluded|nevztahuje\s+se)\b", text, re.I):
             return False
-        if variants := _detect_exact_variants(question):
-            return bool(variants & _detect_exact_variants(text))
-        if _detect_engine_models(question):
-            return _engine_models_match(question, text)
-        return bool((families := _detect_aircraft_families(question)) and (families & _detect_aircraft_families(text)))
+        if variants := _kiq_exact_variants(question):
+            if variants & _kiq_exact_variants(text):
+                return True
+        if _kiq_engine_models(question) and _engine_models_match(question, text):
+            return True
+        return bool((families := _kiq_aircraft_families(question)) and (families & _kiq_aircraft_families(text)))
     if key == "AFFECTED_COMPONENT":
-        if _detect_engine_models(question):
-            return _engine_models_match(question, text) and (component in {"", "ENGINE"} or bool(re.search(_COMPONENT_PATTERNS[component], text, re.I)))
-        return bool(_detect_engine_models(text) or (component and component != "ENGINE" and re.search(_COMPONENT_PATTERNS[component], text, re.I)))
+        if _kiq_engine_models(question):
+            if not _engine_models_match(question, text):
+                return False
+            if component not in {"", "ENGINE"} and not re.search(_COMPONENT_PATTERNS[component], text, re.I):
+                return False
+            return True
+        if _kiq_engine_models(text) or re.search(
+                r"\b(?:mid[- ]?seal|seal\w*|stator\s+vane\w*|compressor|turbine|durabilit\w*|crack\w*|thrust\s+link\w*|borescope)\b",
+                text, re.I,
+        ):
+            return True
+        return bool(component and component != "ENGINE" and re.search(_COMPONENT_PATTERNS[component], text, re.I))
     if key == "CAUSAL_LINK":
         sources = causal_patterns if causal_patterns is not None else [
             pat for issue, pat in _CAUSE_SOURCES.items() if any(req["key"] == issue for req in _required_evidence_specs(question))
@@ -425,13 +483,24 @@ def _proof_matches(
     if key == "SUPPLY_DISRUPTION":
         return bool(re.search(_SUPPLY_PROOF, text, re.I))
     if key in _IMPACT_PROOF:
-        return bool(re.search(_IMPACT_PROOF[key], text, re.I))
+        if re.search(_IMPACT_PROOF[key], text, re.I):
+            return True
+        if key == "PRODUCTION_IMPACT" and re.search(r"\b(?:production|manufactur\w*|assembly|output|ramp[- ]?up)\b",
+                                                    text, re.I) and re.search(
+                r"\b(?:\d+|rate|target|shortfall|shortag\w*|struggl\w*|workforce|capacity|per\s+(?:month|year))\b",
+                text, re.I):
+            return True
+        if key == "DELIVERY_IMPACT" and re.search(r"\b(?:deliver\w*|handover\w*)\b", text, re.I) and re.search(
+                r"\b(?:\d+|target|shortfall|fell\s+short|expect\w*|202\d)\b", text, re.I):
+            return True
+        return False
     if key == "EVENT_EXISTENCE":
         return True
     if key == "INVESTIGATION_FINDING":
         return bool(re.search(
-            r"\b(?:ntsb|investigat\w*|findings?|probable\s+cause|final\s+report|preliminary\s+report|"
-            r"missing\s+(?:four\s+)?(?:key\s+)?bolts?|maintenance\s+lapse|human\s+error|"
+            r"\b(?:ntsb|investigat\w*|findings?|probable\s+cause|root\s+cause|final\s+report|preliminary\s+report|"
+            r"missing\s+(?:four\s+)?(?:key\s+)?bolts?|maintenance\s+lapse|human\s+error|wear\s+and\s+tear|"
+            r"degradat\w*|erosion|cmas|thermal\s+barrier|coating\w*|cooling|sand|dust|durabilit\w*|"
             r"quality\s+control|audit|hearing|recommendations?|safety\s+board)\b", text, re.I,
         ))
     if key == "CERTIFICATION":
@@ -444,10 +513,13 @@ def _proof_matches(
 def _claim_strength(key: str, claim: Dict[str, Any], query: str) -> str:
     """Downgrade non-regulator claims to PRELIMINARY when regulator authority is required."""
     authority = claim.get("authority")
-    if key == "REGULATOR_DECISION" and authority != "REGULATOR":
+    if key in {"REGULATOR_DECISION", "DECISION_DATE"} and authority != "REGULATOR":
         return "PRELIMINARY"
-    if "CERTIFICATION" in _lifecycle_topics(query) and key in {"CURRENT_STATUS", "RESOLUTION_EVIDENCE", "CERTIFICATION"} and authority != "REGULATOR":
-        return "PRELIMINARY"
+    if "CERTIFICATION" in _lifecycle_topics(query) and authority != "REGULATOR":
+        if key in {"RESOLUTION_EVIDENCE", "CERTIFICATION"}:
+            return "PRELIMINARY"
+        if key == "CURRENT_STATUS" and claim.get("state") == "ISSUE_RESOLVED":
+            return "PRELIMINARY"
     return claim.get("strength", "PRELIMINARY")
 
 
@@ -687,17 +759,38 @@ def build_atomic_kiq_requirements(
                 contributing.append(claim)
 
         if key in {"CURRENT_STATUS", "STATUS_CHANGE"}:
-            states = sorted((c for c in claims if c.get("state") != "STATUS_UNKNOWN" and c.get("date") and (key == "STATUS_CHANGE" or not c.get("historical"))), key=lambda c: c["date"], reverse=True)
+            states = sorted(
+                (c for c in claims if c.get("state") != "STATUS_UNKNOWN" and c.get("date") and (key == "STATUS_CHANGE" or not c.get("historical"))),
+                key=lambda c: c["date"],
+                reverse=True,
+            )
             if key == "CURRENT_STATUS":
                 latest = [c for c in states if c["date"] == states[0]["date"]] if states else []
-                valid = bool(latest and len({c["state"] for c in latest}) == 1)
-                reg_conf = {official_confirmation["doc_id"]} if official_confirmation else set()
-                verified_ids = ({c["doc_id"] for c in latest if _claim_strength(key, c, query) == "VERIFIED"} if valid else set()) | (reg_conf if valid or not latest else set())
-                preliminary_ids = {c["doc_id"] for c in latest if _claim_strength(key, c, query) != "VERIFIED"}
+                stale_for_timeline = False
+                if latest and re.search(r"\b(?:timeline|eis|entry[- ]into[- ]service|delay\w*|schedule\w*|slipp\w*)\b",
+                                        query, re.I):
+                    try:
+                        top_day = date.fromisoformat(latest[0]["date"][:10])
+                        newer_dates = [
+                            c["date"][:10] for c in claims
+                            if c.get("date") and len(str(c["date"])) >= 10
+                               and (date.fromisoformat(str(c["date"])[:10]) - top_day).days >= 180
+                        ]
+                        stale_for_timeline = bool(newer_dates)
+                    except ValueError:
+                        stale_for_timeline = False
+                valid = bool(latest and not stale_for_timeline and len({c["state"] for c in latest}) == 1)
+                same_state = [c for c in states if valid and c["state"] == latest[0]["state"]] if valid else latest
+                reg_conf = {official_confirmation["doc_id"]} if (
+                            official_confirmation and not stale_for_timeline) else set()
+                verified_ids = ({c["doc_id"] for c in same_state if
+                                 _claim_strength(key, c, query) == "VERIFIED"} if valid else set()) | (
+                                   reg_conf if valid or not latest else set())
+                preliminary_ids = {c["doc_id"] for c in same_state if _claim_strength(key, c, query) != "VERIFIED"}
                 if not valid:
                     verified_ids.clear()
                     preliminary_ids.update(c["doc_id"] for c in latest)
-                contributing = latest
+                contributing = same_state
             else:
                 pairs = [(old, new) for old in states for new in states if old["date"] < new["date"] and old["state"] != new["state"]]
                 verified_ids = set()
@@ -707,6 +800,31 @@ def build_atomic_kiq_requirements(
                 else:
                     preliminary_ids.clear()
                 contributing = list(pairs[0]) if pairs else []
+
+        # Independent multi-source corroboration: >=2 distinct reputable non-social domains
+        # agreeing on the same non-regulatory atomic fact elevate PRELIMINARY -> VERIFIED.
+        _non_corroboratable = {
+            "REGULATOR_DECISION", "DECISION_DATE", "REGULATORY_EXISTENCE",
+            "REGULATORY_PUBLICATION", "REGULATORY_EFFECTIVENESS",
+            "EFFECTIVE_AS_OF_REFERENCE_DATE", "COMPLIANCE_DEADLINE", "ISSUER_STATEMENT",
+        }
+        _cert_resolved_only = (
+            cert_topic and (
+                key in {"CERTIFICATION", "RESOLUTION_EVIDENCE"}
+                or (key == "CURRENT_STATUS" and any(c.get("state") == "ISSUE_RESOLVED" for c in contributing))
+            )
+        )
+        if not verified_ids and preliminary_ids and key not in _non_corroboratable and not _cert_resolved_only:
+            from ews_state import UNVERIFIED_SOCIAL_VIDEO_DOMAINS
+            corrob_domains: Dict[str, set[str]] = {}
+            for c in contributing:
+                if c.get("doc_id") not in preliminary_ids or c.get("source_id") in {"SRC_007", "SRC_008"}:
+                    continue
+                host = (urlsplit(str(c.get("source_url") or "")).hostname or "").lower().removeprefix("www.")
+                if host and not any(host == sd or host.endswith("." + sd) for sd in UNVERIFIED_SOCIAL_VIDEO_DOMAINS):
+                    corrob_domains.setdefault(host, set()).add(c["doc_id"])
+            if len(corrob_domains) >= 2:
+                verified_ids.update(did for dids in corrob_domains.values() for did in dids)
 
         state = "NOT_SEARCHED" if not searched else ("VERIFIED" if verified_ids else ("PRELIMINARY" if preliminary_ids else "MISSING"))
         if state == "VERIFIED":
@@ -913,8 +1031,10 @@ def _faa_certification_models(text: str) -> set[str]:
     }
 
 
-def _official_faa_certification_for_kiq(query: str, docs: List[Dict[str, Any]]):
-    """Verify a dated FAA newsroom statement of issuance without inferring certificate contents."""
+def find_official_faa_certification(
+    query: str, docs: List[Dict[str, Any]], *, after_date: str = "", as_of_date: str = "",
+):
+    """Verify a dated FAA newsroom statement of issuance within optional date bounds."""
     if not re.search(r"\b(?:certif\w*|type\s+approv\w*)\b", query, re.I) or re.search(r"\b(?:EASA|TCCA|CAAC|CASA|ANAC|FAA[-\s]+20\d{2}[-\s]+\d+|20\d{2}-\d{5})\b", query, re.I):
         return None
     if not (requested := _faa_certification_models(query)):
@@ -932,10 +1052,14 @@ def _official_faa_certification_for_kiq(query: str, docs: List[Dict[str, Any]]):
     for doc in sorted(docs, key=lambda d: str(d.get("published_at") or ""), reverse=True):
         url = urlparse(str(doc.get("url") or ""))
         pub = str(doc.get("published_at") or "")
-        if (url.scheme != "https" or url.hostname not in {"faa.gov", "www.faa.gov"} or not re.fullmatch(r"/newsroom/[a-z0-9-]+/?", url.path, re.I)
-                or doc.get("source_id") not in {"SRC_001", "SRC_004"} or (doc.get("source_id") == "SRC_004" and doc.get("verified_domain") is not True)
-                or doc.get("content_status") not in {"FULL_TEXT", "FULL_TEXT_RETRIEVED"} or doc.get("content_truncated") is True or _is_snippet_only(doc)
-                or not re.fullmatch(r"20\d{2}-\d{2}-\d{2}", pub) or not _date_str(pub)):
+        if (url.scheme != "https" or url.hostname not in {"faa.gov", "www.faa.gov"} or not re.fullmatch(
+                r"/newsroom/[a-z0-9-]+/?", url.path, re.I)
+                or doc.get("source_id") not in {"SRC_001", "SRC_004"} or (
+                        doc.get("source_id") == "SRC_004" and doc.get("verified_domain") is not True)
+                or doc.get("content_status") not in {"FULL_TEXT", "FULL_TEXT_RETRIEVED"} or doc.get(
+                    "content_truncated") is True or _is_snippet_only(doc)
+                or not re.fullmatch(r"20\d{2}-\d{2}-\d{2}", pub) or not _date_str(pub)
+                or (after_date and pub <= after_date) or (as_of_date and pub > as_of_date)):
             continue
         title, body = str(doc.get("title") or ""), str(doc.get("text") or "")
         if not requested.issubset(_faa_certification_models(body)):
@@ -949,6 +1073,7 @@ def _official_faa_certification_for_kiq(query: str, docs: List[Dict[str, Any]]):
                 return {**doc, "matched_models": sorted(requested), "verified_quote": sent.strip()}
     return None
 
+_official_faa_certification_for_kiq = find_official_faa_certification
 
 def _plan_queries(plan: KIQPlan) -> List[str]:
     """Collect deduplicated non-empty retrieval queries from a KIQPlan."""
@@ -990,8 +1115,11 @@ def _runtime_questions(user_query: str, plan: KIQPlan) -> List[Dict[str, Any]]:
         planned.append({"query": query, "keys": keys, "question": question})
 
     if planned:
-        if uncovered := user_req_keys - set().union(*(i["keys"] for i in planned)):
-            planned.append({"query": user_query, "keys": uncovered, "question": f"Remaining explicitly requested facts: {user_query}"})
+        # Merge any uncovered explicit requirement keys into the first planned question
+        # instead of spawning an extra broad fallback KIQ that dilutes answerability.
+        covered = set().union(*(i["keys"] for i in planned))
+        if uncovered := user_req_keys - covered:
+            planned[0]["keys"] = set(planned[0]["keys"]) | uncovered
         return list({(_norm_q(i["question"]), tuple(sorted(i["keys"]))): i for i in planned}.values())
 
     seeds = [user_query.strip()] if user_query and user_query.strip() else _plan_queries(plan)
@@ -1066,11 +1194,23 @@ def _named_subjects(query: str) -> set[str]:
 
 
 def _issuer_matches_query(query: str, doc: Dict[str, Any]) -> bool:
-    """Ensure a corporate disclosure belongs to the organization named in the query."""
+    """Ensure a corporate disclosure belongs to an entity or product OEM named in the query."""
     issuer = str(next((doc[k] for k in ("sec_company", "issuer_name", "issuer", "company") if doc.get(k)), ""))
+    if not issuer:
+        return False
     core = set(_WORD_RE.findall(_norm_q(issuer))) - {"company", "corporation", "incorporated", "holding", "holdings", "group", "aerospace"}
     subjects = _named_subjects(query)
-    return bool(issuer and (not subjects or any(_norm_q(s) in core for s in subjects)))
+    if not subjects or any(_norm_q(s) in core for s in subjects):
+        return True
+    # Also accept an issuer when the query explicitly requests its engine/program (e.g. GE9X -> GE Aerospace).
+    from ews_state import lookup_supplier_in_registry
+    reg = lookup_supplier_in_registry(issuer, exact=False)
+    if reg:
+        q_models = _kiq_exact_variants(query) | _kiq_engine_models(query)
+        reg_text = " ".join([reg.get("official_name", ""), *(reg.get("aliases") or []), *(reg.get("components") or [])])
+        if q_models and (q_models & (_kiq_exact_variants(reg_text) | _kiq_engine_models(reg_text))):
+            return True
+    return False
 
 
 def _scope_matches(
@@ -1087,23 +1227,33 @@ def _scope_matches(
         return False
 
     pos_q = _EXCLUSION_SPLIT_RE.split(str(query or ""), maxsplit=1)[0]
-    requested, local = _detect_exact_variants(pos_q), _detect_exact_variants(passage)
-    engines, local_eng = _detect_engine_models(pos_q), _detect_engine_models(passage)
-    if (requested and local and not (requested & local)) or (engines and local_eng and not _engine_models_match(pos_q, passage)):
+    pos_q = re.sub(r"^Remaining\s+explicitly\s+requested\s+facts\s*:\s*", "", pos_q, flags=re.I)
+    doc_title = str(doc.get("title") or "")
+    p_sec = f"{passage} {section}"
+    p_ctx = f"{doc_title} {p_sec}"
+    requested, local = _kiq_exact_variants(pos_q), _kiq_exact_variants(passage)
+    families, local_fam = _kiq_aircraft_families(pos_q), _kiq_aircraft_families(p_ctx)
+    engines, local_eng = _kiq_engine_models(pos_q), _kiq_engine_models(passage)
+    if (requested and local and not (requested & local)) or (
+            engines and local_eng and not _engine_models_match(pos_q, passage)):
         return False
 
-    p_sec = passage + " " + section
-    var_hit = bool(requested and (requested & (local | _detect_exact_variants(section))))
-    eng_hit = bool(engines and _engine_models_match(pos_q, p_sec))
-    if (requested and engines and not (var_hit or eng_hit)) or (requested and not engines and not var_hit) or (engines and not requested and not eng_hit):
+    var_hit = bool(requested and (requested & (local | _kiq_exact_variants(f"{doc_title} {section}"))))
+    fam_hit = bool(families and (families & local_fam))
+    eng_hit = bool(engines and _engine_models_match(pos_q, p_ctx))
+    airframe_req = bool(requested or families)
+    airframe_hit = var_hit if requested else fam_hit
+    if (airframe_req and engines and not (airframe_hit or eng_hit)) or (requested and not engines and not var_hit) or (
+            engines and not airframe_req and not eng_hit):
         return False
-    if any(re.search(pat, pos_q, re.I) and not re.search(pat, p_sec, re.I) for name, pat in _COMPONENT_PATTERNS.items() if name != "ENGINE"):
+    if any(re.search(pat, pos_q, re.I) and not re.search(pat, p_ctx, re.I) for name, pat in _COMPONENT_PATTERNS.items()
+           if name != "ENGINE"):
         return False
 
     named = _named_subjects(pos_q)
-    if requested or engines:
+    if airframe_req or engines:
         named -= {"Airbus", "Boeing", "Embraer", "COMAC", "Pratt & Whitney", "Safran", "Rolls-Royce", "Alaska"}
-    return not named or any(re.search(rf"\b{re.escape(n)}\b", p_sec + " " + identity, re.I) for n in named)
+    return not named or any(re.search(rf"\b{re.escape(n)}\b", f"{p_ctx} {identity}", re.I) for n in named)
 
 
 def _topic_matches(query: str, passage: str) -> bool:
@@ -1199,6 +1349,10 @@ def _fr03_semantic_passages(query: str, doc: Dict[str, Any], rejected: Dict[str,
             rejected.setdefault(did, "FR03_QUOTATION_NOT_VERIFIED")
             continue
         excerpt = " ".join(str(item.get("evidence_excerpt") or "").split())
+        excerpt = re.sub(
+            r"^(?:SOURCE-MATCHED\s+ISSUER\s+CLAIMS\s*\([^)]*\)\s*:\s*)?(?:\[E\d+\s+[A-Z_]+(?:\s+offset=\d+)?\]\s*)+",
+            "", excerpt, flags=re.I,
+        ).strip()
         if len(excerpt) < 25 or excerpt.casefold() in seen:
             continue
         seen.add(excerpt.casefold())
@@ -1234,6 +1388,8 @@ def _fr03_semantic_passages(query: str, doc: Dict[str, Any], rejected: Dict[str,
             },
             "PRELIMINARY", "FR03_SOURCE_QUOTATION_VERIFIED", "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
         ))
+    if results:
+        rejected.pop(did, None)
     return results
 
 
@@ -1254,11 +1410,27 @@ def _document_claims(
         if not doc_id or (approved is not None and doc_id not in approved) or not _available_as_of(doc, cutoff):
             continue
         status, source = str(doc.get("content_status") or "").upper(), doc.get("source_id")
+        body_len = len(str(doc.get("text") or "").strip())
         restricted = status in (_NON_FULL_TEXT - {"METADATA_ONLY", "SUMMARY_ONLY", "TRUNCATED"})
-        full = status in {"FULL_TEXT", "FULL_TEXT_RETRIEVED"} and doc.get("content_truncated") is not True and not _is_snippet_only(doc)
-        primary = source in _PRIMARY_SOURCES or (source == "SRC_005" and doc.get("verified_domain") is True)
-        authority = ("ISSUER_DISCLOSURE" if source in _SOURCE_GROUPS["FIN"][0] else "REGULATOR" if source in _SOURCE_GROUPS["REG"][0]
-                     else "ISSUER_RELEASE" if source == "SRC_005" and doc.get("verified_domain") else "SECONDARY")
+        substantive = (
+                not restricted
+                and status in {"FULL_TEXT", "FULL_TEXT_RETRIEVED", "PARTIAL_TEXT"}
+                and body_len >= 300
+                and "[NEWSAPI_METADATA_ONLY:" not in str(doc.get("text") or "")
+                and "[EXA_METADATA_ONLY]" not in str(doc.get("text") or "")
+        )
+        full = substantive or (status in {"FULL_TEXT", "FULL_TEXT_RETRIEVED"} and doc.get(
+            "content_truncated") is not True and not _is_snippet_only(doc))
+        is_official_web = bool(
+            doc.get("verified_domain") is True and str(doc.get("origin_type") or "").startswith("PRIMARY"))
+        primary = source in _PRIMARY_SOURCES or (source in {"SRC_005", "SRC_030", "SRC_EXA"} and is_official_web)
+        authority = (
+            "ISSUER_DISCLOSURE" if source in _SOURCE_GROUPS["FIN"][0]
+            else "REGULATOR" if (
+                        source in _SOURCE_GROUPS["REG"][0] or doc.get("evidence_authority") == "REGULATOR_OFFICIAL_WEB")
+            else "ISSUER_RELEASE" if (source in {"SRC_005", "SRC_030", "SRC_EXA"} and is_official_web)
+            else "SECONDARY"
+        )
         published = _published_date(doc)
         issuer_ok = _issuer_matches_query(query, doc) if authority == "ISSUER_DISCLOSURE" else False
 
@@ -1271,7 +1443,7 @@ def _document_claims(
                     verdict, why = _filing_passage_assessment(doc, meta, excerpt)
                     passages.append((excerpt, meta, "VERIFIED" if approved is not None and verdict == "VERIFIED" else "PRELIMINARY", why, verdict))
         passages.extend(_fr03_semantic_passages(query, doc, rejected))
-        if full and not restricted and len(str(doc.get("text") or "").strip()) >= 70:
+        if full and not restricted and len(str(doc.get("text") or "").strip()) >= 70 and not (source in _SOURCE_GROUPS["FIN"][0] and passages):
             body = str(doc["text"])
             verified = approved is not None and (_verified_filing_passage(doc, {}, body) if source in _SOURCE_GROUPS["FIN"][0] else primary)
             passages.append((body, {}, "VERIFIED" if verified else "PRELIMINARY", "FULL_SOURCE_VERIFIED" if verified else "SOURCE_VALIDATION_PENDING", "VERIFIED" if verified else "PRELIMINARY"))
@@ -1290,7 +1462,14 @@ def _document_claims(
                     passage = (prev + " " + sent[:700]).strip()
                     if not _scope_matches(query, passage, doc, meta):
                         continue
-                    forecast = _is_forecast(sent, query)
+                    raw_forecast = _is_forecast(sent, query)
+                    has_occurred_fact = bool(re.search(
+                        r"\b(?:started|began|delivered|shipped|carried\s+out|conducted|completed|logged|"
+                        r"confirmed|reported|issued|superseding|handed\s+over|fell\s+short|faces|slowed|"
+                        r"invested|investing|is\s+upgrading|has\s+said)\b",
+                        sent, re.I,
+                    ))
+                    forecast = raw_forecast and not has_occurred_fact
                     state = "STATUS_UNKNOWN" if forecast else _issue_state(sent, query)
                     fact = not forecast and (
                         any(_proof_matches(k, passage, query, req_component) for k in substantive_keys)
@@ -1303,6 +1482,10 @@ def _document_claims(
                     if (cutoff and event and event > cutoff) or (stamp := (sent.lower(), event or published)) in seen:
                         continue
                     seen.add(stamp)
+                    pub_year = int(published[:4]) if len(published) >= 4 and published[:4].isdigit() else 0
+                    past_years = [int(y) for y in
+                                  re.findall(r"\b(?:in|since|from)\s+(?:[A-Za-z]+\s+)?(20\d{2})\b", sent, re.I)]
+                    is_old_year_recap = bool(pub_year and past_years and max(past_years) <= pub_year - 2)
                     claims.append({
                         "doc_id": doc_id, "kiq_id": kiq_id, "state": state, "claim_state": state, "claim_authority": authority,
                         "claim_id": str(meta.get("claim_id") or ""), "text": passage, "quote": body if meta else sent[:500],
@@ -1313,7 +1496,10 @@ def _document_claims(
                         "passage_validation_status": "PASSAGE_VERIFIED" if p_verdict == "VERIFIED" else p_verdict,
                         "kit_id": str(meta.get("kit_id") or ""), "date": event or published, "event_date": event,
                         "publication_date": published, "date_basis": "EVENT_DATE" if event else "PUBLICATION_DATE_ONLY",
-                        "historical": bool(re.search(r"\b(?:previously|formerly|historically|earlier|prior\s+to|had\s+been|last\s+(?:year|quarter)|dříve|předtím)\b", sent, re.I) and state != "ISSUE_RESOLVED"),
+                        "historical": bool(
+                            is_old_year_recap
+                            or (re.search(r"\b(?:previously|formerly|historically|earlier|prior\s+to|had\s+been|last\s+(?:year|quarter)|dříve|předtím)\b", sent, re.I) and state != "ISSUE_RESOLVED")
+                        ),
                         "strength": p_strength, "source_id": source, "authority": authority,
                         "claim_type": "FORECAST" if forecast else str(meta.get("claim_type") or "OBSERVED"),
                         "issuer_matches_query": issuer_ok, "section": str(meta.get("section") or doc.get("section") or ""),
@@ -1427,9 +1613,32 @@ def _compose_kiq_answer_text(
     evidence_ids: List[str], evaluated_count: int,
 ) -> str:
     """Format a readable, source-cited natural-language answer for a runtime KIQ."""
+    dangling_tail = re.compile(
+        r"\b(?:in\s+the|of\s+the|for\s+the|to\s+the|on\s+the|with\s+the|by\s+the|from\s+the|"
+        r"the|a|an|in|of|for|to|on|with|by|from|and|or|that|which)\s*$",
+        re.I,
+    )
+
     def _clean(raw: str, limit: int = 230) -> str:
-        c = re.sub(r"^(?:Definitions:|Reason:|Official Summary:)\s*", "", " ".join(str(raw or "").split()).strip(), flags=re.I)
-        return c.rstrip(" ;,") if len(c) <= limit else c[:limit].rsplit(" ", 1)[0].rstrip(" .,;:") + "…"
+        c = " ".join(str(raw or "").split()).strip().lstrip("#").strip()
+        c = re.sub(r"^(?:SEC\s+EDGAR\s+OFFICIAL\s+FILING\..*?)?(?:Accession\s+number:\s*[\d-]+\.\s*)?", "", c, flags=re.I)
+        c = re.sub(r"^(?:SOURCE-MATCHED\s+ISSUER\s+CLAIMS\s*\([^)]*\)\s*:\s*)?(?:\[E\d+\s+[A-Z_]+(?:\s+offset=\d+)?\]\s*)+", "", c, flags=re.I)
+        c = re.sub(r"^(?:Definitions:|Reason:|Official Summary:)\s*", "", c, flags=re.I).strip()
+        if len(c) <= limit:
+            trimmed = c.rstrip(" ;,")
+            while len(trimmed) > 35 and dangling_tail.search(trimmed):
+                trimmed = trimmed.rsplit(" ", 1)[0].rstrip(" ,;:-")
+            return trimmed
+        cut = c[:limit].rsplit(" ", 1)[0].rstrip(" .,;:")
+        while len(cut) > 35 and dangling_tail.search(cut):
+            cut = cut.rsplit(" ", 1)[0].rstrip(" ,;:-")
+        return (cut or c[:limit].strip()) + "…"
+
+    def _tokens(text: str) -> set[str]:
+        return {
+            w for w in re.findall(r"[a-z0-9]{4,}", text.casefold())
+            if w not in {"boeing", "ge9x", "777x", "777-9", "engine", "engines", "notes", "that", "with", "from", "this"}
+        }
 
     parts: List[str] = [f"As of {cutoff}:"] if cutoff else []
     fallback_leads = {
@@ -1441,16 +1650,26 @@ def _compose_kiq_answer_text(
     if regulator_facts:
         parts.append(str(regulator_facts[0].get("answer", "")).strip())
 
-    timeline = sorted((c for c in contributing_claims if c.get("date") and c.get("state") != "STATUS_UNKNOWN"), key=lambda c: (c["date"], c.get("publication_date", "")))
-    seen_snip, findings = set(), []
+    timeline = sorted((c for c in contributing_claims if c.get("date") and c.get("state") != "STATUS_UNKNOWN"),
+                      key=lambda c: (c["date"], c.get("publication_date", "")))
+    seen_snips: List[str] = []
+    seen_token_sets: List[set[str]] = []
+    findings = []
     for claim in list(reversed(timeline)) + [c for c in contributing_claims if c not in timeline]:
         snip = _clean(claim.get("quote") or claim.get("text") or "", 220)
-        if len(snip) < 25 or (nk := snip[:90].casefold()) in seen_snip:
+        low_snip = snip.casefold()
+        toks = _tokens(snip)
+        if len(snip) < 25 or any(low_snip[:60] in prev or prev[:60] in low_snip for prev in seen_snips):
             continue
-        seen_snip.add(nk)
+        if toks and any(len(toks & prev_toks) / min(len(toks), len(prev_toks)) >= 0.7 for prev_toks in seen_token_sets):
+            continue
+        seen_snips.append(low_snip)
+        if toks:
+            seen_token_sets.append(toks)
         lbl = _AUTHORITY_LABELS.get(str(claim.get("authority") or "").upper(), "reviewed source")
+        article = "An" if lbl[:1].lower() in "aeiou" else "A"
         dt = f" on {claim['date']}" if claim.get("date") else ""
-        findings.append(f"A {lbl}{dt} notes that “{snip}” [{claim['doc_id']}].")
+        findings.append(f"{article} {lbl}{dt} notes that “{snip}” [{claim['doc_id']}].")
         if len(findings) >= 3:
             break
     if findings:
