@@ -72,6 +72,138 @@ def _parse_acquisition_reflection(raw_text: str) -> dict:
     return {"agent_rationale": text[:500]}
 
 
+def _short_channel_query(user_query: str, max_words: int = 6) -> str:
+    """Build a concise keyword query suitable for Bluesky, YouTube, NewsAPI, or Airshows."""
+    words = [w for w in re.split(r"\s+", str(user_query or "").strip()) if w]
+    return " ".join(words[:max_words]) or str(user_query or "").strip()
+
+
+def _enforce_selected_platforms(
+    user_query: str,
+    kiq_plan: KIQPlan,
+    budget,
+) -> None:
+    """Deterministically execute any user-selected platform skipped by the Acquisition Agent."""
+    from aero_ews.collection.agent_tools import _new_docs_since, _scoped_limit
+    from ews_sources_extra import collect_extra
+    from ews_state import get_collected_documents, get_connector_telemetry
+    from tools import (
+        extract_youtube_transcript,
+        scrape_airshow_website,
+        scrape_manufacturer_pr_news,
+        scrape_regulatory_agencies,
+        search_aerospace_news,
+        search_bluesky_aviation,
+    )
+
+    if PIPELINE_STATE.get("cancel_requested"):
+        return
+
+    telemetry = get_connector_telemetry()
+    executed_sids = {
+        str(info.get("source_id") or "")
+        for info in telemetry.values()
+        if isinstance(info, dict)
+        and (info.get("queries") or info.get("http_requests") or info.get("accepted_count"))
+    }
+
+    social_q = (
+        (kiq_plan.social_and_video_queries[0] if getattr(kiq_plan, "social_and_video_queries", None) else "")
+        or _short_channel_query(user_query, 5)
+    )
+    media_q = (
+        (kiq_plan.media_and_pr_queries[0] if getattr(kiq_plan, "media_and_pr_queries", None) else "")
+        or _short_channel_query(user_query, 6)
+    )
+    reg_q = (
+        (kiq_plan.regulatory_and_ntsb_queries[0] if getattr(kiq_plan, "regulatory_and_ntsb_queries", None) else "")
+        or _short_channel_query(user_query, 6)
+    )
+    airshow_q = getattr(kiq_plan, "airshow_query", "") or _short_channel_query(user_query, 3)
+
+    eff_limit = max(1, min(int(budget.per_call_limit), 5))
+
+    # (enabled_check, already_ran_sids, tool_label, query, runner)
+    mandatory_checks = [
+        (
+            budget.platform_enabled("bluesky", "soc"),
+            {"SRC_007"},
+            "search_media_and_social[bluesky]",
+            social_q,
+            lambda q: str(search_bluesky_aviation.run(q)),
+        ),
+        (
+            budget.platform_enabled("youtube", "vide"),
+            {"SRC_008"},
+            "search_media_and_social[youtube]",
+            social_q,
+            lambda q: str(extract_youtube_transcript.run(q)),
+        ),
+        (
+            budget.platform_enabled("news"),
+            {"SRC_004"},
+            "search_media_and_social[news]",
+            media_q,
+            lambda q: str(search_aerospace_news.run(q)),
+        ),
+        (
+            budget.platform_enabled("airshow"),
+            {"SRC_006"},
+            "search_airshow_newsrooms",
+            airshow_q,
+            lambda q: str(scrape_airshow_website.run(q)),
+        ),
+        (
+            budget.platform_enabled("regul", "faa", "easa"),
+            {"SRC_001", "SRC_002"},
+            "search_official_regulators",
+            reg_q,
+            lambda q: str(scrape_regulatory_agencies.run(q)),
+        ),
+        (
+            budget.platform_enabled("pr", "sec", "filing"),
+            {"SRC_005", "SRC_027", "SRC_030", "SRC_031"},
+            "search_corporate_filings",
+            media_q,
+            lambda q: "\n".join([
+                str(scrape_manufacturer_pr_news.run(q)),
+                str(collect_extra(q, ["pr"], eff_limit)),
+            ]),
+        ),
+    ]
+
+    for enabled, sids, tool_label, q_text, runner in mandatory_checks:
+        if PIPELINE_STATE.get("cancel_requested"):
+            break
+        if not enabled or (executed_sids & sids):
+            continue
+        before_ids = {d["doc_id"] for d in get_collected_documents()}
+        logger.info("[PHASE 2 MANDATORY CHANNEL] Enforcing selected platform %s for query=%r", tool_label, q_text)
+        try:
+            with _scoped_limit(eff_limit):
+                raw_out = runner(q_text)
+            new_docs = _new_docs_since(before_ids)
+            new_ids = [d["doc_id"] for d in new_docs]
+            status = "RESULTS_RETRIEVED" if new_docs else "NO_MATCH"
+            budget.record_step(
+                tool_label,
+                q_text,
+                status,
+                new_ids,
+                raw_output=f"=== MANDATORY SELECTED PLATFORM: {tool_label} ({q_text}) ===\n{raw_out}\n",
+                note="MANDATORY_SELECTED_PLATFORM_GUARANTEE",
+            )
+            executed_sids |= sids
+        except Exception as exc:
+            logger.warning("[PHASE 2 MANDATORY CHANNEL] %s failed: %s", tool_label, exc)
+            budget.record_step(
+                tool_label,
+                q_text,
+                "ERROR",
+                [],
+                note=f"MANDATORY_SELECTED_PLATFORM_ERROR: {type(exc).__name__}: {str(exc)[:180]}",
+            )
+
 def collect_osint_agentic(
     user_query: str,
     kiq_plan: KIQPlan,
@@ -133,6 +265,9 @@ def collect_osint_agentic(
     except Exception as exc:
         agent_error = f"{type(exc).__name__}: {str(exc)[:240]}"
         logger.warning("[PHASE 2 AGENTIC] Acquisition agent failed (%s); calls_made=%d", agent_error, budget.calls_made)
+
+    # Guarantee every explicitly user-selected platform executes at least once.
+    _enforce_selected_platforms(user_query, kiq_plan, budget)
 
     header = (
         f"--- AGENTIC OSINT COLLECTION DATA FOR KIT '{user_query}' ---\n"

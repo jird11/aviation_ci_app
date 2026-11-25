@@ -34,10 +34,15 @@ _ERROR_RULES = (
 _PRICING_BY_MODEL: Dict[str, Dict[str, float]] = {
     "openrouter/google/gemini-3-flash-preview": {"cost_per_1k_input_usd": 0.0005, "cost_per_1k_output_usd": 0.003},
     "google/gemini-3-flash-preview": {"cost_per_1k_input_usd": 0.0005, "cost_per_1k_output_usd": 0.003},
+    "openrouter/google/gemini-2.5-flash": {"cost_per_1k_input_usd": 0.0003, "cost_per_1k_output_usd": 0.0025},
+    "google/gemini-2.5-flash": {"cost_per_1k_input_usd": 0.0003, "cost_per_1k_output_usd": 0.0025},
+    "openrouter/openai/gpt-4o-mini": {"cost_per_1k_input_usd": 0.00015, "cost_per_1k_output_usd": 0.0006},
+    "openai/gpt-4o-mini": {"cost_per_1k_input_usd": 0.00015, "cost_per_1k_output_usd": 0.0006},
     "gemini-3.5-flash-lite": {"cost_per_1k_input_usd": 0.0003, "cost_per_1k_output_usd": 0.0025},
     "openrouter/google/gemini-3.5-flash-lite": {"cost_per_1k_input_usd": 0.0003, "cost_per_1k_output_usd": 0.0025},
     "google/gemini-3.5-flash-lite": {"cost_per_1k_input_usd": 0.0003, "cost_per_1k_output_usd": 0.0025},
 }
+_max_tokens = max(1024, min(32000, int(os.getenv("EWS_LLM_MAX_TOKENS", "8000"))))
 _EVIDENCE_POLICY = (
     "Preserve source attribution and uncertainty: a verified quote is not proof of a downstream event; "
     "issuer reports are not regulator confirmation. Never invent missing evidence or KIT applicability."
@@ -192,7 +197,7 @@ def build_resilient_llm(role_type: str = "fast") -> LLM:
     if (model_key := _ROLE_MODEL_KEYS.get(role_type)) is None:
         raise ValueError(f"Unknown LLM role type: {role_type}")
     model = LLM_PROVIDER_REGISTRY[model_key]
-    options: Dict[str, Any] = {"model": model, "temperature": _temperature}
+    options: Dict[str, Any] = {"model": model, "temperature": _temperature, "max_tokens": _max_tokens}
     if model.startswith("ollama/"):
         options["base_url"] = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
     else:
@@ -233,7 +238,7 @@ def _build_single_pass_agent(
 def _build_deterministic_fast_llm() -> LLM:
     """Create a temperature=0.0 instance of the fast model for planning and acquisition."""
     model = LLM_PROVIDER_REGISTRY["fast_model"]
-    options: Dict[str, Any] = {"model": model, "temperature": 0.0}
+    options: Dict[str, Any] = {"model": model, "temperature": 0.0, "max_tokens": _max_tokens}
     if model.startswith("ollama/"):
         options["base_url"] = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
     else:

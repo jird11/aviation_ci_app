@@ -3,25 +3,21 @@
 """Aero_EWS 2.0 — Final Thesis Evaluation & Verification Suite (5 Scenarios x 5 Queries = 25).
 
 Aligned with Chapter 8 of the Master's Thesis:
-  - 8.3 Functional & API Contract Testing       (--phase contract)
-  - 8.4-8.6, 8.8, 8.10, 8.11 Main 25-Query Run  (--phase main)
-  - 8.7 Stability & Repeatability (3x Replay)   (--phase stability)
-  - 8.9 Keyword Baseline Comparison (Replay)    (--phase baseline)
-  - Export Thesis Tables & Annotation Templates (--phase export)
-  - Compute Final Precision/Recall/F1/MAE       (--phase score)
+- 8.3 Functional & API Contract Testing       (--phase contract)
+- 8.4-8.6, 8.8-8.10 Main 25-Query Run         (--phase main)
+- 8.7 Stability & Repeatability (3x Replay)   (--phase stability)
+- Export Thesis Tables & Audit CSVs           (--phase export)
 
 Uses Python standard library only (urllib, sqlite3, csv, json).
 Run from the Aero_EWS project root while `python main.py` is running on http://127.0.0.1:8000.
 
 Examples:
-  python run_final_thesis_suite-v2.py --list
-  python run_final_thesis_suite-v2.py --phase contract
-  python run_final_thesis_suite-v2.py --phase main --scenarios S1 --limit 6
-  python run_final_thesis_suite-v2.py --phase main --resume --limit 6
-  python run_final_thesis_suite-v2.py --phase stability
-  python run_final_thesis_suite-v2.py --phase baseline
-  python run_final_thesis_suite-v2.py --phase export
-  python run_final_thesis_suite-v2.py --phase score
+  python run_final_thesis_suite.py --list
+  python run_final_thesis_suite.py --phase contract
+  python run_final_thesis_suite.py --phase main --scenarios S1 --limit 6
+  python run_final_thesis_suite.py --phase main --resume --limit 6
+  python run_final_thesis_suite.py --phase stability
+  python run_final_thesis_suite.py --phase export
 """
 
 from __future__ import annotations
@@ -33,7 +29,6 @@ import sqlite3
 import subprocess
 import sys
 import time
-from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -244,7 +239,7 @@ THESIS_QUERIES: List[TestQuery] = [
         "UNVERIFIED_SOCIAL",
     ),
     TestQuery(
-        "S5-Q5", "S5", "Boundary Tests, Negative Controls, Unverified Signals & Retrospective", "KIT_3", "Ch. 8.11 (Timeliness)",
+        "S5-Q5", "S5", "Boundary Tests, Negative Controls, Unverified Signals & Retrospective", "KIT_3", "Ch. 8.10 (Timeliness)",
         "Boeing 777X FAA certification and GE9X engine status",
         "365d", ("news", "regulatory", "pr"), "REGULATORY",
         "Retrospective point-in-time test as of 2026-06-30: zero documents published after 2026-06-30 may leak into analysis.",
@@ -254,7 +249,6 @@ THESIS_QUERIES: List[TestQuery] = [
 ]
 
 STABILITY_ANCHORS = ("S1-Q1", "S2-Q1", "S3-Q1")
-BASELINE_ANCHORS = ("S1-Q1", "S2-Q1", "S3-Q1", "S4-Q1", "S5-Q1")
 
 
 def _now_iso() -> str:
@@ -295,7 +289,7 @@ def _load_state() -> Dict[str, Any]:
             return json.loads(STATE_FILE.read_text(encoding="utf-8"))
         except Exception:
             pass
-    return {"contract_tests": [], "main_runs": {}, "stability_runs": {}, "baseline_runs": {}}
+    return {"contract_tests": [], "main_runs": {}, "stability_runs": {}}
 
 
 def _save_state(state: Dict[str, Any]) -> None:
@@ -345,7 +339,15 @@ def _run_single_scan(base_url: str, payload: Dict[str, Any], timeout_sec: int = 
     if code != 200 or not isinstance(data, dict) or data.get("status") != "started":
         raise RuntimeError(f"POST /run-ews failed (HTTP {code}): {data}")
     run_id = str(data["run_id"])
-    final_state = _wait_for_run(base_url, run_id, timeout_sec=timeout_sec)
+    try:
+        final_state = _wait_for_run(base_url, run_id, timeout_sec=timeout_sec)
+    except TimeoutError:
+        _http_json(base_url, "POST", "/cancel-ews", timeout=10.0)
+        try:
+            _wait_until_idle(base_url, timeout_sec=60)
+        except TimeoutError:
+            pass
+        raise
     time.sleep(1.0)
     report = _fetch_report_from_db(run_id)
     if report:
@@ -386,7 +388,7 @@ def run_contract_phase(base_url: str, state: Dict[str, Any]) -> int:
 
     c_cat, cat_data = _http_json(base_url, "GET", "/api/kiq-catalog")
     c_src, _ = _http_json(base_url, "GET", "/api/source-status")
-    kiq_n = len((cat_data or {}).get("kiq_catalog", [])) if isinstance(cat_data, dict) else 0
+    kiq_n = len((cat_data or {}).get("catalog") or (cat_data or {}).get("kiq_catalog") or []) if isinstance(cat_data, dict) else 0
     record("T03", "KIQ catalog & connector status", "HTTP 200 with active KIQ catalog and connector status",
            c_cat == 200 and c_src == 200 and kiq_n >= 5,
            f"/api/kiq-catalog={c_cat} (KIQ={kiq_n}), /api/source-status={c_src}")
@@ -441,7 +443,6 @@ def run_main_phase(base_url: str, state: Dict[str, Any], selected: List[TestQuer
             "limit": limit,
             "collection_mode": "agentic_exa",
             "auto_approve": False,
-            "use_keyword_baseline": False,
         }
         if tq.as_of_date:
             payload["as_of_date"] = tq.as_of_date
@@ -504,7 +505,6 @@ def run_stability_phase(base_url: str, state: Dict[str, Any], anchors: List[str]
                 "collection_mode": "agentic_exa",
                 "replay_run_id": source_run_id,
                 "auto_approve": False,
-                "use_keyword_baseline": False,
             }
             if tq.as_of_date:
                 payload["as_of_date"] = tq.as_of_date
@@ -521,48 +521,7 @@ def run_stability_phase(base_url: str, state: Dict[str, Any], anchors: List[str]
 
 
 # =============================================================================
-# PHASE 4: Keyword Baseline Comparison via replay_run_id (Chapter 8.9)
-# =============================================================================
-def run_baseline_phase(base_url: str, state: Dict[str, Any], anchors: List[str], limit: int, timeout_sec: int) -> int:
-    main_runs = state.get("main_runs") or {}
-    base_runs = state.setdefault("baseline_runs", {})
-    q_by_id = {q.query_id: q for q in THESIS_QUERIES}
-
-    for qid in anchors:
-        base_info = main_runs.get(qid)
-        if not base_info or not base_info.get("run_id"):
-            print(f"[BASELINE SKIP] {qid} has no completed main run_id yet.")
-            continue
-        if base_runs.get(qid):
-            print(f"[BASELINE SKIP] {qid} already has baseline run {base_runs[qid]}")
-            continue
-        source_run_id = base_info["run_id"]
-        tq = q_by_id[qid]
-        payload = {
-            "query": tq.query,
-            "scope": tq.scope,
-            "platforms": list(tq.platforms),
-            "limit": limit,
-            "collection_mode": "agentic_exa",
-            "replay_run_id": source_run_id,
-            "auto_approve": False,
-            "use_keyword_baseline": True,
-        }
-        if tq.as_of_date:
-            payload["as_of_date"] = tq.as_of_date
-        print(f"[BASELINE] {qid} running Keyword Baseline over replay {source_run_id}...")
-        try:
-            rid, st, _ = _run_single_scan(base_url, payload, timeout_sec=timeout_sec)
-            print(f"  -> {rid} ({st})")
-            base_runs[qid] = rid
-            _save_state(state)
-        except Exception as exc:
-            print(f"  -> FAILED baseline for {qid}: {exc}", file=sys.stderr)
-    return 0
-
-
-# =============================================================================
-# PHASE 5: Export All Thesis Tables & Manual Annotation Templates
+# PHASE 4: Export All Thesis Tables & Audit CSVs
 # =============================================================================
 def _export_functional_md(results: List[Dict[str, Any]]) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -581,9 +540,9 @@ def _extract_metrics_for_run(conn: sqlite3.Connection, run_id: str, tq: Optional
     conn.row_factory = sqlite3.Row
     rr = conn.execute("SELECT * FROM analytical_runs WHERE run_id = ?", (run_id,)).fetchone()
     rep = conn.execute("SELECT report_json FROM reports WHERE run_id = ?", (run_id,)).fetchone()
-    if not rr or not rep:
+    if not rep:
         return None
-    run = dict(rr)
+    run = dict(rr) if rr else {}
     report = json.loads(rep["report_json"])
     meta = report.get("run_metadata") or {}
     acq = meta.get("acquisition_trace") or {}
@@ -673,8 +632,8 @@ def run_export_phase(state: Dict[str, Any]) -> int:
     with sqlite3.connect(SQLITE_DB) as conn:
         conn.row_factory = sqlite3.Row
         main_rows: List[Dict[str, Any]] = []
-        event_annotation_rows: List[Dict[str, Any]] = []
-        fr03_annotation_rows: List[Dict[str, Any]] = []
+        event_rows: List[Dict[str, Any]] = []
+        fr03_rows: List[Dict[str, Any]] = []
 
         for tq in THESIS_QUERIES:
             rid = (main_runs.get(tq.query_id) or {}).get("run_id")
@@ -687,7 +646,7 @@ def run_export_phase(state: Dict[str, Any]) -> int:
             main_rows.append(m)
 
             for t in (report.get("threats") or []):
-                event_annotation_rows.append({
+                event_rows.append({
                     "query_id": tq.query_id,
                     "scenario_id": tq.scenario_id,
                     "test_role": tq.test_role,
@@ -707,14 +666,6 @@ def run_export_phase(state: Dict[str, Any]) -> int:
                     "confirmed_facts": " ".join(str(t.get("confirmed_facts") or "").split()),
                     "fact_check_quote": " ".join(str(t.get("fact_check_quote") or "").split()),
                     "evidence_citation": t.get("evidence_citation", ""),
-                    # --- MANUAL ANNOTATION COLUMNS (FILL IN EXCEL / CSV) ---
-                    "manual_is_relevant_0_1": "",
-                    "manual_ref_risk_type": "",
-                    "manual_ref_threat_score_1_10": "",
-                    "manual_factual_verdict": "",    # CORRECT | PARTIALLY_CORRECT | INCORRECT | UNVERIFIABLE
-                    "manual_hallucination_type": "",  # NONE | INTRINSIC | EXTRINSIC | VARIANT_MIXUP
-                    "manual_citation_supports_0_1": "",
-                    "manual_notes": "",
                 })
 
             f_rows = conn.execute(
@@ -723,7 +674,7 @@ def run_export_phase(state: Dict[str, Any]) -> int:
                 (rid,),
             ).fetchall()
             for fr in f_rows:
-                fr03_annotation_rows.append({
+                fr03_rows.append({
                     "query_id": tq.query_id,
                     "scenario_id": tq.scenario_id,
                     "query": tq.query,
@@ -736,8 +687,6 @@ def run_export_phase(state: Dict[str, Any]) -> int:
                     "fr03_accepted_0_1": fr["is_accepted"],
                     "signal_type": fr["signal_type"],
                     "decision_rationale": " ".join(str(fr["decision_rationale"] or "").split())[:220],
-                    "manual_doc_relevant_0_1": "",
-                    "manual_error_note": "",
                 })
 
         if main_rows:
@@ -762,9 +711,11 @@ def run_export_phase(state: Dict[str, Any]) -> int:
                     f"| {r['total_sec']} | ${r['cost_usd']:.5f} | `{r['run_id']}` |"
                 )
 
-            md += ["", "## Summary by Scenario (S1-S5)", "",
-                   "| Scenario | Runs | Avg Docs | FR03 Accepted (%) | Avg Events | Avg Supported | Critical | Avg Time (s) | Avg Cost (USD) |",
-                   "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |"]
+            md += [
+                "", "## Summary by Scenario (S1-S5)", "",
+                "| Scenario | Runs | Avg Docs | FR03 Accepted (%) | Avg Events | Avg Supported | Critical | Avg Time (s) | Avg Cost (USD) |",
+                "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
+            ]
             for sid in ("S1", "S2", "S3", "S4", "S5"):
                 sub = [r for r in main_rows if r["scenario_id"] == sid]
                 if not sub:
@@ -801,21 +752,21 @@ def run_export_phase(state: Dict[str, Any]) -> int:
                 f"| Output Tokens | {sum(r['tokens_out'] for r in main_rows)/n:.0f} | {sum(r['tokens_out'] for r in main_rows)} |",
                 f"| **Estimated LLM Cost [USD]** | **${sum(r['cost_usd'] for r in main_rows)/n:.5f}** | **${sum(r['cost_usd'] for r in main_rows):.5f}** |",
             ]
-            (OUT_DIR / "08_efficiency_telemetry.md").write_text("\n".join(eff) + "\n", encoding="utf-8")
+            (OUT_DIR / "07_efficiency_telemetry.md").write_text("\n".join(eff) + "\n", encoding="utf-8")
 
-        if event_annotation_rows:
-            ev_csv = OUT_DIR / "03_events_for_manual_annotation.csv"
+        if event_rows:
+            ev_csv = OUT_DIR / "03_extracted_events.csv"
             with ev_csv.open("w", encoding="utf-8-sig", newline="") as f:
-                w = csv.DictWriter(f, fieldnames=list(event_annotation_rows[0].keys()))
+                w = csv.DictWriter(f, fieldnames=list(event_rows[0].keys()))
                 w.writeheader()
-                w.writerows(event_annotation_rows)
+                w.writerows(event_rows)
 
-        if fr03_annotation_rows:
-            fr_csv = OUT_DIR / "04_fr03_docs_for_annotation.csv"
+        if fr03_rows:
+            fr_csv = OUT_DIR / "04_fr03_filter_audit.csv"
             with fr_csv.open("w", encoding="utf-8-sig", newline="") as f:
-                w = csv.DictWriter(f, fieldnames=list(fr03_annotation_rows[0].keys()))
+                w = csv.DictWriter(f, fieldnames=list(fr03_rows[0].keys()))
                 w.writeheader()
-                w.writerows(fr03_annotation_rows)
+                w.writerows(fr03_rows)
 
         stab_lines = [
             "# 8.7 Stability and Repeatability of Analytical Results (`replay_run_id`)",
@@ -835,28 +786,7 @@ def run_export_phase(state: Dict[str, Any]) -> int:
                     )
         (OUT_DIR / "05_stability_replay.md").write_text("\n".join(stab_lines) + "\n", encoding="utf-8")
 
-        base_lines = [
-            "# 8.9 Comparison of Aero_EWS 2.0 vs. Keyword Baseline (Shared `dataset_sha256`)",
-            "",
-            "| Query | Variant | Run ID | Docs Analyzed | Events (Tot/Supp/Crit) | RKIQ (A/P) | Time (s) | LLM Calls | Cost (USD) |",
-            "| :--- | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |",
-        ]
-        for qid, base_rid in (state.get("baseline_runs") or {}).items():
-            tq = q_by_id.get(qid)
-            main_rid = (main_runs.get(qid) or {}).get("run_id")
-            for label, rid in (("Aero_EWS (Multi-Agent)", main_rid), ("Keyword Baseline", base_rid)):
-                if not rid:
-                    continue
-                m = _extract_metrics_for_run(conn, rid, tq)
-                if m:
-                    base_lines.append(
-                        f"| {qid} | {label} | `{rid}` | {m['fr03_accepted']} "
-                        f"| {m['events_total']}/{m['events_supported']}/{m['confirmed_critical']} "
-                        f"| {m['rkiq_answered']}/{m['rkiq_partial']} | {m['total_sec']} | {m['llm_calls']} | ${m['cost_usd']:.5f} |"
-                    )
-        (OUT_DIR / "06_baseline_comparison.md").write_text("\n".join(base_lines) + "\n", encoding="utf-8")
-
-        kiq_lines = ["# 8.10 Case Study Summary — KIT / KIQ Answers", ""]
+        kiq_lines = ["# 8.9 Case Study Summary — KIT / KIQ Answers", ""]
         for tq in THESIS_QUERIES:
             rid = (main_runs.get(tq.query_id) or {}).get("run_id")
             if not rid:
@@ -873,99 +803,9 @@ def run_export_phase(state: Dict[str, Any]) -> int:
                     f"{ka.get('question')} -- {str(ka.get('answer') or '')[:320]}"
                 )
             kiq_lines.append("")
-        (OUT_DIR / "07_kiq_case_study_summary.md").write_text("\n".join(kiq_lines) + "\n", encoding="utf-8")
+        (OUT_DIR / "06_kiq_case_study_summary.md").write_text("\n".join(kiq_lines) + "\n", encoding="utf-8")
 
-    print(f"[EXPORT DONE] Exported {len(main_rows)} main runs, {len(event_annotation_rows)} events, {len(fr03_annotation_rows)} FR03 docs -> {OUT_DIR}/")
-    return 0
-
-
-# =============================================================================
-# PHASE 6: Compute Metrics From Completed Manual Annotations (Chapter 8.4-8.6)
-# =============================================================================
-def run_score_phase() -> int:
-    fr_csv = OUT_DIR / "04_fr03_docs_for_annotation.csv"
-    ev_csv = OUT_DIR / "03_events_for_manual_annotation.csv"
-    lines = ["# Manual Reference Dataset Evaluation Report (Chapter 8.4-8.6)", ""]
-
-    if fr_csv.is_file():
-        tp = fp = tn = fn = 0
-        with fr_csv.open("r", encoding="utf-8-sig", newline="") as f:
-            for row in csv.DictReader(f):
-                gold = str(row.get("manual_doc_relevant_0_1") or "").strip()
-                if gold not in {"0", "1"}:
-                    continue
-                pred = int(str(row.get("fr03_accepted_0_1") or "0").strip() == "1")
-                g = int(gold)
-                if pred == 1 and g == 1:
-                    tp += 1
-                elif pred == 1 and g == 0:
-                    fp += 1
-                elif pred == 0 and g == 0:
-                    tn += 1
-                else:
-                    fn += 1
-        tot = tp + fp + tn + fn
-        prec = (100.0 * tp / (tp + fp)) if (tp + fp) else 0.0
-        rec = (100.0 * tp / (tp + fn)) if (tp + fn) else 0.0
-        f1 = (2 * prec * rec / (prec + rec)) if (prec + rec) else 0.0
-        lines += [
-            "## 8.4 FR03 Two-Stage Filter Accuracy (Document Level)",
-            f"- Annotated documents: **{tot}** (TP={tp}, FP={fp}, TN={tn}, FN={fn})",
-            f"- **Precision:** {prec:.1f}% | **Recall:** {rec:.1f}% | **F1-score:** {f1:.1f}%",
-            "",
-        ]
-
-    if ev_csv.is_file():
-        rel_tp = rel_fp = cat_ok = cat_tot = cit_ok = cit_tot = 0
-        score_diffs: List[float] = []
-        verdicts: Counter = Counter()
-        halluc: Counter = Counter()
-        with ev_csv.open("r", encoding="utf-8-sig", newline="") as f:
-            for row in csv.DictReader(f):
-                rel = str(row.get("manual_is_relevant_0_1") or "").strip()
-                if rel in {"0", "1"}:
-                    if rel == "1":
-                        rel_tp += 1
-                    else:
-                        rel_fp += 1
-                ref_cat = str(row.get("manual_ref_risk_type") or "").strip().upper()
-                if ref_cat:
-                    cat_tot += 1
-                    if ref_cat == str(row.get("system_risk_type") or "").strip().upper():
-                        cat_ok += 1
-                ref_sc = str(row.get("manual_ref_threat_score_1_10") or "").strip()
-                sys_sc = str(row.get("system_threat_score") or "").strip()
-                if ref_sc.isdigit() and sys_sc.isdigit():
-                    score_diffs.append(abs(int(ref_sc) - int(sys_sc)))
-                v = str(row.get("manual_factual_verdict") or "").strip().upper()
-                if v:
-                    verdicts[v] += 1
-                h = str(row.get("manual_hallucination_type") or "").strip().upper()
-                if h:
-                    halluc[h] += 1
-                c = str(row.get("manual_citation_supports_0_1") or "").strip()
-                if c in {"0", "1"}:
-                    cit_tot += 1
-                    cit_ok += int(c)
-
-        ev_prec = (100.0 * rel_tp / (rel_tp + rel_fp)) if (rel_tp + rel_fp) else 0.0
-        cat_acc = (100.0 * cat_ok / cat_tot) if cat_tot else 0.0
-        mae = (sum(score_diffs) / len(score_diffs)) if score_diffs else 0.0
-        cit_rate = (100.0 * cit_ok / cit_tot) if cit_tot else 0.0
-        lines += [
-            "## 8.4-8.6 Event Quality, Risk Classification, Threat Score & Hallucinations",
-            f"- **Event Detection Precision:** {ev_prec:.1f}% (TP={rel_tp}, FP={rel_fp})",
-            f"- **Risk Category Accuracy:** {cat_acc:.1f}% ({cat_ok}/{cat_tot})",
-            f"- **Threat Score Mean Absolute Error (MAE):** {mae:.2f} points (n={len(score_diffs)})",
-            f"- **Citation Grounding Rate:** {cit_rate:.1f}% ({cit_ok}/{cit_tot})",
-            f"- **Factual Verdict Distribution:** {dict(verdicts)}",
-            f"- **Hallucination Distribution:** {dict(halluc)}",
-            "",
-        ]
-
-    out_path = OUT_DIR / "09_annotated_evaluation_report.md"
-    out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"[SCORE DONE] Written -> {out_path}")
+    print(f"[EXPORT DONE] Exported {len(main_rows)} main runs, {len(event_rows)} events, {len(fr03_rows)} FR03 docs -> {OUT_DIR}/")
     return 0
 
 
@@ -975,7 +815,7 @@ def main() -> int:
     parser.add_argument("--list", action="store_true", help="Print all 25 test queries and exit")
     parser.add_argument(
         "--phase",
-        choices=("contract", "main", "stability", "baseline", "export", "score", "all"),
+        choices=("contract", "main", "stability", "export", "all"),
         default="export",
         help="Execution phase",
     )
@@ -1010,12 +850,8 @@ def main() -> int:
         rc |= run_main_phase(args.base_url, state, selected, args.limit, args.resume, args.timeout)
     if args.phase in {"stability", "all"}:
         rc |= run_stability_phase(args.base_url, state, list(STABILITY_ANCHORS), args.repeats, args.limit, args.timeout)
-    if args.phase in {"baseline", "all"}:
-        rc |= run_baseline_phase(args.base_url, state, list(BASELINE_ANCHORS), args.limit, args.timeout)
     if args.phase in {"export", "all"}:
         rc |= run_export_phase(state)
-    if args.phase == "score":
-        rc |= run_score_phase()
     return rc
 
 

@@ -2,21 +2,24 @@
 title Aero_EWS 2.0 - Hybrid 4-Agent Competitive Intelligence & Early Warning Architecture
 
 autonumber
+hide footbox
+skinparam maxMessageSize 160
+skinparam sequenceMessageAlign center
+skinparam participantPadding 8
 
 actor "Human Analyst" as Human
 participant "Web Dashboard\n(index.html / dashboard.js)" as UI
 participant "FastAPI Backend\n(ews_api.py / ews_pipeline.py)" as API
-participant "Agent 1: Intelligence Planning\n& Acquisition Agent" as Agent1
-collections "Governed OSINT Tools\n(Exa API, FAA/EASA/NTSB,\nSEC/ESEF, OEM PR, News/Social)" as Tools
+participant "Agent 1: Planning\n& Acquisition" as Agent1
+collections "Governed OSINT Tools\n(Exa, FAA/EASA/NTSB,\nSEC/ESEF, PR, Airshows, News/Social)" as Tools
 participant "FR03 Two-Stage Filter\n(Deterministic + Semantic)" as Filter
-participant "Agent 2: Aviation Risk Analyst\n(Claim-First + F1-F5 Factors)" as Analyst
-participant "Agent 3: Quality Assurance\nAgent (HRO Auditor)" as QA
-participant "Agent 4: Executive Editor\n(Narrative & Action Plan)" as Editor
-participant "Deterministic 5-Factor\nI&W Scoring (F1-F5)" as Scoring
-participant "Deterministic Harness\n& KIQ Evaluator" as Harness
-database "SQLite & Evidence Archive\n(ews_intelligence.db)" as DB
+participant "Agent 2: Aviation\nRisk Analyst" as Analyst
+participant "Agent 3: Quality\nAssurance (HRO)" as QA
+participant "Agent 4: Executive\nEditor" as Editor
+participant "Deterministic Guardrails\n(Harness, KIQ, Scoring & Audit)" as Guard
+database "SQLite & Archive\n(ews_intelligence.db)" as DB
 
-Human -> UI: Define KIT, time scope, sources & collection_mode
+Human -> UI: Define KIT, time scope, as_of_date, sources & collection_mode
 UI -> API: POST /run-ews
 
 API -> Agent1: Deconstruct KIT into KIQPlan
@@ -24,10 +27,12 @@ Agent1 --> API: Guarded KIQPlan (BROAD / PROGRAM / EXACT)
 
 alt collection_mode == "agentic_exa"
     loop Adaptive Acquisition Loop (bounded by AcquisitionBudget)
-        Agent1 -> Tools: exa_semantic_search / search_official_regulators /\nsearch_corporate_filings / search_media_and_social
+        Agent1 -> Tools: exa_semantic_search / search_official_regulators /\nsearch_corporate_filings / search_airshow_newsrooms /\nsearch_media_and_social
         Tools --> Agent1: Registered DOC_xxx briefs + remaining budget
-        Agent1 -> Tools: inspect_collection_coverage(focus_terms)
-        Tools --> Agent1: Primary/secondary counts & missing facets
+        opt Coverage gap check
+            Agent1 -> Tools: inspect_collection_coverage(focus_terms)
+            Tools --> Agent1: Primary/secondary counts & missing facets
+        end
     end
     Agent1 --> API: Collected DOC_xxx + AcquisitionTrace
 else collection_mode == "deterministic" (Baseline)
@@ -41,27 +46,36 @@ API -> Filter: Two-stage relevance & identity screening (FR03)
 Filter -> DB: Log accepted & excluded documents (document_filter_log)
 Filter --> API: Bounded Analyst document batches
 
-API -> Analyst: Extract candidate events & F1-F5 factor ratings
-Analyst --> API: Candidate ThreatAssessments (facts vs. hypotheses)
+alt 0 documents passed FR03 (Early Exit)
+    API -> Guard: Build deterministic INSUFFICIENT_DATA report & KIQ gaps
+    Guard --> API: Deterministic fallback summary (Agents 2-4 skipped)
+else >= 1 document passed FR03
+    API -> Analyst: Extract candidate events & F1-F5 factor ratings
+    Analyst --> API: Candidate ThreatAssessments (facts vs. hypotheses)
 
-API -> QA: Audit grounding, variant scope & F1-F5 justifications
-QA --> API: QA audit findings
+    API -> QA: Audit grounding, variant scope & F1-F5 justifications
+    QA --> API: QA audit findings
 
-opt Corrective feedback enabled (EWS_ENABLE_AGENT_FEEDBACK=1)
-    API -> Analyst: Bounded single-iteration correction
-    Analyst --> API: Revised ThreatAssessments
-    API -> QA: Recheck revised assessments
-    QA --> API: Updated QA findings
+    opt Corrective feedback enabled (EWS_ENABLE_AGENT_FEEDBACK=1)
+        API -> Analyst: Bounded single-iteration correction
+        Analyst --> API: Revised ThreatAssessments
+        API -> QA: Recheck revised assessments
+        QA --> API: Updated QA findings
+    end
+
+    API -> Guard: 5D grounding harness, chronology, KIQ evaluation\n& deterministic scoring S = round(sum(w_i * F_i) * 2)
+    Guard --> API: Validated status, confidence, KIQ answers, 1-10 scores & confirmed-critical gate
+
+    API -> Editor: Synthesize executive summary, analytical assessment & action plan
+    Editor --> API: Plain-text editorial blocks (parsed to EditorialOutput)
+
+    API -> Guard: Deterministic citation provenance audit (editor_claim_audit)
+    alt Audit PASS
+        Guard --> API: Validated editorial narrative (VALIDATED_EDITOR)
+    else Citation error or missing text
+        Guard --> API: Template narrative (DETERMINISTIC_FALLBACK)
+    end
 end
-
-API -> Editor: Synthesize executive summary, analysis & action plan
-Editor --> API: Plain-text editorial blocks (parsed to EditorialOutput)
-
-API -> Scoring: Compute S = round(sum(w_i * F_i) * 2)
-Scoring --> API: Reproducible 1-10 scores + scoring_audit (F1-F5)
-
-API -> Harness: 5-dimensional grounding, chronology & KIQ evaluation
-Harness --> API: Validated status, confidence & confirmed-critical gate
 
 API -> DB: Reconcile event IDs, store report, agent_decision_trace & run metrics
 API --> UI: Pending report (WAITING_FOR_HITL)
