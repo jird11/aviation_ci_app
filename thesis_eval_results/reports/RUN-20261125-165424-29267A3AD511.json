@@ -1,0 +1,3767 @@
+{
+  "report_id": "RPT-20261125-717BDD",
+  "run_id": "RUN-20261125-165424-29267A3AD511",
+  "version": 1,
+  "outcome_status": "COMPLETED",
+  "executive_summary": "This assessment reviews the operational status of the Pratt & Whitney PW1500G engine program for the Airbus A220, based on secondary media reports and internal documentation dated through July 2026. Evidence from DOC_001 and DOC_005 indicates that while grounding rates are reportedly being addressed, major operators including Swiss, AirBaltic, and Delta Air Lines continue to face \"engine and spare parts shortages\" that present a \"significant operational challenge\" [DOC_001]. To mitigate these durability issues, Pratt & Whitney is reportedly deploying \"advanced manufacturing techniques, coatings and enhanced drilling processes\" [DOC_001]. Analytical interpretation suggests that while technical remediation is underway, the supply chain for spare parts remains the primary bottleneck for fleet availability. The reliability of these findings is moderate, as they rely on secondary media reporting of company statements rather than direct regulatory filings. The most critical open questions involve the lack of independent confirmation from the FAA or EASA regarding the effectiveness of these new manufacturing techniques and the specific hardware failure modes—such as powder metal integrity or specific blade coating degradation—which remain detailed only in general terms [DOC_001, DOC_005]. Management should focus on verifying the timeline for these technical \"enhancements\" to reach the global MRO network to determine when AOG (Aircraft on Ground) rates will stabilize.",
+  "detailed_analytical_assessment": "The durability of the PW1500G engine remains a focal point of tactical competitive intelligence for the Airbus A220 program. Current evidence confirms a dual-track scenario: a persistent historical backlog of engine availability issues and a concurrent technical resolution phase. According to DOC_001, the impact is global, affecting launch customers like Swiss and major North American operators like Delta. The \"pressure on fleet\" mentioned in DOC_001 stems from a combination of durability-driven removals and a constrained MRO (Maintenance, Repair, and Overhaul) pipeline. \n\nA significant development noted in July 2026 is the transition toward \"enhanced drilling processes\" and new \"coatings\" intended to extend time-on-wing [DOC_001]. However, there is a distinct gap between the implementation of these manufacturing changes and the recovery of the spare parts supply chain. While DOC_004 and DOC_006 suggest a \"resolution\" is in progress, these documents lack the \"actual regulator (FAA/EASA) confirmation\" necessary to validate that the technical fixes meet all airworthiness directives or that the \"powder metal\" concerns previously associated with the GTF family have been fully closed for the PW1500G variant. \n\nThe analytical takeaway is that the risk has shifted from a \"technical unknown\" to a \"supply chain execution\" challenge. The \"Just-in-Time (JIT) Disruption\" noted in the intelligence indicators suggests that even if the new coatings are successful, the lag in MRO throughput will likely keep AOG rates elevated through the end of 2026. Furthermore, the \"hypothetical dependencies\" on the Embraer E195-E2 and A320neo programs [DOC_008] imply that any failure to stabilize the PW1500G could signal broader risks for the Geared Turbofan (GTF) architecture across other platforms. Management is advised to seek direct verification of the \"enhanced drilling\" success rates and monitor for official EASA/FAA safety bulletins that would formally endorse the durability fixes. Until such confirmation is available, the reported \"resolution\" should be treated as a preliminary manufacturer claim rather than a verified operational milestone.",
+  "qa_audit_summary": "Editor text converted into typed recommendations; independent evidence QA remains authoritative. | Five-Dimensional Grounding (Technical, Claim, Causal, Independent Verification, Freshness) completed. | [Harness Guard]: 0/0 direct signals SUPPORTED, 0 PARTIALLY_SUPPORTED, 0 classified as ONGOING_ISSUE, 0 moved to RELATED_PROGRAM_WATCHLIST, 1 flagged for manual HITL verification. | Evidence disposition (not a filtering verdict): DOC_001=REFERENCED_BY_EVENT_NOT_KIQ; DOC_004=REFERENCED_BY_EVENT_NOT_KIQ; DOC_005=REFERENCED_BY_EVENT_NOT_KIQ; DOC_006=REFERENCED_BY_EVENT_NOT_KIQ; DOC_008=NOT_REFERENCED_BY_ANALYST_RELEVANCE_UNDETERMINED | KIT_COMPLETION: NOT_ANSWERED; 3 of 3 information requirements remain unverified. | [Telemetry]: Run: RUN-20261125-165424-29267A3AD511 | CollectionMode: agentic_exa | Runtime: 142.71s (Plan: 9.96s, Collect: 61.54s, Filter: 11.82s, Analyze: 25.82s, QA: 22.56s, Edit: 10.97s, Score: 0.0s) | Batches: 2/2 OK (0 failed) | Docs: 5/16 analyzed (0 failed) | LLM Calls: 9 (Retries: 0) | Model: openrouter/google/gemini-3-flash-preview | Estimated LLM Cost: $0.06419 (ESTIMATED)",
+  "hitl_status": "WAITING_FOR_HITL",
+  "threats": [
+    {
+      "event_id": "EVT_PW1500G_AOG_REDUCTION_2026",
+      "kiq_ids": [],
+      "indicator_name": "Aviation intelligence warning indicator",
+      "company_affected": "Pratt & Whitney",
+      "ci_dimension": "Tactical CI",
+      "risk_type": "SUPPLY_CHAIN",
+      "secondary_risk_types": [
+        "TECHNICAL_QUALITY",
+        "FINANCIAL"
+      ],
+      "scm_tier": "Tier 1 (Systems/Engines)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Unknown / Not specified in source",
+      "program_relevance": "PROGRAM_UNVERIFIED",
+      "hypothetical_dependencies": [
+        "A320neo",
+        "A321neo",
+        "A321XLR",
+        "A220",
+        "E190-E2",
+        "E195-E2",
+        "ATR 42",
+        "ATR 72",
+        "Q400",
+        "F-35"
+      ],
+      "supplier_registry_basis": "Company: Pratt & Whitney (RTX) -> Role: Tier 1 (Systems/Engines) (Registry Source: RTX SEC Form 10-K / Supplier Registry) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Unknown / Not specified in source",
+      "propagation_effect": "Just-in-Time (JIT) Disruption",
+      "impact_path": [
+        "[Evidenced Entity] Pratt & Whitney (RTX) -> Role: Tier 1 (Systems/Engines)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Unknown / Not specified in source",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A320neo, A321neo, A321XLR",
+        "[Hypothetical Propagation Mechanism] Just-in-Time (JIT) Disruption"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "The Airbus A220 fleet continues to experience operational disruptions due to PW1500G engine durability issues, although grounding rates have dropped to 2-3% of the fleet. Pratt & Whitney and Airbus expect a full resolution of engine-related Aircraft on Ground (AOG) events by late 2026.",
+      "decision_question": "Should fleet planning assumptions be updated to reflect the projected end-of-2026 resolution for A220 engine availability constraints?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "The A220 AOG crisis is entering a recovery phase with grounded aircraft reducing from 17% to 2-3% of the global fleet as of mid-2026.",
+      "hypothetical_scenario": "Hypothetical Just-in-Time (JIT) Disruption scenario affecting Pratt & Whitney (RTX) (Tier 1 (Systems/Engines)) on source-evidenced program Unknown / Not specified in source. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A320neo, A321neo, A321XLR)",
+      "fact_check_quote": "According to Airbus, only 2% to 3% of parked A220s remain out of service because of engine-related issues",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_005",
+          "source_url": "https://www.airdatanews.com/airbus-expects-a220-engine-crisis-to-end-by-late-2026/",
+          "source_type": "UNDETERMINED",
+          "passage_text": "According to Airbus, only 2% to 3% of parked A220s remain out of service because of engine-related issues, compared with about 17% of the global fleet late last year.",
+          "passage_hash": "796acda7da0a55f8fd6bec038cb77abcd4455c80a6050f603e3c265f9935ce23",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "A220 AOG events are trending downward with expectations to clear cases by year-end 2026.",
+          "document_id": "DOC_001",
+          "quote": "The company also says aircraft on ground (AOG) events linked to the PW1500G are trending downward and expects those cases to be cleared by the end of this year.",
+          "source_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Pratt & Whitney",
+          "program": "Airbus A220",
+          "component": "PW1500G",
+          "issue": "engine availability and maintenance constraints",
+          "regulatory_authority": "Unknown",
+          "publication_date": "2026-07-31",
+          "event_date": "2026-07-31",
+          "cause": "PW1500G durability problems",
+          "effect": "AOG reduction",
+          "status_before": "17% grounded",
+          "status_after": "2-3% grounded",
+          "resolution_outcome": "Ongoing reduction in AOGs",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "Airbus expects the A220 engine crisis to largely disappear by the end of 2026.",
+          "document_id": "DOC_005",
+          "quote": "Airbus and Pratt & Whitney say the engine problems that have disrupted the Airbus A220 fleet for several years should largely disappear by the end of 2026",
+          "source_url": "https://www.airdatanews.com/airbus-expects-a220-engine-crisis-to-end-by-late-2026/",
+          "claim_type": "FORECAST",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Airbus",
+          "program": "A220",
+          "component": "PW1500G",
+          "issue": "AOG groundings",
+          "regulatory_authority": "Unknown",
+          "publication_date": "2026-07-16",
+          "event_date": "2026-07-16",
+          "cause": "PW1500G durability issues",
+          "effect": "End of engine crisis",
+          "status_before": "disrupted fleet for several years",
+          "status_after": "largely disappeared",
+          "resolution_outcome": "Projected resolution by late 2026",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_005",
+        "DOC_001"
+      ],
+      "source_urls": [
+        "https://www.airdatanews.com/airbus-expects-a220-engine-crisis-to-end-by-late-2026/",
+        "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges"
+      ],
+      "verification_status": "SUPPORTED SOURCE; DIRECT KIT RELEVANCE UNVERIFIED (HISTORICAL_CONTEXT) [Source published 132 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source) | All constraining technical facets of the KIT (aircraft program and/or specific propulsion/component scope) could not be simultaneously verified from event evidence. Direct KIT relevance remains unconfirmed. | KIT_FACT_GAP: PROGRAM=UNKNOWN]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "EVIDENCED_IN_VERIFIED_SOURCE",
+      "independent_verification_status": "CORROBORATED_INDEPENDENTLY",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "EVIDENCED_IN_VERIFIED_SOURCE",
+        "4. Independent Verification": "CORROBORATED_INDEPENDENTLY (2 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "PROGRAM_UNVERIFIED",
+        "Source-Evidenced Program": "Unknown / Not specified in source",
+        "Hypothetical Shared Dependencies": "A320neo, A321neo, A321XLR, A220, E190-E2, E195-E2, ATR 42, ATR 72, Q400, F-35",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=UNKNOWN, VARIANT=POSITIVE, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-07-16",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "8/10 (potential impact, not verification)",
+        "Confidence": "HIGH",
+        "Verification": "SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "GROUNDING",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-07-16",
+      "first_seen_at": "2026-11-25T16:56:47Z",
+      "last_seen_at": "2026-11-25T16:56:47Z",
+      "updated_at": "2026-11-25T16:56:47Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://www.airdatanews.com/airbus-expects-a220-engine-crisis-to-end-by-late-2026/",
+      "missing_data": "Specific hardware failure modes (e.g. powder metal or blade coatings) for PW1500G not detailed in these documents.",
+      "intelligence_gap": {
+        "gap_id": "GAP_PW1500G_HARDWARE_DETAILS",
+        "what_is_missing": "Specific list of hardware serial numbers or part modifications (e.g., Block D) driving the current MRO throughput.",
+        "why_important": "Required to verify if the durability fix is a permanent hardware retrofit.",
+        "affected_kiq_id": "KIQ_1_1",
+        "recommended_source": "P&W / Airbus Technical Bulletins",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Protracted MRO capacity constraints at Tier 1 (P&W) continue to drive AOG events across the A220 fleet, creating a 5-factor risk: (F1) Moderate operational impact as 2-3% of fleet remains grounded; (F2) P&W is sole-source for PW1500G; (F3) No alternate engine option for A220; (F4) Impacts global operators including Swiss, airBaltic, Delta; (F5) Immediate but improving.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 3,
+          "rationale": "Groundings reduced significantly from 17% to 2-3%, but still impact fleet planning."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Pratt & Whitney is the sole-source engine provider for A220."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "PW1500G is the exclusive powerplant for the A220 program."
+        },
+        "propagation_scope": {
+          "score": 4,
+          "rationale": "Impacts global A220 operators including Swiss, Delta, and AirBaltic."
+        },
+        "temporal_urgency": {
+          "score": 3,
+          "rationale": "Issue is ongoing but trending toward resolution by late 2026."
+        }
+      },
+      "threat_score": 8,
+      "score_rationale": "Deterministic 5-factor I&W score 8/10 (S = round(3.85 * 2) = 8/10). Primary drivers: F2 Supplier Criticality (5/5, w=0.20), F1 Impact Severity (3/5, w=0.30). Potential severity only; evidence validation is evaluated separately.",
+      "confidence_level": "HIGH",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    },
+    {
+      "event_id": "PW1500G-A220-RESOLUTION-2026-07",
+      "kiq_ids": [],
+      "indicator_name": "A220 Engine Durability Recovery Status",
+      "company_affected": "Pratt & Whitney",
+      "ci_dimension": "Technological CI",
+      "risk_type": "TECHNICAL_QUALITY",
+      "secondary_risk_types": [
+        "SUPPLY_CHAIN"
+      ],
+      "scm_tier": "Tier 1 (Systems/Engines)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "A220",
+      "program_relevance": "PROGRAM_UNVERIFIED",
+      "hypothetical_dependencies": [
+        "A320neo",
+        "A321neo",
+        "A321XLR",
+        "E190-E2",
+        "E195-E2",
+        "ATR 42",
+        "ATR 72",
+        "Q400",
+        "F-35"
+      ],
+      "supplier_registry_basis": "Company: Pratt & Whitney (RTX) -> Role: Tier 1 (Systems/Engines) (Registry Source: RTX SEC Form 10-K / Supplier Registry) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: A220",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] Pratt & Whitney (RTX) -> Role: Tier 1 (Systems/Engines)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] A220",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A320neo, A321neo, A321XLR",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Unverified source claim (DOC_004): A220 engine crisis nears end, say Airbus, Pratt -\n ch-aviation. The reported event and its operational impacts have not been independently confirmed.",
+      "decision_question": "Has the technical fix for PW1500G durability been formally validated by regulators to ensure the 'zero grounding' projection for late 2026 is achievable?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "The available evidence does not establish the event's asserted causes or consequences. Independent verification is required.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting Pratt & Whitney (RTX) (Tier 1 (Systems/Engines)) on source-evidenced program A220. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A320neo, A321neo, A321XLR)",
+      "fact_check_quote": "Airbus Canada (ABK, Montréal Mirabel) and Pratt & Whitney say technical issues that have plagued the A220 programme have largely been resolved.",
+      "evidence_passages": [],
+      "evidence_claims": [
+        {
+          "claim_text": "Only 2% to 3% of grounded A220s are now out of service because of GTF engine issues.",
+          "document_id": "DOC_004",
+          "quote": "Leeham said it was told that only 2% to 3% of grounded A220s are now out of service because of GTF engine issues.",
+          "source_url": "https://www.ch-aviation.com/news/169536-a220-engine-crisis-nears-end-say-airbus-pratt",
+          "claim_type": "CURRENT_STATUS",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Pratt & Whitney",
+          "program": "Airbus A220-300",
+          "component": "GTF Engine",
+          "issue": "Operational grounding due to engine durability",
+          "regulatory_authority": "Unknown",
+          "publication_date": "2026-07-15",
+          "event_date": "2026-07-15",
+          "cause": "Geared Turbofan (GTF) engine issues",
+          "effect": "Grounding of A220 fleet",
+          "status_before": "17% Grounded",
+          "status_after": "3% Grounded",
+          "resolution_outcome": "Status improved from 17% to 3%",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "Airbus expects no A220 aircraft to remain grounded due to GTF problems by end-2026.",
+          "document_id": "DOC_006",
+          "quote": "affected aircraft should be in the air before year-end.",
+          "source_url": "https://simpleflying.com/all-a220s-grounded-pratt-whitney-issues-fly-again-years-end/",
+          "claim_type": "FORECAST",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Airbus",
+          "program": "A220",
+          "component": "GTF Engine",
+          "issue": "Resolution of technical issues",
+          "regulatory_authority": "Unknown",
+          "publication_date": "2026-07-16",
+          "event_date": "2026-07-16",
+          "cause": "Technical issues largely resolved",
+          "effect": "Fleet return to service",
+          "status_before": "3% Grounded",
+          "status_after": "0% Grounded (Projected)",
+          "resolution_outcome": "Projected full fleet restoration",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_004",
+        "DOC_006"
+      ],
+      "source_urls": [
+        "https://www.ch-aviation.com/news/169536-a220-engine-crisis-nears-end-say-airbus-pratt",
+        "https://simpleflying.com/all-a220s-grounded-pratt-whitney-issues-fly-again-years-end/"
+      ],
+      "verification_status": "UNVERIFIED (HISTORICAL_CONTEXT | UNSUPPORTED) [Engine mismatch: Claim references ['PW1500G_GTF'] vs source ['GTF'] | Source published 133 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source) | KIT_FACT_GAP: PROGRAM=UNKNOWN | Unverified cause removed from confirmed facts; source wording retained only as a quotation | LLM-proposed confirmed_facts were withheld because the claim did not pass Harness validation.]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "UNSUPPORTED",
+      "causal_support_status": "UNSUPPORTED",
+      "independent_verification_status": "CORROBORATED_INDEPENDENTLY",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "UNSUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "UNSUPPORTED",
+        "3. Causal Support": "UNSUPPORTED",
+        "4. Independent Verification": "CORROBORATED_INDEPENDENTLY (2 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "PROGRAM_UNVERIFIED",
+        "Source-Evidenced Program": "A220",
+        "Hypothetical Shared Dependencies": "A320neo, A321neo, A321XLR, E190-E2, E195-E2, ATR 42, ATR 72, Q400, F-35",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=UNKNOWN, VARIANT=POSITIVE, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-07-15",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "7/10 (potential impact, not verification)",
+        "Confidence": "LOW",
+        "Verification": "UNSUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "CURRENT_STATUS_UNKNOWN",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "TECHNICAL_QUALITY",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-07-15",
+      "first_seen_at": "2026-11-25T16:56:47Z",
+      "last_seen_at": "2026-11-25T16:56:47Z",
+      "updated_at": "2026-11-25T16:56:47Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://www.ch-aviation.com/news/169536-a220-engine-crisis-nears-end-say-airbus-pratt",
+      "missing_data": "Actual regulator (FAA/EASA) confirmation of the resolution is not present in these documents.",
+      "intelligence_gap": {
+        "gap_id": "GAP_REG_AD_PW1500G",
+        "what_is_missing": "Specific hardware part numbers or Service Bulletins that enabled the 'largely resolved' status.",
+        "why_important": "Required to verify technical robustness of the fix.",
+        "affected_kiq_id": "KIQ_2_1",
+        "recommended_source": "FAA / EASA Official AD Registry",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Resolution of PW1500G durability issues could normalize Airbus A220 deliveries, potentially shifting competitive pressure back to Boeing 737 MAX. However, any failure to meet the 'zero groundings' target by end-2026 would signal persistent Tier 1 reliability gaps.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 2,
+          "rationale": "Fleet grounding decreased from 17% to 3%, significantly reducing operational disruption."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Pratt & Whitney is the sole engine provider for the A220 program."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "PW1500G is the exclusive powerplant for the A220."
+        },
+        "propagation_scope": {
+          "score": 4,
+          "rationale": "Issues affected global A220 and A320neo fleets; recovery is fleet-wide."
+        },
+        "temporal_urgency": {
+          "score": 2,
+          "rationale": "Issues are reportedly 'largely resolved' with a late 2026 target for zero groundings."
+        }
+      },
+      "threat_score": 7,
+      "score_rationale": "Potential severity: ELEVATED (7/10). Evidence status: UNSUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+      "confidence_level": "LOW",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    }
+  ],
+  "threat_reports": [
+    {
+      "threat_id": "EVT_PW1500G_AOG_REDUCTION_2026",
+      "event_title": "The Airbus A220 fleet continues to experience operational disruptions due to PW1500G engine durability issues, although grounding rates have dropped to 2-3% of the fleet. Pratt & Whitney and Airbus expect a full resolution of engine-related Aircraft on Ground (AOG) events by late 2026.",
+      "category": "SUPPLY_CHAIN",
+      "affected_entity": "Pratt & Whitney",
+      "threat_score": 8,
+      "source_url": "https://www.airdatanews.com/airbus-expects-a220-engine-crisis-to-end-by-late-2026/",
+      "timestamp": "2026-07-16",
+      "mitigation_advice": "Verify the specific reported event and its applicability to the monitored KIT for Pratt & Whitney (Unknown / Not specified in source), event EVT_PW1500G_AOG_REDUCTION_2026.",
+      "confidence_level": "HIGH",
+      "validation_status": "SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "PW1500G-A220-RESOLUTION-2026-07",
+      "event_title": "Unverified source claim (DOC_004): A220 engine crisis nears end, say Airbus, Pratt -\n ch-aviation. The reported event and its operational impacts have not been independently confirmed.",
+      "category": "TECHNICAL_QUALITY",
+      "affected_entity": "Pratt & Whitney",
+      "threat_score": 7,
+      "source_url": "https://www.ch-aviation.com/news/169536-a220-engine-crisis-nears-end-say-airbus-pratt",
+      "timestamp": "2026-07-15",
+      "mitigation_advice": "Seek independent OEM, operator or regulatory confirmation of the reported claim for Pratt & Whitney (A220), event PW1500G-A220-RESOLUTION-2026-07.",
+      "confidence_level": "LOW",
+      "validation_status": "UNSUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    }
+  ],
+  "related_program_watchlist": [],
+  "action_plan": [
+    {
+      "action_id": "ACT_7A5EE879",
+      "related_event_ids": [
+        "EVT_PW1500G_AOG_REDUCTION_2026"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Pratt & Whitney"
+      ],
+      "action": "Verify the specific reported event and its applicability to the monitored KIT for Pratt & Whitney (Unknown / Not specified in source), event EVT_PW1500G_AOG_REDUCTION_2026.",
+      "rationale": "The available evidence does not establish direct applicability to the monitored KIT.",
+      "pros_and_cons": "PRO: Avoids off-topic operations; CON: Requires evidence review",
+      "triple_a_impact": "Adaptability",
+      "uncertainty_assumptions": "Direct operational, regulatory or supply-chain impact remains unconfirmed.",
+      "owner": "Supply Chain Risk Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Document verified KIT relevance using traceable source evidence.",
+      "priority": "MEDIUM",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-25T16:56:46Z"
+    },
+    {
+      "action_id": "ACT_91C9BA65",
+      "related_event_ids": [
+        "PW1500G-A220-RESOLUTION-2026-07"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Pratt & Whitney"
+      ],
+      "action": "Seek independent OEM, operator or regulatory confirmation of the reported claim for Pratt & Whitney (A220), event PW1500G-A220-RESOLUTION-2026-07.",
+      "rationale": "The available evidence does not establish direct applicability to the monitored KIT.",
+      "pros_and_cons": "PRO: Reduces false-positive escalation; CON: Additional verification time",
+      "triple_a_impact": "Alignment",
+      "uncertainty_assumptions": "Direct operational, regulatory or supply-chain impact remains unconfirmed.",
+      "owner": "Supply Chain Risk Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Document verified KIT relevance using traceable source evidence.",
+      "priority": "MEDIUM",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-25T16:56:46Z"
+    }
+  ],
+  "kiq_answers": [
+    {
+      "kiq_id": "RKIQ_001",
+      "question": "What is the current operational status and grounding count of the Airbus A220 fleet specifically attributed to PW1500G engine durability issues?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "PARTIAL",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "Reviewed sources address part of this question, while specific verification items remain open. A secondary media report on 2026-07-31 notes that “Advanced manufacturing techniques, coatings and enhanced drilling processes are among the measures being deployed to improve durability.” [DOC_001]. A secondary media report on 2026-07-31 notes that “A220 operators, including Swiss, AirBaltic and Delta Air Lines, have all grappled with Pratt & Whitney PW1500G engine availability challenges in recent years, resulting in aircraft groundings and pressure on fleet…” [DOC_001]. A secondary media report on 2026-07-31 notes that “Swiss, the launch customer for the A220, says engine and spare parts shortages remain a significant operational challenge.” [DOC_001]. Evidence establishes identity of the affected part or engine, evidence of the historical issue or delay, direct applicability to the named model or program, whereas documented technical defect, durability or quality finding, latest dated, issue-specific status still require direct confirmation. Based on 3 relevant document(s) (DOC_001, DOC_005, DOC_008) out of 5 evaluated.",
+      "related_event_ids": [],
+      "evidence_ids": [
+        "DOC_001",
+        "DOC_005",
+        "DOC_008"
+      ],
+      "retrieved_evidence_count": 3,
+      "validated_evidence_count": 3,
+      "retrieved_document_ids": [
+        "DOC_001",
+        "DOC_005",
+        "DOC_008"
+      ],
+      "unused_document_reasons": {
+        "DOC_004": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_006": "SCOPE_MISMATCH"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_001_REQ_01",
+          "key": "AFFECTED_COMPONENT",
+          "required_fact": "Identity of the affected part or engine",
+          "evidence_type": "COMPONENT_IDENTITY",
+          "required_entity_model": "PW1500G_GTF, A220, Airbus, Pratt & Whitney",
+          "required_component": "ENGINE",
+          "verification_status": "VERIFIED",
+          "doc_ids": [
+            "DOC_001",
+            "DOC_008"
+          ],
+          "verified_doc_ids": [
+            "DOC_001",
+            "DOC_008"
+          ],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_001",
+              "claim": "A220 operators, including Swiss, AirBaltic and Delta Air Lines, have all grappled with Pratt & Whitney PW1500G engine availability challenges in recent years, resulting in aircraft groundings and pressure on fleet planning.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "A220 operators, including Swiss, AirBaltic and Delta Air Lines, have all grappled with Pratt & Whitney PW1500G engine availability challenges in recent years, resulting in aircraft groundings and pressure on fleet planning.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PRELIMINARY",
+              "publication_date": "2026-07-31",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+              "source_hash": "",
+              "passage_hash": "eeb9ab9b1b8d5d83112a7a1d6bd13a91ce023e5d10d0b214ddb4ce2157ab5d6b",
+              "verification_reason": "SOURCE_VALIDATION_PENDING",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_001",
+              "claim": "Pratt maintains that the PW1500G entering service today bears little resemblance to earlier engine configurations.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "Pratt maintains that the PW1500G entering service today bears little resemblance to earlier engine configurations.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PRELIMINARY",
+              "publication_date": "2026-07-31",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+              "source_hash": "",
+              "passage_hash": "eeb9ab9b1b8d5d83112a7a1d6bd13a91ce023e5d10d0b214ddb4ce2157ab5d6b",
+              "verification_reason": "SOURCE_VALIDATION_PENDING",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_008",
+              "claim": "Scott Kreamer, P&W’s vice president of the PW1500G engine program that powers the A220 and E2, told reporters during an Airbus briefing last month that all affected A220s will be in service by the end of this year.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "Scott Kreamer, P&W’s vice president of the PW1500G engine program that powers the A220 and E2, told reporters during an Airbus briefing last month that all affected A220s will be in service by the end of this year.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PRELIMINARY",
+              "publication_date": "2026-07-15",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://leehamnews.com/2026/07/15/pratt-whitney-expands-mros-in-push-to-wrap-up-gtf-problems/",
+              "source_hash": "",
+              "passage_hash": "f90e1e4afb9e14e8110ee143c138e41aae24c72684188267b481ae7cb4192edf",
+              "verification_reason": "SOURCE_VALIDATION_PENDING",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": []
+        },
+        {
+          "id": "RKIQ_001_REQ_02",
+          "key": "TECHNICAL_DEFECT",
+          "required_fact": "Documented technical defect, durability or quality finding",
+          "evidence_type": "TECHNICAL_FINDING",
+          "required_entity_model": "PW1500G_GTF, A220, Airbus, Pratt & Whitney",
+          "required_component": "ENGINE",
+          "verification_status": "PRELIMINARY",
+          "doc_ids": [
+            "DOC_001"
+          ],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [
+            "DOC_001"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_001",
+              "claim": "Advanced manufacturing techniques, coatings and enhanced drilling processes are among the measures being deployed to improve durability.",
+              "claim_id": "DOC_001:C02",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "Advanced manufacturing techniques, coatings and enhanced drilling processes are among the measures being deployed to improve durability.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+              "extraction_method": "FR03_SEMANTIC_QUOTATION",
+              "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+              "publication_date": "2026-07-31",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+              "source_hash": "",
+              "passage_hash": "cf84d3676146cca3109fcf621c2fe9d6b0cbff209c0bf47f23e211cc367f1cff",
+              "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+              "claim_type": "DIRECT_ISSUE",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": [
+            "Independent confirmation of the preliminary claim"
+          ]
+        },
+        {
+          "id": "RKIQ_001_REQ_03",
+          "key": "HISTORICAL_DELAY",
+          "required_fact": "Evidence of the historical issue or delay",
+          "evidence_type": "HISTORICAL_ISSUE",
+          "required_entity_model": "PW1500G_GTF, A220, Airbus, Pratt & Whitney",
+          "required_component": "ENGINE",
+          "verification_status": "VERIFIED",
+          "doc_ids": [
+            "DOC_001",
+            "DOC_005"
+          ],
+          "verified_doc_ids": [
+            "DOC_001",
+            "DOC_005"
+          ],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_001",
+              "claim": "Swiss, the launch customer for the A220, says engine and spare parts shortages remain a significant operational challenge.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "Swiss, the launch customer for the A220, says engine and spare parts shortages remain a significant operational challenge.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PRELIMINARY",
+              "publication_date": "2026-07-31",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+              "source_hash": "",
+              "passage_hash": "eeb9ab9b1b8d5d83112a7a1d6bd13a91ce023e5d10d0b214ddb4ce2157ab5d6b",
+              "verification_reason": "SOURCE_VALIDATION_PENDING",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_005",
+              "claim": "According to Airbus, only 2% to 3% of parked A220s remain out of service because of engine-related issues, compared with about 17% of the global fleet late last year.",
+              "claim_id": "DOC_005:C04",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "According to Airbus, only 2% to 3% of parked A220s remain out of service because of engine-related issues, compared with about 17% of the global fleet late last year.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "https://www.airdatanews.com/airbus-expects-a220-engine-crisis-to-end-by-late-2026/",
+              "extraction_method": "FR03_SEMANTIC_QUOTATION",
+              "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+              "publication_date": "2026-07-16",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://www.airdatanews.com/airbus-expects-a220-engine-crisis-to-end-by-late-2026/",
+              "source_hash": "",
+              "passage_hash": "796acda7da0a55f8fd6bec038cb77abcd4455c80a6050f603e3c265f9935ce23",
+              "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+              "claim_type": "DIRECT_ISSUE",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_005",
+              "claim": "The engine shortages have weighed on the A220 program even as the aircraft celebrated ten years in commercial service.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "The engine shortages have weighed on the A220 program even as the aircraft celebrated ten years in commercial service.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PRELIMINARY",
+              "publication_date": "2026-07-16",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://www.airdatanews.com/airbus-expects-a220-engine-crisis-to-end-by-late-2026/",
+              "source_hash": "",
+              "passage_hash": "a1d830d2f7de868c7696b542150aebb0b9f1d97691aac9a56544cb601ca75abe",
+              "verification_reason": "SOURCE_VALIDATION_PENDING",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": []
+        },
+        {
+          "id": "RKIQ_001_REQ_04",
+          "key": "CURRENT_STATUS",
+          "required_fact": "Latest dated, issue-specific status",
+          "evidence_type": "DATED_STATUS",
+          "required_entity_model": "PW1500G_GTF, A220, Airbus, Pratt & Whitney",
+          "required_component": "ENGINE",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Latest dated, issue-specific status"
+          ]
+        },
+        {
+          "id": "RKIQ_001_REQ_05",
+          "key": "PROGRAM_APPLICABILITY",
+          "required_fact": "Direct applicability to the named model or program",
+          "evidence_type": "MODEL_APPLICABILITY",
+          "required_entity_model": "PW1500G_GTF, A220, Airbus, Pratt & Whitney",
+          "required_component": "ENGINE",
+          "verification_status": "VERIFIED",
+          "doc_ids": [
+            "DOC_001",
+            "DOC_005",
+            "DOC_008"
+          ],
+          "verified_doc_ids": [
+            "DOC_001",
+            "DOC_005",
+            "DOC_008"
+          ],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_001",
+              "claim": "A220 operators, including Swiss, AirBaltic and Delta Air Lines, have all grappled with Pratt & Whitney PW1500G engine availability challenges in recent years, resulting in aircraft groundings and pressure on fleet planning.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "A220 operators, including Swiss, AirBaltic and Delta Air Lines, have all grappled with Pratt & Whitney PW1500G engine availability challenges in recent years, resulting in aircraft groundings and pressure on fleet planning.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PRELIMINARY",
+              "publication_date": "2026-07-31",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+              "source_hash": "",
+              "passage_hash": "eeb9ab9b1b8d5d83112a7a1d6bd13a91ce023e5d10d0b214ddb4ce2157ab5d6b",
+              "verification_reason": "SOURCE_VALIDATION_PENDING",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_001",
+              "claim": "Swiss, the launch customer for the A220, says engine and spare parts shortages remain a significant operational challenge.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "Swiss, the launch customer for the A220, says engine and spare parts shortages remain a significant operational challenge.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PRELIMINARY",
+              "publication_date": "2026-07-31",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+              "source_hash": "",
+              "passage_hash": "eeb9ab9b1b8d5d83112a7a1d6bd13a91ce023e5d10d0b214ddb4ce2157ab5d6b",
+              "verification_reason": "SOURCE_VALIDATION_PENDING",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_001",
+              "claim": "Pratt maintains that the PW1500G entering service today bears little resemblance to earlier engine configurations.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "Pratt maintains that the PW1500G entering service today bears little resemblance to earlier engine configurations.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PRELIMINARY",
+              "publication_date": "2026-07-31",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+              "source_hash": "",
+              "passage_hash": "eeb9ab9b1b8d5d83112a7a1d6bd13a91ce023e5d10d0b214ddb4ce2157ab5d6b",
+              "verification_reason": "SOURCE_VALIDATION_PENDING",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": []
+        }
+      ],
+      "claim_requirement_links": [
+        {
+          "claim_id": "",
+          "doc_id": "DOC_001",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "AFFECTED_COMPONENT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_001",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "AFFECTED_COMPONENT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_008",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "AFFECTED_COMPONENT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "DOC_001:C02",
+          "doc_id": "DOC_001",
+          "requirement_id": "RKIQ_001_REQ_02",
+          "requirement_key": "TECHNICAL_DEFECT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_001",
+          "requirement_id": "RKIQ_001_REQ_03",
+          "requirement_key": "HISTORICAL_DELAY",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "DOC_005:C04",
+          "doc_id": "DOC_005",
+          "requirement_id": "RKIQ_001_REQ_03",
+          "requirement_key": "HISTORICAL_DELAY",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_005",
+          "requirement_id": "RKIQ_001_REQ_03",
+          "requirement_key": "HISTORICAL_DELAY",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_001",
+          "requirement_id": "RKIQ_001_REQ_05",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_001",
+          "requirement_id": "RKIQ_001_REQ_05",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_001",
+          "requirement_id": "RKIQ_001_REQ_05",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        }
+      ],
+      "claim_handoff_rejections": {
+        "DOC_004": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_006": "SCOPE_MISMATCH",
+        "DOC_008": "SCOPE_MISMATCH"
+      },
+      "source_execution_status": "RESULTS_RETRIEVED",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "AFFECTED_COMPONENT",
+          "doc_id": "DOC_001",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+          "original_filing_url": "",
+          "quote": "Pratt maintains that the PW1500G entering service today bears little resemblance to earlier engine configurations.",
+          "source_hash": "",
+          "passage_hash": "eeb9ab9b1b8d5d83112a7a1d6bd13a91ce023e5d10d0b214ddb4ce2157ab5d6b",
+          "extraction_method": "",
+          "passage_validation_status": "PRELIMINARY",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "SOURCE_VALIDATION_PENDING",
+          "publication_date": "2026-07-31",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "AFFECTED_COMPONENT",
+          "doc_id": "DOC_008",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://leehamnews.com/2026/07/15/pratt-whitney-expands-mros-in-push-to-wrap-up-gtf-problems/",
+          "original_filing_url": "",
+          "quote": "Scott Kreamer, P&W’s vice president of the PW1500G engine program that powers the A220 and E2, told reporters during an Airbus briefing last month that all affected A220s will be in service by the end of this year.",
+          "source_hash": "",
+          "passage_hash": "f90e1e4afb9e14e8110ee143c138e41aae24c72684188267b481ae7cb4192edf",
+          "extraction_method": "",
+          "passage_validation_status": "PRELIMINARY",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "SOURCE_VALIDATION_PENDING",
+          "publication_date": "2026-07-15",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_02",
+          "requirement_key": "TECHNICAL_DEFECT",
+          "doc_id": "DOC_001",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+          "original_filing_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+          "quote": "Advanced manufacturing techniques, coatings and enhanced drilling processes are among the measures being deployed to improve durability.",
+          "source_hash": "",
+          "passage_hash": "cf84d3676146cca3109fcf621c2fe9d6b0cbff209c0bf47f23e211cc367f1cff",
+          "extraction_method": "FR03_SEMANTIC_QUOTATION",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "DIRECT_ISSUE",
+          "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+          "publication_date": "2026-07-31",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_03",
+          "requirement_key": "HISTORICAL_DELAY",
+          "doc_id": "DOC_001",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+          "original_filing_url": "",
+          "quote": "Swiss, the launch customer for the A220, says engine and spare parts shortages remain a significant operational challenge.",
+          "source_hash": "",
+          "passage_hash": "eeb9ab9b1b8d5d83112a7a1d6bd13a91ce023e5d10d0b214ddb4ce2157ab5d6b",
+          "extraction_method": "",
+          "passage_validation_status": "PRELIMINARY",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "SOURCE_VALIDATION_PENDING",
+          "publication_date": "2026-07-31",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_03",
+          "requirement_key": "HISTORICAL_DELAY",
+          "doc_id": "DOC_005",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.airdatanews.com/airbus-expects-a220-engine-crisis-to-end-by-late-2026/",
+          "original_filing_url": "https://www.airdatanews.com/airbus-expects-a220-engine-crisis-to-end-by-late-2026/",
+          "quote": "According to Airbus, only 2% to 3% of parked A220s remain out of service because of engine-related issues, compared with about 17% of the global fleet late last year.",
+          "source_hash": "",
+          "passage_hash": "796acda7da0a55f8fd6bec038cb77abcd4455c80a6050f603e3c265f9935ce23",
+          "extraction_method": "FR03_SEMANTIC_QUOTATION",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "DIRECT_ISSUE",
+          "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+          "publication_date": "2026-07-16",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_03",
+          "requirement_key": "HISTORICAL_DELAY",
+          "doc_id": "DOC_005",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.airdatanews.com/airbus-expects-a220-engine-crisis-to-end-by-late-2026/",
+          "original_filing_url": "",
+          "quote": "The engine shortages have weighed on the A220 program even as the aircraft celebrated ten years in commercial service.",
+          "source_hash": "",
+          "passage_hash": "a1d830d2f7de868c7696b542150aebb0b9f1d97691aac9a56544cb601ca75abe",
+          "extraction_method": "",
+          "passage_validation_status": "PRELIMINARY",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "SOURCE_VALIDATION_PENDING",
+          "publication_date": "2026-07-16",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_05",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "doc_id": "DOC_001",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+          "original_filing_url": "",
+          "quote": "Pratt maintains that the PW1500G entering service today bears little resemblance to earlier engine configurations.",
+          "source_hash": "",
+          "passage_hash": "eeb9ab9b1b8d5d83112a7a1d6bd13a91ce023e5d10d0b214ddb4ce2157ab5d6b",
+          "extraction_method": "",
+          "passage_validation_status": "PRELIMINARY",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "SOURCE_VALIDATION_PENDING",
+          "publication_date": "2026-07-31",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        }
+      ],
+      "verification_status": "Verified 3/5 atomic facts; RESULTS_RETRIEVED",
+      "uncertainty_level": "MEDIUM",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Documented technical defect, durability or quality finding, Latest dated, issue-specific status",
+      "missing_information": "Documented technical defect, durability or quality finding: Independent confirmation of the preliminary claim; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status"
+    },
+    {
+      "kiq_id": "RKIQ_002",
+      "question": "What specific technical durability defects or hardware failures in the PW1500G have triggered recent regulatory Airworthiness Directives or service bulletins?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "PARTIAL",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "Reviewed sources address part of this question, while specific verification items remain open. A secondary media report on 2026-07-31 notes that “Advanced manufacturing techniques, coatings and enhanced drilling processes are among the measures being deployed to improve durability.” [DOC_001]. Still needed for a complete answer: existence of the requested regulatory action, documented technical defect, durability or quality finding, evidence of the historical issue or delay. Based on 1 relevant document(s) (DOC_001) out of 5 evaluated.",
+      "related_event_ids": [],
+      "evidence_ids": [
+        "DOC_001"
+      ],
+      "retrieved_evidence_count": 2,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [
+        "DOC_001",
+        "DOC_005"
+      ],
+      "unused_document_reasons": {
+        "DOC_004": "SCOPE_MISMATCH",
+        "DOC_005": "SCOPE_MISMATCH",
+        "DOC_006": "SCOPE_MISMATCH",
+        "DOC_008": "SCOPE_MISMATCH"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_002_REQ_01",
+          "key": "REGULATORY_EXISTENCE",
+          "required_fact": "Existence of the requested regulatory action",
+          "evidence_type": "OFFICIAL_REGULATION",
+          "required_entity_model": "PW1500G_GTF",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Existence of the requested regulatory action"
+          ]
+        },
+        {
+          "id": "RKIQ_002_REQ_02",
+          "key": "TECHNICAL_DEFECT",
+          "required_fact": "Documented technical defect, durability or quality finding",
+          "evidence_type": "TECHNICAL_FINDING",
+          "required_entity_model": "PW1500G_GTF",
+          "required_component": "",
+          "verification_status": "PRELIMINARY",
+          "doc_ids": [
+            "DOC_001"
+          ],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [
+            "DOC_001"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_001",
+              "claim": "improvement packages have more than doubled time-on-wing performance compared with the earliest versions and that additional technologies from the GTF Advantage program are being introduced into the PW1500G platform. Advanced manufacturing techniques, coatings and enhanced drilling processes are among the measures being deployed to improve durability.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_002",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "Advanced manufacturing techniques, coatings and enhanced drilling processes are among the measures being deployed to improve durability.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PRELIMINARY",
+              "publication_date": "2026-07-31",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+              "source_hash": "",
+              "passage_hash": "eeb9ab9b1b8d5d83112a7a1d6bd13a91ce023e5d10d0b214ddb4ce2157ab5d6b",
+              "verification_reason": "SOURCE_VALIDATION_PENDING",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": [
+            "Independent confirmation of the preliminary claim"
+          ]
+        },
+        {
+          "id": "RKIQ_002_REQ_03",
+          "key": "HISTORICAL_DELAY",
+          "required_fact": "Evidence of the historical issue or delay",
+          "evidence_type": "HISTORICAL_ISSUE",
+          "required_entity_model": "PW1500G_GTF",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Evidence of the historical issue or delay"
+          ]
+        },
+        {
+          "id": "RKIQ_002_REQ_04",
+          "key": "CURRENT_STATUS",
+          "required_fact": "Latest dated, issue-specific status",
+          "evidence_type": "DATED_STATUS",
+          "required_entity_model": "PW1500G_GTF",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Latest dated, issue-specific status"
+          ]
+        },
+        {
+          "id": "RKIQ_002_REQ_05",
+          "key": "PROGRAM_APPLICABILITY",
+          "required_fact": "Direct applicability to the named model or program",
+          "evidence_type": "MODEL_APPLICABILITY",
+          "required_entity_model": "PW1500G_GTF",
+          "required_component": "",
+          "verification_status": "PRELIMINARY",
+          "doc_ids": [
+            "DOC_001"
+          ],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [
+            "DOC_001"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_001",
+              "claim": "improvement packages have more than doubled time-on-wing performance compared with the earliest versions and that additional technologies from the GTF Advantage program are being introduced into the PW1500G platform. Advanced manufacturing techniques, coatings and enhanced drilling processes are among the measures being deployed to improve durability.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_002",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "Advanced manufacturing techniques, coatings and enhanced drilling processes are among the measures being deployed to improve durability.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PRELIMINARY",
+              "publication_date": "2026-07-31",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+              "source_hash": "",
+              "passage_hash": "eeb9ab9b1b8d5d83112a7a1d6bd13a91ce023e5d10d0b214ddb4ce2157ab5d6b",
+              "verification_reason": "SOURCE_VALIDATION_PENDING",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": [
+            "Independent confirmation of the preliminary claim"
+          ]
+        }
+      ],
+      "claim_requirement_links": [
+        {
+          "claim_id": "",
+          "doc_id": "DOC_001",
+          "requirement_id": "RKIQ_002_REQ_02",
+          "requirement_key": "TECHNICAL_DEFECT",
+          "rkiq_id": "RKIQ_002",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_001",
+          "requirement_id": "RKIQ_002_REQ_05",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "rkiq_id": "RKIQ_002",
+          "strength": "PRELIMINARY"
+        }
+      ],
+      "claim_handoff_rejections": {
+        "DOC_001": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_004": "SCOPE_MISMATCH",
+        "DOC_005": "SCOPE_MISMATCH",
+        "DOC_006": "SCOPE_MISMATCH",
+        "DOC_008": "SCOPE_MISMATCH"
+      },
+      "source_execution_status": "RESULTS_RETRIEVED",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [
+        {
+          "kiq_id": "RKIQ_002",
+          "kit_id": "",
+          "requirement_id": "RKIQ_002_REQ_02",
+          "requirement_key": "TECHNICAL_DEFECT",
+          "doc_id": "DOC_001",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+          "original_filing_url": "",
+          "quote": "Advanced manufacturing techniques, coatings and enhanced drilling processes are among the measures being deployed to improve durability.",
+          "source_hash": "",
+          "passage_hash": "eeb9ab9b1b8d5d83112a7a1d6bd13a91ce023e5d10d0b214ddb4ce2157ab5d6b",
+          "extraction_method": "",
+          "passage_validation_status": "PRELIMINARY",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "SOURCE_VALIDATION_PENDING",
+          "publication_date": "2026-07-31",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_002",
+          "kit_id": "",
+          "requirement_id": "RKIQ_002_REQ_05",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "doc_id": "DOC_001",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+          "original_filing_url": "",
+          "quote": "Advanced manufacturing techniques, coatings and enhanced drilling processes are among the measures being deployed to improve durability.",
+          "source_hash": "",
+          "passage_hash": "eeb9ab9b1b8d5d83112a7a1d6bd13a91ce023e5d10d0b214ddb4ce2157ab5d6b",
+          "extraction_method": "",
+          "passage_validation_status": "PRELIMINARY",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "SOURCE_VALIDATION_PENDING",
+          "publication_date": "2026-07-31",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        }
+      ],
+      "verification_status": "Verified 0/5 atomic facts; RESULTS_RETRIEVED",
+      "uncertainty_level": "HIGH",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Existence of the requested regulatory action, Documented technical defect, durability or quality finding, Evidence of the historical issue or delay",
+      "missing_information": "Existence of the requested regulatory action: Verified source passage for: Existence of the requested regulatory action; Documented technical defect, durability or quality finding: Independent confirmation of the preliminary claim; Evidence of the historical issue or delay: Verified source passage for: Evidence of the historical issue or delay; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status; Direct applicability to the named model or program: Independent confirmation of the preliminary claim"
+    },
+    {
+      "kiq_id": "RKIQ_003",
+      "question": "What is the status of the proposed technical resolutions or hardware retrofits intended to restore PW1500G time-on-wing performance?",
+      "answer_status": "UNANSWERED",
+      "evidence_coverage": "NONE",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "No relevant event matching this question was found within the searched sources. Still needed for a complete answer: direct applicability to the named model or program.",
+      "related_event_ids": [],
+      "evidence_ids": [],
+      "retrieved_evidence_count": 2,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [
+        "DOC_001",
+        "DOC_005"
+      ],
+      "unused_document_reasons": {
+        "DOC_001": "RELATED_CONTEXT_ONLY",
+        "DOC_004": "RELATED_CONTEXT_ONLY",
+        "DOC_005": "RELATED_CONTEXT_ONLY",
+        "DOC_006": "SCOPE_MISMATCH",
+        "DOC_008": "RELATED_CONTEXT_ONLY"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_003_REQ_01",
+          "key": "PROGRAM_APPLICABILITY",
+          "required_fact": "Direct applicability to the named model or program",
+          "evidence_type": "MODEL_APPLICABILITY",
+          "required_entity_model": "PW1500G_GTF, A220, Airbus",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Direct applicability to the named model or program"
+          ]
+        }
+      ],
+      "claim_requirement_links": [],
+      "claim_handoff_rejections": {
+        "DOC_006": "SCOPE_MISMATCH"
+      },
+      "source_execution_status": "RESULTS_RETRIEVED",
+      "content_result": "NO_RELEVANT_EVENT",
+      "issue_status": "NO_RELEVANT_EVENT",
+      "evidence_trace": [],
+      "verification_status": "Verified 0/1 atomic facts; RESULTS_RETRIEVED",
+      "uncertainty_level": "HIGH",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Direct applicability to the named model or program",
+      "missing_information": "Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program"
+    }
+  ],
+  "run_metadata": {
+    "run_id": "RUN-20261125-165424-29267A3AD511",
+    "report_id": "RPT-20261125-717BDD",
+    "started_at": "2026-11-25T16:54:24Z",
+    "completed_at": "2026-11-25T16:56:46Z",
+    "run_date_utc": "2026-11-25",
+    "analysis_reference_date": "2026-11-25",
+    "reference_date_mode": "EXECUTION_DATE",
+    "collection_window_start_utc": "2025-11-25T16:54:24Z",
+    "collection_window_end_utc": "2026-11-25T16:54:24Z",
+    "status": "completed",
+    "outcome_status": "COMPLETED",
+    "processing_status": "COMPLETED",
+    "evidence_completeness_status": "INSUFFICIENT",
+    "kiq_completion_status": "NOT_ANSWERED",
+    "kiqs_fully_answered": 0,
+    "kiqs_missing_specific_evidence": 3,
+    "kit_completion_audit": {
+      "as_of_date": "2026-11-25",
+      "questions": [
+        {
+          "kiq_id": "RKIQ_001",
+          "question": "What is the current operational status and grounding count of the Airbus A220 fleet specifically attributed to PW1500G engine durability issues?",
+          "answer_status": "PARTIALLY_ANSWERED",
+          "content_result": "STATUS_UNKNOWN",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "TECHNICAL_DEFECT",
+              "missing_information": [
+                "Independent confirmation of the preliminary claim"
+              ]
+            },
+            {
+              "key": "CURRENT_STATUS",
+              "missing_information": [
+                "Verified source passage for: Latest dated, issue-specific status"
+              ]
+            }
+          ],
+          "missing_information": "Documented technical defect, durability or quality finding: Independent confirmation of the preliminary claim; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status",
+          "source_execution_status": "RESULTS_RETRIEVED",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 3,
+          "latest_evidence_date": "2026-07-31",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        },
+        {
+          "kiq_id": "RKIQ_002",
+          "question": "What specific technical durability defects or hardware failures in the PW1500G have triggered recent regulatory Airworthiness Directives or service bulletins?",
+          "answer_status": "PARTIALLY_ANSWERED",
+          "content_result": "STATUS_UNKNOWN",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "REGULATORY_EXISTENCE",
+              "missing_information": [
+                "Verified source passage for: Existence of the requested regulatory action"
+              ]
+            },
+            {
+              "key": "TECHNICAL_DEFECT",
+              "missing_information": [
+                "Independent confirmation of the preliminary claim"
+              ]
+            },
+            {
+              "key": "HISTORICAL_DELAY",
+              "missing_information": [
+                "Verified source passage for: Evidence of the historical issue or delay"
+              ]
+            },
+            {
+              "key": "CURRENT_STATUS",
+              "missing_information": [
+                "Verified source passage for: Latest dated, issue-specific status"
+              ]
+            },
+            {
+              "key": "PROGRAM_APPLICABILITY",
+              "missing_information": [
+                "Independent confirmation of the preliminary claim"
+              ]
+            }
+          ],
+          "missing_information": "Existence of the requested regulatory action: Verified source passage for: Existence of the requested regulatory action; Documented technical defect, durability or quality finding: Independent confirmation of the preliminary claim; Evidence of the historical issue or delay: Verified source passage for: Evidence of the historical issue or delay; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status; Direct applicability to the named model or program: Independent confirmation of the preliminary claim",
+          "source_execution_status": "RESULTS_RETRIEVED",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 0,
+          "latest_evidence_date": "2026-07-31",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        },
+        {
+          "kiq_id": "RKIQ_003",
+          "question": "What is the status of the proposed technical resolutions or hardware retrofits intended to restore PW1500G time-on-wing performance?",
+          "answer_status": "UNANSWERED",
+          "content_result": "NO_RELEVANT_EVENT",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "PROGRAM_APPLICABILITY",
+              "missing_information": [
+                "Verified source passage for: Direct applicability to the named model or program"
+              ]
+            }
+          ],
+          "missing_information": "Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program",
+          "source_execution_status": "RESULTS_RETRIEVED",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 0,
+          "latest_evidence_date": "",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        }
+      ],
+      "total": 3,
+      "complete": 0,
+      "missing": 3,
+      "unavailable_sources": [],
+      "unsearched_requests": [],
+      "status": "NOT_ANSWERED"
+    },
+    "planner_status": "REPAIRED",
+    "collection_mode": "agentic_exa",
+    "acquisition_trace": {
+      "collection_id": "COL_CCB6E6",
+      "kit": "Airbus A220 Pratt & Whitney PW1500G engine durability and grounding",
+      "collection_mode": "agentic_exa",
+      "search_objective": "Acquire high-signal OSINT evidence regarding Airbus A220 groundings and PW1500G engine durability issues, specifically focusing on AOG counts, technical failure modes (powdered metal, HPT blades), and the status of 'Block D' retrofits for the 2025-2026 period.",
+      "queries_executed": 5,
+      "exa_calls_executed": 2,
+      "sources_used": [
+        "Exa Semantic Search",
+        "SEC EDGAR",
+        "XBRL International ESEF Filing Index"
+      ],
+      "documents_found": 16,
+      "primary_documents": 5,
+      "secondary_documents": 11,
+      "full_text_documents": 10,
+      "metadata_only_documents": 3,
+      "unresolved_requirements": [
+        "Specific verification of 'Block D' hardware upgrade penetration rates within the A220 fleet (secondary mentions exist, but primary OEM confirmation of fleet-wide completion is missing).",
+        "Granular breakdown of AOG units specifically for the PW1500G variant versus the broader PW1000G family in late 2026 filings."
+      ],
+      "collection_status": "PARTIAL_SUCCESS",
+      "next_action": "Execute targeted regulatory search for EASA/FAA ADs specifically mentioning 'Block D' or 'HPT' for the PW1500G to bridge the technical resolution gap.",
+      "agent_rationale": "Initial Exa searches successfully identified a downward trend in A220 groundings by mid-2026 and a March 2026 damages claim by Airbus against P&W. Corporate filings from RTX and Airbus were retrieved to corroborate financial impacts, though social/media channels yielded no high-signal matches for the specific technical identifiers in this timeframe. A gap remains in linking specific AD numbers to the 'Block D' hardware nomenclature.",
+      "steps": [
+        {
+          "step": 1,
+          "tool": "exa_semantic_search",
+          "query": "Airbus A220 fleet AOG status Pratt & Whitney PW1500G engine durability grounding count 2025 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 6,
+          "new_doc_ids": [
+            "DOC_001",
+            "DOC_002",
+            "DOC_003",
+            "DOC_004",
+            "DOC_005",
+            "DOC_006"
+          ],
+          "elapsed_sec": 3.78,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 2,
+          "tool": "exa_semantic_search",
+          "query": "PW1500G engine technical durability defects HPT blades powdered metal contamination Block D upgrades Airbus A220",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 5,
+          "new_doc_ids": [
+            "DOC_007",
+            "DOC_008",
+            "DOC_009",
+            "DOC_010",
+            "DOC_011"
+          ],
+          "elapsed_sec": 3.96,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 3,
+          "tool": "search_media_and_social",
+          "query": "[all] Airbus A220 PW1500G engine grounding status 2026",
+          "status": "NO_MATCH",
+          "new_doc_count": 0,
+          "new_doc_ids": [],
+          "elapsed_sec": 12.93,
+          "calls_used": 5,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 4,
+          "tool": "search_corporate_filings",
+          "query": "RTX Pratt Whitney PW1500G A220 AOG count Block D upgrade status",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 5,
+          "new_doc_ids": [
+            "DOC_012",
+            "DOC_013",
+            "DOC_014",
+            "DOC_015",
+            "DOC_016"
+          ],
+          "elapsed_sec": 50.88,
+          "calls_used": 5,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 5,
+          "tool": "search_official_regulators",
+          "query": "PW1500G HPT blade powdered metal AD",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 5,
+          "new_doc_ids": [
+            "DOC_012",
+            "DOC_013",
+            "DOC_014",
+            "DOC_015",
+            "DOC_016"
+          ],
+          "elapsed_sec": 56.28,
+          "calls_used": 5,
+          "exa_calls_used": 2,
+          "note": ""
+        }
+      ],
+      "budget_summary": {
+        "calls_made": 5,
+        "max_total_calls": 10,
+        "remaining_total_calls": 5,
+        "exa_calls_made": 2,
+        "max_exa_calls": 4,
+        "remaining_exa_calls": 2,
+        "elapsed_sec": 61.51,
+        "max_seconds": 180,
+        "remaining_seconds": 118.5,
+        "steps_recorded": 5
+      },
+      "fallback_used": false,
+      "llm_tokens_in": 21513,
+      "llm_tokens_out": 660
+    },
+    "phase_checkpoints": {
+      "planner": "REPAIRED",
+      "collection": "PASS",
+      "fr03": "PASS",
+      "analyst": "PASS",
+      "qa": "COMPLETED",
+      "kiq": "NOT_ANSWERED",
+      "editor": "COMPLETED",
+      "scoring": "COMPLETED",
+      "reporting": "VALIDATED"
+    },
+    "evidence_flow_audit": {
+      "documents": [
+        {
+          "doc_id": "DOC_001",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 4,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_002",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_003",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_004",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": true
+          },
+          "gap": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "interruption_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_005",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 3,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_006",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": true
+          },
+          "gap": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "interruption_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_007",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_008",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 2,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_009",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_010",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_011",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_012",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_013",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_014",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_015",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_016",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        }
+      ],
+      "stage_counts": {
+        "COLLECTED": 16,
+        "FILTER_ACCEPTED": 5,
+        "CLAIMS_EXTRACTED": 5,
+        "CLAIMS_VALIDATED": 3,
+        "KIQ_EVALUATED": 5,
+        "KIQ_LINKED": 3,
+        "NOT_APPLICABLE": 2,
+        "REPORT_REFERENCED": 5,
+        "REPORT_USED": 5,
+        "REPORT_NOT_USED": 0
+      },
+      "unlinked_accepted_document_ids": [
+        "DOC_004",
+        "DOC_006"
+      ],
+      "unreferenced_validated_document_ids": [],
+      "potential_analytical_loss_ids": [],
+      "handoff_error_ids": [],
+      "validated_claim_counts": {
+        "DOC_001": 4,
+        "DOC_002": 0,
+        "DOC_003": 0,
+        "DOC_004": 0,
+        "DOC_005": 3,
+        "DOC_006": 0,
+        "DOC_007": 0,
+        "DOC_008": 2,
+        "DOC_009": 0,
+        "DOC_010": 0,
+        "DOC_011": 0,
+        "DOC_012": 0,
+        "DOC_013": 0,
+        "DOC_014": 0,
+        "DOC_015": 0,
+        "DOC_016": 0
+      }
+    },
+    "evidence_integrity_issues": [],
+    "source_provenance_missing_ids": [],
+    "kiq_unlinked_extracted_document_ids": [],
+    "kiq_handoff_error_document_ids": [],
+    "kiq_handoff_contract_errors": {},
+    "editor_kiq_context_error": null,
+    "editor_evidence_citation_document_ids": [],
+    "query": "Airbus A220 Pratt & Whitney PW1500G engine durability and grounding",
+    "experiment": {
+      "dataset_run_id": "RUN-20261125-165424-29267A3AD511",
+      "replay_run_id": null,
+      "collection_mode": "agentic_exa",
+      "qa_enabled": true,
+      "harness_enabled": true,
+      "keyword_baseline": false,
+      "dataset_sha256": "5894febbf5975ee8819b78dad565c844fb7c2d917c28a28f502063497d714b19",
+      "replay_uses_live_llm": false
+    },
+    "analysis_scope": "365d",
+    "effective_from": "2025-11-25T16:54:24Z",
+    "effective_to": "2026-11-25T16:54:24Z",
+    "as_of_date": "2026-11-25",
+    "documents_collected": 16,
+    "historical_resolutions": [],
+    "historical_resolution_count": 0,
+    "temporal_claim_audit": [
+      {
+        "event_id": "EVT_PW1500G_AOG_REDUCTION_2026",
+        "entity": "Pratt & Whitney",
+        "program": "Unknown / Not specified in source",
+        "component": "Unknown / Not specified in source",
+        "issue": "GROUNDING",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-07-16",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "PW1500G-A220-RESOLUTION-2026-07",
+        "entity": "Pratt & Whitney",
+        "program": "A220",
+        "component": "Unknown / Not specified in source",
+        "issue": "TECHNICAL_QUALITY",
+        "historical_claim_status": "CURRENT_STATUS_UNKNOWN",
+        "original_date": "2026-07-15",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      }
+    ],
+    "document_content_status_counts": {
+      "FULL_TEXT": 10,
+      "FULL_TEXT_RETRIEVED": 0,
+      "METADATA_ONLY": 3,
+      "PARTIAL_TEXT": 3,
+      "SOURCE_METADATA_ONLY": 0,
+      "SOURCE_POLICY_RESTRICTED": 0,
+      "STRUCTURED_DATA": 0,
+      "SUMMARY_ONLY": 0,
+      "TEXT_COMPLETENESS_UNVERIFIED": 0,
+      "TEXT_RETRIEVED_COMPLETENESS_UNVERIFIED": 0,
+      "TRANSCRIPT_AS_RECEIVED": 0,
+      "UNAVAILABLE": 0,
+      "UNKNOWN": 0
+    },
+    "unknown_content_statuses": [],
+    "telemetry_errors": [],
+    "telemetry_integrity_ok": true,
+    "content_limited_document_ids": [
+      "DOC_001",
+      "DOC_002",
+      "DOC_003",
+      "DOC_006",
+      "DOC_007",
+      "DOC_008",
+      "DOC_009",
+      "DOC_010",
+      "DOC_011",
+      "DOC_015",
+      "DOC_016"
+    ],
+    "documents_analyzed": 5,
+    "documents_rejected": 11,
+    "documents_failed": 0,
+    "analysis_phase_status": "COMPLETED",
+    "analysis_recovery_budget": {
+      "time_budget_sec": 600,
+      "max_retries": 8,
+      "max_calls": 10,
+      "retries": 0,
+      "calls": 2,
+      "blocked": ""
+    },
+    "analyzed_document_ids": [
+      "DOC_001",
+      "DOC_004",
+      "DOC_005",
+      "DOC_006",
+      "DOC_008"
+    ],
+    "failed_document_ids": [],
+    "recovered_document_ids": [],
+    "partially_analyzed_document_ids": [],
+    "documents_recovered": 0,
+    "analyst_batch_document_counts": [
+      3,
+      2
+    ],
+    "analyst_recovery_splits": 0,
+    "analyst_retry_counts_by_reason": {
+      "PROVIDER_INTERNAL_RETRY": 0
+    },
+    "batches_created": 2,
+    "batches_succeeded": 2,
+    "batches_failed": 0,
+    "planning_duration_sec": 9.96,
+    "collection_duration_sec": 61.54,
+    "filter_duration_sec": 11.82,
+    "analysis_duration_sec": 25.82,
+    "qa_duration_sec": 22.56,
+    "editorial_duration_sec": 10.97,
+    "scoring_duration_sec": 0.0,
+    "scoring_status": "COMPLETED",
+    "scoring_methodology": {
+      "version": "IW-5FACTOR-DET-V1",
+      "method": "DETERMINISTIC_5_FACTOR_IW",
+      "scale": "F1-F5 rated 1..5; final threat_score 1..10",
+      "formula": "S = clamp(floor(sum(w_i * F_i) * 2 + 0.5), 1, 10)",
+      "weights": {
+        "impact_severity": 0.3,
+        "supplier_criticality": 0.2,
+        "substitutability_difficulty": 0.15,
+        "propagation_scope": 0.15,
+        "temporal_urgency": 0.2
+      },
+      "bands": {
+        "monitored": "1-4",
+        "elevated": "5-7",
+        "high_potential_impact": "8-10"
+      },
+      "severity_independent_of_confidence": true
+    },
+    "scoring_partial_fallback_ids": [],
+    "scoring_audit": [
+      {
+        "event_id": "EVT_PW1500G_AOG_REDUCTION_2026",
+        "provisional_score": 6,
+        "computed_score": 8,
+        "final_score": 8,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.85 * 2) = 8/10",
+        "weighted_sum": 3.85,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 3,
+            "weight": 0.3,
+            "weighted_contribution": 0.9,
+            "rationale": "Groundings reduced significantly from 17% to 2-3%, but still impact fleet planning."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Pratt & Whitney is the sole-source engine provider for A220."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "PW1500G is the exclusive powerplant for the A220 program."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Impacts global A220 operators including Swiss, Delta, and AirBaltic."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 3,
+            "weight": 0.2,
+            "weighted_contribution": 0.6,
+            "rationale": "Issue is ongoing but trending toward resolution by late 2026."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "F1 (3/5): Groundings reduced significantly from 17% to 2-3%, but still impact fleet planning.",
+        "supplier_criticality": "F2 (5/5): Pratt & Whitney is the sole-source engine provider for A220. | F3 (5/5): PW1500G is the exclusive powerplant for the A220 program.",
+        "temporal_urgency": "Historical source (132 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Deterministic 5-factor I&W score 8/10 (S = round(3.85 * 2) = 8/10). Primary drivers: F2 Supplier Criticality (5/5, w=0.20), F1 Impact Severity (3/5, w=0.30). Potential severity only; evidence validation is evaluated separately.",
+        "post_harness_score": 8,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "HIGH",
+        "post_harness_evidence_warning": "Source-supported claim. Independent corroboration status: CORROBORATED_INDEPENDENTLY",
+        "scm_tier": "Tier 1 (Systems/Engines)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-07-16",
+        "source_age_days": 132
+      },
+      {
+        "event_id": "PW1500G-A220-RESOLUTION-2026-07",
+        "provisional_score": 4,
+        "computed_score": 7,
+        "final_score": 7,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.35 * 2) = 7/10",
+        "weighted_sum": 3.35,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 2,
+            "weight": 0.3,
+            "weighted_contribution": 0.6,
+            "rationale": "Fleet grounding decreased from 17% to 3%, significantly reducing operational disruption."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Pratt & Whitney is the sole engine provider for the A220 program."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "PW1500G is the exclusive powerplant for the A220."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Issues affected global A220 and A320neo fleets; recovery is fleet-wide."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 2,
+            "weight": 0.2,
+            "weighted_contribution": 0.4,
+            "rationale": "Issues are reportedly 'largely resolved' with a late 2026 target for zero groundings."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (133 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: ELEVATED (7/10). Evidence status: UNSUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+        "post_harness_score": 7,
+        "post_harness_validation_status": "UNSUPPORTED",
+        "post_harness_confidence_level": "LOW",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "Tier 1 (Systems/Engines)",
+        "factor_evidence_status": "PROVISIONAL_UNVERIFIED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-07-15",
+        "source_age_days": 133
+      }
+    ],
+    "total_duration_sec": 142.71,
+    "llm_calls": 9,
+    "llm_retries": 0,
+    "tokens_input": 51821,
+    "tokens_output": 12759,
+    "token_usage_status": "MEASURED",
+    "token_usage_unknown_calls": 0,
+    "llm_call_audit": [
+      {
+        "task_type": "PHASE_1_PLANNER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 1501,
+        "output_tokens": 735,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_1_PLANNER_REPAIR",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 1615,
+        "output_tokens": 777,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_2_ACQUISITION",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 21513,
+        "output_tokens": 660,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 3267,
+        "output_tokens": 1303,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2381,
+        "output_tokens": 780,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_1_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 19783,
+        "output_tokens": 2335,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_2_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 18318,
+        "output_tokens": 1985,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_3B_QA",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 5488,
+        "output_tokens": 5349,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_4_EDITOR",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2584,
+        "output_tokens": 1007,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      }
+    ],
+    "analyst_recovery_audit": {
+      "attempts": [],
+      "fallbacks": [],
+      "recent_events": []
+    },
+    "token_accounting_method": "SHARED_LLM_DELTA",
+    "provider_requests_measured": 6,
+    "estimated_cost_usd": 0.06419,
+    "estimated_cost_status": "ESTIMATED",
+    "priced_cost_subtotal_usd": 0.06419,
+    "model_cost_audit": [
+      {
+        "model_id": "openrouter/google/gemini-3-flash-preview",
+        "usage_bucket": "openrouter/google/gemini-3-flash-preview",
+        "input_tokens": 51821,
+        "output_tokens": 12759,
+        "requests": 6,
+        "estimated_cost_usd": 0.06419,
+        "pricing_status": "ESTIMATED"
+      }
+    ],
+    "cost_estimation_reason_codes": [],
+    "unmatched_cost_model_ids": [],
+    "model_id": "openrouter/google/gemini-3-flash-preview",
+    "prompt_version": "v2.10-CI-HRO-2026-EVIDENCE-SCOPE",
+    "kiq_catalog_version": "THESIS_KIQ_CATALOG_V2_20261031",
+    "candidate_schema_rejections": 0,
+    "qa_failed": false,
+    "qa_performed": true,
+    "harness_performed": true,
+    "editor_failed": false,
+    "editorial_generation_mode": "LLM_TEXT_PYDANTIC_V1",
+    "editor_text_parsed_count": 2,
+    "editor_text_fallbacks": 1,
+    "editor_retry_count": 0,
+    "editor_retry_recovered": false,
+    "editor_fallback_used": true,
+    "pipeline_degraded": false,
+    "degradation_category": "NONE",
+    "source_coverage_issues": [],
+    "source_coverage_limited": true,
+    "source_coverage_advisories": [
+      {
+        "connector": "Exa Semantic Search",
+        "issue": "exa_type=auto; duplicates_skipped=0; include_domains=ALL"
+      },
+      {
+        "connector": "Exa Semantic Search",
+        "issue": "exa_type=auto; duplicates_skipped=1; include_domains=ALL"
+      },
+      {
+        "connector": "Official Industry PR / Airbus",
+        "issue": "RSS_METADATA_SCREENING_NOT_FULL_TEXT_VERIFICATION"
+      },
+      {
+        "connector": "FAA Federal Register",
+        "issue": "RESULTS_RETRIEVED; api_declared=3; retrieved=3; accepted=0; pagination_complete=True"
+      },
+      {
+        "connector": "News API",
+        "issue": "STAGES=EXACT,ALTERNATIVE,ALIASES,STATUS_CHANGE; NEWSAPI_COVERAGE=PARTIAL_WINDOW; requested_days=365.0; searchable_days=29.0; archive_limit_days=29; SEARCH_STATUS=NO_MATCH"
+      },
+      {
+        "connector": "EASA Official Index",
+        "issue": "PAGINATION_BUDGET_REACHED:pages=20; PARTIAL_COVERAGE:oldest_scanned=2026-02-02"
+      }
+    ],
+    "source_coverage_status": "PARTIAL",
+    "source_coverage_legacy_status": "LIMITED",
+    "evidence_result_status": "UNVERIFIED_ONLY",
+    "review_scope": "EVENT_REVIEW",
+    "analysis_issues": [],
+    "fr03_rejection_review_candidates": 5,
+    "fr03_rejection_stage_counts": {
+      "STAGE_1_CONTENT_QUALITY": 3,
+      "STAGE_1_DETERMINISTIC": 1,
+      "STAGE_2_SEMANTIC": 7
+    },
+    "scoring_calibration": "UNMEASURED_REQUIRES_EXPERT_REFERENCE_LABELS",
+    "semantic_filter_unavailable_count": 0,
+    "semantic_filter_missing_ids": [],
+    "analyst_valid_empty_batches": 0,
+    "analyst_invalid_batches": 0,
+    "analyst_empty_retry_count": 0,
+    "analyst_empty_retry_failed_batches": 0,
+    "analyst_empty_output_conflict": false,
+    "analyst_empty_conflict_previous_run": null,
+    "analyst_output_audit": [
+      {
+        "batch": 1,
+        "depth": 0,
+        "document_ids": [
+          "DOC_008",
+          "DOC_005",
+          "DOC_001"
+        ],
+        "documents_processed": 3,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 6966,
+        "output_tokens": 2335,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 2,
+        "depth": 0,
+        "document_ids": [
+          "DOC_006",
+          "DOC_004"
+        ],
+        "documents_processed": 2,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 6140,
+        "output_tokens": 1985,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      }
+    ],
+    "confirmed_critical_count": 0,
+    "unverified_signal_count": 1,
+    "displayable_signal_count": 0,
+    "verified_context_count": 1,
+    "direct_kit_confirmed_count": 0,
+    "verified_context_event_ids": [
+      "EVT_PW1500G_AOG_REDUCTION_2026"
+    ],
+    "classification_version": "SUPPORTED_ONLY_DASHBOARD_V3_EVENT_ID_1TO1",
+    "runtime_kiq_count": 3,
+    "runtime_kiq_ids": [
+      "RKIQ_001",
+      "RKIQ_002",
+      "RKIQ_003"
+    ],
+    "runtime_kiq_answered": 0,
+    "runtime_kiq_partially_answered": 2,
+    "runtime_kiq_unanswered": 1,
+    "runtime_kiq_not_searched": 0,
+    "intelligence_methodology": {
+      "collection_method": "OSINT",
+      "analysis_method": "Competitive Intelligence",
+      "osint_document_count": 16,
+      "ci_candidate_count": 2,
+      "osint_stage": "Acquisition and preprocessing of publicly available information.",
+      "ci_stage": "Interpretation of collected evidence against KIT/KIQ requirements, strategic risks, competitive implications and decision needs.",
+      "methodological_boundary": "A retrieved source is OSINT evidence. It becomes an intelligence assessment only after analytical interpretation and validation.",
+      "independent_verification_required": true
+    },
+    "editor_claim_audit": {
+      "status": "PASS",
+      "all_supported": true,
+      "citations_match": true,
+      "checks": {
+        "doc_id_exists": true,
+        "passages_match": true,
+        "event_references_valid": true,
+        "urls_valid": true
+      },
+      "claim_sentences_checked": 24,
+      "cited_document_ids": [
+        "DOC_001",
+        "DOC_004",
+        "DOC_005",
+        "DOC_006",
+        "DOC_008"
+      ],
+      "issues": [],
+      "review_items": [],
+      "audit_method": "DETERMINISTIC_PROVENANCE_ONLY"
+    },
+    "editor_executive_summary": "This assessment reviews the operational status of the Pratt & Whitney PW1500G engine program for the Airbus A220, based on secondary media reports and internal documentation dated through July 2026. Evidence from DOC_001 and DOC_005 indicates that while grounding rates are reportedly being addressed, major operators including Swiss, AirBaltic, and Delta Air Lines continue to face \"engine and spare parts shortages\" that present a \"significant operational challenge\" [DOC_001]. To mitigate these durability issues, Pratt & Whitney is reportedly deploying \"advanced manufacturing techniques, coatings and enhanced drilling processes\" [DOC_001]. Analytical interpretation suggests that while technical remediation is underway, the supply chain for spare parts remains the primary bottleneck for fleet availability. The reliability of these findings is moderate, as they rely on secondary media reporting of company statements rather than direct regulatory filings. The most critical open questions involve the lack of independent confirmation from the FAA or EASA regarding the effectiveness of these new manufacturing techniques and the specific hardware failure modes—such as powder metal integrity or specific blade coating degradation—which remain detailed only in general terms [DOC_001, DOC_005]. Management should focus on verifying the timeline for these technical \"enhancements\" to reach the global MRO network to determine when AOG (Aircraft on Ground) rates will stabilize.",
+    "editor_detailed_analytical_assessment": "The durability of the PW1500G engine remains a focal point of tactical competitive intelligence for the Airbus A220 program. Current evidence confirms a dual-track scenario: a persistent historical backlog of engine availability issues and a concurrent technical resolution phase. According to DOC_001, the impact is global, affecting launch customers like Swiss and major North American operators like Delta. The \"pressure on fleet\" mentioned in DOC_001 stems from a combination of durability-driven removals and a constrained MRO (Maintenance, Repair, and Overhaul) pipeline. \n\nA significant development noted in July 2026 is the transition toward \"enhanced drilling processes\" and new \"coatings\" intended to extend time-on-wing [DOC_001]. However, there is a distinct gap between the implementation of these manufacturing changes and the recovery of the spare parts supply chain. While DOC_004 and DOC_006 suggest a \"resolution\" is in progress, these documents lack the \"actual regulator (FAA/EASA) confirmation\" necessary to validate that the technical fixes meet all airworthiness directives or that the \"powder metal\" concerns previously associated with the GTF family have been fully closed for the PW1500G variant. \n\nThe analytical takeaway is that the risk has shifted from a \"technical unknown\" to a \"supply chain execution\" challenge. The \"Just-in-Time (JIT) Disruption\" noted in the intelligence indicators suggests that even if the new coatings are successful, the lag in MRO throughput will likely keep AOG rates elevated through the end of 2026. Furthermore, the \"hypothetical dependencies\" on the Embraer E195-E2 and A320neo programs [DOC_008] imply that any failure to stabilize the PW1500G could signal broader risks for the Geared Turbofan (GTF) architecture across other platforms. Management is advised to seek direct verification of the \"enhanced drilling\" success rates and monitor for official EASA/FAA safety bulletins that would formally endorse the durability fixes. Until such confirmation is available, the reported \"resolution\" should be treated as a preliminary manufacturer claim rather than a verified operational milestone.",
+    "editor_validation_status": "PASS",
+    "editor_claim_citations_verified": true,
+    "editor_semantic_review_required": false,
+    "kit_current_assessment": {
+      "status": "PRELIMINARY_SIGNALS_IDENTIFIED",
+      "source_coverage": "INCOMPLETE",
+      "as_of_date": "2026-11-25",
+      "search_overview": {
+        "connectors_searched": [
+          "Exa Semantic Search",
+          "Official Industry PR / Airbus",
+          "FAA Federal Register",
+          "News API",
+          "SEC EDGAR",
+          "XBRL International ESEF Filing Index",
+          "EASA Official Index"
+        ],
+        "connectors_with_results": [
+          "Exa Semantic Search",
+          "SEC EDGAR",
+          "XBRL International ESEF Filing Index"
+        ],
+        "documents_collected": 16,
+        "documents_analyzed": 5,
+        "documents_rejected": 11,
+        "events_identified": 2,
+        "supported_events": 0
+      },
+      "issue_status": "PRELIMINARY",
+      "regulator_verification": "UNAVAILABLE",
+      "source_authority": "NOT_ESTABLISHED",
+      "coverage_status": "PARTIAL",
+      "severity_context": "POTENTIAL",
+      "potential_severity": null,
+      "evidence_confidence": "UNKNOWN",
+      "chronological_milestones": [],
+      "conflicts": [],
+      "monitored_kit": "Airbus A220 Pratt & Whitney PW1500G engine durability and grounding",
+      "original_issue": "Airbus A220 Pratt & Whitney PW1500G engine durability and grounding",
+      "latest_milestone": "NOT_ESTABLISHED",
+      "latest_milestone_date": "",
+      "latest_evidence_id": "",
+      "latest_evidence_url": "",
+      "latest_verification": "UNVERIFIED",
+      "unresolved_questions": [
+        "Documented technical defect, durability or quality finding: Independent confirmation of the preliminary claim; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status",
+        "Existence of the requested regulatory action: Verified source passage for: Existence of the requested regulatory action; Documented technical defect, durability or quality finding: Independent confirmation of the preliminary claim; Evidence of the historical issue or delay: Verified source passage for: Evidence of the historical issue or delay; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status; Direct applicability to the named model or program: Independent confirmation of the preliminary claim",
+        "Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program"
+      ],
+      "severity": null,
+      "confidence": "UNKNOWN",
+      "evidence_strength": "NO_GROUNDED_CLAIMS",
+      "reported_developments": [],
+      "kiq_source_claims": [
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_005",
+          "quote": "According to Airbus, only 2% to 3% of parked A220s remain out of service because of engine-related issues, compared with about 17% of the global fleet late last year.",
+          "date": "2026-07-16",
+          "publication_date": "2026-07-16",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_EXA",
+          "source_url": "https://www.airdatanews.com/airbus-expects-a220-engine-crisis-to-end-by-late-2026/",
+          "authority": "SECONDARY",
+          "source_role": "SECONDARY_OR_UNKNOWN",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "verbatim_passage_recorded": true,
+          "verification": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "DIRECT_ISSUE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "HISTORICAL_DELAY"
+          ],
+          "regulator_confirmation": "NOT_ESTABLISHED",
+          "validation_conflict": ""
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_001",
+          "quote": "Advanced manufacturing techniques, coatings and enhanced drilling processes are among the measures being deployed to improve durability.",
+          "date": "2026-07-31",
+          "publication_date": "2026-07-31",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_EXA",
+          "source_url": "https://aviationweek.com/mro/aircraft-propulsion/a220s-economic-case-remains-strong-despite-engine-support-challenges",
+          "authority": "SECONDARY",
+          "source_role": "SECONDARY_OR_UNKNOWN",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "verbatim_passage_recorded": true,
+          "verification": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "DIRECT_ISSUE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "TECHNICAL_DEFECT"
+          ],
+          "regulator_confirmation": "NOT_ESTABLISHED",
+          "validation_conflict": ""
+        }
+      ],
+      "established_regulatory_facts": [],
+      "evidence_validation_warnings": [],
+      "kiq_status_counts": {
+        "ANSWERED": 0,
+        "PARTIALLY_ANSWERED": 2,
+        "UNANSWERED": 1,
+        "NOT_SEARCHED": 0
+      }
+    },
+    "detailed_analytical_assessment": "The durability of the PW1500G engine remains a focal point of tactical competitive intelligence for the Airbus A220 program. Current evidence confirms a dual-track scenario: a persistent historical backlog of engine availability issues and a concurrent technical resolution phase. According to DOC_001, the impact is global, affecting launch customers like Swiss and major North American operators like Delta. The \"pressure on fleet\" mentioned in DOC_001 stems from a combination of durability-driven removals and a constrained MRO (Maintenance, Repair, and Overhaul) pipeline. \n\nA significant development noted in July 2026 is the transition toward \"enhanced drilling processes\" and new \"coatings\" intended to extend time-on-wing [DOC_001]. However, there is a distinct gap between the implementation of these manufacturing changes and the recovery of the spare parts supply chain. While DOC_004 and DOC_006 suggest a \"resolution\" is in progress, these documents lack the \"actual regulator (FAA/EASA) confirmation\" necessary to validate that the technical fixes meet all airworthiness directives or that the \"powder metal\" concerns previously associated with the GTF family have been fully closed for the PW1500G variant. \n\nThe analytical takeaway is that the risk has shifted from a \"technical unknown\" to a \"supply chain execution\" challenge. The \"Just-in-Time (JIT) Disruption\" noted in the intelligence indicators suggests that even if the new coatings are successful, the lag in MRO throughput will likely keep AOG rates elevated through the end of 2026. Furthermore, the \"hypothetical dependencies\" on the Embraer E195-E2 and A320neo programs [DOC_008] imply that any failure to stabilize the PW1500G could signal broader risks for the Geared Turbofan (GTF) architecture across other platforms. Management is advised to seek direct verification of the \"enhanced drilling\" success rates and monitor for official EASA/FAA safety bulletins that would formally endorse the durability fixes. Until such confirmation is available, the reported \"resolution\" should be treated as a preliminary manufacturer claim rather than a verified operational milestone.",
+    "detailed_analytical_assessment_mode": "VALIDATED_EDITOR",
+    "executive_summary_mode": "VALIDATED_EDITOR",
+    "report_evidence_usage": [
+      {
+        "doc_id": "DOC_001",
+        "event_ids": [
+          "EVT_PW1500G_AOG_REDUCTION_2026"
+        ],
+        "kiq_ids": [
+          "RKIQ_001",
+          "RKIQ_002"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_004",
+        "event_ids": [
+          "PW1500G-A220-RESOLUTION-2026-07"
+        ],
+        "kiq_ids": [],
+        "source_role": "UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_005",
+        "event_ids": [
+          "EVT_PW1500G_AOG_REDUCTION_2026"
+        ],
+        "kiq_ids": [
+          "RKIQ_001"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_006",
+        "event_ids": [
+          "PW1500G-A220-RESOLUTION-2026-07"
+        ],
+        "kiq_ids": [],
+        "source_role": "UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_008",
+        "event_ids": [],
+        "kiq_ids": [
+          "RKIQ_001"
+        ],
+        "source_role": "UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      }
+    ],
+    "detailed_analytical_assessment_sha256": "9814c5cf0444d4ff1827f97f928115fd24b777f19c5660bc507b3985349662d5",
+    "detailed_analytical_assessment_word_count": 309,
+    "executive_summary_word_count": 206,
+    "agent_decision_trace": [
+      {
+        "agent_index": 1,
+        "agent_role": "Intelligence Planning & Acquisition Agent",
+        "inputs": {
+          "kit": "Airbus A220 Pratt & Whitney PW1500G engine durability and grounding",
+          "scope": "365d",
+          "specificity": "EXACT",
+          "platforms": [
+            "regulatory",
+            "news",
+            "pr"
+          ],
+          "collection_mode": "agentic_exa"
+        },
+        "decisions": {
+          "planner_status": "REPAIRED",
+          "information_requirements_count": 3,
+          "queries_executed": 5,
+          "exa_calls_executed": 2,
+          "collection_status": "PARTIAL_SUCCESS",
+          "fallback_used": false,
+          "agent_rationale": "Initial Exa searches successfully identified a downward trend in A220 groundings by mid-2026 and a March 2026 damages claim by Airbus against P&W. Corporate filings from RTX and Airbus were retrieved to corroborate financial impacts, though social/media channels yielded no high-signal matches for the specific technical identifiers in this timeframe. A gap remains in linking specific AD numbers to the 'Block D' hardware nomenclature."
+        },
+        "outputs": {
+          "documents_collected": 16,
+          "primary_documents": 5,
+          "secondary_documents": 11,
+          "sources_used": [
+            "Exa Semantic Search",
+            "SEC EDGAR",
+            "XBRL International ESEF Filing Index"
+          ],
+          "unresolved_requirements": [
+            "Specific verification of 'Block D' hardware upgrade penetration rates within the A220 fleet (secondary mentions exist, but primary OEM confirmation of fleet-wide completion is missing).",
+            "Granular breakdown of AOG units specifically for the PW1500G variant versus the broader PW1000G family in late 2026 filings."
+          ]
+        },
+        "duration_sec": 71.5
+      },
+      {
+        "agent_index": 2,
+        "agent_role": "Risk Analyst Agent",
+        "inputs": {
+          "fr03_accepted_documents": 5,
+          "fr03_rejected_documents": 11,
+          "batches_created": 2
+        },
+        "decisions": {
+          "batches_succeeded": 2,
+          "batches_failed": 0,
+          "documents_failed": 0,
+          "candidate_schema_rejections": 0,
+          "deterministic_scoring_status": "COMPLETED",
+          "scoring_method": "DETERMINISTIC_5_FACTOR_IW"
+        },
+        "outputs": {
+          "direct_candidate_events": 2,
+          "watchlist_events": 0,
+          "event_ids": [
+            "EVT_PW1500G_AOG_REDUCTION_2026",
+            "PW1500G-A220-RESOLUTION-2026-07"
+          ]
+        },
+        "duration_sec": 25.82
+      },
+      {
+        "agent_index": 3,
+        "agent_role": "Quality Assurance Agent",
+        "inputs": {
+          "qa_enabled": true,
+          "harness_enabled": true,
+          "candidates_reviewed": 2
+        },
+        "decisions": {
+          "qa_performed": true,
+          "qa_failed": false,
+          "harness_performed": true,
+          "validation_errors": 1
+        },
+        "outputs": {
+          "supported_direct_events": 0,
+          "confirmed_critical_events": 0,
+          "unverified_signals": 1,
+          "kiq_completion_status": "NOT_ANSWERED"
+        },
+        "duration_sec": 22.56
+      },
+      {
+        "agent_index": 4,
+        "agent_role": "EWS Editor Agent",
+        "inputs": {
+          "event_briefs_supplied": 2,
+          "verbatim_citations_supplied": 0,
+          "runtime_kiq_count": 3
+        },
+        "decisions": {
+          "editor_failed": false,
+          "editor_validation_status": "PASS",
+          "executive_summary_mode": "VALIDATED_EDITOR",
+          "detailed_assessment_mode": "VALIDATED_EDITOR",
+          "actions_parsed": 2,
+          "action_fallbacks": 1
+        },
+        "outputs": {
+          "action_plan_count": 2,
+          "executive_summary_words": 206,
+          "detailed_assessment_words": 309
+        },
+        "duration_sec": 10.97
+      }
+    ],
+    "ai_governance": {
+      "regulatory_reference": "Regulation (EU) 2024/1689, as amended",
+      "assessment_timestamp_utc": "2026-11-25T16:56:47.355243+00:00",
+      "intended_purpose": "Competitive Intelligence decision support using publicly available aerospace information.",
+      "prohibited_uses": [
+        "Autonomous aircraft operation",
+        "Autonomous safety-critical decisions",
+        "Automated regulatory certification",
+        "Unreviewed operational interventions"
+      ],
+      "ai_system_provider": "Externally hosted LLM provider",
+      "model_identifier": "openrouter/google/gemini-3-flash-preview",
+      "run_id": "RUN-20261125-165424-29267A3AD511",
+      "risk_classification": "REQUIRES_LEGAL_ASSESSMENT",
+      "legal_compliance_status": "NOT_CERTIFIED",
+      "ai_generated_content": true,
+      "human_oversight_available": true,
+      "human_review_status": "WAITING_FOR_HITL",
+      "controls": {
+        "source_traceability": true,
+        "independent_qa": true,
+        "deterministic_validation": true,
+        "human_review_gate": true,
+        "critical_alert_requires_verified_evidence": true,
+        "model_and_run_logging": true
+      },
+      "legal_review_items": {
+        "article_4_ai_literacy": "ORGANIZATIONAL_REVIEW_REQUIRED",
+        "article_50_transparency": "APPLICABILITY_REVIEW_REQUIRED",
+        "article_6_high_risk_classification": "LEGAL_REVIEW_REQUIRED",
+        "personal_data_processing": "GDPR_REVIEW_REQUIRED",
+        "copyright_and_tdm": "SOURCE_SPECIFIC_REVIEW_REQUIRED"
+      },
+      "limitations": "These records document implemented safeguards. They are not a legal conformity assessment, certification or proof of compliance."
+    }
+  },
+  "comparison_summary": {
+    "has_comparable_run": false,
+    "previous_run_id": null,
+    "note": "No previous run with identical KIT and time scope; baseline established.",
+    "delta_critical": 0,
+    "delta_elevated": 0,
+    "delta_monitored": 0,
+    "new_events": 2,
+    "continuing_events": 0,
+    "not_redetected_events": 0,
+    "resolved_events": 0,
+    "unknown_status_events": 0,
+    "reclassified_to_watchlist": 0,
+    "methodology_changed": false
+  },
+  "connector_status": {
+    "Exa Semantic Search": {
+      "connector_name": "Exa Semantic Search",
+      "source_id": "SRC_EXA",
+      "technical_source": "api.exa.ai",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Airbus A220 fleet AOG status Pratt & Whitney PW1500G engine durability grounding count 2025 2026",
+        "PW1500G engine technical durability defects HPT blades powdered metal contamination Block D upgrades Airbus A220"
+      ],
+      "found_count": 12,
+      "accepted_count": 11,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 2,
+      "http_status_counts": {
+        "200": 2
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [
+        "exa_type=auto; duplicates_skipped=0; include_domains=ALL",
+        "exa_type=auto; duplicates_skipped=1; include_domains=ALL"
+      ],
+      "time_window": {
+        "from": "2025-11-25T16:54:24Z",
+        "to": "2026-11-25T16:54:24Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T16:54:37Z",
+      "successful_responses": 2,
+      "collected_document_count": 11,
+      "content_availability_counts": {
+        "FULL_TEXT": 10,
+        "PARTIAL_TEXT": 1
+      },
+      "observed_publication_from": "2026-02-19",
+      "observed_publication_to": "2026-11-16"
+    },
+    "Official Industry PR / Airbus": {
+      "connector_name": "Official Industry PR / Airbus",
+      "source_id": "SRC_005",
+      "technical_source": "airbus.com",
+      "origin_type": "PRIMARY",
+      "legal_status": "REQUIRES_REVIEW",
+      "queries": [
+        "RTX Pratt Whitney PW1500G A220 AOG count Block D upgrade status",
+        "pw1500g a220 pratt"
+      ],
+      "found_count": 100,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 3,
+      "http_status_counts": {
+        "200": 2,
+        "302": 1
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "PARTIAL_RESULT",
+      "errors": [],
+      "coverage_advisories": [
+        "RSS_METADATA_SCREENING_NOT_FULL_TEXT_VERIFICATION"
+      ],
+      "time_window": {
+        "from": "2025-11-25T16:54:24Z",
+        "to": "2026-11-25T16:54:24Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T16:54:44Z",
+      "diagnostics": {
+        "selection_reason": "AIRCRAFT_IDENTITY",
+        "selected_manufacturer": "Airbus",
+        "rss_candidates_examined": 50,
+        "rss_metadata_rejected": 50,
+        "rss_candidates_unexamined": 50,
+        "candidate_outcomes": {
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-16-20-november-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-uk-engineers-and-apprentices-take-centre-stage-in-new-airbus-campaign-to-inspire-future-talent": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-ds-airborne-solutions-gmbh-and-aeronautics-ltd-sign-a-teaming-agreement-intended-to-enable": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-middle-east-airlines-takes-delivery-of-its-first-airbus-a321xlr": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-9-13-november-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-the-cathay-group-orders-14-additional-airbus-aircraft": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buybacks-for-week-starting-2-november-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-lufthansa-takes-delivery-of-its-first-a350-1000-and-700th-airbus-aircraft": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-commences-multi-year-share-buyback-programme-with-launch-of-the-first-tranche": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-a350-1000ulr-for-qantas-breaks-world-distance-record": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-and-blue-angels-air-will-deliver-ab-initio-pilot-training-for-the-indian-market": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-skywise-expands-its-portfolio-with-the-launch-of-enhanced-digital-flight-training-solutions": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-french-armament-general-directorate-dga-qualifies-airbus-u010-aliaca-drone": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-to-deliver-iris-frances-next-generation-military-earth-observation-satellites": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/fr/newsroom/press-releases/2026-10-airbus-souligne-les-25-ans-du-site-de-mirabel-et-investit-dans-son-expansion-et-la-releve": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-marks-mirabel-sites-25th-year-with-investments-in-expansion-and-future-talent": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-nine-month-9m-2026-results": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-and-air-france-klm-operated-joint-venture-for-a350-component-support-finalised": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-granted-design-organisation-approval-by-jcab": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-boston-medflight-orders-three-airbus-h145-helicopters": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-atlantic-airways-orders-two-additional-airbus-a320neo-aircraft": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-awarded-contract-for-two-additional-galileo-satellites": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-life-flight-network-orders-five-airbus-h135-helicopters": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-projects-global-freighter-fleet-to-grow-by-2045": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-programme-helps-students-discover-engineering-careers": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-in-australia-secures-casa-design-approval": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-forecasts-need-for-2720-new-passenger-aircraft-in-latin-america": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-aviation-capital-group-orders-75-airbus-a320neo-family-aircraft": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-connects-german-and-swedish-air-defence-forces-into-unified-nato-shield": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-forecasts-growing-services-market-to-double-by-2045": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-share-buyback-transactions-05-09-october-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-u740-valkyrie-uncrewed-combat-aircraft-takes-off-for-its-maiden-flight-in-europe": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-avolon-orders-35-airbus-a330-900-and-75-a320neo-family-aircraft": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/es/newsroom/press-releases/2026-10-airbus-completa-la-consolidacion-de-sus-actividades-en-cadiz-y-refuerza-su-huella-industrial-en": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-completes-the-consolidation-of-its-activities-in-cadiz-and-reinforces-its-industrial": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-biman-bangladesh-airlines-places-firm-order-for-a350-900-and-a321neo-airbus-aircraft": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/fr/newsroom/press-releases/2026-10-airbus-helicopters-et-le-saskatchewan-indian-institute-of-technologies-concluent-un-partenariat": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-helicopters-and-saskatchewan-indian-institute-of-technologies-partner-to-advance-indigenous": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-share-buyback-transactions-28-sept-to-02-oct-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-romania-orders-12-airbus-h225m-multirole-military-helicopters": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-klm-royal-dutch-airlines-takes-delivery-of-its-first-airbus-a350-900": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-delivers-first-batch-of-next-generation-satellites-for-eutelsats-oneweb-constellation": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-announces-nominations-to-its-board-of-directors": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/fr/newsroom/press-releases/2026-10-airbus-mobilise-18-partenaires-pour-developper-les-competences-aeronautiques-et-spatiales-du-futur": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-mobilises-18-partners-to-develop-the-aerospace-skills-for-the-future": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-completes-acquisition-of-quarkslab-strengthens-french-sovereignty-in-cybersecurity": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-09-flyone-armenia-orders-two-airbus-a321neo": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-reports-share-buyback-transactions-21-25-september-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-a350f-freighter-successfully-performs-its-maiden-flight": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-09-malaysia-airlines-extends-fhs-contract-for-a330ceo-fleet": "RSS_METADATA_NOT_RELEVANT"
+        },
+        "metadata_only_records": 0,
+        "article_access_blocked": 0,
+        "article_unavailable": 0
+      },
+      "diagnostics_history": [
+        {
+          "query": "RTX Pratt Whitney PW1500G A220 AOG count Block D upgrade status",
+          "selection_reason": "AIRCRAFT_IDENTITY",
+          "selected_manufacturer": "Airbus"
+        },
+        {
+          "query": "pw1500g a220 pratt",
+          "rss_candidates_examined": 50,
+          "rss_metadata_rejected": 50,
+          "rss_candidates_unexamined": 50,
+          "candidate_outcomes": {
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-16-20-november-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-uk-engineers-and-apprentices-take-centre-stage-in-new-airbus-campaign-to-inspire-future-talent": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-ds-airborne-solutions-gmbh-and-aeronautics-ltd-sign-a-teaming-agreement-intended-to-enable": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-middle-east-airlines-takes-delivery-of-its-first-airbus-a321xlr": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-9-13-november-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-the-cathay-group-orders-14-additional-airbus-aircraft": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buybacks-for-week-starting-2-november-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-lufthansa-takes-delivery-of-its-first-a350-1000-and-700th-airbus-aircraft": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-commences-multi-year-share-buyback-programme-with-launch-of-the-first-tranche": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-a350-1000ulr-for-qantas-breaks-world-distance-record": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-and-blue-angels-air-will-deliver-ab-initio-pilot-training-for-the-indian-market": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-skywise-expands-its-portfolio-with-the-launch-of-enhanced-digital-flight-training-solutions": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-french-armament-general-directorate-dga-qualifies-airbus-u010-aliaca-drone": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-to-deliver-iris-frances-next-generation-military-earth-observation-satellites": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/fr/newsroom/press-releases/2026-10-airbus-souligne-les-25-ans-du-site-de-mirabel-et-investit-dans-son-expansion-et-la-releve": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-marks-mirabel-sites-25th-year-with-investments-in-expansion-and-future-talent": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-nine-month-9m-2026-results": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-and-air-france-klm-operated-joint-venture-for-a350-component-support-finalised": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-granted-design-organisation-approval-by-jcab": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-boston-medflight-orders-three-airbus-h145-helicopters": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-atlantic-airways-orders-two-additional-airbus-a320neo-aircraft": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-awarded-contract-for-two-additional-galileo-satellites": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-life-flight-network-orders-five-airbus-h135-helicopters": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-projects-global-freighter-fleet-to-grow-by-2045": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-programme-helps-students-discover-engineering-careers": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-in-australia-secures-casa-design-approval": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-forecasts-need-for-2720-new-passenger-aircraft-in-latin-america": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-aviation-capital-group-orders-75-airbus-a320neo-family-aircraft": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-connects-german-and-swedish-air-defence-forces-into-unified-nato-shield": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-forecasts-growing-services-market-to-double-by-2045": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-share-buyback-transactions-05-09-october-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-u740-valkyrie-uncrewed-combat-aircraft-takes-off-for-its-maiden-flight-in-europe": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-avolon-orders-35-airbus-a330-900-and-75-a320neo-family-aircraft": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/es/newsroom/press-releases/2026-10-airbus-completa-la-consolidacion-de-sus-actividades-en-cadiz-y-refuerza-su-huella-industrial-en": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-completes-the-consolidation-of-its-activities-in-cadiz-and-reinforces-its-industrial": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-biman-bangladesh-airlines-places-firm-order-for-a350-900-and-a321neo-airbus-aircraft": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/fr/newsroom/press-releases/2026-10-airbus-helicopters-et-le-saskatchewan-indian-institute-of-technologies-concluent-un-partenariat": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-helicopters-and-saskatchewan-indian-institute-of-technologies-partner-to-advance-indigenous": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-share-buyback-transactions-28-sept-to-02-oct-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-romania-orders-12-airbus-h225m-multirole-military-helicopters": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-klm-royal-dutch-airlines-takes-delivery-of-its-first-airbus-a350-900": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-delivers-first-batch-of-next-generation-satellites-for-eutelsats-oneweb-constellation": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-announces-nominations-to-its-board-of-directors": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/fr/newsroom/press-releases/2026-10-airbus-mobilise-18-partenaires-pour-developper-les-competences-aeronautiques-et-spatiales-du-futur": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-mobilises-18-partners-to-develop-the-aerospace-skills-for-the-future": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-completes-acquisition-of-quarkslab-strengthens-french-sovereignty-in-cybersecurity": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-09-flyone-armenia-orders-two-airbus-a321neo": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-reports-share-buyback-transactions-21-25-september-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-a350f-freighter-successfully-performs-its-maiden-flight": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-09-malaysia-airlines-extends-fhs-contract-for-a330ceo-fleet": "RSS_METADATA_NOT_RELEVANT"
+          },
+          "metadata_only_records": 0,
+          "article_access_blocked": 0,
+          "article_unavailable": 0
+        }
+      ],
+      "successful_responses": 2,
+      "http_redirects": 1
+    },
+    "FAA Federal Register": {
+      "connector_name": "FAA Federal Register",
+      "source_id": "SRC_001",
+      "technical_source": "federalregister.gov",
+      "origin_type": "PRIMARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "PW1500G HPT blade powdered metal AD"
+      ],
+      "found_count": 3,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 4,
+      "http_status_counts": {
+        "200": 4
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "NO_MATCH",
+      "errors": [],
+      "coverage_advisories": [
+        "RESULTS_RETRIEVED; api_declared=3; retrieved=3; accepted=0; pagination_complete=True"
+      ],
+      "time_window": {
+        "from": "2025-11-25T16:54:24Z",
+        "to": "2026-11-25T16:54:24Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T16:54:46Z",
+      "diagnostics": {
+        "page_audits": [
+          {
+            "status": "RESULTS_RETRIEVED",
+            "declared_count": 3,
+            "processed_count": 3,
+            "access_restricted": false,
+            "pages": 1,
+            "page_size": 15,
+            "pagination_complete": true,
+            "last_error": "",
+            "attempts": [
+              {
+                "page": 1,
+                "requested_page_size": 15,
+                "max_bytes": 600000,
+                "http_status": 200,
+                "content_type": "application/json; charset=utf-8",
+                "content_length": "1540",
+                "received_bytes": 5000,
+                "http_attempts": 1,
+                "requested_fields": [
+                  "document_number",
+                  "docket_id",
+                  "docket_ids",
+                  "title",
+                  "abstract",
+                  "action",
+                  "type",
+                  "html_url",
+                  "raw_text_url",
+                  "publication_date",
+                  "effective_on"
+                ],
+                "actual_results_count": 3,
+                "pagination_honored": true,
+                "error_code": null,
+                "response_classification": "VALID_SEARCH_RESPONSE",
+                "response_schema": {
+                  "keys": [
+                    "count",
+                    "description",
+                    "results",
+                    "total_pages"
+                  ],
+                  "types": {
+                    "description": "str",
+                    "count": "int",
+                    "total_pages": "int",
+                    "results": "list"
+                  },
+                  "api_error_code": "",
+                  "declared_count": 3,
+                  "results_present": true,
+                  "results_type": "list"
+                },
+                "query_variant": "ORIGINAL"
+              }
+            ],
+            "request_calls": 1,
+            "retry_suppressed": false,
+            "search_variants": [
+              "ORIGINAL"
+            ],
+            "repair_used": false
+          }
+        ]
+      },
+      "diagnostics_history": [
+        {
+          "query": "PW1500G HPT blade powdered metal AD",
+          "page_audits": [
+            {
+              "status": "RESULTS_RETRIEVED",
+              "declared_count": 3,
+              "processed_count": 3,
+              "access_restricted": false,
+              "pages": 1,
+              "page_size": 15,
+              "pagination_complete": true,
+              "last_error": "",
+              "attempts": [
+                {
+                  "page": 1,
+                  "requested_page_size": 15,
+                  "max_bytes": 600000,
+                  "http_status": 200,
+                  "content_type": "application/json; charset=utf-8",
+                  "content_length": "1540",
+                  "received_bytes": 5000,
+                  "http_attempts": 1,
+                  "requested_fields": [
+                    "document_number",
+                    "docket_id",
+                    "docket_ids",
+                    "title",
+                    "abstract",
+                    "action",
+                    "type",
+                    "html_url",
+                    "raw_text_url",
+                    "publication_date",
+                    "effective_on"
+                  ],
+                  "actual_results_count": 3,
+                  "pagination_honored": true,
+                  "error_code": null,
+                  "response_classification": "VALID_SEARCH_RESPONSE",
+                  "response_schema": {
+                    "keys": [
+                      "count",
+                      "description",
+                      "results",
+                      "total_pages"
+                    ],
+                    "types": {
+                      "description": "str",
+                      "count": "int",
+                      "total_pages": "int",
+                      "results": "list"
+                    },
+                    "api_error_code": "",
+                    "declared_count": 3,
+                    "results_present": true,
+                    "results_type": "list"
+                  },
+                  "query_variant": "ORIGINAL"
+                }
+              ],
+              "request_calls": 1,
+              "retry_suppressed": false,
+              "search_variants": [
+                "ORIGINAL"
+              ],
+              "repair_used": false
+            }
+          ]
+        }
+      ],
+      "successful_responses": 3
+    },
+    "News API": {
+      "connector_name": "News API",
+      "source_id": "SRC_004",
+      "technical_source": "newsapi.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Airbus A220 PW1500G engine grounding status 2026"
+      ],
+      "found_count": 0,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 4,
+      "http_status_counts": {
+        "200": 4
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "NO_MATCH",
+      "errors": [],
+      "coverage_advisories": [
+        "STAGES=EXACT,ALTERNATIVE,ALIASES,STATUS_CHANGE; NEWSAPI_COVERAGE=PARTIAL_WINDOW; requested_days=365.0; searchable_days=29.0; archive_limit_days=29; SEARCH_STATUS=NO_MATCH"
+      ],
+      "time_window": {
+        "from": "2025-11-25T16:54:24Z",
+        "to": "2026-11-25T16:54:24Z",
+        "scope": "365d",
+        "requested_from": "2025-11-25",
+        "requested_to": "2026-11-25",
+        "searchable_from": "2026-10-27T16:54:41.706307+00:00",
+        "searchable_to": "2026-11-25T16:54:41.704389+00:00",
+        "actual_from": "2026-10-27",
+        "actual_to": "2026-11-25",
+        "actual_window_basis": "CONFIGURED_SEARCH_WINDOW_NOT_RETRIEVAL_VERIFIED",
+        "actual_searchable_days": 29.0,
+        "requested_horizon_days": 365.0,
+        "provider_archive_limit_days": 29,
+        "provider_limit_basis": "CONFIGURED_PLAN_WINDOW_NOT_API_VERIFIED",
+        "coverage_status": "PARTIAL_WINDOW",
+        "source_coverage": "PARTIAL",
+        "coverage_complete": false,
+        "date_basis": "PUBLICATION_DATE",
+        "event_date_coverage": "NOT_ESTABLISHED",
+        "observed_publication_from": null,
+        "observed_publication_to": null,
+        "observed_document_count": 0
+      },
+      "last_updated": "2026-11-25T16:54:46Z",
+      "successful_responses": 4
+    },
+    "SEC EDGAR": {
+      "connector_name": "SEC EDGAR",
+      "source_id": "SRC_027",
+      "technical_source": "data.sec.gov",
+      "origin_type": "PRIMARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "RTX Pratt Whitney PW1500G A220 AOG count Block D upgrade status"
+      ],
+      "found_count": 4,
+      "accepted_count": 4,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 6,
+      "http_status_counts": {
+        "200": 6
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [],
+      "time_window": {
+        "from": "2025-11-25T16:54:24Z",
+        "to": "2026-11-25T16:54:24Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T16:54:59Z",
+      "successful_responses": 6,
+      "collected_document_count": 4,
+      "content_availability_counts": {
+        "METADATA_ONLY": 3,
+        "PARTIAL_TEXT": 1
+      },
+      "observed_publication_from": "2026-02-06",
+      "observed_publication_to": "2026-10-20"
+    },
+    "XBRL International ESEF Filing Index": {
+      "connector_name": "XBRL International ESEF Filing Index",
+      "source_id": "SRC_031",
+      "technical_source": "filings.xbrl.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "RTX Pratt Whitney PW1500G A220 AOG count Block D upgrade status"
+      ],
+      "found_count": 1,
+      "accepted_count": 1,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 3,
+      "http_status_counts": {
+        "200": 2,
+        "404": 1
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [],
+      "time_window": {
+        "from": "2025-11-25T16:54:24Z",
+        "to": "2026-11-25T16:54:24Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T16:55:24Z",
+      "successful_responses": 2,
+      "http_errors": 1,
+      "collected_document_count": 1,
+      "content_availability_counts": {
+        "PARTIAL_TEXT": 1
+      },
+      "observed_publication_from": "2026-02-19",
+      "observed_publication_to": "2026-02-19"
+    },
+    "EASA Official Index": {
+      "connector_name": "EASA Official Index",
+      "source_id": "SRC_002",
+      "technical_source": "easa.europa.eu",
+      "origin_type": "PRIMARY_OFFICIAL_INDEX_METADATA",
+      "legal_status": "REQUIRES_REVIEW",
+      "queries": [
+        "PW1500G HPT blade powdered metal AD"
+      ],
+      "found_count": 246,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 20,
+      "http_status_counts": {
+        "200": 20
+      },
+      "content_status_counts": {},
+      "operational_status": "PARTIAL_COVERAGE",
+      "last_search_outcome": "PARTIAL_RESULT",
+      "errors": [],
+      "coverage_advisories": [
+        "PAGINATION_BUDGET_REACHED:pages=20; PARTIAL_COVERAGE:oldest_scanned=2026-02-02"
+      ],
+      "time_window": {
+        "from": "2025-11-25T16:54:24Z",
+        "to": "2026-11-25T16:54:24Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T16:55:30Z",
+      "successful_responses": 20
+    }
+  }
+}

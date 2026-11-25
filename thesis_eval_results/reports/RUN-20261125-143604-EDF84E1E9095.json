@@ -1,0 +1,3347 @@
+{
+  "report_id": "RPT-20261125-66367B",
+  "run_id": "RUN-20261125-143604-EDF84E1E9095",
+  "version": 1,
+  "outcome_status": "PARTIAL_SUCCESS",
+  "executive_summary": "The monitoring of Airbus A321XLR certification status across regulatory filings and secondary media indicates the program achieved primary type certification and entered commercial service in late 2024. According to an issuer report dated February 19, 2026, the A321XLR \"obtained its certification in August 2024 and its commercial entry into service in October 2024\" [DOC_011]. The same source confirms that a \"second engine option for the A321XLR has been certified\" as of 2025 [DOC_011]. While these milestones establish the program's baseline regulatory standing, secondary reports from June 2026 highlight that EASA and the FAA issued \"Special Conditions requiring Airbus to prove the tank could survive a crash landing without rupturing catastrophically\" [DOC_001]. These conditions specifically targeted the Rear Center Tank (RCT) design.\n\nThe analytical takeaway is that while the aircraft is operationally active with multiple engine options, the long-term performance profile remains subject to the weight and design penalties incurred to satisfy these safety mandates. The primary open question is the specific quantification of weight penalties or range limitations resulting from the RCT structural reinforcements, as these details are mentioned as design changes but not quantified in the available secondary evidence. Management should focus on verifying the final \"as-delivered\" performance specifications for upcoming fleet inductions to determine if the regulatory-mandated modifications have altered the original range-payload value proposition.",
+  "detailed_analytical_assessment": "The regulatory trajectory of the Airbus A321XLR has transitioned from a period of design-phase scrutiny regarding fire safety to a state of active commercial operations. Evidence from an Airbus SE filing confirms the aircraft successfully navigated the certification process with EASA and the FAA, achieving its Type Certificate in August 2024 and commencing commercial flights by October 2024 [DOC_011]. The expansion of the program continued through 2025 with the certification of a second engine variant, providing operators with additional propulsion choices [DOC_011].\n\nHowever, the certification was not a simple validation of the original design. The integration of the Rear Center Tank (RCT)—a critical component for the aircraft's extended range—necessitated specific regulatory interventions. Documentation indicates that regulators imposed Special Conditions to ensure the integral fuel tank could withstand crash-landing forces without catastrophic failure [DOC_001]. While the issuance of the Type Certificate implies these conditions were met through design modifications, the secondary impacts of these changes remain partially obscured. Specifically, the \"Special Conditions\" required structural reinforcements that typically introduce weight penalties. \n\nThe current evidence does not provide a verified quantification of how these RCT modifications affected the final maximum takeoff weight (MTOW) or the advertised 4,700nm range. This creates a gap in assessing the competitive standing of the aircraft against long-haul narrowbody alternatives. Furthermore, while American Airlines is identified as an operator in recent briefs, specific cabin certification status for their unique configurations as of July 2026 remains unsupported by detailed regulatory text in the current evidence set.\n\nGiven that the aircraft is already in service, the risk has shifted from \"certification delay\" to \"operational performance variance.\" Management is advised to move from monitoring certification milestones to auditing flight manual (AFM) performance data. This will clarify whether the \"as-certified\" aircraft meets the initial \"as-marketed\" performance targets, particularly for trans-Atlantic or thin long-haul routes where the RCT's capacity is most critical.",
+  "qa_audit_summary": "Editor text converted into typed recommendations; independent evidence QA remains authoritative. | Five-Dimensional Grounding (Technical, Claim, Causal, Independent Verification, Freshness) completed. | [Harness Guard]: 2/2 direct signals SUPPORTED, 0 PARTIALLY_SUPPORTED, 0 classified as ONGOING_ISSUE, 0 moved to RELATED_PROGRAM_WATCHLIST, 0 flagged for manual HITL verification. | Evidence disposition (not a filtering verdict): DOC_001=USED_IN_KIQ_ANSWER; DOC_004=USED_IN_KIQ_ANSWER; DOC_011=USED_IN_KIQ_ANSWER; DOC_013=REFERENCED_BY_EVENT_NOT_KIQ | KIT_COMPLETION: NOT_ANSWERED; 3 of 3 information requirements remain unverified. | [Telemetry]: Run: RUN-20261125-143604-EDF84E1E9095 | CollectionMode: agentic_exa | Runtime: 196.58s (Plan: 6.63s, Collect: 111.51s, Filter: 17.26s, Analyze: 29.64s, QA: 25.89s, Edit: 5.46s, Score: 0.0s) | Batches: 2/2 OK (0 failed) | Docs: 4/15 analyzed (0 failed) | LLM Calls: 8 (Retries: 0) | Model: openrouter/google/gemini-3-flash-preview | Estimated LLM Cost: $0.06852 (ESTIMATED)",
+  "hitl_status": "WAITING_FOR_HITL",
+  "threats": [
+    {
+      "event_id": "A321XLR-CERT-2024-01",
+      "kiq_ids": [
+        "KIQ_3_1"
+      ],
+      "indicator_name": "Regulatory Type Certification Status",
+      "company_affected": "Airbus",
+      "ci_dimension": "Technological CI",
+      "risk_type": "REGULATORY",
+      "secondary_risk_types": [
+        "TECHNICAL_QUALITY",
+        "COMPETITIVE"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Unknown / Not specified in source",
+      "program_relevance": "PROGRAM_UNVERIFIED",
+      "hypothetical_dependencies": [
+        "A320neo",
+        "A321neo",
+        "A321XLR",
+        "A350",
+        "A350F",
+        "A220",
+        "A330neo",
+        "A380",
+        "A400M",
+        "H145",
+        "H160"
+      ],
+      "supplier_registry_basis": "Company: Airbus SE -> Role: OEM (Final Assembler) (Registry Source: Airbus Annual Report / Official Registry) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Unknown / Not specified in source",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] Airbus SE -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Unknown / Not specified in source",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A320neo, A321neo, A321XLR",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Airbus obtained EASA and FAA certifications for the A321XLR following design modifications to meet Special Conditions for Rear Center Tank (RCT) fire safety and crashworthiness.",
+      "decision_question": "Has the final weight penalty resulting from RCT structural changes been quantified for airline performance guarantees?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "The issuance of EASA and FAA type certificates confirms the A321XLR's compliance with safety mandates, including Special Conditions for fuel tank crashworthiness.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting Airbus SE (OEM (Final Assembler)) on source-evidenced program Unknown / Not specified in source. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A320neo, A321neo, A321XLR)",
+      "fact_check_quote": "Both EASA and the FAA concluded that existing airworthiness standards did not cover a fuel tank in this position and issued Special Conditions.",
+      "evidence_passages": [],
+      "evidence_claims": [
+        {
+          "claim_text": "EASA and FAA issued Special Conditions for fuel tank crashworthiness.",
+          "document_id": "DOC_001",
+          "quote": "Both EASA and the FAA concluded that existing airworthiness standards did not cover a fuel tank in this position and issued Special Conditions requiring Airbus to prove the tank could survive a crash landing without rupturing catastrophically.",
+          "source_url": "https://simpleflying.com/airbus-a321xlr-belly-tank-crash-landing-rupture-protection/",
+          "claim_type": "HISTORICAL_STATUS",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "EASA and FAA",
+          "program": "Airbus A321XLR",
+          "component": "Rear Center Tank (RCT)",
+          "issue": "Special Conditions for fuel tank crashworthiness.",
+          "regulatory_authority": "EASA and FAA",
+          "publication_date": "2026-06-10",
+          "event_date": "DATE_UNKNOWN",
+          "cause": "Existing airworthiness standards did not cover fuel tank position.",
+          "effect": "Changes to materials, structure, and lower fuselage design.",
+          "status_before": "Standard rules insufficient.",
+          "status_after": "Design modified to meet crashworthiness.",
+          "resolution_outcome": "Engineering changes met requirements.",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "EASA granted type certification for the CFM LEAP 1A variant.",
+          "document_id": "DOC_004",
+          "quote": "The European Union Aviation Safety Agency (EASA) granted type certification for the CFM LEAP 1A powered variant on 19 July 2024.",
+          "source_url": "https://readyfortakeoffbook.com/blogs/aircraft-type/airbus-a321xlr",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "EASA",
+          "program": "Airbus A321XLR",
+          "component": "CFM LEAP 1A powered variant",
+          "issue": "EASA Type Certification",
+          "regulatory_authority": "EASA",
+          "publication_date": "2026-02-16",
+          "event_date": "2024-07-19",
+          "cause": "Certification campaign completion.",
+          "effect": "Entry into service.",
+          "status_before": "In Certification Process",
+          "status_after": "Certified",
+          "resolution_outcome": "Certificate granted.",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "FAA granted type certification for the A321XLR.",
+          "document_id": "DOC_004",
+          "quote": "The U.S. Federal Aviation Administration (FAA) followed with its own type certificate on 2 October 2024",
+          "source_url": "https://readyfortakeoffbook.com/blogs/aircraft-type/airbus-a321xlr",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "FAA",
+          "program": "Airbus A321XLR",
+          "component": "Unknown / Not specified in source",
+          "issue": "FAA Type Certification",
+          "regulatory_authority": "FAA",
+          "publication_date": "2026-02-16",
+          "event_date": "2024-10-02",
+          "cause": "Certification campaign completion.",
+          "effect": "Entry into service.",
+          "status_before": "In Certification Process",
+          "status_after": "Certified",
+          "resolution_outcome": "Certificate granted.",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_001",
+        "DOC_004"
+      ],
+      "source_urls": [
+        "https://simpleflying.com/airbus-a321xlr-belly-tank-crash-landing-rupture-protection/",
+        "https://readyfortakeoffbook.com/blogs/aircraft-type/airbus-a321xlr"
+      ],
+      "verification_status": "SUPPORTED SOURCE; DIRECT KIT RELEVANCE UNVERIFIED (HISTORICAL_CONTEXT) [Source published 168 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source) | All constraining technical facets of the KIT (aircraft program and/or specific propulsion/component scope) could not be simultaneously verified from event evidence. Direct KIT relevance remains unconfirmed. | KIT_FACT_GAP: AUTHORITY=UNKNOWN | REGULATORY_AUTHORITY_NOT_VERIFIED: issuer or media statements do not establish an agency decision]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "CORROBORATED_INDEPENDENTLY",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "CORROBORATED_INDEPENDENTLY (2 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "PROGRAM_UNVERIFIED",
+        "Source-Evidenced Program": "Unknown / Not specified in source",
+        "Hypothetical Shared Dependencies": "A320neo, A321neo, A321XLR, A350, A350F, A220, A330neo, A380, A400M, H145, H160",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=POSITIVE, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=UNKNOWN, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-06-10",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Regulatory Stage": "UNKNOWN",
+        "Severity": "5/10 (potential impact, not verification)",
+        "Confidence": "HIGH",
+        "Verification": "SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-06-10",
+      "first_seen_at": "2026-11-25T14:39:21Z",
+      "last_seen_at": "2026-11-25T14:39:21Z",
+      "updated_at": "2026-11-25T14:39:21Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://simpleflying.com/airbus-a321xlr-belly-tank-crash-landing-rupture-protection/",
+      "missing_data": "Operational limitations or weight penalties mandated as EIS conditions are mentioned as design changes but not quantified in secondary sources.",
+      "intelligence_gap": {
+        "gap_id": "GAP_87B736",
+        "what_is_missing": "Operational limitations or weight penalties mandated as EIS conditions are mentioned as design changes but not quantified in secondary sources.",
+        "why_important": "Needed to confirm Direct Operational / Regulatory Risk impact on Airbus (Unknown / Not specified in source).",
+        "affected_kiq_id": "KIQ_3_1",
+        "recommended_source": "FAA / EASA / Official OEM Pressroom",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Regulatory mandates for the Rear Center Tank (RCT) structural reinforcement increase empty weight, potentially reducing the A321XLR's marketed long-range payload advantage and narrowing its competitive gap against widebody alternatives.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 2,
+          "rationale": "Certification completed; remaining risk is performance impact rather than safety grounding."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Regulatory approval is critical for program entry into service."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "Airbus is the sole provider for the A321XLR variant."
+        },
+        "propagation_scope": {
+          "score": 1,
+          "rationale": "Specific to A321XLR variant due to unique RCT design."
+        },
+        "temporal_urgency": {
+          "score": 1,
+          "rationale": "Certifications were granted in late 2024; currently in revenue service."
+        }
+      },
+      "threat_score": 5,
+      "score_rationale": "Potential severity: ELEVATED (5/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "HIGH",
+      "urgency": "LOW",
+      "escalation_level": "ROUTINE_MONITORING",
+      "is_critical": false
+    },
+    {
+      "event_id": "A321XLR-FAA-CABIN-CERT-2026-07-18",
+      "kiq_ids": [],
+      "indicator_name": "FAA Special Condition Resolution",
+      "company_affected": "American Airlines",
+      "ci_dimension": "Technological CI",
+      "risk_type": "REGULATORY",
+      "secondary_risk_types": [
+        "COMPETITIVE"
+      ],
+      "scm_tier": "Regulator / Airline",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "A321XLR",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [],
+      "supplier_registry_basis": "Company/Authority: American Airlines -> Role: Regulator / Airline || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: A321XLR",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] American Airlines -> Role: Regulator / Airline",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] A321XLR",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "The FAA has certified the Flagship Suite privacy doors for American Airlines' Airbus A321XLR fleet, resolving a previous operational restriction that required doors to remain open.",
+      "decision_question": "Has the FAA issued a formal Equivalent Level of Safety (ELOS) finding for these suite doors that other A321XLR operators can reference?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "The FAA certification of American Airlines' specific suite doors resolves a significant cabin-entry barrier for the airline's initial A321XLR fleet, moving from a restricted 'forced open' state to full operational utility.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting American Airlines (Regulator / Airline) on source-evidenced program A321XLR.",
+      "fact_check_quote": "American Airlines appears to have jumped the final hurdle to have its Flagship Suites privacy door certified on the Airbus A321XLR, meaning that the doors",
+      "evidence_passages": [],
+      "evidence_claims": [
+        {
+          "claim_text": "The FAA certified American Airlines' A321XLR Flagship Suite doors on July 18, 2026.",
+          "document_id": "DOC_013",
+          "quote": "the Federal Aviation Administration (FAA) finally certified these on July 18, which will now allow this signature feature of the Flagship Suite experience to be utilized to its full potential.",
+          "source_url": "https://simpleflying.com/faa-certifies-american-airlines-flagship-suite-doors/",
+          "claim_type": "RESOLUTION",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Federal Aviation Administration (FAA)",
+          "program": "A321XLR",
+          "component": "Flagship Suite privacy doors",
+          "issue": "Certification of cabin interior components (Suite Doors)",
+          "regulatory_authority": "FAA",
+          "publication_date": "2026-07-18",
+          "event_date": "2026-07-18",
+          "cause": "Flagship Suite sliding door did not meet certification requirements set out by the FAA.",
+          "effect": "Doors can now be opened and closed by passengers.",
+          "status_before": "Forced to remain open",
+          "status_after": "Certified / Functional",
+          "resolution_outcome": "Certification complete",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_013"
+      ],
+      "source_urls": [
+        "https://simpleflying.com/faa-certifies-american-airlines-flagship-suite-doors/"
+      ],
+      "verification_status": "Verified Secondary Source (HISTORICAL_CONTEXT | 1 independent source(s)) [Source published 130 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source) | KIT_FACT_GAP: AUTHORITY=UNKNOWN | REGULATORY_AUTHORITY_NOT_VERIFIED: issuer or media statements do not establish an agency decision]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "UNVERIFIED_SINGLE_SOURCE",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "UNVERIFIED_SINGLE_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "A321XLR",
+        "Hypothetical Shared Dependencies": "None",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=POSITIVE, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=UNKNOWN, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-07-18",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Regulatory Stage": "UNKNOWN",
+        "Severity": "5/10 (potential impact, not verification)",
+        "Confidence": "MEDIUM",
+        "Verification": "SUPPORTED",
+        "Current Status": "ELEVATED_RISK",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-07-18",
+      "first_seen_at": "2026-11-25T14:39:21Z",
+      "last_seen_at": "2026-11-25T14:39:21Z",
+      "updated_at": "2026-11-25T14:39:21Z",
+      "event_status": "ELEVATED_RISK",
+      "evidence_citation": "https://simpleflying.com/faa-certifies-american-airlines-flagship-suite-doors/",
+      "missing_data": "Verification required: Source published 130 days before reference date; historical source alone does not prove a new event or current disruption; Classified as HISTORICAL_CONTEXT (older event referenced in recent source).",
+      "intelligence_gap": {
+        "gap_id": "GAP_FAA_ELOS_DOC",
+        "what_is_missing": "Official FAA ELOS or Special Condition document detailing the safety requirements for the sliding doors.",
+        "why_important": "Determines if this certification sets a universal standard for A321XLR suite doors.",
+        "affected_kiq_id": "KIQ_3_1",
+        "recommended_source": "FAA Federal Register / Regulatory Docket",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Regulatory certification delays for high-margin cabin features could force airlines to defer deliveries or accept aircraft with degraded passenger experiences, impacting yield and product differentiation. Success in US certification reduces entry-into-service risk for other A321XLR operators using similar suite designs.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 2,
+          "rationale": "Resolves operational restriction on cabin usage for a major operator."
+        },
+        "supplier_criticality": {
+          "score": 3,
+          "rationale": "Crucial for American Airlines' long-haul product strategy."
+        },
+        "substitutability_difficulty": {
+          "score": 4,
+          "rationale": "Custom cabin interiors are single-sourced to specific vendors."
+        },
+        "propagation_scope": {
+          "score": 2,
+          "rationale": "Specific to American Airlines' custom cabin configuration."
+        },
+        "temporal_urgency": {
+          "score": 1,
+          "rationale": "Issue reported as resolved on July 18, 2026."
+        }
+      },
+      "threat_score": 5,
+      "score_rationale": "Potential severity: ELEVATED (5/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "MEDIUM",
+      "urgency": "LOW",
+      "escalation_level": "ROUTINE_MONITORING",
+      "is_critical": false
+    },
+    {
+      "event_id": "A321XLR-ENGINE-CERT-2025-RECAP",
+      "kiq_ids": [
+        "KIQ_3_1"
+      ],
+      "indicator_name": "Engine Certification Milestone",
+      "company_affected": "Airbus SE",
+      "ci_dimension": "Tactical CI",
+      "risk_type": "REGULATORY",
+      "secondary_risk_types": [
+        "SUPPLY_CHAIN",
+        "COMPETITIVE"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "A321XLR",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [
+        "A320neo",
+        "A321neo",
+        "A350",
+        "A350F",
+        "A220",
+        "A330neo",
+        "A380",
+        "A400M",
+        "H145",
+        "H160"
+      ],
+      "supplier_registry_basis": "Company: Airbus SE -> Role: OEM (Final Assembler) (Registry Source: Airbus Annual Report / Official Registry) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: A321XLR",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] Airbus SE -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] A321XLR",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A320neo, A321neo, A350",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Airbus confirmed in its 2025 financial report that a second engine option for the A321XLR was successfully certified in 2025, following the primary type certification in August 2024.",
+      "decision_question": "Which engine variant (Pratt & Whitney or CFM) was the 'second' to be certified in 2025, and what were its performance characteristics?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "The certification of a second engine option in 2025 provides necessary operational redundancy and fulfills a key requirement for full global entry-into-service and airline selection flexibility.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting Airbus SE (OEM (Final Assembler)) on source-evidenced program A321XLR. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A320neo, A321neo, A350)",
+      "fact_check_quote": "In 2025, a second engine option for the A321XLR has been certified.",
+      "evidence_passages": [],
+      "evidence_claims": [
+        {
+          "claim_text": "Airbus certified a second engine option for the A321XLR in 2025.",
+          "document_id": "DOC_011",
+          "quote": "In 2025, a second engine option for the A321XLR has been certified.",
+          "source_url": "https://filings.xbrl.org/MINO79WLOO247M1IL051/2025-12-31/ESEF/NL/0/MINO79WLOO247M1IL051-2025-12-31-1-en/reports/MINO79WLOO247M1IL051-2025-12-31-1-en.xhtml",
+          "claim_type": "HISTORICAL_STATUS",
+          "evidence_authority": "ISSUER_OFFICIAL_STATEMENT",
+          "entity": "Airbus SE",
+          "program": "A321XLR",
+          "component": "Engine Option 2",
+          "issue": "Second engine option certification",
+          "regulatory_authority": "EASA/FAA (Implied)",
+          "publication_date": "2026-02-19",
+          "event_date": "2025-12-31",
+          "cause": "Regulatory requirement for platform diversification.",
+          "effect": "Operational flexibility for airlines.",
+          "status_before": "Pending Certification (pre-2025)",
+          "status_after": "Certified",
+          "resolution_outcome": "Certified",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_011"
+      ],
+      "source_urls": [
+        "https://filings.xbrl.org/MINO79WLOO247M1IL051/2025-12-31/ESEF/NL/0/MINO79WLOO247M1IL051-2025-12-31-1-en/reports/MINO79WLOO247M1IL051-2025-12-31-1-en.xhtml"
+      ],
+      "verification_status": "Verified Secondary Source (HISTORICAL_CONTEXT | 1 independent source(s)) [Source published 279 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source) | KIT_FACT_GAP: AUTHORITY=UNKNOWN | REGULATORY_AUTHORITY_NOT_VERIFIED: issuer or media statements do not establish an agency decision]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "UNVERIFIED_SINGLE_SOURCE",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "UNVERIFIED_SINGLE_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "A321XLR",
+        "Hypothetical Shared Dependencies": "A320neo, A321neo, A350, A350F, A220, A330neo, A380, A400M, H145, H160",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "ESEF_FILING",
+        "Claim Authority": "ISSUER_REPORTED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=POSITIVE, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=UNKNOWN, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-02-19",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Regulatory Stage": "UNKNOWN",
+        "Severity": "5/10 (potential impact, not verification)",
+        "Confidence": "MEDIUM",
+        "Verification": "SUPPORTED",
+        "Current Status": "ELEVATED_RISK",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-02-19",
+      "first_seen_at": "2026-11-25T14:39:21Z",
+      "last_seen_at": "2026-11-25T14:39:21Z",
+      "updated_at": "2026-11-25T14:39:21Z",
+      "event_status": "ELEVATED_RISK",
+      "evidence_citation": "https://filings.xbrl.org/MINO79WLOO247M1IL051/2025-12-31/ESEF/NL/0/MINO79WLOO247M1IL051-2025-12-31-1-en/reports/MINO79WLOO247M1IL051-2025-12-31-1-en.xhtml",
+      "missing_data": "Verification required: Source published 279 days before reference date; historical source alone does not prove a new event or current disruption; Classified as HISTORICAL_CONTEXT (older event referenced in recent source).",
+      "intelligence_gap": {
+        "gap_id": "GAP_FDB6AC",
+        "what_is_missing": "Verification required: Source published 279 days before reference date; historical source alone does not prove a new event or current disruption; Classified as HISTORICAL_CONTEXT (older event referenced in recent source).",
+        "why_important": "Needed to confirm Direct Operational / Regulatory Risk impact on Airbus SE (A321XLR).",
+        "affected_kiq_id": "KIQ_3_1",
+        "recommended_source": "FAA / EASA / Official OEM Pressroom",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Multiple engine options ensure program resilience against specific engine-type groundings; certification completion validates the A321XLR's operational flexibility across global fleets. Direct competition between engine OEMs for the A321XLR platform may impact long-term MRO pricing and reliability.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 1,
+          "rationale": "Ensures program-level engine choice and risk mitigation."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Engine OEMs are Tier 1 critical partners."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "Engines are non-substitutable once selected by the airline."
+        },
+        "propagation_scope": {
+          "score": 1,
+          "rationale": "Affects all customers selecting the second engine variant."
+        },
+        "temporal_urgency": {
+          "score": 1,
+          "rationale": "Milestone completed in 2025."
+        }
+      },
+      "threat_score": 5,
+      "score_rationale": "Potential severity: ELEVATED (5/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "MEDIUM",
+      "urgency": "LOW",
+      "escalation_level": "ROUTINE_MONITORING",
+      "is_critical": false
+    }
+  ],
+  "threat_reports": [
+    {
+      "threat_id": "A321XLR-CERT-2024-01",
+      "event_title": "Airbus obtained EASA and FAA certifications for the A321XLR following design modifications to meet Special Conditions for Rear Center Tank (RCT) fire safety and crashworthiness.",
+      "category": "REGULATORY",
+      "affected_entity": "Airbus",
+      "threat_score": 5,
+      "source_url": "https://simpleflying.com/airbus-a321xlr-belly-tank-crash-landing-rupture-protection/",
+      "timestamp": "2026-06-10",
+      "mitigation_advice": "Establish the incident date and whether a new development occurred within the KIT scope for Airbus (Unknown / Not specified in source), event A321XLR-CERT-2024-01.",
+      "confidence_level": "HIGH",
+      "validation_status": "SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "A321XLR-FAA-CABIN-CERT-2026-07-18",
+      "event_title": "The FAA has certified the Flagship Suite privacy doors for American Airlines' Airbus A321XLR fleet, resolving a previous operational restriction that required doors to remain open.",
+      "category": "REGULATORY",
+      "affected_entity": "American Airlines",
+      "threat_score": 5,
+      "source_url": "https://simpleflying.com/faa-certifies-american-airlines-flagship-suite-doors/",
+      "timestamp": "2026-07-18",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "MEDIUM",
+      "validation_status": "SUPPORTED",
+      "event_status": "ELEVATED_RISK"
+    },
+    {
+      "threat_id": "A321XLR-ENGINE-CERT-2025-RECAP",
+      "event_title": "Airbus confirmed in its 2025 financial report that a second engine option for the A321XLR was successfully certified in 2025, following the primary type certification in August 2024.",
+      "category": "REGULATORY",
+      "affected_entity": "Airbus SE",
+      "threat_score": 5,
+      "source_url": "https://filings.xbrl.org/MINO79WLOO247M1IL051/2025-12-31/ESEF/NL/0/MINO79WLOO247M1IL051-2025-12-31-1-en/reports/MINO79WLOO247M1IL051-2025-12-31-1-en.xhtml",
+      "timestamp": "2026-02-19",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "MEDIUM",
+      "validation_status": "SUPPORTED",
+      "event_status": "ELEVATED_RISK"
+    }
+  ],
+  "related_program_watchlist": [],
+  "action_plan": [
+    {
+      "action_id": "ACT_53FC0B6E",
+      "related_event_ids": [
+        "A321XLR-CERT-2024-01"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Airbus"
+      ],
+      "action": "Establish the incident date and whether a new development occurred within the KIT scope for Airbus (Unknown / Not specified in source), event A321XLR-CERT-2024-01.",
+      "rationale": "The available evidence does not establish direct applicability to the monitored KIT.",
+      "pros_and_cons": "PRO: Avoids off-topic operations; CON: Requires evidence review",
+      "triple_a_impact": "Adaptability",
+      "uncertainty_assumptions": "Direct operational, regulatory or supply-chain impact remains unconfirmed.",
+      "owner": "Regulatory Affairs Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Document verified KIT relevance using traceable source evidence.",
+      "priority": "MEDIUM",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-25T14:39:20Z"
+    }
+  ],
+  "kiq_answers": [
+    {
+      "kiq_id": "KIQ_3_1",
+      "question": "How are regulatory decisions, certification milestones, airworthiness actions, or safety mandates affecting aircraft and propulsion programs?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "NONE",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "For Airbus, available evidence notes: Both EASA and the FAA concluded that existing airworthiness standards did not cover a fuel tank in this position and issued Special Conditions [DOC_001]. For Airbus SE (A321XLR), available evidence notes: In 2025, a second engine option for the A321XLR has been certified [DOC_011].",
+      "related_event_ids": [
+        "A321XLR-CERT-2024-01",
+        "A321XLR-ENGINE-CERT-2025-RECAP"
+      ],
+      "evidence_ids": [
+        "DOC_001",
+        "DOC_004",
+        "DOC_011"
+      ],
+      "retrieved_evidence_count": 0,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [],
+      "unused_document_reasons": {},
+      "evidence_requirements": [],
+      "claim_requirement_links": [],
+      "claim_handoff_rejections": {},
+      "source_execution_status": "",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [],
+      "verification_status": "Event evidence evaluated; complete KIQ coverage not established",
+      "uncertainty_level": "MEDIUM",
+      "recommended_next_step": "Verify remaining KIQ facets before marking fully answered.",
+      "missing_information": "Operational limitations or weight penalties mandated as EIS conditions are mentioned as design changes but not quantified in secondary sources."
+    },
+    {
+      "kiq_id": "RKIQ_001",
+      "question": "What is the current status of EASA Type Certification and any Special Conditions regarding the Rear Center Tank (RCT) fire safety and structural integrity?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "PARTIAL",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "Reviewed sources address part of this question, while specific verification items remain open. A secondary media report on 2026-06-10 notes that “issued Special Conditions requiring Airbus to prove the tank could survive a crash landing without rupturing catastrophically.” [DOC_001]. Still needed for a complete answer: existence of the requested regulatory action, latest dated, issue-specific status, direct applicability to the named model or program. Based on 1 relevant document(s) (DOC_001) out of 4 evaluated.",
+      "related_event_ids": [],
+      "evidence_ids": [
+        "DOC_001"
+      ],
+      "retrieved_evidence_count": 1,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [
+        "DOC_001"
+      ],
+      "unused_document_reasons": {
+        "DOC_004": "SCOPE_MISMATCH",
+        "DOC_011": "CLAIM_NOT_VERIFIED",
+        "DOC_013": "SCOPE_MISMATCH"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_001_REQ_01",
+          "key": "REGULATORY_EXISTENCE",
+          "required_fact": "Existence of the requested regulatory action",
+          "evidence_type": "OFFICIAL_REGULATION",
+          "required_entity_model": "321:XLR, A320_FAMILY, Airbus, Center, Rear, Tank",
+          "required_component": "",
+          "verification_status": "PRELIMINARY",
+          "doc_ids": [
+            "DOC_001"
+          ],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [
+            "DOC_001"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_001",
+              "claim": "issued Special Conditions requiring Airbus to prove the tank could survive a crash landing without rupturing catastrophically.",
+              "claim_id": "DOC_001:C01",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "issued Special Conditions requiring Airbus to prove the tank could survive a crash landing without rupturing catastrophically.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "https://simpleflying.com/airbus-a321xlr-belly-tank-crash-landing-rupture-protection/",
+              "extraction_method": "FR03_SEMANTIC_QUOTATION",
+              "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+              "publication_date": "2026-06-10",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://simpleflying.com/airbus-a321xlr-belly-tank-crash-landing-rupture-protection/",
+              "source_hash": "",
+              "passage_hash": "ad3ec8d822d0ce7bc0d2e0f439917d69a8d64dd83f136004ae91672d9c91b626",
+              "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+              "claim_type": "DIRECT_ISSUE",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_001",
+              "claim": "Both EASA and the FAA concluded that existing airworthiness standards did not cover a fuel tank in this position and issued Special Conditions requiring Airbus to prove the tank could survive a crash landing without rupturing catastrophically.",
+              "claim_id": "DOC_001:C03",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "Both EASA and the FAA concluded that existing airworthiness standards did not cover a fuel tank in this position and issued Special Conditions requiring Airbus to prove the tank could survive a crash landing without rupturing catastrophically.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "https://simpleflying.com/airbus-a321xlr-belly-tank-crash-landing-rupture-protection/",
+              "extraction_method": "FR03_SEMANTIC_QUOTATION",
+              "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+              "publication_date": "2026-06-10",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://simpleflying.com/airbus-a321xlr-belly-tank-crash-landing-rupture-protection/",
+              "source_hash": "",
+              "passage_hash": "e12be9df80e3846da45afc55442ed877b239d3d123517b82f6cabd405c57d765",
+              "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+              "claim_type": "DIRECT_ISSUE",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": [
+            "Independent confirmation of the preliminary claim"
+          ]
+        },
+        {
+          "id": "RKIQ_001_REQ_02",
+          "key": "CURRENT_STATUS",
+          "required_fact": "Latest dated, issue-specific status",
+          "evidence_type": "DATED_STATUS",
+          "required_entity_model": "321:XLR, A320_FAMILY, Airbus, Center, Rear, Tank",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Latest dated, issue-specific status"
+          ]
+        },
+        {
+          "id": "RKIQ_001_REQ_03",
+          "key": "PROGRAM_APPLICABILITY",
+          "required_fact": "Direct applicability to the named model or program",
+          "evidence_type": "MODEL_APPLICABILITY",
+          "required_entity_model": "321:XLR, A320_FAMILY, Airbus, Center, Rear, Tank",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Direct applicability to the named model or program"
+          ]
+        }
+      ],
+      "claim_requirement_links": [
+        {
+          "claim_id": "DOC_001:C01",
+          "doc_id": "DOC_001",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "REGULATORY_EXISTENCE",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "DOC_001:C03",
+          "doc_id": "DOC_001",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "REGULATORY_EXISTENCE",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        }
+      ],
+      "claim_handoff_rejections": {
+        "DOC_004": "SCOPE_MISMATCH",
+        "DOC_013": "SCOPE_MISMATCH"
+      },
+      "source_execution_status": "PARTIAL_RESULT",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "REGULATORY_EXISTENCE",
+          "doc_id": "DOC_001",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://simpleflying.com/airbus-a321xlr-belly-tank-crash-landing-rupture-protection/",
+          "original_filing_url": "https://simpleflying.com/airbus-a321xlr-belly-tank-crash-landing-rupture-protection/",
+          "quote": "issued Special Conditions requiring Airbus to prove the tank could survive a crash landing without rupturing catastrophically.",
+          "source_hash": "",
+          "passage_hash": "ad3ec8d822d0ce7bc0d2e0f439917d69a8d64dd83f136004ae91672d9c91b626",
+          "extraction_method": "FR03_SEMANTIC_QUOTATION",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "DIRECT_ISSUE",
+          "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+          "publication_date": "2026-06-10",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "REGULATORY_EXISTENCE",
+          "doc_id": "DOC_001",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://simpleflying.com/airbus-a321xlr-belly-tank-crash-landing-rupture-protection/",
+          "original_filing_url": "https://simpleflying.com/airbus-a321xlr-belly-tank-crash-landing-rupture-protection/",
+          "quote": "Both EASA and the FAA concluded that existing airworthiness standards did not cover a fuel tank in this position and issued Special Conditions requiring Airbus to prove the tank could survive a crash landing without rupturing catastrophically.",
+          "source_hash": "",
+          "passage_hash": "e12be9df80e3846da45afc55442ed877b239d3d123517b82f6cabd405c57d765",
+          "extraction_method": "FR03_SEMANTIC_QUOTATION",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "DIRECT_ISSUE",
+          "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+          "publication_date": "2026-06-10",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        }
+      ],
+      "verification_status": "Verified 0/3 atomic facts; PARTIAL_RESULT",
+      "uncertainty_level": "HIGH",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Existence of the requested regulatory action, Latest dated, issue-specific status, Direct applicability to the named model or program",
+      "missing_information": "Existence of the requested regulatory action: Independent confirmation of the preliminary claim; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status; Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program"
+    },
+    {
+      "kiq_id": "RKIQ_002",
+      "question": "What are the specific FAA Special Conditions or Equivalent Level of Safety (ELOS) findings required for the A321XLR to operate in US airspace?",
+      "answer_status": "UNANSWERED",
+      "evidence_coverage": "NONE",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "No relevant event matching this question was found within the searched sources. Still needed for a complete answer: existence of the requested regulatory action, documented investigation findings or technical cause, direct applicability to the named model or program.",
+      "related_event_ids": [],
+      "evidence_ids": [],
+      "retrieved_evidence_count": 1,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [
+        "DOC_001"
+      ],
+      "unused_document_reasons": {
+        "DOC_001": "SCOPE_MISMATCH",
+        "DOC_004": "SCOPE_MISMATCH",
+        "DOC_011": "CLAIM_NOT_VERIFIED",
+        "DOC_013": "SCOPE_MISMATCH"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_002_REQ_01",
+          "key": "REGULATORY_EXISTENCE",
+          "required_fact": "Existence of the requested regulatory action",
+          "evidence_type": "OFFICIAL_REGULATION",
+          "required_entity_model": "321:XLR, A320_FAMILY, Airbus, Equivalent, Level",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Existence of the requested regulatory action"
+          ]
+        },
+        {
+          "id": "RKIQ_002_REQ_02",
+          "key": "INVESTIGATION_FINDING",
+          "required_fact": "Documented investigation findings or technical cause",
+          "evidence_type": "INVESTIGATION_RECORD",
+          "required_entity_model": "321:XLR, A320_FAMILY, Airbus, Equivalent, Level",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Documented investigation findings or technical cause"
+          ]
+        },
+        {
+          "id": "RKIQ_002_REQ_03",
+          "key": "PROGRAM_APPLICABILITY",
+          "required_fact": "Direct applicability to the named model or program",
+          "evidence_type": "MODEL_APPLICABILITY",
+          "required_entity_model": "321:XLR, A320_FAMILY, Airbus, Equivalent, Level",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Direct applicability to the named model or program"
+          ]
+        }
+      ],
+      "claim_requirement_links": [],
+      "claim_handoff_rejections": {
+        "DOC_001": "SCOPE_MISMATCH",
+        "DOC_004": "SCOPE_MISMATCH",
+        "DOC_013": "SCOPE_MISMATCH"
+      },
+      "source_execution_status": "PARTIAL_RESULT",
+      "content_result": "NO_RELEVANT_EVENT",
+      "issue_status": "NO_RELEVANT_EVENT",
+      "evidence_trace": [],
+      "verification_status": "Verified 0/3 atomic facts; PARTIAL_RESULT",
+      "uncertainty_level": "HIGH",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Existence of the requested regulatory action, Documented investigation findings or technical cause, Direct applicability to the named model or program",
+      "missing_information": "Existence of the requested regulatory action: Verified source passage for: Existence of the requested regulatory action; Documented investigation findings or technical cause: Verified source passage for: Documented investigation findings or technical cause; Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program"
+    },
+    {
+      "kiq_id": "RKIQ_003",
+      "question": "What operational limitations or weight penalties have been mandated by regulators as a condition for A321XLR entry-into-service (EIS)?",
+      "answer_status": "UNANSWERED",
+      "evidence_coverage": "NONE",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "No relevant event matching this question was found within the searched sources. Still needed for a complete answer: direct applicability to the named model or program.",
+      "related_event_ids": [],
+      "evidence_ids": [],
+      "retrieved_evidence_count": 4,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [
+        "DOC_001",
+        "DOC_004",
+        "DOC_011",
+        "DOC_013"
+      ],
+      "unused_document_reasons": {
+        "DOC_001": "CLAIM_NOT_VERIFIED",
+        "DOC_004": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_011": "CLAIM_NOT_VERIFIED",
+        "DOC_013": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_003_REQ_01",
+          "key": "PROGRAM_APPLICABILITY",
+          "required_fact": "Direct applicability to the named model or program",
+          "evidence_type": "MODEL_APPLICABILITY",
+          "required_entity_model": "321:XLR, A320_FAMILY, Airbus",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Direct applicability to the named model or program"
+          ]
+        }
+      ],
+      "claim_requirement_links": [],
+      "claim_handoff_rejections": {
+        "DOC_004": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_013": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "source_execution_status": "PARTIAL_RESULT",
+      "content_result": "NO_RELEVANT_EVENT",
+      "issue_status": "NO_RELEVANT_EVENT",
+      "evidence_trace": [],
+      "verification_status": "Verified 0/1 atomic facts; PARTIAL_RESULT",
+      "uncertainty_level": "HIGH",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Direct applicability to the named model or program",
+      "missing_information": "Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program"
+    }
+  ],
+  "run_metadata": {
+    "run_id": "RUN-20261125-143604-EDF84E1E9095",
+    "report_id": "RPT-20261125-66367B",
+    "started_at": "2026-11-25T14:36:04Z",
+    "completed_at": "2026-11-25T14:39:20Z",
+    "run_date_utc": "2026-11-25",
+    "analysis_reference_date": "2026-11-25",
+    "reference_date_mode": "EXECUTION_DATE",
+    "collection_window_start_utc": "2025-11-25T14:36:04Z",
+    "collection_window_end_utc": "2026-11-25T14:36:04Z",
+    "status": "completed",
+    "outcome_status": "PARTIAL_SUCCESS",
+    "processing_status": "COMPLETED",
+    "evidence_completeness_status": "PARTIAL",
+    "kiq_completion_status": "NOT_ANSWERED",
+    "kiqs_fully_answered": 0,
+    "kiqs_missing_specific_evidence": 3,
+    "kit_completion_audit": {
+      "as_of_date": "2026-11-25",
+      "questions": [
+        {
+          "kiq_id": "RKIQ_001",
+          "question": "What is the current status of EASA Type Certification and any Special Conditions regarding the Rear Center Tank (RCT) fire safety and structural integrity?",
+          "answer_status": "PARTIALLY_ANSWERED",
+          "content_result": "STATUS_UNKNOWN",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "REGULATORY_EXISTENCE",
+              "missing_information": [
+                "Independent confirmation of the preliminary claim"
+              ]
+            },
+            {
+              "key": "CURRENT_STATUS",
+              "missing_information": [
+                "Verified source passage for: Latest dated, issue-specific status"
+              ]
+            },
+            {
+              "key": "PROGRAM_APPLICABILITY",
+              "missing_information": [
+                "Verified source passage for: Direct applicability to the named model or program"
+              ]
+            }
+          ],
+          "missing_information": "Existence of the requested regulatory action: Independent confirmation of the preliminary claim; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status; Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program",
+          "source_execution_status": "PARTIAL_RESULT",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 0,
+          "latest_evidence_date": "2026-06-10",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        },
+        {
+          "kiq_id": "RKIQ_002",
+          "question": "What are the specific FAA Special Conditions or Equivalent Level of Safety (ELOS) findings required for the A321XLR to operate in US airspace?",
+          "answer_status": "UNANSWERED",
+          "content_result": "NO_RELEVANT_EVENT",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "REGULATORY_EXISTENCE",
+              "missing_information": [
+                "Verified source passage for: Existence of the requested regulatory action"
+              ]
+            },
+            {
+              "key": "INVESTIGATION_FINDING",
+              "missing_information": [
+                "Verified source passage for: Documented investigation findings or technical cause"
+              ]
+            },
+            {
+              "key": "PROGRAM_APPLICABILITY",
+              "missing_information": [
+                "Verified source passage for: Direct applicability to the named model or program"
+              ]
+            }
+          ],
+          "missing_information": "Existence of the requested regulatory action: Verified source passage for: Existence of the requested regulatory action; Documented investigation findings or technical cause: Verified source passage for: Documented investigation findings or technical cause; Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program",
+          "source_execution_status": "PARTIAL_RESULT",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 0,
+          "latest_evidence_date": "",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        },
+        {
+          "kiq_id": "RKIQ_003",
+          "question": "What operational limitations or weight penalties have been mandated by regulators as a condition for A321XLR entry-into-service (EIS)?",
+          "answer_status": "UNANSWERED",
+          "content_result": "NO_RELEVANT_EVENT",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "PROGRAM_APPLICABILITY",
+              "missing_information": [
+                "Verified source passage for: Direct applicability to the named model or program"
+              ]
+            }
+          ],
+          "missing_information": "Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program",
+          "source_execution_status": "PARTIAL_RESULT",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 0,
+          "latest_evidence_date": "",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        }
+      ],
+      "total": 3,
+      "complete": 0,
+      "missing": 3,
+      "unavailable_sources": [
+        {
+          "connector": "News API",
+          "source_id": "SRC_004",
+          "status": "RATE_LIMITED",
+          "errors": [
+            "RECALL:RATE_LIMITED:rateLimited"
+          ]
+        }
+      ],
+      "unsearched_requests": [],
+      "status": "NOT_ANSWERED"
+    },
+    "planner_status": "REPAIRED",
+    "collection_mode": "agentic_exa",
+    "acquisition_trace": {
+      "collection_id": "COL_4046BB",
+      "kit": "Airbus A321XLR EASA and FAA certification and operational conditions",
+      "collection_mode": "agentic_exa",
+      "search_objective": "Execute adaptive OSINT intelligence acquisition for Airbus A321XLR EASA and FAA certification and operational conditions, focusing on Rear Center Tank (RCT) safety, Special Conditions, and MTOW/range impacts.",
+      "queries_executed": 7,
+      "exa_calls_executed": 3,
+      "sources_used": [
+        "Exa Semantic Search",
+        "Official Industry PR / Airbus",
+        "XBRL International ESEF Filing Index"
+      ],
+      "documents_found": 15,
+      "primary_documents": 4,
+      "secondary_documents": 11,
+      "full_text_documents": 14,
+      "metadata_only_documents": 0,
+      "unresolved_requirements": [
+        "Specific FAA Special Conditions ruling text for the RCT (only seat-related and fatigue ADs found).",
+        "Quantified MTOW reductions or range performance impacts explicitly linked to regulatory safety mandates (secondary sources discuss range but lack specific penalty figures)."
+      ],
+      "collection_status": "PARTIAL_SUCCESS",
+      "next_action": "Finalize acquisition. The budget for Exa and primary regulator searches is nearly exhausted, and the airshow platform is disabled. Remaining effort should focus on a final targeted search for FAA RCT-specific dockets if budget allows, or co",
+      "agent_rationale": "Initial Exa searches successfully identified the EASA certification date (August 2024) and EIS (October 2024) via corporate filings. Regulatory searches provided FAA Special Conditions for seats and fatigue ADs but failed to return a specific 'RCT' final ruling document, suggesting it may be bundled under broader Part 25 compliance or non-public ELOS findings. Media/social and airshow channels were queried per rules but yielded low signal or were disabled.",
+      "steps": [
+        {
+          "step": 1,
+          "tool": "exa_semantic_search",
+          "query": "FAA Special Conditions A321XLR 14 CFR Part 25 certification validation RCT fire safety",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 6,
+          "new_doc_ids": [
+            "DOC_001",
+            "DOC_002",
+            "DOC_003",
+            "DOC_004",
+            "DOC_005",
+            "DOC_006"
+          ],
+          "elapsed_sec": 4.47,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 2,
+          "tool": "exa_semantic_search",
+          "query": "Airbus A321XLR EASA Type Certification Rear Center Tank RCT special conditions status 2024 2025",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 3,
+          "new_doc_ids": [
+            "DOC_007",
+            "DOC_008",
+            "DOC_009"
+          ],
+          "elapsed_sec": 5.2,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 3,
+          "tool": "search_official_regulators",
+          "query": "FAA A321XLR Special Conditions 14 CFR Part 25 RCT",
+          "status": "NO_MATCH",
+          "new_doc_count": 0,
+          "new_doc_ids": [],
+          "elapsed_sec": 10.42,
+          "calls_used": 4,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 4,
+          "tool": "search_official_regulators",
+          "query": "A321XLR EASA Type Certificate RCT Special Condition",
+          "status": "NO_MATCH",
+          "new_doc_count": 0,
+          "new_doc_ids": [],
+          "elapsed_sec": 72.27,
+          "calls_used": 4,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 5,
+          "tool": "search_corporate_filings",
+          "query": "Airbus A321XLR certification MTOW range impact RCT",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 2,
+          "new_doc_ids": [
+            "DOC_010",
+            "DOC_011"
+          ],
+          "elapsed_sec": 93.09,
+          "calls_used": 5,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 6,
+          "tool": "search_media_and_social",
+          "query": "[all] A321XLR FAA certification RCT weight penalty",
+          "status": "NO_MATCH",
+          "new_doc_count": 0,
+          "new_doc_ids": [],
+          "elapsed_sec": 102.15,
+          "calls_used": 6,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 7,
+          "tool": "exa_semantic_search",
+          "query": "A321XLR FAA Special Conditions final ruling Federal Register 2024 2025 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 4,
+          "new_doc_ids": [
+            "DOC_012",
+            "DOC_013",
+            "DOC_014",
+            "DOC_015"
+          ],
+          "elapsed_sec": 107.74,
+          "calls_used": 7,
+          "exa_calls_used": 3,
+          "note": ""
+        }
+      ],
+      "budget_summary": {
+        "calls_made": 7,
+        "max_total_calls": 10,
+        "remaining_total_calls": 3,
+        "exa_calls_made": 3,
+        "max_exa_calls": 4,
+        "remaining_exa_calls": 1,
+        "elapsed_sec": 111.49,
+        "max_seconds": 180,
+        "remaining_seconds": 68.5,
+        "steps_recorded": 7
+      },
+      "fallback_used": false,
+      "llm_tokens_in": 45264,
+      "llm_tokens_out": 756
+    },
+    "phase_checkpoints": {
+      "planner": "REPAIRED",
+      "collection": "PASS",
+      "fr03": "PASS",
+      "analyst": "PASS",
+      "qa": "COMPLETED",
+      "kiq": "NOT_ANSWERED",
+      "editor": "COMPLETED",
+      "scoring": "COMPLETED",
+      "reporting": "VALIDATED"
+    },
+    "evidence_flow_audit": {
+      "documents": [
+        {
+          "doc_id": "DOC_001",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_002",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_003",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_004",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_005",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_006",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_007",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_008",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_009",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_010",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_011",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_012",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_013",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": true
+          },
+          "gap": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "interruption_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_014",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_015",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        }
+      ],
+      "stage_counts": {
+        "COLLECTED": 15,
+        "FILTER_ACCEPTED": 4,
+        "CLAIMS_EXTRACTED": 4,
+        "CLAIMS_VALIDATED": 4,
+        "KIQ_EVALUATED": 4,
+        "KIQ_LINKED": 3,
+        "NOT_APPLICABLE": 1,
+        "REPORT_REFERENCED": 4,
+        "REPORT_USED": 4,
+        "REPORT_NOT_USED": 0
+      },
+      "unlinked_accepted_document_ids": [
+        "DOC_013"
+      ],
+      "unreferenced_validated_document_ids": [],
+      "potential_analytical_loss_ids": [],
+      "handoff_error_ids": [],
+      "validated_claim_counts": {
+        "DOC_001": 1,
+        "DOC_002": 0,
+        "DOC_003": 0,
+        "DOC_004": 1,
+        "DOC_005": 0,
+        "DOC_006": 0,
+        "DOC_007": 0,
+        "DOC_008": 0,
+        "DOC_009": 0,
+        "DOC_010": 0,
+        "DOC_011": 1,
+        "DOC_012": 0,
+        "DOC_013": 1,
+        "DOC_014": 0,
+        "DOC_015": 0
+      }
+    },
+    "evidence_integrity_issues": [],
+    "source_provenance_missing_ids": [],
+    "kiq_unlinked_extracted_document_ids": [],
+    "kiq_handoff_error_document_ids": [],
+    "kiq_handoff_contract_errors": {},
+    "editor_kiq_context_error": null,
+    "editor_evidence_citation_document_ids": [
+      "DOC_011"
+    ],
+    "query": "Airbus A321XLR EASA and FAA certification and operational conditions",
+    "experiment": {
+      "dataset_run_id": "RUN-20261125-143604-EDF84E1E9095",
+      "replay_run_id": null,
+      "collection_mode": "agentic_exa",
+      "qa_enabled": true,
+      "harness_enabled": true,
+      "keyword_baseline": false,
+      "dataset_sha256": "3dcebb5e17e14d7d4566a6ce11dd504979af14cf78f86e5af9ad337cabc34dcf",
+      "replay_uses_live_llm": false
+    },
+    "analysis_scope": "365d",
+    "effective_from": "2025-11-25T14:36:04Z",
+    "effective_to": "2026-11-25T14:36:04Z",
+    "as_of_date": "2026-11-25",
+    "documents_collected": 15,
+    "historical_resolutions": [],
+    "historical_resolution_count": 0,
+    "temporal_claim_audit": [
+      {
+        "event_id": "A321XLR-CERT-2024-01",
+        "entity": "Airbus",
+        "program": "Unknown / Not specified in source",
+        "component": "Unknown / Not specified in source",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-06-10",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "A321XLR-FAA-CABIN-CERT-2026-07-18",
+        "entity": "American Airlines",
+        "program": "A321XLR",
+        "component": "Unknown / Not specified in source",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-07-18",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "A321XLR-ENGINE-CERT-2025-RECAP",
+        "entity": "Airbus SE",
+        "program": "A321XLR",
+        "component": "Unknown / Not specified in source",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-02-19",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      }
+    ],
+    "document_content_status_counts": {
+      "FULL_TEXT": 14,
+      "FULL_TEXT_RETRIEVED": 0,
+      "METADATA_ONLY": 0,
+      "PARTIAL_TEXT": 1,
+      "SOURCE_METADATA_ONLY": 0,
+      "SOURCE_POLICY_RESTRICTED": 0,
+      "STRUCTURED_DATA": 0,
+      "SUMMARY_ONLY": 0,
+      "TEXT_COMPLETENESS_UNVERIFIED": 0,
+      "TEXT_RETRIEVED_COMPLETENESS_UNVERIFIED": 0,
+      "TRANSCRIPT_AS_RECEIVED": 0,
+      "UNAVAILABLE": 0,
+      "UNKNOWN": 0
+    },
+    "unknown_content_statuses": [],
+    "telemetry_errors": [],
+    "telemetry_integrity_ok": true,
+    "content_limited_document_ids": [
+      "DOC_001",
+      "DOC_002",
+      "DOC_003",
+      "DOC_004",
+      "DOC_005",
+      "DOC_006",
+      "DOC_007",
+      "DOC_008",
+      "DOC_009",
+      "DOC_011",
+      "DOC_012",
+      "DOC_013",
+      "DOC_014",
+      "DOC_015"
+    ],
+    "documents_analyzed": 4,
+    "documents_rejected": 11,
+    "documents_failed": 0,
+    "analysis_phase_status": "COMPLETED",
+    "analysis_recovery_budget": {
+      "time_budget_sec": 600,
+      "max_retries": 8,
+      "max_calls": 10,
+      "retries": 0,
+      "calls": 2,
+      "blocked": ""
+    },
+    "analyzed_document_ids": [
+      "DOC_001",
+      "DOC_004",
+      "DOC_011",
+      "DOC_013"
+    ],
+    "failed_document_ids": [],
+    "recovered_document_ids": [],
+    "partially_analyzed_document_ids": [],
+    "documents_recovered": 0,
+    "analyst_batch_document_counts": [
+      2,
+      2
+    ],
+    "analyst_recovery_splits": 0,
+    "analyst_retry_counts_by_reason": {
+      "PROVIDER_INTERNAL_RETRY": 0
+    },
+    "batches_created": 2,
+    "batches_succeeded": 2,
+    "batches_failed": 0,
+    "planning_duration_sec": 6.63,
+    "collection_duration_sec": 111.51,
+    "filter_duration_sec": 17.26,
+    "analysis_duration_sec": 29.64,
+    "qa_duration_sec": 25.89,
+    "editorial_duration_sec": 5.46,
+    "scoring_duration_sec": 0.0,
+    "scoring_status": "COMPLETED",
+    "scoring_methodology": {
+      "version": "IW-5FACTOR-DET-V1",
+      "method": "DETERMINISTIC_5_FACTOR_IW",
+      "scale": "F1-F5 rated 1..5; final threat_score 1..10",
+      "formula": "S = clamp(floor(sum(w_i * F_i) * 2 + 0.5), 1, 10)",
+      "weights": {
+        "impact_severity": 0.3,
+        "supplier_criticality": 0.2,
+        "substitutability_difficulty": 0.15,
+        "propagation_scope": 0.15,
+        "temporal_urgency": 0.2
+      },
+      "bands": {
+        "monitored": "1-4",
+        "elevated": "5-7",
+        "high_potential_impact": "8-10"
+      },
+      "severity_independent_of_confidence": true
+    },
+    "scoring_partial_fallback_ids": [],
+    "scoring_audit": [
+      {
+        "event_id": "A321XLR-CERT-2024-01",
+        "provisional_score": 3,
+        "computed_score": 5,
+        "final_score": 5,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(2.70 * 2) = 5/10",
+        "weighted_sum": 2.7,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 2,
+            "weight": 0.3,
+            "weighted_contribution": 0.6,
+            "rationale": "Certification completed; remaining risk is performance impact rather than safety grounding."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Regulatory approval is critical for program entry into service."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "Airbus is the sole provider for the A321XLR variant."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 1,
+            "weight": 0.15,
+            "weighted_contribution": 0.15,
+            "rationale": "Specific to A321XLR variant due to unique RCT design."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 1,
+            "weight": 0.2,
+            "weighted_contribution": 0.2,
+            "rationale": "Certifications were granted in late 2024; currently in revenue service."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (168 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: ELEVATED (5/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 5,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "HIGH",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-06-10",
+        "source_age_days": 168
+      },
+      {
+        "event_id": "A321XLR-FAA-CABIN-CERT-2026-07-18",
+        "provisional_score": 3,
+        "computed_score": 5,
+        "final_score": 5,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(2.30 * 2) = 5/10",
+        "weighted_sum": 2.3,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 2,
+            "weight": 0.3,
+            "weighted_contribution": 0.6,
+            "rationale": "Resolves operational restriction on cabin usage for a major operator."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 3,
+            "weight": 0.2,
+            "weighted_contribution": 0.6,
+            "rationale": "Crucial for American Airlines' long-haul product strategy."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Custom cabin interiors are single-sourced to specific vendors."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 2,
+            "weight": 0.15,
+            "weighted_contribution": 0.3,
+            "rationale": "Specific to American Airlines' custom cabin configuration."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 1,
+            "weight": 0.2,
+            "weighted_contribution": 0.2,
+            "rationale": "Issue reported as resolved on July 18, 2026."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (130 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: ELEVATED (5/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 5,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "MEDIUM",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "Regulator / Airline",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-07-18",
+        "source_age_days": 130
+      },
+      {
+        "event_id": "A321XLR-ENGINE-CERT-2025-RECAP",
+        "provisional_score": 2,
+        "computed_score": 5,
+        "final_score": 5,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(2.40 * 2) = 5/10",
+        "weighted_sum": 2.4,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 1,
+            "weight": 0.3,
+            "weighted_contribution": 0.3,
+            "rationale": "Ensures program-level engine choice and risk mitigation."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Engine OEMs are Tier 1 critical partners."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "Engines are non-substitutable once selected by the airline."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 1,
+            "weight": 0.15,
+            "weighted_contribution": 0.15,
+            "rationale": "Affects all customers selecting the second engine variant."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 1,
+            "weight": 0.2,
+            "weighted_contribution": 0.2,
+            "rationale": "Milestone completed in 2025."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (279 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: ELEVATED (5/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 5,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "MEDIUM",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-02-19",
+        "source_age_days": 279
+      }
+    ],
+    "total_duration_sec": 196.58,
+    "llm_calls": 8,
+    "llm_retries": 0,
+    "tokens_input": 50392,
+    "tokens_output": 14441,
+    "token_usage_status": "MEASURED",
+    "token_usage_unknown_calls": 0,
+    "llm_call_audit": [
+      {
+        "task_type": "PHASE_1_PLANNER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 1549,
+        "output_tokens": 776,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_2_ACQUISITION",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 45264,
+        "output_tokens": 756,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 3602,
+        "output_tokens": 1376,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2898,
+        "output_tokens": 1219,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_1_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 17701,
+        "output_tokens": 1906,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_2_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 17085,
+        "output_tokens": 3053,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_3B_QA",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 6316,
+        "output_tokens": 6015,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_4_EDITOR",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2790,
+        "output_tokens": 872,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      }
+    ],
+    "analyst_recovery_audit": {
+      "attempts": [],
+      "fallbacks": [],
+      "recent_events": []
+    },
+    "token_accounting_method": "SHARED_LLM_DELTA",
+    "provider_requests_measured": 6,
+    "estimated_cost_usd": 0.06852,
+    "estimated_cost_status": "ESTIMATED",
+    "priced_cost_subtotal_usd": 0.06852,
+    "model_cost_audit": [
+      {
+        "model_id": "openrouter/google/gemini-3-flash-preview",
+        "usage_bucket": "openrouter/google/gemini-3-flash-preview",
+        "input_tokens": 50392,
+        "output_tokens": 14441,
+        "requests": 6,
+        "estimated_cost_usd": 0.06852,
+        "pricing_status": "ESTIMATED"
+      }
+    ],
+    "cost_estimation_reason_codes": [],
+    "unmatched_cost_model_ids": [],
+    "model_id": "openrouter/google/gemini-3-flash-preview",
+    "prompt_version": "v2.10-CI-HRO-2026-EVIDENCE-SCOPE",
+    "kiq_catalog_version": "THESIS_KIQ_CATALOG_V2_20261031",
+    "candidate_schema_rejections": 0,
+    "qa_failed": false,
+    "qa_performed": true,
+    "harness_performed": true,
+    "editor_failed": false,
+    "editorial_generation_mode": "LLM_TEXT_PYDANTIC_V1",
+    "editor_text_parsed_count": 1,
+    "editor_text_fallbacks": 1,
+    "editor_retry_count": 0,
+    "editor_retry_recovered": false,
+    "editor_fallback_used": true,
+    "pipeline_degraded": true,
+    "degradation_category": "SOURCE_COVERAGE_LIMITED",
+    "source_coverage_issues": [
+      {
+        "connector": "News API",
+        "issue": "RECALL:RATE_LIMITED:rateLimited"
+      }
+    ],
+    "source_coverage_limited": true,
+    "source_coverage_advisories": [
+      {
+        "connector": "Exa Semantic Search",
+        "issue": "exa_type=auto; duplicates_skipped=0; include_domains=ALL"
+      },
+      {
+        "connector": "Exa Semantic Search",
+        "issue": "exa_type=auto; duplicates_skipped=3; include_domains=ALL"
+      },
+      {
+        "connector": "Exa Semantic Search",
+        "issue": "exa_type=auto; duplicates_skipped=2; include_domains=ALL"
+      },
+      {
+        "connector": "FAA Federal Register",
+        "issue": "NO_RESULTS; api_declared=0; retrieved=0"
+      },
+      {
+        "connector": "EASA Official Index",
+        "issue": "PAGINATION_BUDGET_REACHED:pages=20; PARTIAL_COVERAGE:oldest_scanned=2026-02-02"
+      },
+      {
+        "connector": "Official Industry PR / Airbus",
+        "issue": "RSS_METADATA_SCREENING_NOT_FULL_TEXT_VERIFICATION"
+      },
+      {
+        "connector": "News API",
+        "issue": "NEWSAPI_COVERAGE=PARTIAL_WINDOW; archive_limit_days=29"
+      }
+    ],
+    "source_coverage_status": "PARTIAL",
+    "source_coverage_legacy_status": "LIMITED",
+    "evidence_result_status": "SUPPORTED_EVENTS",
+    "review_scope": "EVENT_REVIEW",
+    "analysis_issues": [],
+    "fr03_rejection_review_candidates": 6,
+    "fr03_rejection_stage_counts": {
+      "STAGE_1_DETERMINISTIC": 5,
+      "STAGE_2_SEMANTIC": 6
+    },
+    "scoring_calibration": "UNMEASURED_REQUIRES_EXPERT_REFERENCE_LABELS",
+    "semantic_filter_unavailable_count": 0,
+    "semantic_filter_missing_ids": [],
+    "analyst_valid_empty_batches": 0,
+    "analyst_invalid_batches": 0,
+    "analyst_empty_retry_count": 0,
+    "analyst_empty_retry_failed_batches": 0,
+    "analyst_empty_output_conflict": false,
+    "analyst_empty_conflict_previous_run": null,
+    "analyst_output_audit": [
+      {
+        "batch": 1,
+        "depth": 0,
+        "document_ids": [
+          "DOC_004",
+          "DOC_001"
+        ],
+        "documents_processed": 2,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 6686,
+        "output_tokens": 1906,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 2,
+        "depth": 0,
+        "document_ids": [
+          "DOC_013",
+          "DOC_011"
+        ],
+        "documents_processed": 2,
+        "candidate_count": 2,
+        "rejected_count": 0,
+        "output_chars": 9803,
+        "output_tokens": 3053,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      }
+    ],
+    "confirmed_critical_count": 0,
+    "unverified_signal_count": 0,
+    "displayable_signal_count": 2,
+    "verified_context_count": 1,
+    "direct_kit_confirmed_count": 2,
+    "verified_context_event_ids": [
+      "A321XLR-CERT-2024-01"
+    ],
+    "classification_version": "SUPPORTED_ONLY_DASHBOARD_V3_EVENT_ID_1TO1",
+    "runtime_kiq_count": 3,
+    "runtime_kiq_ids": [
+      "RKIQ_001",
+      "RKIQ_002",
+      "RKIQ_003"
+    ],
+    "runtime_kiq_answered": 0,
+    "runtime_kiq_partially_answered": 1,
+    "runtime_kiq_unanswered": 2,
+    "runtime_kiq_not_searched": 0,
+    "intelligence_methodology": {
+      "collection_method": "OSINT",
+      "analysis_method": "Competitive Intelligence",
+      "osint_document_count": 15,
+      "ci_candidate_count": 3,
+      "osint_stage": "Acquisition and preprocessing of publicly available information.",
+      "ci_stage": "Interpretation of collected evidence against KIT/KIQ requirements, strategic risks, competitive implications and decision needs.",
+      "methodological_boundary": "A retrieved source is OSINT evidence. It becomes an intelligence assessment only after analytical interpretation and validation.",
+      "independent_verification_required": true
+    },
+    "editor_claim_audit": {
+      "status": "PASS",
+      "all_supported": true,
+      "citations_match": true,
+      "checks": {
+        "doc_id_exists": true,
+        "passages_match": true,
+        "event_references_valid": true,
+        "urls_valid": true
+      },
+      "claim_sentences_checked": 17,
+      "cited_document_ids": [
+        "DOC_001",
+        "DOC_004",
+        "DOC_011",
+        "DOC_013"
+      ],
+      "issues": [],
+      "review_items": [],
+      "audit_method": "DETERMINISTIC_PROVENANCE_ONLY"
+    },
+    "editor_executive_summary": "The monitoring of Airbus A321XLR certification status across regulatory filings and secondary media indicates the program achieved primary type certification and entered commercial service in late 2024. According to an issuer report dated February 19, 2026, the A321XLR \"obtained its certification in August 2024 and its commercial entry into service in October 2024\" [DOC_011]. The same source confirms that a \"second engine option for the A321XLR has been certified\" as of 2025 [DOC_011]. While these milestones establish the program's baseline regulatory standing, secondary reports from June 2026 highlight that EASA and the FAA issued \"Special Conditions requiring Airbus to prove the tank could survive a crash landing without rupturing catastrophically\" [DOC_001]. These conditions specifically targeted the Rear Center Tank (RCT) design.\n\nThe analytical takeaway is that while the aircraft is operationally active with multiple engine options, the long-term performance profile remains subject to the weight and design penalties incurred to satisfy these safety mandates. The primary open question is the specific quantification of weight penalties or range limitations resulting from the RCT structural reinforcements, as these details are mentioned as design changes but not quantified in the available secondary evidence. Management should focus on verifying the final \"as-delivered\" performance specifications for upcoming fleet inductions to determine if the regulatory-mandated modifications have altered the original range-payload value proposition.",
+    "editor_detailed_analytical_assessment": "The regulatory trajectory of the Airbus A321XLR has transitioned from a period of design-phase scrutiny regarding fire safety to a state of active commercial operations. Evidence from an Airbus SE filing confirms the aircraft successfully navigated the certification process with EASA and the FAA, achieving its Type Certificate in August 2024 and commencing commercial flights by October 2024 [DOC_011]. The expansion of the program continued through 2025 with the certification of a second engine variant, providing operators with additional propulsion choices [DOC_011].\n\nHowever, the certification was not a simple validation of the original design. The integration of the Rear Center Tank (RCT)—a critical component for the aircraft's extended range—necessitated specific regulatory interventions. Documentation indicates that regulators imposed Special Conditions to ensure the integral fuel tank could withstand crash-landing forces without catastrophic failure [DOC_001]. While the issuance of the Type Certificate implies these conditions were met through design modifications, the secondary impacts of these changes remain partially obscured. Specifically, the \"Special Conditions\" required structural reinforcements that typically introduce weight penalties. \n\nThe current evidence does not provide a verified quantification of how these RCT modifications affected the final maximum takeoff weight (MTOW) or the advertised 4,700nm range. This creates a gap in assessing the competitive standing of the aircraft against long-haul narrowbody alternatives. Furthermore, while American Airlines is identified as an operator in recent briefs, specific cabin certification status for their unique configurations as of July 2026 remains unsupported by detailed regulatory text in the current evidence set.\n\nGiven that the aircraft is already in service, the risk has shifted from \"certification delay\" to \"operational performance variance.\" Management is advised to move from monitoring certification milestones to auditing flight manual (AFM) performance data. This will clarify whether the \"as-certified\" aircraft meets the initial \"as-marketed\" performance targets, particularly for trans-Atlantic or thin long-haul routes where the RCT's capacity is most critical.",
+    "editor_validation_status": "PASS",
+    "editor_claim_citations_verified": true,
+    "editor_semantic_review_required": false,
+    "kit_current_assessment": {
+      "status": "PRELIMINARY_SIGNALS_IDENTIFIED",
+      "source_coverage": "INCOMPLETE",
+      "as_of_date": "2026-11-25",
+      "search_overview": {
+        "connectors_searched": [
+          "Exa Semantic Search",
+          "FAA Federal Register",
+          "EASA Official Index",
+          "Official Industry PR / Airbus",
+          "XBRL International ESEF Filing Index",
+          "News API"
+        ],
+        "connectors_with_results": [
+          "Exa Semantic Search",
+          "Official Industry PR / Airbus",
+          "XBRL International ESEF Filing Index"
+        ],
+        "documents_collected": 15,
+        "documents_analyzed": 4,
+        "documents_rejected": 11,
+        "events_identified": 3,
+        "supported_events": 0
+      },
+      "issue_status": "PRELIMINARY",
+      "regulator_verification": "UNAVAILABLE",
+      "source_authority": "NOT_ESTABLISHED",
+      "coverage_status": "PARTIAL",
+      "severity_context": "POTENTIAL",
+      "potential_severity": 5,
+      "evidence_confidence": "LOW",
+      "chronological_milestones": [],
+      "conflicts": [],
+      "monitored_kit": "Airbus A321XLR EASA and FAA certification and operational conditions",
+      "original_issue": "Airbus A321XLR EASA and FAA certification and operational conditions",
+      "latest_milestone": "NOT_ESTABLISHED",
+      "latest_milestone_date": "",
+      "latest_evidence_id": "",
+      "latest_evidence_url": "",
+      "latest_verification": "UNVERIFIED",
+      "unresolved_questions": [
+        "Existence of the requested regulatory action: Independent confirmation of the preliminary claim; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status; Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program",
+        "Existence of the requested regulatory action: Verified source passage for: Existence of the requested regulatory action; Documented investigation findings or technical cause: Verified source passage for: Documented investigation findings or technical cause; Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program",
+        "Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program"
+      ],
+      "severity": null,
+      "confidence": "LOW",
+      "evidence_strength": "PARTIAL_REPORTED",
+      "reported_developments": [
+        {
+          "event_id": "A321XLR-FAA-CABIN-CERT-2026-07-18",
+          "evidence_id": "DOC_013",
+          "date": "2026-07-18",
+          "claim": "American Airlines appears to have jumped the final hurdle to have its Flagship Suites privacy door certified on the Airbus A321XLR, meaning that the doors",
+          "program": "A321XLR",
+          "company": "American Airlines",
+          "source_url": "https://simpleflying.com/faa-certifies-american-airlines-flagship-suite-doors/",
+          "verification": "SUPPORTED",
+          "source_role": "SECONDARY_OR_UNKNOWN"
+        },
+        {
+          "event_id": "A321XLR-ENGINE-CERT-2025-RECAP",
+          "evidence_id": "DOC_011",
+          "date": "2026-02-19",
+          "claim": "In 2025, a second engine option for the A321XLR has been certified.",
+          "program": "A321XLR",
+          "company": "Airbus SE",
+          "source_url": "https://filings.xbrl.org/MINO79WLOO247M1IL051/2025-12-31/ESEF/NL/0/MINO79WLOO247M1IL051-2025-12-31-1-en/reports/MINO79WLOO247M1IL051-2025-12-31-1-en.xhtml",
+          "verification": "SUPPORTED",
+          "source_role": "SECONDARY_OR_UNKNOWN"
+        }
+      ],
+      "kiq_source_claims": [
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_001",
+          "quote": "issued Special Conditions requiring Airbus to prove the tank could survive a crash landing without rupturing catastrophically.",
+          "date": "2026-06-10",
+          "publication_date": "2026-06-10",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_EXA",
+          "source_url": "https://simpleflying.com/airbus-a321xlr-belly-tank-crash-landing-rupture-protection/",
+          "authority": "SECONDARY",
+          "source_role": "SECONDARY_OR_UNKNOWN",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "verbatim_passage_recorded": true,
+          "verification": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "DIRECT_ISSUE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "REGULATORY_EXISTENCE"
+          ],
+          "regulator_confirmation": "NOT_ESTABLISHED",
+          "validation_conflict": ""
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_001",
+          "quote": "Both EASA and the FAA concluded that existing airworthiness standards did not cover a fuel tank in this position and issued Special Conditions requiring Airbus to prove the tank could survive a crash landing without rupturing catastrophically.",
+          "date": "2026-06-10",
+          "publication_date": "2026-06-10",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_EXA",
+          "source_url": "https://simpleflying.com/airbus-a321xlr-belly-tank-crash-landing-rupture-protection/",
+          "authority": "SECONDARY",
+          "source_role": "SECONDARY_OR_UNKNOWN",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "verbatim_passage_recorded": true,
+          "verification": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "DIRECT_ISSUE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "REGULATORY_EXISTENCE"
+          ],
+          "regulator_confirmation": "NOT_ESTABLISHED",
+          "validation_conflict": ""
+        }
+      ],
+      "established_regulatory_facts": [],
+      "evidence_validation_warnings": [],
+      "kiq_status_counts": {
+        "ANSWERED": 0,
+        "PARTIALLY_ANSWERED": 1,
+        "UNANSWERED": 2,
+        "NOT_SEARCHED": 0
+      }
+    },
+    "detailed_analytical_assessment": "The regulatory trajectory of the Airbus A321XLR has transitioned from a period of design-phase scrutiny regarding fire safety to a state of active commercial operations. Evidence from an Airbus SE filing confirms the aircraft successfully navigated the certification process with EASA and the FAA, achieving its Type Certificate in August 2024 and commencing commercial flights by October 2024 [DOC_011]. The expansion of the program continued through 2025 with the certification of a second engine variant, providing operators with additional propulsion choices [DOC_011].\n\nHowever, the certification was not a simple validation of the original design. The integration of the Rear Center Tank (RCT)—a critical component for the aircraft's extended range—necessitated specific regulatory interventions. Documentation indicates that regulators imposed Special Conditions to ensure the integral fuel tank could withstand crash-landing forces without catastrophic failure [DOC_001]. While the issuance of the Type Certificate implies these conditions were met through design modifications, the secondary impacts of these changes remain partially obscured. Specifically, the \"Special Conditions\" required structural reinforcements that typically introduce weight penalties. \n\nThe current evidence does not provide a verified quantification of how these RCT modifications affected the final maximum takeoff weight (MTOW) or the advertised 4,700nm range. This creates a gap in assessing the competitive standing of the aircraft against long-haul narrowbody alternatives. Furthermore, while American Airlines is identified as an operator in recent briefs, specific cabin certification status for their unique configurations as of July 2026 remains unsupported by detailed regulatory text in the current evidence set.\n\nGiven that the aircraft is already in service, the risk has shifted from \"certification delay\" to \"operational performance variance.\" Management is advised to move from monitoring certification milestones to auditing flight manual (AFM) performance data. This will clarify whether the \"as-certified\" aircraft meets the initial \"as-marketed\" performance targets, particularly for trans-Atlantic or thin long-haul routes where the RCT's capacity is most critical.",
+    "detailed_analytical_assessment_mode": "VALIDATED_EDITOR",
+    "executive_summary_mode": "VALIDATED_EDITOR",
+    "report_evidence_usage": [
+      {
+        "doc_id": "DOC_001",
+        "event_ids": [
+          "A321XLR-CERT-2024-01"
+        ],
+        "kiq_ids": [
+          "KIQ_3_1",
+          "RKIQ_001"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_004",
+        "event_ids": [
+          "A321XLR-CERT-2024-01"
+        ],
+        "kiq_ids": [
+          "KIQ_3_1"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "USED_IN_KIQ_NOT_CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_011",
+        "event_ids": [
+          "A321XLR-ENGINE-CERT-2025-RECAP"
+        ],
+        "kiq_ids": [
+          "KIQ_3_1"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_013",
+        "event_ids": [
+          "A321XLR-FAA-CABIN-CERT-2026-07-18"
+        ],
+        "kiq_ids": [],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "EVENT_NOT_SELECTED_FOR_NARRATIVE"
+      }
+    ],
+    "detailed_analytical_assessment_sha256": "e9f3b619d06d177963c6673bfc6f347f51edb285688ca56e0bae45d94eef8613",
+    "detailed_analytical_assessment_word_count": 308,
+    "executive_summary_word_count": 217,
+    "agent_decision_trace": [
+      {
+        "agent_index": 1,
+        "agent_role": "Intelligence Planning & Acquisition Agent",
+        "inputs": {
+          "kit": "Airbus A321XLR EASA and FAA certification and operational conditions",
+          "scope": "365d",
+          "specificity": "EXACT",
+          "platforms": [
+            "regulatory",
+            "news",
+            "pr"
+          ],
+          "collection_mode": "agentic_exa"
+        },
+        "decisions": {
+          "planner_status": "REPAIRED",
+          "information_requirements_count": 3,
+          "queries_executed": 7,
+          "exa_calls_executed": 3,
+          "collection_status": "PARTIAL_SUCCESS",
+          "fallback_used": false,
+          "agent_rationale": "Initial Exa searches successfully identified the EASA certification date (August 2024) and EIS (October 2024) via corporate filings. Regulatory searches provided FAA Special Conditions for seats and fatigue ADs but failed to return a specific 'RCT' final ruling document, suggesting it may be bundled under broader Part 25 compliance or non-public ELOS findings. Media/social and airshow channels were queried per rules but yielded low signal or were disabled."
+        },
+        "outputs": {
+          "documents_collected": 15,
+          "primary_documents": 4,
+          "secondary_documents": 11,
+          "sources_used": [
+            "Exa Semantic Search",
+            "Official Industry PR / Airbus",
+            "XBRL International ESEF Filing Index"
+          ],
+          "unresolved_requirements": [
+            "Specific FAA Special Conditions ruling text for the RCT (only seat-related and fatigue ADs found).",
+            "Quantified MTOW reductions or range performance impacts explicitly linked to regulatory safety mandates (secondary sources discuss range but lack specific penalty figures)."
+          ]
+        },
+        "duration_sec": 118.14
+      },
+      {
+        "agent_index": 2,
+        "agent_role": "Risk Analyst Agent",
+        "inputs": {
+          "fr03_accepted_documents": 4,
+          "fr03_rejected_documents": 11,
+          "batches_created": 2
+        },
+        "decisions": {
+          "batches_succeeded": 2,
+          "batches_failed": 0,
+          "documents_failed": 0,
+          "candidate_schema_rejections": 0,
+          "deterministic_scoring_status": "COMPLETED",
+          "scoring_method": "DETERMINISTIC_5_FACTOR_IW"
+        },
+        "outputs": {
+          "direct_candidate_events": 3,
+          "watchlist_events": 0,
+          "event_ids": [
+            "A321XLR-CERT-2024-01",
+            "A321XLR-FAA-CABIN-CERT-2026-07-18",
+            "A321XLR-ENGINE-CERT-2025-RECAP"
+          ]
+        },
+        "duration_sec": 29.64
+      },
+      {
+        "agent_index": 3,
+        "agent_role": "Quality Assurance Agent",
+        "inputs": {
+          "qa_enabled": true,
+          "harness_enabled": true,
+          "candidates_reviewed": 3
+        },
+        "decisions": {
+          "qa_performed": true,
+          "qa_failed": false,
+          "harness_performed": true,
+          "validation_errors": 0
+        },
+        "outputs": {
+          "supported_direct_events": 2,
+          "confirmed_critical_events": 0,
+          "unverified_signals": 0,
+          "kiq_completion_status": "NOT_ANSWERED"
+        },
+        "duration_sec": 25.89
+      },
+      {
+        "agent_index": 4,
+        "agent_role": "EWS Editor Agent",
+        "inputs": {
+          "event_briefs_supplied": 3,
+          "verbatim_citations_supplied": 2,
+          "runtime_kiq_count": 3
+        },
+        "decisions": {
+          "editor_failed": false,
+          "editor_validation_status": "PASS",
+          "executive_summary_mode": "VALIDATED_EDITOR",
+          "detailed_assessment_mode": "VALIDATED_EDITOR",
+          "actions_parsed": 1,
+          "action_fallbacks": 1
+        },
+        "outputs": {
+          "action_plan_count": 1,
+          "executive_summary_words": 217,
+          "detailed_assessment_words": 308
+        },
+        "duration_sec": 5.46
+      }
+    ],
+    "ai_governance": {
+      "regulatory_reference": "Regulation (EU) 2024/1689, as amended",
+      "assessment_timestamp_utc": "2026-11-25T14:39:21.445600+00:00",
+      "intended_purpose": "Competitive Intelligence decision support using publicly available aerospace information.",
+      "prohibited_uses": [
+        "Autonomous aircraft operation",
+        "Autonomous safety-critical decisions",
+        "Automated regulatory certification",
+        "Unreviewed operational interventions"
+      ],
+      "ai_system_provider": "Externally hosted LLM provider",
+      "model_identifier": "openrouter/google/gemini-3-flash-preview",
+      "run_id": "RUN-20261125-143604-EDF84E1E9095",
+      "risk_classification": "REQUIRES_LEGAL_ASSESSMENT",
+      "legal_compliance_status": "NOT_CERTIFIED",
+      "ai_generated_content": true,
+      "human_oversight_available": true,
+      "human_review_status": "WAITING_FOR_HITL",
+      "controls": {
+        "source_traceability": true,
+        "independent_qa": true,
+        "deterministic_validation": true,
+        "human_review_gate": true,
+        "critical_alert_requires_verified_evidence": true,
+        "model_and_run_logging": true
+      },
+      "legal_review_items": {
+        "article_4_ai_literacy": "ORGANIZATIONAL_REVIEW_REQUIRED",
+        "article_50_transparency": "APPLICABILITY_REVIEW_REQUIRED",
+        "article_6_high_risk_classification": "LEGAL_REVIEW_REQUIRED",
+        "personal_data_processing": "GDPR_REVIEW_REQUIRED",
+        "copyright_and_tdm": "SOURCE_SPECIFIC_REVIEW_REQUIRED"
+      },
+      "limitations": "These records document implemented safeguards. They are not a legal conformity assessment, certification or proof of compliance."
+    }
+  },
+  "comparison_summary": {
+    "has_comparable_run": false,
+    "previous_run_id": null,
+    "note": "No previous run with identical KIT and time scope; baseline established.",
+    "delta_critical": 0,
+    "delta_elevated": 0,
+    "delta_monitored": 0,
+    "new_events": 3,
+    "continuing_events": 0,
+    "not_redetected_events": 0,
+    "resolved_events": 0,
+    "unknown_status_events": 0,
+    "reclassified_to_watchlist": 0,
+    "methodology_changed": false
+  },
+  "connector_status": {
+    "Exa Semantic Search": {
+      "connector_name": "Exa Semantic Search",
+      "source_id": "SRC_EXA",
+      "technical_source": "api.exa.ai",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "FAA Special Conditions A321XLR 14 CFR Part 25 certification validation RCT fire safety",
+        "Airbus A321XLR EASA Type Certification Rear Center Tank RCT special conditions status 2024 2025",
+        "A321XLR FAA Special Conditions final ruling Federal Register 2024 2025 2026"
+      ],
+      "found_count": 18,
+      "accepted_count": 13,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 3,
+      "http_status_counts": {
+        "200": 3
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [
+        "exa_type=auto; duplicates_skipped=0; include_domains=ALL",
+        "exa_type=auto; duplicates_skipped=3; include_domains=ALL",
+        "exa_type=auto; duplicates_skipped=2; include_domains=ALL"
+      ],
+      "time_window": {
+        "from": "2025-11-25T14:36:04Z",
+        "to": "2026-11-25T14:36:04Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T14:37:58Z",
+      "successful_responses": 3,
+      "collected_document_count": 13,
+      "content_availability_counts": {
+        "FULL_TEXT": 13
+      },
+      "observed_publication_from": "2025-12-08",
+      "observed_publication_to": "2026-11-19"
+    },
+    "FAA Federal Register": {
+      "connector_name": "FAA Federal Register",
+      "source_id": "SRC_001",
+      "technical_source": "federalregister.gov",
+      "origin_type": "PRIMARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "A321XLR EASA Type Certificate RCT Special Condition",
+        "FAA A321XLR Special Conditions 14 CFR Part 25 RCT"
+      ],
+      "found_count": 0,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 4,
+      "http_status_counts": {
+        "200": 2
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "NO_MATCH",
+      "errors": [],
+      "coverage_advisories": [
+        "NO_RESULTS; api_declared=0; retrieved=0"
+      ],
+      "time_window": {
+        "from": "2025-11-25T14:36:04Z",
+        "to": "2026-11-25T14:36:04Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T14:36:21Z",
+      "diagnostics": {
+        "page_audits": [
+          {
+            "status": "NO_RESULTS",
+            "declared_count": 0,
+            "processed_count": 0,
+            "access_restricted": false,
+            "pages": 1,
+            "page_size": 18,
+            "pagination_complete": true,
+            "last_error": "",
+            "attempts": [
+              {
+                "page": 1,
+                "requested_page_size": 18,
+                "max_bytes": 600000,
+                "http_status": 200,
+                "content_type": "application/json; charset=utf-8",
+                "content_length": "149",
+                "received_bytes": 139,
+                "http_attempts": 1,
+                "requested_fields": [
+                  "document_number",
+                  "docket_id",
+                  "docket_ids",
+                  "title",
+                  "abstract",
+                  "action",
+                  "type",
+                  "html_url",
+                  "raw_text_url",
+                  "publication_date",
+                  "effective_on"
+                ],
+                "actual_results_count": 0,
+                "pagination_honored": true,
+                "error_code": null,
+                "response_classification": "VALID_SEARCH_RESPONSE",
+                "response_schema": {
+                  "keys": [
+                    "count",
+                    "description"
+                  ],
+                  "types": {
+                    "description": "str",
+                    "count": "int"
+                  },
+                  "api_error_code": "",
+                  "declared_count": 0,
+                  "results_present": false,
+                  "results_type": "NoneType",
+                  "empty_results_normalized": true
+                },
+                "query_variant": "ORIGINAL"
+              }
+            ],
+            "request_calls": 1,
+            "retry_suppressed": false,
+            "search_variants": [
+              "ORIGINAL"
+            ],
+            "repair_used": false
+          }
+        ]
+      },
+      "diagnostics_history": [
+        {
+          "query": "A321XLR EASA Type Certificate RCT Special Condition",
+          "page_audits": [
+            {
+              "status": "NO_RESULTS",
+              "declared_count": 0,
+              "processed_count": 0,
+              "access_restricted": false,
+              "pages": 1,
+              "page_size": 18,
+              "pagination_complete": true,
+              "last_error": "",
+              "attempts": [
+                {
+                  "page": 1,
+                  "requested_page_size": 18,
+                  "max_bytes": 600000,
+                  "http_status": 200,
+                  "content_type": "application/json; charset=utf-8",
+                  "content_length": "156",
+                  "received_bytes": 153,
+                  "http_attempts": 1,
+                  "requested_fields": [
+                    "document_number",
+                    "docket_id",
+                    "docket_ids",
+                    "title",
+                    "abstract",
+                    "action",
+                    "type",
+                    "html_url",
+                    "raw_text_url",
+                    "publication_date",
+                    "effective_on"
+                  ],
+                  "actual_results_count": 0,
+                  "pagination_honored": true,
+                  "error_code": null,
+                  "response_classification": "VALID_SEARCH_RESPONSE",
+                  "response_schema": {
+                    "keys": [
+                      "count",
+                      "description"
+                    ],
+                    "types": {
+                      "description": "str",
+                      "count": "int"
+                    },
+                    "api_error_code": "",
+                    "declared_count": 0,
+                    "results_present": false,
+                    "results_type": "NoneType",
+                    "empty_results_normalized": true
+                  },
+                  "query_variant": "ORIGINAL"
+                }
+              ],
+              "request_calls": 1,
+              "retry_suppressed": false,
+              "search_variants": [
+                "ORIGINAL"
+              ],
+              "repair_used": false
+            }
+          ]
+        },
+        {
+          "query": "FAA A321XLR Special Conditions 14 CFR Part 25 RCT",
+          "page_audits": [
+            {
+              "status": "NO_RESULTS",
+              "declared_count": 0,
+              "processed_count": 0,
+              "access_restricted": false,
+              "pages": 1,
+              "page_size": 18,
+              "pagination_complete": true,
+              "last_error": "",
+              "attempts": [
+                {
+                  "page": 1,
+                  "requested_page_size": 18,
+                  "max_bytes": 600000,
+                  "http_status": 200,
+                  "content_type": "application/json; charset=utf-8",
+                  "content_length": "149",
+                  "received_bytes": 139,
+                  "http_attempts": 1,
+                  "requested_fields": [
+                    "document_number",
+                    "docket_id",
+                    "docket_ids",
+                    "title",
+                    "abstract",
+                    "action",
+                    "type",
+                    "html_url",
+                    "raw_text_url",
+                    "publication_date",
+                    "effective_on"
+                  ],
+                  "actual_results_count": 0,
+                  "pagination_honored": true,
+                  "error_code": null,
+                  "response_classification": "VALID_SEARCH_RESPONSE",
+                  "response_schema": {
+                    "keys": [
+                      "count",
+                      "description"
+                    ],
+                    "types": {
+                      "description": "str",
+                      "count": "int"
+                    },
+                    "api_error_code": "",
+                    "declared_count": 0,
+                    "results_present": false,
+                    "results_type": "NoneType",
+                    "empty_results_normalized": true
+                  },
+                  "query_variant": "ORIGINAL"
+                }
+              ],
+              "request_calls": 1,
+              "retry_suppressed": false,
+              "search_variants": [
+                "ORIGINAL"
+              ],
+              "repair_used": false
+            }
+          ]
+        }
+      ],
+      "successful_responses": 2
+    },
+    "EASA Official Index": {
+      "connector_name": "EASA Official Index",
+      "source_id": "SRC_002",
+      "technical_source": "easa.europa.eu",
+      "origin_type": "PRIMARY_OFFICIAL_INDEX_METADATA",
+      "legal_status": "REQUIRES_REVIEW",
+      "queries": [
+        "A321XLR EASA Type Certificate RCT Special Condition"
+      ],
+      "found_count": 246,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 20,
+      "http_status_counts": {
+        "200": 20
+      },
+      "content_status_counts": {},
+      "operational_status": "PARTIAL_COVERAGE",
+      "last_search_outcome": "PARTIAL_RESULT",
+      "errors": [],
+      "coverage_advisories": [
+        "PAGINATION_BUDGET_REACHED:pages=20; PARTIAL_COVERAGE:oldest_scanned=2026-02-02"
+      ],
+      "time_window": {
+        "from": "2025-11-25T14:36:04Z",
+        "to": "2026-11-25T14:36:04Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T14:37:22Z",
+      "successful_responses": 20
+    },
+    "Official Industry PR / Airbus": {
+      "connector_name": "Official Industry PR / Airbus",
+      "source_id": "SRC_005",
+      "technical_source": "airbus.com",
+      "origin_type": "PRIMARY",
+      "legal_status": "REQUIRES_REVIEW",
+      "queries": [
+        "Airbus A321XLR certification MTOW range impact RCT",
+        "A321XLR certification mtow"
+      ],
+      "found_count": 100,
+      "accepted_count": 1,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 3,
+      "http_status_counts": {
+        "302": 1,
+        "200": 2
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "PARTIAL_RESULT",
+      "errors": [],
+      "coverage_advisories": [
+        "RSS_METADATA_SCREENING_NOT_FULL_TEXT_VERIFICATION"
+      ],
+      "time_window": {
+        "from": "2025-11-25T14:36:04Z",
+        "to": "2026-11-25T14:36:04Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T14:37:29Z",
+      "diagnostics": {
+        "selection_reason": "EXPLICIT_MANUFACTURER",
+        "selected_manufacturer": "Airbus",
+        "rss_candidates_examined": 60,
+        "rss_metadata_rejected": 59,
+        "rss_candidates_unexamined": 40,
+        "candidate_outcomes": {
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-16-20-november-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-uk-engineers-and-apprentices-take-centre-stage-in-new-airbus-campaign-to-inspire-future-talent": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-ds-airborne-solutions-gmbh-and-aeronautics-ltd-sign-a-teaming-agreement-intended-to-enable": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-middle-east-airlines-takes-delivery-of-its-first-airbus-a321xlr": "COLLECTED_FULL_TEXT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-9-13-november-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-the-cathay-group-orders-14-additional-airbus-aircraft": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buybacks-for-week-starting-2-november-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-lufthansa-takes-delivery-of-its-first-a350-1000-and-700th-airbus-aircraft": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-commences-multi-year-share-buyback-programme-with-launch-of-the-first-tranche": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-a350-1000ulr-for-qantas-breaks-world-distance-record": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-and-blue-angels-air-will-deliver-ab-initio-pilot-training-for-the-indian-market": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-skywise-expands-its-portfolio-with-the-launch-of-enhanced-digital-flight-training-solutions": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-french-armament-general-directorate-dga-qualifies-airbus-u010-aliaca-drone": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-to-deliver-iris-frances-next-generation-military-earth-observation-satellites": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/fr/newsroom/press-releases/2026-10-airbus-souligne-les-25-ans-du-site-de-mirabel-et-investit-dans-son-expansion-et-la-releve": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-marks-mirabel-sites-25th-year-with-investments-in-expansion-and-future-talent": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-nine-month-9m-2026-results": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-and-air-france-klm-operated-joint-venture-for-a350-component-support-finalised": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-granted-design-organisation-approval-by-jcab": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-boston-medflight-orders-three-airbus-h145-helicopters": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-atlantic-airways-orders-two-additional-airbus-a320neo-aircraft": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-awarded-contract-for-two-additional-galileo-satellites": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-life-flight-network-orders-five-airbus-h135-helicopters": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-projects-global-freighter-fleet-to-grow-by-2045": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-programme-helps-students-discover-engineering-careers": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-in-australia-secures-casa-design-approval": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-forecasts-need-for-2720-new-passenger-aircraft-in-latin-america": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-aviation-capital-group-orders-75-airbus-a320neo-family-aircraft": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-connects-german-and-swedish-air-defence-forces-into-unified-nato-shield": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-forecasts-growing-services-market-to-double-by-2045": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-share-buyback-transactions-05-09-october-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-u740-valkyrie-uncrewed-combat-aircraft-takes-off-for-its-maiden-flight-in-europe": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-avolon-orders-35-airbus-a330-900-and-75-a320neo-family-aircraft": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/es/newsroom/press-releases/2026-10-airbus-completa-la-consolidacion-de-sus-actividades-en-cadiz-y-refuerza-su-huella-industrial-en": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-completes-the-consolidation-of-its-activities-in-cadiz-and-reinforces-its-industrial": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-biman-bangladesh-airlines-places-firm-order-for-a350-900-and-a321neo-airbus-aircraft": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/fr/newsroom/press-releases/2026-10-airbus-helicopters-et-le-saskatchewan-indian-institute-of-technologies-concluent-un-partenariat": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-helicopters-and-saskatchewan-indian-institute-of-technologies-partner-to-advance-indigenous": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-share-buyback-transactions-28-sept-to-02-oct-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-romania-orders-12-airbus-h225m-multirole-military-helicopters": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-klm-royal-dutch-airlines-takes-delivery-of-its-first-airbus-a350-900": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-delivers-first-batch-of-next-generation-satellites-for-eutelsats-oneweb-constellation": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-announces-nominations-to-its-board-of-directors": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/fr/newsroom/press-releases/2026-10-airbus-mobilise-18-partenaires-pour-developper-les-competences-aeronautiques-et-spatiales-du-futur": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-mobilises-18-partners-to-develop-the-aerospace-skills-for-the-future": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-completes-acquisition-of-quarkslab-strengthens-french-sovereignty-in-cybersecurity": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-09-flyone-armenia-orders-two-airbus-a321neo": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-reports-share-buyback-transactions-21-25-september-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-a350f-freighter-successfully-performs-its-maiden-flight": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-09-malaysia-airlines-extends-fhs-contract-for-a330ceo-fleet": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-09-aircalin-signs-flight-hour-services-contract-for-airbus-a350-900-fleet": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-awarded-25-year-cybersecurity-contract-from-the-french-ministry-of-the-armed-forces": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-reports-share-buyback-transactions-11-18-september-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-09-world2fly-selects-airbus-fhs-maintenance-and-logistics-services-for-its-a330-a350-fleet": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-delivers-first-aircraft-from-its-second-fal-in-china": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/fr/newsroom/press-releases/2026-09-airbus-renforce-sa-capacite-de-livraison-de-sa-famille-a320-a-toulouse-avec-un-nouveau-centre": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-invests-into-uk-manufacturing-to-support-global-production-ramp-up": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-strengthens-a320-family-delivery-capacity-in-toulouse-with-a-new-delivery-centre": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-09-linfox-takes-delivery-of-first-airbus-h160-in-australia": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-commences-limited-share-buyback-to-support-future-employee-share-ownership-plan-activities": "RSS_METADATA_NOT_RELEVANT"
+        },
+        "metadata_only_records": 0,
+        "article_access_blocked": 0,
+        "article_unavailable": 0
+      },
+      "diagnostics_history": [
+        {
+          "query": "Airbus A321XLR certification MTOW range impact RCT",
+          "selection_reason": "EXPLICIT_MANUFACTURER",
+          "selected_manufacturer": "Airbus"
+        },
+        {
+          "query": "A321XLR certification mtow",
+          "rss_candidates_examined": 60,
+          "rss_metadata_rejected": 59,
+          "rss_candidates_unexamined": 40,
+          "candidate_outcomes": {
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-16-20-november-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-uk-engineers-and-apprentices-take-centre-stage-in-new-airbus-campaign-to-inspire-future-talent": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-ds-airborne-solutions-gmbh-and-aeronautics-ltd-sign-a-teaming-agreement-intended-to-enable": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-middle-east-airlines-takes-delivery-of-its-first-airbus-a321xlr": "COLLECTED_FULL_TEXT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-9-13-november-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-the-cathay-group-orders-14-additional-airbus-aircraft": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buybacks-for-week-starting-2-november-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-lufthansa-takes-delivery-of-its-first-a350-1000-and-700th-airbus-aircraft": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-commences-multi-year-share-buyback-programme-with-launch-of-the-first-tranche": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-a350-1000ulr-for-qantas-breaks-world-distance-record": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-and-blue-angels-air-will-deliver-ab-initio-pilot-training-for-the-indian-market": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-skywise-expands-its-portfolio-with-the-launch-of-enhanced-digital-flight-training-solutions": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-french-armament-general-directorate-dga-qualifies-airbus-u010-aliaca-drone": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-to-deliver-iris-frances-next-generation-military-earth-observation-satellites": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/fr/newsroom/press-releases/2026-10-airbus-souligne-les-25-ans-du-site-de-mirabel-et-investit-dans-son-expansion-et-la-releve": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-marks-mirabel-sites-25th-year-with-investments-in-expansion-and-future-talent": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-nine-month-9m-2026-results": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-and-air-france-klm-operated-joint-venture-for-a350-component-support-finalised": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-granted-design-organisation-approval-by-jcab": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-boston-medflight-orders-three-airbus-h145-helicopters": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-atlantic-airways-orders-two-additional-airbus-a320neo-aircraft": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-awarded-contract-for-two-additional-galileo-satellites": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-life-flight-network-orders-five-airbus-h135-helicopters": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-projects-global-freighter-fleet-to-grow-by-2045": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-programme-helps-students-discover-engineering-careers": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-in-australia-secures-casa-design-approval": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-forecasts-need-for-2720-new-passenger-aircraft-in-latin-america": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-aviation-capital-group-orders-75-airbus-a320neo-family-aircraft": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-connects-german-and-swedish-air-defence-forces-into-unified-nato-shield": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-forecasts-growing-services-market-to-double-by-2045": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-share-buyback-transactions-05-09-october-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-u740-valkyrie-uncrewed-combat-aircraft-takes-off-for-its-maiden-flight-in-europe": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-avolon-orders-35-airbus-a330-900-and-75-a320neo-family-aircraft": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/es/newsroom/press-releases/2026-10-airbus-completa-la-consolidacion-de-sus-actividades-en-cadiz-y-refuerza-su-huella-industrial-en": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-completes-the-consolidation-of-its-activities-in-cadiz-and-reinforces-its-industrial": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-biman-bangladesh-airlines-places-firm-order-for-a350-900-and-a321neo-airbus-aircraft": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/fr/newsroom/press-releases/2026-10-airbus-helicopters-et-le-saskatchewan-indian-institute-of-technologies-concluent-un-partenariat": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-helicopters-and-saskatchewan-indian-institute-of-technologies-partner-to-advance-indigenous": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-share-buyback-transactions-28-sept-to-02-oct-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-romania-orders-12-airbus-h225m-multirole-military-helicopters": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-klm-royal-dutch-airlines-takes-delivery-of-its-first-airbus-a350-900": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-delivers-first-batch-of-next-generation-satellites-for-eutelsats-oneweb-constellation": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-announces-nominations-to-its-board-of-directors": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/fr/newsroom/press-releases/2026-10-airbus-mobilise-18-partenaires-pour-developper-les-competences-aeronautiques-et-spatiales-du-futur": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-mobilises-18-partners-to-develop-the-aerospace-skills-for-the-future": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-completes-acquisition-of-quarkslab-strengthens-french-sovereignty-in-cybersecurity": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-09-flyone-armenia-orders-two-airbus-a321neo": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-reports-share-buyback-transactions-21-25-september-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-a350f-freighter-successfully-performs-its-maiden-flight": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-09-malaysia-airlines-extends-fhs-contract-for-a330ceo-fleet": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-09-aircalin-signs-flight-hour-services-contract-for-airbus-a350-900-fleet": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-awarded-25-year-cybersecurity-contract-from-the-french-ministry-of-the-armed-forces": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-reports-share-buyback-transactions-11-18-september-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-09-world2fly-selects-airbus-fhs-maintenance-and-logistics-services-for-its-a330-a350-fleet": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-delivers-first-aircraft-from-its-second-fal-in-china": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/fr/newsroom/press-releases/2026-09-airbus-renforce-sa-capacite-de-livraison-de-sa-famille-a320-a-toulouse-avec-un-nouveau-centre": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-invests-into-uk-manufacturing-to-support-global-production-ramp-up": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-strengthens-a320-family-delivery-capacity-in-toulouse-with-a-new-delivery-centre": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-09-linfox-takes-delivery-of-first-airbus-h160-in-australia": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-09-airbus-commences-limited-share-buyback-to-support-future-employee-share-ownership-plan-activities": "RSS_METADATA_NOT_RELEVANT"
+          },
+          "metadata_only_records": 0,
+          "article_access_blocked": 0,
+          "article_unavailable": 0
+        }
+      ],
+      "http_redirects": 1,
+      "successful_responses": 2,
+      "collected_document_count": 1,
+      "content_availability_counts": {
+        "FULL_TEXT": 1
+      },
+      "observed_publication_from": "2026-11-17",
+      "observed_publication_to": "2026-11-17"
+    },
+    "XBRL International ESEF Filing Index": {
+      "connector_name": "XBRL International ESEF Filing Index",
+      "source_id": "SRC_031",
+      "technical_source": "filings.xbrl.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Airbus A321XLR certification MTOW range impact RCT"
+      ],
+      "found_count": 1,
+      "accepted_count": 1,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 2,
+      "http_status_counts": {
+        "200": 2
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [],
+      "time_window": {
+        "from": "2025-11-25T14:36:04Z",
+        "to": "2026-11-25T14:36:04Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T14:37:43Z",
+      "successful_responses": 2,
+      "collected_document_count": 1,
+      "content_availability_counts": {
+        "PARTIAL_TEXT": 1
+      },
+      "observed_publication_from": "2026-02-19",
+      "observed_publication_to": "2026-02-19"
+    },
+    "News API": {
+      "connector_name": "News API",
+      "source_id": "SRC_004",
+      "technical_source": "newsapi.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "A321XLR FAA certification RCT weight penalty"
+      ],
+      "found_count": 0,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 5,
+      "http_status_counts": {
+        "200": 2,
+        "429": 3
+      },
+      "content_status_counts": {},
+      "operational_status": "RATE_LIMITED",
+      "last_search_outcome": "PARTIAL_RESULT",
+      "errors": [
+        "RECALL:RATE_LIMITED:rateLimited"
+      ],
+      "coverage_advisories": [
+        "NEWSAPI_COVERAGE=PARTIAL_WINDOW; archive_limit_days=29"
+      ],
+      "time_window": {
+        "from": "2025-11-25T14:36:04Z",
+        "to": "2026-11-25T14:36:04Z",
+        "scope": "365d",
+        "requested_from": "2025-11-25",
+        "requested_to": "2026-11-25",
+        "searchable_from": "2026-10-27T14:37:45.267996+00:00",
+        "searchable_to": "2026-11-25T14:37:45.267695+00:00",
+        "actual_from": "2026-10-27",
+        "actual_to": "2026-11-25",
+        "actual_window_basis": "CONFIGURED_SEARCH_WINDOW_NOT_RETRIEVAL_VERIFIED",
+        "actual_searchable_days": 29.0,
+        "requested_horizon_days": 365.0,
+        "provider_archive_limit_days": 29,
+        "provider_limit_basis": "CONFIGURED_PLAN_WINDOW_NOT_API_VERIFIED",
+        "coverage_status": "PARTIAL_WINDOW",
+        "source_coverage": "PARTIAL",
+        "coverage_complete": false,
+        "date_basis": "PUBLICATION_DATE",
+        "event_date_coverage": "NOT_ESTABLISHED"
+      },
+      "last_updated": "2026-11-25T14:37:52Z",
+      "successful_responses": 2,
+      "http_errors": 3
+    }
+  }
+}

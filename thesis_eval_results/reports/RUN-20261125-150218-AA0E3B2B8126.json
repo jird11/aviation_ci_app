@@ -1,0 +1,3105 @@
+{
+  "report_id": "RPT-20261125-C128D4",
+  "run_id": "RUN-20261125-150218-AA0E3B2B8126",
+  "version": 1,
+  "outcome_status": "PARTIAL_SUCCESS",
+  "executive_summary": "Monitoring of the Airbus ZEROe hydrogen aircraft program focused on official issuer filings and secondary reporting regarding the 2035 Entry-into-Service (EIS) timeline. Evidence surfaced from an official Airbus SE filing dated February 19, 2026 [DOC_017], alongside secondary reports from August and November 2026 [DOC_007, DOC_004, DOC_008] suggesting program volatility. The official filing acknowledges that \"delays in design or manufacturing may arise\" due to the inherent complexities of the company’s products [DOC_017]. While the issuer identifies forward-looking statements regarding \"production ramp-up and delivery schedules\" as key areas of strategic focus [DOC_017], secondary reports indicate a potential slip of the 2035 target into the 2040s and the cancellation of specific flight tests [DOC_007, DOC_004].\n\nThe analytical takeaway is a divergence between high-level issuer risk acknowledgments and specific, unverified secondary claims of a decade-long delay. The reliability of the 2035 target is currently categorized as unsupported due to the absence of a formal Airbus announcement confirming a revised date. Management should prioritize verifying the status of liquid hydrogen propulsion milestones, as the current evidence suggests a transition from a firm 2035 commitment to a more fluid development window. Monitoring must now focus on official technical milestone updates to distinguish between routine \"complexities\" [DOC_017] and a fundamental program re-baselining.",
+  "detailed_analytical_assessment": "The Airbus ZEROe program is navigating a critical phase where long-term strategic targets are meeting the technical realities of liquid hydrogen propulsion and fuel-cell engine integration. According to an official issuer filing from February 2026, Airbus explicitly includes \"introduction of new products and services\" and \"delivery schedules\" within its forward-looking statements, noting that market disruptions or economic conditions could result in \"protracted weak or reduced demand\" [DOC_017]. This filing establishes a baseline of institutional awareness regarding the \"complexities\" inherent in such advanced aerospace manufacturing, which may lead to design or manufacturing delays [DOC_017].\n\nHowever, the program's status became more opaque in late 2026. Secondary reports from August 2026 [DOC_007, DOC_004] and November 2026 [DOC_008] suggest that the 2035 EIS target has slipped. These reports, while categorized as medium confidence and unsupported by official company statements, claim that flight tests have been cancelled and that the operational debut could be pushed into the 2040s. The primary gap in the current intelligence is the lack of a specific, dated announcement from Airbus SE that confirms or denies these secondary claims. \n\nAnalytically, the co-occurrence of general risk disclosures in February [DOC_017] and specific delay reports later in the year suggests a period of high uncertainty for the ZEROe timeline. The \"complexities\" cited by the issuer [DOC_017] provide a plausible context for the delays reported by secondary sources, but they do not independently prove that a decade-long slip has occurred. Furthermore, the truncation of source data in November 2026 [DOC_008] leaves specific milestone failures unverified.\n\nManagement is advised to treat the 2035 EIS target as a high-risk assumption rather than a confirmed milestone. The immediate priority is to seek verification of the \"liquid hydrogen propulsion\" and \"fuel-cell engine\" test schedules, as these are the specific components identified as being at risk. Until official confirmation is available, long-term market share projections based on a 2035 entry should be stress-tested against a 2040-2045 arrival scenario.",
+  "qa_audit_summary": "Editor text converted into typed recommendations; independent evidence QA remains authoritative. | Five-Dimensional Grounding (Technical, Claim, Causal, Independent Verification, Freshness) completed. | [Harness Guard]: 0/2 direct signals SUPPORTED, 2 PARTIALLY_SUPPORTED, 0 classified as ONGOING_ISSUE, 0 moved to RELATED_PROGRAM_WATCHLIST, 2 flagged for manual HITL verification. | Evidence disposition (not a filtering verdict): DOC_004=REFERENCED_BY_EVENT_NOT_KIQ; DOC_007=REFERENCED_BY_EVENT_NOT_KIQ; DOC_008=REFERENCED_BY_EVENT_NOT_KIQ; DOC_017=NOT_REFERENCED_BY_ANALYST_RELEVANCE_UNDETERMINED | KIT_COMPLETION: NOT_ANSWERED; 3 of 3 information requirements remain unverified. | [Telemetry]: Run: RUN-20261125-150218-AA0E3B2B8126 | CollectionMode: agentic_exa | Runtime: 112.17s (Plan: 6.05s, Collect: 35.15s, Filter: 22.42s, Analyze: 21.52s, QA: 20.47s, Edit: 6.55s, Score: 0.0s) | Batches: 2/2 OK (0 failed) | Docs: 4/17 analyzed (0 failed) | LLM Calls: 10 (Retries: 0) | Model: openrouter/google/gemini-3-flash-preview | Estimated LLM Cost: $0.06640 (ESTIMATED)",
+  "hitl_status": "WAITING_FOR_HITL",
+  "threats": [
+    {
+      "event_id": "AIR-ZEROE-2026-DEL-01",
+      "kiq_ids": [],
+      "indicator_name": "Program delay indicator",
+      "company_affected": "Airbus",
+      "ci_dimension": "Technological CI",
+      "risk_type": "ENVIRONMENTAL_TECHNOLOGICAL",
+      "secondary_risk_types": [
+        "COMPETITIVE"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Airbus ZEROe",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [
+        "A320neo",
+        "A321neo",
+        "A321XLR",
+        "A350",
+        "A350F",
+        "A220",
+        "A330neo",
+        "A380",
+        "A400M",
+        "H145",
+        "H160"
+      ],
+      "supplier_registry_basis": "Company: Airbus SE -> Role: OEM (Final Assembler) (Registry Source: Airbus Annual Report / Official Registry) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Airbus ZEROe",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] Airbus SE -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Airbus ZEROe",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A320neo, A321neo, A321XLR",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Secondary reports indicate the Airbus ZEROe 2035 entry-into-service target has slipped, with potential delays extending into the 2040s and cancellations of scheduled flight tests.",
+      "decision_question": "Should management re-evaluate long-term zero-emission market share projections given the reported slip of the 2035 EIS target?",
+      "confirmed_facts": "Source statement (event not fully verified): Airbus ZEROe remains active, but its original 2035 commercial ambition has slipped.",
+      "analytical_interpretation": "The 2035 target is no longer officially held as firm; secondary reports indicate a strategic retreat to 2040 or an undefined later date.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting Airbus SE (OEM (Final Assembler)) on source-evidenced program Airbus ZEROe. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A320neo, A321neo, A321XLR)",
+      "fact_check_quote": "Airbus ZEROe remains active, but its original 2035 commercial ambition has slipped.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_007",
+          "source_url": "https://www.techbloat.com/airbus-zeroe-whats-the-latest-2026-status-delays-and-roadmap.html",
+          "source_type": "UNDETERMINED",
+          "passage_text": "Airbus ZEROe remains active, but its original 2035 commercial ambition has slipped.",
+          "passage_hash": "1d86e1a550667b30ff6d2a194e7b7941d8c888651c0351b15409eb7b3f05ff48",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        },
+        {
+          "document_id": "DOC_004",
+          "source_url": "https://aviationweek.com/aerospace/aircraft-propulsion/airbus-continues-propulsion-work-enable-zero-emission-airliners",
+          "source_type": "UNDETERMINED",
+          "passage_text": "Airbus may have delayed plans for a hydrogen-powered commercial aircraft until the 2040s and reduced the scope of its research into zero-emission propulsion, canceling scheduled flight tests, but ground demonstrations continue to mature technologies to the revised timeline.",
+          "passage_hash": "a38e77dfc502180a093959f486bb2dae0be8020baff46fa12ec2add8a3ffe873",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Airbus ZEROe 2035 commercial target has slipped; replacement date not announced.",
+          "document_id": "DOC_007",
+          "quote": "Airbus ZEROe remains active, but its original 2035 commercial ambition has slipped.",
+          "source_url": "https://www.techbloat.com/airbus-zeroe-whats-the-latest-2026-status-delays-and-roadmap.html",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Airbus",
+          "program": "Airbus ZEROe",
+          "component": "Unknown / Not specified in source",
+          "issue": "Development timeline slip",
+          "regulatory_authority": "None",
+          "publication_date": "2026-08-14",
+          "event_date": "DATE_UNKNOWN",
+          "cause": "Not established",
+          "effect": "Program delay",
+          "status_before": "2035 Commercial EIS",
+          "status_after": "Post-2035 (unspecified)",
+          "resolution_outcome": "None",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "Airbus may have delayed plans for a hydrogen aircraft until the 2040s and canceled flight tests.",
+          "document_id": "DOC_004",
+          "quote": "Airbus may have delayed plans for a hydrogen-powered commercial aircraft until the 2040s and reduced the scope of its research into zero-emission propulsion, canceling scheduled flight tests",
+          "source_url": "https://aviationweek.com/aerospace/aircraft-propulsion/airbus-continues-propulsion-work-enable-zero-emission-airliners",
+          "claim_type": "FORECAST",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Airbus",
+          "program": "ZEROe",
+          "component": "Unknown / Not specified in source",
+          "issue": "Flight test cancellation and 2040s delay",
+          "regulatory_authority": "None",
+          "publication_date": "2025-12-02",
+          "event_date": "DATE_UNKNOWN",
+          "cause": "Reduced research scope",
+          "effect": "Cancellation of scheduled flight tests",
+          "status_before": "2035 target",
+          "status_after": "2040s",
+          "resolution_outcome": "None",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_007",
+        "DOC_004"
+      ],
+      "source_urls": [
+        "https://www.techbloat.com/airbus-zeroe-whats-the-latest-2026-status-delays-and-roadmap.html",
+        "https://aviationweek.com/aerospace/aircraft-propulsion/airbus-continues-propulsion-work-enable-zero-emission-airliners"
+      ],
+      "verification_status": "PARTIALLY SUPPORTED (HISTORICAL_CONTEXT | Manual Review Required) [Source states only part of the claim details | Source published 103 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source)]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "PARTIALLY_STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "CORROBORATED_INDEPENDENTLY",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "PARTIALLY_STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "CORROBORATED_INDEPENDENTLY (2 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "Airbus ZEROe",
+        "Hypothetical Shared Dependencies": "A320neo, A321neo, A321XLR, A350, A350F, A220, A330neo, A380, A400M, H145, H160",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=NOT_REQUIRED, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-08-14",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "8/10 (potential impact, not verification)",
+        "Confidence": "LOW",
+        "Verification": "PARTIALLY_SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "CURRENT_STATUS_UNKNOWN",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "ENVIRONMENTAL_TECHNOLOGICAL",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-08-14",
+      "first_seen_at": "2026-11-25T15:04:11Z",
+      "last_seen_at": "2026-11-25T15:04:11Z",
+      "updated_at": "2026-11-25T15:04:11Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://www.techbloat.com/airbus-zeroe-whats-the-latest-2026-status-delays-and-roadmap.html",
+      "missing_data": "Official confirmation from Airbus SE on the specific revised EIS year is absent; only secondary reporting of a 'slip' is available.",
+      "intelligence_gap": {
+        "gap_id": "GAP_ZEROE_EIS_OFFICIAL",
+        "what_is_missing": "Official Airbus confirmation of the specific new EIS year to replace the 2035 target.",
+        "why_important": "Required to quantify market timing for zero-emission aircraft competition.",
+        "affected_kiq_id": "KIQ_1_1",
+        "recommended_source": "Airbus Annual Press Conference / Capital Markets Day 2027",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Airbus faces a multi-year loss of technological leadership if liquid hydrogen propulsion milestones slip beyond 2035. Competitors may capture the zero-emission market while Airbus amortizes delayed R&D costs. Sustained delays in flight testing reduce the reliability of the supply chain for cryogenic tanks and fuel cells.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 4,
+          "rationale": "Delaying a flagship decarbonization program by 5-10 years impacts long-term strategic viability."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Direct OEM program delay; Airbus is the sole integrator for ZEROe."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "Hydrogen propulsion is a niche, high-complexity system with few alternative OEMs."
+        },
+        "propagation_scope": {
+          "score": 2,
+          "rationale": "Impacts the entire hydrogen ecosystem but isolated to the ZEROe R&D fleet."
+        },
+        "temporal_urgency": {
+          "score": 3,
+          "rationale": "The 'slip' is reported as current status in 2026, though the target was long-term."
+        }
+      },
+      "threat_score": 8,
+      "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (8/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+      "confidence_level": "LOW",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    },
+    {
+      "event_id": "AIR-ZEROE-2025-DELAY-REF",
+      "kiq_ids": [],
+      "indicator_name": "Aviation intelligence warning indicator",
+      "company_affected": "Airbus",
+      "ci_dimension": "Technological CI",
+      "risk_type": "ENVIRONMENTAL_TECHNOLOGICAL",
+      "secondary_risk_types": [
+        "SUPPLY_CHAIN"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Unknown / Not specified in source",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [
+        "A320neo",
+        "A321neo",
+        "A321XLR",
+        "A350",
+        "A350F",
+        "A220",
+        "A330neo",
+        "A380",
+        "A400M",
+        "H145",
+        "H160"
+      ],
+      "supplier_registry_basis": "Company: Airbus SE -> Role: OEM (Final Assembler) (Registry Source: Airbus Annual Report / Official Registry) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Unknown / Not specified in source",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] Airbus SE -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Unknown / Not specified in source",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A320neo, A321neo, A321XLR",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Source excerpt: Airbus in February 2025 delayed plans to.... Claimed operational impacts require verification.",
+      "decision_question": "Should Airbus re-verify the 2035 Entry-Into-Service target given the reported February 2025 program delays?",
+      "confirmed_facts": "Source statement (event not fully verified): Airbus in February 2025 delayed plans to...",
+      "analytical_interpretation": "The source reconfirms a February 2025 milestone delay which may influence the overall 2035 EIS target. Direct involvement of Tier 1 GKN suggests technical scaling challenges for large-scale cryogenics.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting Airbus SE (OEM (Final Assembler)) on source-evidenced program Unknown / Not specified in source. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A320neo, A321neo, A321XLR)",
+      "fact_check_quote": "Airbus in February 2025 delayed plans to...",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_008",
+          "source_url": "https://aviationweek.com/aerospace/emerging-technologies/gkn-addressing-certification-challenges-hydrogen-electric-airliner",
+          "source_type": "SECONDARY_MEDIA_REPORT",
+          "passage_text": "Targeting development of the electrical distribution system for Airbus’ planned hydrogen-powered airliner, the UK’s GKN Aerospace has launched work under two research projects to scale cryogenically cooled hyperconducting technology up to a 96-seat aircraft. Airbus in February 2025 delayed plans to...",
+          "passage_hash": "3332a29f6e59e46337607a006325d7a624e64f4bca1c11712be139dea183afa8",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Airbus delayed plans for its hydrogen-powered airliner in February 2025.",
+          "document_id": "DOC_008",
+          "quote": "Airbus in February 2025 delayed plans to...",
+          "source_url": "https://aviationweek.com/aerospace/emerging-technologies/gkn-addressing-certification-challenges-hydrogen-electric-airliner",
+          "claim_type": "HISTORICAL_STATUS",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Airbus",
+          "program": "ZEROe",
+          "component": "Unknown / Not specified in source",
+          "issue": "Program delay",
+          "regulatory_authority": "",
+          "publication_date": "2026-11-18",
+          "event_date": "2025-02-01",
+          "cause": "",
+          "effect": "",
+          "status_before": "On-track",
+          "status_after": "Delayed",
+          "resolution_outcome": "",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_008"
+      ],
+      "source_urls": [
+        "https://aviationweek.com/aerospace/emerging-technologies/gkn-addressing-certification-challenges-hydrogen-electric-airliner"
+      ],
+      "verification_status": "PARTIALLY SUPPORTED (HISTORICAL_CONTEXT | Manual Review Required) [Claimed operational impact is not supported by the cited quotation. | Classified as HISTORICAL_CONTEXT (older event referenced in recent source)]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "PARTIALLY_STATED_IN_SOURCE",
+      "causal_support_status": "HYPOTHETICAL_ONLY",
+      "independent_verification_status": "UNVERIFIED_SINGLE_SOURCE",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "PARTIALLY_STATED_IN_SOURCE",
+        "3. Causal Support": "HYPOTHETICAL_ONLY",
+        "4. Independent Verification": "UNVERIFIED_SINGLE_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "Unknown / Not specified in source",
+        "Hypothetical Shared Dependencies": "A320neo, A321neo, A321XLR, A350, A350F, A220, A330neo, A380, A400M, H145, H160",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=NOT_REQUIRED, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-11-18",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "6/10 (potential impact, not verification)",
+        "Confidence": "LOW",
+        "Verification": "PARTIALLY_SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "CURRENT_STATUS_UNKNOWN",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "ENVIRONMENTAL_TECHNOLOGICAL",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-11-18",
+      "first_seen_at": "2026-11-25T15:04:11Z",
+      "last_seen_at": "2026-11-25T15:04:11Z",
+      "updated_at": "2026-11-25T15:04:11Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://aviationweek.com/aerospace/emerging-technologies/gkn-addressing-certification-challenges-hydrogen-electric-airliner",
+      "missing_data": "Specific milestone details and the full text of the delay announcement are missing due to source truncation.",
+      "intelligence_gap": {
+        "gap_id": "GAP_AIR_001",
+        "what_is_missing": "Specific details on which milestone was delayed and the duration of the slip.",
+        "why_important": "Required to assess impact on the 2035 EIS target.",
+        "affected_kiq_id": "KIQ_1_1",
+        "recommended_source": "Airbus Official PR / 2025 Annual Report",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Hydrogen aircraft commercialization depends on cryogenically cooled distribution systems; a 2025 program delay creates a market entry gap for competitors. Strategic technological leadership is at risk if milestone slips persist.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 3,
+          "rationale": "Program delay reported for a strategic long-term initiative; EIS impact unknown."
+        },
+        "supplier_criticality": {
+          "score": 4,
+          "rationale": "GKN is developing critical electrical distribution for the program."
+        },
+        "substitutability_difficulty": {
+          "score": 4,
+          "rationale": "Hydrogen hyperconducting technology is niche with limited alternative suppliers."
+        },
+        "propagation_scope": {
+          "score": 3,
+          "rationale": "Affects the ZEROe hydrogen ecosystem, including Tier 1 suppliers like GKN."
+        },
+        "temporal_urgency": {
+          "score": 2,
+          "rationale": "Refers to a past 2025 event re-reported in 2026."
+        }
+      },
+      "threat_score": 6,
+      "score_rationale": "Potential severity: ELEVATED (6/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+      "confidence_level": "LOW",
+      "urgency": "MEDIUM",
+      "escalation_level": "ROUTINE_MONITORING",
+      "is_critical": false
+    }
+  ],
+  "threat_reports": [
+    {
+      "threat_id": "AIR-ZEROE-2026-DEL-01",
+      "event_title": "Secondary reports indicate the Airbus ZEROe 2035 entry-into-service target has slipped, with potential delays extending into the 2040s and cancellations of scheduled flight tests.",
+      "category": "ENVIRONMENTAL_TECHNOLOGICAL",
+      "affected_entity": "Airbus",
+      "threat_score": 8,
+      "source_url": "https://www.techbloat.com/airbus-zeroe-whats-the-latest-2026-status-delays-and-roadmap.html",
+      "timestamp": "2026-08-14",
+      "mitigation_advice": "Verify source evidence, KIT applicability and decision needs for AIR-ZEROE-2026-DEL-01.",
+      "confidence_level": "LOW",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "AIR-ZEROE-2025-DELAY-REF",
+      "event_title": "Source excerpt: Airbus in February 2025 delayed plans to.... Claimed operational impacts require verification.",
+      "category": "ENVIRONMENTAL_TECHNOLOGICAL",
+      "affected_entity": "Airbus",
+      "threat_score": 6,
+      "source_url": "https://aviationweek.com/aerospace/emerging-technologies/gkn-addressing-certification-challenges-hydrogen-electric-airliner",
+      "timestamp": "2026-11-18",
+      "mitigation_advice": "Verify source evidence, KIT applicability and decision needs for AIR-ZEROE-2025-DELAY-REF.",
+      "confidence_level": "LOW",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    }
+  ],
+  "related_program_watchlist": [],
+  "action_plan": [
+    {
+      "action_id": "ACT_519C9017",
+      "related_event_ids": [
+        "AIR-ZEROE-2026-DEL-01"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Airbus"
+      ],
+      "action": "Verify source evidence, KIT applicability and decision needs for AIR-ZEROE-2026-DEL-01.",
+      "rationale": "Proposed action is based on a monitored intelligence signal requiring proportional verification or further monitoring. Evidence status: AIR-ZEROE-2026-DEL-01: PARTIALLY_SUPPORTED, confidence LOW. No unverified causal relationship is treated as an established fact.",
+      "pros_and_cons": "PRO: Supports documented verification and decision-making.; CON: Requires analyst effort and human approval",
+      "triple_a_impact": "Adaptability",
+      "uncertainty_assumptions": "Editorial advice requires source verification and human approval.",
+      "owner": "Competitive Intelligence Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Evidence and management decision documented for AIR-ZEROE-2026-DEL-01.",
+      "priority": "MEDIUM",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-25T15:04:11Z"
+    },
+    {
+      "action_id": "ACT_D52101BF",
+      "related_event_ids": [
+        "AIR-ZEROE-2025-DELAY-REF"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Airbus"
+      ],
+      "action": "Verify source evidence, KIT applicability and decision needs for AIR-ZEROE-2025-DELAY-REF.",
+      "rationale": "Proposed action is based on a monitored intelligence signal requiring proportional verification or further monitoring. Evidence status: AIR-ZEROE-2025-DELAY-REF: PARTIALLY_SUPPORTED, confidence LOW. No unverified causal relationship is treated as an established fact.",
+      "pros_and_cons": "PRO: Supports documented verification and decision-making.; CON: Requires analyst effort and human approval",
+      "triple_a_impact": "Adaptability",
+      "uncertainty_assumptions": "Editorial advice requires source verification and human approval.",
+      "owner": "Competitive Intelligence Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Evidence and management decision documented for AIR-ZEROE-2025-DELAY-REF.",
+      "priority": "MEDIUM",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-25T15:04:11Z"
+    }
+  ],
+  "kiq_answers": [
+    {
+      "kiq_id": "RKIQ_001",
+      "question": "What is the current officially communicated entry-into-service (EIS) date and development milestone schedule for the Airbus ZEROe program?",
+      "answer_status": "UNANSWERED",
+      "evidence_coverage": "NONE",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "No relevant event matching this question was found within the searched sources. Still needed for a complete answer: latest dated, issue-specific status, dated transition between two evidenced states.",
+      "related_event_ids": [],
+      "evidence_ids": [],
+      "retrieved_evidence_count": 2,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [
+        "DOC_007",
+        "DOC_017"
+      ],
+      "unused_document_reasons": {
+        "DOC_004": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_007": "RELATED_CONTEXT_ONLY",
+        "DOC_008": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_017": "CLAIM_NOT_VERIFIED"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_001_REQ_01",
+          "key": "CURRENT_STATUS",
+          "required_fact": "Latest dated, issue-specific status",
+          "evidence_type": "DATED_STATUS",
+          "required_entity_model": "Airbus",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Latest dated, issue-specific status"
+          ]
+        },
+        {
+          "id": "RKIQ_001_REQ_02",
+          "key": "STATUS_CHANGE",
+          "required_fact": "Dated transition between two evidenced states",
+          "evidence_type": "STATUS_TRANSITION",
+          "required_entity_model": "Airbus",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Dated transition between two evidenced states"
+          ]
+        }
+      ],
+      "claim_requirement_links": [],
+      "claim_handoff_rejections": {
+        "DOC_004": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_008": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "source_execution_status": "PARTIAL_RESULT",
+      "content_result": "NO_RELEVANT_EVENT",
+      "issue_status": "NO_RELEVANT_EVENT",
+      "evidence_trace": [],
+      "verification_status": "Verified 0/2 atomic facts; PARTIAL_RESULT",
+      "uncertainty_level": "HIGH",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Latest dated, issue-specific status, Dated transition between two evidenced states",
+      "missing_information": "Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status; Dated transition between two evidenced states: Verified source passage for: Dated transition between two evidenced states"
+    },
+    {
+      "kiq_id": "RKIQ_002",
+      "question": "Have any technical or supply chain bottlenecks been identified that specifically impact the ZEROe liquid hydrogen tank or fuel cell engine flight test demonstrator timelines?",
+      "answer_status": "UNANSWERED",
+      "evidence_coverage": "NONE",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "No relevant event matching this question was found within the searched sources. Still needed for a complete answer: a documented supply disruption, identity of the affected part or engine.",
+      "related_event_ids": [],
+      "evidence_ids": [],
+      "retrieved_evidence_count": 2,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [
+        "DOC_007",
+        "DOC_017"
+      ],
+      "unused_document_reasons": {
+        "DOC_004": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_007": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_008": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_017": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_002_REQ_01",
+          "key": "SUPPLY_DISRUPTION",
+          "required_fact": "A documented supply disruption",
+          "evidence_type": "SUPPLY_EVENT",
+          "required_entity_model": "Airbus",
+          "required_component": "ENGINE",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: A documented supply disruption"
+          ]
+        },
+        {
+          "id": "RKIQ_002_REQ_02",
+          "key": "AFFECTED_COMPONENT",
+          "required_fact": "Identity of the affected part or engine",
+          "evidence_type": "COMPONENT_IDENTITY",
+          "required_entity_model": "Airbus",
+          "required_component": "ENGINE",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Identity of the affected part or engine"
+          ]
+        }
+      ],
+      "claim_requirement_links": [],
+      "claim_handoff_rejections": {
+        "DOC_004": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_007": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_008": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_017": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "source_execution_status": "PARTIAL_RESULT",
+      "content_result": "NO_RELEVANT_EVENT",
+      "issue_status": "NO_RELEVANT_EVENT",
+      "evidence_trace": [],
+      "verification_status": "Verified 0/2 atomic facts; PARTIAL_RESULT",
+      "uncertainty_level": "HIGH",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: A documented supply disruption, Identity of the affected part or engine",
+      "missing_information": "A documented supply disruption: Verified source passage for: A documented supply disruption; Identity of the affected part or engine: Verified source passage for: Identity of the affected part or engine"
+    },
+    {
+      "kiq_id": "RKIQ_003",
+      "question": "Are there any public statements or regulatory filings indicating a revision or postponement of the 2035 entry-into-service target?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "PARTIAL",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "Reviewed sources address part of this question, while specific verification items remain open. An official issuer filing on 2026-02-19 notes that “With Skywise directly supporting the operations and maintenance of more than 11,900 commercial aircraft (Airbus and other OEMs), it is allowing the airline industry to realise significant annual savings through reduced…” [DOC_017]. An official issuer filing on 2026-02-19 notes that “Market disruptions and weak global (or localised) economic conditions brought on by the above-described or other factors could therefore result in: ● Protracted weak or reduced demand for air travel and cargo; ●…” [DOC_017]. An official issuer filing on 2026-02-19 notes that “The factors described above may have an impact on the commercial aircraft industry and commercial helicopter industry, leading customers to postpone or cancel orders or delay payments, which could result in a material…” [DOC_017]. Evidence establishes evidence of the historical issue or delay, whereas latest dated, issue-specific status still require direct confirmation. Based on 1 relevant document(s) (DOC_017) out of 4 evaluated.",
+      "related_event_ids": [],
+      "evidence_ids": [
+        "DOC_017"
+      ],
+      "retrieved_evidence_count": 2,
+      "validated_evidence_count": 1,
+      "retrieved_document_ids": [
+        "DOC_007",
+        "DOC_017"
+      ],
+      "unused_document_reasons": {
+        "DOC_004": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_007": "RELATED_CONTEXT_ONLY",
+        "DOC_008": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_003_REQ_01",
+          "key": "HISTORICAL_DELAY",
+          "required_fact": "Evidence of the historical issue or delay",
+          "evidence_type": "HISTORICAL_ISSUE",
+          "required_entity_model": "Airbus",
+          "required_component": "",
+          "verification_status": "VERIFIED",
+          "doc_ids": [
+            "DOC_017"
+          ],
+          "verified_doc_ids": [
+            "DOC_017"
+          ],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_017",
+              "claim": "With Skywise directly supporting the operations and maintenance of more than 11,900 commercial aircraft (Airbus and other OEMs), it is allowing the airline industry to realise significant annual savings through reduced flight delays and cancellations.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_003",
+              "kit_id": "",
+              "source_id": "SRC_031",
+              "quote": "With Skywise directly supporting the operations and maintenance of more than 11,900 commercial aircraft (Airbus and other OEMs), it is allowing the airline industry to realise significant annual savings through reduced flight delays and cancellations.",
+              "issuer_name": "AIRBUS SE",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "HTML_VISIBLE_TEXT_WHITESPACE_V1",
+              "passage_validation_status": "PASSAGE_VERIFIED",
+              "publication_date": "2026-02-19",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "ISSUER_DISCLOSURE",
+              "strength": "VERIFIED",
+              "source_url": "https://filings.xbrl.org/MINO79WLOO247M1IL051/2025-12-31/ESEF/NL/0/MINO79WLOO247M1IL051-2025-12-31-1-en/reports/MINO79WLOO247M1IL051-2025-12-31-1-en.xhtml",
+              "source_hash": "773b1fa79f0e0ba8742c63114dacbd6eab27277829053feb71547f3d508aca1c",
+              "passage_hash": "fac4accecfe1e84ce4a5e7ac58b4dd75cb6daca238f69dcac76f50dd4eb042a9",
+              "verification_reason": "TRUSTED_PRODUCER_PASSAGE_HASH",
+              "claim_type": "ACTIVE_ISSUE",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_017",
+              "claim": "Market disruptions and weak global (or localised) economic conditions brought on by the above-described or other factors could therefore result in: ● Protracted weak or reduced demand for air travel and cargo; ● financial distress among airlines and lessors, and potential bankruptcies within this market; ● financial distress affecting the Company’s suppliers or subcontractors and increased costs or disruptions within",
+              "claim_id": "",
+              "kiq_id": "RKIQ_003",
+              "kit_id": "",
+              "source_id": "SRC_031",
+              "quote": "Market disruptions and weak global (or localised) economic conditions brought on by the above-described or other factors could therefore result in: ● Protracted weak or reduced demand for air travel and cargo; ● financial distress among airlines and lessors, and potential bankruptcies within this market; ● financial distress affecting the Company’s suppliers or subcontractors and increased costs or disruptions within the Company’s supply chain; ● credit being unavailable (or not available at suitable terms) in the financial markets, or increases in customers’ operating costs leading to requests by customers to postpone or cancel existing orders for aircraft (including Airbus SE / Report of the Board of Directors 2025 85 helicopters), decisions by customers to review their order intake strategy or an increase in the amount of sales financing that the Company is requested to provide to its customers to support aircraft deliveries; and ● variations in public spending or support for defence, homeland security and space activities, which may lead to the termination or reduction of future funding or to cancellations or delays impacting existing contracts.",
+              "issuer_name": "AIRBUS SE",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "HTML_VISIBLE_TEXT_WHITESPACE_V1",
+              "passage_validation_status": "PASSAGE_VERIFIED",
+              "publication_date": "2026-02-19",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "ISSUER_DISCLOSURE",
+              "strength": "VERIFIED",
+              "source_url": "https://filings.xbrl.org/MINO79WLOO247M1IL051/2025-12-31/ESEF/NL/0/MINO79WLOO247M1IL051-2025-12-31-1-en/reports/MINO79WLOO247M1IL051-2025-12-31-1-en.xhtml",
+              "source_hash": "773b1fa79f0e0ba8742c63114dacbd6eab27277829053feb71547f3d508aca1c",
+              "passage_hash": "cb409223de21fb4dbfbfeac0f4dc70e0a2a7c928a0249898aaf4255fae358475",
+              "verification_reason": "TRUSTED_PRODUCER_PASSAGE_HASH",
+              "claim_type": "ACTIVE_ISSUE",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_017",
+              "claim": "The factors described above may have an impact on the commercial aircraft industry and commercial helicopter industry, leading customers to postpone or cancel orders or delay payments, which could result in a material impact on the Company’s business, financial condition and results of operations.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_003",
+              "kit_id": "",
+              "source_id": "SRC_031",
+              "quote": "The factors described above may have an impact on the commercial aircraft industry and commercial helicopter industry, leading customers to postpone or cancel orders or delay payments, which could result in a material impact on the Company’s business, financial condition and results of operations.",
+              "issuer_name": "AIRBUS SE",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "HTML_VISIBLE_TEXT_WHITESPACE_V1",
+              "passage_validation_status": "PASSAGE_VERIFIED",
+              "publication_date": "2026-02-19",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "ISSUER_DISCLOSURE",
+              "strength": "VERIFIED",
+              "source_url": "https://filings.xbrl.org/MINO79WLOO247M1IL051/2025-12-31/ESEF/NL/0/MINO79WLOO247M1IL051-2025-12-31-1-en/reports/MINO79WLOO247M1IL051-2025-12-31-1-en.xhtml",
+              "source_hash": "773b1fa79f0e0ba8742c63114dacbd6eab27277829053feb71547f3d508aca1c",
+              "passage_hash": "35cfd8e277002acfc2b9c4d0e616a380aa33768c795ddcd5ff850e3e3188b4c8",
+              "verification_reason": "TRUSTED_PRODUCER_PASSAGE_HASH",
+              "claim_type": "ACTIVE_ISSUE",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": []
+        },
+        {
+          "id": "RKIQ_003_REQ_02",
+          "key": "CURRENT_STATUS",
+          "required_fact": "Latest dated, issue-specific status",
+          "evidence_type": "DATED_STATUS",
+          "required_entity_model": "Airbus",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Latest dated, issue-specific status"
+          ]
+        }
+      ],
+      "claim_requirement_links": [
+        {
+          "claim_id": "",
+          "doc_id": "DOC_017",
+          "requirement_id": "RKIQ_003_REQ_01",
+          "requirement_key": "HISTORICAL_DELAY",
+          "rkiq_id": "RKIQ_003",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_017",
+          "requirement_id": "RKIQ_003_REQ_01",
+          "requirement_key": "HISTORICAL_DELAY",
+          "rkiq_id": "RKIQ_003",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_017",
+          "requirement_id": "RKIQ_003_REQ_01",
+          "requirement_key": "HISTORICAL_DELAY",
+          "rkiq_id": "RKIQ_003",
+          "strength": "VERIFIED"
+        }
+      ],
+      "claim_handoff_rejections": {
+        "DOC_004": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_008": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "source_execution_status": "PARTIAL_RESULT",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [
+        {
+          "kiq_id": "RKIQ_003",
+          "kit_id": "",
+          "requirement_id": "RKIQ_003_REQ_01",
+          "requirement_key": "HISTORICAL_DELAY",
+          "doc_id": "DOC_017",
+          "source_id": "SRC_031",
+          "issuer_name": "AIRBUS SE",
+          "issuer_cik": "",
+          "source_url": "https://filings.xbrl.org/MINO79WLOO247M1IL051/2025-12-31/ESEF/NL/0/MINO79WLOO247M1IL051-2025-12-31-1-en/reports/MINO79WLOO247M1IL051-2025-12-31-1-en.xhtml",
+          "original_filing_url": "",
+          "quote": "With Skywise directly supporting the operations and maintenance of more than 11,900 commercial aircraft (Airbus and other OEMs), it is allowing the airline industry to realise significant annual savings through reduced flight delays and cancellations.",
+          "source_hash": "773b1fa79f0e0ba8742c63114dacbd6eab27277829053feb71547f3d508aca1c",
+          "passage_hash": "fac4accecfe1e84ce4a5e7ac58b4dd75cb6daca238f69dcac76f50dd4eb042a9",
+          "extraction_method": "HTML_VISIBLE_TEXT_WHITESPACE_V1",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "claim_strength": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "ACTIVE_ISSUE",
+          "verification_reason": "TRUSTED_PRODUCER_PASSAGE_HASH",
+          "publication_date": "2026-02-19",
+          "event_date": "",
+          "authority": "ISSUER_DISCLOSURE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_003",
+          "kit_id": "",
+          "requirement_id": "RKIQ_003_REQ_01",
+          "requirement_key": "HISTORICAL_DELAY",
+          "doc_id": "DOC_017",
+          "source_id": "SRC_031",
+          "issuer_name": "AIRBUS SE",
+          "issuer_cik": "",
+          "source_url": "https://filings.xbrl.org/MINO79WLOO247M1IL051/2025-12-31/ESEF/NL/0/MINO79WLOO247M1IL051-2025-12-31-1-en/reports/MINO79WLOO247M1IL051-2025-12-31-1-en.xhtml",
+          "original_filing_url": "",
+          "quote": "Market disruptions and weak global (or localised) economic conditions brought on by the above-described or other factors could therefore result in: ● Protracted weak or reduced demand for air travel and cargo; ● financial distress among airlines and lessors, and potential bankruptcies within this market; ● financial distress affecting the Company’s suppliers or subcontractors and increased costs or disruptions within the Company’s supply chain; ● credit being unavailable (or not available at suitable terms) in the financial markets, or increases in customers’ operating costs leading to requests by customers to postpone or cancel existing orders for aircraft (including Airbus SE / Report of the Board of Directors 2025 85 helicopters), decisions by customers to review their order intake strategy or an increase in the amount of sales financing that the Company is requested to provide to its customers to support aircraft deliveries; and ● variations in public spending or support for defence, homeland security and space activities, which may lead to the termination or reduction of future funding or to cancellations or delays impacting existing contracts.",
+          "source_hash": "773b1fa79f0e0ba8742c63114dacbd6eab27277829053feb71547f3d508aca1c",
+          "passage_hash": "cb409223de21fb4dbfbfeac0f4dc70e0a2a7c928a0249898aaf4255fae358475",
+          "extraction_method": "HTML_VISIBLE_TEXT_WHITESPACE_V1",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "claim_strength": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "ACTIVE_ISSUE",
+          "verification_reason": "TRUSTED_PRODUCER_PASSAGE_HASH",
+          "publication_date": "2026-02-19",
+          "event_date": "",
+          "authority": "ISSUER_DISCLOSURE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_003",
+          "kit_id": "",
+          "requirement_id": "RKIQ_003_REQ_01",
+          "requirement_key": "HISTORICAL_DELAY",
+          "doc_id": "DOC_017",
+          "source_id": "SRC_031",
+          "issuer_name": "AIRBUS SE",
+          "issuer_cik": "",
+          "source_url": "https://filings.xbrl.org/MINO79WLOO247M1IL051/2025-12-31/ESEF/NL/0/MINO79WLOO247M1IL051-2025-12-31-1-en/reports/MINO79WLOO247M1IL051-2025-12-31-1-en.xhtml",
+          "original_filing_url": "",
+          "quote": "The factors described above may have an impact on the commercial aircraft industry and commercial helicopter industry, leading customers to postpone or cancel orders or delay payments, which could result in a material impact on the Company’s business, financial condition and results of operations.",
+          "source_hash": "773b1fa79f0e0ba8742c63114dacbd6eab27277829053feb71547f3d508aca1c",
+          "passage_hash": "35cfd8e277002acfc2b9c4d0e616a380aa33768c795ddcd5ff850e3e3188b4c8",
+          "extraction_method": "HTML_VISIBLE_TEXT_WHITESPACE_V1",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "claim_strength": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "ACTIVE_ISSUE",
+          "verification_reason": "TRUSTED_PRODUCER_PASSAGE_HASH",
+          "publication_date": "2026-02-19",
+          "event_date": "",
+          "authority": "ISSUER_DISCLOSURE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        }
+      ],
+      "verification_status": "Verified 1/2 atomic facts; PARTIAL_RESULT",
+      "uncertainty_level": "MEDIUM",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Latest dated, issue-specific status",
+      "missing_information": "Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status"
+    }
+  ],
+  "run_metadata": {
+    "run_id": "RUN-20261125-150218-AA0E3B2B8126",
+    "report_id": "RPT-20261125-C128D4",
+    "started_at": "2026-11-25T15:02:18Z",
+    "completed_at": "2026-11-25T15:04:11Z",
+    "run_date_utc": "2026-11-25",
+    "analysis_reference_date": "2026-11-25",
+    "reference_date_mode": "EXECUTION_DATE",
+    "collection_window_start_utc": "2025-11-25T15:02:18Z",
+    "collection_window_end_utc": "2026-11-25T15:02:18Z",
+    "status": "completed",
+    "outcome_status": "PARTIAL_SUCCESS",
+    "processing_status": "COMPLETED",
+    "evidence_completeness_status": "INSUFFICIENT",
+    "kiq_completion_status": "NOT_ANSWERED",
+    "kiqs_fully_answered": 0,
+    "kiqs_missing_specific_evidence": 3,
+    "kit_completion_audit": {
+      "as_of_date": "2026-11-25",
+      "questions": [
+        {
+          "kiq_id": "RKIQ_001",
+          "question": "What is the current officially communicated entry-into-service (EIS) date and development milestone schedule for the Airbus ZEROe program?",
+          "answer_status": "UNANSWERED",
+          "content_result": "NO_RELEVANT_EVENT",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "CURRENT_STATUS",
+              "missing_information": [
+                "Verified source passage for: Latest dated, issue-specific status"
+              ]
+            },
+            {
+              "key": "STATUS_CHANGE",
+              "missing_information": [
+                "Verified source passage for: Dated transition between two evidenced states"
+              ]
+            }
+          ],
+          "missing_information": "Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status; Dated transition between two evidenced states: Verified source passage for: Dated transition between two evidenced states",
+          "source_execution_status": "PARTIAL_RESULT",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 0,
+          "latest_evidence_date": "",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        },
+        {
+          "kiq_id": "RKIQ_002",
+          "question": "Have any technical or supply chain bottlenecks been identified that specifically impact the ZEROe liquid hydrogen tank or fuel cell engine flight test demonstrator timelines?",
+          "answer_status": "UNANSWERED",
+          "content_result": "NO_RELEVANT_EVENT",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "SUPPLY_DISRUPTION",
+              "missing_information": [
+                "Verified source passage for: A documented supply disruption"
+              ]
+            },
+            {
+              "key": "AFFECTED_COMPONENT",
+              "missing_information": [
+                "Verified source passage for: Identity of the affected part or engine"
+              ]
+            }
+          ],
+          "missing_information": "A documented supply disruption: Verified source passage for: A documented supply disruption; Identity of the affected part or engine: Verified source passage for: Identity of the affected part or engine",
+          "source_execution_status": "PARTIAL_RESULT",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 0,
+          "latest_evidence_date": "",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        },
+        {
+          "kiq_id": "RKIQ_003",
+          "question": "Are there any public statements or regulatory filings indicating a revision or postponement of the 2035 entry-into-service target?",
+          "answer_status": "PARTIALLY_ANSWERED",
+          "content_result": "STATUS_UNKNOWN",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "CURRENT_STATUS",
+              "missing_information": [
+                "Verified source passage for: Latest dated, issue-specific status"
+              ]
+            }
+          ],
+          "missing_information": "Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status",
+          "source_execution_status": "PARTIAL_RESULT",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 1,
+          "latest_evidence_date": "2026-02-19",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        }
+      ],
+      "total": 3,
+      "complete": 0,
+      "missing": 3,
+      "unavailable_sources": [
+        {
+          "connector": "News API",
+          "source_id": "SRC_004",
+          "status": "RATE_LIMITED",
+          "errors": [
+            "CONNECTOR_RATE_LIMITED",
+            "CONNECTOR_RATE_LIMITED"
+          ]
+        }
+      ],
+      "unsearched_requests": [],
+      "status": "NOT_ANSWERED"
+    },
+    "planner_status": "REPAIRED",
+    "collection_mode": "agentic_exa",
+    "acquisition_trace": {
+      "collection_id": "COL_1CAFF1",
+      "kit": "Airbus ZEROe hydrogen aircraft program development timeline and delays",
+      "collection_mode": "agentic_exa",
+      "search_objective": "Execute adaptive OSINT intelligence acquisition for Airbus ZEROe hydrogen aircraft program development timeline and delays (2025-2026).",
+      "queries_executed": 8,
+      "exa_calls_executed": 2,
+      "sources_used": [
+        "EASA Official Index",
+        "Exa Semantic Search",
+        "Official Industry PR / Airbus",
+        "XBRL International ESEF Filing Index"
+      ],
+      "documents_found": 17,
+      "primary_documents": 9,
+      "secondary_documents": 8,
+      "full_text_documents": 14,
+      "metadata_only_documents": 0,
+      "unresolved_requirements": [
+        "Specific technical hurdles or supplier-side delays affecting the 2026 flight test campaign (A380 MSN1/Iron Pod).",
+        "Official regulatory confirmation of a shift in the long-term 2035 EIS date (EASA/FAA filings)."
+      ],
+      "collection_status": "PARTIAL_SUCCESS",
+      "next_action": "FINAL_REPORT",
+      "agent_rationale": "Initial Exa searches successfully identified secondary reports of a 'scale back' in ambitions (80-seat focus) and potential slippage of the 2035 EIS. However, primary regulatory and corporate filing searches (EASA/Airbus PR) did not yield a specific 'Iron Pod' or 'A380 MSN1' delay confirmation, suggesting these details remain internal or are not yet reflected in formal ADs/filings. Media/social channels were queried but returned no high-signal matches or were disabled, limiting early-warning discovery.",
+      "steps": [
+        {
+          "step": 1,
+          "tool": "exa_semantic_search",
+          "query": "Airbus ZEROe hydrogen aircraft program development timeline 2035 EIS milestones",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 6,
+          "new_doc_ids": [
+            "DOC_001",
+            "DOC_002",
+            "DOC_003",
+            "DOC_004",
+            "DOC_005",
+            "DOC_006"
+          ],
+          "elapsed_sec": 4.5,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 2,
+          "tool": "exa_semantic_search",
+          "query": "Airbus A380 MSN1 ZEROe flight test demonstrator Iron Pod liquid hydrogen tank technical bottlenecks delays",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 2,
+          "new_doc_ids": [
+            "DOC_007",
+            "DOC_008"
+          ],
+          "elapsed_sec": 5.52,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 3,
+          "tool": "search_media_and_social",
+          "query": "[all] Airbus ZEROe A380 MSN1 flight test delay",
+          "status": "NO_MATCH",
+          "new_doc_count": 0,
+          "new_doc_ids": [],
+          "elapsed_sec": 9.11,
+          "calls_used": 5,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 4,
+          "tool": "search_official_regulators",
+          "query": "EASA Airbus ZEROe hydrogen certification roadmap",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 8,
+          "new_doc_ids": [
+            "DOC_009",
+            "DOC_010",
+            "DOC_011",
+            "DOC_012",
+            "DOC_013",
+            "DOC_014",
+            "DOC_015",
+            "DOC_016"
+          ],
+          "elapsed_sec": 17.28,
+          "calls_used": 5,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 5,
+          "tool": "search_corporate_filings",
+          "query": "Airbus ZEROe 2035 EIS delay hydrogen tank Iron Pod flight test",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 9,
+          "new_doc_ids": [
+            "DOC_009",
+            "DOC_010",
+            "DOC_011",
+            "DOC_012",
+            "DOC_013",
+            "DOC_014",
+            "DOC_015",
+            "DOC_016",
+            "DOC_017"
+          ],
+          "elapsed_sec": 29.61,
+          "calls_used": 5,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 6,
+          "tool": "search_media_and_social",
+          "query": "[news] Airbus ZEROe A380 MSN1 flight test delay",
+          "status": "NO_MATCH",
+          "new_doc_count": 0,
+          "new_doc_ids": [],
+          "elapsed_sec": 31.82,
+          "calls_used": 6,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 7,
+          "tool": "search_media_and_social",
+          "query": "[bluesky] Airbus ZEROe delay",
+          "status": "PLATFORM_DISABLED",
+          "new_doc_count": 0,
+          "new_doc_ids": [],
+          "elapsed_sec": 31.82,
+          "calls_used": 7,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 8,
+          "tool": "search_media_and_social",
+          "query": "[youtube] Airbus ZEROe hydrogen aircraft 2026 status",
+          "status": "PLATFORM_DISABLED",
+          "new_doc_count": 0,
+          "new_doc_ids": [],
+          "elapsed_sec": 31.82,
+          "calls_used": 8,
+          "exa_calls_used": 2,
+          "note": ""
+        }
+      ],
+      "budget_summary": {
+        "calls_made": 8,
+        "max_total_calls": 10,
+        "remaining_total_calls": 2,
+        "exa_calls_made": 2,
+        "max_exa_calls": 4,
+        "remaining_exa_calls": 2,
+        "elapsed_sec": 35.12,
+        "max_seconds": 180,
+        "remaining_seconds": 144.9,
+        "steps_recorded": 8
+      },
+      "fallback_used": false,
+      "llm_tokens_in": 27670,
+      "llm_tokens_out": 677
+    },
+    "phase_checkpoints": {
+      "planner": "REPAIRED",
+      "collection": "PASS",
+      "fr03": "PASS",
+      "analyst": "PASS",
+      "qa": "COMPLETED",
+      "kiq": "NOT_ANSWERED",
+      "editor": "COMPLETED",
+      "scoring": "COMPLETED",
+      "reporting": "VALIDATED"
+    },
+    "evidence_flow_audit": {
+      "documents": [
+        {
+          "doc_id": "DOC_001",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_002",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_003",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_004",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": true
+          },
+          "gap": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "interruption_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_005",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_006",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_007",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": true
+          },
+          "gap": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "interruption_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_008",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": true
+          },
+          "gap": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "interruption_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_009",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_010",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_011",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_012",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_013",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_014",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_015",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_016",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_017",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        }
+      ],
+      "stage_counts": {
+        "COLLECTED": 17,
+        "FILTER_ACCEPTED": 4,
+        "CLAIMS_EXTRACTED": 4,
+        "CLAIMS_VALIDATED": 1,
+        "KIQ_EVALUATED": 4,
+        "KIQ_LINKED": 1,
+        "NOT_APPLICABLE": 3,
+        "REPORT_REFERENCED": 4,
+        "REPORT_USED": 4,
+        "REPORT_NOT_USED": 0
+      },
+      "unlinked_accepted_document_ids": [
+        "DOC_004",
+        "DOC_007",
+        "DOC_008"
+      ],
+      "unreferenced_validated_document_ids": [],
+      "potential_analytical_loss_ids": [],
+      "handoff_error_ids": [],
+      "validated_claim_counts": {
+        "DOC_001": 0,
+        "DOC_002": 0,
+        "DOC_003": 0,
+        "DOC_004": 0,
+        "DOC_005": 0,
+        "DOC_006": 0,
+        "DOC_007": 0,
+        "DOC_008": 0,
+        "DOC_009": 0,
+        "DOC_010": 0,
+        "DOC_011": 0,
+        "DOC_012": 0,
+        "DOC_013": 0,
+        "DOC_014": 0,
+        "DOC_015": 0,
+        "DOC_016": 0,
+        "DOC_017": 1
+      }
+    },
+    "evidence_integrity_issues": [],
+    "source_provenance_missing_ids": [],
+    "kiq_unlinked_extracted_document_ids": [],
+    "kiq_handoff_error_document_ids": [],
+    "kiq_handoff_contract_errors": {},
+    "editor_kiq_context_error": null,
+    "editor_evidence_citation_document_ids": [
+      "DOC_017"
+    ],
+    "query": "Airbus ZEROe hydrogen aircraft program development timeline and delays",
+    "experiment": {
+      "dataset_run_id": "RUN-20261125-150218-AA0E3B2B8126",
+      "replay_run_id": null,
+      "collection_mode": "agentic_exa",
+      "qa_enabled": true,
+      "harness_enabled": true,
+      "keyword_baseline": false,
+      "dataset_sha256": "615cec4c28f3e137cf04ce14a7c547afc02c24974dc69dccadfdd188cee30edf",
+      "replay_uses_live_llm": false
+    },
+    "analysis_scope": "365d",
+    "effective_from": "2025-11-25T15:02:18Z",
+    "effective_to": "2026-11-25T15:02:18Z",
+    "as_of_date": "2026-11-25",
+    "documents_collected": 17,
+    "historical_resolutions": [],
+    "historical_resolution_count": 0,
+    "temporal_claim_audit": [
+      {
+        "event_id": "AIR-ZEROE-2026-DEL-01",
+        "entity": "Airbus",
+        "program": "Airbus ZEROe",
+        "component": "Unknown / Not specified in source",
+        "issue": "ENVIRONMENTAL_TECHNOLOGICAL",
+        "historical_claim_status": "CURRENT_STATUS_UNKNOWN",
+        "original_date": "2026-08-14",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "AIR-ZEROE-2025-DELAY-REF",
+        "entity": "Airbus",
+        "program": "Unknown / Not specified in source",
+        "component": "Unknown / Not specified in source",
+        "issue": "ENVIRONMENTAL_TECHNOLOGICAL",
+        "historical_claim_status": "CURRENT_STATUS_UNKNOWN",
+        "original_date": "2026-11-18",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      }
+    ],
+    "document_content_status_counts": {
+      "FULL_TEXT": 14,
+      "FULL_TEXT_RETRIEVED": 0,
+      "METADATA_ONLY": 0,
+      "PARTIAL_TEXT": 3,
+      "SOURCE_METADATA_ONLY": 0,
+      "SOURCE_POLICY_RESTRICTED": 0,
+      "STRUCTURED_DATA": 0,
+      "SUMMARY_ONLY": 0,
+      "TEXT_COMPLETENESS_UNVERIFIED": 0,
+      "TEXT_RETRIEVED_COMPLETENESS_UNVERIFIED": 0,
+      "TRANSCRIPT_AS_RECEIVED": 0,
+      "UNAVAILABLE": 0,
+      "UNKNOWN": 0
+    },
+    "unknown_content_statuses": [],
+    "telemetry_errors": [],
+    "telemetry_integrity_ok": true,
+    "content_limited_document_ids": [
+      "DOC_002",
+      "DOC_006",
+      "DOC_007",
+      "DOC_014",
+      "DOC_016",
+      "DOC_017"
+    ],
+    "documents_analyzed": 4,
+    "documents_rejected": 13,
+    "documents_failed": 0,
+    "analysis_phase_status": "COMPLETED",
+    "analysis_recovery_budget": {
+      "time_budget_sec": 600,
+      "max_retries": 8,
+      "max_calls": 10,
+      "retries": 0,
+      "calls": 2,
+      "blocked": ""
+    },
+    "analyzed_document_ids": [
+      "DOC_004",
+      "DOC_007",
+      "DOC_008",
+      "DOC_017"
+    ],
+    "failed_document_ids": [],
+    "recovered_document_ids": [],
+    "partially_analyzed_document_ids": [],
+    "documents_recovered": 0,
+    "analyst_batch_document_counts": [
+      3,
+      1
+    ],
+    "analyst_recovery_splits": 0,
+    "analyst_retry_counts_by_reason": {
+      "PROVIDER_INTERNAL_RETRY": 0
+    },
+    "batches_created": 2,
+    "batches_succeeded": 2,
+    "batches_failed": 0,
+    "planning_duration_sec": 6.05,
+    "collection_duration_sec": 35.15,
+    "filter_duration_sec": 22.42,
+    "analysis_duration_sec": 21.52,
+    "qa_duration_sec": 20.47,
+    "editorial_duration_sec": 6.55,
+    "scoring_duration_sec": 0.0,
+    "scoring_status": "COMPLETED",
+    "scoring_methodology": {
+      "version": "IW-5FACTOR-DET-V1",
+      "method": "DETERMINISTIC_5_FACTOR_IW",
+      "scale": "F1-F5 rated 1..5; final threat_score 1..10",
+      "formula": "S = clamp(floor(sum(w_i * F_i) * 2 + 0.5), 1, 10)",
+      "weights": {
+        "impact_severity": 0.3,
+        "supplier_criticality": 0.2,
+        "substitutability_difficulty": 0.15,
+        "propagation_scope": 0.15,
+        "temporal_urgency": 0.2
+      },
+      "bands": {
+        "monitored": "1-4",
+        "elevated": "5-7",
+        "high_potential_impact": "8-10"
+      },
+      "severity_independent_of_confidence": true
+    },
+    "scoring_partial_fallback_ids": [],
+    "scoring_audit": [
+      {
+        "event_id": "AIR-ZEROE-2026-DEL-01",
+        "provisional_score": 6,
+        "computed_score": 8,
+        "final_score": 8,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.85 * 2) = 8/10",
+        "weighted_sum": 3.85,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 4,
+            "weight": 0.3,
+            "weighted_contribution": 1.2,
+            "rationale": "Delaying a flagship decarbonization program by 5-10 years impacts long-term strategic viability."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Direct OEM program delay; Airbus is the sole integrator for ZEROe."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "Hydrogen propulsion is a niche, high-complexity system with few alternative OEMs."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 2,
+            "weight": 0.15,
+            "weighted_contribution": 0.3,
+            "rationale": "Impacts the entire hydrogen ecosystem but isolated to the ZEROe R&D fleet."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 3,
+            "weight": 0.2,
+            "weighted_contribution": 0.6,
+            "rationale": "The 'slip' is reported as current status in 2026, though the target was long-term."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (103 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (8/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+        "post_harness_score": 8,
+        "post_harness_validation_status": "PARTIALLY_SUPPORTED",
+        "post_harness_confidence_level": "LOW",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "PROVISIONAL_UNVERIFIED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-08-14",
+        "source_age_days": 103
+      },
+      {
+        "event_id": "AIR-ZEROE-2025-DELAY-REF",
+        "provisional_score": 6,
+        "computed_score": 6,
+        "final_score": 6,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.15 * 2) = 6/10",
+        "weighted_sum": 3.15,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 3,
+            "weight": 0.3,
+            "weighted_contribution": 0.9,
+            "rationale": "Program delay reported for a strategic long-term initiative; EIS impact unknown."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "GKN is developing critical electrical distribution for the program."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Hydrogen hyperconducting technology is niche with limited alternative suppliers."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Affects the ZEROe hydrogen ecosystem, including Tier 1 suppliers like GKN."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 2,
+            "weight": 0.2,
+            "weighted_contribution": 0.4,
+            "rationale": "Refers to a past 2025 event re-reported in 2026."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 7 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: ELEVATED (6/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+        "post_harness_score": 6,
+        "post_harness_validation_status": "PARTIALLY_SUPPORTED",
+        "post_harness_confidence_level": "LOW",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "PROVISIONAL_UNVERIFIED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-11-18",
+        "source_age_days": 7
+      }
+    ],
+    "total_duration_sec": 112.17,
+    "llm_calls": 10,
+    "llm_retries": 0,
+    "tokens_input": 52669,
+    "tokens_output": 13355,
+    "token_usage_status": "MEASURED",
+    "token_usage_unknown_calls": 0,
+    "llm_call_audit": [
+      {
+        "task_type": "PHASE_1_PLANNER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 1493,
+        "output_tokens": 740,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_2_ACQUISITION",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 27670,
+        "output_tokens": 677,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 3017,
+        "output_tokens": 1290,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 3184,
+        "output_tokens": 1090,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2624,
+        "output_tokens": 1127,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 1479,
+        "output_tokens": 272,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_1_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 19648,
+        "output_tokens": 2223,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_2_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 14854,
+        "output_tokens": 1614,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_3B_QA",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 5055,
+        "output_tokens": 4691,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_4_EDITOR",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2808,
+        "output_tokens": 1048,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      }
+    ],
+    "analyst_recovery_audit": {
+      "attempts": [],
+      "fallbacks": [],
+      "recent_events": []
+    },
+    "token_accounting_method": "SHARED_LLM_DELTA",
+    "provider_requests_measured": 8,
+    "estimated_cost_usd": 0.0664,
+    "estimated_cost_status": "ESTIMATED",
+    "priced_cost_subtotal_usd": 0.0664,
+    "model_cost_audit": [
+      {
+        "model_id": "openrouter/google/gemini-3-flash-preview",
+        "usage_bucket": "openrouter/google/gemini-3-flash-preview",
+        "input_tokens": 52669,
+        "output_tokens": 13355,
+        "requests": 8,
+        "estimated_cost_usd": 0.0664,
+        "pricing_status": "ESTIMATED"
+      }
+    ],
+    "cost_estimation_reason_codes": [],
+    "unmatched_cost_model_ids": [],
+    "model_id": "openrouter/google/gemini-3-flash-preview",
+    "prompt_version": "v2.10-CI-HRO-2026-EVIDENCE-SCOPE",
+    "kiq_catalog_version": "THESIS_KIQ_CATALOG_V2_20261031",
+    "candidate_schema_rejections": 0,
+    "qa_failed": false,
+    "qa_performed": true,
+    "harness_performed": true,
+    "editor_failed": false,
+    "editorial_generation_mode": "LLM_TEXT_PYDANTIC_V1",
+    "editor_text_parsed_count": 2,
+    "editor_text_fallbacks": 2,
+    "editor_retry_count": 0,
+    "editor_retry_recovered": false,
+    "editor_fallback_used": true,
+    "pipeline_degraded": true,
+    "degradation_category": "SOURCE_COVERAGE_LIMITED",
+    "source_coverage_issues": [
+      {
+        "connector": "News API",
+        "issue": "CONNECTOR_RATE_LIMITED"
+      }
+    ],
+    "source_coverage_limited": true,
+    "source_coverage_advisories": [
+      {
+        "connector": "Exa Semantic Search",
+        "issue": "exa_type=auto; duplicates_skipped=0; include_domains=ALL"
+      },
+      {
+        "connector": "Exa Semantic Search",
+        "issue": "exa_type=auto; duplicates_skipped=4; include_domains=ALL"
+      },
+      {
+        "connector": "Official Industry PR / Airbus",
+        "issue": "RSS_METADATA_SCREENING_NOT_FULL_TEXT_VERIFICATION"
+      },
+      {
+        "connector": "FAA Federal Register",
+        "issue": "NO_RESULTS; api_declared=0; retrieved=0"
+      },
+      {
+        "connector": "EASA Official Index",
+        "issue": "PARTIAL_COVERAGE:oldest_scanned=2026-11-17"
+      }
+    ],
+    "source_coverage_status": "PARTIAL",
+    "source_coverage_legacy_status": "LIMITED",
+    "evidence_result_status": "UNVERIFIED_ONLY",
+    "review_scope": "EVENT_REVIEW",
+    "analysis_issues": [],
+    "fr03_rejection_review_candidates": 4,
+    "fr03_rejection_stage_counts": {
+      "STAGE_1_DETERMINISTIC": 1,
+      "STAGE_2_SEMANTIC": 12
+    },
+    "scoring_calibration": "UNMEASURED_REQUIRES_EXPERT_REFERENCE_LABELS",
+    "semantic_filter_unavailable_count": 0,
+    "semantic_filter_missing_ids": [],
+    "analyst_valid_empty_batches": 0,
+    "analyst_invalid_batches": 0,
+    "analyst_empty_retry_count": 0,
+    "analyst_empty_retry_failed_batches": 0,
+    "analyst_empty_output_conflict": false,
+    "analyst_empty_conflict_previous_run": null,
+    "analyst_output_audit": [
+      {
+        "batch": 1,
+        "depth": 0,
+        "document_ids": [
+          "DOC_007",
+          "DOC_004",
+          "DOC_017"
+        ],
+        "documents_processed": 3,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 7271,
+        "output_tokens": 2223,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 2,
+        "depth": 0,
+        "document_ids": [
+          "DOC_008"
+        ],
+        "documents_processed": 1,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 5535,
+        "output_tokens": 1614,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      }
+    ],
+    "confirmed_critical_count": 0,
+    "unverified_signal_count": 0,
+    "displayable_signal_count": 0,
+    "verified_context_count": 0,
+    "direct_kit_confirmed_count": 0,
+    "verified_context_event_ids": [],
+    "classification_version": "SUPPORTED_ONLY_DASHBOARD_V3_EVENT_ID_1TO1",
+    "runtime_kiq_count": 3,
+    "runtime_kiq_ids": [
+      "RKIQ_001",
+      "RKIQ_002",
+      "RKIQ_003"
+    ],
+    "runtime_kiq_answered": 0,
+    "runtime_kiq_partially_answered": 1,
+    "runtime_kiq_unanswered": 2,
+    "runtime_kiq_not_searched": 0,
+    "intelligence_methodology": {
+      "collection_method": "OSINT",
+      "analysis_method": "Competitive Intelligence",
+      "osint_document_count": 17,
+      "ci_candidate_count": 2,
+      "osint_stage": "Acquisition and preprocessing of publicly available information.",
+      "ci_stage": "Interpretation of collected evidence against KIT/KIQ requirements, strategic risks, competitive implications and decision needs.",
+      "methodological_boundary": "A retrieved source is OSINT evidence. It becomes an intelligence assessment only after analytical interpretation and validation.",
+      "independent_verification_required": true
+    },
+    "editor_claim_audit": {
+      "status": "PASS",
+      "all_supported": true,
+      "citations_match": true,
+      "checks": {
+        "doc_id_exists": true,
+        "passages_match": true,
+        "event_references_valid": true,
+        "urls_valid": true
+      },
+      "claim_sentences_checked": 22,
+      "cited_document_ids": [
+        "DOC_004",
+        "DOC_007",
+        "DOC_008",
+        "DOC_017"
+      ],
+      "issues": [],
+      "review_items": [],
+      "audit_method": "DETERMINISTIC_PROVENANCE_ONLY"
+    },
+    "editor_executive_summary": "Monitoring of the Airbus ZEROe hydrogen aircraft program focused on official issuer filings and secondary reporting regarding the 2035 Entry-into-Service (EIS) timeline. Evidence surfaced from an official Airbus SE filing dated February 19, 2026 [DOC_017], alongside secondary reports from August and November 2026 [DOC_007, DOC_004, DOC_008] suggesting program volatility. The official filing acknowledges that \"delays in design or manufacturing may arise\" due to the inherent complexities of the company’s products [DOC_017]. While the issuer identifies forward-looking statements regarding \"production ramp-up and delivery schedules\" as key areas of strategic focus [DOC_017], secondary reports indicate a potential slip of the 2035 target into the 2040s and the cancellation of specific flight tests [DOC_007, DOC_004].\n\nThe analytical takeaway is a divergence between high-level issuer risk acknowledgments and specific, unverified secondary claims of a decade-long delay. The reliability of the 2035 target is currently categorized as unsupported due to the absence of a formal Airbus announcement confirming a revised date. Management should prioritize verifying the status of liquid hydrogen propulsion milestones, as the current evidence suggests a transition from a firm 2035 commitment to a more fluid development window. Monitoring must now focus on official technical milestone updates to distinguish between routine \"complexities\" [DOC_017] and a fundamental program re-baselining.",
+    "editor_detailed_analytical_assessment": "The Airbus ZEROe program is navigating a critical phase where long-term strategic targets are meeting the technical realities of liquid hydrogen propulsion and fuel-cell engine integration. According to an official issuer filing from February 2026, Airbus explicitly includes \"introduction of new products and services\" and \"delivery schedules\" within its forward-looking statements, noting that market disruptions or economic conditions could result in \"protracted weak or reduced demand\" [DOC_017]. This filing establishes a baseline of institutional awareness regarding the \"complexities\" inherent in such advanced aerospace manufacturing, which may lead to design or manufacturing delays [DOC_017].\n\nHowever, the program's status became more opaque in late 2026. Secondary reports from August 2026 [DOC_007, DOC_004] and November 2026 [DOC_008] suggest that the 2035 EIS target has slipped. These reports, while categorized as medium confidence and unsupported by official company statements, claim that flight tests have been cancelled and that the operational debut could be pushed into the 2040s. The primary gap in the current intelligence is the lack of a specific, dated announcement from Airbus SE that confirms or denies these secondary claims. \n\nAnalytically, the co-occurrence of general risk disclosures in February [DOC_017] and specific delay reports later in the year suggests a period of high uncertainty for the ZEROe timeline. The \"complexities\" cited by the issuer [DOC_017] provide a plausible context for the delays reported by secondary sources, but they do not independently prove that a decade-long slip has occurred. Furthermore, the truncation of source data in November 2026 [DOC_008] leaves specific milestone failures unverified.\n\nManagement is advised to treat the 2035 EIS target as a high-risk assumption rather than a confirmed milestone. The immediate priority is to seek verification of the \"liquid hydrogen propulsion\" and \"fuel-cell engine\" test schedules, as these are the specific components identified as being at risk. Until official confirmation is available, long-term market share projections based on a 2035 entry should be stress-tested against a 2040-2045 arrival scenario.",
+    "editor_validation_status": "PASS",
+    "editor_claim_citations_verified": true,
+    "editor_semantic_review_required": false,
+    "kit_current_assessment": {
+      "status": "DOCUMENTED_FINDINGS",
+      "source_coverage": "INCOMPLETE",
+      "as_of_date": "2026-11-25",
+      "search_overview": {
+        "connectors_searched": [
+          "Exa Semantic Search",
+          "News API",
+          "Official Industry PR / Airbus",
+          "FAA Federal Register",
+          "EASA Official Index",
+          "XBRL International ESEF Filing Index"
+        ],
+        "connectors_with_results": [
+          "Exa Semantic Search",
+          "Official Industry PR / Airbus",
+          "EASA Official Index",
+          "XBRL International ESEF Filing Index"
+        ],
+        "documents_collected": 17,
+        "documents_analyzed": 4,
+        "documents_rejected": 13,
+        "events_identified": 2,
+        "supported_events": 0
+      },
+      "issue_status": "DOCUMENTED",
+      "regulator_verification": "UNAVAILABLE",
+      "source_authority": "NOT_ESTABLISHED",
+      "coverage_status": "PARTIAL",
+      "severity_context": "POTENTIAL",
+      "potential_severity": 8,
+      "evidence_confidence": "LOW",
+      "chronological_milestones": [],
+      "conflicts": [],
+      "monitored_kit": "Airbus ZEROe hydrogen aircraft program development timeline and delays",
+      "original_issue": "Airbus ZEROe hydrogen aircraft program development timeline and delays",
+      "latest_milestone": "NOT_ESTABLISHED",
+      "latest_milestone_date": "",
+      "latest_evidence_id": "",
+      "latest_evidence_url": "",
+      "latest_verification": "UNVERIFIED",
+      "unresolved_questions": [
+        "Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status; Dated transition between two evidenced states: Verified source passage for: Dated transition between two evidenced states",
+        "A documented supply disruption: Verified source passage for: A documented supply disruption; Identity of the affected part or engine: Verified source passage for: Identity of the affected part or engine",
+        "Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status"
+      ],
+      "severity": null,
+      "confidence": "LOW",
+      "evidence_strength": "MIXED",
+      "reported_developments": [
+        {
+          "event_id": "AIR-ZEROE-2026-DEL-01",
+          "evidence_id": "DOC_007",
+          "date": "2026-08-14",
+          "claim": "Airbus ZEROe remains active, but its original 2035 commercial ambition has slipped.",
+          "program": "Airbus ZEROe",
+          "company": "Airbus",
+          "source_url": "https://www.techbloat.com/airbus-zeroe-whats-the-latest-2026-status-delays-and-roadmap.html",
+          "verification": "PARTIALLY_SUPPORTED",
+          "source_role": "SECONDARY_OR_UNKNOWN"
+        },
+        {
+          "event_id": "AIR-ZEROE-2025-DELAY-REF",
+          "evidence_id": "DOC_008",
+          "date": "2026-11-18",
+          "claim": "Airbus in February 2025 delayed plans to...",
+          "program": "Unknown / Not specified in source",
+          "company": "Airbus",
+          "source_url": "https://aviationweek.com/aerospace/emerging-technologies/gkn-addressing-certification-challenges-hydrogen-electric-airliner",
+          "verification": "PARTIALLY_SUPPORTED",
+          "source_role": "SECONDARY_OR_UNKNOWN"
+        }
+      ],
+      "kiq_source_claims": [
+        {
+          "kiq_id": "RKIQ_003",
+          "evidence_id": "DOC_017",
+          "quote": "With Skywise directly supporting the operations and maintenance of more than 11,900 commercial aircraft (Airbus and other OEMs), it is allowing the airline industry to realise significant annual savings through reduced flight delays and cancellations.",
+          "date": "2026-02-19",
+          "publication_date": "2026-02-19",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_031",
+          "source_url": "https://filings.xbrl.org/MINO79WLOO247M1IL051/2025-12-31/ESEF/NL/0/MINO79WLOO247M1IL051-2025-12-31-1-en/reports/MINO79WLOO247M1IL051-2025-12-31-1-en.xhtml",
+          "authority": "ISSUER_DISCLOSURE",
+          "source_role": "ISSUER_REPORTED",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "verbatim_passage_recorded": true,
+          "verification": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "ACTIVE_ISSUE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "HISTORICAL_DELAY"
+          ],
+          "regulator_confirmation": "NOT_ESTABLISHED",
+          "validation_conflict": ""
+        },
+        {
+          "kiq_id": "RKIQ_003",
+          "evidence_id": "DOC_017",
+          "quote": "Market disruptions and weak global (or localised) economic conditions brought on by the above-described or other factors could therefore result in: ● Protracted weak or reduced demand for air travel and cargo; ● financial distress among airlines and lessors, and potential bankruptcies within this market; ● financial distress affecting the Company’s suppliers or subcontractors and increased costs or disruptions within the Company’s supply chain; ● credit being unavailable (or not available at sui",
+          "date": "2026-02-19",
+          "publication_date": "2026-02-19",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_031",
+          "source_url": "https://filings.xbrl.org/MINO79WLOO247M1IL051/2025-12-31/ESEF/NL/0/MINO79WLOO247M1IL051-2025-12-31-1-en/reports/MINO79WLOO247M1IL051-2025-12-31-1-en.xhtml",
+          "authority": "ISSUER_DISCLOSURE",
+          "source_role": "ISSUER_REPORTED",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "verbatim_passage_recorded": true,
+          "verification": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "ACTIVE_ISSUE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "HISTORICAL_DELAY"
+          ],
+          "regulator_confirmation": "NOT_ESTABLISHED",
+          "validation_conflict": ""
+        },
+        {
+          "kiq_id": "RKIQ_003",
+          "evidence_id": "DOC_017",
+          "quote": "The factors described above may have an impact on the commercial aircraft industry and commercial helicopter industry, leading customers to postpone or cancel orders or delay payments, which could result in a material impact on the Company’s business, financial condition and results of operations.",
+          "date": "2026-02-19",
+          "publication_date": "2026-02-19",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_031",
+          "source_url": "https://filings.xbrl.org/MINO79WLOO247M1IL051/2025-12-31/ESEF/NL/0/MINO79WLOO247M1IL051-2025-12-31-1-en/reports/MINO79WLOO247M1IL051-2025-12-31-1-en.xhtml",
+          "authority": "ISSUER_DISCLOSURE",
+          "source_role": "ISSUER_REPORTED",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "verbatim_passage_recorded": true,
+          "verification": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "ACTIVE_ISSUE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "HISTORICAL_DELAY"
+          ],
+          "regulator_confirmation": "NOT_ESTABLISHED",
+          "validation_conflict": ""
+        }
+      ],
+      "established_regulatory_facts": [],
+      "evidence_validation_warnings": [],
+      "kiq_status_counts": {
+        "ANSWERED": 0,
+        "PARTIALLY_ANSWERED": 1,
+        "UNANSWERED": 2,
+        "NOT_SEARCHED": 0
+      }
+    },
+    "detailed_analytical_assessment": "The Airbus ZEROe program is navigating a critical phase where long-term strategic targets are meeting the technical realities of liquid hydrogen propulsion and fuel-cell engine integration. According to an official issuer filing from February 2026, Airbus explicitly includes \"introduction of new products and services\" and \"delivery schedules\" within its forward-looking statements, noting that market disruptions or economic conditions could result in \"protracted weak or reduced demand\" [DOC_017]. This filing establishes a baseline of institutional awareness regarding the \"complexities\" inherent in such advanced aerospace manufacturing, which may lead to design or manufacturing delays [DOC_017].\n\nHowever, the program's status became more opaque in late 2026. Secondary reports from August 2026 [DOC_007, DOC_004] and November 2026 [DOC_008] suggest that the 2035 EIS target has slipped. These reports, while categorized as medium confidence and unsupported by official company statements, claim that flight tests have been cancelled and that the operational debut could be pushed into the 2040s. The primary gap in the current intelligence is the lack of a specific, dated announcement from Airbus SE that confirms or denies these secondary claims. \n\nAnalytically, the co-occurrence of general risk disclosures in February [DOC_017] and specific delay reports later in the year suggests a period of high uncertainty for the ZEROe timeline. The \"complexities\" cited by the issuer [DOC_017] provide a plausible context for the delays reported by secondary sources, but they do not independently prove that a decade-long slip has occurred. Furthermore, the truncation of source data in November 2026 [DOC_008] leaves specific milestone failures unverified.\n\nManagement is advised to treat the 2035 EIS target as a high-risk assumption rather than a confirmed milestone. The immediate priority is to seek verification of the \"liquid hydrogen propulsion\" and \"fuel-cell engine\" test schedules, as these are the specific components identified as being at risk. Until official confirmation is available, long-term market share projections based on a 2035 entry should be stress-tested against a 2040-2045 arrival scenario.",
+    "detailed_analytical_assessment_mode": "VALIDATED_EDITOR",
+    "executive_summary_mode": "VALIDATED_EDITOR",
+    "report_evidence_usage": [
+      {
+        "doc_id": "DOC_004",
+        "event_ids": [
+          "AIR-ZEROE-2026-DEL-01"
+        ],
+        "kiq_ids": [],
+        "source_role": "UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_007",
+        "event_ids": [
+          "AIR-ZEROE-2026-DEL-01"
+        ],
+        "kiq_ids": [],
+        "source_role": "UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_008",
+        "event_ids": [
+          "AIR-ZEROE-2025-DELAY-REF"
+        ],
+        "kiq_ids": [],
+        "source_role": "UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_017",
+        "event_ids": [],
+        "kiq_ids": [
+          "RKIQ_003"
+        ],
+        "source_role": "ISSUER_REPORTED",
+        "reason_code": "CITED_IN_REPORT"
+      }
+    ],
+    "detailed_analytical_assessment_sha256": "994956c163370e70b162f9fa17f87fd5cb699757e8dccd26734c0a3d1e3c4839",
+    "detailed_analytical_assessment_word_count": 319,
+    "executive_summary_word_count": 205,
+    "agent_decision_trace": [
+      {
+        "agent_index": 1,
+        "agent_role": "Intelligence Planning & Acquisition Agent",
+        "inputs": {
+          "kit": "Airbus ZEROe hydrogen aircraft program development timeline and delays",
+          "scope": "365d",
+          "specificity": "PROGRAM",
+          "platforms": [
+            "news",
+            "pr",
+            "regulatory"
+          ],
+          "collection_mode": "agentic_exa"
+        },
+        "decisions": {
+          "planner_status": "REPAIRED",
+          "information_requirements_count": 3,
+          "queries_executed": 8,
+          "exa_calls_executed": 2,
+          "collection_status": "PARTIAL_SUCCESS",
+          "fallback_used": false,
+          "agent_rationale": "Initial Exa searches successfully identified secondary reports of a 'scale back' in ambitions (80-seat focus) and potential slippage of the 2035 EIS. However, primary regulatory and corporate filing searches (EASA/Airbus PR) did not yield a specific 'Iron Pod' or 'A380 MSN1' delay confirmation, suggesting these details remain internal or are not yet reflected in formal ADs/filings. Media/social channels were queried but returned no high-signal matches or were disabled, limiting early-warning discovery."
+        },
+        "outputs": {
+          "documents_collected": 17,
+          "primary_documents": 9,
+          "secondary_documents": 8,
+          "sources_used": [
+            "EASA Official Index",
+            "Exa Semantic Search",
+            "Official Industry PR / Airbus",
+            "XBRL International ESEF Filing Index"
+          ],
+          "unresolved_requirements": [
+            "Specific technical hurdles or supplier-side delays affecting the 2026 flight test campaign (A380 MSN1/Iron Pod).",
+            "Official regulatory confirmation of a shift in the long-term 2035 EIS date (EASA/FAA filings)."
+          ]
+        },
+        "duration_sec": 41.2
+      },
+      {
+        "agent_index": 2,
+        "agent_role": "Risk Analyst Agent",
+        "inputs": {
+          "fr03_accepted_documents": 4,
+          "fr03_rejected_documents": 13,
+          "batches_created": 2
+        },
+        "decisions": {
+          "batches_succeeded": 2,
+          "batches_failed": 0,
+          "documents_failed": 0,
+          "candidate_schema_rejections": 0,
+          "deterministic_scoring_status": "COMPLETED",
+          "scoring_method": "DETERMINISTIC_5_FACTOR_IW"
+        },
+        "outputs": {
+          "direct_candidate_events": 2,
+          "watchlist_events": 0,
+          "event_ids": [
+            "AIR-ZEROE-2026-DEL-01",
+            "AIR-ZEROE-2025-DELAY-REF"
+          ]
+        },
+        "duration_sec": 21.52
+      },
+      {
+        "agent_index": 3,
+        "agent_role": "Quality Assurance Agent",
+        "inputs": {
+          "qa_enabled": true,
+          "harness_enabled": true,
+          "candidates_reviewed": 2
+        },
+        "decisions": {
+          "qa_performed": true,
+          "qa_failed": false,
+          "harness_performed": true,
+          "validation_errors": 0
+        },
+        "outputs": {
+          "supported_direct_events": 0,
+          "confirmed_critical_events": 0,
+          "unverified_signals": 0,
+          "kiq_completion_status": "NOT_ANSWERED"
+        },
+        "duration_sec": 20.47
+      },
+      {
+        "agent_index": 4,
+        "agent_role": "EWS Editor Agent",
+        "inputs": {
+          "event_briefs_supplied": 2,
+          "verbatim_citations_supplied": 2,
+          "runtime_kiq_count": 3
+        },
+        "decisions": {
+          "editor_failed": false,
+          "editor_validation_status": "PASS",
+          "executive_summary_mode": "VALIDATED_EDITOR",
+          "detailed_assessment_mode": "VALIDATED_EDITOR",
+          "actions_parsed": 2,
+          "action_fallbacks": 2
+        },
+        "outputs": {
+          "action_plan_count": 2,
+          "executive_summary_words": 205,
+          "detailed_assessment_words": 319
+        },
+        "duration_sec": 6.55
+      }
+    ],
+    "ai_governance": {
+      "regulatory_reference": "Regulation (EU) 2024/1689, as amended",
+      "assessment_timestamp_utc": "2026-11-25T15:04:11.470471+00:00",
+      "intended_purpose": "Competitive Intelligence decision support using publicly available aerospace information.",
+      "prohibited_uses": [
+        "Autonomous aircraft operation",
+        "Autonomous safety-critical decisions",
+        "Automated regulatory certification",
+        "Unreviewed operational interventions"
+      ],
+      "ai_system_provider": "Externally hosted LLM provider",
+      "model_identifier": "openrouter/google/gemini-3-flash-preview",
+      "run_id": "RUN-20261125-150218-AA0E3B2B8126",
+      "risk_classification": "REQUIRES_LEGAL_ASSESSMENT",
+      "legal_compliance_status": "NOT_CERTIFIED",
+      "ai_generated_content": true,
+      "human_oversight_available": true,
+      "human_review_status": "WAITING_FOR_HITL",
+      "controls": {
+        "source_traceability": true,
+        "independent_qa": true,
+        "deterministic_validation": true,
+        "human_review_gate": true,
+        "critical_alert_requires_verified_evidence": true,
+        "model_and_run_logging": true
+      },
+      "legal_review_items": {
+        "article_4_ai_literacy": "ORGANIZATIONAL_REVIEW_REQUIRED",
+        "article_50_transparency": "APPLICABILITY_REVIEW_REQUIRED",
+        "article_6_high_risk_classification": "LEGAL_REVIEW_REQUIRED",
+        "personal_data_processing": "GDPR_REVIEW_REQUIRED",
+        "copyright_and_tdm": "SOURCE_SPECIFIC_REVIEW_REQUIRED"
+      },
+      "limitations": "These records document implemented safeguards. They are not a legal conformity assessment, certification or proof of compliance."
+    }
+  },
+  "comparison_summary": {
+    "has_comparable_run": false,
+    "previous_run_id": null,
+    "note": "No previous run with identical KIT and time scope; baseline established.",
+    "delta_critical": 0,
+    "delta_elevated": 0,
+    "delta_monitored": 0,
+    "new_events": 2,
+    "continuing_events": 0,
+    "not_redetected_events": 0,
+    "resolved_events": 0,
+    "unknown_status_events": 0,
+    "reclassified_to_watchlist": 0,
+    "methodology_changed": false
+  },
+  "connector_status": {
+    "Exa Semantic Search": {
+      "connector_name": "Exa Semantic Search",
+      "source_id": "SRC_EXA",
+      "technical_source": "api.exa.ai",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Airbus ZEROe hydrogen aircraft program development timeline 2035 EIS milestones",
+        "Airbus A380 MSN1 ZEROe flight test demonstrator Iron Pod liquid hydrogen tank technical bottlenecks delays"
+      ],
+      "found_count": 12,
+      "accepted_count": 8,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 2,
+      "http_status_counts": {
+        "200": 2
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [
+        "exa_type=auto; duplicates_skipped=0; include_domains=ALL",
+        "exa_type=auto; duplicates_skipped=4; include_domains=ALL"
+      ],
+      "time_window": {
+        "from": "2025-11-25T15:02:18Z",
+        "to": "2026-11-25T15:02:18Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T15:02:30Z",
+      "successful_responses": 2,
+      "collected_document_count": 8,
+      "content_availability_counts": {
+        "FULL_TEXT": 8
+      },
+      "observed_publication_from": "2025-12-02",
+      "observed_publication_to": "2026-11-20"
+    },
+    "News API": {
+      "connector_name": "News API",
+      "source_id": "SRC_004",
+      "technical_source": "newsapi.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Airbus ZEROe A380 MSN1 flight test delay"
+      ],
+      "found_count": 0,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 0,
+      "http_status_counts": {},
+      "content_status_counts": {},
+      "operational_status": "RATE_LIMITED",
+      "last_search_outcome": "NOT_EXECUTED",
+      "errors": [
+        "CONNECTOR_RATE_LIMITED",
+        "CONNECTOR_RATE_LIMITED"
+      ],
+      "coverage_advisories": [],
+      "time_window": {
+        "from": "2025-11-25T15:02:18Z",
+        "to": "2026-11-25T15:02:18Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T15:02:56Z"
+    },
+    "Official Industry PR / Airbus": {
+      "connector_name": "Official Industry PR / Airbus",
+      "source_id": "SRC_005",
+      "technical_source": "airbus.com",
+      "origin_type": "PRIMARY",
+      "legal_status": "REQUIRES_REVIEW",
+      "queries": [
+        "Airbus ZEROe 2035 EIS delay hydrogen tank Iron Pod flight test",
+        "2035 zeroe delay"
+      ],
+      "found_count": 100,
+      "accepted_count": 4,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 6,
+      "http_status_counts": {
+        "302": 1,
+        "200": 5
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "PARTIAL_RESULT",
+      "errors": [],
+      "coverage_advisories": [
+        "RSS_METADATA_SCREENING_NOT_FULL_TEXT_VERIFICATION"
+      ],
+      "time_window": {
+        "from": "2025-11-25T15:02:18Z",
+        "to": "2026-11-25T15:02:18Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T15:02:42Z",
+      "diagnostics": {
+        "selection_reason": "EXPLICIT_MANUFACTURER",
+        "selected_manufacturer": "Airbus",
+        "rss_candidates_examined": 32,
+        "rss_metadata_rejected": 28,
+        "rss_candidates_unexamined": 68,
+        "candidate_outcomes": {
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-16-20-november-2026": "COMMERCIAL_ORDER_PR_SKIPPED",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-uk-engineers-and-apprentices-take-centre-stage-in-new-airbus-campaign-to-inspire-future-talent": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-ds-airborne-solutions-gmbh-and-aeronautics-ltd-sign-a-teaming-agreement-intended-to-enable": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-middle-east-airlines-takes-delivery-of-its-first-airbus-a321xlr": "COMMERCIAL_ORDER_PR_SKIPPED",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-9-13-november-2026": "COMMERCIAL_ORDER_PR_SKIPPED",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-the-cathay-group-orders-14-additional-airbus-aircraft": "COMMERCIAL_ORDER_PR_SKIPPED",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buybacks-for-week-starting-2-november-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-lufthansa-takes-delivery-of-its-first-a350-1000-and-700th-airbus-aircraft": "COMMERCIAL_ORDER_PR_SKIPPED",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-commences-multi-year-share-buyback-programme-with-launch-of-the-first-tranche": "COMMERCIAL_ORDER_PR_SKIPPED",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-a350-1000ulr-for-qantas-breaks-world-distance-record": "COLLECTED_FULL_TEXT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-and-blue-angels-air-will-deliver-ab-initio-pilot-training-for-the-indian-market": "COLLECTED_FULL_TEXT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-skywise-expands-its-portfolio-with-the-launch-of-enhanced-digital-flight-training-solutions": "COLLECTED_FULL_TEXT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-french-armament-general-directorate-dga-qualifies-airbus-u010-aliaca-drone": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-to-deliver-iris-frances-next-generation-military-earth-observation-satellites": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/fr/newsroom/press-releases/2026-10-airbus-souligne-les-25-ans-du-site-de-mirabel-et-investit-dans-son-expansion-et-la-releve": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-marks-mirabel-sites-25th-year-with-investments-in-expansion-and-future-talent": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-nine-month-9m-2026-results": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-and-air-france-klm-operated-joint-venture-for-a350-component-support-finalised": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-granted-design-organisation-approval-by-jcab": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-boston-medflight-orders-three-airbus-h145-helicopters": "COMMERCIAL_ORDER_PR_SKIPPED",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-atlantic-airways-orders-two-additional-airbus-a320neo-aircraft": "COMMERCIAL_ORDER_PR_SKIPPED",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-awarded-contract-for-two-additional-galileo-satellites": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-life-flight-network-orders-five-airbus-h135-helicopters": "COMMERCIAL_ORDER_PR_SKIPPED",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-projects-global-freighter-fleet-to-grow-by-2045": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-programme-helps-students-discover-engineering-careers": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-in-australia-secures-casa-design-approval": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-forecasts-need-for-2720-new-passenger-aircraft-in-latin-america": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-aviation-capital-group-orders-75-airbus-a320neo-family-aircraft": "COMMERCIAL_ORDER_PR_SKIPPED",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-connects-german-and-swedish-air-defence-forces-into-unified-nato-shield": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-forecasts-growing-services-market-to-double-by-2045": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-share-buyback-transactions-05-09-october-2026": "COMMERCIAL_ORDER_PR_SKIPPED",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-u740-valkyrie-uncrewed-combat-aircraft-takes-off-for-its-maiden-flight-in-europe": "COLLECTED_FULL_TEXT"
+        },
+        "metadata_only_records": 0,
+        "article_access_blocked": 0,
+        "article_unavailable": 0
+      },
+      "diagnostics_history": [
+        {
+          "query": "Airbus ZEROe 2035 EIS delay hydrogen tank Iron Pod flight test",
+          "selection_reason": "EXPLICIT_MANUFACTURER",
+          "selected_manufacturer": "Airbus"
+        },
+        {
+          "query": "2035 zeroe delay",
+          "rss_candidates_examined": 32,
+          "rss_metadata_rejected": 28,
+          "rss_candidates_unexamined": 68,
+          "candidate_outcomes": {
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-16-20-november-2026": "COMMERCIAL_ORDER_PR_SKIPPED",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-uk-engineers-and-apprentices-take-centre-stage-in-new-airbus-campaign-to-inspire-future-talent": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-ds-airborne-solutions-gmbh-and-aeronautics-ltd-sign-a-teaming-agreement-intended-to-enable": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-middle-east-airlines-takes-delivery-of-its-first-airbus-a321xlr": "COMMERCIAL_ORDER_PR_SKIPPED",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-9-13-november-2026": "COMMERCIAL_ORDER_PR_SKIPPED",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-the-cathay-group-orders-14-additional-airbus-aircraft": "COMMERCIAL_ORDER_PR_SKIPPED",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buybacks-for-week-starting-2-november-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-lufthansa-takes-delivery-of-its-first-a350-1000-and-700th-airbus-aircraft": "COMMERCIAL_ORDER_PR_SKIPPED",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-commences-multi-year-share-buyback-programme-with-launch-of-the-first-tranche": "COMMERCIAL_ORDER_PR_SKIPPED",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-a350-1000ulr-for-qantas-breaks-world-distance-record": "COLLECTED_FULL_TEXT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-and-blue-angels-air-will-deliver-ab-initio-pilot-training-for-the-indian-market": "COLLECTED_FULL_TEXT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-skywise-expands-its-portfolio-with-the-launch-of-enhanced-digital-flight-training-solutions": "COLLECTED_FULL_TEXT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-french-armament-general-directorate-dga-qualifies-airbus-u010-aliaca-drone": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-to-deliver-iris-frances-next-generation-military-earth-observation-satellites": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/fr/newsroom/press-releases/2026-10-airbus-souligne-les-25-ans-du-site-de-mirabel-et-investit-dans-son-expansion-et-la-releve": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-marks-mirabel-sites-25th-year-with-investments-in-expansion-and-future-talent": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-nine-month-9m-2026-results": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-and-air-france-klm-operated-joint-venture-for-a350-component-support-finalised": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-granted-design-organisation-approval-by-jcab": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-boston-medflight-orders-three-airbus-h145-helicopters": "COMMERCIAL_ORDER_PR_SKIPPED",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-atlantic-airways-orders-two-additional-airbus-a320neo-aircraft": "COMMERCIAL_ORDER_PR_SKIPPED",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-awarded-contract-for-two-additional-galileo-satellites": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-life-flight-network-orders-five-airbus-h135-helicopters": "COMMERCIAL_ORDER_PR_SKIPPED",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-projects-global-freighter-fleet-to-grow-by-2045": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-programme-helps-students-discover-engineering-careers": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-in-australia-secures-casa-design-approval": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-forecasts-need-for-2720-new-passenger-aircraft-in-latin-america": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-aviation-capital-group-orders-75-airbus-a320neo-family-aircraft": "COMMERCIAL_ORDER_PR_SKIPPED",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-connects-german-and-swedish-air-defence-forces-into-unified-nato-shield": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-forecasts-growing-services-market-to-double-by-2045": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-share-buyback-transactions-05-09-october-2026": "COMMERCIAL_ORDER_PR_SKIPPED",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-u740-valkyrie-uncrewed-combat-aircraft-takes-off-for-its-maiden-flight-in-europe": "COLLECTED_FULL_TEXT"
+          },
+          "metadata_only_records": 0,
+          "article_access_blocked": 0,
+          "article_unavailable": 0
+        }
+      ],
+      "http_redirects": 1,
+      "successful_responses": 5,
+      "collected_document_count": 4,
+      "content_availability_counts": {
+        "FULL_TEXT": 4
+      },
+      "observed_publication_from": "2026-10-12",
+      "observed_publication_to": "2026-11-04"
+    },
+    "FAA Federal Register": {
+      "connector_name": "FAA Federal Register",
+      "source_id": "SRC_001",
+      "technical_source": "federalregister.gov",
+      "origin_type": "PRIMARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "EASA Airbus ZEROe hydrogen certification roadmap"
+      ],
+      "found_count": 0,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 2,
+      "http_status_counts": {
+        "200": 1
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "NO_MATCH",
+      "errors": [],
+      "coverage_advisories": [
+        "NO_RESULTS; api_declared=0; retrieved=0"
+      ],
+      "time_window": {
+        "from": "2025-11-25T15:02:18Z",
+        "to": "2026-11-25T15:02:18Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T15:02:35Z",
+      "diagnostics": {
+        "page_audits": [
+          {
+            "status": "NO_RESULTS",
+            "declared_count": 0,
+            "processed_count": 0,
+            "access_restricted": false,
+            "pages": 1,
+            "page_size": 12,
+            "pagination_complete": true,
+            "last_error": "",
+            "attempts": [
+              {
+                "page": 1,
+                "requested_page_size": 12,
+                "max_bytes": 600000,
+                "http_status": 200,
+                "content_type": "application/json; charset=utf-8",
+                "content_length": "154",
+                "received_bytes": 153,
+                "http_attempts": 1,
+                "requested_fields": [
+                  "document_number",
+                  "docket_id",
+                  "docket_ids",
+                  "title",
+                  "abstract",
+                  "action",
+                  "type",
+                  "html_url",
+                  "raw_text_url",
+                  "publication_date",
+                  "effective_on"
+                ],
+                "actual_results_count": 0,
+                "pagination_honored": true,
+                "error_code": null,
+                "response_classification": "VALID_SEARCH_RESPONSE",
+                "response_schema": {
+                  "keys": [
+                    "count",
+                    "description"
+                  ],
+                  "types": {
+                    "description": "str",
+                    "count": "int"
+                  },
+                  "api_error_code": "",
+                  "declared_count": 0,
+                  "results_present": false,
+                  "results_type": "NoneType",
+                  "empty_results_normalized": true
+                },
+                "query_variant": "ORIGINAL"
+              }
+            ],
+            "request_calls": 1,
+            "retry_suppressed": false,
+            "search_variants": [
+              "ORIGINAL"
+            ],
+            "repair_used": false
+          }
+        ]
+      },
+      "diagnostics_history": [
+        {
+          "query": "EASA Airbus ZEROe hydrogen certification roadmap",
+          "page_audits": [
+            {
+              "status": "NO_RESULTS",
+              "declared_count": 0,
+              "processed_count": 0,
+              "access_restricted": false,
+              "pages": 1,
+              "page_size": 12,
+              "pagination_complete": true,
+              "last_error": "",
+              "attempts": [
+                {
+                  "page": 1,
+                  "requested_page_size": 12,
+                  "max_bytes": 600000,
+                  "http_status": 200,
+                  "content_type": "application/json; charset=utf-8",
+                  "content_length": "154",
+                  "received_bytes": 153,
+                  "http_attempts": 1,
+                  "requested_fields": [
+                    "document_number",
+                    "docket_id",
+                    "docket_ids",
+                    "title",
+                    "abstract",
+                    "action",
+                    "type",
+                    "html_url",
+                    "raw_text_url",
+                    "publication_date",
+                    "effective_on"
+                  ],
+                  "actual_results_count": 0,
+                  "pagination_honored": true,
+                  "error_code": null,
+                  "response_classification": "VALID_SEARCH_RESPONSE",
+                  "response_schema": {
+                    "keys": [
+                      "count",
+                      "description"
+                    ],
+                    "types": {
+                      "description": "str",
+                      "count": "int"
+                    },
+                    "api_error_code": "",
+                    "declared_count": 0,
+                    "results_present": false,
+                    "results_type": "NoneType",
+                    "empty_results_normalized": true
+                  },
+                  "query_variant": "ORIGINAL"
+                }
+              ],
+              "request_calls": 1,
+              "retry_suppressed": false,
+              "search_variants": [
+                "ORIGINAL"
+              ],
+              "repair_used": false
+            }
+          ]
+        }
+      ],
+      "successful_responses": 1
+    },
+    "EASA Official Index": {
+      "connector_name": "EASA Official Index",
+      "source_id": "SRC_002",
+      "technical_source": "easa.europa.eu",
+      "origin_type": "PRIMARY_OFFICIAL_INDEX_METADATA",
+      "legal_status": "REQUIRES_REVIEW",
+      "queries": [
+        "EASA Airbus ZEROe hydrogen certification roadmap"
+      ],
+      "found_count": 12,
+      "accepted_count": 4,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 5,
+      "http_status_counts": {
+        "200": 5
+      },
+      "content_status_counts": {},
+      "operational_status": "PARTIAL_COVERAGE",
+      "last_search_outcome": "PARTIAL_RESULT",
+      "errors": [],
+      "coverage_advisories": [
+        "PARTIAL_COVERAGE:oldest_scanned=2026-11-17"
+      ],
+      "time_window": {
+        "from": "2025-11-25T15:02:18Z",
+        "to": "2026-11-25T15:02:18Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T15:02:42Z",
+      "successful_responses": 5,
+      "collected_document_count": 4,
+      "content_availability_counts": {
+        "FULL_TEXT": 2,
+        "PARTIAL_TEXT": 2
+      },
+      "observed_publication_from": "2026-11-20",
+      "observed_publication_to": "2026-11-25"
+    },
+    "XBRL International ESEF Filing Index": {
+      "connector_name": "XBRL International ESEF Filing Index",
+      "source_id": "SRC_031",
+      "technical_source": "filings.xbrl.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Airbus ZEROe 2035 EIS delay hydrogen tank Iron Pod flight test"
+      ],
+      "found_count": 1,
+      "accepted_count": 1,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 2,
+      "http_status_counts": {
+        "200": 2
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [],
+      "time_window": {
+        "from": "2025-11-25T15:02:18Z",
+        "to": "2026-11-25T15:02:18Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T15:02:54Z",
+      "successful_responses": 2,
+      "collected_document_count": 1,
+      "content_availability_counts": {
+        "PARTIAL_TEXT": 1
+      },
+      "observed_publication_from": "2026-02-19",
+      "observed_publication_to": "2026-02-19"
+    }
+  }
+}

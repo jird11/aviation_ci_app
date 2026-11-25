@@ -1,0 +1,3446 @@
+{
+  "report_id": "RPT-20261125-F62787",
+  "run_id": "RUN-20261125-143221-B9D68F45FE3B",
+  "version": 1,
+  "outcome_status": "COMPLETED",
+  "executive_summary": "The monitoring of COMAC C919 EASA type certification progress across multiple intelligence channels has identified a series of regulatory milestones and expert projections, though official confirmation of final validation remains pending. Evidence indicates that EASA test pilots conducted flight tests in late 2025 [DOC_005], and by early 2026, the agency reportedly completed initial Crew Resource Management (CRM) and human factors reviews [DOC_008]. While these technical phases suggest active engagement, industry analysts at IBA project that full EASA validation is likely a long-term objective, currently forecasted for the 2028 to 2031 window [DOC_005]. Reports from mid-2026 highlight \"intensified data sharing\" between COMAC and EASA [DOC_006], yet specific technical non-compliance findings or official statements confirming the completion of the CRM phase are currently missing from the public record. The primary analytical takeaway is that while the C919 has cleared preliminary technical hurdles, the path to international market access via EASA remains subject to a multi-year regulatory timeline. Management should focus on verifying the transition from the current technical review phase to formal certification findings.",
+  "detailed_analytical_assessment": "The regulatory trajectory for the COMAC C919 within the European Union Aviation Safety Agency (EASA) framework is characterized by steady technical progression tempered by extended validation timelines. According to secondary media reports, a significant milestone was achieved in late 2025 when EASA test pilots flew the aircraft [DOC_005], marking a transition from theoretical data review to practical evaluation. This was followed in January 2026 by reports that EASA had completed initial reviews of the aircraft’s Crew Resource Management (CRM) and human factors [DOC_008]. However, these technical steps do not equate to imminent certification. IBA’s market analysis suggests that EASA validation is a \"question of when rather than if,\" but places the expected inflection point for global prospects between 2028 and 2031 [DOC_005].\n\nThe evidence reveals a gap between technical activity and formal regulatory status. While reports in April 2026 cited \"intensified data sharing\" [DOC_006], EASA has not issued an official statement confirming the closure of specific certification blocks. The lack of public disclosure regarding technical non-compliance findings [DOC_004] suggests that the process remains in a proprietary or sensitive phase. Analytically, the \"satisfactory\" nature of initial CRM reviews [DOC_008] indicates that COMAC is meeting baseline European safety philosophy requirements, yet the 2028–2031 forecast implies that significant structural or systems-level validation work remains. \n\nThe primary uncertainty lies in whether the current data-sharing intensity will lead to a shortening of the projected five-year validation window. Currently, there is no evidence to support an accelerated timeline. Management is advised to maintain a monitoring posture focused on EASA’s formal \"Type Certificate Data Sheet\" updates and official COMAC disclosures regarding the completion of the \"Certification Review Item\" (CRI) process. Verification of the specific technical findings mentioned in media reports is required to determine if the 2028–2031 timeline is a conservative estimate or a reflection of known technical hurdles.",
+  "qa_audit_summary": "Editor text converted into typed recommendations; independent evidence QA remains authoritative. | Five-Dimensional Grounding (Technical, Claim, Causal, Independent Verification, Freshness) completed. | [Harness Guard]: 0/1 direct signals SUPPORTED, 1 PARTIALLY_SUPPORTED, 0 classified as ONGOING_ISSUE, 0 moved to RELATED_PROGRAM_WATCHLIST, 2 flagged for manual HITL verification. | Evidence disposition (not a filtering verdict): DOC_001=REFERENCED_BY_EVENT_NOT_KIQ; DOC_002=REFERENCED_BY_EVENT_NOT_KIQ; DOC_004=REFERENCED_BY_EVENT_NOT_KIQ; DOC_005=REFERENCED_BY_EVENT_NOT_KIQ; DOC_006=REFERENCED_BY_EVENT_NOT_KIQ; DOC_008=REFERENCED_BY_EVENT_NOT_KIQ; DOC_010=REFERENCED_BY_EVENT_NOT_KIQ | KIT_COMPLETION: NOT_ANSWERED; 2 of 2 information requirements remain unverified. | [Telemetry]: Run: RUN-20261125-143221-B9D68F45FE3B | CollectionMode: agentic_exa | Runtime: 219.43s (Plan: 4.23s, Collect: 84.57s, Filter: 19.62s, Analyze: 78.4s, QA: 25.46s, Edit: 6.8s, Score: 0.0s) | Batches: 4/4 OK (0 failed) | Docs: 7/14 analyzed (0 failed) | LLM Calls: 11 (Retries: 0) | Model: openrouter/google/gemini-3-flash-preview | Estimated LLM Cost: $0.11618 (ESTIMATED)",
+  "hitl_status": "WAITING_FOR_HITL",
+  "threats": [
+    {
+      "event_id": "C919-EASA-VALIDATION-2026-001",
+      "kiq_ids": [],
+      "indicator_name": "Regulatory validation milestone tracking",
+      "company_affected": "COMAC",
+      "ci_dimension": "Strategic CI",
+      "risk_type": "REGULATORY",
+      "secondary_risk_types": [
+        "COMPETITIVE"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Unknown / Not specified in source",
+      "program_relevance": "PROGRAM_UNVERIFIED",
+      "hypothetical_dependencies": [
+        "C919",
+        "C929",
+        "C909",
+        "ARJ21"
+      ],
+      "supplier_registry_basis": "Company: COMAC -> Role: OEM (Final Assembler) (Registry Source: COMAC Official Directory) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Unknown / Not specified in source",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] COMAC -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Unknown / Not specified in source",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] C919, C929, C909",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "EASA has successfully completed initial Crew Resource Management reviews for the COMAC C919, but a full validation and certification is not expected until 2028-2031.",
+      "decision_question": "Does the satisfactory initial CRM review indicate a reduction in technical gaps for EASA's Phase 3 validation?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "EASA is moving beyond technical systems to evaluate human-machine interaction, indicating a rigorous multi-year validation process typical for new entrants.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting COMAC (OEM (Final Assembler)) on source-evidenced program Unknown / Not specified in source. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: C919, C929, C909)",
+      "fact_check_quote": "initial CRM review was passed satisfactorily, although there will be further rounds of analysis.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_008",
+          "source_url": "https://aviacionaldia.com/en/2026/01/easa-begins-test-flights-for-comac-c919-a-key-step-on-complex-path-to-european-certification.html",
+          "source_type": "UNDETERMINED",
+          "passage_text": "According to one source, the initial CRM review was passed satisfactorily, although there will be further rounds of analysis. During these inspections, some...",
+          "passage_hash": "b27cd534461bc54ac6afbeceb1f35fa18637221a4739fc22eb344be6f3a39e1d",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        },
+        {
+          "document_id": "DOC_005",
+          "source_url": "https://www.aircraftinteriorsinternational.com/news/airframer-news/comacs-in-service-fleet-will-soar-by-2030.html",
+          "source_type": "UNDETERMINED",
+          "passage_text": "IBA’s view is that EASA certification is a question of when rather than if, with validation currently expected within a 2028 to 2031 timeframe.",
+          "passage_hash": "92a499db35e06d918bb58859265c1036a298ee3ad357b7b2d0846eb55b1ecbc6",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "EASA validation process reached a significant milestone in late 2025 when test pilots flew the C919 in Shanghai.",
+          "document_id": "DOC_005",
+          "quote": "EASA’s (the European Union Aviation Safety Agency) validation process reached a significant milestone in late 2025 when EASA test pilots flew the aircraft in Shanghai.",
+          "source_url": "https://www.aircraftinteriorsinternational.com/news/airframer-news/comacs-in-service-fleet-will-soar-by-2030.html",
+          "claim_type": "HISTORICAL_STATUS",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "EASA",
+          "program": "C919",
+          "component": "Unknown / Not specified in source",
+          "issue": "Certification milestone",
+          "regulatory_authority": "EASA",
+          "publication_date": "2026-08-19",
+          "event_date": "2025-12-31",
+          "cause": "",
+          "effect": "",
+          "status_before": "Pre-flight validation",
+          "status_after": "Phase 3 Testing Commenced",
+          "resolution_outcome": "Success of initial flight tests",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "Initial CRM review was passed satisfactorily by EASA, though further analysis is required.",
+          "document_id": "DOC_008",
+          "quote": "initial CRM review was passed satisfactorily, although there will be further rounds of analysis.",
+          "source_url": "https://aviacionaldia.com/en/2026/01/easa-begins-test-flights-for-comac-c919-a-key-step-on-complex-path-to-european-certification.html",
+          "claim_type": "CURRENT_STATUS",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "EASA",
+          "program": "COMAC C919",
+          "component": "Crew Resource Management (CRM)",
+          "issue": "Human factors compliance",
+          "regulatory_authority": "EASA",
+          "publication_date": "2026-01-19",
+          "event_date": "2026-01-19",
+          "cause": "Mandatory type certification requirements",
+          "effect": "Continued validation process",
+          "status_before": "Initial CRM review",
+          "status_after": "Ongoing human factors analysis",
+          "resolution_outcome": "Initial approval of CRM review",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "EASA certification for the C919 is currently expected between 2028 and 2031.",
+          "document_id": "DOC_005",
+          "quote": "validation currently expected within a 2028 to 2031 timeframe.",
+          "source_url": "https://www.aircraftinteriorsinternational.com/news/airframer-news/comacs-in-service-fleet-will-soar-by-2030.html",
+          "claim_type": "FORECAST",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "IBA",
+          "program": "C919",
+          "component": "Unknown / Not specified in source",
+          "issue": "Certification timeline",
+          "regulatory_authority": "EASA",
+          "publication_date": "2026-08-19",
+          "event_date": "DATE_UNKNOWN",
+          "cause": "Regulatory complexity",
+          "effect": "Delayed international expansion",
+          "status_before": "Ongoing validation",
+          "status_after": "Pending certification (2028-2031)",
+          "resolution_outcome": "Future certification target",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_008",
+        "DOC_005"
+      ],
+      "source_urls": [
+        "https://aviacionaldia.com/en/2026/01/easa-begins-test-flights-for-comac-c919-a-key-step-on-complex-path-to-european-certification.html",
+        "https://www.aircraftinteriorsinternational.com/news/airframer-news/comacs-in-service-fleet-will-soar-by-2030.html"
+      ],
+      "verification_status": "SUPPORTED SOURCE; DIRECT KIT RELEVANCE UNVERIFIED (HISTORICAL_CONTEXT) [Source published 310 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source) | All constraining technical facets of the KIT (aircraft program and/or specific propulsion/component scope) could not be simultaneously verified from event evidence. Direct KIT relevance remains unconfirmed. | KIT_FACT_GAP: AUTHORITY=UNKNOWN | REGULATORY_AUTHORITY_NOT_VERIFIED: issuer or media statements do not establish an agency decision]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "CORROBORATED_INDEPENDENTLY",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "CORROBORATED_INDEPENDENTLY (2 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "PROGRAM_UNVERIFIED",
+        "Source-Evidenced Program": "Unknown / Not specified in source",
+        "Hypothetical Shared Dependencies": "C919, C929, C909, ARJ21",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=POSITIVE, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=UNKNOWN, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-01-19",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Regulatory Stage": "UNKNOWN",
+        "Severity": "7/10 (potential impact, not verification)",
+        "Confidence": "HIGH",
+        "Verification": "SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-01-19",
+      "first_seen_at": "2026-11-25T14:36:01Z",
+      "last_seen_at": "2026-11-25T14:36:01Z",
+      "updated_at": "2026-11-25T14:36:01Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://aviacionaldia.com/en/2026/01/easa-begins-test-flights-for-comac-c919-a-key-step-on-complex-path-to-european-certification.html",
+      "missing_data": "Official EASA statement confirming completion of CRM phase.",
+      "intelligence_gap": {
+        "gap_id": "GAP_B35453",
+        "what_is_missing": "Official EASA statement confirming completion of CRM phase.",
+        "why_important": "Needed to confirm Direct Operational / Regulatory Risk impact on COMAC (Unknown / Not specified in source).",
+        "affected_kiq_id": "",
+        "recommended_source": "FAA / EASA / Official OEM Pressroom",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "EASA validation delays for the C919 create a competitive barrier, preventing COMAC from accessing the European market and limiting its international credibility against Airbus and Boeing narrowbodies.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 3,
+          "rationale": "Crucial for international market access; delay prevents competition with Western OEMs."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "COMAC is the OEM; certification is mandatory for global viability."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "EASA is the sole authority for European type certification."
+        },
+        "propagation_scope": {
+          "score": 2,
+          "rationale": "Limited to C919 international variants; no impact on Chinese domestic service."
+        },
+        "temporal_urgency": {
+          "score": 2,
+          "rationale": "Process is ongoing with long-term forecast (2028-2031); no immediate flight safety grounding."
+        }
+      },
+      "threat_score": 7,
+      "score_rationale": "Potential severity: ELEVATED (7/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "HIGH",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    },
+    {
+      "event_id": "EASA-COMAC-C919-FLIGHT-TEST-2026-01-16",
+      "kiq_ids": [],
+      "indicator_name": "Aviation intelligence warning indicator",
+      "company_affected": "COMAC",
+      "ci_dimension": "Strategic CI",
+      "risk_type": "REGULATORY",
+      "secondary_risk_types": [
+        "COMPETITIVE"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "C919",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [
+        "C929",
+        "C909",
+        "ARJ21"
+      ],
+      "supplier_registry_basis": "Company: COMAC -> Role: OEM (Final Assembler) (Registry Source: COMAC Official Directory) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: C919",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] COMAC -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] C919",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] C929, C909, ARJ21",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "EASA has commenced C919 flight evaluations in Shanghai, a milestone in the certification process expected to take 3–6 years (2028–2031).",
+      "decision_question": "How does the 2028-2031 EASA certification timeline for C919 affect long-term competitive positioning against the A320neo and 737 MAX?",
+      "confirmed_facts": "Source statement (event not fully verified): Pilots working for the European Aviation Safety Agency (EASA) have been conducting test flights of the C919 commercial airliner from Commercial Aircraft Corporation of China (COMAC) in Shanghai.",
+      "analytical_interpretation": "The commencement of flight evaluations is a technical milestone, but official statements indicate a prolonged 2028–2031 approval window due to manufacturer track record requirements.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting COMAC (OEM (Final Assembler)) on source-evidenced program C919. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: C929, C909, ARJ21)",
+      "fact_check_quote": "Pilots working for the European Aviation Safety Agency (EASA) have been conducting test flights of the C919 commercial airliner from Commercial Aircraft Corporation of China",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_004",
+          "source_url": "https://www.aerotime.aero/articles/easa-pilots-comac-c919-certification-test-flights",
+          "source_type": "UNDETERMINED",
+          "passage_text": "Pilots working for the European Aviation Safety Agency (EASA) have been conducting test flights of the C919 commercial airliner from Commercial Aircraft Corporation of China (COMAC) in Shanghai.",
+          "passage_hash": "e999496c773712e9e202ba290870a0a485c616e7c92be89ec8b5716cc18c87af",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "EASA pilots have been conducting test flights of the C919 in Shanghai.",
+          "document_id": "DOC_004",
+          "quote": "Pilots working for the European Aviation Safety Agency (EASA) have been conducting test flights of the C919 commercial airliner from Commercial Aircraft Corporation of China (COMAC) in Shanghai.",
+          "source_url": "https://www.aerotime.aero/articles/easa-pilots-comac-c919-certification-test-flights",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "EASA",
+          "program": "C919",
+          "component": "Unknown / Not specified in source",
+          "issue": "Flight evaluation commencement",
+          "regulatory_authority": "EASA",
+          "publication_date": "2026-01-16",
+          "event_date": "2026-01-16",
+          "cause": "Certification bid for foreign markets",
+          "effect": "Path to Western certification",
+          "status_before": "Application/Document review phase",
+          "status_after": "Flight evaluation phase active",
+          "resolution_outcome": "Ongoing validation",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "EASA validation of the C919 is likely to take between three and six years.",
+          "document_id": "DOC_002",
+          "quote": "EASA executive director Florian Guillermet said European validation of the C919 was likely to take between three and six years, pushing any approval into the 2028–2031 timeframe.",
+          "source_url": "https://aerospaceglobalnews.com/news/easa-comac-c919-certification-test-flights/",
+          "claim_type": "FORECAST",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "EASA",
+          "program": "C919",
+          "component": "Unknown / Not specified in source",
+          "issue": "Certification timeline expectation",
+          "regulatory_authority": "EASA",
+          "publication_date": "2026-01-19",
+          "event_date": "DATE_UNKNOWN",
+          "cause": "Lack of long track record for the manufacturer",
+          "effect": "Approval pushed to 2028–2031 timeframe",
+          "status_before": "Active evaluation phase",
+          "status_after": "Pending approval (2028-2031)",
+          "resolution_outcome": "Future potential approval",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_004",
+        "DOC_002"
+      ],
+      "source_urls": [
+        "https://www.aerotime.aero/articles/easa-pilots-comac-c919-certification-test-flights",
+        "https://aerospaceglobalnews.com/news/easa-comac-c919-certification-test-flights/"
+      ],
+      "verification_status": "PARTIALLY SUPPORTED (HISTORICAL_CONTEXT | Manual Review Required) [Source states only part of the claim details | Source published 313 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source) | KIT_FACT_GAP: AUTHORITY=UNKNOWN | REGULATORY_AUTHORITY_NOT_VERIFIED: issuer or media statements do not establish an agency decision]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "PARTIALLY_STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "UNVERIFIED_SINGLE_SOURCE",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "PARTIALLY_STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "UNVERIFIED_SINGLE_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "C919",
+        "Hypothetical Shared Dependencies": "C929, C909, ARJ21",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=POSITIVE, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=UNKNOWN, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-01-16",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Regulatory Stage": "UNKNOWN",
+        "Severity": "6/10 (potential impact, not verification)",
+        "Confidence": "LOW",
+        "Verification": "PARTIALLY_SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "CURRENT_STATUS_UNKNOWN",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-01-16",
+      "first_seen_at": "2026-11-25T14:36:01Z",
+      "last_seen_at": "2026-11-25T14:36:01Z",
+      "updated_at": "2026-11-25T14:36:01Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://www.aerotime.aero/articles/easa-pilots-comac-c919-certification-test-flights",
+      "missing_data": "EASA official confirmation of specific technical findings is not present in media reports.",
+      "intelligence_gap": {
+        "gap_id": "GAP_EASA_TECH_FINDINGS",
+        "what_is_missing": "Specific technical gaps or compliance findings identified by EASA during the Shanghai test flights.",
+        "why_important": "Required to understand if the 3-6 year timeline is realistic or optimistic.",
+        "affected_kiq_id": "KIQ_3_1",
+        "recommended_source": "EASA Official Validation Status / COMAC Press Release",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "EASA validation delays (3-6 years) restrict COMAC's entry into the European narrowbody market, maintaining the Airbus/Boeing duopoly while COMAC seeks less regulated African markets.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 2,
+          "rationale": "High strategic impact for COMAC's global expansion, but currently a positive technical milestone."
+        },
+        "supplier_criticality": {
+          "score": 4,
+          "rationale": "EASA certification is a critical gating factor for Western airline operations."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "EASA is a single-source regulator for European market access."
+        },
+        "propagation_scope": {
+          "score": 2,
+          "rationale": "Limited to C919 program entry into the EASA jurisdiction."
+        },
+        "temporal_urgency": {
+          "score": 2,
+          "rationale": "The event is a recent development in an ongoing multi-year process."
+        }
+      },
+      "threat_score": 6,
+      "score_rationale": "Potential severity: ELEVATED (6/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+      "confidence_level": "LOW",
+      "urgency": "MEDIUM",
+      "escalation_level": "ROUTINE_MONITORING",
+      "is_critical": false
+    },
+    {
+      "event_id": "COMAC-EASA-C919-CERT-2026-001",
+      "kiq_ids": [],
+      "indicator_name": "Regulatory certification milestone progress",
+      "company_affected": "COMAC",
+      "ci_dimension": "Competitor CI",
+      "risk_type": "REGULATORY",
+      "secondary_risk_types": [
+        "COMPETITIVE"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Unknown / Not specified in source",
+      "program_relevance": "PROGRAM_UNVERIFIED",
+      "hypothetical_dependencies": [
+        "C919",
+        "C929",
+        "C909",
+        "ARJ21"
+      ],
+      "supplier_registry_basis": "Company: COMAC -> Role: OEM (Final Assembler) (Registry Source: COMAC Official Directory) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Unknown / Not specified in source",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] COMAC -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Unknown / Not specified in source",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] C919, C929, C909",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Source excerpt: EASA’s flight-testing program is now largely complete. However, they cautioned that certification is not imminent, with regulators still facing months, or potentially years, of data. Claimed operational impacts require verification.",
+      "decision_question": "Should the sales team adjust market entry forecasts for Europe if EASA considers certification 'not imminent' despite successful flight tests?",
+      "confirmed_facts": "Source statement (event not fully verified): EASA’s flight-testing program is now largely complete.",
+      "analytical_interpretation": "Completion of flight tests indicates technical hardware maturity, but the transition to software and data analysis signifies a shift toward more complex regulatory hurdles that typically cause multi-year delays.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting COMAC (OEM (Final Assembler)) on source-evidenced program Unknown / Not specified in source. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: C919, C929, C909)",
+      "fact_check_quote": "EASA’s flight-testing program is now largely complete. However, they cautioned that certification is not imminent, with regulators still facing months, or potentially years, of data",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_010",
+          "source_url": "https://airguide.info/easa-pilots-find-no-major-hardware-safety-issues-with-chinas-c919-jet/",
+          "source_type": "UNDETERMINED",
+          "passage_text": "European Union Aviation Safety Agency (EASA) test pilots have found “no major hardware risks” with China’s COMAC C919 after completing most of a months-long flight test campaign in China, marking an important milestone in the aircraft’s bid for European certification. According to two sources familiar with the certification process, EASA’s flight-testing program is now largely complete. However, they cautioned that certification is not imminent, with regulators still facing months, or potentially years, of data analysis, software reviews and additional validation before any approval is granted.",
+          "passage_hash": "456c0c61e2c7e03836358f683dd2ef5a6cd9d3c8942f42d5cd4dccd7c0c9098e",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "EASA pilots find no major hardware safety issues with C919 jet after flight tests.",
+          "document_id": "DOC_010",
+          "quote": "European Union Aviation Safety Agency (EASA) test pilots have found “no major hardware risks” with China’s COMAC C919 after completing most of a months-long flight test campaign in China",
+          "source_url": "https://airguide.info/easa-pilots-find-no-major-hardware-safety-issues-with-chinas-c919-jet/",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "EASA",
+          "program": "COMAC C919",
+          "component": "Hardware safety systems",
+          "issue": "EASA validation flight testing completion",
+          "regulatory_authority": "EASA",
+          "publication_date": "2026-07-21",
+          "event_date": "2026-07-21",
+          "cause": "Completion of flight-test campaign",
+          "effect": "Progress to data/software review stage",
+          "status_before": "Ongoing flight evaluation in Shanghai.",
+          "status_after": "Flight tests complete; starting data/software reviews.",
+          "resolution_outcome": "Flight test phase largely complete; technical hardware validation successful.",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "EASA cautions that C919 certification is not imminent despite flight test completion.",
+          "document_id": "DOC_010",
+          "quote": "However, they cautioned that certification is not imminent, with regulators still facing months, or potentially years, of data analysis, software reviews and additional validation.",
+          "source_url": "https://airguide.info/easa-pilots-find-no-major-hardware-safety-issues-with-chinas-c919-jet/",
+          "claim_type": "FORECAST",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "EASA",
+          "program": "COMAC C919",
+          "component": "Software and data systems",
+          "issue": "Certification timeline update",
+          "regulatory_authority": "EASA",
+          "publication_date": "2026-07-21",
+          "event_date": "2026-07-21",
+          "cause": "Regulatory requirement for data analysis and software reviews.",
+          "effect": "Timeline extended by months or potentially years.",
+          "status_before": "Flight test phase.",
+          "status_after": "Pending software and data review phase.",
+          "resolution_outcome": "Ongoing validation phase.",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "EASA confirmed carrying out test flights of the COMAC C-919 jet in January 2026.",
+          "document_id": "DOC_001",
+          "quote": "Europe's aviation safety regulator EASA on Thursday confirmed reports that it had carried out test flights of the COMAC C-919 jet as it carries out \\\"validation activities\\\" as part of its certification process.",
+          "source_url": "https://www.reuters.com/business/aerospace-defense/europes-aviation-safety-regulator-conducted-test-flights-chinas-comac-jets-part-2026-01-15/",
+          "claim_type": "HISTORICAL_STATUS",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "EASA",
+          "program": "COMAC C-919",
+          "component": "Unknown / Not specified in source",
+          "issue": "Commencement of EASA validation flights",
+          "regulatory_authority": "EASA",
+          "publication_date": "2026-01-15",
+          "event_date": "2026-01-15",
+          "cause": "Validation activities for type certification.",
+          "effect": "Progress in European validation process.",
+          "status_before": "Application review phase.",
+          "status_after": "Active flight testing.",
+          "resolution_outcome": "Validation flights performed.",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_010",
+        "DOC_001"
+      ],
+      "source_urls": [
+        "https://airguide.info/easa-pilots-find-no-major-hardware-safety-issues-with-chinas-c919-jet/",
+        "https://www.reuters.com/business/aerospace-defense/europes-aviation-safety-regulator-conducted-test-flights-chinas-comac-jets-part-2026-01-15/"
+      ],
+      "verification_status": "PARTIALLY SUPPORTED (HISTORICAL_CONTEXT | Manual Review Required) [CAUSAL_LINK_NOT_EXPLICIT_IN_CITED_PASSAGE: downstream causality is not verified | Unverified causal interpretation cannot be included among confirmed facts. | Source published 127 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source) | All constraining technical facets of the KIT (aircraft program and/or specific propulsion/component scope) could not be simultaneously verified from event evidence. Direct KIT relevance remains unconfirmed. | KIT_FACT_GAP: AUTHORITY=UNKNOWN | Unverified cause removed from confirmed facts; source wording retained only as a quotation | REGULATORY_AUTHORITY_NOT_VERIFIED: issuer or media statements do not establish an agency decision]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "PARTIALLY_STATED_IN_SOURCE",
+      "causal_support_status": "HYPOTHETICAL_ONLY",
+      "independent_verification_status": "CORROBORATED_INDEPENDENTLY",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "PARTIALLY_STATED_IN_SOURCE",
+        "3. Causal Support": "HYPOTHETICAL_ONLY",
+        "4. Independent Verification": "CORROBORATED_INDEPENDENTLY (2 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "PROGRAM_UNVERIFIED",
+        "Source-Evidenced Program": "Unknown / Not specified in source",
+        "Hypothetical Shared Dependencies": "C919, C929, C909, ARJ21",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=POSITIVE, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=UNKNOWN, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-07-21",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Regulatory Stage": "UNKNOWN",
+        "Severity": "6/10 (potential impact, not verification)",
+        "Confidence": "LOW",
+        "Verification": "PARTIALLY_SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "CURRENT_STATUS_UNKNOWN",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-07-21",
+      "first_seen_at": "2026-11-25T14:36:01Z",
+      "last_seen_at": "2026-11-25T14:36:01Z",
+      "updated_at": "2026-11-25T14:36:01Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://airguide.info/easa-pilots-find-no-major-hardware-safety-issues-with-chinas-c919-jet/",
+      "missing_data": "Verification required: CAUSAL_LINK_NOT_EXPLICIT_IN_CITED_PASSAGE: downstream causality is not verified; Unverified causal interpretation cannot be included among confirmed facts..",
+      "intelligence_gap": {
+        "gap_id": "GAP_COMAC_EASA_DATA_PHASE",
+        "what_is_missing": "Specific timelines for the software review and data analysis phase.",
+        "why_important": "Determines when the C919 can realistically enter the European competitive landscape.",
+        "affected_kiq_id": "KIQ_3_1",
+        "recommended_source": "EASA Official Certification Project Status List",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "COMAC leverages EASA's 'no major hardware risks' finding to bypass Western skepticism, while the 'months or years' delay in software/data analysis allows Boeing/Airbus to secure existing narrow-body market segments.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 2,
+          "rationale": "Positive milestone for market entry; no immediate operational threat but high strategic impact on competition."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "COMAC's international expansion is entirely dependent on this EASA validation."
+        },
+        "substitutability_difficulty": {
+          "score": 4,
+          "rationale": "High; certification is a mandatory regulatory gate with no substitutes."
+        },
+        "propagation_scope": {
+          "score": 2,
+          "rationale": "Specifically affects C919 narrow-body segment and European market access."
+        },
+        "temporal_urgency": {
+          "score": 2,
+          "rationale": "Certification is explicitly stated as 'not imminent', lowering immediate urgency for 2026-2027."
+        }
+      },
+      "threat_score": 6,
+      "score_rationale": "Potential severity: ELEVATED (6/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+      "confidence_level": "LOW",
+      "urgency": "LOW",
+      "escalation_level": "ROUTINE_MONITORING",
+      "is_critical": false
+    },
+    {
+      "event_id": "EASA-C919-CERT-2026-04-13",
+      "kiq_ids": [],
+      "indicator_name": "Aviation intelligence warning indicator",
+      "company_affected": "COMAC",
+      "ci_dimension": "Strategic CI",
+      "risk_type": "REGULATORY",
+      "secondary_risk_types": [
+        "COMPETITIVE"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Unknown / Not specified in source",
+      "program_relevance": "PROGRAM_UNVERIFIED",
+      "hypothetical_dependencies": [
+        "C919",
+        "C929",
+        "C909",
+        "ARJ21"
+      ],
+      "supplier_registry_basis": "Company: COMAC -> Role: OEM (Final Assembler) (Registry Source: COMAC Official Directory) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Unknown / Not specified in source",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] COMAC -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Unknown / Not specified in source",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] C919, C929, C909",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "EASA has intensified the C919 certification campaign in Shanghai, moving into Phase 3 of a 4-stage process. Despite increased testing, European certification is reportedly still several years away.",
+      "decision_question": "Should management adjust the long-term C919 market entry forecast in EMEA based on EASA's reported multi-year certification timeline?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "EASA is transitioning from preliminary review to active flight testing (Phase 3), but multi-year delays persist due to intensified data requirements.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting COMAC (OEM (Final Assembler)) on source-evidenced program Unknown / Not specified in source. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: C919, C929, C909)",
+      "fact_check_quote": "Despite the increased pace of testing, certification in Europe remains several years away.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_006",
+          "source_url": "https://www.airdatanews.com/easa-steps-up-c919-certification-campaign-report-says/",
+          "source_type": "SECONDARY_MEDIA_REPORT",
+          "passage_text": "Despite the increased pace of testing, certification in Europe remains several years away. Sources cited by the newspaper said the regulator is requiring further test flights during the third phase of a four-stage certification process. Data sharing has also intensified, with COMAC and airlines such as China Eastern Airlines providing operational, maintenance and inspection records.",
+          "passage_hash": "fdc326ed2ce2d3d080dbacad40382e58d69e031a32282f3ff6d31303697b2f02",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "FULL_TEXT_EXTRACT",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "EASA steps up C919 certification campaign, requiring further test flights in phase three.",
+          "document_id": "DOC_006",
+          "quote": "Sources cited by the newspaper said the regulator is requiring further test flights during the third phase of a four-stage certification process.",
+          "source_url": "https://www.airdatanews.com/easa-steps-up-c919-certification-campaign-report-says/",
+          "claim_type": "CURRENT_STATUS",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "EASA",
+          "program": "C919",
+          "component": "Unknown / Not specified in source",
+          "issue": "Certification timeline delay",
+          "regulatory_authority": "EASA",
+          "publication_date": "2026-04-13",
+          "event_date": "2026-04-13",
+          "cause": "Regulatory requirement for intensified data sharing and testing.",
+          "effect": "Certification in Europe remains several years away.",
+          "status_before": "Phase 2 completion/Early 2025 evaluation flights",
+          "status_after": "Phase 3 of 4 stages",
+          "resolution_outcome": "Ongoing validation campaign",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "Two European test pilots carried out evaluation flights in late 2025.",
+          "document_id": "DOC_006",
+          "quote": "As previously reported, two European test pilots carried out evaluation flights from Pudong International Airport in late 2025, following delays in the certification timeline.",
+          "source_url": "https://www.airdatanews.com/easa-steps-up-c919-certification-campaign-report-says/",
+          "claim_type": "HISTORICAL_STATUS",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "EASA",
+          "program": "C919",
+          "component": "Unknown / Not specified in source",
+          "issue": "Flight testing milestones",
+          "regulatory_authority": "EASA",
+          "publication_date": "2026-04-13",
+          "event_date": "2025-12-31",
+          "cause": "Historical certification delays.",
+          "effect": "Progression to current testing phase.",
+          "status_before": "Testing delays",
+          "status_after": "Evaluation flights completed",
+          "resolution_outcome": "Flights completed",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_006"
+      ],
+      "source_urls": [
+        "https://www.airdatanews.com/easa-steps-up-c919-certification-campaign-report-says/"
+      ],
+      "verification_status": "SUPPORTED SOURCE; DIRECT KIT RELEVANCE UNVERIFIED (HISTORICAL_CONTEXT) [Source published 226 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source) | All constraining technical facets of the KIT (aircraft program and/or specific propulsion/component scope) could not be simultaneously verified from event evidence. Direct KIT relevance remains unconfirmed. | KIT_FACT_GAP: AUTHORITY=UNKNOWN | REGULATORY_AUTHORITY_NOT_VERIFIED: issuer or media statements do not establish an agency decision]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "UNVERIFIED_SINGLE_SOURCE",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "UNVERIFIED_SINGLE_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "PROGRAM_UNVERIFIED",
+        "Source-Evidenced Program": "Unknown / Not specified in source",
+        "Hypothetical Shared Dependencies": "C919, C929, C909, ARJ21",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=POSITIVE, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=UNKNOWN, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-04-13",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Regulatory Stage": "UNKNOWN",
+        "Severity": "7/10 (potential impact, not verification)",
+        "Confidence": "MEDIUM",
+        "Verification": "SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-04-13",
+      "first_seen_at": "2026-11-25T14:36:01Z",
+      "last_seen_at": "2026-11-25T14:36:01Z",
+      "updated_at": "2026-11-25T14:36:01Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://www.airdatanews.com/easa-steps-up-c919-certification-campaign-report-says/",
+      "missing_data": "Specific technical non-compliance findings remain proprietary; only 'intensified data sharing' is cited.",
+      "intelligence_gap": {
+        "gap_id": "GAP_EASA_PHASE3_FINISH",
+        "what_is_missing": "Official EASA confirmation of Phase 3 commencement and specific technical compliance findings.",
+        "why_important": "Required to confirm if the media-reported 'several years' delay is a formal regulatory outlook.",
+        "affected_kiq_id": "KIQ_3_1",
+        "recommended_source": "EASA Official PR / Certification Status Dashboard",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "EASA certification delays prevent COMAC from entering the European narrowbody market, maintaining the Airbus-Boeing duopoly. Extended validation timelines (3-5 years) delay global export competitiveness.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 3,
+          "rationale": "Certification is the gateway to the EU market; 'several years' delay is a significant strategic barrier."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "COMAC is the OEM; certification is mandatory for any commercial operation in the region."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "C919 is a specific aircraft model; EASA is the sole authority for EU type validation."
+        },
+        "propagation_scope": {
+          "score": 3,
+          "rationale": "Affects all potential European operators and COMAC's global export strategy."
+        },
+        "temporal_urgency": {
+          "score": 2,
+          "rationale": "The issue is ongoing but relates to a timeline 'several years away', reducing immediate crisis urgency."
+        }
+      },
+      "threat_score": 7,
+      "score_rationale": "Potential severity: ELEVATED (7/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "MEDIUM",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    }
+  ],
+  "threat_reports": [
+    {
+      "threat_id": "C919-EASA-VALIDATION-2026-001",
+      "event_title": "EASA has successfully completed initial Crew Resource Management reviews for the COMAC C919, but a full validation and certification is not expected until 2028-2031.",
+      "category": "REGULATORY",
+      "affected_entity": "COMAC",
+      "threat_score": 7,
+      "source_url": "https://aviacionaldia.com/en/2026/01/easa-begins-test-flights-for-comac-c919-a-key-step-on-complex-path-to-european-certification.html",
+      "timestamp": "2026-01-19",
+      "mitigation_advice": "Verify the specific reported event and its applicability to the monitored KIT for COMAC (Unknown / Not specified in source), event C919-EASA-VALIDATION-2026-001.",
+      "confidence_level": "HIGH",
+      "validation_status": "SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "EASA-COMAC-C919-FLIGHT-TEST-2026-01-16",
+      "event_title": "EASA has commenced C919 flight evaluations in Shanghai, a milestone in the certification process expected to take 3–6 years (2028–2031).",
+      "category": "REGULATORY",
+      "affected_entity": "COMAC",
+      "threat_score": 6,
+      "source_url": "https://www.aerotime.aero/articles/easa-pilots-comac-c919-certification-test-flights",
+      "timestamp": "2026-01-16",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "LOW",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "COMAC-EASA-C919-CERT-2026-001",
+      "event_title": "Source excerpt: EASA’s flight-testing program is now largely complete. However, they cautioned that certification is not imminent, with regulators still facing months, or potentially years, of data. Claimed operational impacts require verification.",
+      "category": "REGULATORY",
+      "affected_entity": "COMAC",
+      "threat_score": 6,
+      "source_url": "https://airguide.info/easa-pilots-find-no-major-hardware-safety-issues-with-chinas-c919-jet/",
+      "timestamp": "2026-07-21",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "LOW",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "EASA-C919-CERT-2026-04-13",
+      "event_title": "EASA has intensified the C919 certification campaign in Shanghai, moving into Phase 3 of a 4-stage process. Despite increased testing, European certification is reportedly still several years away.",
+      "category": "REGULATORY",
+      "affected_entity": "COMAC",
+      "threat_score": 7,
+      "source_url": "https://www.airdatanews.com/easa-steps-up-c919-certification-campaign-report-says/",
+      "timestamp": "2026-04-13",
+      "mitigation_advice": "Verify the specific reported event and its applicability to the monitored KIT for COMAC (Unknown / Not specified in source), event EASA-C919-CERT-2026-04-13.",
+      "confidence_level": "MEDIUM",
+      "validation_status": "SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    }
+  ],
+  "related_program_watchlist": [],
+  "action_plan": [
+    {
+      "action_id": "ACT_71702A4A",
+      "related_event_ids": [
+        "C919-EASA-VALIDATION-2026-001"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "COMAC"
+      ],
+      "action": "Verify the specific reported event and its applicability to the monitored KIT for COMAC (Unknown / Not specified in source), event C919-EASA-VALIDATION-2026-001.",
+      "rationale": "The available evidence does not establish direct applicability to the monitored KIT.",
+      "pros_and_cons": "PRO: Avoids off-topic operations; CON: Requires evidence review",
+      "triple_a_impact": "Adaptability",
+      "uncertainty_assumptions": "Direct operational, regulatory or supply-chain impact remains unconfirmed.",
+      "owner": "Regulatory Affairs Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Document verified KIT relevance using traceable source evidence.",
+      "priority": "MEDIUM",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-25T14:36:00Z"
+    },
+    {
+      "action_id": "ACT_98D6134C",
+      "related_event_ids": [
+        "EASA-C919-CERT-2026-04-13"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "COMAC"
+      ],
+      "action": "Verify the specific reported event and its applicability to the monitored KIT for COMAC (Unknown / Not specified in source), event EASA-C919-CERT-2026-04-13.",
+      "rationale": "The available evidence does not establish direct applicability to the monitored KIT.",
+      "pros_and_cons": "PRO: Avoids off-topic operations; CON: Requires evidence review",
+      "triple_a_impact": "Adaptability",
+      "uncertainty_assumptions": "Direct operational, regulatory or supply-chain impact remains unconfirmed.",
+      "owner": "Regulatory Affairs Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Document verified KIT relevance using traceable source evidence.",
+      "priority": "MEDIUM",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-25T14:36:00Z"
+    }
+  ],
+  "kiq_answers": [
+    {
+      "kiq_id": "RKIQ_001",
+      "question": "What is the current status of the EASA type certification application for the COMAC C919?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "PARTIAL",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "Sources from the same period present conflicting accounts that require reconciliation. A secondary media report on 2026-08-19 notes that “IBA’s view is that EASA certification is a question of when rather than if, with validation currently expected within a 2028 to 2031 timeframe.” [DOC_005]. A secondary media report on 2026-08-19 notes that “The aircraft received its Chinese CAAC type certificate in 2022, while EASA’s (the European Union Aviation Safety Agency) validation process reached a significant milestone in late 2025 when EASA test pilots flew…” [DOC_005]. A secondary media report on 2026-08-19 notes that “IBA expects international certification to be the key inflection point for the C919’s longer-term global prospects.” [DOC_005]. Forward-looking expectations (not yet confirmed outcomes): “IBA expects international certification to be the key inflection point for the C919’s longer-term global prospects.” [DOC_005]. Still needed for a complete answer: latest dated, issue-specific status. Based on 1 relevant document(s) (DOC_005) out of 7 evaluated.",
+      "related_event_ids": [],
+      "evidence_ids": [
+        "DOC_005"
+      ],
+      "retrieved_evidence_count": 7,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [
+        "DOC_001",
+        "DOC_002",
+        "DOC_004",
+        "DOC_005",
+        "DOC_006",
+        "DOC_008",
+        "DOC_010"
+      ],
+      "unused_document_reasons": {
+        "DOC_001": "CLAIM_NOT_VERIFIED",
+        "DOC_002": "CLAIM_NOT_VERIFIED",
+        "DOC_004": "CLAIM_NOT_VERIFIED",
+        "DOC_006": "CLAIM_NOT_VERIFIED",
+        "DOC_008": "CLAIM_NOT_VERIFIED",
+        "DOC_010": "DUPLICATE_CLAIM"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_001_REQ_01",
+          "key": "CURRENT_STATUS",
+          "required_fact": "Latest dated, issue-specific status",
+          "evidence_type": "DATED_STATUS",
+          "required_entity_model": "C919",
+          "required_component": "",
+          "verification_status": "PRELIMINARY",
+          "doc_ids": [
+            "DOC_005"
+          ],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [
+            "DOC_005"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_005",
+              "claim": "The aircraft received its Chinese CAAC type certificate in 2022, while EASA’s (the European Union Aviation Safety Agency) validation process reached a significant milestone in late 2025 when EASA test pilots flew the aircraft in Shanghai.",
+              "claim_id": "DOC_005:C03",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "The aircraft received its Chinese CAAC type certificate in 2022, while EASA’s (the European Union Aviation Safety Agency) validation process reached a significant milestone in late 2025 when EASA test pilots flew the aircraft in Shanghai.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "https://www.aircraftinteriorsinternational.com/news/airframer-news/comacs-in-service-fleet-will-soar-by-2030.html",
+              "extraction_method": "FR03_SEMANTIC_QUOTATION",
+              "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+              "publication_date": "2026-08-19",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://www.aircraftinteriorsinternational.com/news/airframer-news/comacs-in-service-fleet-will-soar-by-2030.html",
+              "source_hash": "",
+              "passage_hash": "54a6c8402cfc08d38babdf228873240a0117c70d7a504a6142951bc259e315a3",
+              "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+              "claim_type": "DIRECT_ISSUE",
+              "claim_state": "ISSUE_RESOLVED",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_005",
+              "claim": "IBA’s view is that EASA certification is a question of when rather than if, with validation currently expected within a 2028 to 2031 timeframe.",
+              "claim_id": "DOC_005:C04",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "IBA’s view is that EASA certification is a question of when rather than if, with validation currently expected within a 2028 to 2031 timeframe.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "https://www.aircraftinteriorsinternational.com/news/airframer-news/comacs-in-service-fleet-will-soar-by-2030.html",
+              "extraction_method": "FR03_SEMANTIC_QUOTATION",
+              "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+              "publication_date": "2026-08-19",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://www.aircraftinteriorsinternational.com/news/airframer-news/comacs-in-service-fleet-will-soar-by-2030.html",
+              "source_hash": "",
+              "passage_hash": "92a499db35e06d918bb58859265c1036a298ee3ad357b7b2d0846eb55b1ecbc6",
+              "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+              "claim_type": "DIRECT_ISSUE",
+              "claim_state": "ISSUE_ACTIVE",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": [
+            "Independent confirmation of the preliminary claim"
+          ]
+        }
+      ],
+      "claim_requirement_links": [
+        {
+          "claim_id": "DOC_005:C03",
+          "doc_id": "DOC_005",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "CURRENT_STATUS",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "DOC_005:C04",
+          "doc_id": "DOC_005",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "CURRENT_STATUS",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        }
+      ],
+      "claim_handoff_rejections": {},
+      "source_execution_status": "RESULTS_RETRIEVED",
+      "content_result": "STATUS_CONFLICTED",
+      "issue_status": "STATUS_CONFLICTED",
+      "evidence_trace": [
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "CURRENT_STATUS",
+          "doc_id": "DOC_005",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.aircraftinteriorsinternational.com/news/airframer-news/comacs-in-service-fleet-will-soar-by-2030.html",
+          "original_filing_url": "https://www.aircraftinteriorsinternational.com/news/airframer-news/comacs-in-service-fleet-will-soar-by-2030.html",
+          "quote": "The aircraft received its Chinese CAAC type certificate in 2022, while EASA’s (the European Union Aviation Safety Agency) validation process reached a significant milestone in late 2025 when EASA test pilots flew the aircraft in Shanghai.",
+          "source_hash": "",
+          "passage_hash": "54a6c8402cfc08d38babdf228873240a0117c70d7a504a6142951bc259e315a3",
+          "extraction_method": "FR03_SEMANTIC_QUOTATION",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "ISSUE_RESOLVED",
+          "claim_type": "DIRECT_ISSUE",
+          "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+          "publication_date": "2026-08-19",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "CURRENT_STATUS",
+          "doc_id": "DOC_005",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.aircraftinteriorsinternational.com/news/airframer-news/comacs-in-service-fleet-will-soar-by-2030.html",
+          "original_filing_url": "https://www.aircraftinteriorsinternational.com/news/airframer-news/comacs-in-service-fleet-will-soar-by-2030.html",
+          "quote": "IBA’s view is that EASA certification is a question of when rather than if, with validation currently expected within a 2028 to 2031 timeframe.",
+          "source_hash": "",
+          "passage_hash": "92a499db35e06d918bb58859265c1036a298ee3ad357b7b2d0846eb55b1ecbc6",
+          "extraction_method": "FR03_SEMANTIC_QUOTATION",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "ISSUE_ACTIVE",
+          "claim_type": "DIRECT_ISSUE",
+          "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+          "publication_date": "2026-08-19",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        }
+      ],
+      "verification_status": "Verified 0/1 atomic facts; RESULTS_RETRIEVED",
+      "uncertainty_level": "HIGH",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Latest dated, issue-specific status",
+      "missing_information": "Latest dated, issue-specific status: Independent confirmation of the preliminary claim"
+    },
+    {
+      "kiq_id": "RKIQ_002",
+      "question": "What specific technical gaps or compliance findings have been identified by EASA during the C919 validation process?",
+      "answer_status": "UNANSWERED",
+      "evidence_coverage": "NONE",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "No relevant event matching this question was found within the searched sources. Still needed for a complete answer: documented investigation findings or technical cause.",
+      "related_event_ids": [],
+      "evidence_ids": [],
+      "retrieved_evidence_count": 7,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [
+        "DOC_001",
+        "DOC_002",
+        "DOC_004",
+        "DOC_005",
+        "DOC_006",
+        "DOC_008",
+        "DOC_010"
+      ],
+      "unused_document_reasons": {
+        "DOC_001": "CLAIM_NOT_VERIFIED",
+        "DOC_002": "CLAIM_NOT_VERIFIED",
+        "DOC_004": "DUPLICATE_CLAIM",
+        "DOC_005": "CLAIM_NOT_VERIFIED",
+        "DOC_006": "CLAIM_NOT_VERIFIED",
+        "DOC_008": "DUPLICATE_CLAIM",
+        "DOC_010": "DUPLICATE_CLAIM"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_002_REQ_01",
+          "key": "INVESTIGATION_FINDING",
+          "required_fact": "Documented investigation findings or technical cause",
+          "evidence_type": "INVESTIGATION_RECORD",
+          "required_entity_model": "C919",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Documented investigation findings or technical cause"
+          ]
+        }
+      ],
+      "claim_requirement_links": [],
+      "claim_handoff_rejections": {},
+      "source_execution_status": "RESULTS_RETRIEVED",
+      "content_result": "NO_RELEVANT_EVENT",
+      "issue_status": "NO_RELEVANT_EVENT",
+      "evidence_trace": [],
+      "verification_status": "Verified 0/1 atomic facts; RESULTS_RETRIEVED",
+      "uncertainty_level": "HIGH",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Documented investigation findings or technical cause",
+      "missing_information": "Documented investigation findings or technical cause: Verified source passage for: Documented investigation findings or technical cause"
+    }
+  ],
+  "run_metadata": {
+    "run_id": "RUN-20261125-143221-B9D68F45FE3B",
+    "report_id": "RPT-20261125-F62787",
+    "started_at": "2026-11-25T14:32:21Z",
+    "completed_at": "2026-11-25T14:36:00Z",
+    "run_date_utc": "2026-11-25",
+    "analysis_reference_date": "2026-11-25",
+    "reference_date_mode": "EXECUTION_DATE",
+    "collection_window_start_utc": "2025-11-25T14:32:21Z",
+    "collection_window_end_utc": "2026-11-25T14:32:21Z",
+    "status": "completed",
+    "outcome_status": "COMPLETED",
+    "processing_status": "COMPLETED",
+    "evidence_completeness_status": "INSUFFICIENT",
+    "kiq_completion_status": "NOT_ANSWERED",
+    "kiqs_fully_answered": 0,
+    "kiqs_missing_specific_evidence": 2,
+    "kit_completion_audit": {
+      "as_of_date": "2026-11-25",
+      "questions": [
+        {
+          "kiq_id": "RKIQ_001",
+          "question": "What is the current status of the EASA type certification application for the COMAC C919?",
+          "answer_status": "PARTIALLY_ANSWERED",
+          "content_result": "STATUS_CONFLICTED",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "CURRENT_STATUS",
+              "missing_information": [
+                "Independent confirmation of the preliminary claim"
+              ]
+            }
+          ],
+          "missing_information": "Latest dated, issue-specific status: Independent confirmation of the preliminary claim",
+          "source_execution_status": "RESULTS_RETRIEVED",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 0,
+          "latest_evidence_date": "2026-08-19",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        },
+        {
+          "kiq_id": "RKIQ_002",
+          "question": "What specific technical gaps or compliance findings have been identified by EASA during the C919 validation process?",
+          "answer_status": "UNANSWERED",
+          "content_result": "NO_RELEVANT_EVENT",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "INVESTIGATION_FINDING",
+              "missing_information": [
+                "Verified source passage for: Documented investigation findings or technical cause"
+              ]
+            }
+          ],
+          "missing_information": "Documented investigation findings or technical cause: Verified source passage for: Documented investigation findings or technical cause",
+          "source_execution_status": "RESULTS_RETRIEVED",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 0,
+          "latest_evidence_date": "",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        }
+      ],
+      "total": 2,
+      "complete": 0,
+      "missing": 2,
+      "unavailable_sources": [],
+      "unsearched_requests": [],
+      "status": "NOT_ANSWERED"
+    },
+    "planner_status": "REPAIRED",
+    "collection_mode": "agentic_exa",
+    "acquisition_trace": {
+      "collection_id": "COL_64A308",
+      "kit": "COMAC C919 EASA type certification progress in Europe",
+      "collection_mode": "agentic_exa",
+      "search_objective": "Acquire evidence on COMAC C919 EASA type certification status, technical validation timelines, and specific compliance gaps (CRIs) for the 2025-2026 period.",
+      "queries_executed": 6,
+      "exa_calls_executed": 2,
+      "sources_used": [
+        "Exa Semantic Search",
+        "News API"
+      ],
+      "documents_found": 14,
+      "primary_documents": 1,
+      "secondary_documents": 13,
+      "full_text_documents": 10,
+      "metadata_only_documents": 2,
+      "unresolved_requirements": [
+        "Official EASA project tracking ID.",
+        "Specific EASA Certification Review Items (CRIs) or documented deviations from CS-25 standards.",
+        "Confirmed technical validation timeline beyond the '3 to 6 years' estimate."
+      ],
+      "collection_status": "PARTIAL_SUCCESS",
+      "next_action": "FINISH",
+      "agent_rationale": "Initial Exa searches successfully identified a major milestone: EASA pilots conducted test flights in Shanghai in January 2026. Secondary reports indicate a 3-6 year timeline for full certification and suggest 'no major hardware safety issues' as of July 2026. However, primary regulatory databases (EASA/FAA) and corporate filings did not yield the specific project ID or detailed CRI documents, which are often restricted during active validation. All allowed platforms were queried, and the budget for Exa and regulatory tools was utilized to maximize signal.",
+      "steps": [
+        {
+          "step": 1,
+          "tool": "exa_semantic_search",
+          "query": "EASA type certification progress COMAC C919 technical validation phase timeline 2025 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 6,
+          "new_doc_ids": [
+            "DOC_001",
+            "DOC_002",
+            "DOC_003",
+            "DOC_004",
+            "DOC_005",
+            "DOC_006"
+          ],
+          "elapsed_sec": 3.45,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 2,
+          "tool": "exa_semantic_search",
+          "query": "EASA Certification Review Items CRI COMAC C919 CS-25 compliance gaps special conditions",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 4,
+          "new_doc_ids": [
+            "DOC_007",
+            "DOC_008",
+            "DOC_009",
+            "DOC_010"
+          ],
+          "elapsed_sec": 4.84,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 3,
+          "tool": "search_official_regulators",
+          "query": "EASA COMAC C919 type certification project ID validation timeline",
+          "status": "NO_MATCH",
+          "new_doc_count": 0,
+          "new_doc_ids": [],
+          "elapsed_sec": 66.99,
+          "calls_used": 4,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 4,
+          "tool": "search_official_regulators",
+          "query": "EASA COMAC C919 Certification Review Items CRI CS-25 special conditions",
+          "status": "NO_MATCH",
+          "new_doc_count": 0,
+          "new_doc_ids": [],
+          "elapsed_sec": 68.44,
+          "calls_used": 4,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 5,
+          "tool": "search_corporate_filings",
+          "query": "COMAC C919 EASA certification progress update 2026",
+          "status": "NO_MATCH",
+          "new_doc_count": 0,
+          "new_doc_ids": [],
+          "elapsed_sec": 70.27,
+          "calls_used": 6,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 6,
+          "tool": "search_media_and_social",
+          "query": "[all] COMAC C919 EASA certification status 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 4,
+          "new_doc_ids": [
+            "DOC_011",
+            "DOC_012",
+            "DOC_013",
+            "DOC_014"
+          ],
+          "elapsed_sec": 82.14,
+          "calls_used": 6,
+          "exa_calls_used": 2,
+          "note": ""
+        }
+      ],
+      "budget_summary": {
+        "calls_made": 6,
+        "max_total_calls": 10,
+        "remaining_total_calls": 4,
+        "exa_calls_made": 2,
+        "max_exa_calls": 4,
+        "remaining_exa_calls": 2,
+        "elapsed_sec": 84.55,
+        "max_seconds": 180,
+        "remaining_seconds": 95.5,
+        "steps_recorded": 6
+      },
+      "fallback_used": false,
+      "llm_tokens_in": 25292,
+      "llm_tokens_out": 620
+    },
+    "phase_checkpoints": {
+      "planner": "REPAIRED",
+      "collection": "PASS",
+      "fr03": "PASS",
+      "analyst": "PASS",
+      "qa": "COMPLETED",
+      "kiq": "NOT_ANSWERED",
+      "editor": "COMPLETED",
+      "scoring": "COMPLETED",
+      "reporting": "VALIDATED"
+    },
+    "evidence_flow_audit": {
+      "documents": [
+        {
+          "doc_id": "DOC_001",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": true
+          },
+          "gap": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "interruption_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_002",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": true
+          },
+          "gap": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "interruption_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_003",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_004",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": true
+          },
+          "gap": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "interruption_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_005",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_006",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": true
+          },
+          "gap": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "interruption_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_007",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_008",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": true
+          },
+          "gap": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "interruption_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_009",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_010",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": true
+          },
+          "gap": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "interruption_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_011",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_012",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_013",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_014",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        }
+      ],
+      "stage_counts": {
+        "COLLECTED": 14,
+        "FILTER_ACCEPTED": 7,
+        "CLAIMS_EXTRACTED": 7,
+        "CLAIMS_VALIDATED": 3,
+        "KIQ_EVALUATED": 7,
+        "KIQ_LINKED": 1,
+        "NOT_APPLICABLE": 6,
+        "REPORT_REFERENCED": 7,
+        "REPORT_USED": 7,
+        "REPORT_NOT_USED": 0
+      },
+      "unlinked_accepted_document_ids": [
+        "DOC_001",
+        "DOC_002",
+        "DOC_004",
+        "DOC_006",
+        "DOC_008",
+        "DOC_010"
+      ],
+      "unreferenced_validated_document_ids": [],
+      "potential_analytical_loss_ids": [],
+      "handoff_error_ids": [],
+      "validated_claim_counts": {
+        "DOC_001": 0,
+        "DOC_002": 0,
+        "DOC_003": 0,
+        "DOC_004": 0,
+        "DOC_005": 1,
+        "DOC_006": 1,
+        "DOC_007": 0,
+        "DOC_008": 1,
+        "DOC_009": 0,
+        "DOC_010": 0,
+        "DOC_011": 0,
+        "DOC_012": 0,
+        "DOC_013": 0,
+        "DOC_014": 0
+      }
+    },
+    "evidence_integrity_issues": [],
+    "source_provenance_missing_ids": [],
+    "kiq_unlinked_extracted_document_ids": [],
+    "kiq_handoff_error_document_ids": [],
+    "kiq_handoff_contract_errors": {},
+    "editor_kiq_context_error": null,
+    "editor_evidence_citation_document_ids": [],
+    "query": "COMAC C919 EASA type certification progress in Europe",
+    "experiment": {
+      "dataset_run_id": "RUN-20261125-143221-B9D68F45FE3B",
+      "replay_run_id": null,
+      "collection_mode": "agentic_exa",
+      "qa_enabled": true,
+      "harness_enabled": true,
+      "keyword_baseline": false,
+      "dataset_sha256": "ad9bc33488886ed36cd7f86bc439e6fb5f64dcf91250df6feb1768d5b4d57b65",
+      "replay_uses_live_llm": false
+    },
+    "analysis_scope": "365d",
+    "effective_from": "2025-11-25T14:32:21Z",
+    "effective_to": "2026-11-25T14:32:21Z",
+    "as_of_date": "2026-11-25",
+    "documents_collected": 14,
+    "historical_resolutions": [],
+    "historical_resolution_count": 0,
+    "temporal_claim_audit": [
+      {
+        "event_id": "C919-EASA-VALIDATION-2026-001",
+        "entity": "COMAC",
+        "program": "Unknown / Not specified in source",
+        "component": "Unknown / Not specified in source",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-01-19",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "EASA-COMAC-C919-FLIGHT-TEST-2026-01-16",
+        "entity": "COMAC",
+        "program": "C919",
+        "component": "Unknown / Not specified in source",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "CURRENT_STATUS_UNKNOWN",
+        "original_date": "2026-01-16",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "COMAC-EASA-C919-CERT-2026-001",
+        "entity": "COMAC",
+        "program": "Unknown / Not specified in source",
+        "component": "Unknown / Not specified in source",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "CURRENT_STATUS_UNKNOWN",
+        "original_date": "2026-07-21",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "EASA-C919-CERT-2026-04-13",
+        "entity": "COMAC",
+        "program": "Unknown / Not specified in source",
+        "component": "Unknown / Not specified in source",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-04-13",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      }
+    ],
+    "document_content_status_counts": {
+      "FULL_TEXT": 10,
+      "FULL_TEXT_RETRIEVED": 0,
+      "METADATA_ONLY": 2,
+      "PARTIAL_TEXT": 2,
+      "SOURCE_METADATA_ONLY": 0,
+      "SOURCE_POLICY_RESTRICTED": 0,
+      "STRUCTURED_DATA": 0,
+      "SUMMARY_ONLY": 0,
+      "TEXT_COMPLETENESS_UNVERIFIED": 0,
+      "TEXT_RETRIEVED_COMPLETENESS_UNVERIFIED": 0,
+      "TRANSCRIPT_AS_RECEIVED": 0,
+      "UNAVAILABLE": 0,
+      "UNKNOWN": 0
+    },
+    "unknown_content_statuses": [],
+    "telemetry_errors": [],
+    "telemetry_integrity_ok": true,
+    "content_limited_document_ids": [
+      "DOC_002",
+      "DOC_003",
+      "DOC_005",
+      "DOC_009",
+      "DOC_010",
+      "DOC_011",
+      "DOC_012"
+    ],
+    "documents_analyzed": 7,
+    "documents_rejected": 7,
+    "documents_failed": 0,
+    "analysis_phase_status": "COMPLETED",
+    "analysis_recovery_budget": {
+      "time_budget_sec": 600,
+      "max_retries": 8,
+      "max_calls": 12,
+      "retries": 0,
+      "calls": 4,
+      "blocked": ""
+    },
+    "analyzed_document_ids": [
+      "DOC_001",
+      "DOC_002",
+      "DOC_004",
+      "DOC_005",
+      "DOC_006",
+      "DOC_008",
+      "DOC_010"
+    ],
+    "failed_document_ids": [],
+    "recovered_document_ids": [],
+    "partially_analyzed_document_ids": [],
+    "documents_recovered": 0,
+    "analyst_batch_document_counts": [
+      2,
+      2,
+      2,
+      1
+    ],
+    "analyst_recovery_splits": 0,
+    "analyst_retry_counts_by_reason": {
+      "PROVIDER_INTERNAL_RETRY": 0
+    },
+    "batches_created": 4,
+    "batches_succeeded": 4,
+    "batches_failed": 0,
+    "planning_duration_sec": 4.23,
+    "collection_duration_sec": 84.57,
+    "filter_duration_sec": 19.62,
+    "analysis_duration_sec": 78.4,
+    "qa_duration_sec": 25.46,
+    "editorial_duration_sec": 6.8,
+    "scoring_duration_sec": 0.0,
+    "scoring_status": "COMPLETED",
+    "scoring_methodology": {
+      "version": "IW-5FACTOR-DET-V1",
+      "method": "DETERMINISTIC_5_FACTOR_IW",
+      "scale": "F1-F5 rated 1..5; final threat_score 1..10",
+      "formula": "S = clamp(floor(sum(w_i * F_i) * 2 + 0.5), 1, 10)",
+      "weights": {
+        "impact_severity": 0.3,
+        "supplier_criticality": 0.2,
+        "substitutability_difficulty": 0.15,
+        "propagation_scope": 0.15,
+        "temporal_urgency": 0.2
+      },
+      "bands": {
+        "monitored": "1-4",
+        "elevated": "5-7",
+        "high_potential_impact": "8-10"
+      },
+      "severity_independent_of_confidence": true
+    },
+    "scoring_partial_fallback_ids": [],
+    "scoring_audit": [
+      {
+        "event_id": "C919-EASA-VALIDATION-2026-001",
+        "provisional_score": 6,
+        "computed_score": 7,
+        "final_score": 7,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.35 * 2) = 7/10",
+        "weighted_sum": 3.35,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 3,
+            "weight": 0.3,
+            "weighted_contribution": 0.9,
+            "rationale": "Crucial for international market access; delay prevents competition with Western OEMs."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "COMAC is the OEM; certification is mandatory for global viability."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "EASA is the sole authority for European type certification."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 2,
+            "weight": 0.15,
+            "weighted_contribution": 0.3,
+            "rationale": "Limited to C919 international variants; no impact on Chinese domestic service."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 2,
+            "weight": 0.2,
+            "weighted_contribution": 0.4,
+            "rationale": "Process is ongoing with long-term forecast (2028-2031); no immediate flight safety grounding."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (310 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: ELEVATED (7/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 7,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "HIGH",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-01-19",
+        "source_age_days": 310
+      },
+      {
+        "event_id": "EASA-COMAC-C919-FLIGHT-TEST-2026-01-16",
+        "provisional_score": 3,
+        "computed_score": 6,
+        "final_score": 6,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(2.85 * 2) = 6/10",
+        "weighted_sum": 2.85,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 2,
+            "weight": 0.3,
+            "weighted_contribution": 0.6,
+            "rationale": "High strategic impact for COMAC's global expansion, but currently a positive technical milestone."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "EASA certification is a critical gating factor for Western airline operations."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "EASA is a single-source regulator for European market access."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 2,
+            "weight": 0.15,
+            "weighted_contribution": 0.3,
+            "rationale": "Limited to C919 program entry into the EASA jurisdiction."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 2,
+            "weight": 0.2,
+            "weighted_contribution": 0.4,
+            "rationale": "The event is a recent development in an ongoing multi-year process."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (313 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: ELEVATED (6/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+        "post_harness_score": 6,
+        "post_harness_validation_status": "PARTIALLY_SUPPORTED",
+        "post_harness_confidence_level": "LOW",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "PROVISIONAL_UNVERIFIED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-01-16",
+        "source_age_days": 313
+      },
+      {
+        "event_id": "COMAC-EASA-C919-CERT-2026-001",
+        "provisional_score": 4,
+        "computed_score": 6,
+        "final_score": 6,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(2.90 * 2) = 6/10",
+        "weighted_sum": 2.9,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 2,
+            "weight": 0.3,
+            "weighted_contribution": 0.6,
+            "rationale": "Positive milestone for market entry; no immediate operational threat but high strategic impact on competition."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "COMAC's international expansion is entirely dependent on this EASA validation."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "High; certification is a mandatory regulatory gate with no substitutes."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 2,
+            "weight": 0.15,
+            "weighted_contribution": 0.3,
+            "rationale": "Specifically affects C919 narrow-body segment and European market access."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 2,
+            "weight": 0.2,
+            "weighted_contribution": 0.4,
+            "rationale": "Certification is explicitly stated as 'not imminent', lowering immediate urgency for 2026-2027."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (127 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: ELEVATED (6/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+        "post_harness_score": 6,
+        "post_harness_validation_status": "PARTIALLY_SUPPORTED",
+        "post_harness_confidence_level": "LOW",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "PROVISIONAL_UNVERIFIED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-07-21",
+        "source_age_days": 127
+      },
+      {
+        "event_id": "EASA-C919-CERT-2026-04-13",
+        "provisional_score": 5,
+        "computed_score": 7,
+        "final_score": 7,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.50 * 2) = 7/10",
+        "weighted_sum": 3.5,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 3,
+            "weight": 0.3,
+            "weighted_contribution": 0.9,
+            "rationale": "Certification is the gateway to the EU market; 'several years' delay is a significant strategic barrier."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "COMAC is the OEM; certification is mandatory for any commercial operation in the region."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "C919 is a specific aircraft model; EASA is the sole authority for EU type validation."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Affects all potential European operators and COMAC's global export strategy."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 2,
+            "weight": 0.2,
+            "weighted_contribution": 0.4,
+            "rationale": "The issue is ongoing but relates to a timeline 'several years away', reducing immediate crisis urgency."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (226 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: ELEVATED (7/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 7,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "MEDIUM",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-04-13",
+        "source_age_days": 226
+      }
+    ],
+    "total_duration_sec": 219.43,
+    "llm_calls": 11,
+    "llm_retries": 0,
+    "tokens_input": 90825,
+    "tokens_output": 23590,
+    "token_usage_status": "MEASURED",
+    "token_usage_unknown_calls": 0,
+    "llm_call_audit": [
+      {
+        "task_type": "PHASE_1_PLANNER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 1547,
+        "output_tokens": 599,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_2_ACQUISITION",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 25292,
+        "output_tokens": 620,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2727,
+        "output_tokens": 1143,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2911,
+        "output_tokens": 1554,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 1928,
+        "output_tokens": 506,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_1_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 18118,
+        "output_tokens": 2443,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_2_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 17929,
+        "output_tokens": 2023,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_3_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 17878,
+        "output_tokens": 4982,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_4_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 15991,
+        "output_tokens": 1992,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_3B_QA",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 10877,
+        "output_tokens": 7996,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_4_EDITOR",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2466,
+        "output_tokens": 951,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      }
+    ],
+    "analyst_recovery_audit": {
+      "attempts": [],
+      "fallbacks": [],
+      "recent_events": []
+    },
+    "token_accounting_method": "SHARED_LLM_DELTA",
+    "provider_requests_measured": 9,
+    "estimated_cost_usd": 0.11618,
+    "estimated_cost_status": "ESTIMATED",
+    "priced_cost_subtotal_usd": 0.11618,
+    "model_cost_audit": [
+      {
+        "model_id": "openrouter/google/gemini-3-flash-preview",
+        "usage_bucket": "openrouter/google/gemini-3-flash-preview",
+        "input_tokens": 90825,
+        "output_tokens": 23590,
+        "requests": 9,
+        "estimated_cost_usd": 0.11618,
+        "pricing_status": "ESTIMATED"
+      }
+    ],
+    "cost_estimation_reason_codes": [],
+    "unmatched_cost_model_ids": [],
+    "model_id": "openrouter/google/gemini-3-flash-preview",
+    "prompt_version": "v2.10-CI-HRO-2026-EVIDENCE-SCOPE",
+    "kiq_catalog_version": "THESIS_KIQ_CATALOG_V2_20261031",
+    "candidate_schema_rejections": 0,
+    "qa_failed": false,
+    "qa_performed": true,
+    "harness_performed": true,
+    "editor_failed": false,
+    "editorial_generation_mode": "LLM_TEXT_PYDANTIC_V1",
+    "editor_text_parsed_count": 2,
+    "editor_text_fallbacks": 1,
+    "editor_retry_count": 0,
+    "editor_retry_recovered": false,
+    "editor_fallback_used": true,
+    "pipeline_degraded": false,
+    "degradation_category": "NONE",
+    "source_coverage_issues": [],
+    "source_coverage_limited": true,
+    "source_coverage_advisories": [
+      {
+        "connector": "Exa Semantic Search",
+        "issue": "exa_type=auto; duplicates_skipped=0; include_domains=ALL"
+      },
+      {
+        "connector": "Exa Semantic Search",
+        "issue": "exa_type=auto; duplicates_skipped=2; include_domains=ALL"
+      },
+      {
+        "connector": "FAA Federal Register",
+        "issue": "NO_RESULTS; api_declared=0; retrieved=0"
+      },
+      {
+        "connector": "EASA Official Index",
+        "issue": "PAGINATION_BUDGET_REACHED:pages=20; PARTIAL_COVERAGE:oldest_scanned=2026-02-02"
+      },
+      {
+        "connector": "Official Industry PR",
+        "issue": "NO_APPROVED_MANUFACTURER_CONNECTOR"
+      },
+      {
+        "connector": "News API",
+        "issue": "STAGES=EXACT,ALTERNATIVE,ALIASES,STATUS_CHANGE; NEWSAPI_COVERAGE=PARTIAL_WINDOW; requested_days=365.0; searchable_days=29.0; archive_limit_days=29; SEARCH_STATUS=RESULTS_RETRIEVED"
+      }
+    ],
+    "source_coverage_status": "PARTIAL",
+    "source_coverage_legacy_status": "LIMITED",
+    "evidence_result_status": "UNVERIFIED_ONLY",
+    "review_scope": "EVENT_REVIEW",
+    "analysis_issues": [],
+    "fr03_rejection_review_candidates": 4,
+    "fr03_rejection_stage_counts": {
+      "STAGE_1_CONTENT_QUALITY": 2,
+      "STAGE_2_SEMANTIC": 5
+    },
+    "scoring_calibration": "UNMEASURED_REQUIRES_EXPERT_REFERENCE_LABELS",
+    "semantic_filter_unavailable_count": 0,
+    "semantic_filter_missing_ids": [],
+    "analyst_valid_empty_batches": 0,
+    "analyst_invalid_batches": 0,
+    "analyst_empty_retry_count": 0,
+    "analyst_empty_retry_failed_batches": 0,
+    "analyst_empty_output_conflict": false,
+    "analyst_empty_conflict_previous_run": null,
+    "analyst_output_audit": [
+      {
+        "batch": 1,
+        "depth": 0,
+        "document_ids": [
+          "DOC_008",
+          "DOC_005"
+        ],
+        "documents_processed": 2,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 7825,
+        "output_tokens": 2443,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 2,
+        "depth": 0,
+        "document_ids": [
+          "DOC_002",
+          "DOC_004"
+        ],
+        "documents_processed": 2,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 6651,
+        "output_tokens": 2023,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 3,
+        "depth": 0,
+        "document_ids": [
+          "DOC_001",
+          "DOC_010"
+        ],
+        "documents_processed": 2,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 8714,
+        "output_tokens": 4982,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 4,
+        "depth": 0,
+        "document_ids": [
+          "DOC_006"
+        ],
+        "documents_processed": 1,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 6942,
+        "output_tokens": 1992,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      }
+    ],
+    "confirmed_critical_count": 0,
+    "unverified_signal_count": 0,
+    "displayable_signal_count": 0,
+    "verified_context_count": 2,
+    "direct_kit_confirmed_count": 0,
+    "verified_context_event_ids": [
+      "C919-EASA-VALIDATION-2026-001",
+      "EASA-C919-CERT-2026-04-13"
+    ],
+    "classification_version": "SUPPORTED_ONLY_DASHBOARD_V3_EVENT_ID_1TO1",
+    "runtime_kiq_count": 2,
+    "runtime_kiq_ids": [
+      "RKIQ_001",
+      "RKIQ_002"
+    ],
+    "runtime_kiq_answered": 0,
+    "runtime_kiq_partially_answered": 1,
+    "runtime_kiq_unanswered": 1,
+    "runtime_kiq_not_searched": 0,
+    "intelligence_methodology": {
+      "collection_method": "OSINT",
+      "analysis_method": "Competitive Intelligence",
+      "osint_document_count": 14,
+      "ci_candidate_count": 4,
+      "osint_stage": "Acquisition and preprocessing of publicly available information.",
+      "ci_stage": "Interpretation of collected evidence against KIT/KIQ requirements, strategic risks, competitive implications and decision needs.",
+      "methodological_boundary": "A retrieved source is OSINT evidence. It becomes an intelligence assessment only after analytical interpretation and validation.",
+      "independent_verification_required": true
+    },
+    "editor_claim_audit": {
+      "status": "PASS",
+      "all_supported": true,
+      "citations_match": true,
+      "checks": {
+        "doc_id_exists": true,
+        "passages_match": true,
+        "event_references_valid": true,
+        "urls_valid": true
+      },
+      "claim_sentences_checked": 19,
+      "cited_document_ids": [
+        "DOC_001",
+        "DOC_002",
+        "DOC_004",
+        "DOC_005",
+        "DOC_006",
+        "DOC_008",
+        "DOC_010"
+      ],
+      "issues": [],
+      "review_items": [],
+      "audit_method": "DETERMINISTIC_PROVENANCE_ONLY"
+    },
+    "editor_executive_summary": "The monitoring of COMAC C919 EASA type certification progress across multiple intelligence channels has identified a series of regulatory milestones and expert projections, though official confirmation of final validation remains pending. Evidence indicates that EASA test pilots conducted flight tests in late 2025 [DOC_005], and by early 2026, the agency reportedly completed initial Crew Resource Management (CRM) and human factors reviews [DOC_008]. While these technical phases suggest active engagement, industry analysts at IBA project that full EASA validation is likely a long-term objective, currently forecasted for the 2028 to 2031 window [DOC_005]. Reports from mid-2026 highlight \"intensified data sharing\" between COMAC and EASA [DOC_006], yet specific technical non-compliance findings or official statements confirming the completion of the CRM phase are currently missing from the public record. The primary analytical takeaway is that while the C919 has cleared preliminary technical hurdles, the path to international market access via EASA remains subject to a multi-year regulatory timeline. Management should focus on verifying the transition from the current technical review phase to formal certification findings.",
+    "editor_detailed_analytical_assessment": "The regulatory trajectory for the COMAC C919 within the European Union Aviation Safety Agency (EASA) framework is characterized by steady technical progression tempered by extended validation timelines. According to secondary media reports, a significant milestone was achieved in late 2025 when EASA test pilots flew the aircraft [DOC_005], marking a transition from theoretical data review to practical evaluation. This was followed in January 2026 by reports that EASA had completed initial reviews of the aircraft’s Crew Resource Management (CRM) and human factors [DOC_008]. However, these technical steps do not equate to imminent certification. IBA’s market analysis suggests that EASA validation is a \"question of when rather than if,\" but places the expected inflection point for global prospects between 2028 and 2031 [DOC_005].\n\nThe evidence reveals a gap between technical activity and formal regulatory status. While reports in April 2026 cited \"intensified data sharing\" [DOC_006], EASA has not issued an official statement confirming the closure of specific certification blocks. The lack of public disclosure regarding technical non-compliance findings [DOC_004] suggests that the process remains in a proprietary or sensitive phase. Analytically, the \"satisfactory\" nature of initial CRM reviews [DOC_008] indicates that COMAC is meeting baseline European safety philosophy requirements, yet the 2028–2031 forecast implies that significant structural or systems-level validation work remains. \n\nThe primary uncertainty lies in whether the current data-sharing intensity will lead to a shortening of the projected five-year validation window. Currently, there is no evidence to support an accelerated timeline. Management is advised to maintain a monitoring posture focused on EASA’s formal \"Type Certificate Data Sheet\" updates and official COMAC disclosures regarding the completion of the \"Certification Review Item\" (CRI) process. Verification of the specific technical findings mentioned in media reports is required to determine if the 2028–2031 timeline is a conservative estimate or a reflection of known technical hurdles.",
+    "editor_validation_status": "PASS",
+    "editor_claim_citations_verified": true,
+    "editor_semantic_review_required": false,
+    "kit_current_assessment": {
+      "status": "PRELIMINARY_SIGNALS_IDENTIFIED",
+      "source_coverage": "INCOMPLETE",
+      "as_of_date": "2026-11-25",
+      "search_overview": {
+        "connectors_searched": [
+          "Exa Semantic Search",
+          "FAA Federal Register",
+          "EASA Official Index",
+          "Official Industry PR",
+          "XBRL International ESEF Filing Index",
+          "News API"
+        ],
+        "connectors_with_results": [
+          "Exa Semantic Search",
+          "News API"
+        ],
+        "documents_collected": 14,
+        "documents_analyzed": 7,
+        "documents_rejected": 7,
+        "events_identified": 4,
+        "supported_events": 0
+      },
+      "issue_status": "PRELIMINARY",
+      "regulator_verification": "UNAVAILABLE",
+      "source_authority": "NOT_ESTABLISHED",
+      "coverage_status": "PARTIAL",
+      "severity_context": "POTENTIAL",
+      "potential_severity": 6,
+      "evidence_confidence": "LOW",
+      "chronological_milestones": [],
+      "conflicts": [],
+      "monitored_kit": "COMAC C919 EASA type certification progress in Europe",
+      "original_issue": "COMAC C919 EASA type certification progress in Europe",
+      "latest_milestone": "NOT_ESTABLISHED",
+      "latest_milestone_date": "",
+      "latest_evidence_id": "",
+      "latest_evidence_url": "",
+      "latest_verification": "UNVERIFIED",
+      "unresolved_questions": [
+        "Latest dated, issue-specific status: Independent confirmation of the preliminary claim",
+        "Documented investigation findings or technical cause: Verified source passage for: Documented investigation findings or technical cause"
+      ],
+      "severity": null,
+      "confidence": "LOW",
+      "evidence_strength": "PARTIAL_REPORTED",
+      "reported_developments": [
+        {
+          "event_id": "EASA-COMAC-C919-FLIGHT-TEST-2026-01-16",
+          "evidence_id": "DOC_004",
+          "date": "2026-01-16",
+          "claim": "Pilots working for the European Aviation Safety Agency (EASA) have been conducting test flights of the C919 commercial airliner from Commercial Aircraft Corporation of China (COMAC) in Shanghai.",
+          "program": "C919",
+          "company": "COMAC",
+          "source_url": "https://www.aerotime.aero/articles/easa-pilots-comac-c919-certification-test-flights",
+          "verification": "PARTIALLY_SUPPORTED",
+          "source_role": "SECONDARY_OR_UNKNOWN"
+        }
+      ],
+      "kiq_source_claims": [
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_005",
+          "quote": "The aircraft received its Chinese CAAC type certificate in 2022, while EASA’s (the European Union Aviation Safety Agency) validation process reached a significant milestone in late 2025 when EASA test pilots flew the aircraft in Shanghai.",
+          "date": "2026-08-19",
+          "publication_date": "2026-08-19",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_EXA",
+          "source_url": "https://www.aircraftinteriorsinternational.com/news/airframer-news/comacs-in-service-fleet-will-soar-by-2030.html",
+          "authority": "SECONDARY",
+          "source_role": "SECONDARY_OR_UNKNOWN",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "verbatim_passage_recorded": true,
+          "verification": "PRELIMINARY",
+          "claim_state": "ISSUE_RESOLVED",
+          "content_result": "",
+          "claim_type": "DIRECT_ISSUE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "CURRENT_STATUS"
+          ],
+          "regulator_confirmation": "NOT_ESTABLISHED",
+          "validation_conflict": ""
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_005",
+          "quote": "IBA’s view is that EASA certification is a question of when rather than if, with validation currently expected within a 2028 to 2031 timeframe.",
+          "date": "2026-08-19",
+          "publication_date": "2026-08-19",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_EXA",
+          "source_url": "https://www.aircraftinteriorsinternational.com/news/airframer-news/comacs-in-service-fleet-will-soar-by-2030.html",
+          "authority": "SECONDARY",
+          "source_role": "SECONDARY_OR_UNKNOWN",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "verbatim_passage_recorded": true,
+          "verification": "PRELIMINARY",
+          "claim_state": "ISSUE_ACTIVE",
+          "content_result": "",
+          "claim_type": "DIRECT_ISSUE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "CURRENT_STATUS"
+          ],
+          "regulator_confirmation": "NOT_ESTABLISHED",
+          "validation_conflict": ""
+        }
+      ],
+      "established_regulatory_facts": [],
+      "evidence_validation_warnings": [],
+      "kiq_status_counts": {
+        "ANSWERED": 0,
+        "PARTIALLY_ANSWERED": 1,
+        "UNANSWERED": 1,
+        "NOT_SEARCHED": 0
+      }
+    },
+    "detailed_analytical_assessment": "The regulatory trajectory for the COMAC C919 within the European Union Aviation Safety Agency (EASA) framework is characterized by steady technical progression tempered by extended validation timelines. According to secondary media reports, a significant milestone was achieved in late 2025 when EASA test pilots flew the aircraft [DOC_005], marking a transition from theoretical data review to practical evaluation. This was followed in January 2026 by reports that EASA had completed initial reviews of the aircraft’s Crew Resource Management (CRM) and human factors [DOC_008]. However, these technical steps do not equate to imminent certification. IBA’s market analysis suggests that EASA validation is a \"question of when rather than if,\" but places the expected inflection point for global prospects between 2028 and 2031 [DOC_005].\n\nThe evidence reveals a gap between technical activity and formal regulatory status. While reports in April 2026 cited \"intensified data sharing\" [DOC_006], EASA has not issued an official statement confirming the closure of specific certification blocks. The lack of public disclosure regarding technical non-compliance findings [DOC_004] suggests that the process remains in a proprietary or sensitive phase. Analytically, the \"satisfactory\" nature of initial CRM reviews [DOC_008] indicates that COMAC is meeting baseline European safety philosophy requirements, yet the 2028–2031 forecast implies that significant structural or systems-level validation work remains. \n\nThe primary uncertainty lies in whether the current data-sharing intensity will lead to a shortening of the projected five-year validation window. Currently, there is no evidence to support an accelerated timeline. Management is advised to maintain a monitoring posture focused on EASA’s formal \"Type Certificate Data Sheet\" updates and official COMAC disclosures regarding the completion of the \"Certification Review Item\" (CRI) process. Verification of the specific technical findings mentioned in media reports is required to determine if the 2028–2031 timeline is a conservative estimate or a reflection of known technical hurdles.",
+    "detailed_analytical_assessment_mode": "VALIDATED_EDITOR",
+    "executive_summary_mode": "VALIDATED_EDITOR",
+    "report_evidence_usage": [
+      {
+        "doc_id": "DOC_001",
+        "event_ids": [
+          "COMAC-EASA-C919-CERT-2026-001"
+        ],
+        "kiq_ids": [],
+        "source_role": "UNKNOWN",
+        "reason_code": "EVENT_NOT_SELECTED_FOR_NARRATIVE"
+      },
+      {
+        "doc_id": "DOC_002",
+        "event_ids": [
+          "EASA-COMAC-C919-FLIGHT-TEST-2026-01-16"
+        ],
+        "kiq_ids": [],
+        "source_role": "UNKNOWN",
+        "reason_code": "EVENT_NOT_SELECTED_FOR_NARRATIVE"
+      },
+      {
+        "doc_id": "DOC_004",
+        "event_ids": [
+          "EASA-COMAC-C919-FLIGHT-TEST-2026-01-16"
+        ],
+        "kiq_ids": [],
+        "source_role": "UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_005",
+        "event_ids": [
+          "C919-EASA-VALIDATION-2026-001"
+        ],
+        "kiq_ids": [
+          "RKIQ_001"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_006",
+        "event_ids": [
+          "EASA-C919-CERT-2026-04-13"
+        ],
+        "kiq_ids": [],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_008",
+        "event_ids": [
+          "C919-EASA-VALIDATION-2026-001"
+        ],
+        "kiq_ids": [],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_010",
+        "event_ids": [
+          "COMAC-EASA-C919-CERT-2026-001"
+        ],
+        "kiq_ids": [],
+        "source_role": "UNKNOWN",
+        "reason_code": "EVENT_NOT_SELECTED_FOR_NARRATIVE"
+      }
+    ],
+    "detailed_analytical_assessment_sha256": "258faae1a35f7c72e194af09eb0328ace49b106d7134eb9b6075fa3c8580e0a8",
+    "detailed_analytical_assessment_word_count": 302,
+    "executive_summary_word_count": 172,
+    "agent_decision_trace": [
+      {
+        "agent_index": 1,
+        "agent_role": "Intelligence Planning & Acquisition Agent",
+        "inputs": {
+          "kit": "COMAC C919 EASA type certification progress in Europe",
+          "scope": "365d",
+          "specificity": "EXACT",
+          "platforms": [
+            "regulatory",
+            "news",
+            "pr"
+          ],
+          "collection_mode": "agentic_exa"
+        },
+        "decisions": {
+          "planner_status": "REPAIRED",
+          "information_requirements_count": 2,
+          "queries_executed": 6,
+          "exa_calls_executed": 2,
+          "collection_status": "PARTIAL_SUCCESS",
+          "fallback_used": false,
+          "agent_rationale": "Initial Exa searches successfully identified a major milestone: EASA pilots conducted test flights in Shanghai in January 2026. Secondary reports indicate a 3-6 year timeline for full certification and suggest 'no major hardware safety issues' as of July 2026. However, primary regulatory databases (EASA/FAA) and corporate filings did not yield the specific project ID or detailed CRI documents, which are often restricted during active validation. All allowed platforms were queried, and the budget for Exa and regulatory tools was utilized to maximize signal."
+        },
+        "outputs": {
+          "documents_collected": 14,
+          "primary_documents": 1,
+          "secondary_documents": 13,
+          "sources_used": [
+            "Exa Semantic Search",
+            "News API"
+          ],
+          "unresolved_requirements": [
+            "Official EASA project tracking ID.",
+            "Specific EASA Certification Review Items (CRIs) or documented deviations from CS-25 standards.",
+            "Confirmed technical validation timeline beyond the '3 to 6 years' estimate."
+          ]
+        },
+        "duration_sec": 88.8
+      },
+      {
+        "agent_index": 2,
+        "agent_role": "Risk Analyst Agent",
+        "inputs": {
+          "fr03_accepted_documents": 7,
+          "fr03_rejected_documents": 7,
+          "batches_created": 4
+        },
+        "decisions": {
+          "batches_succeeded": 4,
+          "batches_failed": 0,
+          "documents_failed": 0,
+          "candidate_schema_rejections": 0,
+          "deterministic_scoring_status": "COMPLETED",
+          "scoring_method": "DETERMINISTIC_5_FACTOR_IW"
+        },
+        "outputs": {
+          "direct_candidate_events": 4,
+          "watchlist_events": 0,
+          "event_ids": [
+            "C919-EASA-VALIDATION-2026-001",
+            "EASA-COMAC-C919-FLIGHT-TEST-2026-01-16",
+            "COMAC-EASA-C919-CERT-2026-001",
+            "EASA-C919-CERT-2026-04-13"
+          ]
+        },
+        "duration_sec": 78.4
+      },
+      {
+        "agent_index": 3,
+        "agent_role": "Quality Assurance Agent",
+        "inputs": {
+          "qa_enabled": true,
+          "harness_enabled": true,
+          "candidates_reviewed": 4
+        },
+        "decisions": {
+          "qa_performed": true,
+          "qa_failed": false,
+          "harness_performed": true,
+          "validation_errors": 0
+        },
+        "outputs": {
+          "supported_direct_events": 0,
+          "confirmed_critical_events": 0,
+          "unverified_signals": 0,
+          "kiq_completion_status": "NOT_ANSWERED"
+        },
+        "duration_sec": 25.46
+      },
+      {
+        "agent_index": 4,
+        "agent_role": "EWS Editor Agent",
+        "inputs": {
+          "event_briefs_supplied": 4,
+          "verbatim_citations_supplied": 0,
+          "runtime_kiq_count": 2
+        },
+        "decisions": {
+          "editor_failed": false,
+          "editor_validation_status": "PASS",
+          "executive_summary_mode": "VALIDATED_EDITOR",
+          "detailed_assessment_mode": "VALIDATED_EDITOR",
+          "actions_parsed": 2,
+          "action_fallbacks": 1
+        },
+        "outputs": {
+          "action_plan_count": 2,
+          "executive_summary_words": 172,
+          "detailed_assessment_words": 302
+        },
+        "duration_sec": 6.8
+      }
+    ],
+    "ai_governance": {
+      "regulatory_reference": "Regulation (EU) 2024/1689, as amended",
+      "assessment_timestamp_utc": "2026-11-25T14:36:02.810524+00:00",
+      "intended_purpose": "Competitive Intelligence decision support using publicly available aerospace information.",
+      "prohibited_uses": [
+        "Autonomous aircraft operation",
+        "Autonomous safety-critical decisions",
+        "Automated regulatory certification",
+        "Unreviewed operational interventions"
+      ],
+      "ai_system_provider": "Externally hosted LLM provider",
+      "model_identifier": "openrouter/google/gemini-3-flash-preview",
+      "run_id": "RUN-20261125-143221-B9D68F45FE3B",
+      "risk_classification": "REQUIRES_LEGAL_ASSESSMENT",
+      "legal_compliance_status": "NOT_CERTIFIED",
+      "ai_generated_content": true,
+      "human_oversight_available": true,
+      "human_review_status": "WAITING_FOR_HITL",
+      "controls": {
+        "source_traceability": true,
+        "independent_qa": true,
+        "deterministic_validation": true,
+        "human_review_gate": true,
+        "critical_alert_requires_verified_evidence": true,
+        "model_and_run_logging": true
+      },
+      "legal_review_items": {
+        "article_4_ai_literacy": "ORGANIZATIONAL_REVIEW_REQUIRED",
+        "article_50_transparency": "APPLICABILITY_REVIEW_REQUIRED",
+        "article_6_high_risk_classification": "LEGAL_REVIEW_REQUIRED",
+        "personal_data_processing": "GDPR_REVIEW_REQUIRED",
+        "copyright_and_tdm": "SOURCE_SPECIFIC_REVIEW_REQUIRED"
+      },
+      "limitations": "These records document implemented safeguards. They are not a legal conformity assessment, certification or proof of compliance."
+    }
+  },
+  "comparison_summary": {
+    "has_comparable_run": false,
+    "previous_run_id": null,
+    "note": "No previous run with identical KIT and time scope; baseline established.",
+    "delta_critical": 0,
+    "delta_elevated": 0,
+    "delta_monitored": 0,
+    "new_events": 4,
+    "continuing_events": 0,
+    "not_redetected_events": 0,
+    "resolved_events": 0,
+    "unknown_status_events": 0,
+    "reclassified_to_watchlist": 0,
+    "methodology_changed": false
+  },
+  "connector_status": {
+    "Exa Semantic Search": {
+      "connector_name": "Exa Semantic Search",
+      "source_id": "SRC_EXA",
+      "technical_source": "api.exa.ai",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "EASA type certification progress COMAC C919 technical validation phase timeline 2025 2026",
+        "EASA Certification Review Items CRI COMAC C919 CS-25 compliance gaps special conditions"
+      ],
+      "found_count": 12,
+      "accepted_count": 10,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 2,
+      "http_status_counts": {
+        "200": 2
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [
+        "exa_type=auto; duplicates_skipped=0; include_domains=ALL",
+        "exa_type=auto; duplicates_skipped=2; include_domains=ALL"
+      ],
+      "time_window": {
+        "from": "2025-11-25T14:32:21Z",
+        "to": "2026-11-25T14:32:21Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T14:32:30Z",
+      "successful_responses": 2,
+      "collected_document_count": 10,
+      "content_availability_counts": {
+        "FULL_TEXT": 10
+      },
+      "observed_publication_from": "2026-01-15",
+      "observed_publication_to": "2026-08-19"
+    },
+    "FAA Federal Register": {
+      "connector_name": "FAA Federal Register",
+      "source_id": "SRC_001",
+      "technical_source": "federalregister.gov",
+      "origin_type": "PRIMARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "EASA COMAC C919 type certification project ID validation timeline",
+        "EASA COMAC C919 Certification Review Items CRI CS-25 special conditions"
+      ],
+      "found_count": 0,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 4,
+      "http_status_counts": {
+        "200": 2
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "NO_MATCH",
+      "errors": [],
+      "coverage_advisories": [
+        "NO_RESULTS; api_declared=0; retrieved=0"
+      ],
+      "time_window": {
+        "from": "2025-11-25T14:32:21Z",
+        "to": "2026-11-25T14:32:21Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T14:32:34Z",
+      "diagnostics": {
+        "page_audits": [
+          {
+            "status": "NO_RESULTS",
+            "declared_count": 0,
+            "processed_count": 0,
+            "access_restricted": false,
+            "pages": 1,
+            "page_size": 15,
+            "pagination_complete": true,
+            "last_error": "",
+            "attempts": [
+              {
+                "page": 1,
+                "requested_page_size": 15,
+                "max_bytes": 600000,
+                "http_status": 200,
+                "content_type": "application/json; charset=utf-8",
+                "content_length": "154",
+                "received_bytes": 156,
+                "http_attempts": 1,
+                "requested_fields": [
+                  "document_number",
+                  "docket_id",
+                  "docket_ids",
+                  "title",
+                  "abstract",
+                  "action",
+                  "type",
+                  "html_url",
+                  "raw_text_url",
+                  "publication_date",
+                  "effective_on"
+                ],
+                "actual_results_count": 0,
+                "pagination_honored": true,
+                "error_code": null,
+                "response_classification": "VALID_SEARCH_RESPONSE",
+                "response_schema": {
+                  "keys": [
+                    "count",
+                    "description"
+                  ],
+                  "types": {
+                    "description": "str",
+                    "count": "int"
+                  },
+                  "api_error_code": "",
+                  "declared_count": 0,
+                  "results_present": false,
+                  "results_type": "NoneType",
+                  "empty_results_normalized": true
+                },
+                "query_variant": "ORIGINAL"
+              }
+            ],
+            "request_calls": 1,
+            "retry_suppressed": false,
+            "search_variants": [
+              "ORIGINAL"
+            ],
+            "repair_used": false
+          }
+        ]
+      },
+      "diagnostics_history": [
+        {
+          "query": "EASA COMAC C919 type certification project ID validation timeline",
+          "page_audits": [
+            {
+              "status": "NO_RESULTS",
+              "declared_count": 0,
+              "processed_count": 0,
+              "access_restricted": false,
+              "pages": 1,
+              "page_size": 15,
+              "pagination_complete": true,
+              "last_error": "",
+              "attempts": [
+                {
+                  "page": 1,
+                  "requested_page_size": 15,
+                  "max_bytes": 600000,
+                  "http_status": 200,
+                  "content_type": "application/json; charset=utf-8",
+                  "content_length": "151",
+                  "received_bytes": 150,
+                  "http_attempts": 1,
+                  "requested_fields": [
+                    "document_number",
+                    "docket_id",
+                    "docket_ids",
+                    "title",
+                    "abstract",
+                    "action",
+                    "type",
+                    "html_url",
+                    "raw_text_url",
+                    "publication_date",
+                    "effective_on"
+                  ],
+                  "actual_results_count": 0,
+                  "pagination_honored": true,
+                  "error_code": null,
+                  "response_classification": "VALID_SEARCH_RESPONSE",
+                  "response_schema": {
+                    "keys": [
+                      "count",
+                      "description"
+                    ],
+                    "types": {
+                      "description": "str",
+                      "count": "int"
+                    },
+                    "api_error_code": "",
+                    "declared_count": 0,
+                    "results_present": false,
+                    "results_type": "NoneType",
+                    "empty_results_normalized": true
+                  },
+                  "query_variant": "ORIGINAL"
+                }
+              ],
+              "request_calls": 1,
+              "retry_suppressed": false,
+              "search_variants": [
+                "ORIGINAL"
+              ],
+              "repair_used": false
+            }
+          ]
+        },
+        {
+          "query": "EASA COMAC C919 Certification Review Items CRI CS-25 special conditions",
+          "page_audits": [
+            {
+              "status": "NO_RESULTS",
+              "declared_count": 0,
+              "processed_count": 0,
+              "access_restricted": false,
+              "pages": 1,
+              "page_size": 15,
+              "pagination_complete": true,
+              "last_error": "",
+              "attempts": [
+                {
+                  "page": 1,
+                  "requested_page_size": 15,
+                  "max_bytes": 600000,
+                  "http_status": 200,
+                  "content_type": "application/json; charset=utf-8",
+                  "content_length": "154",
+                  "received_bytes": 156,
+                  "http_attempts": 1,
+                  "requested_fields": [
+                    "document_number",
+                    "docket_id",
+                    "docket_ids",
+                    "title",
+                    "abstract",
+                    "action",
+                    "type",
+                    "html_url",
+                    "raw_text_url",
+                    "publication_date",
+                    "effective_on"
+                  ],
+                  "actual_results_count": 0,
+                  "pagination_honored": true,
+                  "error_code": null,
+                  "response_classification": "VALID_SEARCH_RESPONSE",
+                  "response_schema": {
+                    "keys": [
+                      "count",
+                      "description"
+                    ],
+                    "types": {
+                      "description": "str",
+                      "count": "int"
+                    },
+                    "api_error_code": "",
+                    "declared_count": 0,
+                    "results_present": false,
+                    "results_type": "NoneType",
+                    "empty_results_normalized": true
+                  },
+                  "query_variant": "ORIGINAL"
+                }
+              ],
+              "request_calls": 1,
+              "retry_suppressed": false,
+              "search_variants": [
+                "ORIGINAL"
+              ],
+              "repair_used": false
+            }
+          ]
+        }
+      ],
+      "successful_responses": 2
+    },
+    "EASA Official Index": {
+      "connector_name": "EASA Official Index",
+      "source_id": "SRC_002",
+      "technical_source": "easa.europa.eu",
+      "origin_type": "PRIMARY_OFFICIAL_INDEX_METADATA",
+      "legal_status": "REQUIRES_REVIEW",
+      "queries": [
+        "EASA COMAC C919 type certification project ID validation timeline",
+        "EASA COMAC C919 Certification Review Items CRI CS-25 special conditions"
+      ],
+      "found_count": 492,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 40,
+      "http_status_counts": {
+        "200": 40
+      },
+      "content_status_counts": {},
+      "operational_status": "PARTIAL_COVERAGE",
+      "last_search_outcome": "PARTIAL_RESULT",
+      "errors": [],
+      "coverage_advisories": [
+        "PAGINATION_BUDGET_REACHED:pages=20; PARTIAL_COVERAGE:oldest_scanned=2026-02-02"
+      ],
+      "time_window": {
+        "from": "2025-11-25T14:32:21Z",
+        "to": "2026-11-25T14:32:21Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T14:33:33Z",
+      "successful_responses": 40
+    },
+    "Official Industry PR": {
+      "connector_name": "Official Industry PR",
+      "source_id": "",
+      "technical_source": "unknown",
+      "origin_type": "UNKNOWN",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "COMAC C919 EASA certification progress update 2026"
+      ],
+      "found_count": 0,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 0,
+      "http_status_counts": {},
+      "content_status_counts": {},
+      "operational_status": "SOURCE_NOT_CONFIGURED",
+      "last_search_outcome": "NOT_EXECUTED",
+      "errors": [],
+      "coverage_advisories": [
+        "NO_APPROVED_MANUFACTURER_CONNECTOR"
+      ],
+      "time_window": {
+        "from": "2025-11-25T14:32:21Z",
+        "to": "2026-11-25T14:32:21Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T14:33:35Z"
+    },
+    "XBRL International ESEF Filing Index": {
+      "connector_name": "XBRL International ESEF Filing Index",
+      "source_id": "SRC_031",
+      "technical_source": "filings.xbrl.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "COMAC C919 EASA certification progress update 2026"
+      ],
+      "found_count": 0,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 0,
+      "http_status_counts": {},
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "NO_MATCH",
+      "errors": [],
+      "coverage_advisories": [],
+      "time_window": {
+        "from": "2025-11-25T14:32:21Z",
+        "to": "2026-11-25T14:32:21Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T14:33:35Z"
+    },
+    "News API": {
+      "connector_name": "News API",
+      "source_id": "SRC_004",
+      "technical_source": "newsapi.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "COMAC C919 EASA certification status 2026"
+      ],
+      "found_count": 4,
+      "accepted_count": 4,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 10,
+      "http_status_counts": {
+        "200": 10
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [
+        "STAGES=EXACT,ALTERNATIVE,ALIASES,STATUS_CHANGE; NEWSAPI_COVERAGE=PARTIAL_WINDOW; requested_days=365.0; searchable_days=29.0; archive_limit_days=29; SEARCH_STATUS=RESULTS_RETRIEVED"
+      ],
+      "time_window": {
+        "from": "2025-11-25T14:32:21Z",
+        "to": "2026-11-25T14:32:21Z",
+        "scope": "365d",
+        "requested_from": "2025-11-25",
+        "requested_to": "2026-11-25",
+        "searchable_from": "2026-10-27T14:33:35.629723+00:00",
+        "searchable_to": "2026-11-25T14:33:35.597727+00:00",
+        "actual_from": "2026-10-27",
+        "actual_to": "2026-11-25",
+        "actual_window_basis": "CONFIGURED_SEARCH_WINDOW_NOT_RETRIEVAL_VERIFIED",
+        "actual_searchable_days": 29.0,
+        "requested_horizon_days": 365.0,
+        "provider_archive_limit_days": 29,
+        "provider_limit_basis": "CONFIGURED_PLAN_WINDOW_NOT_API_VERIFIED",
+        "coverage_status": "PARTIAL_WINDOW",
+        "source_coverage": "PARTIAL",
+        "coverage_complete": false,
+        "date_basis": "PUBLICATION_DATE",
+        "event_date_coverage": "NOT_ESTABLISHED",
+        "observed_publication_from": "2026-11-05",
+        "observed_publication_to": "2026-11-17",
+        "observed_document_count": 4
+      },
+      "last_updated": "2026-11-25T14:33:47Z",
+      "successful_responses": 10,
+      "collected_document_count": 4,
+      "content_availability_counts": {
+        "PARTIAL_TEXT": 2,
+        "METADATA_ONLY": 2
+      },
+      "observed_publication_from": "2026-11-05",
+      "observed_publication_to": "2026-11-17"
+    }
+  }
+}

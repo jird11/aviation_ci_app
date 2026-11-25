@@ -1,0 +1,3944 @@
+{
+  "report_id": "RPT-20261125-446B2D",
+  "run_id": "RUN-20261125-142639-7FCC8F6019D7",
+  "version": 1,
+  "outcome_status": "COMPLETED",
+  "executive_summary": "This assessment reviews the certification status of the Boeing 737-7 and 737-10 variants based on issuer filings and media reports dated between April and October 2026. The search scope included SEC regulatory filings and secondary media reports. Evidence indicates that Boeing has claimed the achievement of key regulatory milestones for both aircraft. Specifically, Boeing reported the certification of the 737-7 and its engine anti-ice (EAI) solution during the third quarter of 2026 [DOC_011]. Further reports and company statements indicate the 737-10 received its certification on October 20, 2026 [DOC_010], [DOC_008]. While these issuer and media assertions are consistent, the file lacks direct, independent confirmation from the Federal Aviation Administration (FAA). Analytical interpretation suggests that while the regulatory \"paper\" milestone is likely complete according to the manufacturer, the transition to delivery readiness remains subject to production stability. Management should prioritize verifying the FAA’s official registry status and monitoring for any post-certification EAI exemption conditions that could impact long-term operational flexibility.",
+  "detailed_analytical_assessment": "The certification trajectory for the 737 MAX 7 and MAX 10 has shifted from a state of forward-looking risk to reported completion. In July 2026, Boeing’s internal risk assessments highlighted that \"delays to entry into service\" for these models remained a factor that could lead to \"reductions to backlog and/or significant order cancellations\" [DOC_014]. However, by October 2026, the company’s reporting transitioned to active status updates. An official filing on October 27, 2026, explicitly stated, \"In the third quarter of 2026, we achieved certification of the 737-7 and the engine anti-ice solution\" [DOC_011]. This was complemented by a October 20, 2026, press release announcing that the 737-10 had joined the 737-7, 737-8, and 737-9 as a certified variant [DOC_010]. Secondary media coverage corroborated these dates, specifically citing August 3, 2026, for the MAX 7 and October 20, 2026, for the MAX 10 [DOC_008].\n\nDespite these positive milestones, the evidence contains critical gaps regarding the \"finalized\" status of technical sub-systems, such as the enhanced angle of attack sensor system for the MAX 10 [DOC_014]. Furthermore, while the certification of the engine anti-ice solution is noted [DOC_011], the specific details regarding any post-certification exemptions or required retrofits are not detailed in the available text. The primary analytical takeaway is that the regulatory hurdle for entry-into-service (EIS) has been cleared according to the issuer, but the \"financial position, results of operations and cash flows\" remain sensitive to Boeing's ability to \"increase production rates\" [DOC_014]. Certification is a necessary but not sufficient condition for clearing the delivery backlog.\n\nManagement should treat the certification as a confirmed issuer claim while maintaining a \"Partially Answered\" status for the KIT until the FAA provides independent verification. The focus must now move from regulatory approval to production ramp-up and the resolution of any remaining technical provisos mentioned in the certification basis.",
+  "qa_audit_summary": "Editor text converted into typed recommendations; independent evidence QA remains authoritative. | Five-Dimensional Grounding (Technical, Claim, Causal, Independent Verification, Freshness) completed. | [Harness Guard]: 2/2 direct signals SUPPORTED, 0 PARTIALLY_SUPPORTED, 0 classified as ONGOING_ISSUE, 1 moved to RELATED_PROGRAM_WATCHLIST, 2 flagged for manual HITL verification. | Evidence disposition (not a filtering verdict): DOC_001=USED_IN_KIQ_ANSWER; DOC_002=USED_IN_KIQ_ANSWER; DOC_006=REFERENCED_BY_EVENT_NOT_KIQ; DOC_007=REFERENCED_BY_EVENT_NOT_KIQ; DOC_008=REFERENCED_BY_EVENT_NOT_KIQ; DOC_010=REFERENCED_BY_EVENT_NOT_KIQ; DOC_011=USED_IN_KIQ_ANSWER; DOC_014=USED_IN_KIQ_ANSWER | KIT_COMPLETION: NOT_ANSWERED; 1 of 1 information requirements remain unverified. | [Telemetry]: Run: RUN-20261125-142639-7FCC8F6019D7 | CollectionMode: agentic_exa | Runtime: 148.46s (Plan: 4.73s, Collect: 26.62s, Filter: 20.4s, Analyze: 54.01s, QA: 32.46s, Edit: 9.93s, Score: 0.0s) | Batches: 3/3 OK (0 failed) | Docs: 8/16 analyzed (0 failed) | LLM Calls: 10 (Retries: 0) | Model: openrouter/google/gemini-3-flash-preview | Estimated LLM Cost: $0.10773 (ESTIMATED)",
+  "hitl_status": "WAITING_FOR_HITL",
+  "threats": [
+    {
+      "event_id": "EVT_737_MAX7_CERT_2026_08_03",
+      "kiq_ids": [
+        "KIQ_3_1",
+        "RKIQ_001"
+      ],
+      "indicator_name": "FAA Amended Type Certificate issuance",
+      "company_affected": "Boeing",
+      "ci_dimension": "Strategic CI",
+      "risk_type": "REGULATORY",
+      "secondary_risk_types": [
+        "SUPPLY_CHAIN"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "737_MAX",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [
+        "737 MAX",
+        "737 NG",
+        "777X",
+        "777",
+        "787",
+        "787 Dreamliner",
+        "767",
+        "747-8",
+        "KC-46",
+        "P-8"
+      ],
+      "supplier_registry_basis": "Company: The Boeing Company -> Role: OEM (Final Assembler) (Registry Source: Boeing SEC Form 10-K) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: 737_MAX",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] The Boeing Company -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] 737_MAX",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] 737 MAX, 737 NG, 777X",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "The FAA has officially certified the Boeing 737 MAX-7, resolving long-standing regulatory hurdles and authorizing the commencement of production for this variant.",
+      "decision_question": "Should Boeing's production schedule be adjusted to prioritize MAX-7 deliveries following FAA authorization to begin production?",
+      "confirmed_facts": "the FAA has issued an amended type certificate and updated Production Limitation Record for the Boeing 737 MAX-7",
+      "analytical_interpretation": "The issuance of the amended type certificate resolves the primary regulatory hurdle for the MAX-7, shifting the risk from certification to production ramp-up.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting The Boeing Company (OEM (Final Assembler)) on source-evidenced program 737_MAX. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: 737 MAX, 737 NG, 777X)",
+      "fact_check_quote": "the FAA has issued an amended type certificate and updated Production Limitation Record for the Boeing 737 MAX-7",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_001",
+          "source_url": "https://www.faa.gov/newsroom/faa-statement-certification-boeing-737-max-7",
+          "source_type": "UNDETERMINED",
+          "passage_text": "Following almost a decade of extensive review, the FAA has issued an amended type certificate and updated Production Limitation Record for the Boeing 737 MAX-7.",
+          "passage_hash": "e72cd01216e940a3d24b167d5486189491534d3cdada76a383327e6cfe7d9b53",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "The FAA has issued an amended type certificate for the Boeing 737 MAX-7.",
+          "document_id": "DOC_001",
+          "quote": "the FAA has issued an amended type certificate and updated Production Limitation Record for the Boeing 737 MAX-7",
+          "source_url": "https://www.faa.gov/newsroom/faa-statement-certification-boeing-737-max-7",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "REGULATOR_OFFICIAL_DECISION",
+          "entity": "FAA",
+          "program": "Boeing 737 MAX-7",
+          "component": "Unknown / Not specified in source",
+          "issue": "Certification milestone",
+          "regulatory_authority": "FAA",
+          "publication_date": "2026-08-03",
+          "event_date": "2026-08-03",
+          "cause": "years of sustained work to resolve complex technical issues",
+          "effect": "authorizes Boeing to begin production of the aircraft",
+          "status_before": "Under review / Not certified",
+          "status_after": "Certified",
+          "resolution_outcome": "Amended Type Certificate issued",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "The FAA required key design improvements including a redesigned engine anti-ice system.",
+          "document_id": "DOC_001",
+          "quote": "Before granting approval, the FAA required the MAX-7 to incorporate key improvements ... including ... a redesigned engine anti-ice system.",
+          "source_url": "https://www.faa.gov/newsroom/faa-statement-certification-boeing-737-max-7",
+          "claim_type": "CAUSE",
+          "evidence_authority": "REGULATOR_OFFICIAL_DECISION",
+          "entity": "FAA",
+          "program": "Boeing 737 MAX-7",
+          "component": "engine anti-ice system",
+          "issue": "Safety requirements",
+          "regulatory_authority": "FAA",
+          "publication_date": "2026-08-03",
+          "event_date": "2026-08-03",
+          "cause": "Aircraft Certification, Safety, and Accountability Act and NTSB recommendations",
+          "effect": "granting approval",
+          "status_before": "Non-compliant/Under Review",
+          "status_after": "Compliant",
+          "resolution_outcome": "Improvements incorporated",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_001"
+      ],
+      "source_urls": [
+        "https://www.faa.gov/newsroom/faa-statement-certification-boeing-737-max-7"
+      ],
+      "verification_status": "Verified Primary Source (HISTORICAL_CONTEXT | 5-Step Grounding PASS) [Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified. | Source published 114 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source)]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "SINGLE_PRIMARY_SOURCE",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "SINGLE_PRIMARY_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "737_MAX",
+        "Hypothetical Shared Dependencies": "737 MAX, 737 NG, 777X, 777, 787, 787 Dreamliner, 767, 747-8, KC-46, P-8",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "REGULATOR_OFFICIAL_WEB",
+        "Claim Authority": "REGULATOR_OFFICIAL_PUBLICATION",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=POSITIVE, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=POSITIVE, AUTHORITY=POSITIVE, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-08-03",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Regulatory Stage": "UNKNOWN",
+        "Severity": "6/10 (potential impact, not verification)",
+        "Confidence": "HIGH",
+        "Verification": "SUPPORTED",
+        "Current Status": "ELEVATED_RISK",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-08-03",
+      "first_seen_at": "2026-11-25T14:29:08Z",
+      "last_seen_at": "2026-11-25T14:29:08Z",
+      "updated_at": "2026-11-25T14:29:08Z",
+      "event_status": "ELEVATED_RISK",
+      "evidence_citation": "https://www.faa.gov/newsroom/faa-statement-certification-boeing-737-max-7",
+      "missing_data": "Verification required: Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified.; Source published 114 days before reference date; historical source alone does not prove a new event or current disruption.",
+      "intelligence_gap": {
+        "gap_id": "GAP_MAX10_STATUS",
+        "what_is_missing": "Specific current status of the MAX-10 variant post-August 2026.",
+        "why_important": "To confirm if MAX-10 remains on track for the projected 2026 certification.",
+        "affected_kiq_id": "KIQ_3_1",
+        "recommended_source": "FAA Official PR",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "The completion of MAX 7 certification enables Boeing to shift engineering focus to the MAX 10; however, any remaining technical hurdles on the MAX 10 variant could still delay the overall narrowbody portfolio entry-into-service targets.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 2,
+          "rationale": "Certification is a critical milestone for program viability."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Boeing is the sole OEM for the 737 MAX program."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "The FAA is the sole regulator for this type certificate."
+        },
+        "propagation_scope": {
+          "score": 2,
+          "rationale": "Variant-specific approval, though impacts OEM portfolio."
+        },
+        "temporal_urgency": {
+          "score": 1,
+          "rationale": "Milestone reached; shift to production is immediate."
+        }
+      },
+      "threat_score": 6,
+      "score_rationale": "Potential severity: ELEVATED (6/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "HIGH",
+      "urgency": "MEDIUM",
+      "escalation_level": "ROUTINE_MONITORING",
+      "is_critical": false
+    },
+    {
+      "event_id": "EVT_737_MAX10_CERT_TRACK_2026_04_21",
+      "kiq_ids": [
+        "RKIQ_001"
+      ],
+      "indicator_name": "FAA Administrator certification guidance",
+      "company_affected": "Boeing",
+      "ci_dimension": "Tactical CI",
+      "risk_type": "REGULATORY",
+      "secondary_risk_types": [
+        "COMPETITIVE",
+        "FINANCIAL"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "737_MAX",
+      "program_relevance": "RELATED_CONTEXT",
+      "hypothetical_dependencies": [
+        "737 MAX",
+        "737 NG",
+        "777X",
+        "777",
+        "787",
+        "787 Dreamliner",
+        "767",
+        "747-8",
+        "KC-46",
+        "P-8"
+      ],
+      "supplier_registry_basis": "Company: The Boeing Company -> Role: OEM (Final Assembler) (Registry Source: Boeing SEC Form 10-K) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: 737_MAX",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] The Boeing Company -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] 737_MAX",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] 737 MAX, 737 NG, 777X",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "As of April 2026, the FAA indicated that the 737 MAX 10 remained on track for certification by the end of 2026, though formal approval is still pending.",
+      "decision_question": "What is the current status of MAX 10 flight testing as of Q4 2026?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "While the FAA head expressed optimism in April 2026, the status remains unconfirmed by a formal decision for the MAX 10, unlike the MAX 7.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting The Boeing Company (OEM (Final Assembler)) on source-evidenced program 737_MAX. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: 737 MAX, 737 NG, 777X)",
+      "fact_check_quote": "regulator currently hasn’t identified issues that would delay certification of Boeing Co.’s new 737 Max 7 and 10 variants beyond 2026.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_006",
+          "source_url": "https://www.bloomberg.com/news/articles/2026-04-21/boeing-737-max-7-10-models-on-track-for-2026-certification-faa",
+          "source_type": "UNDETERMINED",
+          "passage_text": "The head of the US Federal Aviation Administration said the regulator currently hasn’t identified issues that would delay certification of Boeing Co.’s new 737 Max 7 and 10 variants beyond 2026.",
+          "passage_hash": "4636ec5a704481950cc571356454621e9754faeebcc29290dd7318d71a97b082",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Boeing 737 MAX 10 is on track for certification before the end of 2026.",
+          "document_id": "DOC_006",
+          "quote": "The head of the US Federal Aviation Administration said the regulator currently hasn’t identified issues that would delay certification of Boeing Co.’s new 737 Max 7 and 10 variants beyond 2026.",
+          "source_url": "https://www.bloomberg.com/news/articles/2026-04-21/boeing-737-max-7-10-models-on-track-for-2026-certification-faa",
+          "claim_type": "FORECAST",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "FAA",
+          "program": "Boeing 737 MAX 10",
+          "component": "Unknown / Not specified in source",
+          "issue": "Certification timeline",
+          "regulatory_authority": "FAA",
+          "publication_date": "2026-04-21",
+          "event_date": "2026-12-31",
+          "cause": "Current regulatory findings as of April 2026",
+          "effect": "Unknown / Not specified in source",
+          "status_before": "Under Review",
+          "status_after": "Certified (Projected)",
+          "resolution_outcome": "Unknown / Not specified in source",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_006"
+      ],
+      "source_urls": [
+        "https://www.bloomberg.com/news/articles/2026-04-21/boeing-737-max-7-10-models-on-track-for-2026-certification-faa"
+      ],
+      "verification_status": "PARTIALLY SUPPORTED (HISTORICAL_CONTEXT | Manual Review Required) [Source states only part of the claim details | Source published 218 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source) | KIT_FACT_GAP: STATUS=UNKNOWN, AUTHORITY=UNKNOWN | REGULATORY_AUTHORITY_NOT_VERIFIED: issuer or media statements do not establish an agency decision]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "PARTIALLY_STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "UNVERIFIED_SINGLE_SOURCE",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "PARTIALLY_STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "UNVERIFIED_SINGLE_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "RELATED_CONTEXT",
+        "Source-Evidenced Program": "737_MAX",
+        "Hypothetical Shared Dependencies": "737 MAX, 737 NG, 777X, 777, 787, 787 Dreamliner, 767, 747-8, KC-46, P-8",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=POSITIVE, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=UNKNOWN, AUTHORITY=UNKNOWN, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-04-21",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Regulatory Stage": "UNKNOWN",
+        "Severity": "8/10 (potential impact, not verification)",
+        "Confidence": "LOW",
+        "Verification": "PARTIALLY_SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "CURRENT_STATUS_UNKNOWN",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-04-21",
+      "first_seen_at": "2026-11-25T14:29:08Z",
+      "last_seen_at": "2026-11-25T14:29:08Z",
+      "updated_at": "2026-11-25T14:29:08Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://www.bloomberg.com/news/articles/2026-04-21/boeing-737-max-7-10-models-on-track-for-2026-certification-faa",
+      "missing_data": "Verification required: Source states only part of the claim details; Source published 218 days before reference date; historical source alone does not prove a new event or current disruption.",
+      "intelligence_gap": {
+        "gap_id": "GAP_MAX10_TIMELINE_UPDATE",
+        "what_is_missing": "Verification of whether the 2026 target for MAX 10 remains valid after the MAX 7 certification in August.",
+        "why_important": "To assess ongoing delivery risk for the largest MAX variant.",
+        "affected_kiq_id": "KIQ_3_1",
+        "recommended_source": "FAA / Boeing Official Statement post-Aug 2026",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Persistent technical scrutiny or new findings during the final testing phase of the MAX 10 could delay certification into 2027, impacting Boeing's narrowbody delivery schedule.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 3,
+          "rationale": "Delays in the MAX 10 impact Boeing's competitive position in the large narrowbody segment."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Boeing is the sole OEM."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "Regulator is the sole authority for certification."
+        },
+        "propagation_scope": {
+          "score": 3,
+          "rationale": "Specific to the MAX 10 variant; high customer interest."
+        },
+        "temporal_urgency": {
+          "score": 4,
+          "rationale": "Target date of end-of-2026 is approaching."
+        }
+      },
+      "threat_score": 8,
+      "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (8/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+      "confidence_level": "LOW",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    },
+    {
+      "event_id": "BA-737-7-CERT-2026",
+      "kiq_ids": [
+        "KIQ_3_1",
+        "RKIQ_001"
+      ],
+      "indicator_name": "Regulatory Milestone Achievement",
+      "company_affected": "Boeing",
+      "ci_dimension": "Technological CI",
+      "risk_type": "REGULATORY",
+      "secondary_risk_types": [
+        "TECHNICAL_QUALITY"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "engine anti-ice solution",
+      "affected_program": "737_MAX",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [
+        "737 MAX",
+        "737 NG",
+        "777X",
+        "777",
+        "787",
+        "787 Dreamliner",
+        "767",
+        "747-8",
+        "KC-46",
+        "P-8"
+      ],
+      "supplier_registry_basis": "Company: The Boeing Company -> Role: OEM (Final Assembler) (Registry Source: Boeing SEC Form 10-K) || Source-Evidenced Component: engine anti-ice solution || Source-Evidenced Program: 737_MAX",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] The Boeing Company -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] engine anti-ice solution",
+        "[Source-Evidenced Program] 737_MAX",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] 737 MAX, 737 NG, 777X",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Boeing reports the 737-7 achieved FAA certification in Q3 2026 following the resolution of engine anti-ice system defects. Certification for the larger 737-10 remains ongoing as of late 2026.",
+      "decision_question": "Should management treat the 737-7 regulatory path as closed and shift focus to the MAX 10's remaining FAA requirements?",
+      "confirmed_facts": "In the third quarter of 2026, we achieved certification of the 737-7 and the engine anti-ice solution.",
+      "analytical_interpretation": "Boeing reports achieving 737-7 certification in Q3 2026, marking the resolution of the engine anti-ice design defect for this variant. This transition from a forecast to a reported historical event suggests the MAX 7 has cleared its primary regulatory hurdle.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting The Boeing Company (OEM (Final Assembler)) on source-evidenced program 737_MAX. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: 737 MAX, 737 NG, 777X)",
+      "fact_check_quote": "In the third quarter of 2026, we achieved certification of the 737-7 and the engine anti-ice solution.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_011",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026067508/ba-20260930.htm",
+          "source_type": "UNDETERMINED",
+          "passage_text": "In the third quarter of 2026, we achieved certification of the 737-7 and the engine anti-ice solution.",
+          "passage_hash": "c4f4f69346917c5f308ecba193ce90c6b9396ba93c64acc553fca9f3b0032032",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Boeing achieved certification of the 737-7 and the engine anti-ice solution in Q3 2026.",
+          "document_id": "DOC_011",
+          "quote": "In the third quarter of 2026, we achieved certification of the 737-7 and the engine anti-ice solution.",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026067508/ba-20260930.htm",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "ISSUER_OFFICIAL_STATEMENT",
+          "entity": "Boeing",
+          "program": "737-7",
+          "component": "engine anti-ice solution",
+          "issue": "Certification milestone",
+          "regulatory_authority": "FAA",
+          "publication_date": "2026-10-27",
+          "event_date": "2026-09-30",
+          "cause": "engine anti-ice solution resolution",
+          "effect": "Regulatory approval for flight operations",
+          "status_before": "In-process / Delayed",
+          "status_after": "Certified",
+          "resolution_outcome": "Certification achieved",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_011"
+      ],
+      "source_urls": [
+        "https://www.sec.gov/Archives/edgar/data/12927/000162828026067508/ba-20260930.htm"
+      ],
+      "verification_status": "Verified Issuer Filing Statement (EVENT_DATE_UNKNOWN) [Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified. | KIT_FACT_GAP: AUTHORITY=UNKNOWN | REGULATORY_AUTHORITY_NOT_VERIFIED: issuer or media statements do not establish an agency decision]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "SINGLE_PRIMARY_SOURCE",
+      "event_freshness": "EVENT_DATE_UNKNOWN",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "SINGLE_PRIMARY_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "EVENT_DATE_UNKNOWN",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "737_MAX",
+        "Hypothetical Shared Dependencies": "737 MAX, 737 NG, 777X, 777, 787, 787 Dreamliner, 767, 747-8, KC-46, P-8",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "SEC_EDGAR",
+        "Claim Authority": "ISSUER_REPORTED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=POSITIVE, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=POSITIVE, AUTHORITY=UNKNOWN, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-10-27",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Regulatory Stage": "UNKNOWN",
+        "Severity": "6/10 (potential impact, not verification)",
+        "Confidence": "HIGH",
+        "Verification": "SUPPORTED",
+        "Current Status": "ELEVATED_RISK",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-10-27",
+      "first_seen_at": "2026-11-25T14:29:08Z",
+      "last_seen_at": "2026-11-25T14:29:08Z",
+      "updated_at": "2026-11-25T14:29:08Z",
+      "event_status": "ELEVATED_RISK",
+      "evidence_citation": "https://www.sec.gov/Archives/edgar/data/12927/000162828026067508/ba-20260930.htm",
+      "missing_data": "Regulator (FAA) official confirmation not included in batch; relying on issuer statement.",
+      "intelligence_gap": {
+        "gap_id": "GAP_MAX10_DATE",
+        "what_is_missing": "The specific remaining flight test hours and FAA approval date for the 737-10 variant.",
+        "why_important": "Required to distinguish the certification status of the MAX 7 from the larger MAX 10 variant.",
+        "affected_kiq_id": "KIQ_3_1",
+        "recommended_source": "FAA Official PR / Boeing Q4 Earnings",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "The achievement of certification for the MAX 7 removes a primary regulatory blocker, but the delayed entry of the MAX 10 maintains competitive pressure from the Airbus A321neo. Continued reliance on a single-source OEM for these variants means any further FAA audit findings could halt deliveries of the 40 aircraft currently held in inventory, impacting airline fleet renewal cycles.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 2,
+          "rationale": "Positive milestone; certification reduces regulatory risk for one of two monitored variants."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Boeing is the sole manufacturer for the 737-7 program."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "OEM-controlled design fix; no third-party substitute for regulatory approval exists."
+        },
+        "propagation_scope": {
+          "score": 3,
+          "rationale": "Specific to the 737-7 variant and shared anti-ice components across the MAX family."
+        },
+        "temporal_urgency": {
+          "score": 2,
+          "rationale": "Event is reported as completed in Q3 2026; focus shifts to delivery and MAX 10."
+        }
+      },
+      "threat_score": 6,
+      "score_rationale": "Potential severity: ELEVATED (6/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "HIGH",
+      "urgency": "MEDIUM",
+      "escalation_level": "ROUTINE_MONITORING",
+      "is_critical": false
+    },
+    {
+      "event_id": "BA-737-10-DELAY-2026",
+      "kiq_ids": [
+        "KIQ_3_1",
+        "RKIQ_001"
+      ],
+      "indicator_name": "Financial and Backlog Risk Warning",
+      "company_affected": "Boeing",
+      "ci_dimension": "Market CI",
+      "risk_type": "REGULATORY",
+      "secondary_risk_types": [
+        "FINANCIAL",
+        "COMPETITIVE"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "737_MAX",
+      "program_relevance": "RELATED_CONTEXT",
+      "hypothetical_dependencies": [
+        "737 MAX",
+        "737 NG",
+        "777X",
+        "777",
+        "787",
+        "787 Dreamliner",
+        "767",
+        "747-8",
+        "KC-46",
+        "P-8"
+      ],
+      "supplier_registry_basis": "Company: The Boeing Company -> Role: OEM (Final Assembler) (Registry Source: Boeing SEC Form 10-K) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: 737_MAX",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] The Boeing Company -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] 737_MAX",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] 737 MAX, 737 NG, 777X",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "The Boeing 737-10 remains under FAA certification review with a target of late 2026. Significant inventory of approximately 40 aircraft (shared with 737-7) exists, posing financial risk if approval is delayed.",
+      "decision_question": "Is the 2026 certification target for the 737-10 still viable given the Q3 focus on the 737-7?",
+      "confirmed_facts": "We continue to expect certification of the 737-7 and 737-10 in 2026, including the final certification of the engine anti-ice solution.",
+      "analytical_interpretation": "While the 737-7 has cleared certification, the 737-10 remains in a 'forecast' state for 2026. The accumulation of inventory (40 aircraft across both models as of June) highlights the financial strain of the ongoing regulatory process.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting The Boeing Company (OEM (Final Assembler)) on source-evidenced program 737_MAX. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: 737 MAX, 737 NG, 777X)",
+      "fact_check_quote": "We continue to expect certification of the 737-7 and 737-10 in 2026, including the final certification of the engine anti-ice solution.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_014",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026050038/ba-20260630.htm",
+          "source_type": "UNDETERMINED",
+          "passage_text": "As of June 30, 2026, we had approximately 40 737-7 and 737-10 aircraft in inventory. We are following the lead of the FAA as we work through the certification process and the ultimate timing will be determined by the regulators.",
+          "passage_hash": "5778276334e1e2a819b62c411f2b8b5850ad80c3ebc0292c1246fb6e1d06d51e",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Boeing expects 737-10 certification in 2026 but timing is determined by the FAA.",
+          "document_id": "DOC_014",
+          "quote": "We continue to expect certification of the 737-7 and 737-10 in 2026, including the final certification of the engine anti-ice solution.",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026050038/ba-20260630.htm",
+          "claim_type": "FORECAST",
+          "evidence_authority": "ISSUER_OFFICIAL_STATEMENT",
+          "entity": "Boeing",
+          "program": "737-10",
+          "component": "Unknown / Not specified in source",
+          "issue": "Certification delay",
+          "regulatory_authority": "FAA",
+          "publication_date": "2026-07-28",
+          "event_date": "2026-06-30",
+          "cause": "Regulatory process / design defects",
+          "effect": "Financial position and cash flows impacted by delivery delays",
+          "status_before": "In-process / Delayed",
+          "status_after": "Pending Certification",
+          "resolution_outcome": "Pending",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_014",
+        "DOC_002"
+      ],
+      "source_urls": [
+        "https://www.sec.gov/Archives/edgar/data/12927/000162828026050038/ba-20260630.htm",
+        "https://www.seattletimes.com/business/boeing-aerospace/boeing-nears-737-max-7-10-certification-with-engine-anti-ice-fix/"
+      ],
+      "verification_status": "SUPPORTED SOURCE; DIRECT KIT RELEVANCE UNVERIFIED (HISTORICAL_CONTEXT) [Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified. | Source published 120 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source) | KIT_FACT_GAP: STATUS=UNKNOWN, AUTHORITY=UNKNOWN | REGULATORY_AUTHORITY_NOT_VERIFIED: issuer or media statements do not establish an agency decision]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "CORROBORATED_INDEPENDENTLY",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "CORROBORATED_INDEPENDENTLY (2 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "RELATED_CONTEXT",
+        "Source-Evidenced Program": "737_MAX",
+        "Hypothetical Shared Dependencies": "737 MAX, 737 NG, 777X, 777, 787, 787 Dreamliner, 767, 747-8, KC-46, P-8",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "SEC_EDGAR",
+        "Claim Authority": "ISSUER_REPORTED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=POSITIVE, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=UNKNOWN, AUTHORITY=UNKNOWN, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-07-28",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Regulatory Stage": "UNKNOWN",
+        "Severity": "9/10 (potential impact, not verification)",
+        "Confidence": "HIGH",
+        "Verification": "SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-07-28",
+      "first_seen_at": "2026-11-25T14:29:08Z",
+      "last_seen_at": "2026-11-25T14:29:08Z",
+      "updated_at": "2026-11-25T14:29:08Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://www.sec.gov/Archives/edgar/data/12927/000162828026050038/ba-20260630.htm",
+      "missing_data": "Third-party verification of 'finalized' status for the enhanced angle of attack sensor system.",
+      "intelligence_gap": {
+        "gap_id": "GAP_MAX10_FAA_AUDIT",
+        "what_is_missing": "Confirmed status of the enhanced angle of attack sensor system for the MAX 10 variant specifically.",
+        "why_important": "Required to validate if the sensor system finalized for the 737-7 is equally approved for the 737-10.",
+        "affected_kiq_id": "KIQ_3_1",
+        "recommended_source": "FAA Public Registry / SEC 10-K (Upcoming)",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Continued delays in 737-10 certification beyond 2026 could trigger backlog cancellations, as airlines face prolonged capacity constraints. Boeing's inventory of 40 uncertified MAX aircraft represents significant trapped capital that remains at risk of valuation adjustments if the FAA mandates further design changes to the enhanced angle of attack sensor system.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 4,
+          "rationale": "Financial and operational risk due to delivery delays and inventory buildup."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Boeing controls final assembly and certification management."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "The 737-10 is a single-source Boeing product with no immediate modular substitute."
+        },
+        "propagation_scope": {
+          "score": 4,
+          "rationale": "Impacts 737-10 backlog and future production rates across the narrowbody portfolio."
+        },
+        "temporal_urgency": {
+          "score": 4,
+          "rationale": "Ongoing issue with year-end 2026 target approaching; 40 aircraft currently held."
+        }
+      },
+      "threat_score": 9,
+      "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (9/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "HIGH",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    }
+  ],
+  "threat_reports": [
+    {
+      "threat_id": "EVT_737_MAX7_CERT_2026_08_03",
+      "event_title": "The FAA has officially certified the Boeing 737 MAX-7, resolving long-standing regulatory hurdles and authorizing the commencement of production for this variant.",
+      "category": "REGULATORY",
+      "affected_entity": "Boeing",
+      "threat_score": 6,
+      "source_url": "https://www.faa.gov/newsroom/faa-statement-certification-boeing-737-max-7",
+      "timestamp": "2026-08-03",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "HIGH",
+      "validation_status": "SUPPORTED",
+      "event_status": "ELEVATED_RISK"
+    },
+    {
+      "threat_id": "EVT_737_MAX10_CERT_TRACK_2026_04_21",
+      "event_title": "As of April 2026, the FAA indicated that the 737 MAX 10 remained on track for certification by the end of 2026, though formal approval is still pending.",
+      "category": "REGULATORY",
+      "affected_entity": "Boeing",
+      "threat_score": 8,
+      "source_url": "https://www.bloomberg.com/news/articles/2026-04-21/boeing-737-max-7-10-models-on-track-for-2026-certification-faa",
+      "timestamp": "2026-04-21",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "LOW",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "BA-737-7-CERT-2026",
+      "event_title": "Boeing reports the 737-7 achieved FAA certification in Q3 2026 following the resolution of engine anti-ice system defects. Certification for the larger 737-10 remains ongoing as of late 2026.",
+      "category": "REGULATORY",
+      "affected_entity": "Boeing",
+      "threat_score": 6,
+      "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026067508/ba-20260930.htm",
+      "timestamp": "2026-10-27",
+      "mitigation_advice": "Review 737-7 delivery contracts for clauses triggered by the \"Third Quarter 2026\" certification milestone.",
+      "confidence_level": "HIGH",
+      "validation_status": "SUPPORTED",
+      "event_status": "ELEVATED_RISK"
+    },
+    {
+      "threat_id": "BA-737-10-DELAY-2026",
+      "event_title": "The Boeing 737-10 remains under FAA certification review with a target of late 2026. Significant inventory of approximately 40 aircraft (shared with 737-7) exists, posing financial risk if approval is delayed.",
+      "category": "REGULATORY",
+      "affected_entity": "Boeing",
+      "threat_score": 9,
+      "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026050038/ba-20260630.htm",
+      "timestamp": "2026-07-28",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "HIGH",
+      "validation_status": "SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    }
+  ],
+  "related_program_watchlist": [
+    {
+      "event_id": "EVENT_BOEING_MAX_CERT_2026",
+      "kiq_ids": [
+        "KIQ_3_1"
+      ],
+      "indicator_name": "Regulatory certification milestone completion",
+      "company_affected": "Boeing",
+      "ci_dimension": "Tactical CI",
+      "risk_type": "REGULATORY",
+      "secondary_risk_types": [
+        "COMPETITIVE"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "737_MAX",
+      "program_relevance": "RELATED_PROGRAM_WATCHLIST",
+      "hypothetical_dependencies": [
+        "737 MAX",
+        "737 NG",
+        "777X",
+        "777",
+        "787",
+        "787 Dreamliner",
+        "767",
+        "747-8",
+        "KC-46",
+        "P-8"
+      ],
+      "supplier_registry_basis": "Company: The Boeing Company -> Role: OEM (Final Assembler) (Registry Source: Boeing SEC Form 10-K) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: 737_MAX",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] The Boeing Company -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] 737_MAX",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] 737 MAX, 737 NG, 777X",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "North America (USA / Canada)",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "The FAA has granted final certification to the Boeing 737 MAX 7 and MAX 10 variants, concluding the multi-year regulatory approval process for the family.",
+      "decision_question": "Does the completion of certification translate to immediate delivery readiness for key customers or are production constraints still a primary bottleneck?",
+      "confirmed_facts": "The FAA approved the amended type certificate for the 737-10.",
+      "analytical_interpretation": "The certification of both the MAX 7 and MAX 10 concludes the regulatory lifecycle for the 737 MAX family, shifting organizational focus from design to production.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting The Boeing Company (OEM (Final Assembler)) on source-evidenced program 737_MAX. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: 737 MAX, 737 NG, 777X)",
+      "fact_check_quote": "The FAA approved the amended type certificate for the 737-10.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_010",
+          "source_url": "https://www.boeing.com/features/2026/10/faa-certifies-boeing-737-10",
+          "source_type": "UNDETERMINED",
+          "passage_text": "The FAA approved the amended type certificate for the 737-10. Boeing’s 737-10 is certified and cleared for commercial service.",
+          "passage_hash": "adf6028a32a10748e8a9e18bcfbca8b5d40fea09de00c3c190b914a1c901bb4d",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "The FAA certified the Boeing 737-10 on October 20, 2026.",
+          "document_id": "DOC_010",
+          "quote": "The FAA approved the amended type certificate for the 737-10.",
+          "source_url": "https://www.boeing.com/features/2026/10/faa-certifies-boeing-737-10",
+          "claim_type": "RESOLUTION",
+          "evidence_authority": "ISSUER_OFFICIAL_STATEMENT",
+          "entity": "FAA",
+          "program": "737-10",
+          "component": "Unknown / Not specified in source",
+          "issue": "FAA certification status",
+          "regulatory_authority": "FAA",
+          "publication_date": "2026-10-20",
+          "event_date": "2026-10-20",
+          "cause": "Design reviews and safety assessments completion",
+          "effect": "Clears aircraft for commercial service",
+          "status_before": "In testing/review",
+          "status_after": "Certified",
+          "resolution_outcome": "Certified and cleared for commercial service",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "The FAA certified the Boeing 737-7 on August 3, 2026.",
+          "document_id": "DOC_007",
+          "quote": "The U.S. Federal Aviation Administration has granted Boeing [NYSE: BA] an amended type certificate for the new 737-7 airplane, clearing it for commercial service.",
+          "source_url": "https://investors.boeing.com/investors/news/press-release-details/2026/U-S--FAA-certifies-new-Boeing-737-7-airplane/default.aspx",
+          "claim_type": "RESOLUTION",
+          "evidence_authority": "ISSUER_OFFICIAL_STATEMENT",
+          "entity": "FAA",
+          "program": "737-7",
+          "component": "Unknown / Not specified in source",
+          "issue": "FAA certification status",
+          "regulatory_authority": "FAA",
+          "publication_date": "2026-08-03",
+          "event_date": "2026-08-03",
+          "cause": "Multi-year certification effort and comprehensive testing",
+          "effect": "Clears aircraft for commercial service",
+          "status_before": "In development/testing",
+          "status_after": "Certified",
+          "resolution_outcome": "Certified",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_010",
+        "DOC_007",
+        "DOC_008"
+      ],
+      "source_urls": [
+        "https://www.boeing.com/features/2026/10/faa-certifies-boeing-737-10",
+        "https://investors.boeing.com/investors/news/press-release-details/2026/U-S--FAA-certifies-new-Boeing-737-7-airplane/default.aspx",
+        "https://djsaviation.net/latest-boeing-737-max-developments/"
+      ],
+      "verification_status": "RELATED PROGRAM WATCHLIST (737_MAX): Awaiting proof of shared-supplier impact on ['737_MAX'] [Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified. | Classified as RELATED_PROGRAM_WATCHLIST: Event evidence conflicts with constraining KIT facet(s) (program ['737_MAX'] vs KIT ['737_MAX']); direct cross-program or cross-configuration impact is not established | KIT_FACT_GAP: VARIANT=NEGATIVE, AUTHORITY=UNKNOWN | REGULATORY_AUTHORITY_NOT_VERIFIED: issuer or media statements do not establish an agency decision]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "CORROBORATED_INDEPENDENTLY",
+      "event_freshness": "EVENT_DATE_UNKNOWN",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "CORROBORATED_INDEPENDENTLY (3 non-syndicated source(s))",
+        "5. Event Freshness": "EVENT_DATE_UNKNOWN",
+        "Program Relevance Scope": "RELATED_PROGRAM_WATCHLIST",
+        "Source-Evidenced Program": "737_MAX",
+        "Hypothetical Shared Dependencies": "737 MAX, 737 NG, 777X, 777, 787, 787 Dreamliner, 767, 747-8, KC-46, P-8",
+        "Event Epicenter": "North America (USA / Canada)",
+        "Evidence Authority": "OFFICIAL_ISSUER_PR",
+        "Claim Authority": "ISSUER_REPORTED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=NEGATIVE, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=POSITIVE, AUTHORITY=UNKNOWN, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-10-20",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Regulatory Stage": "UNKNOWN",
+        "Severity": "5/10 (potential impact, not verification)",
+        "Confidence": "MEDIUM",
+        "Verification": "PARTIALLY_SUPPORTED",
+        "Current Status": "RELATED_PROGRAM_WATCHLIST",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "CURRENT_STATUS_UNKNOWN",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-10-20",
+      "first_seen_at": "2026-11-25T14:29:08Z",
+      "last_seen_at": "2026-11-25T14:29:08Z",
+      "updated_at": "2026-11-25T14:29:08Z",
+      "event_status": "RELATED_PROGRAM_WATCHLIST",
+      "evidence_citation": "https://www.boeing.com/features/2026/10/faa-certifies-boeing-737-10",
+      "missing_data": "Prove concrete shared-supplier or shared-component impact mechanism from 737_MAX onto ['737_MAX'].",
+      "intelligence_gap": {
+        "gap_id": "GAP_EAI_STATUS",
+        "what_is_missing": "Specific confirmation on the status of the engine anti-ice system safety exemption resolution.",
+        "why_important": "Verification required to ensure no operational limitations remain post-certification.",
+        "affected_kiq_id": "KIQ_3_1",
+        "recommended_source": "FAA Official Register",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Successful certification of the final MAX variants shifts competitive pressure to Airbus A321neo and A220-300, stabilizing Boeing's market share while increasing production ramp-up risks.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 1,
+          "rationale": "Certification resolves major regulatory risk but initiates production pressure."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Final assembly is the critical node for program completion."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "Single-source OEM for these specific variants."
+        },
+        "propagation_scope": {
+          "score": 2,
+          "rationale": "Certification impacts the entire 737-7 and -10 fleet segments."
+        },
+        "temporal_urgency": {
+          "score": 1,
+          "rationale": "Events are resolved as of August and October 2026."
+        }
+      },
+      "threat_score": 4,
+      "score_rationale": "Potential severity: MONITORED (4/10). Evidence status: PARTIALLY_SUPPORTED; confidence: MEDIUM. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+      "confidence_level": "MEDIUM",
+      "urgency": "LOW",
+      "escalation_level": "ROUTINE_MONITORING",
+      "is_critical": false
+    }
+  ],
+  "action_plan": [
+    {
+      "action_id": "ACT_DE8A9165",
+      "related_event_ids": [
+        "BA-737-7-CERT-2026"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Boeing"
+      ],
+      "action": "Review 737-7 delivery contracts for clauses triggered by the \"Third Quarter 2026\" certification milestone.",
+      "rationale": "Evidence status: BA-737-7-CERT-2026: UNSUPPORTED, KIT=DIRECT_KIT_MATCH, Documents=DOC_011. Further source verification or human review is required before implementation.",
+      "pros_and_cons": "PRO: Ensures financial and operational readiness for incoming fleet additions.; CON: Requires legal resources to parse specific \"Entry into Service\" vs. \"Certification\" definitions",
+      "triple_a_impact": "Agility",
+      "uncertainty_assumptions": "Editorial advice requires source verification and human approval.",
+      "owner": "Regulatory Affairs Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Evidence and management decision documented for BA-737-7-CERT-2026.",
+      "priority": "LOW",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-25T14:29:07Z"
+    },
+    {
+      "action_id": "ACT_0F9B495F",
+      "related_event_ids": [
+        "EVT_737_MAX7_CERT_2026_08_03",
+        "EVT_737_MAX10_CERT_TRACK_2026_04_21",
+        "BA-737-7-CERT-2026",
+        "BA-737-10-DELAY-2026"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Boeing"
+      ],
+      "action": "Verify the specific reported event and its applicability to the monitored KIT for Boeing (737_MAX), event EVENT_BOEING_MAX_CERT_2026.",
+      "rationale": "The available evidence does not establish direct applicability to the monitored KIT.",
+      "pros_and_cons": "PRO: Supports documented verification and decision-making.; CON: Requires analyst effort and human approval",
+      "triple_a_impact": "Adaptability",
+      "uncertainty_assumptions": "Direct operational, regulatory or supply-chain impact remains unconfirmed.",
+      "owner": "Regulatory Affairs Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Document verified KIT relevance using traceable source evidence.",
+      "priority": "MEDIUM",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-25T14:29:07Z"
+    }
+  ],
+  "kiq_answers": [
+    {
+      "kiq_id": "KIQ_3_1",
+      "question": "How are regulatory decisions, certification milestones, airworthiness actions, or safety mandates affecting aircraft and propulsion programs?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "NONE",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "For Boeing (737_MAX), available evidence notes: the FAA has issued an amended type certificate and updated Production Limitation Record for the Boeing 737 MAX-7 [DOC_001]. For Boeing (737_MAX), available evidence notes: In the third quarter of 2026, we achieved certification of the 737-7 and the engine anti-ice solution [DOC_011].",
+      "related_event_ids": [
+        "EVT_737_MAX7_CERT_2026_08_03",
+        "BA-737-7-CERT-2026",
+        "BA-737-10-DELAY-2026"
+      ],
+      "evidence_ids": [
+        "DOC_001",
+        "DOC_011",
+        "DOC_014",
+        "DOC_002"
+      ],
+      "retrieved_evidence_count": 0,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [],
+      "unused_document_reasons": {},
+      "evidence_requirements": [],
+      "claim_requirement_links": [],
+      "claim_handoff_rejections": {},
+      "source_execution_status": "",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [],
+      "verification_status": "Event evidence evaluated; complete KIQ coverage not established",
+      "uncertainty_level": "MEDIUM",
+      "recommended_next_step": "Verify remaining KIQ facets before marking fully answered.",
+      "missing_information": "Verification required: Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified.; Source published 114 days before reference date; historical source alone does not prove a new event or current disruption."
+    },
+    {
+      "kiq_id": "RKIQ_001",
+      "question": "What is the current FAA certification status and projected timeline for the Boeing 737-7 (MAX 7)?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "PARTIAL",
+      "temporal_relevance": "CURRENT_OR_ONGOING",
+      "answer": "Available filings and media reports indicate that the tracked milestone has been achieved, though direct confirmation from the regulator itself is still pending. A secondary media report on 2026-11-21 notes that “All four main variants are now FAA-certified: the 737 MAX 7 on 3 August 2026 and the 737 MAX 10 on 20 October 2026.” [DOC_008]. An official issuer filing on 2026-10-27 notes that “In the third quarter of 2026, we achieved certification of the 737-7 and the engine anti-ice solution.” [DOC_011]. An official company press release on 2026-10-20 notes that “The 737-10 joins the 737-7, which was certified earlier this year, and the 737-8 and 737-9 in providing operators” [DOC_010]. Forward-looking expectations (not yet confirmed outcomes): “We continue to expect certification of the 737-7 and 737-10 in 2026, including the final certification of the engine anti-ice solution.” [DOC_014]; “As of June 30, 2026, we had approximately 40 737-7 and 737-10 aircraft in inventory. We are following the lead of the FAA as we work through the certification process…” [DOC_014]. Evidence establishes direct applicability to the named model or program, whereas latest dated, issue-specific status still require direct confirmation. Based on 8 relevant document(s) (DOC_001, DOC_002, DOC_006, DOC_007, DOC_008) out of 8 evaluated.",
+      "related_event_ids": [
+        "EVT_737_MAX7_CERT_2026_08_03",
+        "EVT_737_MAX10_CERT_TRACK_2026_04_21",
+        "BA-737-7-CERT-2026",
+        "BA-737-10-DELAY-2026"
+      ],
+      "evidence_ids": [
+        "DOC_001",
+        "DOC_002",
+        "DOC_006",
+        "DOC_007",
+        "DOC_008",
+        "DOC_010",
+        "DOC_011",
+        "DOC_014"
+      ],
+      "retrieved_evidence_count": 8,
+      "validated_evidence_count": 4,
+      "retrieved_document_ids": [
+        "DOC_001",
+        "DOC_002",
+        "DOC_006",
+        "DOC_007",
+        "DOC_008",
+        "DOC_010",
+        "DOC_011",
+        "DOC_014"
+      ],
+      "unused_document_reasons": {},
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_001_REQ_01",
+          "key": "CURRENT_STATUS",
+          "required_fact": "Latest dated, issue-specific status",
+          "evidence_type": "DATED_STATUS",
+          "required_entity_model": "737:7, B737, Boeing",
+          "required_component": "",
+          "verification_status": "PRELIMINARY",
+          "doc_ids": [
+            "DOC_001",
+            "DOC_002",
+            "DOC_007",
+            "DOC_008",
+            "DOC_010",
+            "DOC_011"
+          ],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [
+            "DOC_001",
+            "DOC_002",
+            "DOC_007",
+            "DOC_008",
+            "DOC_010",
+            "DOC_011"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_008",
+              "claim": "All four main variants are now FAA-certified: the 737 MAX 7 on 3 August 2026 and the 737 MAX 10 on 20 October 2026",
+              "claim_id": "DOC_008:C01",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "All four main variants are now FAA-certified: the 737 MAX 7 on 3 August 2026 and the 737 MAX 10 on 20 October 2026",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "https://djsaviation.net/latest-boeing-737-max-developments/",
+              "extraction_method": "FR03_SEMANTIC_QUOTATION",
+              "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+              "publication_date": "2026-11-21",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://djsaviation.net/latest-boeing-737-max-developments/",
+              "source_hash": "",
+              "passage_hash": "f5dc776206f76e2242248d516b479dce64b83808cdfb3399545b245a1324955c",
+              "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+              "claim_type": "DIRECT_ISSUE",
+              "claim_state": "ISSUE_RESOLVED",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_008",
+              "claim": "All four main variants are now FAA-certified: the 737 MAX 7 on 3 August 2026 and the 737 MAX 10 on 20 October 2026.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "All four main variants are now FAA-certified: the 737 MAX 7 on 3 August 2026 and the 737 MAX 10 on 20 October 2026.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PRELIMINARY",
+              "publication_date": "2026-11-21",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://djsaviation.net/latest-boeing-737-max-developments/",
+              "source_hash": "",
+              "passage_hash": "212a756621b642744403ef52847ab668cd8a10d6fc5d898d9458c7b7471b739d",
+              "verification_reason": "SOURCE_VALIDATION_PENDING",
+              "claim_type": "OBSERVED",
+              "claim_state": "ISSUE_RESOLVED",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_011",
+              "claim": "In the third quarter of 2026, we achieved certification of the 737-7 and the engine anti-ice solution.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_027",
+              "quote": "In the third quarter of 2026, we achieved certification of the 737-7 and the engine anti-ice solution.",
+              "issuer_name": "BOEING CO",
+              "issuer_cik": "12927",
+              "original_filing_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026067508/ba-20260930.htm",
+              "extraction_method": "HTML_VISIBLE_TEXT_WHITESPACE_V1",
+              "passage_validation_status": "PASSAGE_VERIFIED",
+              "publication_date": "2026-10-27",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "ISSUER_DISCLOSURE",
+              "strength": "PRELIMINARY",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026067508/ba-20260930.htm",
+              "source_hash": "f878f620cf770f5549c82de95b72fadb7cfa27eb6837a0a9f0e4699f6b269039",
+              "passage_hash": "c4f4f69346917c5f308ecba193ce90c6b9396ba93c64acc553fca9f3b0032032",
+              "verification_reason": "TRUSTED_PRODUCER_PASSAGE_HASH_REMOTE_UNCHECKED",
+              "claim_type": "STATUS_CONTEXT",
+              "claim_state": "ISSUE_RESOLVED",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": [
+            "Independent confirmation of the preliminary claim"
+          ]
+        },
+        {
+          "id": "RKIQ_001_REQ_02",
+          "key": "PROGRAM_APPLICABILITY",
+          "required_fact": "Direct applicability to the named model or program",
+          "evidence_type": "MODEL_APPLICABILITY",
+          "required_entity_model": "737:7, B737, Boeing",
+          "required_component": "",
+          "verification_status": "VERIFIED",
+          "doc_ids": [
+            "DOC_001",
+            "DOC_002",
+            "DOC_006",
+            "DOC_007",
+            "DOC_008",
+            "DOC_010",
+            "DOC_011",
+            "DOC_014"
+          ],
+          "verified_doc_ids": [
+            "DOC_001",
+            "DOC_007",
+            "DOC_011",
+            "DOC_014"
+          ],
+          "preliminary_doc_ids": [
+            "DOC_002",
+            "DOC_006",
+            "DOC_008",
+            "DOC_010"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_001",
+              "claim": "the FAA has issued an amended type certificate and updated Production Limitation Record for the Boeing 737 MAX-7",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "",
+              "publication_date": "2026-08-03",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "ANALYST_ASSESSMENT",
+              "strength": "VERIFIED",
+              "source_url": "https://www.faa.gov/newsroom/faa-statement-certification-boeing-737-max-7",
+              "source_hash": "",
+              "passage_hash": "",
+              "verification_reason": "ANALYST_EVENT_VALIDATION",
+              "claim_type": "OBSERVED",
+              "claim_state": "ISSUE_RESOLVED",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_011",
+              "claim": "In the third quarter of 2026, we achieved certification of the 737-7 and the engine anti-ice solution.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_027",
+              "quote": "",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "",
+              "publication_date": "2026-10-27",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "ANALYST_ASSESSMENT",
+              "strength": "VERIFIED",
+              "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026067508/ba-20260930.htm",
+              "source_hash": "",
+              "passage_hash": "",
+              "verification_reason": "ANALYST_EVENT_VALIDATION",
+              "claim_type": "OBSERVED",
+              "claim_state": "ISSUE_RESOLVED",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_001",
+              "claim": "Following almost a decade of extensive review, the FAA has issued an amended type certificate and updated Production Limitation Record for the Boeing 737 MAX-7. The approval reflects years of sustained work to resolve complex technical issues and complete a thorough review of the airplane’s design and supporting safety analyses.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "The approval reflects years of sustained work to resolve complex technical issues and complete a thorough review of the airplane’s design and supporting safety analyses.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PASSAGE_VERIFIED",
+              "publication_date": "2026-08-03",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "REGULATOR",
+              "strength": "VERIFIED",
+              "source_url": "https://www.faa.gov/newsroom/faa-statement-certification-boeing-737-max-7",
+              "source_hash": "",
+              "passage_hash": "cb5074a77856ad969928fd176bad99f5f29db4a974b8ff37486e083daab74561",
+              "verification_reason": "FULL_SOURCE_VERIFIED",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": []
+        }
+      ],
+      "claim_requirement_links": [
+        {
+          "claim_id": "DOC_008:C01",
+          "doc_id": "DOC_008",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "CURRENT_STATUS",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_008",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "CURRENT_STATUS",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_011",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "CURRENT_STATUS",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_001",
+          "requirement_id": "RKIQ_001_REQ_02",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_011",
+          "requirement_id": "RKIQ_001_REQ_02",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_001",
+          "requirement_id": "RKIQ_001_REQ_02",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        }
+      ],
+      "claim_handoff_rejections": {},
+      "source_execution_status": "RESULTS_RETRIEVED",
+      "content_result": "ISSUE_REPORTED_RESOLVED",
+      "issue_status": "ISSUE_REPORTED_RESOLVED",
+      "evidence_trace": [
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "CURRENT_STATUS",
+          "doc_id": "DOC_008",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://djsaviation.net/latest-boeing-737-max-developments/",
+          "original_filing_url": "https://djsaviation.net/latest-boeing-737-max-developments/",
+          "quote": "All four main variants are now FAA-certified: the 737 MAX 7 on 3 August 2026 and the 737 MAX 10 on 20 October 2026",
+          "source_hash": "",
+          "passage_hash": "f5dc776206f76e2242248d516b479dce64b83808cdfb3399545b245a1324955c",
+          "extraction_method": "FR03_SEMANTIC_QUOTATION",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "ISSUE_RESOLVED",
+          "claim_type": "DIRECT_ISSUE",
+          "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+          "publication_date": "2026-11-21",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "CURRENT_STATUS",
+          "doc_id": "DOC_008",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://djsaviation.net/latest-boeing-737-max-developments/",
+          "original_filing_url": "",
+          "quote": "All four main variants are now FAA-certified: the 737 MAX 7 on 3 August 2026 and the 737 MAX 10 on 20 October 2026.",
+          "source_hash": "",
+          "passage_hash": "212a756621b642744403ef52847ab668cd8a10d6fc5d898d9458c7b7471b739d",
+          "extraction_method": "",
+          "passage_validation_status": "PRELIMINARY",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "ISSUE_RESOLVED",
+          "claim_type": "OBSERVED",
+          "verification_reason": "SOURCE_VALIDATION_PENDING",
+          "publication_date": "2026-11-21",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "CURRENT_STATUS",
+          "doc_id": "DOC_011",
+          "source_id": "SRC_027",
+          "issuer_name": "BOEING CO",
+          "issuer_cik": "12927",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026067508/ba-20260930.htm",
+          "original_filing_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026067508/ba-20260930.htm",
+          "quote": "In the third quarter of 2026, we achieved certification of the 737-7 and the engine anti-ice solution.",
+          "source_hash": "f878f620cf770f5549c82de95b72fadb7cfa27eb6837a0a9f0e4699f6b269039",
+          "passage_hash": "c4f4f69346917c5f308ecba193ce90c6b9396ba93c64acc553fca9f3b0032032",
+          "extraction_method": "HTML_VISIBLE_TEXT_WHITESPACE_V1",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "ISSUE_RESOLVED",
+          "claim_type": "STATUS_CONTEXT",
+          "verification_reason": "TRUSTED_PRODUCER_PASSAGE_HASH_REMOTE_UNCHECKED",
+          "publication_date": "2026-10-27",
+          "event_date": "",
+          "authority": "ISSUER_DISCLOSURE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_02",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "doc_id": "DOC_001",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.faa.gov/newsroom/faa-statement-certification-boeing-737-max-7",
+          "original_filing_url": "",
+          "quote": "The approval reflects years of sustained work to resolve complex technical issues and complete a thorough review of the airplane’s design and supporting safety analyses.",
+          "source_hash": "",
+          "passage_hash": "cb5074a77856ad969928fd176bad99f5f29db4a974b8ff37486e083daab74561",
+          "extraction_method": "",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "claim_strength": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "FULL_SOURCE_VERIFIED",
+          "publication_date": "2026-08-03",
+          "event_date": "",
+          "authority": "REGULATOR",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        }
+      ],
+      "verification_status": "Verified 1/2 atomic facts; RESULTS_RETRIEVED",
+      "uncertainty_level": "MEDIUM",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Latest dated, issue-specific status",
+      "missing_information": "Latest dated, issue-specific status: Independent confirmation of the preliminary claim"
+    }
+  ],
+  "run_metadata": {
+    "run_id": "RUN-20261125-142639-7FCC8F6019D7",
+    "report_id": "RPT-20261125-446B2D",
+    "started_at": "2026-11-25T14:26:39Z",
+    "completed_at": "2026-11-25T14:29:08Z",
+    "run_date_utc": "2026-11-25",
+    "analysis_reference_date": "2026-11-25",
+    "reference_date_mode": "EXECUTION_DATE",
+    "collection_window_start_utc": "2025-11-25T14:26:39Z",
+    "collection_window_end_utc": "2026-11-25T14:26:39Z",
+    "status": "completed",
+    "outcome_status": "COMPLETED",
+    "processing_status": "COMPLETED",
+    "evidence_completeness_status": "PARTIAL",
+    "kiq_completion_status": "NOT_ANSWERED",
+    "kiqs_fully_answered": 0,
+    "kiqs_missing_specific_evidence": 1,
+    "kit_completion_audit": {
+      "as_of_date": "2026-11-25",
+      "questions": [
+        {
+          "kiq_id": "RKIQ_001",
+          "question": "What is the current FAA certification status and projected timeline for the Boeing 737-7 (MAX 7)?",
+          "answer_status": "PARTIALLY_ANSWERED",
+          "content_result": "ISSUE_REPORTED_RESOLVED",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "CURRENT_STATUS",
+              "missing_information": [
+                "Independent confirmation of the preliminary claim"
+              ]
+            }
+          ],
+          "missing_information": "Latest dated, issue-specific status: Independent confirmation of the preliminary claim",
+          "source_execution_status": "RESULTS_RETRIEVED",
+          "temporal_relevance": "CURRENT_OR_ONGOING",
+          "validated_evidence_count": 4,
+          "latest_evidence_date": "2026-11-21",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        }
+      ],
+      "total": 1,
+      "complete": 0,
+      "missing": 1,
+      "unavailable_sources": [],
+      "unsearched_requests": [],
+      "status": "NOT_ANSWERED"
+    },
+    "planner_status": "REPAIRED",
+    "collection_mode": "agentic_exa",
+    "acquisition_trace": {
+      "collection_id": "COL_7299D3",
+      "kit": "Boeing 737 MAX 7 and MAX 10 FAA certification status",
+      "collection_mode": "agentic_exa",
+      "search_objective": "Execute adaptive OSINT intelligence acquisition for Boeing 737 MAX 7 and MAX 10 FAA certification status within the 2025-2026 timeframe.",
+      "queries_executed": 5,
+      "exa_calls_executed": 2,
+      "sources_used": [
+        "Exa Semantic Search",
+        "News API",
+        "SEC EDGAR"
+      ],
+      "documents_found": 16,
+      "primary_documents": 8,
+      "secondary_documents": 8,
+      "full_text_documents": 10,
+      "metadata_only_documents": 0,
+      "unresolved_requirements": [
+        "Direct access to the formal Type Certificate Data Sheet (TCDS) amendment document (though certification dates are confirmed via FAA and Boeing official statements)."
+      ],
+      "collection_status": "COMPLETED",
+      "next_action": "NONE",
+      "agent_rationale": "The search successfully identified the exact FAA certification dates for both variants: the 737-7 (MAX 7) on August 3, 2026, and the 737-10 (MAX 10) on October 20, 2026. Primary evidence from FAA.gov and Boeing Investor Relations corroborated the resolution of the engine anti-ice system hurdle, which was the primary regulatory barrier. All required platforms (news, regulatory, pr) were queried, and the budget was managed to ensure high-signal primary source acquisition.",
+      "steps": [
+        {
+          "step": 1,
+          "tool": "exa_semantic_search",
+          "query": "Boeing 737 MAX engine anti-ice system FAA safety exemption ruling and design changes 2025 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 6,
+          "new_doc_ids": [
+            "DOC_001",
+            "DOC_002",
+            "DOC_003",
+            "DOC_004",
+            "DOC_005",
+            "DOC_006"
+          ],
+          "elapsed_sec": 3.51,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 2,
+          "tool": "exa_semantic_search",
+          "query": "FAA certification status and timeline for Boeing 737-7 MAX 7 and 737-10 MAX 10 2025 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 4,
+          "new_doc_ids": [
+            "DOC_007",
+            "DOC_008",
+            "DOC_009",
+            "DOC_010"
+          ],
+          "elapsed_sec": 4.87,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 3,
+          "tool": "search_official_regulators",
+          "query": "FAA 737 MAX 7 10 certification TCDS engine anti-ice exemption",
+          "status": "NO_MATCH",
+          "new_doc_count": 0,
+          "new_doc_ids": [],
+          "elapsed_sec": 10.24,
+          "calls_used": 5,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 4,
+          "tool": "search_media_and_social",
+          "query": "[all] Boeing 737 MAX 7 10 FAA certification engine anti-ice fix",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 3,
+          "new_doc_ids": [
+            "DOC_011",
+            "DOC_012",
+            "DOC_013"
+          ],
+          "elapsed_sec": 17.83,
+          "calls_used": 5,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 5,
+          "tool": "search_corporate_filings",
+          "query": "Boeing 737 MAX 7 10 certification engine anti-ice fix status",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 6,
+          "new_doc_ids": [
+            "DOC_011",
+            "DOC_012",
+            "DOC_013",
+            "DOC_014",
+            "DOC_015",
+            "DOC_016"
+          ],
+          "elapsed_sec": 24.01,
+          "calls_used": 5,
+          "exa_calls_used": 2,
+          "note": ""
+        }
+      ],
+      "budget_summary": {
+        "calls_made": 5,
+        "max_total_calls": 10,
+        "remaining_total_calls": 5,
+        "exa_calls_made": 2,
+        "max_exa_calls": 4,
+        "remaining_exa_calls": 2,
+        "elapsed_sec": 26.6,
+        "max_seconds": 180,
+        "remaining_seconds": 153.4,
+        "steps_recorded": 5
+      },
+      "fallback_used": false,
+      "llm_tokens_in": 20804,
+      "llm_tokens_out": 610
+    },
+    "phase_checkpoints": {
+      "planner": "REPAIRED",
+      "collection": "PASS",
+      "fr03": "PASS",
+      "analyst": "PASS",
+      "qa": "COMPLETED",
+      "kiq": "NOT_ANSWERED",
+      "editor": "COMPLETED",
+      "scoring": "COMPLETED",
+      "reporting": "VALIDATED"
+    },
+    "evidence_flow_audit": {
+      "documents": [
+        {
+          "doc_id": "DOC_001",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 2,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_002",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_003",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_004",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_005",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_006",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_007",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_008",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_009",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_010",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_011",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 2,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_012",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_013",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_014",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 2,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_015",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_016",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        }
+      ],
+      "stage_counts": {
+        "COLLECTED": 16,
+        "FILTER_ACCEPTED": 8,
+        "CLAIMS_EXTRACTED": 8,
+        "CLAIMS_VALIDATED": 5,
+        "KIQ_EVALUATED": 8,
+        "KIQ_LINKED": 8,
+        "NOT_APPLICABLE": 0,
+        "REPORT_REFERENCED": 8,
+        "REPORT_USED": 8,
+        "REPORT_NOT_USED": 0
+      },
+      "unlinked_accepted_document_ids": [],
+      "unreferenced_validated_document_ids": [],
+      "potential_analytical_loss_ids": [],
+      "handoff_error_ids": [],
+      "validated_claim_counts": {
+        "DOC_001": 2,
+        "DOC_002": 1,
+        "DOC_003": 0,
+        "DOC_004": 0,
+        "DOC_005": 0,
+        "DOC_006": 0,
+        "DOC_007": 1,
+        "DOC_008": 0,
+        "DOC_009": 0,
+        "DOC_010": 0,
+        "DOC_011": 2,
+        "DOC_012": 0,
+        "DOC_013": 0,
+        "DOC_014": 2,
+        "DOC_015": 0,
+        "DOC_016": 0
+      }
+    },
+    "evidence_integrity_issues": [],
+    "source_provenance_missing_ids": [],
+    "kiq_unlinked_extracted_document_ids": [],
+    "kiq_handoff_error_document_ids": [],
+    "kiq_handoff_contract_errors": {},
+    "editor_kiq_context_error": null,
+    "editor_evidence_citation_document_ids": [
+      "DOC_011",
+      "DOC_014"
+    ],
+    "query": "Boeing 737 MAX 7 and MAX 10 FAA certification status",
+    "experiment": {
+      "dataset_run_id": "RUN-20261125-142639-7FCC8F6019D7",
+      "replay_run_id": null,
+      "collection_mode": "agentic_exa",
+      "qa_enabled": true,
+      "harness_enabled": true,
+      "keyword_baseline": false,
+      "dataset_sha256": "03897ed65b93c3572a716ee12533a798f99bfed4b5e048b316924cfac6557f35",
+      "replay_uses_live_llm": false
+    },
+    "analysis_scope": "365d",
+    "effective_from": "2025-11-25T14:26:39Z",
+    "effective_to": "2026-11-25T14:26:39Z",
+    "as_of_date": "2026-11-25",
+    "documents_collected": 16,
+    "historical_resolutions": [],
+    "historical_resolution_count": 0,
+    "temporal_claim_audit": [
+      {
+        "event_id": "EVT_737_MAX7_CERT_2026_08_03",
+        "entity": "Boeing",
+        "program": "737_MAX",
+        "component": "Unknown / Not specified in source",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-08-03",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "EVT_737_MAX10_CERT_TRACK_2026_04_21",
+        "entity": "Boeing",
+        "program": "737_MAX",
+        "component": "Unknown / Not specified in source",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "CURRENT_STATUS_UNKNOWN",
+        "original_date": "2026-04-21",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "BA-737-7-CERT-2026",
+        "entity": "Boeing",
+        "program": "737_MAX",
+        "component": "engine anti-ice solution",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-10-27",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "BA-737-10-DELAY-2026",
+        "entity": "Boeing",
+        "program": "737_MAX",
+        "component": "Unknown / Not specified in source",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-07-28",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "EVENT_BOEING_MAX_CERT_2026",
+        "entity": "Boeing",
+        "program": "737_MAX",
+        "component": "Unknown / Not specified in source",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "CURRENT_STATUS_UNKNOWN",
+        "original_date": "2026-10-20",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      }
+    ],
+    "document_content_status_counts": {
+      "FULL_TEXT": 10,
+      "FULL_TEXT_RETRIEVED": 0,
+      "METADATA_ONLY": 0,
+      "PARTIAL_TEXT": 6,
+      "SOURCE_METADATA_ONLY": 0,
+      "SOURCE_POLICY_RESTRICTED": 0,
+      "STRUCTURED_DATA": 0,
+      "SUMMARY_ONLY": 0,
+      "TEXT_COMPLETENESS_UNVERIFIED": 0,
+      "TEXT_RETRIEVED_COMPLETENESS_UNVERIFIED": 0,
+      "TRANSCRIPT_AS_RECEIVED": 0,
+      "UNAVAILABLE": 0,
+      "UNKNOWN": 0
+    },
+    "unknown_content_statuses": [],
+    "telemetry_errors": [],
+    "telemetry_integrity_ok": true,
+    "content_limited_document_ids": [
+      "DOC_002",
+      "DOC_007",
+      "DOC_008",
+      "DOC_010",
+      "DOC_011",
+      "DOC_012",
+      "DOC_013",
+      "DOC_014",
+      "DOC_015",
+      "DOC_016"
+    ],
+    "documents_analyzed": 8,
+    "documents_rejected": 8,
+    "documents_failed": 0,
+    "analysis_phase_status": "COMPLETED",
+    "analysis_recovery_budget": {
+      "time_budget_sec": 600,
+      "max_retries": 8,
+      "max_calls": 11,
+      "retries": 0,
+      "calls": 3,
+      "blocked": ""
+    },
+    "analyzed_document_ids": [
+      "DOC_001",
+      "DOC_002",
+      "DOC_006",
+      "DOC_007",
+      "DOC_008",
+      "DOC_010",
+      "DOC_011",
+      "DOC_014"
+    ],
+    "failed_document_ids": [],
+    "recovered_document_ids": [],
+    "partially_analyzed_document_ids": [],
+    "documents_recovered": 0,
+    "analyst_batch_document_counts": [
+      3,
+      2,
+      3
+    ],
+    "analyst_recovery_splits": 0,
+    "analyst_retry_counts_by_reason": {
+      "PROVIDER_INTERNAL_RETRY": 0
+    },
+    "batches_created": 3,
+    "batches_succeeded": 3,
+    "batches_failed": 0,
+    "planning_duration_sec": 4.73,
+    "collection_duration_sec": 26.62,
+    "filter_duration_sec": 20.4,
+    "analysis_duration_sec": 54.01,
+    "qa_duration_sec": 32.46,
+    "editorial_duration_sec": 9.93,
+    "scoring_duration_sec": 0.0,
+    "scoring_status": "COMPLETED",
+    "scoring_methodology": {
+      "version": "IW-5FACTOR-DET-V1",
+      "method": "DETERMINISTIC_5_FACTOR_IW",
+      "scale": "F1-F5 rated 1..5; final threat_score 1..10",
+      "formula": "S = clamp(floor(sum(w_i * F_i) * 2 + 0.5), 1, 10)",
+      "weights": {
+        "impact_severity": 0.3,
+        "supplier_criticality": 0.2,
+        "substitutability_difficulty": 0.15,
+        "propagation_scope": 0.15,
+        "temporal_urgency": 0.2
+      },
+      "bands": {
+        "monitored": "1-4",
+        "elevated": "5-7",
+        "high_potential_impact": "8-10"
+      },
+      "severity_independent_of_confidence": true
+    },
+    "scoring_partial_fallback_ids": [],
+    "scoring_audit": [
+      {
+        "event_id": "EVENT_BOEING_MAX_CERT_2026",
+        "provisional_score": 2,
+        "computed_score": 5,
+        "final_score": 4,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(2.55 * 2) = 5/10",
+        "weighted_sum": 2.55,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 1,
+            "weight": 0.3,
+            "weighted_contribution": 0.3,
+            "rationale": "Certification resolves major regulatory risk but initiates production pressure."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Final assembly is the critical node for program completion."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "Single-source OEM for these specific variants."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 2,
+            "weight": 0.15,
+            "weighted_contribution": 0.3,
+            "rationale": "Certification impacts the entire 737-7 and -10 fleet segments."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 1,
+            "weight": 0.2,
+            "weighted_contribution": 0.2,
+            "rationale": "Events are resolved as of August and October 2026."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 36 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: MONITORED (4/10). Evidence status: PARTIALLY_SUPPORTED; confidence: MEDIUM. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+        "post_harness_score": 4,
+        "post_harness_validation_status": "PARTIALLY_SUPPORTED",
+        "post_harness_confidence_level": "MEDIUM",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "pre_harness_score": 5,
+        "agent_score": 5,
+        "post_harness_score_adjustment": "Severity refined for evidenced event nature or chronology, not source confidence alone.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "PROVISIONAL_UNVERIFIED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-10-20",
+        "source_age_days": 36
+      },
+      {
+        "event_id": "EVT_737_MAX7_CERT_2026_08_03",
+        "provisional_score": 2,
+        "computed_score": 6,
+        "final_score": 6,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(2.85 * 2) = 6/10",
+        "weighted_sum": 2.85,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 2,
+            "weight": 0.3,
+            "weighted_contribution": 0.6,
+            "rationale": "Certification is a critical milestone for program viability."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Boeing is the sole OEM for the 737 MAX program."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "The FAA is the sole regulator for this type certificate."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 2,
+            "weight": 0.15,
+            "weighted_contribution": 0.3,
+            "rationale": "Variant-specific approval, though impacts OEM portfolio."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 1,
+            "weight": 0.2,
+            "weighted_contribution": 0.2,
+            "rationale": "Milestone reached; shift to production is immediate."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (114 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: ELEVATED (6/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 6,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "HIGH",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-08-03",
+        "source_age_days": 114
+      },
+      {
+        "event_id": "EVT_737_MAX10_CERT_TRACK_2026_04_21",
+        "provisional_score": 6,
+        "computed_score": 8,
+        "final_score": 8,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.90 * 2) = 8/10",
+        "weighted_sum": 3.9,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 3,
+            "weight": 0.3,
+            "weighted_contribution": 0.9,
+            "rationale": "Delays in the MAX 10 impact Boeing's competitive position in the large narrowbody segment."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Boeing is the sole OEM."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "Regulator is the sole authority for certification."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Specific to the MAX 10 variant; high customer interest."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "Target date of end-of-2026 is approaching."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (218 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (8/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+        "post_harness_score": 8,
+        "post_harness_validation_status": "PARTIALLY_SUPPORTED",
+        "post_harness_confidence_level": "LOW",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "PROVISIONAL_UNVERIFIED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-04-21",
+        "source_age_days": 218
+      },
+      {
+        "event_id": "BA-737-7-CERT-2026",
+        "provisional_score": 4,
+        "computed_score": 6,
+        "final_score": 6,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.20 * 2) = 6/10",
+        "weighted_sum": 3.2,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 2,
+            "weight": 0.3,
+            "weighted_contribution": 0.6,
+            "rationale": "Positive milestone; certification reduces regulatory risk for one of two monitored variants."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Boeing is the sole manufacturer for the 737-7 program."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "OEM-controlled design fix; no third-party substitute for regulatory approval exists."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Specific to the 737-7 variant and shared anti-ice components across the MAX family."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 2,
+            "weight": 0.2,
+            "weighted_contribution": 0.4,
+            "rationale": "Event is reported as completed in Q3 2026; focus shifts to delivery and MAX 10."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 29 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: ELEVATED (6/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 6,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "HIGH",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-10-27",
+        "source_age_days": 29
+      },
+      {
+        "event_id": "BA-737-10-DELAY-2026",
+        "provisional_score": 7,
+        "computed_score": 9,
+        "final_score": 9,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(4.35 * 2) = 9/10",
+        "weighted_sum": 4.35,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 4,
+            "weight": 0.3,
+            "weighted_contribution": 1.2,
+            "rationale": "Financial and operational risk due to delivery delays and inventory buildup."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Boeing controls final assembly and certification management."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "The 737-10 is a single-source Boeing product with no immediate modular substitute."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Impacts 737-10 backlog and future production rates across the narrowbody portfolio."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "Ongoing issue with year-end 2026 target approaching; 40 aircraft currently held."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (120 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (9/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 9,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "HIGH",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-07-28",
+        "source_age_days": 120
+      }
+    ],
+    "total_duration_sec": 148.46,
+    "llm_calls": 10,
+    "llm_retries": 0,
+    "tokens_input": 81647,
+    "tokens_output": 22301,
+    "token_usage_status": "MEASURED",
+    "token_usage_unknown_calls": 0,
+    "llm_call_audit": [
+      {
+        "task_type": "PHASE_1_PLANNER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 1550,
+        "output_tokens": 809,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_2_ACQUISITION",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 20804,
+        "output_tokens": 610,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2996,
+        "output_tokens": 1488,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 3397,
+        "output_tokens": 1430,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 3676,
+        "output_tokens": 867,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_1_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 19445,
+        "output_tokens": 2010,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_2_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 17611,
+        "output_tokens": 3740,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_3_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 19338,
+        "output_tokens": 3792,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_3B_QA",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 11571,
+        "output_tokens": 7996,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_4_EDITOR",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 3613,
+        "output_tokens": 978,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      }
+    ],
+    "analyst_recovery_audit": {
+      "attempts": [],
+      "fallbacks": [],
+      "recent_events": []
+    },
+    "token_accounting_method": "SHARED_LLM_DELTA",
+    "provider_requests_measured": 8,
+    "estimated_cost_usd": 0.10773,
+    "estimated_cost_status": "ESTIMATED",
+    "priced_cost_subtotal_usd": 0.10773,
+    "model_cost_audit": [
+      {
+        "model_id": "openrouter/google/gemini-3-flash-preview",
+        "usage_bucket": "openrouter/google/gemini-3-flash-preview",
+        "input_tokens": 81647,
+        "output_tokens": 22301,
+        "requests": 8,
+        "estimated_cost_usd": 0.10773,
+        "pricing_status": "ESTIMATED"
+      }
+    ],
+    "cost_estimation_reason_codes": [],
+    "unmatched_cost_model_ids": [],
+    "model_id": "openrouter/google/gemini-3-flash-preview",
+    "prompt_version": "v2.10-CI-HRO-2026-EVIDENCE-SCOPE",
+    "kiq_catalog_version": "THESIS_KIQ_CATALOG_V2_20261031",
+    "candidate_schema_rejections": 0,
+    "qa_failed": false,
+    "qa_performed": true,
+    "harness_performed": true,
+    "editor_failed": false,
+    "editorial_generation_mode": "LLM_TEXT_PYDANTIC_V1",
+    "editor_text_parsed_count": 2,
+    "editor_text_fallbacks": 1,
+    "editor_retry_count": 0,
+    "editor_retry_recovered": false,
+    "editor_fallback_used": true,
+    "pipeline_degraded": false,
+    "degradation_category": "NONE",
+    "source_coverage_issues": [],
+    "source_coverage_limited": true,
+    "source_coverage_advisories": [
+      {
+        "connector": "Exa Semantic Search",
+        "issue": "exa_type=auto; duplicates_skipped=0; include_domains=ALL"
+      },
+      {
+        "connector": "Exa Semantic Search",
+        "issue": "exa_type=auto; duplicates_skipped=2; include_domains=ALL"
+      },
+      {
+        "connector": "Official Industry PR / Boeing",
+        "issue": "RSS_METADATA_SCREENING_NOT_FULL_TEXT_VERIFICATION"
+      },
+      {
+        "connector": "FAA Federal Register",
+        "issue": "RESULTS_RETRIEVED; api_declared=2; retrieved=2; accepted=0; pagination_complete=True"
+      },
+      {
+        "connector": "News API",
+        "issue": "STAGES=EXACT,ALTERNATIVE,RECALL,ALIASES; NEWSAPI_COVERAGE=PARTIAL_WINDOW; requested_days=365.0; searchable_days=29.0; archive_limit_days=29; SEARCH_STATUS=RESULTS_RETRIEVED"
+      }
+    ],
+    "source_coverage_status": "PARTIAL",
+    "source_coverage_legacy_status": "LIMITED",
+    "evidence_result_status": "SUPPORTED_EVENTS",
+    "review_scope": "EVENT_REVIEW",
+    "analysis_issues": [],
+    "fr03_rejection_review_candidates": 4,
+    "fr03_rejection_stage_counts": {
+      "STAGE_1_DETERMINISTIC": 3,
+      "STAGE_2_SEMANTIC": 5
+    },
+    "scoring_calibration": "UNMEASURED_REQUIRES_EXPERT_REFERENCE_LABELS",
+    "semantic_filter_unavailable_count": 0,
+    "semantic_filter_missing_ids": [],
+    "analyst_valid_empty_batches": 0,
+    "analyst_invalid_batches": 0,
+    "analyst_empty_retry_count": 0,
+    "analyst_empty_retry_failed_batches": 0,
+    "analyst_empty_output_conflict": false,
+    "analyst_empty_conflict_previous_run": null,
+    "analyst_output_audit": [
+      {
+        "batch": 1,
+        "depth": 0,
+        "document_ids": [
+          "DOC_008",
+          "DOC_010",
+          "DOC_007"
+        ],
+        "documents_processed": 3,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 6230,
+        "output_tokens": 2010,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 2,
+        "depth": 0,
+        "document_ids": [
+          "DOC_006",
+          "DOC_001"
+        ],
+        "documents_processed": 2,
+        "candidate_count": 2,
+        "rejected_count": 0,
+        "output_chars": 11780,
+        "output_tokens": 3740,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 3,
+        "depth": 0,
+        "document_ids": [
+          "DOC_002",
+          "DOC_014",
+          "DOC_011"
+        ],
+        "documents_processed": 3,
+        "candidate_count": 2,
+        "rejected_count": 0,
+        "output_chars": 11527,
+        "output_tokens": 3792,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      }
+    ],
+    "confirmed_critical_count": 0,
+    "unverified_signal_count": 0,
+    "displayable_signal_count": 2,
+    "verified_context_count": 1,
+    "direct_kit_confirmed_count": 2,
+    "verified_context_event_ids": [
+      "BA-737-10-DELAY-2026"
+    ],
+    "classification_version": "SUPPORTED_ONLY_DASHBOARD_V3_EVENT_ID_1TO1",
+    "runtime_kiq_count": 1,
+    "runtime_kiq_ids": [
+      "RKIQ_001"
+    ],
+    "runtime_kiq_answered": 0,
+    "runtime_kiq_partially_answered": 1,
+    "runtime_kiq_unanswered": 0,
+    "runtime_kiq_not_searched": 0,
+    "intelligence_methodology": {
+      "collection_method": "OSINT",
+      "analysis_method": "Competitive Intelligence",
+      "osint_document_count": 16,
+      "ci_candidate_count": 4,
+      "osint_stage": "Acquisition and preprocessing of publicly available information.",
+      "ci_stage": "Interpretation of collected evidence against KIT/KIQ requirements, strategic risks, competitive implications and decision needs.",
+      "methodological_boundary": "A retrieved source is OSINT evidence. It becomes an intelligence assessment only after analytical interpretation and validation.",
+      "independent_verification_required": true
+    },
+    "editor_claim_audit": {
+      "status": "PASS",
+      "all_supported": true,
+      "citations_match": true,
+      "checks": {
+        "doc_id_exists": true,
+        "passages_match": true,
+        "event_references_valid": true,
+        "urls_valid": true
+      },
+      "claim_sentences_checked": 28,
+      "cited_document_ids": [
+        "DOC_001",
+        "DOC_002",
+        "DOC_006",
+        "DOC_007",
+        "DOC_008",
+        "DOC_010",
+        "DOC_011",
+        "DOC_014"
+      ],
+      "issues": [],
+      "review_items": [],
+      "audit_method": "DETERMINISTIC_PROVENANCE_ONLY"
+    },
+    "editor_executive_summary": "This assessment reviews the certification status of the Boeing 737-7 and 737-10 variants based on issuer filings and media reports dated between April and October 2026. The search scope included SEC regulatory filings and secondary media reports. Evidence indicates that Boeing has claimed the achievement of key regulatory milestones for both aircraft. Specifically, Boeing reported the certification of the 737-7 and its engine anti-ice (EAI) solution during the third quarter of 2026 [DOC_011]. Further reports and company statements indicate the 737-10 received its certification on October 20, 2026 [DOC_010], [DOC_008]. While these issuer and media assertions are consistent, the file lacks direct, independent confirmation from the Federal Aviation Administration (FAA). Analytical interpretation suggests that while the regulatory \"paper\" milestone is likely complete according to the manufacturer, the transition to delivery readiness remains subject to production stability. Management should prioritize verifying the FAA’s official registry status and monitoring for any post-certification EAI exemption conditions that could impact long-term operational flexibility.",
+    "editor_detailed_analytical_assessment": "The certification trajectory for the 737 MAX 7 and MAX 10 has shifted from a state of forward-looking risk to reported completion. In July 2026, Boeing’s internal risk assessments highlighted that \"delays to entry into service\" for these models remained a factor that could lead to \"reductions to backlog and/or significant order cancellations\" [DOC_014]. However, by October 2026, the company’s reporting transitioned to active status updates. An official filing on October 27, 2026, explicitly stated, \"In the third quarter of 2026, we achieved certification of the 737-7 and the engine anti-ice solution\" [DOC_011]. This was complemented by a October 20, 2026, press release announcing that the 737-10 had joined the 737-7, 737-8, and 737-9 as a certified variant [DOC_010]. Secondary media coverage corroborated these dates, specifically citing August 3, 2026, for the MAX 7 and October 20, 2026, for the MAX 10 [DOC_008].\n\nDespite these positive milestones, the evidence contains critical gaps regarding the \"finalized\" status of technical sub-systems, such as the enhanced angle of attack sensor system for the MAX 10 [DOC_014]. Furthermore, while the certification of the engine anti-ice solution is noted [DOC_011], the specific details regarding any post-certification exemptions or required retrofits are not detailed in the available text. The primary analytical takeaway is that the regulatory hurdle for entry-into-service (EIS) has been cleared according to the issuer, but the \"financial position, results of operations and cash flows\" remain sensitive to Boeing's ability to \"increase production rates\" [DOC_014]. Certification is a necessary but not sufficient condition for clearing the delivery backlog.\n\nManagement should treat the certification as a confirmed issuer claim while maintaining a \"Partially Answered\" status for the KIT until the FAA provides independent verification. The focus must now move from regulatory approval to production ramp-up and the resolution of any remaining technical provisos mentioned in the certification basis.",
+    "editor_validation_status": "PASS",
+    "editor_claim_citations_verified": true,
+    "editor_semantic_review_required": false,
+    "kit_current_assessment": {
+      "status": "ISSUE_PARTIALLY_RESOLVED",
+      "source_coverage": "INCOMPLETE",
+      "as_of_date": "2026-11-25",
+      "search_overview": {
+        "connectors_searched": [
+          "Exa Semantic Search",
+          "Official Industry PR / Boeing",
+          "FAA Federal Register",
+          "News API",
+          "SEC EDGAR",
+          "XBRL International ESEF Filing Index"
+        ],
+        "connectors_with_results": [
+          "Exa Semantic Search",
+          "News API",
+          "SEC EDGAR"
+        ],
+        "documents_collected": 16,
+        "documents_analyzed": 8,
+        "documents_rejected": 8,
+        "events_identified": 4,
+        "supported_events": 2
+      },
+      "issue_status": "PARTIALLY_RESOLVED",
+      "regulator_verification": "UNAVAILABLE",
+      "source_authority": "ISSUER_REPORTED",
+      "coverage_status": "PARTIAL",
+      "severity_context": "CURRENT",
+      "potential_severity": 6,
+      "evidence_confidence": "HIGH",
+      "chronological_milestones": [
+        {
+          "event_id": "",
+          "kiq_id": "RKIQ_001",
+          "date": "2026-10-27",
+          "issue": "Boeing 737 MAX 7 and MAX 10 FAA certification status",
+          "state": "ISSUE_RESOLVED",
+          "evidence_id": "DOC_011",
+          "source_role": "ISSUER_REPORTED",
+          "supersession": "KIQ_ATOMIC_EVIDENCE",
+          "opposing_evidence_id": "",
+          "opposing_claim": "",
+          "quote": "In the third quarter of 2026, we achieved certification of the 737-7 and the engine anti-ice solution."
+        }
+      ],
+      "conflicts": [],
+      "monitored_kit": "Boeing 737 MAX 7 and MAX 10 FAA certification status",
+      "original_issue": "Boeing 737 MAX 7 and MAX 10 FAA certification status",
+      "latest_milestone": "ISSUE_RESOLVED",
+      "latest_milestone_date": "2026-10-27",
+      "latest_evidence_id": "DOC_011",
+      "latest_evidence_url": "",
+      "latest_verification": "KIQ_ATOMIC_CLAIM_VERIFIED_SOURCE_AUTHORITY_SEPARATE",
+      "unresolved_questions": [
+        "Latest dated, issue-specific status: Independent confirmation of the preliminary claim"
+      ],
+      "severity": 6,
+      "confidence": "HIGH",
+      "evidence_strength": "SOURCE_SUPPORTED",
+      "reported_developments": [],
+      "kiq_source_claims": [
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_001",
+          "quote": "The approval reflects years of sustained work to resolve complex technical issues and complete a thorough review of the airplane’s design and supporting safety analyses.",
+          "date": "2026-08-03",
+          "publication_date": "2026-08-03",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_EXA",
+          "source_url": "https://www.faa.gov/newsroom/faa-statement-certification-boeing-737-max-7",
+          "authority": "REGULATOR",
+          "source_role": "REGULATORY_PUBLICATION",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "verbatim_passage_recorded": true,
+          "verification": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "OBSERVED",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "PROGRAM_APPLICABILITY"
+          ],
+          "regulator_confirmation": "SOURCE_DOCUMENT",
+          "validation_conflict": ""
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_011",
+          "quote": "In the third quarter of 2026, we achieved certification of the 737-7 and the engine anti-ice solution.",
+          "date": "2026-10-27",
+          "publication_date": "2026-10-27",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_027",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/12927/000162828026067508/ba-20260930.htm",
+          "authority": "ISSUER_DISCLOSURE",
+          "source_role": "ISSUER_REPORTED",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "verbatim_passage_recorded": true,
+          "verification": "PRELIMINARY",
+          "claim_state": "ISSUE_RESOLVED",
+          "content_result": "",
+          "claim_type": "STATUS_CONTEXT",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "CURRENT_STATUS",
+            "PROGRAM_APPLICABILITY"
+          ],
+          "regulator_confirmation": "NOT_ESTABLISHED",
+          "validation_conflict": ""
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_008",
+          "quote": "All four main variants are now FAA-certified: the 737 MAX 7 on 3 August 2026 and the 737 MAX 10 on 20 October 2026",
+          "date": "2026-11-21",
+          "publication_date": "2026-11-21",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_EXA",
+          "source_url": "https://djsaviation.net/latest-boeing-737-max-developments/",
+          "authority": "SECONDARY",
+          "source_role": "SECONDARY_OR_UNKNOWN",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "verbatim_passage_recorded": true,
+          "verification": "PRELIMINARY",
+          "claim_state": "ISSUE_RESOLVED",
+          "content_result": "",
+          "claim_type": "DIRECT_ISSUE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "CURRENT_STATUS"
+          ],
+          "regulator_confirmation": "NOT_ESTABLISHED",
+          "validation_conflict": ""
+        }
+      ],
+      "established_regulatory_facts": [],
+      "evidence_validation_warnings": [],
+      "kiq_status_counts": {
+        "ANSWERED": 0,
+        "PARTIALLY_ANSWERED": 1,
+        "UNANSWERED": 0,
+        "NOT_SEARCHED": 0
+      }
+    },
+    "detailed_analytical_assessment": "The certification trajectory for the 737 MAX 7 and MAX 10 has shifted from a state of forward-looking risk to reported completion. In July 2026, Boeing’s internal risk assessments highlighted that \"delays to entry into service\" for these models remained a factor that could lead to \"reductions to backlog and/or significant order cancellations\" [DOC_014]. However, by October 2026, the company’s reporting transitioned to active status updates. An official filing on October 27, 2026, explicitly stated, \"In the third quarter of 2026, we achieved certification of the 737-7 and the engine anti-ice solution\" [DOC_011]. This was complemented by a October 20, 2026, press release announcing that the 737-10 had joined the 737-7, 737-8, and 737-9 as a certified variant [DOC_010]. Secondary media coverage corroborated these dates, specifically citing August 3, 2026, for the MAX 7 and October 20, 2026, for the MAX 10 [DOC_008].\n\nDespite these positive milestones, the evidence contains critical gaps regarding the \"finalized\" status of technical sub-systems, such as the enhanced angle of attack sensor system for the MAX 10 [DOC_014]. Furthermore, while the certification of the engine anti-ice solution is noted [DOC_011], the specific details regarding any post-certification exemptions or required retrofits are not detailed in the available text. The primary analytical takeaway is that the regulatory hurdle for entry-into-service (EIS) has been cleared according to the issuer, but the \"financial position, results of operations and cash flows\" remain sensitive to Boeing's ability to \"increase production rates\" [DOC_014]. Certification is a necessary but not sufficient condition for clearing the delivery backlog.\n\nManagement should treat the certification as a confirmed issuer claim while maintaining a \"Partially Answered\" status for the KIT until the FAA provides independent verification. The focus must now move from regulatory approval to production ramp-up and the resolution of any remaining technical provisos mentioned in the certification basis.",
+    "detailed_analytical_assessment_mode": "VALIDATED_EDITOR",
+    "executive_summary_mode": "VALIDATED_EDITOR",
+    "report_evidence_usage": [
+      {
+        "doc_id": "DOC_001",
+        "event_ids": [
+          "EVT_737_MAX7_CERT_2026_08_03"
+        ],
+        "kiq_ids": [
+          "KIQ_3_1",
+          "RKIQ_001"
+        ],
+        "source_role": "REGULATORY_PUBLICATION",
+        "reason_code": "USED_IN_KIQ_NOT_CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_002",
+        "event_ids": [
+          "BA-737-10-DELAY-2026"
+        ],
+        "kiq_ids": [
+          "KIQ_3_1",
+          "RKIQ_001"
+        ],
+        "source_role": "ISSUER_REPORTED",
+        "reason_code": "USED_IN_KIQ_NOT_CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_006",
+        "event_ids": [
+          "EVT_737_MAX10_CERT_TRACK_2026_04_21"
+        ],
+        "kiq_ids": [
+          "RKIQ_001"
+        ],
+        "source_role": "UNKNOWN",
+        "reason_code": "USED_IN_KIQ_NOT_CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_007",
+        "event_ids": [
+          "EVENT_BOEING_MAX_CERT_2026"
+        ],
+        "kiq_ids": [
+          "RKIQ_001"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "USED_IN_KIQ_NOT_CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_008",
+        "event_ids": [
+          "EVENT_BOEING_MAX_CERT_2026"
+        ],
+        "kiq_ids": [
+          "RKIQ_001"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_010",
+        "event_ids": [
+          "EVENT_BOEING_MAX_CERT_2026"
+        ],
+        "kiq_ids": [
+          "RKIQ_001"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_011",
+        "event_ids": [
+          "BA-737-7-CERT-2026"
+        ],
+        "kiq_ids": [
+          "KIQ_3_1",
+          "RKIQ_001"
+        ],
+        "source_role": "ISSUER_REPORTED",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_014",
+        "event_ids": [
+          "BA-737-10-DELAY-2026"
+        ],
+        "kiq_ids": [
+          "KIQ_3_1",
+          "RKIQ_001"
+        ],
+        "source_role": "ISSUER_REPORTED",
+        "reason_code": "CITED_IN_REPORT"
+      }
+    ],
+    "detailed_analytical_assessment_sha256": "3e51972fffb873e5b2f51d56cbba0600fb5e0e7e8afacf402d561aab6076384c",
+    "detailed_analytical_assessment_word_count": 303,
+    "executive_summary_word_count": 159,
+    "agent_decision_trace": [
+      {
+        "agent_index": 1,
+        "agent_role": "Intelligence Planning & Acquisition Agent",
+        "inputs": {
+          "kit": "Boeing 737 MAX 7 and MAX 10 FAA certification status",
+          "scope": "365d",
+          "specificity": "EXACT",
+          "platforms": [
+            "news",
+            "regulatory",
+            "pr"
+          ],
+          "collection_mode": "agentic_exa"
+        },
+        "decisions": {
+          "planner_status": "REPAIRED",
+          "information_requirements_count": 3,
+          "queries_executed": 5,
+          "exa_calls_executed": 2,
+          "collection_status": "COMPLETED",
+          "fallback_used": false,
+          "agent_rationale": "The search successfully identified the exact FAA certification dates for both variants: the 737-7 (MAX 7) on August 3, 2026, and the 737-10 (MAX 10) on October 20, 2026. Primary evidence from FAA.gov and Boeing Investor Relations corroborated the resolution of the engine anti-ice system hurdle, which was the primary regulatory barrier. All required platforms (news, regulatory, pr) were queried, and the budget was managed to ensure high-signal primary source acquisition."
+        },
+        "outputs": {
+          "documents_collected": 16,
+          "primary_documents": 8,
+          "secondary_documents": 8,
+          "sources_used": [
+            "Exa Semantic Search",
+            "News API",
+            "SEC EDGAR"
+          ],
+          "unresolved_requirements": [
+            "Direct access to the formal Type Certificate Data Sheet (TCDS) amendment document (though certification dates are confirmed via FAA and Boeing official statements)."
+          ]
+        },
+        "duration_sec": 31.35
+      },
+      {
+        "agent_index": 2,
+        "agent_role": "Risk Analyst Agent",
+        "inputs": {
+          "fr03_accepted_documents": 8,
+          "fr03_rejected_documents": 8,
+          "batches_created": 3
+        },
+        "decisions": {
+          "batches_succeeded": 3,
+          "batches_failed": 0,
+          "documents_failed": 0,
+          "candidate_schema_rejections": 0,
+          "deterministic_scoring_status": "COMPLETED",
+          "scoring_method": "DETERMINISTIC_5_FACTOR_IW"
+        },
+        "outputs": {
+          "direct_candidate_events": 4,
+          "watchlist_events": 1,
+          "event_ids": [
+            "EVT_737_MAX7_CERT_2026_08_03",
+            "EVT_737_MAX10_CERT_TRACK_2026_04_21",
+            "BA-737-7-CERT-2026",
+            "BA-737-10-DELAY-2026"
+          ]
+        },
+        "duration_sec": 54.01
+      },
+      {
+        "agent_index": 3,
+        "agent_role": "Quality Assurance Agent",
+        "inputs": {
+          "qa_enabled": true,
+          "harness_enabled": true,
+          "candidates_reviewed": 5
+        },
+        "decisions": {
+          "qa_performed": true,
+          "qa_failed": false,
+          "harness_performed": true,
+          "validation_errors": 0
+        },
+        "outputs": {
+          "supported_direct_events": 2,
+          "confirmed_critical_events": 0,
+          "unverified_signals": 0,
+          "kiq_completion_status": "NOT_ANSWERED"
+        },
+        "duration_sec": 32.46
+      },
+      {
+        "agent_index": 4,
+        "agent_role": "EWS Editor Agent",
+        "inputs": {
+          "event_briefs_supplied": 4,
+          "verbatim_citations_supplied": 4,
+          "runtime_kiq_count": 1
+        },
+        "decisions": {
+          "editor_failed": false,
+          "editor_validation_status": "PASS",
+          "executive_summary_mode": "VALIDATED_EDITOR",
+          "detailed_assessment_mode": "VALIDATED_EDITOR",
+          "actions_parsed": 2,
+          "action_fallbacks": 1
+        },
+        "outputs": {
+          "action_plan_count": 2,
+          "executive_summary_words": 159,
+          "detailed_assessment_words": 303
+        },
+        "duration_sec": 9.93
+      }
+    ],
+    "ai_governance": {
+      "regulatory_reference": "Regulation (EU) 2024/1689, as amended",
+      "assessment_timestamp_utc": "2026-11-25T14:29:08.829123+00:00",
+      "intended_purpose": "Competitive Intelligence decision support using publicly available aerospace information.",
+      "prohibited_uses": [
+        "Autonomous aircraft operation",
+        "Autonomous safety-critical decisions",
+        "Automated regulatory certification",
+        "Unreviewed operational interventions"
+      ],
+      "ai_system_provider": "Externally hosted LLM provider",
+      "model_identifier": "openrouter/google/gemini-3-flash-preview",
+      "run_id": "RUN-20261125-142639-7FCC8F6019D7",
+      "risk_classification": "REQUIRES_LEGAL_ASSESSMENT",
+      "legal_compliance_status": "NOT_CERTIFIED",
+      "ai_generated_content": true,
+      "human_oversight_available": true,
+      "human_review_status": "WAITING_FOR_HITL",
+      "controls": {
+        "source_traceability": true,
+        "independent_qa": true,
+        "deterministic_validation": true,
+        "human_review_gate": true,
+        "critical_alert_requires_verified_evidence": true,
+        "model_and_run_logging": true
+      },
+      "legal_review_items": {
+        "article_4_ai_literacy": "ORGANIZATIONAL_REVIEW_REQUIRED",
+        "article_50_transparency": "APPLICABILITY_REVIEW_REQUIRED",
+        "article_6_high_risk_classification": "LEGAL_REVIEW_REQUIRED",
+        "personal_data_processing": "GDPR_REVIEW_REQUIRED",
+        "copyright_and_tdm": "SOURCE_SPECIFIC_REVIEW_REQUIRED"
+      },
+      "limitations": "These records document implemented safeguards. They are not a legal conformity assessment, certification or proof of compliance."
+    }
+  },
+  "comparison_summary": {
+    "has_comparable_run": false,
+    "previous_run_id": null,
+    "note": "No previous run with identical KIT and time scope; baseline established.",
+    "delta_critical": 0,
+    "delta_elevated": 0,
+    "delta_monitored": 0,
+    "new_events": 4,
+    "continuing_events": 0,
+    "not_redetected_events": 0,
+    "resolved_events": 0,
+    "unknown_status_events": 0,
+    "reclassified_to_watchlist": 0,
+    "methodology_changed": false
+  },
+  "connector_status": {
+    "Exa Semantic Search": {
+      "connector_name": "Exa Semantic Search",
+      "source_id": "SRC_EXA",
+      "technical_source": "api.exa.ai",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Boeing 737 MAX engine anti-ice system FAA safety exemption ruling and design changes 2025 2026",
+        "FAA certification status and timeline for Boeing 737-7 MAX 7 and 737-10 MAX 10 2025 2026"
+      ],
+      "found_count": 12,
+      "accepted_count": 10,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 2,
+      "http_status_counts": {
+        "200": 2
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [
+        "exa_type=auto; duplicates_skipped=0; include_domains=ALL",
+        "exa_type=auto; duplicates_skipped=2; include_domains=ALL"
+      ],
+      "time_window": {
+        "from": "2025-11-25T14:26:39Z",
+        "to": "2026-11-25T14:26:39Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T14:26:49Z",
+      "successful_responses": 2,
+      "collected_document_count": 10,
+      "content_availability_counts": {
+        "FULL_TEXT": 10
+      },
+      "observed_publication_from": "2026-04-21",
+      "observed_publication_to": "2026-11-21"
+    },
+    "Official Industry PR / Boeing": {
+      "connector_name": "Official Industry PR / Boeing",
+      "source_id": "SRC_030",
+      "technical_source": "boeing.mediaroom.com",
+      "origin_type": "PRIMARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Boeing 737 MAX 7 10 certification engine anti-ice fix status",
+        "737 MAX 7 10 certification"
+      ],
+      "found_count": 5,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 1,
+      "http_status_counts": {
+        "200": 1
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "NO_MATCH",
+      "errors": [],
+      "coverage_advisories": [
+        "RSS_METADATA_SCREENING_NOT_FULL_TEXT_VERIFICATION"
+      ],
+      "time_window": {
+        "from": "2025-11-25T14:26:39Z",
+        "to": "2026-11-25T14:26:39Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T14:26:52Z",
+      "diagnostics": {
+        "selection_reason": "EXPLICIT_MANUFACTURER",
+        "selected_manufacturer": "Boeing",
+        "rss_candidates_examined": 5,
+        "rss_metadata_rejected": 5,
+        "rss_candidates_unexamined": 0,
+        "candidate_outcomes": {
+          "https://boeing.mediaroom.com/2026-11-25-Malaysia-Aviation-Group-Commits-to-Order-up-to-16-Boeing-787-Dreamliner-Jets": "RSS_METADATA_NOT_RELEVANT",
+          "https://boeing.mediaroom.com/news-releases-statements?item=131737": "RSS_METADATA_NOT_RELEVANT",
+          "https://boeing.mediaroom.com/2026-11-15-Boeing-and-Philippine-Airlines-Finalize-Order-for-up-to-20-787-Dreamliners": "RSS_METADATA_NOT_RELEVANT",
+          "https://boeing.mediaroom.com/2026-11-04-Avolon-Finalizes-Order-for-140-Boeing-737-10-Jets": "RSS_METADATA_NOT_RELEVANT",
+          "https://boeing.mediaroom.com/2026-11-03-Boeing-Travel-Demand-Propels-Middle-East-Fleet-to-Double-by-2045": "RSS_METADATA_NOT_RELEVANT"
+        },
+        "metadata_only_records": 0,
+        "article_access_blocked": 0,
+        "article_unavailable": 0
+      },
+      "diagnostics_history": [
+        {
+          "query": "Boeing 737 MAX 7 10 certification engine anti-ice fix status",
+          "selection_reason": "EXPLICIT_MANUFACTURER",
+          "selected_manufacturer": "Boeing"
+        },
+        {
+          "query": "737 MAX 7 10 certification",
+          "rss_candidates_examined": 5,
+          "rss_metadata_rejected": 5,
+          "rss_candidates_unexamined": 0,
+          "candidate_outcomes": {
+            "https://boeing.mediaroom.com/2026-11-25-Malaysia-Aviation-Group-Commits-to-Order-up-to-16-Boeing-787-Dreamliner-Jets": "RSS_METADATA_NOT_RELEVANT",
+            "https://boeing.mediaroom.com/news-releases-statements?item=131737": "RSS_METADATA_NOT_RELEVANT",
+            "https://boeing.mediaroom.com/2026-11-15-Boeing-and-Philippine-Airlines-Finalize-Order-for-up-to-20-787-Dreamliners": "RSS_METADATA_NOT_RELEVANT",
+            "https://boeing.mediaroom.com/2026-11-04-Avolon-Finalizes-Order-for-140-Boeing-737-10-Jets": "RSS_METADATA_NOT_RELEVANT",
+            "https://boeing.mediaroom.com/2026-11-03-Boeing-Travel-Demand-Propels-Middle-East-Fleet-to-Double-by-2045": "RSS_METADATA_NOT_RELEVANT"
+          },
+          "metadata_only_records": 0,
+          "article_access_blocked": 0,
+          "article_unavailable": 0
+        }
+      ],
+      "successful_responses": 1
+    },
+    "FAA Federal Register": {
+      "connector_name": "FAA Federal Register",
+      "source_id": "SRC_001",
+      "technical_source": "federalregister.gov",
+      "origin_type": "PRIMARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "FAA 737 MAX 7 10 certification TCDS engine anti-ice exemption"
+      ],
+      "found_count": 2,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 3,
+      "http_status_counts": {
+        "200": 3
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "NO_MATCH",
+      "errors": [],
+      "coverage_advisories": [
+        "RESULTS_RETRIEVED; api_declared=2; retrieved=2; accepted=0; pagination_complete=True"
+      ],
+      "time_window": {
+        "from": "2025-11-25T14:26:39Z",
+        "to": "2026-11-25T14:26:39Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T14:26:54Z",
+      "diagnostics": {
+        "page_audits": [
+          {
+            "status": "RESULTS_RETRIEVED",
+            "declared_count": 2,
+            "processed_count": 2,
+            "access_restricted": false,
+            "pages": 1,
+            "page_size": 12,
+            "pagination_complete": true,
+            "last_error": "",
+            "attempts": [
+              {
+                "page": 1,
+                "requested_page_size": 12,
+                "max_bytes": 600000,
+                "http_status": 200,
+                "content_type": "application/json; charset=utf-8",
+                "content_length": "1571",
+                "received_bytes": 3858,
+                "http_attempts": 1,
+                "requested_fields": [
+                  "document_number",
+                  "docket_id",
+                  "docket_ids",
+                  "title",
+                  "abstract",
+                  "action",
+                  "type",
+                  "html_url",
+                  "raw_text_url",
+                  "publication_date",
+                  "effective_on"
+                ],
+                "actual_results_count": 2,
+                "pagination_honored": true,
+                "error_code": null,
+                "response_classification": "VALID_SEARCH_RESPONSE",
+                "response_schema": {
+                  "keys": [
+                    "count",
+                    "description",
+                    "results",
+                    "total_pages"
+                  ],
+                  "types": {
+                    "description": "str",
+                    "count": "int",
+                    "total_pages": "int",
+                    "results": "list"
+                  },
+                  "api_error_code": "",
+                  "declared_count": 2,
+                  "results_present": true,
+                  "results_type": "list"
+                },
+                "query_variant": "ORIGINAL"
+              }
+            ],
+            "request_calls": 1,
+            "retry_suppressed": false,
+            "search_variants": [
+              "ORIGINAL"
+            ],
+            "repair_used": false
+          }
+        ]
+      },
+      "diagnostics_history": [
+        {
+          "query": "FAA 737 MAX 7 10 certification TCDS engine anti-ice exemption",
+          "page_audits": [
+            {
+              "status": "RESULTS_RETRIEVED",
+              "declared_count": 2,
+              "processed_count": 2,
+              "access_restricted": false,
+              "pages": 1,
+              "page_size": 12,
+              "pagination_complete": true,
+              "last_error": "",
+              "attempts": [
+                {
+                  "page": 1,
+                  "requested_page_size": 12,
+                  "max_bytes": 600000,
+                  "http_status": 200,
+                  "content_type": "application/json; charset=utf-8",
+                  "content_length": "1571",
+                  "received_bytes": 3858,
+                  "http_attempts": 1,
+                  "requested_fields": [
+                    "document_number",
+                    "docket_id",
+                    "docket_ids",
+                    "title",
+                    "abstract",
+                    "action",
+                    "type",
+                    "html_url",
+                    "raw_text_url",
+                    "publication_date",
+                    "effective_on"
+                  ],
+                  "actual_results_count": 2,
+                  "pagination_honored": true,
+                  "error_code": null,
+                  "response_classification": "VALID_SEARCH_RESPONSE",
+                  "response_schema": {
+                    "keys": [
+                      "count",
+                      "description",
+                      "results",
+                      "total_pages"
+                    ],
+                    "types": {
+                      "description": "str",
+                      "count": "int",
+                      "total_pages": "int",
+                      "results": "list"
+                    },
+                    "api_error_code": "",
+                    "declared_count": 2,
+                    "results_present": true,
+                    "results_type": "list"
+                  },
+                  "query_variant": "ORIGINAL"
+                }
+              ],
+              "request_calls": 1,
+              "retry_suppressed": false,
+              "search_variants": [
+                "ORIGINAL"
+              ],
+              "repair_used": false
+            }
+          ]
+        }
+      ],
+      "successful_responses": 2
+    },
+    "News API": {
+      "connector_name": "News API",
+      "source_id": "SRC_004",
+      "technical_source": "newsapi.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Boeing 737 MAX 7 10 FAA certification engine anti-ice fix"
+      ],
+      "found_count": 2,
+      "accepted_count": 2,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 6,
+      "http_status_counts": {
+        "200": 6
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [
+        "STAGES=EXACT,ALTERNATIVE,RECALL,ALIASES; NEWSAPI_COVERAGE=PARTIAL_WINDOW; requested_days=365.0; searchable_days=29.0; archive_limit_days=29; SEARCH_STATUS=RESULTS_RETRIEVED"
+      ],
+      "time_window": {
+        "from": "2025-11-25T14:26:39Z",
+        "to": "2026-11-25T14:26:39Z",
+        "scope": "365d",
+        "requested_from": "2025-11-25",
+        "requested_to": "2026-11-25",
+        "searchable_from": "2026-10-27T14:26:52.317676+00:00",
+        "searchable_to": "2026-11-25T14:26:52.314155+00:00",
+        "actual_from": "2026-10-27",
+        "actual_to": "2026-11-25",
+        "actual_window_basis": "CONFIGURED_SEARCH_WINDOW_NOT_RETRIEVAL_VERIFIED",
+        "actual_searchable_days": 29.0,
+        "requested_horizon_days": 365.0,
+        "provider_archive_limit_days": 29,
+        "provider_limit_basis": "CONFIGURED_PLAN_WINDOW_NOT_API_VERIFIED",
+        "coverage_status": "PARTIAL_WINDOW",
+        "source_coverage": "PARTIAL",
+        "coverage_complete": false,
+        "date_basis": "PUBLICATION_DATE",
+        "event_date_coverage": "NOT_ESTABLISHED",
+        "observed_publication_from": "2026-10-27",
+        "observed_publication_to": "2026-11-10",
+        "observed_document_count": 2
+      },
+      "last_updated": "2026-11-25T14:27:02Z",
+      "successful_responses": 6,
+      "collected_document_count": 2,
+      "content_availability_counts": {
+        "PARTIAL_TEXT": 2
+      },
+      "observed_publication_from": "2026-10-27",
+      "observed_publication_to": "2026-11-10"
+    },
+    "SEC EDGAR": {
+      "connector_name": "SEC EDGAR",
+      "source_id": "SRC_027",
+      "technical_source": "data.sec.gov",
+      "origin_type": "PRIMARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Boeing 737 MAX 7 10 certification engine anti-ice fix status"
+      ],
+      "found_count": 6,
+      "accepted_count": 6,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 7,
+      "http_status_counts": {
+        "200": 7
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [],
+      "time_window": {
+        "from": "2025-11-25T14:26:39Z",
+        "to": "2026-11-25T14:26:39Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T14:27:08Z",
+      "successful_responses": 7,
+      "collected_document_count": 4,
+      "content_availability_counts": {
+        "PARTIAL_TEXT": 4
+      },
+      "observed_publication_from": "2026-07-16",
+      "observed_publication_to": "2026-10-27"
+    },
+    "XBRL International ESEF Filing Index": {
+      "connector_name": "XBRL International ESEF Filing Index",
+      "source_id": "SRC_031",
+      "technical_source": "filings.xbrl.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Boeing 737 MAX 7 10 certification engine anti-ice fix status"
+      ],
+      "found_count": 0,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 0,
+      "http_status_counts": {},
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "NO_MATCH",
+      "errors": [],
+      "coverage_advisories": [],
+      "time_window": {
+        "from": "2025-11-25T14:26:39Z",
+        "to": "2026-11-25T14:26:39Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-25T14:27:08Z"
+    }
+  }
+}

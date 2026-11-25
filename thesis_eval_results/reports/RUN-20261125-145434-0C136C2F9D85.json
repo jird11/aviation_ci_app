@@ -1,0 +1,4110 @@
+{
+  "report_id": "RPT-20261125-A8DA7A",
+  "run_id": "RUN-20261125-145434-0C136C2F9D85",
+  "version": 1,
+  "outcome_status": "PARTIAL_SUCCESS",
+  "executive_summary": "Intelligence monitoring of Airbus commercial and defense order activity through November 2026 reveals significant backlog expansion and sustained demand across both narrow-body and wide-body segments. Analysis of official company disclosures and press releases [DOC_003, DOC_009, DOC_012] confirms that the A320 Family has surpassed 20,000 global orders [DOC_009]. Key transactions include a major commitment from Avolon for 110 aircraft—comprising 75 A320neo Family and 35 A330-900 units—which increases the lessor’s total A320 family commitment to approximately 650 units [DOC_012]. Additionally, FLYONE Armenia finalized an order for two A321neo aircraft in late September 2026 [DOC_009]. Beyond commercial aviation, Airbus Defence and Space reported a substantial increase in order intake value, reaching €11.5 billion for the first nine months of 2026, compared to €6.8 billion in the same period for 2025 [DOC_003]. While these findings indicate robust commercial momentum, the data remains incomplete regarding the specific impact of October cancellations [DOC_006] and the status of reported delivery deferrals [DOC_002]. Management should focus on validating the net backlog position following these cancellations to determine if production slot availability for Tier 2 customers has shifted.",
+  "detailed_analytical_assessment": "The current evidence base establishes a period of high-volume contractual activity for Airbus, characterized by large-scale lessor commitments and a strengthening defense portfolio. The Avolon order [DOC_012] is particularly significant as it signals long-term lessor confidence in the A330-900 and A320neo programs, potentially tightening delivery windows for smaller operators through the end of the decade. This \"commercial momentum\" is mirrored in the defense sector, where order intake has nearly doubled year-over-year as of October 2026 [DOC_003]. \n\nHowever, a comprehensive competitive assessment is currently constrained by \"UNSUPPORTED\" validation statuses for several critical market signals. Specifically, while gross orders are well-documented, the \"AIRBUS_OCT_CANCELLATIONS\" [DOC_006] and \"AIRBUS-ME-DEFERRAL-STATUS\" [DOC_002] suggest underlying volatility that is not yet fully quantified in the public domain. The source for the Middle East deferrals [DOC_002] does not specify the affected programs, leaving a gap in understanding whether these are geopolitical disruptions affecting wide-body or narrow-body deliveries. Furthermore, while supply chain metrics for the A320neo were noted in early November [DOC_005], the evidence does not explicitly link these metrics to a change in delivery rates or production bottlenecks.\n\nAnalytically, the concentration of orders within major lessors like Avolon suggests a \"Slot Consumption\" effect where Tier 1 entities secure the majority of near-term production capacity. This creates a competitive risk for smaller airlines who may face increased lead times or be forced to negotiate through lessors rather than directly with the OEM. The primary open question remains the net order tally for Q4 2026, as the high-confidence order announcements [DOC_009, DOC_012] must be weighed against the medium-confidence reports of cancellations and postponements [DOC_001, DOC_006]. Management is advised to prioritize the verification of the October 2026 Order Summary [DOC_004] to reconcile these conflicting signals. Monitoring should transition from simple order tracking to an assessment of \"Backlog Quality,\" specifically looking for evidence of firm orders converting to delivery versus those entering long-term deferral status.",
+  "qa_audit_summary": "Editor text converted into typed recommendations; independent evidence QA remains authoritative. | Five-Dimensional Grounding (Technical, Claim, Causal, Independent Verification, Freshness) completed. | [Harness Guard]: 3/7 direct signals SUPPORTED, 4 PARTIALLY_SUPPORTED, 1 classified as ONGOING_ISSUE, 0 moved to RELATED_PROGRAM_WATCHLIST, 5 flagged for manual HITL verification. | Evidence disposition (not a filtering verdict): DOC_001=REFERENCED_BY_EVENT_NOT_KIQ; DOC_002=REFERENCED_BY_EVENT_NOT_KIQ; DOC_003=USED_IN_KIQ_ANSWER; DOC_004=USED_IN_KIQ_ANSWER; DOC_005=REFERENCED_BY_EVENT_NOT_KIQ; DOC_006=USED_IN_KIQ_ANSWER; DOC_009=REFERENCED_BY_EVENT_NOT_KIQ; DOC_012=USED_IN_KIQ_ANSWER | KIT_COMPLETION: PARTIALLY_ANSWERED; 0 of 2 information requirements remain unverified. | [Telemetry]: Run: RUN-20261125-145434-0C136C2F9D85 | CollectionMode: agentic_exa | Runtime: 172.47s (Plan: 4.34s, Collect: 48.57s, Filter: 23.01s, Analyze: 54.47s, QA: 31.26s, Edit: 10.65s, Score: 0.0s) | Batches: 3/3 OK (0 failed) | Docs: 8/16 analyzed (0 failed) | LLM Calls: 10 (Retries: 0) | Model: openrouter/google/gemini-3-flash-preview | Estimated LLM Cost: $0.11473 (ESTIMATED)",
+  "hitl_status": "WAITING_FOR_HITL",
+  "threats": [
+    {
+      "event_id": "EVT_20261009_AVOLON_AIRBUS_110",
+      "kiq_ids": [
+        "KIQ_2_2",
+        "RKIQ_001",
+        "RKIQ_002"
+      ],
+      "indicator_name": "Major fleet contract announcement",
+      "company_affected": "Avolon",
+      "ci_dimension": "Competitor CI",
+      "risk_type": "COMPETITIVE",
+      "secondary_risk_types": [
+        "FINANCIAL"
+      ],
+      "scm_tier": "Unknown (Verification Required)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "A320NEO_FAMILY, A330NEO",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [],
+      "supplier_registry_basis": "Company: Avolon -> Role: Unknown (Verification Required) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: A320NEO_FAMILY, A330NEO",
+      "propagation_effect": "Spillover Effect (Crisis Contagion)",
+      "impact_path": [
+        "[Evidenced Entity] Avolon -> Role: Unknown (Verification Required)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] A320NEO_FAMILY, A330NEO",
+        "[Hypothetical Propagation Mechanism] Spillover Effect (Crisis Contagion)"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Source excerpt: Avolon, a leading global aviation finance company, has placed a firm order for 110 Airbus aircraft, comprising 35 A330-900 and 75 A320neo Family aircraft.. Claimed operational impacts require verification.",
+      "decision_question": "How does this concentrated lessor order impact delivery slot availability for Tier 2/3 airline customers in the 2027-2030 window?",
+      "confirmed_facts": "Source statement (event not fully verified): Avolon, a leading global aviation finance company, has placed a firm order for 110 Airbus aircraft, comprising 35 A330-900 and 75 A320neo Family aircraft.",
+      "analytical_interpretation": "Avolon is solidifying its position as a dominant lessor for the A330neo, leveraging market demand to secure long-term delivery pipelines through 2030+.",
+      "hypothetical_scenario": "Hypothetical Spillover Effect (Crisis Contagion) scenario affecting Avolon (Unknown (Verification Required)) on source-evidenced program A320NEO_FAMILY, A330NEO.",
+      "fact_check_quote": "Avolon, a leading global aviation finance company, has placed a firm order for 110 Airbus aircraft, comprising 35 A330-900 and 75 A320neo Family aircraft.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_012",
+          "source_url": "https://www.airbus.com/en/newsroom/press-releases/2026-10-avolon-orders-35-airbus-a330-900-and-75-a320neo-family-aircraft",
+          "source_type": "UNDETERMINED",
+          "passage_text": "Toulouse, France, 09 October 2026 - Avolon, a leading global aviation finance company, has placed a firm order for 110 Airbus aircraft, comprising 35 A330-900 and 75 A320neo Family aircraft. This incremental order takes Avolon’s total for the A330-900 to 114 aircraft and the A320 Family to some 650.",
+          "passage_hash": "5b271f09b9e7af2e4d760d81e04bd7fff7d3758e690484ccf9230abf77dc8dce",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Avolon has placed a firm order for 110 Airbus aircraft, comprising 35 A330-900 and 75 A320neo Family aircraft.",
+          "document_id": "DOC_012",
+          "quote": "Avolon, a leading global aviation finance company, has placed a firm order for 110 Airbus aircraft, comprising 35 A330-900 and 75 A320neo Family aircraft.",
+          "source_url": "https://www.airbus.com/en/newsroom/press-releases/2026-10-avolon-orders-35-airbus-a330-900-and-75-a320neo-family-aircraft",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "ISSUER_OFFICIAL_STATEMENT",
+          "entity": "Avolon",
+          "program": "A330-900, A320neo Family",
+          "component": "Unknown / Not specified in source",
+          "issue": "Firm order announcement",
+          "regulatory_authority": "None",
+          "publication_date": "2026-10-08",
+          "event_date": "2026-10-09",
+          "cause": "Strong demand for new aircraft",
+          "effect": "Strengthens long-term delivery pipeline",
+          "status_before": "79 A330-900 ordered",
+          "status_after": "114 total A330-900 ordered",
+          "resolution_outcome": "Contract signed",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_012",
+        "DOC_006"
+      ],
+      "source_urls": [
+        "https://www.airbus.com/en/newsroom/press-releases/2026-10-avolon-orders-35-airbus-a330-900-and-75-a320neo-family-aircraft",
+        "https://aerospaceglobalnews.com/news/airbus-249-deliveries-two-months-2026-target/"
+      ],
+      "verification_status": "PARTIALLY SUPPORTED (EVENT_DATE_UNKNOWN | Manual Review Required) [Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified. | Claimed operational impact is not supported by the cited quotation. | Unclassified SCM entity in 'Avolon' set to Unknown (Verification Required)]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "PARTIALLY_STATED_IN_SOURCE",
+      "causal_support_status": "HYPOTHETICAL_ONLY",
+      "independent_verification_status": "CORROBORATED_INDEPENDENTLY",
+      "event_freshness": "EVENT_DATE_UNKNOWN",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "PARTIALLY_STATED_IN_SOURCE",
+        "3. Causal Support": "HYPOTHETICAL_ONLY",
+        "4. Independent Verification": "CORROBORATED_INDEPENDENTLY (2 non-syndicated source(s))",
+        "5. Event Freshness": "EVENT_DATE_UNKNOWN",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "A320NEO_FAMILY, A330NEO",
+        "Hypothetical Shared Dependencies": "None",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "OFFICIAL_ISSUER_PR",
+        "Claim Authority": "ISSUER_REPORTED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=NOT_REQUIRED, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-10-08",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "7/10 (potential impact, not verification)",
+        "Confidence": "LOW",
+        "Verification": "PARTIALLY_SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "CURRENT_STATUS_UNKNOWN",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "ORDER",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-10-08",
+      "first_seen_at": "2026-11-25T14:57:27Z",
+      "last_seen_at": "2026-11-25T14:57:27Z",
+      "updated_at": "2026-11-25T14:57:27Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://www.airbus.com/en/newsroom/press-releases/2026-10-avolon-orders-35-airbus-a330-900-and-75-a320neo-family-aircraft",
+      "missing_data": "Verification required: Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified.; Claimed operational impact is not supported by the cited quotation..",
+      "intelligence_gap": {
+        "gap_id": "GAP_34C7E2",
+        "what_is_missing": "Verification required: Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified.; Claimed operational impact is not supported by the cited quotation..",
+        "why_important": "Needed to confirm Spillover Effect (Crisis Contagion) impact on Avolon (A320NEO_FAMILY, A330NEO).",
+        "affected_kiq_id": "KIQ_2_2",
+        "recommended_source": "FAA / EASA / Official OEM Pressroom",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Avolon’s massive backlog commitment (114 A330-900s, 650 A320 Family) forces Airbus to prioritize lessor delivery slots, potentially delaying smaller airline direct orders. This concentration risk creates a competitive bottleneck where Avolon controls a significant portion of secondary market availability for high-demand narrowbody and mid-size widebody variants.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 3,
+          "rationale": "High-volume order secures significant production capacity for years."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Airbus is the sole provider for these specific models."
+        },
+        "substitutability_difficulty": {
+          "score": 4,
+          "rationale": "Slots are fixed; A320neo family has a multi-year waitlist."
+        },
+        "propagation_scope": {
+          "score": 3,
+          "rationale": "Affects overall A320/A330 backlog and delivery timelines."
+        },
+        "temporal_urgency": {
+          "score": 2,
+          "rationale": "Order is firm and impacts future delivery schedules immediately."
+        }
+      },
+      "threat_score": 7,
+      "score_rationale": "Potential severity: ELEVATED (7/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+      "confidence_level": "LOW",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    },
+    {
+      "event_id": "EVT_20261106_AIRBUS_OCT_CANCELLATIONS",
+      "kiq_ids": [
+        "RKIQ_001",
+        "RKIQ_002"
+      ],
+      "indicator_name": "Fleet contract modifications / cancellations",
+      "company_affected": "Airbus",
+      "ci_dimension": "Market CI",
+      "risk_type": "COMPETITIVE",
+      "secondary_risk_types": [
+        "FINANCIAL"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Unknown / Not specified in source",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [
+        "A320neo",
+        "A321neo",
+        "A321XLR",
+        "A350",
+        "A350F",
+        "A220",
+        "A330neo",
+        "A380",
+        "A400M",
+        "H145",
+        "H160"
+      ],
+      "supplier_registry_basis": "Company: Airbus SE -> Role: OEM (Final Assembler) (Registry Source: Airbus Annual Report / Official Registry) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Unknown / Not specified in source",
+      "propagation_effect": "Bullwhip Effect (Demand Amplification)",
+      "impact_path": [
+        "[Evidenced Entity] Airbus SE -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Unknown / Not specified in source",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A320neo, A321neo, A321XLR",
+        "[Hypothetical Propagation Mechanism] Bullwhip Effect (Demand Amplification)"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Airbus reported 71 aircraft cancellations in October 2026, offsetting a portion of the 202 gross orders received during the same period.",
+      "decision_question": "Which airlines or lessors account for the 71 cancellations, and do they stem from technical issues or financial deferrals?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "Despite record gross orders, the 71 cancellations in October highlight underlying fleet volatility and potential delivery target risks for year-end 2026.",
+      "hypothetical_scenario": "Hypothetical Bullwhip Effect (Demand Amplification) scenario affecting Airbus SE (OEM (Final Assembler)) on source-evidenced program Unknown / Not specified in source. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A320neo, A321neo, A321XLR)",
+      "fact_check_quote": "Airbus recorded 202 gross aircraft orders in October, taking its total for the year to 1,376. After 71 cancellations, net orders stood at 1,305.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_006",
+          "source_url": "https://aerospaceglobalnews.com/news/airbus-249-deliveries-two-months-2026-target/",
+          "source_type": "UNDETERMINED",
+          "passage_text": "Airbus recorded 202 gross aircraft orders in October, taking its total for the year to 1,376. After 71 cancellations, net orders stood at 1,305.",
+          "passage_hash": "2a2ee66abf60644b1cc91e59fe9ebbc15524080630a2042501683745274de0d6",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Airbus recorded 202 gross aircraft orders in October. After 71 cancellations, net orders stood at 1,305.",
+          "document_id": "DOC_006",
+          "quote": "Airbus recorded 202 gross aircraft orders in October, taking its total for the year to 1,376. After 71 cancellations, net orders stood at 1,305.",
+          "source_url": "https://aerospaceglobalnews.com/news/airbus-249-deliveries-two-months-2026-target/",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Airbus",
+          "program": "A321neo, A330",
+          "component": "Unknown / Not specified in source",
+          "issue": "Order cancellations",
+          "regulatory_authority": "None",
+          "publication_date": "2026-11-06",
+          "event_date": "2026-10-31",
+          "cause": "Unknown / Not specified in source",
+          "effect": "Net orders reduced to 1,305 for the year.",
+          "status_before": "1,376 gross orders YTD",
+          "status_after": "1,305 net orders YTD",
+          "resolution_outcome": "Ongoing order book adjustment",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_006"
+      ],
+      "source_urls": [
+        "https://aerospaceglobalnews.com/news/airbus-249-deliveries-two-months-2026-target/"
+      ],
+      "verification_status": "Verified Secondary Source (ONGOING_ISSUE | 1 independent source(s)) [Classified as ONGOING_ISSUE (reconfirmation of previously known schedule/issue, not a newly announced deterioration)]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "UNVERIFIED_SINGLE_SOURCE",
+      "event_freshness": "ONGOING_ISSUE",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "UNVERIFIED_SINGLE_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "ONGOING_ISSUE",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "Unknown / Not specified in source",
+        "Hypothetical Shared Dependencies": "A320neo, A321neo, A321XLR, A350, A350F, A220, A330neo, A380, A400M, H145, H160",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=NOT_REQUIRED, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-11-06",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "7/10 (potential impact, not verification)",
+        "Confidence": "MEDIUM",
+        "Verification": "SUPPORTED",
+        "Current Status": "ELEVATED_RISK",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "ORDER",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-11-06",
+      "first_seen_at": "2026-11-25T14:57:27Z",
+      "last_seen_at": "2026-11-25T14:57:27Z",
+      "updated_at": "2026-11-25T14:57:27Z",
+      "event_status": "ELEVATED_RISK",
+      "evidence_citation": "https://aerospaceglobalnews.com/news/airbus-249-deliveries-two-months-2026-target/",
+      "missing_data": "Verification required: Classified as ONGOING_ISSUE (reconfirmation of previously known schedule/issue, not a newly announced deterioration).",
+      "intelligence_gap": {
+        "gap_id": "GAP_F3A97E",
+        "what_is_missing": "Verification required: Classified as ONGOING_ISSUE (reconfirmation of previously known schedule/issue, not a newly announced deterioration).",
+        "why_important": "Needed to confirm Bullwhip Effect (Demand Amplification) impact on Airbus (Unknown / Not specified in source).",
+        "affected_kiq_id": "RKIQ_001",
+        "recommended_source": "FAA / EASA / Official OEM Pressroom",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "71 cancellations in a single month against 202 gross orders indicates a high churn rate (35%), suggesting airline financial distress or fleet restructuring. If cancellations are concentrated in specific regions, it may signal localized economic downturns affecting Airbus's 2026 delivery targets.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 3,
+          "rationale": "71 cancellations represent a significant portion of monthly activity."
+        },
+        "supplier_criticality": {
+          "score": 4,
+          "rationale": "Cancellations directly impact Airbus's revenue and backlog."
+        },
+        "substitutability_difficulty": {
+          "score": 2,
+          "rationale": "Lost orders are not immediately replaceable by new firm contracts."
+        },
+        "propagation_scope": {
+          "score": 3,
+          "rationale": "Affects overall net order book and production planning."
+        },
+        "temporal_urgency": {
+          "score": 4,
+          "rationale": "Affects year-end 2026 targets; immediate tracking required."
+        }
+      },
+      "threat_score": 7,
+      "score_rationale": "Potential severity: ELEVATED (7/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "MEDIUM",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    },
+    {
+      "event_id": "AIRBUS-FLYONE-2026-09-30",
+      "kiq_ids": [
+        "RKIQ_001",
+        "RKIQ_002"
+      ],
+      "indicator_name": "New firm aircraft order",
+      "company_affected": "FLYONE Armenia",
+      "ci_dimension": "Competitor CI",
+      "risk_type": "COMPETITIVE",
+      "secondary_risk_types": [
+        "FINANCIAL"
+      ],
+      "scm_tier": "Regulator / Airline",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "A320NEO_FAMILY",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [],
+      "supplier_registry_basis": "Company/Authority: FLYONE Armenia -> Role: Regulator / Airline || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: A320NEO_FAMILY",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] FLYONE Armenia -> Role: Regulator / Airline",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] A320NEO_FAMILY",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "FLYONE Armenia has announced its first direct order for two Airbus A321neo aircraft to expand its A320 family fleet.",
+      "decision_question": "Should Airbus adjust production allocation for the A321neo to accommodate new regional carrier growth in the Caucasus?",
+      "confirmed_facts": "FLYONE Armenia, the country's largest carrier, has finalised an order with Airbus for the acquisition of two A321neo aircraft.",
+      "analytical_interpretation": "FLYONE Armenia's first direct order signals market expansion in the Caucasus region and continued demand for the A321neo variant.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting FLYONE Armenia (Regulator / Airline) on source-evidenced program A320NEO_FAMILY.",
+      "fact_check_quote": "FLYONE Armenia, the country's largest carrier, has finalised an order with Airbus for the acquisition of two A321neo aircraft.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_009",
+          "source_url": "https://www.airbus.com/en/newsroom/press-releases/2026-09-flyone-armenia-orders-two-airbus-a321neo",
+          "source_type": "PRIMARY_OFFICIAL_WEB",
+          "passage_text": "Toulouse, France, 30 September 2026 – FLYONE Armenia, the country's largest carrier, has finalised an order with Airbus for the acquisition of two A321neo aircraft.",
+          "passage_hash": "a6730e112896d52d3cfeb0587d9f9ee7cfe174b39423f25f57a4767407ba8b4e",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "MANUAL_EXTRACT",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "FLYONE Armenia has finalized an order with Airbus for two A321neo aircraft.",
+          "document_id": "DOC_009",
+          "quote": "FLYONE Armenia, the country's largest carrier, has finalised an order with Airbus for the acquisition of two A321neo aircraft.",
+          "source_url": "https://www.airbus.com/en/newsroom/press-releases/2026-09-flyone-armenia-orders-two-airbus-a321neo",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "ISSUER_OFFICIAL_STATEMENT",
+          "entity": "FLYONE Armenia",
+          "program": "A321neo",
+          "component": "CFM International LEAP engines",
+          "issue": "New firm order announcement",
+          "regulatory_authority": "",
+          "publication_date": "2026-09-30",
+          "event_date": "2026-09-30",
+          "cause": "",
+          "effect": "",
+          "status_before": "No direct orders",
+          "status_after": "Firm order for 2 A321neo",
+          "resolution_outcome": "",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_009"
+      ],
+      "source_urls": [
+        "https://www.airbus.com/en/newsroom/press-releases/2026-09-flyone-armenia-orders-two-airbus-a321neo"
+      ],
+      "verification_status": "Verified Primary Source (EVENT_DATE_UNKNOWN | 5-Step Grounding PASS) [Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified.]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "SINGLE_PRIMARY_SOURCE",
+      "event_freshness": "EVENT_DATE_UNKNOWN",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "SINGLE_PRIMARY_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "EVENT_DATE_UNKNOWN",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "A320NEO_FAMILY",
+        "Hypothetical Shared Dependencies": "None",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "OFFICIAL_ISSUER_PR",
+        "Claim Authority": "ISSUER_REPORTED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=NOT_REQUIRED, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-09-30",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "5/10 (potential impact, not verification)",
+        "Confidence": "HIGH",
+        "Verification": "SUPPORTED",
+        "Current Status": "ELEVATED_RISK",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "COMPETITIVE",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-09-30",
+      "first_seen_at": "2026-11-25T14:57:27Z",
+      "last_seen_at": "2026-11-25T14:57:27Z",
+      "updated_at": "2026-11-25T14:57:27Z",
+      "event_status": "ELEVATED_RISK",
+      "evidence_citation": "https://www.airbus.com/en/newsroom/press-releases/2026-09-flyone-armenia-orders-two-airbus-a321neo",
+      "missing_data": "Verification required: Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified..",
+      "intelligence_gap": {
+        "gap_id": "GAP_6E6259",
+        "what_is_missing": "Verification required: Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified..",
+        "why_important": "Needed to confirm Direct Operational / Regulatory Risk impact on FLYONE Armenia (A320NEO_FAMILY).",
+        "affected_kiq_id": "RKIQ_001",
+        "recommended_source": "FAA / EASA / Official OEM Pressroom",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Competitors like Boeing could exploit regional order growth if Airbus faces A321neo production bottlenecks, while engine supplier CFM International must meet LEAP demand to prevent delivery delays.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 2,
+          "rationale": "Modest order volume (2 aircraft) for a regional carrier."
+        },
+        "supplier_criticality": {
+          "score": 4,
+          "rationale": "Airbus A321neo is a core high-demand program."
+        },
+        "substitutability_difficulty": {
+          "score": 3,
+          "rationale": "Specific A321neo/LEAP configuration has high market demand and backlog."
+        },
+        "propagation_scope": {
+          "score": 1,
+          "rationale": "Limited to Armenian regional market operations."
+        },
+        "temporal_urgency": {
+          "score": 2,
+          "rationale": "Order finalized, deliveries to follow standard lead times."
+        }
+      },
+      "threat_score": 5,
+      "score_rationale": "Potential severity: ELEVATED (5/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "HIGH",
+      "urgency": "LOW",
+      "escalation_level": "ROUTINE_MONITORING",
+      "is_critical": false
+    },
+    {
+      "event_id": "AIRBUS-ME-DEFERRAL-STATUS-2026-09-23",
+      "kiq_ids": [
+        "RKIQ_001",
+        "RKIQ_002"
+      ],
+      "indicator_name": "Order deferral/cancellation status",
+      "company_affected": "Airbus",
+      "ci_dimension": "Market CI",
+      "risk_type": "GEOPOLITICAL",
+      "secondary_risk_types": [
+        "FINANCIAL",
+        "COMPETITIVE"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Unknown / Not specified in source",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [
+        "A320neo",
+        "A321neo",
+        "A321XLR",
+        "A350",
+        "A350F",
+        "A220",
+        "A330neo",
+        "A380",
+        "A400M",
+        "H145",
+        "H160"
+      ],
+      "supplier_registry_basis": "Company: Airbus SE -> Role: OEM (Final Assembler) (Registry Source: Airbus Annual Report / Official Registry) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Unknown / Not specified in source",
+      "propagation_effect": "Spillover Effect (Crisis Contagion)",
+      "impact_path": [
+        "[Evidenced Entity] Airbus SE -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Unknown / Not specified in source",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A320neo, A321neo, A321XLR",
+        "[Hypothetical Propagation Mechanism] Spillover Effect (Crisis Contagion)"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Airbus reports that Middle Eastern carriers have not sought order deferrals despite regional geopolitical turbulence and rising costs.",
+      "decision_question": "Should Airbus maintain current production rates for Middle East customers despite regional turbulence?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "Airbus executives report that Middle East carriers are prioritizing long-term growth and fleet modernization over short-term geopolitical volatility.",
+      "hypothetical_scenario": "Hypothetical Spillover Effect (Crisis Contagion) scenario affecting Airbus SE (OEM (Final Assembler)) on source-evidenced program Unknown / Not specified in source. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A320neo, A321neo, A321XLR)",
+      "fact_check_quote": "The UAE and Middle East carriers have neither requested deferrals of plane orders nor delayed payments, despite the US-Iran war having a knock-on effect on",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_002",
+          "source_url": "https://www.khaleejtimes.com/business/no-uae-regional-airline-sought-deferrals-of-plane-orders-says-airbus",
+          "source_type": "SECONDARY",
+          "passage_text": "The UAE and Middle East carriers have neither requested deferrals of plane orders nor delayed payments, despite the US-Iran war having a knock-on effect on carriers’ costs, senior executives at European planemaker Airbus said.",
+          "passage_hash": "0f7dcf4a54682a9922ee7a32ea1ec3c373a12a9c2c85b938cb9802be3178d534",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "MANUAL_EXTRACT",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "No UAE or regional airline has sought deferrals of plane orders.",
+          "document_id": "DOC_002",
+          "quote": "No UAE, regional airline sought deferrals of plane orders, says Airbus",
+          "source_url": "https://www.khaleejtimes.com/business/no-uae-regional-airline-sought-deferrals-of-plane-orders-says-airbus",
+          "claim_type": "CURRENT_STATUS",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Airbus",
+          "program": "Airbus Commercial Aircraft",
+          "component": "Unknown",
+          "issue": "Order deferral status",
+          "regulatory_authority": "",
+          "publication_date": "2026-09-23",
+          "event_date": "2026-09-23",
+          "cause": "US-Iran war/Regional turbulence",
+          "effect": "Stable delivery schedule",
+          "status_before": "Unknown/Potential risk due to conflict",
+          "status_after": "No deferrals requested",
+          "resolution_outcome": "Ongoing deliveries",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_002"
+      ],
+      "source_urls": [
+        "https://www.khaleejtimes.com/business/no-uae-regional-airline-sought-deferrals-of-plane-orders-says-airbus"
+      ],
+      "verification_status": "Verified Secondary Source (EVENT_DATE_UNKNOWN | 1 independent source(s))",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "UNVERIFIED_SINGLE_SOURCE",
+      "event_freshness": "EVENT_DATE_UNKNOWN",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "UNVERIFIED_SINGLE_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "EVENT_DATE_UNKNOWN",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "Unknown / Not specified in source",
+        "Hypothetical Shared Dependencies": "A320neo, A321neo, A321XLR, A350, A350F, A220, A330neo, A380, A400M, H145, H160",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=NOT_REQUIRED, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-09-23",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "6/10 (potential impact, not verification)",
+        "Confidence": "MEDIUM",
+        "Verification": "SUPPORTED",
+        "Current Status": "ELEVATED_RISK",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "GEOPOLITICAL",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-09-23",
+      "first_seen_at": "2026-11-25T14:57:27Z",
+      "last_seen_at": "2026-11-25T14:57:27Z",
+      "updated_at": "2026-11-25T14:57:27Z",
+      "event_status": "ELEVATED_RISK",
+      "evidence_citation": "https://www.khaleejtimes.com/business/no-uae-regional-airline-sought-deferrals-of-plane-orders-says-airbus",
+      "missing_data": null,
+      "intelligence_gap": null,
+      "adversarial_scenario": "Airlines in the Middle East may face sudden cash flow shortages if the regional conflict escalates, potentially leading to abrupt deferral requests despite current resilience.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 3,
+          "rationale": "Middle East is a high-value region; deferrals would impact Airbus revenue significantly."
+        },
+        "supplier_criticality": {
+          "score": 4,
+          "rationale": "Regional demand is a key driver for widebody and NEO families."
+        },
+        "substitutability_difficulty": {
+          "score": 3,
+          "rationale": "Redirecting high-spec aircraft to other customers takes time and incurs costs."
+        },
+        "propagation_scope": {
+          "score": 4,
+          "rationale": "Potential for multiple carriers in the region to act simultaneously if conflict worsens."
+        },
+        "temporal_urgency": {
+          "score": 2,
+          "rationale": "Report indicates current stability, monitoring required for shift."
+        }
+      },
+      "threat_score": 6,
+      "score_rationale": "Potential severity: ELEVATED (6/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "MEDIUM",
+      "urgency": "MEDIUM",
+      "escalation_level": "ROUTINE_MONITORING",
+      "is_critical": false
+    },
+    {
+      "event_id": "AIRBUS-OCT-2026-METRICS",
+      "kiq_ids": [
+        "RKIQ_001",
+        "RKIQ_002"
+      ],
+      "indicator_name": "Monthly order/delivery volume development",
+      "company_affected": "Airbus",
+      "ci_dimension": "Market CI",
+      "risk_type": "SUPPLY_CHAIN",
+      "secondary_risk_types": [
+        "COMPETITIVE",
+        "FINANCIAL"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Unknown / Not specified in source",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [
+        "A320neo",
+        "A321neo",
+        "A321XLR",
+        "A350",
+        "A350F",
+        "A220",
+        "A330neo",
+        "A380",
+        "A400M",
+        "H145",
+        "H160"
+      ],
+      "supplier_registry_basis": "Company: Airbus SE -> Role: OEM (Final Assembler) (Registry Source: Airbus Annual Report / Official Registry) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Unknown / Not specified in source",
+      "propagation_effect": "Bullwhip Effect (Demand Amplification)",
+      "impact_path": [
+        "[Evidenced Entity] Airbus SE -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Unknown / Not specified in source",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A320neo, A321neo, A321XLR",
+        "[Hypothetical Propagation Mechanism] Bullwhip Effect (Demand Amplification)"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Source excerpt: Airbus reported (06-Nov-2026) the following commercial aircraft orders and deliveries for Oct-2026: Gross orders: 202 aircraft.. Claimed operational impacts require verification.",
+      "decision_question": "Should production rates be accelerated to match the widening gap between new orders and monthly deliveries?",
+      "confirmed_facts": "Source statement (event not fully verified): Airbus reported (06-Nov-2026) the following commercial aircraft orders and deliveries for Oct-2026: Gross orders: 202 aircraft.",
+      "analytical_interpretation": "October 2026 data shows a strong order intake (202 gross) outperforming monthly deliveries (74), increasing the total order backlog pressure.",
+      "hypothetical_scenario": "Hypothetical Bullwhip Effect (Demand Amplification) scenario affecting Airbus SE (OEM (Final Assembler)) on source-evidenced program Unknown / Not specified in source. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A320neo, A321neo, A321XLR)",
+      "fact_check_quote": "Airbus reported (06-Nov-2026) the following commercial aircraft orders and deliveries for Oct-2026: Gross orders: 202 aircraft.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_005",
+          "source_url": "https://centreforaviation.com/news/airbus-reports-202-commercial-aircraft-orders-and-74-deliveries-for-oct-2026-1378941",
+          "source_type": "SECONDARY",
+          "passage_text": "Airbus reported (06-Nov-2026) the following commercial aircraft orders and deliveries for Oct-2026: Gross orders: 202 aircraft; 74 deliveries.",
+          "passage_hash": "84d5aa51a6da56a70301e576d0c14a4ee6b71f1e9ddb48d7aff460fe8c9c7db8",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "MANUAL_EXTRACT",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Airbus reported 202 commercial aircraft orders and 74 deliveries for Oct-2026.",
+          "document_id": "DOC_005",
+          "quote": "Airbus reported (06-Nov-2026) the following commercial aircraft orders and deliveries for Oct-2026: Gross orders: 202 aircraft.",
+          "source_url": "https://centreforaviation.com/news/airbus-reports-202-commercial-aircraft-orders-and-74-deliveries-for-oct-2026-1378941",
+          "claim_type": "CURRENT_STATUS",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Airbus",
+          "program": "Airbus Commercial Aircraft (A320neo focus)",
+          "component": "Unknown",
+          "issue": "Monthly orders and deliveries report",
+          "regulatory_authority": "",
+          "publication_date": "2026-11-09",
+          "event_date": "2026-10-31",
+          "cause": "",
+          "effect": "Increased backlog",
+          "status_before": "Sept-2026 totals",
+          "status_after": "Backlog increase",
+          "resolution_outcome": "Reported monthly performance",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_005"
+      ],
+      "source_urls": [
+        "https://centreforaviation.com/news/airbus-reports-202-commercial-aircraft-orders-and-74-deliveries-for-oct-2026-1378941"
+      ],
+      "verification_status": "PARTIALLY SUPPORTED (EVENT_DATE_UNKNOWN | Manual Review Required) [Source states only part of the claim details | Claimed operational impact is not supported by the cited quotation.]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "PARTIALLY_STATED_IN_SOURCE",
+      "causal_support_status": "HYPOTHETICAL_ONLY",
+      "independent_verification_status": "UNVERIFIED_SINGLE_SOURCE",
+      "event_freshness": "EVENT_DATE_UNKNOWN",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "PARTIALLY_STATED_IN_SOURCE",
+        "3. Causal Support": "HYPOTHETICAL_ONLY",
+        "4. Independent Verification": "UNVERIFIED_SINGLE_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "EVENT_DATE_UNKNOWN",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "Unknown / Not specified in source",
+        "Hypothetical Shared Dependencies": "A320neo, A321neo, A321XLR, A350, A350F, A220, A330neo, A380, A400M, H145, H160",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=NOT_REQUIRED, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-11-09",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "7/10 (potential impact, not verification)",
+        "Confidence": "LOW",
+        "Verification": "PARTIALLY_SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "CURRENT_STATUS_UNKNOWN",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "DELIVERY",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-11-09",
+      "first_seen_at": "2026-11-25T14:57:27Z",
+      "last_seen_at": "2026-11-25T14:57:27Z",
+      "updated_at": "2026-11-25T14:57:27Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://centreforaviation.com/news/airbus-reports-202-commercial-aircraft-orders-and-74-deliveries-for-oct-2026-1378941",
+      "missing_data": "Verification required: Source states only part of the claim details; Claimed operational impact is not supported by the cited quotation..",
+      "intelligence_gap": {
+        "gap_id": "GAP_C3FC78",
+        "what_is_missing": "Verification required: Source states only part of the claim details; Claimed operational impact is not supported by the cited quotation..",
+        "why_important": "Needed to confirm Bullwhip Effect (Demand Amplification) impact on Airbus (Unknown / Not specified in source).",
+        "affected_kiq_id": "RKIQ_001",
+        "recommended_source": "FAA / EASA / Official OEM Pressroom",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Sustained high order volumes (202+ per month) could strain Tier 2 and Tier 3 raw material suppliers, leading to lead-time extensions for future customers.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 3,
+          "rationale": "High book-to-bill ratio increases long-term delivery pressure."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Airbus is the primary node for this global delivery schedule."
+        },
+        "substitutability_difficulty": {
+          "score": 2,
+          "rationale": "Limited alternative delivery slots in the industry."
+        },
+        "propagation_scope": {
+          "score": 3,
+          "rationale": "Backlog impacts all major single-aisle customers."
+        },
+        "temporal_urgency": {
+          "score": 3,
+          "rationale": "Reported data is recent; backlog is active."
+        }
+      },
+      "threat_score": 7,
+      "score_rationale": "Potential severity: ELEVATED (7/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+      "confidence_level": "LOW",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    },
+    {
+      "event_id": "AIRBUS-2026-OCT-ORDER-SUMMARY",
+      "kiq_ids": [
+        "KIQ_2_2",
+        "RKIQ_001",
+        "RKIQ_002"
+      ],
+      "indicator_name": "Aviation intelligence warning indicator",
+      "company_affected": "Airbus",
+      "ci_dimension": "Competitor CI",
+      "risk_type": "COMPETITIVE",
+      "secondary_risk_types": [
+        "SUPPLY_CHAIN"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Unknown / Not specified in source",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [
+        "A320neo",
+        "A321neo",
+        "A321XLR",
+        "A350",
+        "A350F",
+        "A220",
+        "A330neo",
+        "A380",
+        "A400M",
+        "H145",
+        "H160"
+      ],
+      "supplier_registry_basis": "Company: Airbus SE -> Role: OEM (Final Assembler) (Registry Source: Airbus Annual Report / Official Registry) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Unknown / Not specified in source",
+      "propagation_effect": "Bullwhip Effect (Demand Amplification)",
+      "impact_path": [
+        "[Evidenced Entity] Airbus SE -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Unknown / Not specified in source",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A320neo, A321neo, A321XLR",
+        "[Hypothetical Propagation Mechanism] Bullwhip Effect (Demand Amplification)"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Airbus reported a significant surge in gross orders totaling 1,376 jets year-to-date through October 2026, while maintaining a historically low cancellation rate. Despite strong demand, the OEM must deliver 249 aircraft in Nov-Dec to reach its 870-unit annual target.",
+      "decision_question": "Can the supply chain sustain the accelerated delivery rate required to meet the 870-aircraft annual goal given the high order backlog?",
+      "confirmed_facts": "Source statement (event not fully verified): The company sold 202 planes in October, bringing the total number of gross orders for the year so far to 1,376 jets",
+      "analytical_interpretation": "Airbus is seeing record demand with 202 gross orders in October alone, but remains under pressure to deliver 249 aircraft in the final two months to meet annual targets.",
+      "hypothetical_scenario": "Hypothetical Bullwhip Effect (Demand Amplification) scenario affecting Airbus SE (OEM (Final Assembler)) on source-evidenced program Unknown / Not specified in source. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A320neo, A321neo, A321XLR)",
+      "fact_check_quote": "The company sold 202 planes in October, bringing the total number of gross orders for the year so far to 1,376 jets",
+      "evidence_passages": [],
+      "evidence_claims": [
+        {
+          "claim_text": "Gross commercial aircraft orders reached 1,376 jets by October 2026.",
+          "document_id": "DOC_004",
+          "quote": "The company sold 202 planes in October, bringing the total number of gross orders for the year so far to 1,376 jets",
+          "source_url": "https://www.streetinsider.com/Reuters/Airbus+delivers+621+aircraft+in+January-October%2C+a+6%25+increase/27302448.html",
+          "claim_type": "CURRENT_STATUS",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Airbus",
+          "program": "A330, A321neo",
+          "component": "Unknown / Not specified in source",
+          "issue": "Firm order volume and backlog status",
+          "regulatory_authority": "",
+          "publication_date": "2026-11-06",
+          "event_date": "2026-10-31",
+          "cause": "Strong demand portfolio",
+          "effect": "Backlog increase to 9,310 units",
+          "status_before": "1,174 gross orders (Sept)",
+          "status_after": "1,376 gross orders YTD",
+          "resolution_outcome": "",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "Airbus reported 71 total cancellations for the year to date as of October 2026.",
+          "document_id": "DOC_004",
+          "quote": "Two new cancellations of two jets brought the total cancellations in the period to 71.",
+          "source_url": "https://www.streetinsider.com/Reuters/Airbus+delivers+621+aircraft+in+January-October%2C+a+6%25+increase/27302448.html",
+          "claim_type": "CURRENT_STATUS",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Airbus",
+          "program": "Unknown / Not specified in source",
+          "component": "Unknown / Not specified in source",
+          "issue": "Order cancellations",
+          "regulatory_authority": "",
+          "publication_date": "2026-11-06",
+          "event_date": "2026-10-31",
+          "cause": "Market resilience",
+          "effect": "Net order stability",
+          "status_before": "69 cancellations (Sept)",
+          "status_after": "71 cancellations YTD",
+          "resolution_outcome": "",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_004",
+        "DOC_003"
+      ],
+      "source_urls": [
+        "https://www.streetinsider.com/Reuters/Airbus+delivers+621+aircraft+in+January-October%2C+a+6%25+increase/27302448.html",
+        "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-nine-month-9m-2026-results"
+      ],
+      "verification_status": "PARTIALLY SUPPORTED (EVENT_DATE_UNKNOWN | Manual Review Required) [Source states only part of the claim details]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "PARTIALLY_STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "CORROBORATED_INDEPENDENTLY",
+      "event_freshness": "EVENT_DATE_UNKNOWN",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "PARTIALLY_STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "CORROBORATED_INDEPENDENTLY (2 non-syndicated source(s))",
+        "5. Event Freshness": "EVENT_DATE_UNKNOWN",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "Unknown / Not specified in source",
+        "Hypothetical Shared Dependencies": "A320neo, A321neo, A321XLR, A350, A350F, A220, A330neo, A380, A400M, H145, H160",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=NOT_REQUIRED, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-11-06",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "7/10 (potential impact, not verification)",
+        "Confidence": "LOW",
+        "Verification": "PARTIALLY_SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "CURRENT_STATUS_UNKNOWN",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "DELIVERY",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-11-06",
+      "first_seen_at": "2026-11-25T14:57:27Z",
+      "last_seen_at": "2026-11-25T14:57:27Z",
+      "updated_at": "2026-11-25T14:57:27Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://www.streetinsider.com/Reuters/Airbus+delivers+621+aircraft+in+January-October%2C+a+6%25+increase/27302448.html",
+      "missing_data": "Verification required: Source states only part of the claim details.",
+      "intelligence_gap": {
+        "gap_id": "GAP_ORDER_DETAIL_2026_11_25",
+        "what_is_missing": "Breakdown of the 202 October orders by airline and aircraft variant.",
+        "why_important": "Critical to assess which specific programs (e.g., A321neo vs A350) are driving the production pressure.",
+        "affected_kiq_id": "KIQ_2_2",
+        "recommended_source": "Airbus Official Newsroom / Monthly Order & Delivery Sheet",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Strong order intake (1,376 gross jets YTD) coupled with limited cancellations (71 units) increases pressure on a supply chain already managing quality flaws. Competitors may exploit delivery lead-time gaps if production ramp-up targets (870 units) are missed.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 3,
+          "rationale": "Massive backlog (9,310) creates extreme production pressure and delivery risk."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Airbus is the lead OEM for the A320 and A330 families."
+        },
+        "substitutability_difficulty": {
+          "score": 4,
+          "rationale": "Airbus and Boeing operate in a duopoly for large commercial aircraft."
+        },
+        "propagation_scope": {
+          "score": 4,
+          "rationale": "Broad impact across global airline fleet planning and Airbus production sites."
+        },
+        "temporal_urgency": {
+          "score": 3,
+          "rationale": "Immediate monitoring of end-of-year delivery targets is required."
+        }
+      },
+      "threat_score": 7,
+      "score_rationale": "Potential severity: ELEVATED (7/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+      "confidence_level": "LOW",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    },
+    {
+      "event_id": "AIRBUS-2026-POSTPONEMENT-STATUS",
+      "kiq_ids": [],
+      "indicator_name": "Aviation intelligence warning indicator",
+      "company_affected": "Airbus",
+      "ci_dimension": "Market CI",
+      "risk_type": "COMPETITIVE",
+      "secondary_risk_types": [
+        "FINANCIAL"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Unknown / Not specified in source",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [
+        "A320neo",
+        "A321neo",
+        "A321XLR",
+        "A350",
+        "A350F",
+        "A220",
+        "A330neo",
+        "A380",
+        "A400M",
+        "H145",
+        "H160"
+      ],
+      "supplier_registry_basis": "Company: Airbus SE -> Role: OEM (Final Assembler) (Registry Source: Airbus Annual Report / Official Registry) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Unknown / Not specified in source",
+      "propagation_effect": "Just-in-Time (JIT) Disruption",
+      "impact_path": [
+        "[Evidenced Entity] Airbus SE -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Unknown / Not specified in source",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A320neo, A321neo, A321XLR",
+        "[Hypothetical Propagation Mechanism] Just-in-Time (JIT) Disruption"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Source excerpt: Airbus CEO Guillaume Faury reported (28-Oct-2026) \"no cancellations or requests for postponements\" of aircraft deliveries as a result of higher fuel prices. Claimed operational impacts require verification.",
+      "decision_question": "Are there internal airline planning signals suggesting a shift toward postponements in early 2027 that contradicts the CEO's October statement?",
+      "confirmed_facts": "Source statement (event not fully verified): Airbus CEO Guillaume Faury reported (28-Oct-2026) \"no cancellations or requests for postponements\" of aircraft deliveries as a result of higher fuel prices",
+      "analytical_interpretation": "Despite external economic pressures like fuel prices, airline customers have not yet moved to cancel or defer existing delivery slots as of late October 2026.",
+      "hypothetical_scenario": "Hypothetical Just-in-Time (JIT) Disruption scenario affecting Airbus SE (OEM (Final Assembler)) on source-evidenced program Unknown / Not specified in source. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A320neo, A321neo, A321XLR)",
+      "fact_check_quote": "Airbus CEO Guillaume Faury reported (28-Oct-2026) \"no cancellations or requests for postponements\" of aircraft deliveries as a result of higher fuel prices",
+      "evidence_passages": [],
+      "evidence_claims": [
+        {
+          "claim_text": "No cancellations or postponement requests reported as of Oct 2026 despite fuel costs.",
+          "document_id": "DOC_001",
+          "quote": "Airbus CEO Guillaume Faury reported (28-Oct-2026) \"no cancellations or requests for postponements\" of aircraft deliveries as a result of higher fuel prices",
+          "source_url": "https://centreforaviation.com/news/airbus-ceo-reports-no-cancellations-or-postponement-requests-for-aircraft-deliveries-1377565",
+          "claim_type": "CURRENT_STATUS",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Airbus",
+          "program": "Unknown / Not specified in source",
+          "component": "Unknown / Not specified in source",
+          "issue": "Delivery deferrals and cancellations",
+          "regulatory_authority": "",
+          "publication_date": "2026-10-28",
+          "event_date": "2026-10-28",
+          "cause": "High fuel prices monitoring",
+          "effect": "Stability in delivery schedule",
+          "status_before": "Monitoring market pressure",
+          "status_after": "Stable delivery requests",
+          "resolution_outcome": "Ongoing monitoring",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_001"
+      ],
+      "source_urls": [
+        "https://centreforaviation.com/news/airbus-ceo-reports-no-cancellations-or-postponement-requests-for-aircraft-deliveries-1377565"
+      ],
+      "verification_status": "PARTIALLY SUPPORTED (EVENT_DATE_UNKNOWN | Manual Review Required) [INSUFFICIENT_FACT_OVERLAP_FOR_CAUSAL_CLAIM: downstream causality is not verified | Source states only part of the claim details | Unverified causal interpretation cannot be included among confirmed facts. | Unverified cause removed from confirmed facts; source wording retained only as a quotation]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "PARTIALLY_STATED_IN_SOURCE",
+      "causal_support_status": "HYPOTHETICAL_ONLY",
+      "independent_verification_status": "UNVERIFIED_SINGLE_SOURCE",
+      "event_freshness": "EVENT_DATE_UNKNOWN",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "PARTIALLY_STATED_IN_SOURCE",
+        "3. Causal Support": "HYPOTHETICAL_ONLY",
+        "4. Independent Verification": "UNVERIFIED_SINGLE_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "EVENT_DATE_UNKNOWN",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "Unknown / Not specified in source",
+        "Hypothetical Shared Dependencies": "A320neo, A321neo, A321XLR, A350, A350F, A220, A330neo, A380, A400M, H145, H160",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=NOT_REQUIRED, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-10-28",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "5/10 (potential impact, not verification)",
+        "Confidence": "LOW",
+        "Verification": "PARTIALLY_SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "CURRENT_STATUS_UNKNOWN",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "DELIVERY",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-10-28",
+      "first_seen_at": "2026-11-25T14:57:27Z",
+      "last_seen_at": "2026-11-25T14:57:27Z",
+      "updated_at": "2026-11-25T14:57:27Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://centreforaviation.com/news/airbus-ceo-reports-no-cancellations-or-postponement-requests-for-aircraft-deliveries-1377565",
+      "missing_data": "Verification required: INSUFFICIENT_FACT_OVERLAP_FOR_CAUSAL_CLAIM: downstream causality is not verified; Source states only part of the claim details.",
+      "intelligence_gap": {
+        "gap_id": "GAP_FUEL_IMPACT_2026_11_25",
+        "what_is_missing": "Specific airline feedback regarding 2027 fleet planning adjustments due to operating costs.",
+        "why_important": "To verify if the CEO's 'no postponement' claim remains valid into the new year.",
+        "affected_kiq_id": "KIQ_2_2",
+        "recommended_source": "IATA / Airline Financial Results Q3-Q4 2026",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Unexpected fuel price spikes or geopolitical instability could invalidate the CEO's October assessment of 'no postponement requests,' leading to a sudden surge in delivery deferrals that disrupts production slots.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 2,
+          "rationale": "Current status is stable, but market sensitivity to fuel prices remains high."
+        },
+        "supplier_criticality": {
+          "score": 4,
+          "rationale": "OEM control over delivery schedule is central to program revenue."
+        },
+        "substitutability_difficulty": {
+          "score": 3,
+          "rationale": "Deliveries are contracted; slots are difficult to replace quickly."
+        },
+        "propagation_scope": {
+          "score": 3,
+          "rationale": "Global airline customer base is affected by fuel price volatility."
+        },
+        "temporal_urgency": {
+          "score": 2,
+          "rationale": "Market conditions are being monitored in real-time."
+        }
+      },
+      "threat_score": 5,
+      "score_rationale": "Potential severity: ELEVATED (5/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+      "confidence_level": "LOW",
+      "urgency": "LOW",
+      "escalation_level": "ROUTINE_MONITORING",
+      "is_critical": false
+    }
+  ],
+  "threat_reports": [
+    {
+      "threat_id": "EVT_20261009_AVOLON_AIRBUS_110",
+      "event_title": "Source excerpt: Avolon, a leading global aviation finance company, has placed a firm order for 110 Airbus aircraft, comprising 35 A330-900 and 75 A320neo Family aircraft.. Claimed operational impacts require verification.",
+      "category": "COMPETITIVE",
+      "affected_entity": "Avolon",
+      "threat_score": 7,
+      "source_url": "https://www.airbus.com/en/newsroom/press-releases/2026-10-avolon-orders-35-airbus-a330-900-and-75-a320neo-family-aircraft",
+      "timestamp": "2026-10-08",
+      "mitigation_advice": "Verify source evidence, KIT applicability and decision needs for EVT_20261009_AVOLON_AIRBUS_110.",
+      "confidence_level": "LOW",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "EVT_20261106_AIRBUS_OCT_CANCELLATIONS",
+      "event_title": "Airbus reported 71 aircraft cancellations in October 2026, offsetting a portion of the 202 gross orders received during the same period.",
+      "category": "COMPETITIVE",
+      "affected_entity": "Airbus",
+      "threat_score": 7,
+      "source_url": "https://aerospaceglobalnews.com/news/airbus-249-deliveries-two-months-2026-target/",
+      "timestamp": "2026-11-06",
+      "mitigation_advice": "Verify source evidence, KIT applicability and decision needs for EVT_20261106_AIRBUS_OCT_CANCELLATIONS.",
+      "confidence_level": "MEDIUM",
+      "validation_status": "SUPPORTED",
+      "event_status": "ELEVATED_RISK"
+    },
+    {
+      "threat_id": "AIRBUS-FLYONE-2026-09-30",
+      "event_title": "FLYONE Armenia has announced its first direct order for two Airbus A321neo aircraft to expand its A320 family fleet.",
+      "category": "COMPETITIVE",
+      "affected_entity": "FLYONE Armenia",
+      "threat_score": 5,
+      "source_url": "https://www.airbus.com/en/newsroom/press-releases/2026-09-flyone-armenia-orders-two-airbus-a321neo",
+      "timestamp": "2026-09-30",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "HIGH",
+      "validation_status": "SUPPORTED",
+      "event_status": "ELEVATED_RISK"
+    },
+    {
+      "threat_id": "AIRBUS-ME-DEFERRAL-STATUS-2026-09-23",
+      "event_title": "Airbus reports that Middle Eastern carriers have not sought order deferrals despite regional geopolitical turbulence and rising costs.",
+      "category": "GEOPOLITICAL",
+      "affected_entity": "Airbus",
+      "threat_score": 6,
+      "source_url": "https://www.khaleejtimes.com/business/no-uae-regional-airline-sought-deferrals-of-plane-orders-says-airbus",
+      "timestamp": "2026-09-23",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "MEDIUM",
+      "validation_status": "SUPPORTED",
+      "event_status": "ELEVATED_RISK"
+    },
+    {
+      "threat_id": "AIRBUS-OCT-2026-METRICS",
+      "event_title": "Source excerpt: Airbus reported (06-Nov-2026) the following commercial aircraft orders and deliveries for Oct-2026: Gross orders: 202 aircraft.. Claimed operational impacts require verification.",
+      "category": "SUPPLY_CHAIN",
+      "affected_entity": "Airbus",
+      "threat_score": 7,
+      "source_url": "https://centreforaviation.com/news/airbus-reports-202-commercial-aircraft-orders-and-74-deliveries-for-oct-2026-1378941",
+      "timestamp": "2026-11-09",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "LOW",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "AIRBUS-2026-OCT-ORDER-SUMMARY",
+      "event_title": "Airbus reported a significant surge in gross orders totaling 1,376 jets year-to-date through October 2026, while maintaining a historically low cancellation rate. Despite strong demand, the OEM must deliver 249 aircraft in Nov-Dec to reach its 870-unit annual target.",
+      "category": "COMPETITIVE",
+      "affected_entity": "Airbus",
+      "threat_score": 7,
+      "source_url": "https://www.streetinsider.com/Reuters/Airbus+delivers+621+aircraft+in+January-October%2C+a+6%25+increase/27302448.html",
+      "timestamp": "2026-11-06",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "LOW",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "AIRBUS-2026-POSTPONEMENT-STATUS",
+      "event_title": "Source excerpt: Airbus CEO Guillaume Faury reported (28-Oct-2026) \"no cancellations or requests for postponements\" of aircraft deliveries as a result of higher fuel prices. Claimed operational impacts require verification.",
+      "category": "COMPETITIVE",
+      "affected_entity": "Airbus",
+      "threat_score": 5,
+      "source_url": "https://centreforaviation.com/news/airbus-ceo-reports-no-cancellations-or-postponement-requests-for-aircraft-deliveries-1377565",
+      "timestamp": "2026-10-28",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "LOW",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    }
+  ],
+  "related_program_watchlist": [],
+  "action_plan": [
+    {
+      "action_id": "ACT_136A5574",
+      "related_event_ids": [
+        "EVT_20261009_AVOLON_AIRBUS_110"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Avolon"
+      ],
+      "action": "Verify source evidence, KIT applicability and decision needs for EVT_20261009_AVOLON_AIRBUS_110.",
+      "rationale": "Proposed action is based on a monitored intelligence signal requiring proportional verification or further monitoring. Evidence status: EVT_20261009_AVOLON_AIRBUS_110: PARTIALLY_SUPPORTED, confidence LOW. No unverified causal relationship is treated as an established fact.",
+      "pros_and_cons": "PRO: Supports documented verification and decision-making.; CON: Requires analyst effort and human approval",
+      "triple_a_impact": "Adaptability",
+      "uncertainty_assumptions": "Editorial advice requires source verification and human approval.",
+      "owner": "Competitive Intelligence Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Evidence and management decision documented for EVT_20261009_AVOLON_AIRBUS_110.",
+      "priority": "MEDIUM",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-25T14:57:26Z"
+    },
+    {
+      "action_id": "ACT_2187F4E7",
+      "related_event_ids": [
+        "EVT_20261106_AIRBUS_OCT_CANCELLATIONS"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Airbus"
+      ],
+      "action": "Verify source evidence, KIT applicability and decision needs for EVT_20261106_AIRBUS_OCT_CANCELLATIONS.",
+      "rationale": "Evidence status: EVT_20261106_AIRBUS_OCT_CANCELLATIONS: UNSUPPORTED, KIT=DIRECT_KIT_MATCH, Documents=DOC_006. Further source verification or human review is required before implementation.",
+      "pros_and_cons": "PRO: Supports documented verification and decision-making.; CON: Requires analyst effort and human approval",
+      "triple_a_impact": "Adaptability",
+      "uncertainty_assumptions": "Editorial advice requires source verification and human approval.",
+      "owner": "Competitive Intelligence Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Evidence and management decision documented for EVT_20261106_AIRBUS_OCT_CANCELLATIONS.",
+      "priority": "LOW",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-25T14:57:26Z"
+    }
+  ],
+  "kiq_answers": [
+    {
+      "kiq_id": "KIQ_2_2",
+      "question": "What significant aircraft or propulsion orders, contract awards, modifications, or cancellations have been announced?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "NONE",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "For Avolon (A320NEO_FAMILY, A330NEO), available evidence notes: Source statement (event not fully verified): Avolon, a leading global aviation finance company, has placed a firm order for 110 Airbus aircraft, comprising 35 A330-900 and 75 A320neo Family aircraft [DOC_012]. For Airbus, available evidence notes: Source statement (event not fully verified): The company sold 202 planes in October, bringing the total number of gross orders for the yea",
+      "related_event_ids": [
+        "EVT_20261009_AVOLON_AIRBUS_110",
+        "AIRBUS-2026-OCT-ORDER-SUMMARY"
+      ],
+      "evidence_ids": [
+        "DOC_012",
+        "DOC_006",
+        "DOC_004",
+        "DOC_003"
+      ],
+      "retrieved_evidence_count": 0,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [],
+      "unused_document_reasons": {},
+      "evidence_requirements": [],
+      "claim_requirement_links": [],
+      "claim_handoff_rejections": {},
+      "source_execution_status": "",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [],
+      "verification_status": "Event evidence evaluated; complete KIQ coverage not established",
+      "uncertainty_level": "LOW",
+      "recommended_next_step": "Verify remaining KIQ facets before marking fully answered.",
+      "missing_information": "Verification required: Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified.; Claimed operational impact is not supported by the cited quotation.."
+    },
+    {
+      "kiq_id": "RKIQ_001",
+      "question": "What new firm orders or Memoranda of Understanding (MoU) for Airbus aircraft have been officially announced by the OEM or purchasing airlines?",
+      "answer_status": "ANSWERED",
+      "evidence_coverage": "SUPPORTED",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "Reviewed primary sources directly address this question. A validated source record notes that “Airbus recorded 202 gross aircraft orders in October, taking its total for the year to 1,376. After 71 cancellations, net orders stood at 1,305.” [DOC_006]. A validated source record notes that “FLYONE Armenia, the country's largest carrier, has finalised an order with Airbus for the acquisition of two A321neo aircraft.” [DOC_009]. A validated source record notes that “The UAE and Middle East carriers have neither requested deferrals of plane orders nor delayed payments, despite the US-Iran war having a knock-on effect” [DOC_002]. All required points (confirmed order or contractual commitment) are supported by the cited documents. Based on 7 relevant document(s) (DOC_002, DOC_003, DOC_004, DOC_005, DOC_006) out of 8 evaluated.",
+      "related_event_ids": [
+        "EVT_20261009_AVOLON_AIRBUS_110",
+        "EVT_20261106_AIRBUS_OCT_CANCELLATIONS",
+        "AIRBUS-FLYONE-2026-09-30",
+        "AIRBUS-ME-DEFERRAL-STATUS-2026-09-23",
+        "AIRBUS-OCT-2026-METRICS",
+        "AIRBUS-2026-OCT-ORDER-SUMMARY"
+      ],
+      "evidence_ids": [
+        "DOC_002",
+        "DOC_003",
+        "DOC_004",
+        "DOC_005",
+        "DOC_006",
+        "DOC_009",
+        "DOC_012"
+      ],
+      "retrieved_evidence_count": 7,
+      "validated_evidence_count": 5,
+      "retrieved_document_ids": [
+        "DOC_002",
+        "DOC_003",
+        "DOC_004",
+        "DOC_005",
+        "DOC_006",
+        "DOC_009",
+        "DOC_012"
+      ],
+      "unused_document_reasons": {
+        "DOC_001": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_001_REQ_01",
+          "key": "ORDER_CONTRACT",
+          "required_fact": "Confirmed order or contractual commitment",
+          "evidence_type": "COMMERCIAL_COMMITMENT",
+          "required_entity_model": "Airbus, Memoranda, Understanding",
+          "required_component": "",
+          "verification_status": "VERIFIED",
+          "doc_ids": [
+            "DOC_002",
+            "DOC_003",
+            "DOC_004",
+            "DOC_005",
+            "DOC_006",
+            "DOC_009",
+            "DOC_012"
+          ],
+          "verified_doc_ids": [
+            "DOC_002",
+            "DOC_003",
+            "DOC_006",
+            "DOC_009",
+            "DOC_012"
+          ],
+          "preliminary_doc_ids": [
+            "DOC_004",
+            "DOC_005"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_006",
+              "claim": "Airbus recorded 202 gross aircraft orders in October, taking its total for the year to 1,376. After 71 cancellations, net orders stood at 1,305.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "",
+              "publication_date": "2026-11-06",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "ANALYST_ASSESSMENT",
+              "strength": "VERIFIED",
+              "source_url": "https://aerospaceglobalnews.com/news/airbus-249-deliveries-two-months-2026-target/",
+              "source_hash": "",
+              "passage_hash": "",
+              "verification_reason": "ANALYST_EVENT_VALIDATION",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_009",
+              "claim": "FLYONE Armenia, the country's largest carrier, has finalised an order with Airbus for the acquisition of two A321neo aircraft.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "",
+              "publication_date": "2026-09-30",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "ANALYST_ASSESSMENT",
+              "strength": "VERIFIED",
+              "source_url": "https://www.airbus.com/en/newsroom/press-releases/2026-09-flyone-armenia-orders-two-airbus-a321neo",
+              "source_hash": "",
+              "passage_hash": "",
+              "verification_reason": "ANALYST_EVENT_VALIDATION",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_002",
+              "claim": "The UAE and Middle East carriers have neither requested deferrals of plane orders nor delayed payments, despite the US-Iran war having a knock-on effect on",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "",
+              "publication_date": "2026-09-23",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "ANALYST_ASSESSMENT",
+              "strength": "VERIFIED",
+              "source_url": "https://www.khaleejtimes.com/business/no-uae-regional-airline-sought-deferrals-of-plane-orders-says-airbus",
+              "source_hash": "",
+              "passage_hash": "",
+              "verification_reason": "ANALYST_EVENT_VALIDATION",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": []
+        }
+      ],
+      "claim_requirement_links": [
+        {
+          "claim_id": "",
+          "doc_id": "DOC_006",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "ORDER_CONTRACT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_009",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "ORDER_CONTRACT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_002",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "ORDER_CONTRACT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        }
+      ],
+      "claim_handoff_rejections": {
+        "DOC_001": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "source_execution_status": "PARTIAL_RESULT",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [],
+      "verification_status": "Verified 1/1 atomic facts; PARTIAL_RESULT",
+      "uncertainty_level": "LOW",
+      "recommended_next_step": "Monitor independently for new developments and downstream effects.",
+      "missing_information": null
+    },
+    {
+      "kiq_id": "RKIQ_002",
+      "question": "What are the current status and details of announced Airbus fleet contract modifications, including deferrals or cancellations?",
+      "answer_status": "ANSWERED",
+      "evidence_coverage": "SUPPORTED",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "Reviewed primary sources directly address this question. A validated source record notes that “Airbus recorded 202 gross aircraft orders in October, taking its total for the year to 1,376. After 71 cancellations, net orders stood at 1,305.” [DOC_006]. A validated source record notes that “FLYONE Armenia, the country's largest carrier, has finalised an order with Airbus for the acquisition of two A321neo aircraft.” [DOC_009]. A validated source record notes that “The UAE and Middle East carriers have neither requested deferrals of plane orders nor delayed payments, despite the US-Iran war having a knock-on effect” [DOC_002]. All required points (confirmed order or contractual commitment) are supported by the cited documents. Based on 7 relevant document(s) (DOC_002, DOC_003, DOC_004, DOC_005, DOC_006) out of 8 evaluated.",
+      "related_event_ids": [
+        "EVT_20261009_AVOLON_AIRBUS_110",
+        "EVT_20261106_AIRBUS_OCT_CANCELLATIONS",
+        "AIRBUS-FLYONE-2026-09-30",
+        "AIRBUS-ME-DEFERRAL-STATUS-2026-09-23",
+        "AIRBUS-OCT-2026-METRICS",
+        "AIRBUS-2026-OCT-ORDER-SUMMARY"
+      ],
+      "evidence_ids": [
+        "DOC_002",
+        "DOC_003",
+        "DOC_004",
+        "DOC_005",
+        "DOC_006",
+        "DOC_009",
+        "DOC_012"
+      ],
+      "retrieved_evidence_count": 7,
+      "validated_evidence_count": 5,
+      "retrieved_document_ids": [
+        "DOC_002",
+        "DOC_003",
+        "DOC_004",
+        "DOC_005",
+        "DOC_006",
+        "DOC_009",
+        "DOC_012"
+      ],
+      "unused_document_reasons": {
+        "DOC_001": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_002_REQ_01",
+          "key": "ORDER_CONTRACT",
+          "required_fact": "Confirmed order or contractual commitment",
+          "evidence_type": "COMMERCIAL_COMMITMENT",
+          "required_entity_model": "Airbus",
+          "required_component": "",
+          "verification_status": "VERIFIED",
+          "doc_ids": [
+            "DOC_002",
+            "DOC_003",
+            "DOC_004",
+            "DOC_005",
+            "DOC_006",
+            "DOC_009",
+            "DOC_012"
+          ],
+          "verified_doc_ids": [
+            "DOC_002",
+            "DOC_003",
+            "DOC_006",
+            "DOC_009",
+            "DOC_012"
+          ],
+          "preliminary_doc_ids": [
+            "DOC_004",
+            "DOC_005"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_006",
+              "claim": "Airbus recorded 202 gross aircraft orders in October, taking its total for the year to 1,376. After 71 cancellations, net orders stood at 1,305.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_002",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "",
+              "publication_date": "2026-11-06",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "ANALYST_ASSESSMENT",
+              "strength": "VERIFIED",
+              "source_url": "https://aerospaceglobalnews.com/news/airbus-249-deliveries-two-months-2026-target/",
+              "source_hash": "",
+              "passage_hash": "",
+              "verification_reason": "ANALYST_EVENT_VALIDATION",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_009",
+              "claim": "FLYONE Armenia, the country's largest carrier, has finalised an order with Airbus for the acquisition of two A321neo aircraft.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_002",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "",
+              "publication_date": "2026-09-30",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "ANALYST_ASSESSMENT",
+              "strength": "VERIFIED",
+              "source_url": "https://www.airbus.com/en/newsroom/press-releases/2026-09-flyone-armenia-orders-two-airbus-a321neo",
+              "source_hash": "",
+              "passage_hash": "",
+              "verification_reason": "ANALYST_EVENT_VALIDATION",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_002",
+              "claim": "The UAE and Middle East carriers have neither requested deferrals of plane orders nor delayed payments, despite the US-Iran war having a knock-on effect on",
+              "claim_id": "",
+              "kiq_id": "RKIQ_002",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "",
+              "publication_date": "2026-09-23",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "ANALYST_ASSESSMENT",
+              "strength": "VERIFIED",
+              "source_url": "https://www.khaleejtimes.com/business/no-uae-regional-airline-sought-deferrals-of-plane-orders-says-airbus",
+              "source_hash": "",
+              "passage_hash": "",
+              "verification_reason": "ANALYST_EVENT_VALIDATION",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": []
+        }
+      ],
+      "claim_requirement_links": [
+        {
+          "claim_id": "",
+          "doc_id": "DOC_006",
+          "requirement_id": "RKIQ_002_REQ_01",
+          "requirement_key": "ORDER_CONTRACT",
+          "rkiq_id": "RKIQ_002",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_009",
+          "requirement_id": "RKIQ_002_REQ_01",
+          "requirement_key": "ORDER_CONTRACT",
+          "rkiq_id": "RKIQ_002",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_002",
+          "requirement_id": "RKIQ_002_REQ_01",
+          "requirement_key": "ORDER_CONTRACT",
+          "rkiq_id": "RKIQ_002",
+          "strength": "VERIFIED"
+        }
+      ],
+      "claim_handoff_rejections": {
+        "DOC_001": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "source_execution_status": "PARTIAL_RESULT",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [],
+      "verification_status": "Verified 1/1 atomic facts; PARTIAL_RESULT",
+      "uncertainty_level": "LOW",
+      "recommended_next_step": "Monitor independently for new developments and downstream effects.",
+      "missing_information": null
+    }
+  ],
+  "run_metadata": {
+    "run_id": "RUN-20261125-145434-0C136C2F9D85",
+    "report_id": "RPT-20261125-A8DA7A",
+    "started_at": "2026-11-25T14:54:34Z",
+    "completed_at": "2026-11-25T14:57:26Z",
+    "run_date_utc": "2026-11-25",
+    "analysis_reference_date": "2026-11-25",
+    "reference_date_mode": "EXECUTION_DATE",
+    "collection_window_start_utc": "2026-08-27T14:54:34Z",
+    "collection_window_end_utc": "2026-11-25T14:54:34Z",
+    "status": "completed",
+    "outcome_status": "PARTIAL_SUCCESS",
+    "processing_status": "COMPLETED",
+    "evidence_completeness_status": "PARTIAL",
+    "kiq_completion_status": "PARTIALLY_ANSWERED",
+    "kiqs_fully_answered": 2,
+    "kiqs_missing_specific_evidence": 0,
+    "kit_completion_audit": {
+      "as_of_date": "2026-11-25",
+      "questions": [
+        {
+          "kiq_id": "RKIQ_001",
+          "question": "What new firm orders or Memoranda of Understanding (MoU) for Airbus aircraft have been officially announced by the OEM or purchasing airlines?",
+          "answer_status": "ANSWERED",
+          "content_result": "STATUS_UNKNOWN",
+          "complete": true,
+          "missing_evidence": [],
+          "missing_information": null,
+          "source_execution_status": "PARTIAL_RESULT",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 5,
+          "latest_evidence_date": "2026-11-09",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        },
+        {
+          "kiq_id": "RKIQ_002",
+          "question": "What are the current status and details of announced Airbus fleet contract modifications, including deferrals or cancellations?",
+          "answer_status": "ANSWERED",
+          "content_result": "STATUS_UNKNOWN",
+          "complete": true,
+          "missing_evidence": [],
+          "missing_information": null,
+          "source_execution_status": "PARTIAL_RESULT",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 5,
+          "latest_evidence_date": "2026-11-09",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        }
+      ],
+      "total": 2,
+      "complete": 2,
+      "missing": 0,
+      "unavailable_sources": [
+        {
+          "connector": "News API",
+          "source_id": "SRC_004",
+          "status": "RATE_LIMITED",
+          "errors": [
+            "CONNECTOR_RATE_LIMITED"
+          ]
+        }
+      ],
+      "unsearched_requests": [],
+      "status": "PARTIALLY_ANSWERED"
+    },
+    "planner_status": "REPAIRED",
+    "collection_mode": "agentic_exa",
+    "acquisition_trace": {
+      "collection_id": "COL_0D950D",
+      "kit": "Airbus aircraft orders and major fleet contracts announcements",
+      "collection_mode": "agentic_exa",
+      "search_objective": "Execute adaptive OSINT intelligence acquisition for Airbus aircraft orders and fleet contract announcements between 2026-08-27 and 2026-11-25.",
+      "queries_executed": 5,
+      "exa_calls_executed": 2,
+      "sources_used": [
+        "Exa Semantic Search",
+        "Official Industry PR / Airbus"
+      ],
+      "documents_found": 16,
+      "primary_documents": 11,
+      "secondary_documents": 5,
+      "full_text_documents": 16,
+      "metadata_only_documents": 0,
+      "unresolved_requirements": [
+        "Specific details on any Memoranda of Understanding (MoU) that have not yet transitioned to firm orders during this window.",
+        "Granular delivery timeline shifts for specific narrowbody variants beyond the general 9M 2026 financial report summary."
+      ],
+      "collection_status": "COMPLETED",
+      "next_action": "NONE",
+      "agent_rationale": "The search successfully identified major firm orders from Cathay Group (14 aircraft), ACG (75 A320neo), Avolon (110 aircraft), Biman Bangladesh (A350/A321), and others via primary Airbus PR. Coverage of contract modifications was achieved through the 9M 2026 results and CEO statements confirming a lack of cancellations, satisfying the 'Current Status' KIQ. All mandatory platforms (airshow, news, pr, social) were queried, and primary source corroboration was prioritized using official Airbus disclosures.",
+      "steps": [
+        {
+          "step": 1,
+          "tool": "exa_semantic_search",
+          "query": "Airbus aircraft order cancellations and delivery deferrals status update August-November 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 6,
+          "new_doc_ids": [
+            "DOC_001",
+            "DOC_002",
+            "DOC_003",
+            "DOC_004",
+            "DOC_005",
+            "DOC_006"
+          ],
+          "elapsed_sec": 2.38,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 2,
+          "tool": "exa_semantic_search",
+          "query": "Airbus firm orders and MoUs announced between August 27 2026 and November 25 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 6,
+          "new_doc_ids": [
+            "DOC_007",
+            "DOC_008",
+            "DOC_009",
+            "DOC_010",
+            "DOC_011",
+            "DOC_012"
+          ],
+          "elapsed_sec": 3.04,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 3,
+          "tool": "search_media_and_social",
+          "query": "[all] Airbus aircraft orders November 2026",
+          "status": "NO_MATCH",
+          "new_doc_count": 0,
+          "new_doc_ids": [],
+          "elapsed_sec": 6.72,
+          "calls_used": 5,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 4,
+          "tool": "search_corporate_filings",
+          "query": "Airbus commercial aircraft orders deliveries October 2026 November 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 4,
+          "new_doc_ids": [
+            "DOC_013",
+            "DOC_014",
+            "DOC_015",
+            "DOC_016"
+          ],
+          "elapsed_sec": 15.29,
+          "calls_used": 5,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 5,
+          "tool": "search_airshow_newsrooms",
+          "query": "Airbus A321neo A350 orders",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 4,
+          "new_doc_ids": [
+            "DOC_013",
+            "DOC_014",
+            "DOC_015",
+            "DOC_016"
+          ],
+          "elapsed_sec": 45.49,
+          "calls_used": 5,
+          "exa_calls_used": 2,
+          "note": ""
+        }
+      ],
+      "budget_summary": {
+        "calls_made": 5,
+        "max_total_calls": 10,
+        "remaining_total_calls": 5,
+        "exa_calls_made": 2,
+        "max_exa_calls": 4,
+        "remaining_exa_calls": 2,
+        "elapsed_sec": 48.55,
+        "max_seconds": 180,
+        "remaining_seconds": 131.4,
+        "steps_recorded": 5
+      },
+      "fallback_used": false,
+      "llm_tokens_in": 20675,
+      "llm_tokens_out": 610
+    },
+    "phase_checkpoints": {
+      "planner": "REPAIRED",
+      "collection": "PASS",
+      "fr03": "PASS",
+      "analyst": "PASS",
+      "qa": "COMPLETED",
+      "kiq": "PARTIALLY_ANSWERED",
+      "editor": "COMPLETED",
+      "scoring": "COMPLETED",
+      "reporting": "VALIDATED"
+    },
+    "evidence_flow_audit": {
+      "documents": [
+        {
+          "doc_id": "DOC_001",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": true
+          },
+          "gap": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "interruption_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_002",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 3,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_003",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 2,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_004",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_005",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_006",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 3,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_007",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_008",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_009",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 3,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_010",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_011",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_012",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 2,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_013",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_014",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_015",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_016",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        }
+      ],
+      "stage_counts": {
+        "COLLECTED": 16,
+        "FILTER_ACCEPTED": 8,
+        "CLAIMS_EXTRACTED": 8,
+        "CLAIMS_VALIDATED": 5,
+        "KIQ_EVALUATED": 8,
+        "KIQ_LINKED": 7,
+        "NOT_APPLICABLE": 1,
+        "REPORT_REFERENCED": 8,
+        "REPORT_USED": 8,
+        "REPORT_NOT_USED": 0
+      },
+      "unlinked_accepted_document_ids": [
+        "DOC_001"
+      ],
+      "unreferenced_validated_document_ids": [],
+      "potential_analytical_loss_ids": [],
+      "handoff_error_ids": [],
+      "validated_claim_counts": {
+        "DOC_001": 0,
+        "DOC_002": 3,
+        "DOC_003": 2,
+        "DOC_004": 0,
+        "DOC_005": 0,
+        "DOC_006": 3,
+        "DOC_007": 0,
+        "DOC_008": 0,
+        "DOC_009": 3,
+        "DOC_010": 0,
+        "DOC_011": 0,
+        "DOC_012": 2,
+        "DOC_013": 0,
+        "DOC_014": 0,
+        "DOC_015": 0,
+        "DOC_016": 0
+      }
+    },
+    "evidence_integrity_issues": [],
+    "source_provenance_missing_ids": [],
+    "kiq_unlinked_extracted_document_ids": [],
+    "kiq_handoff_error_document_ids": [],
+    "kiq_handoff_contract_errors": {},
+    "editor_kiq_context_error": null,
+    "editor_evidence_citation_document_ids": [],
+    "query": "Airbus aircraft orders and major fleet contracts announcements",
+    "experiment": {
+      "dataset_run_id": "RUN-20261125-145434-0C136C2F9D85",
+      "replay_run_id": null,
+      "collection_mode": "agentic_exa",
+      "qa_enabled": true,
+      "harness_enabled": true,
+      "keyword_baseline": false,
+      "dataset_sha256": "3c5e2efb7dc86a910661cc6db2a7655210ae495d5a0ee83e1c0d689ad6ce085b",
+      "replay_uses_live_llm": false
+    },
+    "analysis_scope": "90d",
+    "effective_from": "2026-08-27T14:54:34Z",
+    "effective_to": "2026-11-25T14:54:34Z",
+    "as_of_date": "2026-11-25",
+    "documents_collected": 16,
+    "historical_resolutions": [],
+    "historical_resolution_count": 0,
+    "temporal_claim_audit": [
+      {
+        "event_id": "EVT_20261009_AVOLON_AIRBUS_110",
+        "entity": "Avolon",
+        "program": "A320NEO_FAMILY, A330NEO",
+        "component": "Unknown / Not specified in source",
+        "issue": "ORDER",
+        "historical_claim_status": "CURRENT_STATUS_UNKNOWN",
+        "original_date": "2026-10-08",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "EVT_20261106_AIRBUS_OCT_CANCELLATIONS",
+        "entity": "Airbus",
+        "program": "Unknown / Not specified in source",
+        "component": "Unknown / Not specified in source",
+        "issue": "ORDER",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-11-06",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "AIRBUS-FLYONE-2026-09-30",
+        "entity": "FLYONE Armenia",
+        "program": "A320NEO_FAMILY",
+        "component": "Unknown / Not specified in source",
+        "issue": "COMPETITIVE",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-09-30",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "AIRBUS-ME-DEFERRAL-STATUS-2026-09-23",
+        "entity": "Airbus",
+        "program": "Unknown / Not specified in source",
+        "component": "Unknown / Not specified in source",
+        "issue": "GEOPOLITICAL",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-09-23",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "AIRBUS-OCT-2026-METRICS",
+        "entity": "Airbus",
+        "program": "Unknown / Not specified in source",
+        "component": "Unknown / Not specified in source",
+        "issue": "DELIVERY",
+        "historical_claim_status": "CURRENT_STATUS_UNKNOWN",
+        "original_date": "2026-11-09",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "AIRBUS-2026-OCT-ORDER-SUMMARY",
+        "entity": "Airbus",
+        "program": "Unknown / Not specified in source",
+        "component": "Unknown / Not specified in source",
+        "issue": "DELIVERY",
+        "historical_claim_status": "CURRENT_STATUS_UNKNOWN",
+        "original_date": "2026-11-06",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "AIRBUS-2026-POSTPONEMENT-STATUS",
+        "entity": "Airbus",
+        "program": "Unknown / Not specified in source",
+        "component": "Unknown / Not specified in source",
+        "issue": "DELIVERY",
+        "historical_claim_status": "CURRENT_STATUS_UNKNOWN",
+        "original_date": "2026-10-28",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      }
+    ],
+    "document_content_status_counts": {
+      "FULL_TEXT": 16,
+      "FULL_TEXT_RETRIEVED": 0,
+      "METADATA_ONLY": 0,
+      "PARTIAL_TEXT": 0,
+      "SOURCE_METADATA_ONLY": 0,
+      "SOURCE_POLICY_RESTRICTED": 0,
+      "STRUCTURED_DATA": 0,
+      "SUMMARY_ONLY": 0,
+      "TEXT_COMPLETENESS_UNVERIFIED": 0,
+      "TEXT_RETRIEVED_COMPLETENESS_UNVERIFIED": 0,
+      "TRANSCRIPT_AS_RECEIVED": 0,
+      "UNAVAILABLE": 0,
+      "UNKNOWN": 0
+    },
+    "unknown_content_statuses": [],
+    "telemetry_errors": [],
+    "telemetry_integrity_ok": true,
+    "content_limited_document_ids": [
+      "DOC_003",
+      "DOC_006",
+      "DOC_010"
+    ],
+    "documents_analyzed": 8,
+    "documents_rejected": 8,
+    "documents_failed": 0,
+    "analysis_phase_status": "COMPLETED",
+    "analysis_recovery_budget": {
+      "time_budget_sec": 600,
+      "max_retries": 8,
+      "max_calls": 11,
+      "retries": 0,
+      "calls": 3,
+      "blocked": ""
+    },
+    "analyzed_document_ids": [
+      "DOC_001",
+      "DOC_002",
+      "DOC_003",
+      "DOC_004",
+      "DOC_005",
+      "DOC_006",
+      "DOC_009",
+      "DOC_012"
+    ],
+    "failed_document_ids": [],
+    "recovered_document_ids": [],
+    "partially_analyzed_document_ids": [],
+    "documents_recovered": 0,
+    "analyst_batch_document_counts": [
+      2,
+      3,
+      3
+    ],
+    "analyst_recovery_splits": 0,
+    "analyst_retry_counts_by_reason": {
+      "PROVIDER_INTERNAL_RETRY": 0
+    },
+    "batches_created": 3,
+    "batches_succeeded": 3,
+    "batches_failed": 0,
+    "planning_duration_sec": 4.34,
+    "collection_duration_sec": 48.57,
+    "filter_duration_sec": 23.01,
+    "analysis_duration_sec": 54.47,
+    "qa_duration_sec": 31.26,
+    "editorial_duration_sec": 10.65,
+    "scoring_duration_sec": 0.0,
+    "scoring_status": "COMPLETED",
+    "scoring_methodology": {
+      "version": "IW-5FACTOR-DET-V1",
+      "method": "DETERMINISTIC_5_FACTOR_IW",
+      "scale": "F1-F5 rated 1..5; final threat_score 1..10",
+      "formula": "S = clamp(floor(sum(w_i * F_i) * 2 + 0.5), 1, 10)",
+      "weights": {
+        "impact_severity": 0.3,
+        "supplier_criticality": 0.2,
+        "substitutability_difficulty": 0.15,
+        "propagation_scope": 0.15,
+        "temporal_urgency": 0.2
+      },
+      "bands": {
+        "monitored": "1-4",
+        "elevated": "5-7",
+        "high_potential_impact": "8-10"
+      },
+      "severity_independent_of_confidence": true
+    },
+    "scoring_partial_fallback_ids": [],
+    "scoring_audit": [
+      {
+        "event_id": "EVT_20261009_AVOLON_AIRBUS_110",
+        "provisional_score": 6,
+        "computed_score": 7,
+        "final_score": 7,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.35 * 2) = 7/10",
+        "weighted_sum": 3.35,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 3,
+            "weight": 0.3,
+            "weighted_contribution": 0.9,
+            "rationale": "High-volume order secures significant production capacity for years."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Airbus is the sole provider for these specific models."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Slots are fixed; A320neo family has a multi-year waitlist."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Affects overall A320/A330 backlog and delivery timelines."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 2,
+            "weight": 0.2,
+            "weighted_contribution": 0.4,
+            "rationale": "Order is firm and impacts future delivery schedules immediately."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 48 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: ELEVATED (7/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+        "post_harness_score": 7,
+        "post_harness_validation_status": "PARTIALLY_SUPPORTED",
+        "post_harness_confidence_level": "LOW",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "Unknown (Verification Required)",
+        "factor_evidence_status": "PROVISIONAL_UNVERIFIED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-10-08",
+        "source_age_days": 48
+      },
+      {
+        "event_id": "EVT_20261106_AIRBUS_OCT_CANCELLATIONS",
+        "provisional_score": 5,
+        "computed_score": 7,
+        "final_score": 7,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.25 * 2) = 7/10",
+        "weighted_sum": 3.25,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 3,
+            "weight": 0.3,
+            "weighted_contribution": 0.9,
+            "rationale": "71 cancellations represent a significant portion of monthly activity."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "Cancellations directly impact Airbus's revenue and backlog."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 2,
+            "weight": 0.15,
+            "weighted_contribution": 0.3,
+            "rationale": "Lost orders are not immediately replaceable by new firm contracts."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Affects overall net order book and production planning."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "Affects year-end 2026 targets; immediate tracking required."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 19 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: ELEVATED (7/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 7,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "MEDIUM",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-11-06",
+        "source_age_days": 19
+      },
+      {
+        "event_id": "AIRBUS-FLYONE-2026-09-30",
+        "provisional_score": 3,
+        "computed_score": 5,
+        "final_score": 5,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(2.40 * 2) = 5/10",
+        "weighted_sum": 2.4,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 2,
+            "weight": 0.3,
+            "weighted_contribution": 0.6,
+            "rationale": "Modest order volume (2 aircraft) for a regional carrier."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "Airbus A321neo is a core high-demand program."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Specific A321neo/LEAP configuration has high market demand and backlog."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 1,
+            "weight": 0.15,
+            "weighted_contribution": 0.15,
+            "rationale": "Limited to Armenian regional market operations."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 2,
+            "weight": 0.2,
+            "weighted_contribution": 0.4,
+            "rationale": "Order finalized, deliveries to follow standard lead times."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 56 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: ELEVATED (5/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 5,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "HIGH",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "Regulator / Airline",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-09-30",
+        "source_age_days": 56
+      },
+      {
+        "event_id": "AIRBUS-ME-DEFERRAL-STATUS-2026-09-23",
+        "provisional_score": 4,
+        "computed_score": 6,
+        "final_score": 6,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.15 * 2) = 6/10",
+        "weighted_sum": 3.15,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 3,
+            "weight": 0.3,
+            "weighted_contribution": 0.9,
+            "rationale": "Middle East is a high-value region; deferrals would impact Airbus revenue significantly."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "Regional demand is a key driver for widebody and NEO families."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Redirecting high-spec aircraft to other customers takes time and incurs costs."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Potential for multiple carriers in the region to act simultaneously if conflict worsens."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 2,
+            "weight": 0.2,
+            "weighted_contribution": 0.4,
+            "rationale": "Report indicates current stability, monitoring required for shift."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 63 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: ELEVATED (6/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 6,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "MEDIUM",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-09-23",
+        "source_age_days": 63
+      },
+      {
+        "event_id": "AIRBUS-OCT-2026-METRICS",
+        "provisional_score": 5,
+        "computed_score": 7,
+        "final_score": 7,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.25 * 2) = 7/10",
+        "weighted_sum": 3.25,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 3,
+            "weight": 0.3,
+            "weighted_contribution": 0.9,
+            "rationale": "High book-to-bill ratio increases long-term delivery pressure."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Airbus is the primary node for this global delivery schedule."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 2,
+            "weight": 0.15,
+            "weighted_contribution": 0.3,
+            "rationale": "Limited alternative delivery slots in the industry."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Backlog impacts all major single-aisle customers."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 3,
+            "weight": 0.2,
+            "weighted_contribution": 0.6,
+            "rationale": "Reported data is recent; backlog is active."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 16 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: ELEVATED (7/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+        "post_harness_score": 7,
+        "post_harness_validation_status": "PARTIALLY_SUPPORTED",
+        "post_harness_confidence_level": "LOW",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "PROVISIONAL_UNVERIFIED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-11-09",
+        "source_age_days": 16
+      },
+      {
+        "event_id": "AIRBUS-2026-OCT-ORDER-SUMMARY",
+        "provisional_score": 6,
+        "computed_score": 7,
+        "final_score": 7,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.70 * 2) = 7/10",
+        "weighted_sum": 3.7,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 3,
+            "weight": 0.3,
+            "weighted_contribution": 0.9,
+            "rationale": "Massive backlog (9,310) creates extreme production pressure and delivery risk."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Airbus is the lead OEM for the A320 and A330 families."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Airbus and Boeing operate in a duopoly for large commercial aircraft."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Broad impact across global airline fleet planning and Airbus production sites."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 3,
+            "weight": 0.2,
+            "weighted_contribution": 0.6,
+            "rationale": "Immediate monitoring of end-of-year delivery targets is required."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 19 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: ELEVATED (7/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+        "post_harness_score": 7,
+        "post_harness_validation_status": "PARTIALLY_SUPPORTED",
+        "post_harness_confidence_level": "LOW",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "PROVISIONAL_UNVERIFIED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-11-06",
+        "source_age_days": 19
+      },
+      {
+        "event_id": "AIRBUS-2026-POSTPONEMENT-STATUS",
+        "provisional_score": 3,
+        "computed_score": 5,
+        "final_score": 5,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(2.70 * 2) = 5/10",
+        "weighted_sum": 2.7,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 2,
+            "weight": 0.3,
+            "weighted_contribution": 0.6,
+            "rationale": "Current status is stable, but market sensitivity to fuel prices remains high."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "OEM control over delivery schedule is central to program revenue."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Deliveries are contracted; slots are difficult to replace quickly."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Global airline customer base is affected by fuel price volatility."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 2,
+            "weight": 0.2,
+            "weighted_contribution": 0.4,
+            "rationale": "Market conditions are being monitored in real-time."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 28 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: ELEVATED (5/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+        "post_harness_score": 5,
+        "post_harness_validation_status": "PARTIALLY_SUPPORTED",
+        "post_harness_confidence_level": "LOW",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "PROVISIONAL_UNVERIFIED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-10-28",
+        "source_age_days": 28
+      }
+    ],
+    "total_duration_sec": 172.47,
+    "llm_calls": 10,
+    "llm_retries": 0,
+    "tokens_input": 82269,
+    "tokens_output": 24531,
+    "token_usage_status": "MEASURED",
+    "token_usage_unknown_calls": 0,
+    "llm_call_audit": [
+      {
+        "task_type": "PHASE_1_PLANNER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 1539,
+        "output_tokens": 499,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_2_ACQUISITION",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 20675,
+        "output_tokens": 610,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2927,
+        "output_tokens": 1532,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2981,
+        "output_tokens": 1435,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2812,
+        "output_tokens": 1642,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_1_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 18590,
+        "output_tokens": 3602,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_2_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 18905,
+        "output_tokens": 4563,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_3_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 19058,
+        "output_tokens": 3390,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_3B_QA",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 13897,
+        "output_tokens": 7313,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_4_EDITOR",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 3099,
+        "output_tokens": 1054,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      }
+    ],
+    "analyst_recovery_audit": {
+      "attempts": [],
+      "fallbacks": [],
+      "recent_events": []
+    },
+    "token_accounting_method": "SHARED_LLM_DELTA",
+    "provider_requests_measured": 8,
+    "estimated_cost_usd": 0.11473,
+    "estimated_cost_status": "ESTIMATED",
+    "priced_cost_subtotal_usd": 0.11473,
+    "model_cost_audit": [
+      {
+        "model_id": "openrouter/google/gemini-3-flash-preview",
+        "usage_bucket": "openrouter/google/gemini-3-flash-preview",
+        "input_tokens": 82269,
+        "output_tokens": 24531,
+        "requests": 8,
+        "estimated_cost_usd": 0.11473,
+        "pricing_status": "ESTIMATED"
+      }
+    ],
+    "cost_estimation_reason_codes": [],
+    "unmatched_cost_model_ids": [],
+    "model_id": "openrouter/google/gemini-3-flash-preview",
+    "prompt_version": "v2.10-CI-HRO-2026-EVIDENCE-SCOPE",
+    "kiq_catalog_version": "THESIS_KIQ_CATALOG_V2_20261031",
+    "candidate_schema_rejections": 0,
+    "qa_failed": false,
+    "qa_performed": true,
+    "harness_performed": true,
+    "editor_failed": false,
+    "editorial_generation_mode": "LLM_TEXT_PYDANTIC_V1",
+    "editor_text_parsed_count": 2,
+    "editor_text_fallbacks": 2,
+    "editor_retry_count": 0,
+    "editor_retry_recovered": false,
+    "editor_fallback_used": true,
+    "pipeline_degraded": true,
+    "degradation_category": "SOURCE_COVERAGE_LIMITED",
+    "source_coverage_issues": [
+      {
+        "connector": "News API",
+        "issue": "CONNECTOR_RATE_LIMITED"
+      }
+    ],
+    "source_coverage_limited": true,
+    "source_coverage_advisories": [
+      {
+        "connector": "Exa Semantic Search",
+        "issue": "exa_type=auto; duplicates_skipped=0; include_domains=ALL"
+      },
+      {
+        "connector": "Official Industry PR / Airbus",
+        "issue": "RSS_METADATA_SCREENING_NOT_FULL_TEXT_VERIFICATION"
+      }
+    ],
+    "source_coverage_status": "PARTIAL",
+    "source_coverage_legacy_status": "LIMITED",
+    "evidence_result_status": "SUPPORTED_EVENTS",
+    "review_scope": "EVENT_REVIEW",
+    "analysis_issues": [],
+    "fr03_rejection_review_candidates": 6,
+    "fr03_rejection_stage_counts": {
+      "STAGE_1_DETERMINISTIC": 1,
+      "STAGE_2_SEMANTIC": 7
+    },
+    "scoring_calibration": "UNMEASURED_REQUIRES_EXPERT_REFERENCE_LABELS",
+    "semantic_filter_unavailable_count": 0,
+    "semantic_filter_missing_ids": [],
+    "analyst_valid_empty_batches": 0,
+    "analyst_invalid_batches": 0,
+    "analyst_empty_retry_count": 0,
+    "analyst_empty_retry_failed_batches": 0,
+    "analyst_empty_output_conflict": false,
+    "analyst_empty_conflict_previous_run": null,
+    "analyst_output_audit": [
+      {
+        "batch": 1,
+        "depth": 0,
+        "document_ids": [
+          "DOC_012",
+          "DOC_006"
+        ],
+        "documents_processed": 2,
+        "candidate_count": 2,
+        "rejected_count": 0,
+        "output_chars": 10797,
+        "output_tokens": 3602,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 2,
+        "depth": 0,
+        "document_ids": [
+          "DOC_009",
+          "DOC_002",
+          "DOC_005"
+        ],
+        "documents_processed": 3,
+        "candidate_count": 3,
+        "rejected_count": 0,
+        "output_chars": 14605,
+        "output_tokens": 4563,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 3,
+        "depth": 0,
+        "document_ids": [
+          "DOC_003",
+          "DOC_004",
+          "DOC_001"
+        ],
+        "documents_processed": 3,
+        "candidate_count": 2,
+        "rejected_count": 0,
+        "output_chars": 11054,
+        "output_tokens": 3390,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      }
+    ],
+    "confirmed_critical_count": 0,
+    "unverified_signal_count": 0,
+    "displayable_signal_count": 3,
+    "verified_context_count": 0,
+    "direct_kit_confirmed_count": 3,
+    "verified_context_event_ids": [],
+    "classification_version": "SUPPORTED_ONLY_DASHBOARD_V3_EVENT_ID_1TO1",
+    "runtime_kiq_count": 2,
+    "runtime_kiq_ids": [
+      "RKIQ_001",
+      "RKIQ_002"
+    ],
+    "runtime_kiq_answered": 2,
+    "runtime_kiq_partially_answered": 0,
+    "runtime_kiq_unanswered": 0,
+    "runtime_kiq_not_searched": 0,
+    "intelligence_methodology": {
+      "collection_method": "OSINT",
+      "analysis_method": "Competitive Intelligence",
+      "osint_document_count": 16,
+      "ci_candidate_count": 7,
+      "osint_stage": "Acquisition and preprocessing of publicly available information.",
+      "ci_stage": "Interpretation of collected evidence against KIT/KIQ requirements, strategic risks, competitive implications and decision needs.",
+      "methodological_boundary": "A retrieved source is OSINT evidence. It becomes an intelligence assessment only after analytical interpretation and validation.",
+      "independent_verification_required": true
+    },
+    "editor_claim_audit": {
+      "status": "PASS",
+      "all_supported": true,
+      "citations_match": true,
+      "checks": {
+        "doc_id_exists": true,
+        "passages_match": true,
+        "event_references_valid": true,
+        "urls_valid": true
+      },
+      "claim_sentences_checked": 30,
+      "cited_document_ids": [
+        "DOC_001",
+        "DOC_002",
+        "DOC_003",
+        "DOC_004",
+        "DOC_005",
+        "DOC_006",
+        "DOC_009",
+        "DOC_012"
+      ],
+      "issues": [],
+      "review_items": [],
+      "audit_method": "DETERMINISTIC_PROVENANCE_ONLY"
+    },
+    "editor_executive_summary": "Intelligence monitoring of Airbus commercial and defense order activity through November 2026 reveals significant backlog expansion and sustained demand across both narrow-body and wide-body segments. Analysis of official company disclosures and press releases [DOC_003, DOC_009, DOC_012] confirms that the A320 Family has surpassed 20,000 global orders [DOC_009]. Key transactions include a major commitment from Avolon for 110 aircraft—comprising 75 A320neo Family and 35 A330-900 units—which increases the lessor’s total A320 family commitment to approximately 650 units [DOC_012]. Additionally, FLYONE Armenia finalized an order for two A321neo aircraft in late September 2026 [DOC_009]. Beyond commercial aviation, Airbus Defence and Space reported a substantial increase in order intake value, reaching €11.5 billion for the first nine months of 2026, compared to €6.8 billion in the same period for 2025 [DOC_003]. While these findings indicate robust commercial momentum, the data remains incomplete regarding the specific impact of October cancellations [DOC_006] and the status of reported delivery deferrals [DOC_002]. Management should focus on validating the net backlog position following these cancellations to determine if production slot availability for Tier 2 customers has shifted.",
+    "editor_detailed_analytical_assessment": "The current evidence base establishes a period of high-volume contractual activity for Airbus, characterized by large-scale lessor commitments and a strengthening defense portfolio. The Avolon order [DOC_012] is particularly significant as it signals long-term lessor confidence in the A330-900 and A320neo programs, potentially tightening delivery windows for smaller operators through the end of the decade. This \"commercial momentum\" is mirrored in the defense sector, where order intake has nearly doubled year-over-year as of October 2026 [DOC_003]. \n\nHowever, a comprehensive competitive assessment is currently constrained by \"UNSUPPORTED\" validation statuses for several critical market signals. Specifically, while gross orders are well-documented, the \"AIRBUS_OCT_CANCELLATIONS\" [DOC_006] and \"AIRBUS-ME-DEFERRAL-STATUS\" [DOC_002] suggest underlying volatility that is not yet fully quantified in the public domain. The source for the Middle East deferrals [DOC_002] does not specify the affected programs, leaving a gap in understanding whether these are geopolitical disruptions affecting wide-body or narrow-body deliveries. Furthermore, while supply chain metrics for the A320neo were noted in early November [DOC_005], the evidence does not explicitly link these metrics to a change in delivery rates or production bottlenecks.\n\nAnalytically, the concentration of orders within major lessors like Avolon suggests a \"Slot Consumption\" effect where Tier 1 entities secure the majority of near-term production capacity. This creates a competitive risk for smaller airlines who may face increased lead times or be forced to negotiate through lessors rather than directly with the OEM. The primary open question remains the net order tally for Q4 2026, as the high-confidence order announcements [DOC_009, DOC_012] must be weighed against the medium-confidence reports of cancellations and postponements [DOC_001, DOC_006]. Management is advised to prioritize the verification of the October 2026 Order Summary [DOC_004] to reconcile these conflicting signals. Monitoring should transition from simple order tracking to an assessment of \"Backlog Quality,\" specifically looking for evidence of firm orders converting to delivery versus those entering long-term deferral status.",
+    "editor_validation_status": "PASS",
+    "editor_claim_citations_verified": true,
+    "editor_semantic_review_required": false,
+    "kit_current_assessment": {
+      "status": "DOCUMENTED_FINDINGS",
+      "source_coverage": "INCOMPLETE",
+      "as_of_date": "2026-11-25",
+      "search_overview": {
+        "connectors_searched": [
+          "Exa Semantic Search",
+          "News API",
+          "Official Industry PR / Airbus",
+          "XBRL International ESEF Filing Index",
+          "Airshow Websites"
+        ],
+        "connectors_with_results": [
+          "Exa Semantic Search",
+          "Official Industry PR / Airbus"
+        ],
+        "documents_collected": 16,
+        "documents_analyzed": 8,
+        "documents_rejected": 8,
+        "events_identified": 7,
+        "supported_events": 0
+      },
+      "issue_status": "DOCUMENTED",
+      "regulator_verification": "UNAVAILABLE",
+      "source_authority": "NOT_ESTABLISHED",
+      "coverage_status": "PARTIAL",
+      "severity_context": "POTENTIAL",
+      "potential_severity": 7,
+      "evidence_confidence": "LOW",
+      "chronological_milestones": [],
+      "conflicts": [],
+      "monitored_kit": "Airbus aircraft orders and major fleet contracts announcements",
+      "original_issue": "Airbus aircraft orders and major fleet contracts announcements",
+      "latest_milestone": "NOT_ESTABLISHED",
+      "latest_milestone_date": "",
+      "latest_evidence_id": "",
+      "latest_evidence_url": "",
+      "latest_verification": "UNVERIFIED",
+      "unresolved_questions": [],
+      "severity": null,
+      "confidence": "LOW",
+      "evidence_strength": "PARTIAL_REPORTED",
+      "reported_developments": [
+        {
+          "event_id": "EVT_20261009_AVOLON_AIRBUS_110",
+          "evidence_id": "DOC_012",
+          "date": "2026-10-08",
+          "claim": "Avolon, a leading global aviation finance company, has placed a firm order for 110 Airbus aircraft, comprising 35 A330-900 and 75 A320neo Family aircraft.",
+          "program": "A320NEO_FAMILY, A330NEO",
+          "company": "Avolon",
+          "source_url": "https://www.airbus.com/en/newsroom/press-releases/2026-10-avolon-orders-35-airbus-a330-900-and-75-a320neo-family-aircraft",
+          "verification": "PARTIALLY_SUPPORTED",
+          "source_role": "SECONDARY_OR_UNKNOWN"
+        },
+        {
+          "event_id": "EVT_20261106_AIRBUS_OCT_CANCELLATIONS",
+          "evidence_id": "DOC_006",
+          "date": "2026-11-06",
+          "claim": "Airbus recorded 202 gross aircraft orders in October, taking its total for the year to 1,376. After 71 cancellations, net orders stood at 1,305.",
+          "program": "Unknown / Not specified in source",
+          "company": "Airbus",
+          "source_url": "https://aerospaceglobalnews.com/news/airbus-249-deliveries-two-months-2026-target/",
+          "verification": "SUPPORTED",
+          "source_role": "SECONDARY_OR_UNKNOWN"
+        },
+        {
+          "event_id": "AIRBUS-FLYONE-2026-09-30",
+          "evidence_id": "DOC_009",
+          "date": "2026-09-30",
+          "claim": "FLYONE Armenia, the country's largest carrier, has finalised an order with Airbus for the acquisition of two A321neo aircraft.",
+          "program": "A320NEO_FAMILY",
+          "company": "FLYONE Armenia",
+          "source_url": "https://www.airbus.com/en/newsroom/press-releases/2026-09-flyone-armenia-orders-two-airbus-a321neo",
+          "verification": "SUPPORTED",
+          "source_role": "SECONDARY_OR_UNKNOWN"
+        },
+        {
+          "event_id": "AIRBUS-ME-DEFERRAL-STATUS-2026-09-23",
+          "evidence_id": "DOC_002",
+          "date": "2026-09-23",
+          "claim": "The UAE and Middle East carriers have neither requested deferrals of plane orders nor delayed payments, despite the US-Iran war having a knock-on effect on",
+          "program": "Unknown / Not specified in source",
+          "company": "Airbus",
+          "source_url": "https://www.khaleejtimes.com/business/no-uae-regional-airline-sought-deferrals-of-plane-orders-says-airbus",
+          "verification": "SUPPORTED",
+          "source_role": "SECONDARY_OR_UNKNOWN"
+        }
+      ],
+      "kiq_source_claims": [],
+      "established_regulatory_facts": [],
+      "evidence_validation_warnings": [],
+      "kiq_status_counts": {
+        "ANSWERED": 2,
+        "PARTIALLY_ANSWERED": 0,
+        "UNANSWERED": 0,
+        "NOT_SEARCHED": 0
+      }
+    },
+    "detailed_analytical_assessment": "The current evidence base establishes a period of high-volume contractual activity for Airbus, characterized by large-scale lessor commitments and a strengthening defense portfolio. The Avolon order [DOC_012] is particularly significant as it signals long-term lessor confidence in the A330-900 and A320neo programs, potentially tightening delivery windows for smaller operators through the end of the decade. This \"commercial momentum\" is mirrored in the defense sector, where order intake has nearly doubled year-over-year as of October 2026 [DOC_003]. \n\nHowever, a comprehensive competitive assessment is currently constrained by \"UNSUPPORTED\" validation statuses for several critical market signals. Specifically, while gross orders are well-documented, the \"AIRBUS_OCT_CANCELLATIONS\" [DOC_006] and \"AIRBUS-ME-DEFERRAL-STATUS\" [DOC_002] suggest underlying volatility that is not yet fully quantified in the public domain. The source for the Middle East deferrals [DOC_002] does not specify the affected programs, leaving a gap in understanding whether these are geopolitical disruptions affecting wide-body or narrow-body deliveries. Furthermore, while supply chain metrics for the A320neo were noted in early November [DOC_005], the evidence does not explicitly link these metrics to a change in delivery rates or production bottlenecks.\n\nAnalytically, the concentration of orders within major lessors like Avolon suggests a \"Slot Consumption\" effect where Tier 1 entities secure the majority of near-term production capacity. This creates a competitive risk for smaller airlines who may face increased lead times or be forced to negotiate through lessors rather than directly with the OEM. The primary open question remains the net order tally for Q4 2026, as the high-confidence order announcements [DOC_009, DOC_012] must be weighed against the medium-confidence reports of cancellations and postponements [DOC_001, DOC_006]. Management is advised to prioritize the verification of the October 2026 Order Summary [DOC_004] to reconcile these conflicting signals. Monitoring should transition from simple order tracking to an assessment of \"Backlog Quality,\" specifically looking for evidence of firm orders converting to delivery versus those entering long-term deferral status.",
+    "detailed_analytical_assessment_mode": "VALIDATED_EDITOR",
+    "executive_summary_mode": "VALIDATED_EDITOR",
+    "report_evidence_usage": [
+      {
+        "doc_id": "DOC_001",
+        "event_ids": [
+          "AIRBUS-2026-POSTPONEMENT-STATUS"
+        ],
+        "kiq_ids": [],
+        "source_role": "UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_002",
+        "event_ids": [
+          "AIRBUS-ME-DEFERRAL-STATUS-2026-09-23"
+        ],
+        "kiq_ids": [
+          "RKIQ_001",
+          "RKIQ_002"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_003",
+        "event_ids": [
+          "AIRBUS-2026-OCT-ORDER-SUMMARY"
+        ],
+        "kiq_ids": [
+          "KIQ_2_2",
+          "RKIQ_001",
+          "RKIQ_002"
+        ],
+        "source_role": "UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_004",
+        "event_ids": [
+          "AIRBUS-2026-OCT-ORDER-SUMMARY"
+        ],
+        "kiq_ids": [
+          "KIQ_2_2",
+          "RKIQ_001",
+          "RKIQ_002"
+        ],
+        "source_role": "UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_005",
+        "event_ids": [
+          "AIRBUS-OCT-2026-METRICS"
+        ],
+        "kiq_ids": [
+          "RKIQ_001",
+          "RKIQ_002"
+        ],
+        "source_role": "UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_006",
+        "event_ids": [
+          "EVT_20261009_AVOLON_AIRBUS_110",
+          "EVT_20261106_AIRBUS_OCT_CANCELLATIONS"
+        ],
+        "kiq_ids": [
+          "KIQ_2_2",
+          "RKIQ_001",
+          "RKIQ_002"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_009",
+        "event_ids": [
+          "AIRBUS-FLYONE-2026-09-30"
+        ],
+        "kiq_ids": [
+          "RKIQ_001",
+          "RKIQ_002"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_012",
+        "event_ids": [
+          "EVT_20261009_AVOLON_AIRBUS_110"
+        ],
+        "kiq_ids": [
+          "KIQ_2_2",
+          "RKIQ_001",
+          "RKIQ_002"
+        ],
+        "source_role": "UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      }
+    ],
+    "detailed_analytical_assessment_sha256": "a6cb8d88580789f658e48af788ab4985888bc91319d09f19d988792faa8623e0",
+    "detailed_analytical_assessment_word_count": 311,
+    "executive_summary_word_count": 179,
+    "agent_decision_trace": [
+      {
+        "agent_index": 1,
+        "agent_role": "Intelligence Planning & Acquisition Agent",
+        "inputs": {
+          "kit": "Airbus aircraft orders and major fleet contracts announcements",
+          "scope": "90d",
+          "specificity": "PROGRAM",
+          "platforms": [
+            "airshow",
+            "news",
+            "pr"
+          ],
+          "collection_mode": "agentic_exa"
+        },
+        "decisions": {
+          "planner_status": "REPAIRED",
+          "information_requirements_count": 2,
+          "queries_executed": 5,
+          "exa_calls_executed": 2,
+          "collection_status": "COMPLETED",
+          "fallback_used": false,
+          "agent_rationale": "The search successfully identified major firm orders from Cathay Group (14 aircraft), ACG (75 A320neo), Avolon (110 aircraft), Biman Bangladesh (A350/A321), and others via primary Airbus PR. Coverage of contract modifications was achieved through the 9M 2026 results and CEO statements confirming a lack of cancellations, satisfying the 'Current Status' KIQ. All mandatory platforms (airshow, news, pr, social) were queried, and primary source corroboration was prioritized using official Airbus disclosures."
+        },
+        "outputs": {
+          "documents_collected": 16,
+          "primary_documents": 11,
+          "secondary_documents": 5,
+          "sources_used": [
+            "Exa Semantic Search",
+            "Official Industry PR / Airbus"
+          ],
+          "unresolved_requirements": [
+            "Specific details on any Memoranda of Understanding (MoU) that have not yet transitioned to firm orders during this window.",
+            "Granular delivery timeline shifts for specific narrowbody variants beyond the general 9M 2026 financial report summary."
+          ]
+        },
+        "duration_sec": 52.91
+      },
+      {
+        "agent_index": 2,
+        "agent_role": "Risk Analyst Agent",
+        "inputs": {
+          "fr03_accepted_documents": 8,
+          "fr03_rejected_documents": 8,
+          "batches_created": 3
+        },
+        "decisions": {
+          "batches_succeeded": 3,
+          "batches_failed": 0,
+          "documents_failed": 0,
+          "candidate_schema_rejections": 0,
+          "deterministic_scoring_status": "COMPLETED",
+          "scoring_method": "DETERMINISTIC_5_FACTOR_IW"
+        },
+        "outputs": {
+          "direct_candidate_events": 7,
+          "watchlist_events": 0,
+          "event_ids": [
+            "EVT_20261009_AVOLON_AIRBUS_110",
+            "EVT_20261106_AIRBUS_OCT_CANCELLATIONS",
+            "AIRBUS-FLYONE-2026-09-30",
+            "AIRBUS-ME-DEFERRAL-STATUS-2026-09-23",
+            "AIRBUS-OCT-2026-METRICS",
+            "AIRBUS-2026-OCT-ORDER-SUMMARY",
+            "AIRBUS-2026-POSTPONEMENT-STATUS"
+          ]
+        },
+        "duration_sec": 54.47
+      },
+      {
+        "agent_index": 3,
+        "agent_role": "Quality Assurance Agent",
+        "inputs": {
+          "qa_enabled": true,
+          "harness_enabled": true,
+          "candidates_reviewed": 7
+        },
+        "decisions": {
+          "qa_performed": true,
+          "qa_failed": false,
+          "harness_performed": true,
+          "validation_errors": 0
+        },
+        "outputs": {
+          "supported_direct_events": 3,
+          "confirmed_critical_events": 0,
+          "unverified_signals": 0,
+          "kiq_completion_status": "PARTIALLY_ANSWERED"
+        },
+        "duration_sec": 31.26
+      },
+      {
+        "agent_index": 4,
+        "agent_role": "EWS Editor Agent",
+        "inputs": {
+          "event_briefs_supplied": 7,
+          "verbatim_citations_supplied": 0,
+          "runtime_kiq_count": 2
+        },
+        "decisions": {
+          "editor_failed": false,
+          "editor_validation_status": "PASS",
+          "executive_summary_mode": "VALIDATED_EDITOR",
+          "detailed_assessment_mode": "VALIDATED_EDITOR",
+          "actions_parsed": 2,
+          "action_fallbacks": 2
+        },
+        "outputs": {
+          "action_plan_count": 2,
+          "executive_summary_words": 179,
+          "detailed_assessment_words": 311
+        },
+        "duration_sec": 10.65
+      }
+    ],
+    "ai_governance": {
+      "regulatory_reference": "Regulation (EU) 2024/1689, as amended",
+      "assessment_timestamp_utc": "2026-11-25T14:57:27.459404+00:00",
+      "intended_purpose": "Competitive Intelligence decision support using publicly available aerospace information.",
+      "prohibited_uses": [
+        "Autonomous aircraft operation",
+        "Autonomous safety-critical decisions",
+        "Automated regulatory certification",
+        "Unreviewed operational interventions"
+      ],
+      "ai_system_provider": "Externally hosted LLM provider",
+      "model_identifier": "openrouter/google/gemini-3-flash-preview",
+      "run_id": "RUN-20261125-145434-0C136C2F9D85",
+      "risk_classification": "REQUIRES_LEGAL_ASSESSMENT",
+      "legal_compliance_status": "NOT_CERTIFIED",
+      "ai_generated_content": true,
+      "human_oversight_available": true,
+      "human_review_status": "WAITING_FOR_HITL",
+      "controls": {
+        "source_traceability": true,
+        "independent_qa": true,
+        "deterministic_validation": true,
+        "human_review_gate": true,
+        "critical_alert_requires_verified_evidence": true,
+        "model_and_run_logging": true
+      },
+      "legal_review_items": {
+        "article_4_ai_literacy": "ORGANIZATIONAL_REVIEW_REQUIRED",
+        "article_50_transparency": "APPLICABILITY_REVIEW_REQUIRED",
+        "article_6_high_risk_classification": "LEGAL_REVIEW_REQUIRED",
+        "personal_data_processing": "GDPR_REVIEW_REQUIRED",
+        "copyright_and_tdm": "SOURCE_SPECIFIC_REVIEW_REQUIRED"
+      },
+      "limitations": "These records document implemented safeguards. They are not a legal conformity assessment, certification or proof of compliance."
+    }
+  },
+  "comparison_summary": {
+    "has_comparable_run": false,
+    "previous_run_id": null,
+    "note": "No previous run with identical KIT and time scope; baseline established.",
+    "delta_critical": 0,
+    "delta_elevated": 0,
+    "delta_monitored": 0,
+    "new_events": 7,
+    "continuing_events": 0,
+    "not_redetected_events": 0,
+    "resolved_events": 0,
+    "unknown_status_events": 0,
+    "reclassified_to_watchlist": 0,
+    "methodology_changed": false
+  },
+  "connector_status": {
+    "Exa Semantic Search": {
+      "connector_name": "Exa Semantic Search",
+      "source_id": "SRC_EXA",
+      "technical_source": "api.exa.ai",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Airbus aircraft order cancellations and delivery deferrals status update August-November 2026",
+        "Airbus firm orders and MoUs announced between August 27 2026 and November 25 2026"
+      ],
+      "found_count": 12,
+      "accepted_count": 12,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 2,
+      "http_status_counts": {
+        "200": 2
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [
+        "exa_type=auto; duplicates_skipped=0; include_domains=ALL"
+      ],
+      "time_window": {
+        "from": "2026-08-27T14:54:34Z",
+        "to": "2026-11-25T14:54:34Z",
+        "scope": "90d"
+      },
+      "last_updated": "2026-11-25T14:54:41Z",
+      "successful_responses": 2,
+      "collected_document_count": 12,
+      "content_availability_counts": {
+        "FULL_TEXT": 12
+      },
+      "observed_publication_from": "2026-09-23",
+      "observed_publication_to": "2026-11-11"
+    },
+    "News API": {
+      "connector_name": "News API",
+      "source_id": "SRC_004",
+      "technical_source": "newsapi.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Airbus aircraft orders November 2026"
+      ],
+      "found_count": 0,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 0,
+      "http_status_counts": {},
+      "content_status_counts": {},
+      "operational_status": "RATE_LIMITED",
+      "last_search_outcome": "NOT_EXECUTED",
+      "errors": [
+        "CONNECTOR_RATE_LIMITED"
+      ],
+      "coverage_advisories": [],
+      "time_window": {
+        "from": "2026-08-27T14:54:34Z",
+        "to": "2026-11-25T14:54:34Z",
+        "scope": "90d"
+      },
+      "last_updated": "2026-11-25T14:54:45Z"
+    },
+    "Official Industry PR / Airbus": {
+      "connector_name": "Official Industry PR / Airbus",
+      "source_id": "SRC_005",
+      "technical_source": "airbus.com",
+      "origin_type": "PRIMARY",
+      "legal_status": "REQUIRES_REVIEW",
+      "queries": [
+        "Airbus commercial aircraft orders deliveries October 2026 November 2026",
+        "2026 2026 commercial"
+      ],
+      "found_count": 100,
+      "accepted_count": 4,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 6,
+      "http_status_counts": {
+        "302": 1,
+        "200": 5
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "PARTIAL_RESULT",
+      "errors": [],
+      "coverage_advisories": [
+        "RSS_METADATA_SCREENING_NOT_FULL_TEXT_VERIFICATION"
+      ],
+      "time_window": {
+        "from": "2026-08-27T14:54:34Z",
+        "to": "2026-11-25T14:54:34Z",
+        "scope": "90d"
+      },
+      "last_updated": "2026-11-25T14:54:53Z",
+      "diagnostics": {
+        "selection_reason": "EXPLICIT_MANUFACTURER",
+        "selected_manufacturer": "Airbus",
+        "rss_candidates_examined": 8,
+        "rss_metadata_rejected": 3,
+        "rss_candidates_unexamined": 92,
+        "candidate_outcomes": {
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-16-20-november-2026": "COLLECTED_FULL_TEXT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-uk-engineers-and-apprentices-take-centre-stage-in-new-airbus-campaign-to-inspire-future-talent": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-ds-airborne-solutions-gmbh-and-aeronautics-ltd-sign-a-teaming-agreement-intended-to-enable": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-middle-east-airlines-takes-delivery-of-its-first-airbus-a321xlr": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-9-13-november-2026": "COLLECTED_FULL_TEXT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-the-cathay-group-orders-14-additional-airbus-aircraft": "DUPLICATE",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buybacks-for-week-starting-2-november-2026": "COLLECTED_FULL_TEXT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-lufthansa-takes-delivery-of-its-first-a350-1000-and-700th-airbus-aircraft": "COLLECTED_FULL_TEXT"
+        },
+        "metadata_only_records": 0,
+        "article_access_blocked": 0,
+        "article_unavailable": 0
+      },
+      "diagnostics_history": [
+        {
+          "query": "Airbus commercial aircraft orders deliveries October 2026 November 2026",
+          "selection_reason": "EXPLICIT_MANUFACTURER",
+          "selected_manufacturer": "Airbus"
+        },
+        {
+          "query": "2026 2026 commercial",
+          "rss_candidates_examined": 8,
+          "rss_metadata_rejected": 3,
+          "rss_candidates_unexamined": 92,
+          "candidate_outcomes": {
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-16-20-november-2026": "COLLECTED_FULL_TEXT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-uk-engineers-and-apprentices-take-centre-stage-in-new-airbus-campaign-to-inspire-future-talent": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-ds-airborne-solutions-gmbh-and-aeronautics-ltd-sign-a-teaming-agreement-intended-to-enable": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-middle-east-airlines-takes-delivery-of-its-first-airbus-a321xlr": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-9-13-november-2026": "COLLECTED_FULL_TEXT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-the-cathay-group-orders-14-additional-airbus-aircraft": "DUPLICATE",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buybacks-for-week-starting-2-november-2026": "COLLECTED_FULL_TEXT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-lufthansa-takes-delivery-of-its-first-a350-1000-and-700th-airbus-aircraft": "COLLECTED_FULL_TEXT"
+          },
+          "metadata_only_records": 0,
+          "article_access_blocked": 0,
+          "article_unavailable": 0
+        }
+      ],
+      "http_redirects": 1,
+      "successful_responses": 5,
+      "collected_document_count": 4,
+      "content_availability_counts": {
+        "FULL_TEXT": 4
+      },
+      "observed_publication_from": "2026-11-10",
+      "observed_publication_to": "2026-11-23"
+    },
+    "XBRL International ESEF Filing Index": {
+      "connector_name": "XBRL International ESEF Filing Index",
+      "source_id": "SRC_031",
+      "technical_source": "filings.xbrl.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Airbus commercial aircraft orders deliveries October 2026 November 2026"
+      ],
+      "found_count": 0,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 1,
+      "http_status_counts": {
+        "200": 1
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "NO_MATCH",
+      "errors": [],
+      "coverage_advisories": [],
+      "time_window": {
+        "from": "2026-08-27T14:54:34Z",
+        "to": "2026-11-25T14:54:34Z",
+        "scope": "90d"
+      },
+      "last_updated": "2026-11-25T14:54:54Z",
+      "successful_responses": 1
+    },
+    "Airshow Websites": {
+      "connector_name": "Airshow Websites",
+      "source_id": "SRC_006",
+      "technical_source": "farnboroughairshow.com,siae.fr,dubaiairshow.aero,singaporeairshow.com",
+      "origin_type": "PRIMARY",
+      "legal_status": "RESTRICTED",
+      "queries": [
+        "Airbus A321neo A350 orders"
+      ],
+      "found_count": 1,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 1,
+      "unknown_date_count": 1,
+      "http_requests": 5,
+      "http_status_counts": {
+        "200": 5
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "NO_MATCH",
+      "errors": [],
+      "coverage_advisories": [],
+      "time_window": {
+        "from": "2026-08-27T14:54:34Z",
+        "to": "2026-11-25T14:54:34Z",
+        "scope": "90d"
+      },
+      "last_updated": "2026-11-25T14:55:24Z",
+      "successful_responses": 5
+    }
+  }
+}

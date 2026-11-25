@@ -1,0 +1,2813 @@
+{
+  "report_id": "RPT-20261125-061FE5",
+  "run_id": "RUN-20261125-171829-0B65E15DF5B7",
+  "version": 1,
+  "outcome_status": "COMPLETED",
+  "executive_summary": "Intelligence monitoring of the Boeing 777X program identifies a significant shift in backlog accounting and persistent regulatory uncertainty. Analysis of secondary media reports from November 2026 indicates that Boeing has adjusted its 777 family backlog by 107 aircraft under the ASC 606 revenue recognition standard, an increase of 30 units compared to the previous month [DOC_008]. While the specific customers affected by this adjustment were not officially named by Boeing, reports suggest these may include 30 of the 48 777X aircraft previously attributed to Korean Air [DOC_008]. This accounting move signifies that Boeing no longer judges these orders as likely enough to reach delivery to count in its formal backlog, though they remain under contract.\n\nThe program continues to face headwinds regarding its certification timeline. Reports as of November 21, 2026, highlight ongoing delays despite a total order book of approximately 620 aircraft [DOC_011]. While Emirates has historically acted as a program backstop, official confirmation regarding 2027 production rates at the Everett facility remains missing [DOC_009]. The primary analytical takeaway is a widening gap between the theoretical order book and the deliverable backlog, exacerbated by the lack of a firm regulatory milestone for entry-into-service. Management should prioritize verifying the status of the Korean Air contract and seeking clarity on the FAA’s current certification flight test progress to determine if the 2026-2027 delivery window remains viable.",
+  "detailed_analytical_assessment": "The Boeing 777X program is currently navigating a period of high financial and regulatory volatility, characterized by a contraction in \"firm\" backlog and unverified rumors regarding production stability. On November 12, 2026, reports surfaced detailing a substantial ASC 606 adjustment to Boeing’s orders and deliveries data [DOC_008]. This adjustment, which moved 30 additional aircraft into a category where delivery is no longer considered probable, suggests a weakening of the 777X's near-term delivery profile. The attribution of these 30 units to Korean Air remains a point of high-confidence speculation in media circles, though Boeing’s official disclosures have not explicitly named the carrier [DOC_008].\n\nFrom a regulatory standpoint, the program remains in a state of flux. As of late November 2026, the 777X has yet to achieve the necessary certification milestones to begin deliveries to its launch customers [DOC_011]. This delay has a cascading effect on competitive positioning; as the 777X remains grounded, airlines with aging long-haul fleets may face increased pressure to consider available alternatives, such as the Airbus A350. The \"Emirates Backstop\" remains a critical strategic pillar for the program, yet the lack of verified 2027 production rates for the Everett facility [DOC_009] introduces uncertainty regarding Boeing's ability to ramp up once certification is finally granted.\n\nThe evidence suggests that while the 777X program is not in immediate danger of cancellation, the financial quality of the backlog is deteriorating. The ASC 606 adjustments are a leading indicator of customer fatigue or renegotiation. However, it is essential to distinguish between an accounting adjustment and a formal contract cancellation; the aircraft remain under contract, but their delivery timing is now too speculative for revenue recognition [DOC_008]. \n\nThe most critical open questions involve the specific technical hurdles remaining in the FAA certification process and the formal status of the Korean Air order. Without official Boeing confirmation of 2027 production targets, any assessment of the program's recovery trajectory remains speculative. Management is advised to monitor for official \"Type Inspection Authorization\" (TIA) from the FAA, which would signal the start of formal certification flight testing and provide a more reliable anchor for delivery forecasting than current media rumors.",
+  "qa_audit_summary": "Editor text converted into typed recommendations; independent evidence QA remains authoritative. | Five-Dimensional Grounding (Technical, Claim, Causal, Independent Verification, Freshness) completed. | [Harness Guard]: 0/1 direct signals SUPPORTED, 1 PARTIALLY_SUPPORTED, 1 classified as ONGOING_ISSUE, 0 moved to RELATED_PROGRAM_WATCHLIST, 2 flagged for manual HITL verification. | Evidence disposition (not a filtering verdict): DOC_008=REFERENCED_BY_EVENT_NOT_KIQ; DOC_009=REFERENCED_BY_EVENT_NOT_KIQ; DOC_011=REFERENCED_BY_EVENT_NOT_KIQ | KIT_COMPLETION: PARTIALLY_ANSWERED; 1 of 2 information requirements remain unverified. | [Telemetry]: Run: RUN-20261125-171829-0B65E15DF5B7 | CollectionMode: agentic_exa | Runtime: 120.8s (Plan: 3.56s, Collect: 32.1s, Filter: 10.16s, Analyze: 35.29s, QA: 27.8s, Edit: 11.81s, Score: 0.0s) | Batches: 2/2 OK (0 failed) | Docs: 3/17 analyzed (0 failed) | LLM Calls: 8 (Retries: 0) | Model: openrouter/google/gemini-3-flash-preview | Estimated LLM Cost: $0.06950 (ESTIMATED)",
+  "hitl_status": "WAITING_FOR_HITL",
+  "threats": [
+    {
+      "event_id": "EVT_777X_CERT_DELAY_20261121",
+      "kiq_ids": [],
+      "indicator_name": "Aviation intelligence warning indicator",
+      "company_affected": "Boeing",
+      "ci_dimension": "Strategic CI",
+      "risk_type": "REGULATORY",
+      "secondary_risk_types": [
+        "SUPPLY_CHAIN",
+        "COMPETITIVE"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Unknown / Not specified in source",
+      "program_relevance": "PROGRAM_UNVERIFIED",
+      "hypothetical_dependencies": [
+        "737 MAX",
+        "737 NG",
+        "777X",
+        "777",
+        "787",
+        "787 Dreamliner",
+        "767",
+        "747-8",
+        "KC-46",
+        "P-8"
+      ],
+      "supplier_registry_basis": "Company: The Boeing Company -> Role: OEM (Final Assembler) (Registry Source: Boeing SEC Form 10-K) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Unknown / Not specified in source",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] The Boeing Company -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Unknown / Not specified in source",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] 737 MAX, 737 NG, 777X",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Source excerpt: Airways also noted that the problem is certification, not demand, which is a rare thing to say about a program this delayed.. Claimed operational impacts require verification.",
+      "decision_question": "How does the ongoing certification bottleneck for the 777X affect long-term widebody replacement schedules for major customers like Emirates?",
+      "confirmed_facts": "Source statement (event not fully verified): Airways also noted that the problem is certification, not demand, which is a rare thing to say about a program this delayed.",
+      "analytical_interpretation": "The 777X program faces a critical certification bottleneck rather than a lack of market demand, with Emirates holding a dominant portion of the 619-620 aircraft order book.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting The Boeing Company (OEM (Final Assembler)) on source-evidenced program Unknown / Not specified in source. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: 737 MAX, 737 NG, 777X)",
+      "fact_check_quote": "Airways also noted that the problem is certification, not demand, which is a rare thing to say about a program this delayed.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_011",
+          "source_url": "https://simpleflying.com/airlines-replace-boeing-777s-new-7779s-throughout-2030s/",
+          "source_type": "UNDETERMINED",
+          "passage_text": "Airways also noted that the problem is certification, not demand, which is a rare thing to say about a program this delayed. Boeing has roughly 620 orders for an aircraft that has not delivered a single one yet, and some of the very first examples built may never reach the airline that paid for them.",
+          "passage_hash": "7fe473c7350892cbc6eb1f51d94787b260e48b1432270ecaa9392208fe77d4d5",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "The primary issue for the 777X is certification, not demand.",
+          "document_id": "DOC_011",
+          "quote": "Airways also noted that the problem is certification, not demand, which is a rare thing to say about a program this delayed.",
+          "source_url": "https://simpleflying.com/airlines-replace-boeing-777s-new-7779s-throughout-2030s/",
+          "claim_type": "CAUSE",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Boeing",
+          "program": "777X",
+          "component": "Unknown / Not specified in source",
+          "issue": "Certification delays",
+          "regulatory_authority": "FAA",
+          "publication_date": "2026-11-21",
+          "event_date": "DATE_UNKNOWN",
+          "cause": "Certification bottleneck",
+          "effect": "Program delay",
+          "status_before": "Delayed status",
+          "status_after": "Delayed status",
+          "resolution_outcome": "Ongoing delay",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "Boeing has approximately 620 orders for the 777X with zero deliveries to date.",
+          "document_id": "DOC_011",
+          "quote": "Boeing has roughly 620 orders for an aircraft that has not delivered a single one yet.",
+          "source_url": "https://simpleflying.com/airlines-replace-boeing-777s-new-7779s-throughout-2030s/",
+          "claim_type": "CURRENT_STATUS",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Boeing",
+          "program": "777X",
+          "component": "Unknown / Not specified in source",
+          "issue": "Zero deliveries",
+          "regulatory_authority": "Unknown",
+          "publication_date": "2026-11-21",
+          "event_date": "DATE_UNKNOWN",
+          "cause": "Certification delays",
+          "effect": "Backlog accumulation without revenue recognition",
+          "status_before": "Zero deliveries",
+          "status_after": "Zero deliveries",
+          "resolution_outcome": "None",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_011"
+      ],
+      "source_urls": [
+        "https://simpleflying.com/airlines-replace-boeing-777s-new-7779s-throughout-2030s/"
+      ],
+      "verification_status": "PARTIALLY SUPPORTED (EVENT_DATE_UNKNOWN | Manual Review Required) [Source states only part of the claim details | Claimed operational impact is not supported by the cited quotation. | All constraining technical facets of the KIT (aircraft program and/or specific propulsion/component scope) could not be simultaneously verified from event evidence. Direct KIT relevance remains unconfirmed. | KIT_FACT_GAP: VARIANT=UNKNOWN | REGULATORY_AUTHORITY_NOT_VERIFIED: issuer or media statements do not establish an agency decision]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "PARTIALLY_STATED_IN_SOURCE",
+      "causal_support_status": "HYPOTHETICAL_ONLY",
+      "independent_verification_status": "UNVERIFIED_SINGLE_SOURCE",
+      "event_freshness": "EVENT_DATE_UNKNOWN",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "PARTIALLY_STATED_IN_SOURCE",
+        "3. Causal Support": "HYPOTHETICAL_ONLY",
+        "4. Independent Verification": "UNVERIFIED_SINGLE_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "EVENT_DATE_UNKNOWN",
+        "Program Relevance Scope": "PROGRAM_UNVERIFIED",
+        "Source-Evidenced Program": "Unknown / Not specified in source",
+        "Hypothetical Shared Dependencies": "737 MAX, 737 NG, 777X, 777, 787, 787 Dreamliner, 767, 747-8, KC-46, P-8",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=UNKNOWN, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-11-21",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Regulatory Stage": "UNKNOWN",
+        "Severity": "8/10 (potential impact, not verification)",
+        "Confidence": "LOW",
+        "Verification": "PARTIALLY_SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "CURRENT_STATUS_UNKNOWN",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-11-21",
+      "first_seen_at": "2026-11-25T17:20:30Z",
+      "last_seen_at": "2026-11-25T17:20:30Z",
+      "updated_at": "2026-11-25T17:20:30Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://simpleflying.com/airlines-replace-boeing-777s-new-7779s-throughout-2030s/",
+      "missing_data": "Verification required: Source states only part of the claim details; Claimed operational impact is not supported by the cited quotation..",
+      "intelligence_gap": {
+        "gap_id": "GAP_DOC_011_CERT_DATE",
+        "what_is_missing": "Specific FAA timeline for Type Inspection Authorization (TIA) or final certification.",
+        "why_important": "Required to confirm when Boeing can shift from flight test to customer deliveries.",
+        "affected_kiq_id": "KIQ_1_1",
+        "recommended_source": "FAA Type Certificate Data Sheet (TCDS) updates",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Prolonged 777X certification delays allow competitors like Airbus (A350) to capture market share as airlines face high maintenance costs for aging four-engine fleets (747/A380). Continued delivery postponement risks further ASC 606 backlog adjustments, eroding Boeing's widebody market dominance and financial predictability.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 4,
+          "rationale": "Critical widebody program with 620 orders stalled; delivery delay impacts major global carriers."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Boeing Everett assembly is the sole source for the 777X program."
+        },
+        "substitutability_difficulty": {
+          "score": 3,
+          "rationale": "777X is a unique high-capacity twin-engine jet; replacement with A350 is possible but requires fleet restructuring."
+        },
+        "propagation_scope": {
+          "score": 4,
+          "rationale": "Affects whole 777X family (777-8/9/8F) and major launch customers globally."
+        },
+        "temporal_urgency": {
+          "score": 4,
+          "rationale": "Ongoing certification bottleneck with target delivery set for 2027; active monitoring required."
+        }
+      },
+      "threat_score": 8,
+      "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (8/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+      "confidence_level": "LOW",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    },
+    {
+      "event_id": "EVT_777X_BACKLOG_ADJ_20261112",
+      "kiq_ids": [
+        "RKIQ_002"
+      ],
+      "indicator_name": "Aviation intelligence warning indicator",
+      "company_affected": "Boeing",
+      "ci_dimension": "Market CI",
+      "risk_type": "FINANCIAL",
+      "secondary_risk_types": [
+        "COMPETITIVE",
+        "REGULATORY"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Unknown / Not specified in source",
+      "program_relevance": "PROGRAM_UNVERIFIED",
+      "hypothetical_dependencies": [
+        "737 MAX",
+        "737 NG",
+        "777X",
+        "777",
+        "787",
+        "787 Dreamliner",
+        "767",
+        "747-8",
+        "KC-46",
+        "P-8"
+      ],
+      "supplier_registry_basis": "Company: The Boeing Company -> Role: OEM (Final Assembler) (Registry Source: Boeing SEC Form 10-K) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Unknown / Not specified in source",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] The Boeing Company -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Unknown / Not specified in source",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] 737 MAX, 737 NG, 777X",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Boeing has moved 30 777X orders from its firm backlog to the ASC 606 adjustment category, indicating that these deliveries are no longer considered probable. This adjustment total for the 777 family now stands at 107 aircraft.",
+      "decision_question": "Which specific airline customers (e.g., Korean Air) are associated with the 30 orders moved to ASC 606 adjustments?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "Boeing's move of 30 aircraft to ASC 606 adjustment status indicates a significant decline in the probability of these specific orders reaching delivery, although contracts remain legally active.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting The Boeing Company (OEM (Final Assembler)) on source-evidenced program Unknown / Not specified in source. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: 737 MAX, 737 NG, 777X)",
+      "fact_check_quote": "Boeing's orders and deliveries data for the end of October, updated on November 10, show the ASC 606 adjustment for the 777 family at 107",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_008",
+          "source_url": "https://theairside.news/en/news-boeing-777x-backlog-asc606",
+          "source_type": "UNDETERMINED",
+          "passage_text": "Boeing's orders and deliveries data for the end of October, updated on November 10, show the ASC 606 adjustment for the 777 family at 107 aircraft, 30 more than a month earlier. FlightGlobal reported on November 11 that Boeing had moved 30 777X orders out of its firm backlog into this category, and that the company confirmed the adjustment.",
+          "passage_hash": "5924950a26d96a9747088b549d949ee5bcd1df5cf092af13fb06d2435e095dc4",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Boeing pulled 30 777X orders from its firm backlog into ASC 606 adjustments.",
+          "document_id": "DOC_008",
+          "quote": "Boeing's orders and deliveries data for the end of October, updated on November 10, show the ASC 606 adjustment for the 777 family at 107 aircraft, 30 more than a month earlier.",
+          "source_url": "https://theairside.news/en/news-boeing-777x-backlog-asc606",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Boeing",
+          "program": "777X",
+          "component": "Unknown / Not specified in source",
+          "issue": "Backlog reduction",
+          "regulatory_authority": "Unknown",
+          "publication_date": "2026-11-12",
+          "event_date": "2026-10-31",
+          "cause": "Lowered probability of delivery reaching contract fulfillment",
+          "effect": "Reduction in firm backlog for 777X program",
+          "status_before": "77 aircraft in ASC 606 adjustment",
+          "status_after": "107 aircraft in ASC 606 adjustment",
+          "resolution_outcome": "Orders moved to adjustment category",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "The 30 aircraft orders were moved because Boeing no longer judges them likely enough to reach delivery.",
+          "document_id": "DOC_008",
+          "quote": "The ASC 606 adjustment... covers orders that are under contract but that Boeing no longer judges likely enough to reach delivery to count in its backlog.",
+          "source_url": "https://theairside.news/en/news-boeing-777x-backlog-asc606",
+          "claim_type": "CAUSE",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Boeing",
+          "program": "777X",
+          "component": "Unknown / Not specified in source",
+          "issue": "Likelihood of delivery",
+          "regulatory_authority": "Unknown",
+          "publication_date": "2026-11-12",
+          "event_date": "2026-11-10",
+          "cause": "Revenue recognition standards (ASC 606)",
+          "effect": "Reclassification of orders",
+          "status_before": "Firm backlog",
+          "status_after": "Reclassified",
+          "resolution_outcome": "None",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_008"
+      ],
+      "source_urls": [
+        "https://theairside.news/en/news-boeing-777x-backlog-asc606"
+      ],
+      "verification_status": "SUPPORTED SOURCE; DIRECT KIT RELEVANCE UNVERIFIED (ONGOING_ISSUE) [Classified as ONGOING_ISSUE (reconfirmation of previously known schedule/issue, not a newly announced deterioration) | All constraining technical facets of the KIT (aircraft program and/or specific propulsion/component scope) could not be simultaneously verified from event evidence. Direct KIT relevance remains unconfirmed.]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "UNVERIFIED_SINGLE_SOURCE",
+      "event_freshness": "ONGOING_ISSUE",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "UNVERIFIED_SINGLE_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "ONGOING_ISSUE",
+        "Program Relevance Scope": "PROGRAM_UNVERIFIED",
+        "Source-Evidenced Program": "Unknown / Not specified in source",
+        "Hypothetical Shared Dependencies": "737 MAX, 737 NG, 777X, 777, 787, 787 Dreamliner, 767, 747-8, KC-46, P-8",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=POSITIVE, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-11-12",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "6/10 (potential impact, not verification)",
+        "Confidence": "MEDIUM",
+        "Verification": "SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "DELIVERY",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-11-12",
+      "first_seen_at": "2026-11-25T17:20:30Z",
+      "last_seen_at": "2026-11-25T17:20:30Z",
+      "updated_at": "2026-11-25T17:20:30Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://theairside.news/en/news-boeing-777x-backlog-asc606",
+      "missing_data": "Verification required: Classified as ONGOING_ISSUE (reconfirmation of previously known schedule/issue, not a newly announced deterioration); All constraining technical facets of the KIT (aircraft program and/or specific propulsion/component scope) could not be simultaneously verified from event evidence. Direct KIT relevance remains unconfirmed..",
+      "intelligence_gap": {
+        "gap_id": "GAP_DOC_008_CUSTOMER_ID",
+        "what_is_missing": "Identity of the customers whose 30 orders were moved to ASC 606 adjustment.",
+        "why_important": "Required to assess if launch customers or smaller carriers are losing confidence.",
+        "affected_kiq_id": "KIQ_2_2",
+        "recommended_source": "Boeing Orders & Deliveries detailed customer breakdown",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Recategorization of 30 777X orders under ASC 606 signals Boeing's internal assessment that these deliveries are no longer certain. This adjustment often precedes official cancellations or conversions, potentially triggered by the program's shift in delivery targets to 2027, impacting financial backlog valuation and investor confidence.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 3,
+          "rationale": "30 aircraft represents ~5% of the total 777X order book reclassified as unlikely to deliver."
+        },
+        "supplier_criticality": {
+          "score": 4,
+          "rationale": "Impacts Boeing's financial standing and long-term production planning for the 777X."
+        },
+        "substitutability_difficulty": {
+          "score": 1,
+          "rationale": "Financial backlog adjustments are specific to Boeing's accounting and cannot be 'substituted'."
+        },
+        "propagation_scope": {
+          "score": 3,
+          "rationale": "Adjustment reflects broader market sentiment or specific major customer instability regarding 777X."
+        },
+        "temporal_urgency": {
+          "score": 4,
+          "rationale": "Adjustment occurred in Oct 2026; signals immediate change in program delivery confidence."
+        }
+      },
+      "threat_score": 6,
+      "score_rationale": "Potential severity: ELEVATED (6/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "MEDIUM",
+      "urgency": "LOW",
+      "escalation_level": "ROUTINE_MONITORING",
+      "is_critical": false
+    },
+    {
+      "event_id": "EVT_777X_EMIRATES_BACKSTOP_20261125",
+      "kiq_ids": [],
+      "indicator_name": "Aviation intelligence warning indicator",
+      "company_affected": "Boeing",
+      "ci_dimension": "Competitor CI",
+      "risk_type": "COMPETITIVE",
+      "secondary_risk_types": [
+        "SUPPLY_CHAIN"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "777X, 787",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [
+        "737 MAX",
+        "737 NG",
+        "787 Dreamliner",
+        "767",
+        "747-8",
+        "KC-46",
+        "P-8"
+      ],
+      "supplier_registry_basis": "Company: The Boeing Company -> Role: OEM (Final Assembler) (Registry Source: Boeing SEC Form 10-K) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: 777X, 787",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] The Boeing Company -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] 777X, 787",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] 737 MAX, 737 NG, 787 Dreamliner",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Emirates is evaluating its Boeing 787 orders as a 'backstop' for potential 777X delays. A final decision on fleet composition is expected in December 2026.",
+      "decision_question": "Should Boeing prioritize Emirates' 777X delivery slots to prevent the conversion or offloading of their 787 'backstop' order?",
+      "confirmed_facts": "Source statement (event not fully verified): Emirates will probably decide on the 787 in about a month, when it has more clarity on the production of the 777X, Clark said.",
+      "analytical_interpretation": "Emirates is actively planning fleet contingencies due to persistent 777X production uncertainty, signaling low confidence in Boeing's current delivery timelines for the 2027 window.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting The Boeing Company (OEM (Final Assembler)) on source-evidenced program 777X, 787. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: 737 MAX, 737 NG, 787 Dreamliner)",
+      "fact_check_quote": "Emirates will probably decide on the 787 in about a month, when it has more clarity on the production of the 777X, Clark said.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_009",
+          "source_url": "https://www.khaleejtimes.com/business/aviation/emirates-airline-planes-flights-hoping-to-get-up-to-five-boeing-777x",
+          "source_type": "SECONDARY_MEDIA_REPORT",
+          "passage_text": "Emirates will probably decide on the 787 in about a month, when it has more clarity on the production of the 777X, Clark said. He suggested that the ordered 787 aircraft could also end up at other airlines.",
+          "passage_hash": "e6cf97eb327387613c17e85fc047adc67f30ab5a2ea88bfc768dbdc8668e5210",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Emirates 787 order may serve as a backstop for 777X delays",
+          "document_id": "DOC_009",
+          "quote": "Clark also pointed to his airline's order of 35 of the smaller Boeing 787 jets, which could be used as a backstop should there be further delays in the 777X programme.",
+          "source_url": "https://www.khaleejtimes.com/business/aviation/emirates-airline-planes-flights-hoping-to-get-up-to-five-boeing-777x",
+          "claim_type": "FORECAST",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Emirates",
+          "program": "777X",
+          "component": "Unknown / Not specified in source",
+          "issue": "Production uncertainty and delivery delays",
+          "regulatory_authority": "Unknown",
+          "publication_date": "2026-11-10",
+          "event_date": "DATE_UNKNOWN",
+          "cause": "further delays in the 777X programme",
+          "effect": "787 aircraft could end up at other airlines",
+          "status_before": "787s on order for Emirates fleet",
+          "status_after": "Potential 787 offloading",
+          "resolution_outcome": "Pending decision in one month",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_009"
+      ],
+      "source_urls": [
+        "https://www.khaleejtimes.com/business/aviation/emirates-airline-planes-flights-hoping-to-get-up-to-five-boeing-777x"
+      ],
+      "verification_status": "PARTIALLY SUPPORTED (ONGOING_ISSUE | Manual Review Required) [Source states only part of the claim details | Classified as ONGOING_ISSUE (reconfirmation of previously known schedule/issue, not a newly announced deterioration)]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "PARTIALLY_STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "UNVERIFIED_SINGLE_SOURCE",
+      "event_freshness": "ONGOING_ISSUE",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "PARTIALLY_STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "UNVERIFIED_SINGLE_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "ONGOING_ISSUE",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "777X, 787",
+        "Hypothetical Shared Dependencies": "737 MAX, 737 NG, 787 Dreamliner, 767, 747-8, KC-46, P-8",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=POSITIVE, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-11-10",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "8/10 (potential impact, not verification)",
+        "Confidence": "LOW",
+        "Verification": "PARTIALLY_SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "CURRENT_STATUS_UNKNOWN",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "PRODUCTION",
+        "Chronology As Of": "2026-11-25",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-11-10",
+      "first_seen_at": "2026-11-25T17:20:30Z",
+      "last_seen_at": "2026-11-25T17:20:30Z",
+      "updated_at": "2026-11-25T17:20:30Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://www.khaleejtimes.com/business/aviation/emirates-airline-planes-flights-hoping-to-get-up-to-five-boeing-777x",
+      "missing_data": "Official Boeing confirmation of Everett 777X production rates for 2027.",
+      "intelligence_gap": {
+        "gap_id": "GAP_777X_PROD_RATE_EVERETT",
+        "what_is_missing": "Verified assembly rate at Everett facility as of late 2026.",
+        "why_important": "Required to validate if Emirates' hope for 5 deliveries in 2027 is industrially feasible.",
+        "affected_kiq_id": "KIQ_1_1",
+        "recommended_source": "Boeing Q4 2026 Earnings / FAA Production Oversight Reports",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Emirates leverages existing 787 orders to mitigate 777X delivery risks, potentially reducing Boeing's widebody market dominance if orders are offloaded to lessors or other carriers.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 4,
+          "rationale": "Emirates holds 270 777X orders; delivery failures threaten core widebody strategy."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Boeing is the sole provider for the 777X program."
+        },
+        "substitutability_difficulty": {
+          "score": 3,
+          "rationale": "Emirates is using its own 787 orders as a backstop, but widebody alternatives are limited."
+        },
+        "propagation_scope": {
+          "score": 3,
+          "rationale": "Potential spillover to 787 order book and other launch customers like Lufthansa."
+        },
+        "temporal_urgency": {
+          "score": 4,
+          "rationale": "Decision on 787 backstop expected within 30 days of the report date."
+        }
+      },
+      "threat_score": 8,
+      "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (8/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+      "confidence_level": "LOW",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    }
+  ],
+  "threat_reports": [
+    {
+      "threat_id": "EVT_777X_CERT_DELAY_20261121",
+      "event_title": "Source excerpt: Airways also noted that the problem is certification, not demand, which is a rare thing to say about a program this delayed.. Claimed operational impacts require verification.",
+      "category": "REGULATORY",
+      "affected_entity": "Boeing",
+      "threat_score": 8,
+      "source_url": "https://simpleflying.com/airlines-replace-boeing-777s-new-7779s-throughout-2030s/",
+      "timestamp": "2026-11-21",
+      "mitigation_advice": "Verify the cited passage and missing source details for Boeing (Unknown / Not specified in source), event EVT_777X_CERT_DELAY_20261121.",
+      "confidence_level": "LOW",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "EVT_777X_BACKLOG_ADJ_20261112",
+      "event_title": "Boeing has moved 30 777X orders from its firm backlog to the ASC 606 adjustment category, indicating that these deliveries are no longer considered probable. This adjustment total for the 777 family now stands at 107 aircraft.",
+      "category": "FINANCIAL",
+      "affected_entity": "Boeing",
+      "threat_score": 6,
+      "source_url": "https://theairside.news/en/news-boeing-777x-backlog-asc606",
+      "timestamp": "2026-11-12",
+      "mitigation_advice": "Verify the exact affected aircraft and engine variant against a primary record for Boeing (Unknown / Not specified in source), event EVT_777X_BACKLOG_ADJ_20261112.",
+      "confidence_level": "MEDIUM",
+      "validation_status": "SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "EVT_777X_EMIRATES_BACKSTOP_20261125",
+      "event_title": "Emirates is evaluating its Boeing 787 orders as a 'backstop' for potential 777X delays. A final decision on fleet composition is expected in December 2026.",
+      "category": "COMPETITIVE",
+      "affected_entity": "Boeing",
+      "threat_score": 8,
+      "source_url": "https://www.khaleejtimes.com/business/aviation/emirates-airline-planes-flights-hoping-to-get-up-to-five-boeing-777x",
+      "timestamp": "2026-11-10",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "LOW",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    }
+  ],
+  "related_program_watchlist": [],
+  "action_plan": [
+    {
+      "action_id": "ACT_816B5897",
+      "related_event_ids": [
+        "EVT_777X_CERT_DELAY_20261121"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Boeing"
+      ],
+      "action": "Verify the cited passage and missing source details for Boeing (Unknown / Not specified in source), event EVT_777X_CERT_DELAY_20261121.",
+      "rationale": "The available evidence does not establish direct applicability to the monitored KIT.",
+      "pros_and_cons": "PRO: Avoids off-topic operations; CON: Requires evidence review",
+      "triple_a_impact": "Adaptability",
+      "uncertainty_assumptions": "Direct operational, regulatory or supply-chain impact remains unconfirmed.",
+      "owner": "Regulatory Affairs Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Document verified KIT relevance using traceable source evidence.",
+      "priority": "MEDIUM",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-25T17:20:30Z"
+    },
+    {
+      "action_id": "ACT_9B303763",
+      "related_event_ids": [
+        "EVT_777X_BACKLOG_ADJ_20261112"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Boeing"
+      ],
+      "action": "Verify the exact affected aircraft and engine variant against a primary record for Boeing (Unknown / Not specified in source), event EVT_777X_BACKLOG_ADJ_20261112.",
+      "rationale": "The available evidence does not establish direct applicability to the monitored KIT.",
+      "pros_and_cons": "PRO: Avoids off-topic operations; CON: Requires evidence review",
+      "triple_a_impact": "Adaptability",
+      "uncertainty_assumptions": "Direct operational, regulatory or supply-chain impact remains unconfirmed.",
+      "owner": "Competitive Intelligence Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Document verified KIT relevance using traceable source evidence.",
+      "priority": "MEDIUM",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-25T17:20:30Z"
+    }
+  ],
+  "kiq_answers": [
+    {
+      "kiq_id": "RKIQ_001",
+      "question": "What is the current production status and assembly rate of the Boeing 777X at the Everett facility?",
+      "answer_status": "UNANSWERED",
+      "evidence_coverage": "NONE",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "No relevant event matching this question was found within the searched sources. Still needed for a complete answer: demonstrated impact on production or capacity, latest dated, issue-specific status.",
+      "related_event_ids": [],
+      "evidence_ids": [],
+      "retrieved_evidence_count": 0,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [],
+      "unused_document_reasons": {
+        "DOC_008": "SCOPE_MISMATCH",
+        "DOC_009": "SCOPE_MISMATCH",
+        "DOC_011": "SCOPE_MISMATCH"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_001_REQ_01",
+          "key": "PRODUCTION_IMPACT",
+          "required_fact": "Demonstrated impact on production or capacity",
+          "evidence_type": "PRODUCTION_OUTCOME",
+          "required_entity_model": "B777, Boeing, Everett",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Demonstrated impact on production or capacity"
+          ]
+        },
+        {
+          "id": "RKIQ_001_REQ_02",
+          "key": "CURRENT_STATUS",
+          "required_fact": "Latest dated, issue-specific status",
+          "evidence_type": "DATED_STATUS",
+          "required_entity_model": "B777, Boeing, Everett",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Latest dated, issue-specific status"
+          ]
+        }
+      ],
+      "claim_requirement_links": [],
+      "claim_handoff_rejections": {
+        "DOC_008": "SCOPE_MISMATCH",
+        "DOC_009": "SCOPE_MISMATCH",
+        "DOC_011": "SCOPE_MISMATCH"
+      },
+      "source_execution_status": "NO_MATCH",
+      "content_result": "NO_RELEVANT_EVENT",
+      "issue_status": "NO_RELEVANT_EVENT",
+      "evidence_trace": [],
+      "verification_status": "Verified 0/2 atomic facts; NO_MATCH",
+      "uncertainty_level": "HIGH",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Demonstrated impact on production or capacity, Latest dated, issue-specific status",
+      "missing_information": "Demonstrated impact on production or capacity: Verified source passage for: Demonstrated impact on production or capacity; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status"
+    },
+    {
+      "kiq_id": "RKIQ_002",
+      "question": "Have any 777X launch customers officially notified regulators or shareholders of intent to cancel or convert 777X orders?",
+      "answer_status": "ANSWERED",
+      "evidence_coverage": "SUPPORTED",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "Reviewed primary sources directly address this question. A validated source record notes that “Boeing's orders and deliveries data for the end of October, updated on November 10, show the ASC 606 adjustment for the 777 family at 107” [DOC_008]. A secondary media report on 2026-11-12 notes that “Boeing pulls 30 777X orders from backlog: are Korean Air's” [DOC_008]. A secondary media report on 2026-11-12 notes that “The ASC 606 adjustment, named after the US revenue recognition standard, covers orders that are under contract but that Boeing no longer judges likely enough to reach delivery to count in its backlog.” [DOC_008]. Forward-looking expectations (not yet confirmed outcomes): “Boeing does not say whose orders it moved, so it cannot be confirmed whether Korean Air's 48 777X aircraft (40 777-9s and eight 777-8F freighters) are among them…” [DOC_008]. All required points (confirmed order or contractual commitment) are supported by the cited documents. Based on 3 relevant document(s) (DOC_008, DOC_009, DOC_011) out of 3 evaluated.",
+      "related_event_ids": [
+        "EVT_777X_BACKLOG_ADJ_20261112"
+      ],
+      "evidence_ids": [
+        "DOC_008",
+        "DOC_009",
+        "DOC_011"
+      ],
+      "retrieved_evidence_count": 3,
+      "validated_evidence_count": 3,
+      "retrieved_document_ids": [
+        "DOC_008",
+        "DOC_009",
+        "DOC_011"
+      ],
+      "unused_document_reasons": {},
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_002_REQ_01",
+          "key": "ORDER_CONTRACT",
+          "required_fact": "Confirmed order or contractual commitment",
+          "evidence_type": "COMMERCIAL_COMMITMENT",
+          "required_entity_model": "B777, Boeing",
+          "required_component": "",
+          "verification_status": "VERIFIED",
+          "doc_ids": [
+            "DOC_008",
+            "DOC_009",
+            "DOC_011"
+          ],
+          "verified_doc_ids": [
+            "DOC_008",
+            "DOC_009",
+            "DOC_011"
+          ],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_008",
+              "claim": "Boeing's orders and deliveries data for the end of October, updated on November 10, show the ASC 606 adjustment for the 777 family at 107",
+              "claim_id": "",
+              "kiq_id": "RKIQ_002",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "",
+              "publication_date": "2026-11-12",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "ANALYST_ASSESSMENT",
+              "strength": "PRELIMINARY",
+              "source_url": "https://theairside.news/en/news-boeing-777x-backlog-asc606",
+              "source_hash": "",
+              "passage_hash": "",
+              "verification_reason": "EVENT_NOT_FULLY_VALIDATED",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_008",
+              "claim": "Boeing pulls 30 777X orders from backlog: are Korean Air's in",
+              "claim_id": "DOC_008:C01",
+              "kiq_id": "RKIQ_002",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "Boeing pulls 30 777X orders from backlog: are Korean Air's in",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "https://theairside.news/en/news-boeing-777x-backlog-asc606",
+              "extraction_method": "FR03_SEMANTIC_QUOTATION",
+              "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+              "publication_date": "2026-11-12",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://theairside.news/en/news-boeing-777x-backlog-asc606",
+              "source_hash": "",
+              "passage_hash": "cf8ca180969d60ccb76eb925495e62b19303862a19c6e1b5dcd3d3a4c49d0c7d",
+              "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+              "claim_type": "DIRECT_ISSUE",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_008",
+              "claim": "# Boeing pulls 30 777X orders from backlog: are Korean Air's included?",
+              "claim_id": "DOC_008:C02",
+              "kiq_id": "RKIQ_002",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "# Boeing pulls 30 777X orders from backlog: are Korean Air's included?",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "https://theairside.news/en/news-boeing-777x-backlog-asc606",
+              "extraction_method": "FR03_SEMANTIC_QUOTATION",
+              "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+              "publication_date": "2026-11-12",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://theairside.news/en/news-boeing-777x-backlog-asc606",
+              "source_hash": "",
+              "passage_hash": "1dcf0222ecf4abbdbb2a062ebe8b13458f815efa839fa79c9de489c81bef27e5",
+              "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+              "claim_type": "DIRECT_ISSUE",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": []
+        }
+      ],
+      "claim_requirement_links": [
+        {
+          "claim_id": "",
+          "doc_id": "DOC_008",
+          "requirement_id": "RKIQ_002_REQ_01",
+          "requirement_key": "ORDER_CONTRACT",
+          "rkiq_id": "RKIQ_002",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "DOC_008:C01",
+          "doc_id": "DOC_008",
+          "requirement_id": "RKIQ_002_REQ_01",
+          "requirement_key": "ORDER_CONTRACT",
+          "rkiq_id": "RKIQ_002",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "DOC_008:C02",
+          "doc_id": "DOC_008",
+          "requirement_id": "RKIQ_002_REQ_01",
+          "requirement_key": "ORDER_CONTRACT",
+          "rkiq_id": "RKIQ_002",
+          "strength": "PRELIMINARY"
+        }
+      ],
+      "claim_handoff_rejections": {},
+      "source_execution_status": "RESULTS_RETRIEVED",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [
+        {
+          "kiq_id": "RKIQ_002",
+          "kit_id": "",
+          "requirement_id": "RKIQ_002_REQ_01",
+          "requirement_key": "ORDER_CONTRACT",
+          "doc_id": "DOC_008",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://theairside.news/en/news-boeing-777x-backlog-asc606",
+          "original_filing_url": "https://theairside.news/en/news-boeing-777x-backlog-asc606",
+          "quote": "Boeing pulls 30 777X orders from backlog: are Korean Air's in",
+          "source_hash": "",
+          "passage_hash": "cf8ca180969d60ccb76eb925495e62b19303862a19c6e1b5dcd3d3a4c49d0c7d",
+          "extraction_method": "FR03_SEMANTIC_QUOTATION",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "DIRECT_ISSUE",
+          "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+          "publication_date": "2026-11-12",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_002",
+          "kit_id": "",
+          "requirement_id": "RKIQ_002_REQ_01",
+          "requirement_key": "ORDER_CONTRACT",
+          "doc_id": "DOC_008",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://theairside.news/en/news-boeing-777x-backlog-asc606",
+          "original_filing_url": "https://theairside.news/en/news-boeing-777x-backlog-asc606",
+          "quote": "# Boeing pulls 30 777X orders from backlog: are Korean Air's included?",
+          "source_hash": "",
+          "passage_hash": "1dcf0222ecf4abbdbb2a062ebe8b13458f815efa839fa79c9de489c81bef27e5",
+          "extraction_method": "FR03_SEMANTIC_QUOTATION",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "DIRECT_ISSUE",
+          "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+          "publication_date": "2026-11-12",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        }
+      ],
+      "verification_status": "Verified 1/1 atomic facts; RESULTS_RETRIEVED",
+      "uncertainty_level": "LOW",
+      "recommended_next_step": "Monitor independently for new developments and downstream effects.",
+      "missing_information": null
+    }
+  ],
+  "run_metadata": {
+    "run_id": "RUN-20261125-171829-0B65E15DF5B7",
+    "report_id": "RPT-20261125-061FE5",
+    "started_at": "2026-11-25T17:18:29Z",
+    "completed_at": "2026-11-25T17:20:30Z",
+    "run_date_utc": "2026-11-25",
+    "analysis_reference_date": "2026-11-25",
+    "reference_date_mode": "EXECUTION_DATE",
+    "collection_window_start_utc": "2026-10-26T17:18:29Z",
+    "collection_window_end_utc": "2026-11-25T17:18:29Z",
+    "status": "completed",
+    "outcome_status": "COMPLETED",
+    "processing_status": "COMPLETED",
+    "evidence_completeness_status": "PARTIAL",
+    "kiq_completion_status": "PARTIALLY_ANSWERED",
+    "kiqs_fully_answered": 1,
+    "kiqs_missing_specific_evidence": 1,
+    "kit_completion_audit": {
+      "as_of_date": "2026-11-25",
+      "questions": [
+        {
+          "kiq_id": "RKIQ_001",
+          "question": "What is the current production status and assembly rate of the Boeing 777X at the Everett facility?",
+          "answer_status": "UNANSWERED",
+          "content_result": "NO_RELEVANT_EVENT",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "PRODUCTION_IMPACT",
+              "missing_information": [
+                "Verified source passage for: Demonstrated impact on production or capacity"
+              ]
+            },
+            {
+              "key": "CURRENT_STATUS",
+              "missing_information": [
+                "Verified source passage for: Latest dated, issue-specific status"
+              ]
+            }
+          ],
+          "missing_information": "Demonstrated impact on production or capacity: Verified source passage for: Demonstrated impact on production or capacity; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status",
+          "source_execution_status": "NO_MATCH",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 0,
+          "latest_evidence_date": "",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        },
+        {
+          "kiq_id": "RKIQ_002",
+          "question": "Have any 777X launch customers officially notified regulators or shareholders of intent to cancel or convert 777X orders?",
+          "answer_status": "ANSWERED",
+          "content_result": "STATUS_UNKNOWN",
+          "complete": true,
+          "missing_evidence": [],
+          "missing_information": null,
+          "source_execution_status": "RESULTS_RETRIEVED",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 3,
+          "latest_evidence_date": "2026-11-21",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        }
+      ],
+      "total": 2,
+      "complete": 1,
+      "missing": 1,
+      "unavailable_sources": [],
+      "unsearched_requests": [],
+      "status": "PARTIALLY_ANSWERED"
+    },
+    "planner_status": "REPAIRED",
+    "collection_mode": "agentic_exa",
+    "acquisition_trace": {
+      "collection_id": "COL_9C64B7",
+      "kit": "Boeing 777X production rumors and unverified airline cancellation speculation",
+      "collection_mode": "agentic_exa",
+      "search_objective": "Acquire OSINT evidence regarding Boeing 777X production status at Everett and airline order stability (cancellations/conversions) for the period Oct-Nov 2026.",
+      "queries_executed": 3,
+      "exa_calls_executed": 2,
+      "sources_used": [
+        "Bluesky Social Network",
+        "Exa Semantic Search",
+        "News API"
+      ],
+      "documents_found": 17,
+      "primary_documents": 0,
+      "secondary_documents": 17,
+      "full_text_documents": 12,
+      "metadata_only_documents": 1,
+      "unresolved_requirements": [
+        "Verified production restart date following the August 2024 flight test suspension (current results discuss general 'stalled production plans' and 'turnaround taking longer' but lack a specific restart date).",
+        "Formal contract termination notices (results show a backlog reduction of 30 aircraft but lack specific airline attribution for these 'pulled' orders)."
+      ],
+      "collection_status": "PARTIAL_SUCCESS",
+      "next_action": "Execute targeted search for Boeing's Q3 2026 10-Q or 8-K filings to identify the specific customers associated with the 30-unit backlog reduction and search for FAA Type Inspection Authorization (TIA) updates for the 777-9.",
+      "agent_rationale": "Initial Exa searches successfully identified a 30-unit backlog reduction and Singapore Airlines' confirmation of no rejection, but specific 'cancellation' and 'conversion' filings remain missing. Regulatory and corporate tools were disabled, preventing corroboration of secondary news reports with primary issuer disclosures.",
+      "steps": [
+        {
+          "step": 1,
+          "tool": "exa_semantic_search",
+          "query": "Boeing 777X production status Everett facility assembly rate November 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 6,
+          "new_doc_ids": [
+            "DOC_001",
+            "DOC_002",
+            "DOC_003",
+            "DOC_004",
+            "DOC_005",
+            "DOC_006"
+          ],
+          "elapsed_sec": 3.96,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 2,
+          "tool": "exa_semantic_search",
+          "query": "Emirates Lufthansa Qatar Singapore Airlines 777X order cancellation conversion 787 777F 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 6,
+          "new_doc_ids": [
+            "DOC_007",
+            "DOC_008",
+            "DOC_009",
+            "DOC_010",
+            "DOC_011",
+            "DOC_012"
+          ],
+          "elapsed_sec": 4.23,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 3,
+          "tool": "search_media_and_social",
+          "query": "[all] Boeing 777X production rumors cancellation speculation 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 5,
+          "new_doc_ids": [
+            "DOC_013",
+            "DOC_014",
+            "DOC_015",
+            "DOC_016",
+            "DOC_017"
+          ],
+          "elapsed_sec": 28.36,
+          "calls_used": 3,
+          "exa_calls_used": 2,
+          "note": ""
+        }
+      ],
+      "budget_summary": {
+        "calls_made": 3,
+        "max_total_calls": 10,
+        "remaining_total_calls": 7,
+        "exa_calls_made": 2,
+        "max_exa_calls": 4,
+        "remaining_exa_calls": 2,
+        "elapsed_sec": 32.08,
+        "max_seconds": 180,
+        "remaining_seconds": 147.9,
+        "steps_recorded": 3
+      },
+      "fallback_used": false,
+      "llm_tokens_in": 20176,
+      "llm_tokens_out": 628
+    },
+    "phase_checkpoints": {
+      "planner": "REPAIRED",
+      "collection": "PASS",
+      "fr03": "PASS",
+      "analyst": "PASS",
+      "qa": "COMPLETED",
+      "kiq": "PARTIALLY_ANSWERED",
+      "editor": "COMPLETED",
+      "scoring": "COMPLETED",
+      "reporting": "VALIDATED"
+    },
+    "evidence_flow_audit": {
+      "documents": [
+        {
+          "doc_id": "DOC_001",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_002",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_003",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_004",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_005",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_006",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_007",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_008",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 2,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_009",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_010",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_011",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_012",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_013",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_014",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_015",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_016",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_017",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        }
+      ],
+      "stage_counts": {
+        "COLLECTED": 17,
+        "FILTER_ACCEPTED": 3,
+        "CLAIMS_EXTRACTED": 3,
+        "CLAIMS_VALIDATED": 3,
+        "KIQ_EVALUATED": 3,
+        "KIQ_LINKED": 3,
+        "NOT_APPLICABLE": 0,
+        "REPORT_REFERENCED": 3,
+        "REPORT_USED": 3,
+        "REPORT_NOT_USED": 0
+      },
+      "unlinked_accepted_document_ids": [],
+      "unreferenced_validated_document_ids": [],
+      "potential_analytical_loss_ids": [],
+      "handoff_error_ids": [],
+      "validated_claim_counts": {
+        "DOC_001": 0,
+        "DOC_002": 0,
+        "DOC_003": 0,
+        "DOC_004": 0,
+        "DOC_005": 0,
+        "DOC_006": 0,
+        "DOC_007": 0,
+        "DOC_008": 2,
+        "DOC_009": 1,
+        "DOC_010": 0,
+        "DOC_011": 1,
+        "DOC_012": 0,
+        "DOC_013": 0,
+        "DOC_014": 0,
+        "DOC_015": 0,
+        "DOC_016": 0,
+        "DOC_017": 0
+      }
+    },
+    "evidence_integrity_issues": [],
+    "source_provenance_missing_ids": [],
+    "kiq_unlinked_extracted_document_ids": [],
+    "kiq_handoff_error_document_ids": [],
+    "kiq_handoff_contract_errors": {},
+    "editor_kiq_context_error": null,
+    "editor_evidence_citation_document_ids": [],
+    "query": "Boeing 777X production rumors and unverified airline cancellation speculation",
+    "experiment": {
+      "dataset_run_id": "RUN-20261125-171829-0B65E15DF5B7",
+      "replay_run_id": null,
+      "collection_mode": "agentic_exa",
+      "qa_enabled": true,
+      "harness_enabled": true,
+      "keyword_baseline": false,
+      "dataset_sha256": "2a42afdd770b26208efc1064f5b33e5c79bab56c3b5613104efdf17f498e53fe",
+      "replay_uses_live_llm": false
+    },
+    "analysis_scope": "30d",
+    "effective_from": "2026-10-26T17:18:29Z",
+    "effective_to": "2026-11-25T17:18:29Z",
+    "as_of_date": "2026-11-25",
+    "documents_collected": 17,
+    "historical_resolutions": [],
+    "historical_resolution_count": 0,
+    "temporal_claim_audit": [
+      {
+        "event_id": "EVT_777X_CERT_DELAY_20261121",
+        "entity": "Boeing",
+        "program": "Unknown / Not specified in source",
+        "component": "Unknown / Not specified in source",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "CURRENT_STATUS_UNKNOWN",
+        "original_date": "2026-11-21",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "EVT_777X_BACKLOG_ADJ_20261112",
+        "entity": "Boeing",
+        "program": "Unknown / Not specified in source",
+        "component": "Unknown / Not specified in source",
+        "issue": "DELIVERY",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-11-12",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "EVT_777X_EMIRATES_BACKSTOP_20261125",
+        "entity": "Boeing",
+        "program": "777X, 787",
+        "component": "Unknown / Not specified in source",
+        "issue": "PRODUCTION",
+        "historical_claim_status": "CURRENT_STATUS_UNKNOWN",
+        "original_date": "2026-11-10",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-25",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      }
+    ],
+    "document_content_status_counts": {
+      "FULL_TEXT": 12,
+      "FULL_TEXT_RETRIEVED": 0,
+      "METADATA_ONLY": 1,
+      "PARTIAL_TEXT": 3,
+      "SOURCE_METADATA_ONLY": 0,
+      "SOURCE_POLICY_RESTRICTED": 0,
+      "STRUCTURED_DATA": 0,
+      "SUMMARY_ONLY": 0,
+      "TEXT_COMPLETENESS_UNVERIFIED": 1,
+      "TEXT_RETRIEVED_COMPLETENESS_UNVERIFIED": 0,
+      "TRANSCRIPT_AS_RECEIVED": 0,
+      "UNAVAILABLE": 0,
+      "UNKNOWN": 0
+    },
+    "unknown_content_statuses": [],
+    "telemetry_errors": [],
+    "telemetry_integrity_ok": true,
+    "content_limited_document_ids": [
+      "DOC_001",
+      "DOC_002",
+      "DOC_003",
+      "DOC_004",
+      "DOC_006",
+      "DOC_008",
+      "DOC_010",
+      "DOC_011",
+      "DOC_012",
+      "DOC_013",
+      "DOC_014",
+      "DOC_015"
+    ],
+    "documents_analyzed": 3,
+    "documents_rejected": 14,
+    "documents_failed": 0,
+    "analysis_phase_status": "COMPLETED",
+    "analysis_recovery_budget": {
+      "time_budget_sec": 600,
+      "max_retries": 8,
+      "max_calls": 10,
+      "retries": 0,
+      "calls": 2,
+      "blocked": ""
+    },
+    "analyzed_document_ids": [
+      "DOC_008",
+      "DOC_009",
+      "DOC_011"
+    ],
+    "failed_document_ids": [],
+    "recovered_document_ids": [],
+    "partially_analyzed_document_ids": [],
+    "documents_recovered": 0,
+    "analyst_batch_document_counts": [
+      2,
+      1
+    ],
+    "analyst_recovery_splits": 0,
+    "analyst_retry_counts_by_reason": {
+      "PROVIDER_INTERNAL_RETRY": 0
+    },
+    "batches_created": 2,
+    "batches_succeeded": 2,
+    "batches_failed": 0,
+    "planning_duration_sec": 3.56,
+    "collection_duration_sec": 32.1,
+    "filter_duration_sec": 10.16,
+    "analysis_duration_sec": 35.29,
+    "qa_duration_sec": 27.8,
+    "editorial_duration_sec": 11.81,
+    "scoring_duration_sec": 0.0,
+    "scoring_status": "COMPLETED",
+    "scoring_methodology": {
+      "version": "IW-5FACTOR-DET-V1",
+      "method": "DETERMINISTIC_5_FACTOR_IW",
+      "scale": "F1-F5 rated 1..5; final threat_score 1..10",
+      "formula": "S = clamp(floor(sum(w_i * F_i) * 2 + 0.5), 1, 10)",
+      "weights": {
+        "impact_severity": 0.3,
+        "supplier_criticality": 0.2,
+        "substitutability_difficulty": 0.15,
+        "propagation_scope": 0.15,
+        "temporal_urgency": 0.2
+      },
+      "bands": {
+        "monitored": "1-4",
+        "elevated": "5-7",
+        "high_potential_impact": "8-10"
+      },
+      "severity_independent_of_confidence": true
+    },
+    "scoring_partial_fallback_ids": [],
+    "scoring_audit": [
+      {
+        "event_id": "EVT_777X_CERT_DELAY_20261121",
+        "provisional_score": 7,
+        "computed_score": 8,
+        "final_score": 8,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(4.05 * 2) = 8/10",
+        "weighted_sum": 4.05,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 4,
+            "weight": 0.3,
+            "weighted_contribution": 1.2,
+            "rationale": "Critical widebody program with 620 orders stalled; delivery delay impacts major global carriers."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Boeing Everett assembly is the sole source for the 777X program."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "777X is a unique high-capacity twin-engine jet; replacement with A350 is possible but requires fleet restructuring."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Affects whole 777X family (777-8/9/8F) and major launch customers globally."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "Ongoing certification bottleneck with target delivery set for 2027; active monitoring required."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 4 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (8/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+        "post_harness_score": 8,
+        "post_harness_validation_status": "PARTIALLY_SUPPORTED",
+        "post_harness_confidence_level": "LOW",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "PROVISIONAL_UNVERIFIED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-11-21",
+        "source_age_days": 4
+      },
+      {
+        "event_id": "EVT_777X_BACKLOG_ADJ_20261112",
+        "provisional_score": 6,
+        "computed_score": 6,
+        "final_score": 6,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.10 * 2) = 6/10",
+        "weighted_sum": 3.1,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 3,
+            "weight": 0.3,
+            "weighted_contribution": 0.9,
+            "rationale": "30 aircraft represents ~5% of the total 777X order book reclassified as unlikely to deliver."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "Impacts Boeing's financial standing and long-term production planning for the 777X."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 1,
+            "weight": 0.15,
+            "weighted_contribution": 0.15,
+            "rationale": "Financial backlog adjustments are specific to Boeing's accounting and cannot be 'substituted'."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Adjustment reflects broader market sentiment or specific major customer instability regarding 777X."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "Adjustment occurred in Oct 2026; signals immediate change in program delivery confidence."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 13 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: ELEVATED (6/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 6,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "MEDIUM",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-11-12",
+        "source_age_days": 13
+      },
+      {
+        "event_id": "EVT_777X_EMIRATES_BACKSTOP_20261125",
+        "provisional_score": 7,
+        "computed_score": 8,
+        "final_score": 8,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.90 * 2) = 8/10",
+        "weighted_sum": 3.9,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 4,
+            "weight": 0.3,
+            "weighted_contribution": 1.2,
+            "rationale": "Emirates holds 270 777X orders; delivery failures threaten core widebody strategy."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Boeing is the sole provider for the 777X program."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Emirates is using its own 787 orders as a backstop, but widebody alternatives are limited."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Potential spillover to 787 order book and other launch customers like Lufthansa."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "Decision on 787 backstop expected within 30 days of the report date."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 15 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (8/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+        "post_harness_score": 8,
+        "post_harness_validation_status": "PARTIALLY_SUPPORTED",
+        "post_harness_confidence_level": "LOW",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "PROVISIONAL_UNVERIFIED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-11-10",
+        "source_age_days": 15
+      }
+    ],
+    "total_duration_sec": 120.8,
+    "llm_calls": 8,
+    "llm_retries": 0,
+    "tokens_input": 49228,
+    "tokens_output": 14963,
+    "token_usage_status": "MEASURED",
+    "token_usage_unknown_calls": 0,
+    "llm_call_audit": [
+      {
+        "task_type": "PHASE_1_PLANNER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 1623,
+        "output_tokens": 586,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_2_ACQUISITION",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 20176,
+        "output_tokens": 628,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 3074,
+        "output_tokens": 1297,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 1648,
+        "output_tokens": 216,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_1_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 18564,
+        "output_tokens": 4214,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_2_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 16051,
+        "output_tokens": 1839,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_3B_QA",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 7518,
+        "output_tokens": 6297,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_4_EDITOR",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2373,
+        "output_tokens": 1100,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      }
+    ],
+    "analyst_recovery_audit": {
+      "attempts": [],
+      "fallbacks": [],
+      "recent_events": []
+    },
+    "token_accounting_method": "SHARED_LLM_DELTA",
+    "provider_requests_measured": 6,
+    "estimated_cost_usd": 0.0695,
+    "estimated_cost_status": "ESTIMATED",
+    "priced_cost_subtotal_usd": 0.0695,
+    "model_cost_audit": [
+      {
+        "model_id": "openrouter/google/gemini-3-flash-preview",
+        "usage_bucket": "openrouter/google/gemini-3-flash-preview",
+        "input_tokens": 49228,
+        "output_tokens": 14963,
+        "requests": 6,
+        "estimated_cost_usd": 0.0695,
+        "pricing_status": "ESTIMATED"
+      }
+    ],
+    "cost_estimation_reason_codes": [],
+    "unmatched_cost_model_ids": [],
+    "model_id": "openrouter/google/gemini-3-flash-preview",
+    "prompt_version": "v2.10-CI-HRO-2026-EVIDENCE-SCOPE",
+    "kiq_catalog_version": "THESIS_KIQ_CATALOG_V2_20261031",
+    "candidate_schema_rejections": 0,
+    "qa_failed": false,
+    "qa_performed": true,
+    "harness_performed": true,
+    "editor_failed": false,
+    "editorial_generation_mode": "LLM_TEXT_PYDANTIC_V1",
+    "editor_text_parsed_count": 2,
+    "editor_text_fallbacks": 1,
+    "editor_retry_count": 0,
+    "editor_retry_recovered": false,
+    "editor_fallback_used": true,
+    "pipeline_degraded": false,
+    "degradation_category": "NONE",
+    "source_coverage_issues": [],
+    "source_coverage_limited": true,
+    "source_coverage_advisories": [
+      {
+        "connector": "Exa Semantic Search",
+        "issue": "exa_type=auto; duplicates_skipped=0; include_domains=ALL"
+      },
+      {
+        "connector": "News API",
+        "issue": "STAGES=EXACT,ALTERNATIVE,RECALL,ALIASES; NEWSAPI_COVERAGE=PARTIAL_WINDOW; requested_days=30.0; searchable_days=29.0; archive_limit_days=29; SEARCH_STATUS=RESULTS_RETRIEVED"
+      }
+    ],
+    "source_coverage_status": "PARTIAL",
+    "source_coverage_legacy_status": "LIMITED",
+    "evidence_result_status": "UNVERIFIED_ONLY",
+    "review_scope": "EVENT_REVIEW",
+    "analysis_issues": [],
+    "fr03_rejection_review_candidates": 9,
+    "fr03_rejection_stage_counts": {
+      "STAGE_1_CONTENT_QUALITY": 1,
+      "STAGE_1_DETERMINISTIC": 3,
+      "STAGE_2_SEMANTIC": 10
+    },
+    "scoring_calibration": "UNMEASURED_REQUIRES_EXPERT_REFERENCE_LABELS",
+    "semantic_filter_unavailable_count": 0,
+    "semantic_filter_missing_ids": [],
+    "analyst_valid_empty_batches": 0,
+    "analyst_invalid_batches": 0,
+    "analyst_empty_retry_count": 0,
+    "analyst_empty_retry_failed_batches": 0,
+    "analyst_empty_output_conflict": false,
+    "analyst_empty_conflict_previous_run": null,
+    "analyst_output_audit": [
+      {
+        "batch": 1,
+        "depth": 0,
+        "document_ids": [
+          "DOC_011",
+          "DOC_008"
+        ],
+        "documents_processed": 2,
+        "candidate_count": 2,
+        "rejected_count": 0,
+        "output_chars": 13712,
+        "output_tokens": 4214,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 2,
+        "depth": 0,
+        "document_ids": [
+          "DOC_009"
+        ],
+        "documents_processed": 1,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 5663,
+        "output_tokens": 1839,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      }
+    ],
+    "confirmed_critical_count": 0,
+    "unverified_signal_count": 0,
+    "displayable_signal_count": 0,
+    "verified_context_count": 1,
+    "direct_kit_confirmed_count": 0,
+    "verified_context_event_ids": [
+      "EVT_777X_BACKLOG_ADJ_20261112"
+    ],
+    "classification_version": "SUPPORTED_ONLY_DASHBOARD_V3_EVENT_ID_1TO1",
+    "runtime_kiq_count": 2,
+    "runtime_kiq_ids": [
+      "RKIQ_001",
+      "RKIQ_002"
+    ],
+    "runtime_kiq_answered": 1,
+    "runtime_kiq_partially_answered": 0,
+    "runtime_kiq_unanswered": 1,
+    "runtime_kiq_not_searched": 0,
+    "intelligence_methodology": {
+      "collection_method": "OSINT",
+      "analysis_method": "Competitive Intelligence",
+      "osint_document_count": 17,
+      "ci_candidate_count": 3,
+      "osint_stage": "Acquisition and preprocessing of publicly available information.",
+      "ci_stage": "Interpretation of collected evidence against KIT/KIQ requirements, strategic risks, competitive implications and decision needs.",
+      "methodological_boundary": "A retrieved source is OSINT evidence. It becomes an intelligence assessment only after analytical interpretation and validation.",
+      "independent_verification_required": true
+    },
+    "editor_claim_audit": {
+      "status": "PASS",
+      "all_supported": true,
+      "citations_match": true,
+      "checks": {
+        "doc_id_exists": true,
+        "passages_match": true,
+        "event_references_valid": true,
+        "urls_valid": true
+      },
+      "claim_sentences_checked": 26,
+      "cited_document_ids": [
+        "DOC_008",
+        "DOC_009",
+        "DOC_011"
+      ],
+      "issues": [],
+      "review_items": [],
+      "audit_method": "DETERMINISTIC_PROVENANCE_ONLY"
+    },
+    "editor_executive_summary": "Intelligence monitoring of the Boeing 777X program identifies a significant shift in backlog accounting and persistent regulatory uncertainty. Analysis of secondary media reports from November 2026 indicates that Boeing has adjusted its 777 family backlog by 107 aircraft under the ASC 606 revenue recognition standard, an increase of 30 units compared to the previous month [DOC_008]. While the specific customers affected by this adjustment were not officially named by Boeing, reports suggest these may include 30 of the 48 777X aircraft previously attributed to Korean Air [DOC_008]. This accounting move signifies that Boeing no longer judges these orders as likely enough to reach delivery to count in its formal backlog, though they remain under contract.\n\nThe program continues to face headwinds regarding its certification timeline. Reports as of November 21, 2026, highlight ongoing delays despite a total order book of approximately 620 aircraft [DOC_011]. While Emirates has historically acted as a program backstop, official confirmation regarding 2027 production rates at the Everett facility remains missing [DOC_009]. The primary analytical takeaway is a widening gap between the theoretical order book and the deliverable backlog, exacerbated by the lack of a firm regulatory milestone for entry-into-service. Management should prioritize verifying the status of the Korean Air contract and seeking clarity on the FAA’s current certification flight test progress to determine if the 2026-2027 delivery window remains viable.",
+    "editor_detailed_analytical_assessment": "The Boeing 777X program is currently navigating a period of high financial and regulatory volatility, characterized by a contraction in \"firm\" backlog and unverified rumors regarding production stability. On November 12, 2026, reports surfaced detailing a substantial ASC 606 adjustment to Boeing’s orders and deliveries data [DOC_008]. This adjustment, which moved 30 additional aircraft into a category where delivery is no longer considered probable, suggests a weakening of the 777X's near-term delivery profile. The attribution of these 30 units to Korean Air remains a point of high-confidence speculation in media circles, though Boeing’s official disclosures have not explicitly named the carrier [DOC_008].\n\nFrom a regulatory standpoint, the program remains in a state of flux. As of late November 2026, the 777X has yet to achieve the necessary certification milestones to begin deliveries to its launch customers [DOC_011]. This delay has a cascading effect on competitive positioning; as the 777X remains grounded, airlines with aging long-haul fleets may face increased pressure to consider available alternatives, such as the Airbus A350. The \"Emirates Backstop\" remains a critical strategic pillar for the program, yet the lack of verified 2027 production rates for the Everett facility [DOC_009] introduces uncertainty regarding Boeing's ability to ramp up once certification is finally granted.\n\nThe evidence suggests that while the 777X program is not in immediate danger of cancellation, the financial quality of the backlog is deteriorating. The ASC 606 adjustments are a leading indicator of customer fatigue or renegotiation. However, it is essential to distinguish between an accounting adjustment and a formal contract cancellation; the aircraft remain under contract, but their delivery timing is now too speculative for revenue recognition [DOC_008]. \n\nThe most critical open questions involve the specific technical hurdles remaining in the FAA certification process and the formal status of the Korean Air order. Without official Boeing confirmation of 2027 production targets, any assessment of the program's recovery trajectory remains speculative. Management is advised to monitor for official \"Type Inspection Authorization\" (TIA) from the FAA, which would signal the start of formal certification flight testing and provide a more reliable anchor for delivery forecasting than current media rumors.",
+    "editor_validation_status": "PASS",
+    "editor_claim_citations_verified": true,
+    "editor_semantic_review_required": false,
+    "kit_current_assessment": {
+      "status": "DOCUMENTED_FINDINGS",
+      "source_coverage": "INCOMPLETE",
+      "as_of_date": "2026-11-25",
+      "search_overview": {
+        "connectors_searched": [
+          "Exa Semantic Search",
+          "News API",
+          "Bluesky Social Network",
+          "YouTube Videos"
+        ],
+        "connectors_with_results": [
+          "Exa Semantic Search",
+          "News API",
+          "Bluesky Social Network"
+        ],
+        "documents_collected": 17,
+        "documents_analyzed": 3,
+        "documents_rejected": 14,
+        "events_identified": 3,
+        "supported_events": 0
+      },
+      "issue_status": "DOCUMENTED",
+      "regulator_verification": "UNAVAILABLE",
+      "source_authority": "NOT_ESTABLISHED",
+      "coverage_status": "PARTIAL",
+      "severity_context": "POTENTIAL",
+      "potential_severity": 8,
+      "evidence_confidence": "LOW",
+      "chronological_milestones": [],
+      "conflicts": [],
+      "monitored_kit": "Boeing 777X production rumors and unverified airline cancellation speculation",
+      "original_issue": "Boeing 777X production rumors and unverified airline cancellation speculation",
+      "latest_milestone": "NOT_ESTABLISHED",
+      "latest_milestone_date": "",
+      "latest_evidence_id": "",
+      "latest_evidence_url": "",
+      "latest_verification": "UNVERIFIED",
+      "unresolved_questions": [
+        "Demonstrated impact on production or capacity: Verified source passage for: Demonstrated impact on production or capacity; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status"
+      ],
+      "severity": null,
+      "confidence": "LOW",
+      "evidence_strength": "PARTIAL_REPORTED",
+      "reported_developments": [
+        {
+          "event_id": "EVT_777X_EMIRATES_BACKSTOP_20261125",
+          "evidence_id": "DOC_009",
+          "date": "2026-11-10",
+          "claim": "Emirates will probably decide on the 787 in about a month, when it has more clarity on the production of the 777X, Clark said.",
+          "program": "777X, 787",
+          "company": "Boeing",
+          "source_url": "https://www.khaleejtimes.com/business/aviation/emirates-airline-planes-flights-hoping-to-get-up-to-five-boeing-777x",
+          "verification": "PARTIALLY_SUPPORTED",
+          "source_role": "SECONDARY_OR_UNKNOWN"
+        }
+      ],
+      "kiq_source_claims": [
+        {
+          "kiq_id": "RKIQ_002",
+          "evidence_id": "DOC_008",
+          "quote": "Boeing pulls 30 777X orders from backlog: are Korean Air's in",
+          "date": "2026-11-12",
+          "publication_date": "2026-11-12",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_EXA",
+          "source_url": "https://theairside.news/en/news-boeing-777x-backlog-asc606",
+          "authority": "SECONDARY",
+          "source_role": "SECONDARY_OR_UNKNOWN",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "verbatim_passage_recorded": true,
+          "verification": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "DIRECT_ISSUE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "ORDER_CONTRACT"
+          ],
+          "regulator_confirmation": "NOT_ESTABLISHED",
+          "validation_conflict": ""
+        },
+        {
+          "kiq_id": "RKIQ_002",
+          "evidence_id": "DOC_008",
+          "quote": "# Boeing pulls 30 777X orders from backlog: are Korean Air's included?",
+          "date": "2026-11-12",
+          "publication_date": "2026-11-12",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_EXA",
+          "source_url": "https://theairside.news/en/news-boeing-777x-backlog-asc606",
+          "authority": "SECONDARY",
+          "source_role": "SECONDARY_OR_UNKNOWN",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "verbatim_passage_recorded": true,
+          "verification": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "DIRECT_ISSUE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "ORDER_CONTRACT"
+          ],
+          "regulator_confirmation": "NOT_ESTABLISHED",
+          "validation_conflict": ""
+        }
+      ],
+      "established_regulatory_facts": [],
+      "evidence_validation_warnings": [],
+      "kiq_status_counts": {
+        "ANSWERED": 1,
+        "PARTIALLY_ANSWERED": 0,
+        "UNANSWERED": 1,
+        "NOT_SEARCHED": 0
+      }
+    },
+    "detailed_analytical_assessment": "The Boeing 777X program is currently navigating a period of high financial and regulatory volatility, characterized by a contraction in \"firm\" backlog and unverified rumors regarding production stability. On November 12, 2026, reports surfaced detailing a substantial ASC 606 adjustment to Boeing’s orders and deliveries data [DOC_008]. This adjustment, which moved 30 additional aircraft into a category where delivery is no longer considered probable, suggests a weakening of the 777X's near-term delivery profile. The attribution of these 30 units to Korean Air remains a point of high-confidence speculation in media circles, though Boeing’s official disclosures have not explicitly named the carrier [DOC_008].\n\nFrom a regulatory standpoint, the program remains in a state of flux. As of late November 2026, the 777X has yet to achieve the necessary certification milestones to begin deliveries to its launch customers [DOC_011]. This delay has a cascading effect on competitive positioning; as the 777X remains grounded, airlines with aging long-haul fleets may face increased pressure to consider available alternatives, such as the Airbus A350. The \"Emirates Backstop\" remains a critical strategic pillar for the program, yet the lack of verified 2027 production rates for the Everett facility [DOC_009] introduces uncertainty regarding Boeing's ability to ramp up once certification is finally granted.\n\nThe evidence suggests that while the 777X program is not in immediate danger of cancellation, the financial quality of the backlog is deteriorating. The ASC 606 adjustments are a leading indicator of customer fatigue or renegotiation. However, it is essential to distinguish between an accounting adjustment and a formal contract cancellation; the aircraft remain under contract, but their delivery timing is now too speculative for revenue recognition [DOC_008]. \n\nThe most critical open questions involve the specific technical hurdles remaining in the FAA certification process and the formal status of the Korean Air order. Without official Boeing confirmation of 2027 production targets, any assessment of the program's recovery trajectory remains speculative. Management is advised to monitor for official \"Type Inspection Authorization\" (TIA) from the FAA, which would signal the start of formal certification flight testing and provide a more reliable anchor for delivery forecasting than current media rumors.",
+    "detailed_analytical_assessment_mode": "VALIDATED_EDITOR",
+    "executive_summary_mode": "VALIDATED_EDITOR",
+    "report_evidence_usage": [
+      {
+        "doc_id": "DOC_008",
+        "event_ids": [
+          "EVT_777X_BACKLOG_ADJ_20261112"
+        ],
+        "kiq_ids": [
+          "RKIQ_002"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_009",
+        "event_ids": [
+          "EVT_777X_EMIRATES_BACKSTOP_20261125"
+        ],
+        "kiq_ids": [
+          "RKIQ_002"
+        ],
+        "source_role": "UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_011",
+        "event_ids": [
+          "EVT_777X_CERT_DELAY_20261121"
+        ],
+        "kiq_ids": [
+          "RKIQ_002"
+        ],
+        "source_role": "UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      }
+    ],
+    "detailed_analytical_assessment_sha256": "26fc365a1f61d3dcf167f11e34c4a45761f7aedd0a96acaf4183dfa77483842e",
+    "detailed_analytical_assessment_word_count": 353,
+    "executive_summary_word_count": 225,
+    "agent_decision_trace": [
+      {
+        "agent_index": 1,
+        "agent_role": "Intelligence Planning & Acquisition Agent",
+        "inputs": {
+          "kit": "Boeing 777X production rumors and unverified airline cancellation speculation",
+          "scope": "30d",
+          "specificity": "EXACT",
+          "platforms": [
+            "bluesky",
+            "youtube",
+            "news"
+          ],
+          "collection_mode": "agentic_exa"
+        },
+        "decisions": {
+          "planner_status": "REPAIRED",
+          "information_requirements_count": 2,
+          "queries_executed": 3,
+          "exa_calls_executed": 2,
+          "collection_status": "PARTIAL_SUCCESS",
+          "fallback_used": false,
+          "agent_rationale": "Initial Exa searches successfully identified a 30-unit backlog reduction and Singapore Airlines' confirmation of no rejection, but specific 'cancellation' and 'conversion' filings remain missing. Regulatory and corporate tools were disabled, preventing corroboration of secondary news reports with primary issuer disclosures."
+        },
+        "outputs": {
+          "documents_collected": 17,
+          "primary_documents": 0,
+          "secondary_documents": 17,
+          "sources_used": [
+            "Bluesky Social Network",
+            "Exa Semantic Search",
+            "News API"
+          ],
+          "unresolved_requirements": [
+            "Verified production restart date following the August 2024 flight test suspension (current results discuss general 'stalled production plans' and 'turnaround taking longer' but lack a specific restart date).",
+            "Formal contract termination notices (results show a backlog reduction of 30 aircraft but lack specific airline attribution for these 'pulled' orders)."
+          ]
+        },
+        "duration_sec": 35.66
+      },
+      {
+        "agent_index": 2,
+        "agent_role": "Risk Analyst Agent",
+        "inputs": {
+          "fr03_accepted_documents": 3,
+          "fr03_rejected_documents": 14,
+          "batches_created": 2
+        },
+        "decisions": {
+          "batches_succeeded": 2,
+          "batches_failed": 0,
+          "documents_failed": 0,
+          "candidate_schema_rejections": 0,
+          "deterministic_scoring_status": "COMPLETED",
+          "scoring_method": "DETERMINISTIC_5_FACTOR_IW"
+        },
+        "outputs": {
+          "direct_candidate_events": 3,
+          "watchlist_events": 0,
+          "event_ids": [
+            "EVT_777X_CERT_DELAY_20261121",
+            "EVT_777X_BACKLOG_ADJ_20261112",
+            "EVT_777X_EMIRATES_BACKSTOP_20261125"
+          ]
+        },
+        "duration_sec": 35.29
+      },
+      {
+        "agent_index": 3,
+        "agent_role": "Quality Assurance Agent",
+        "inputs": {
+          "qa_enabled": true,
+          "harness_enabled": true,
+          "candidates_reviewed": 3
+        },
+        "decisions": {
+          "qa_performed": true,
+          "qa_failed": false,
+          "harness_performed": true,
+          "validation_errors": 0
+        },
+        "outputs": {
+          "supported_direct_events": 0,
+          "confirmed_critical_events": 0,
+          "unverified_signals": 0,
+          "kiq_completion_status": "PARTIALLY_ANSWERED"
+        },
+        "duration_sec": 27.8
+      },
+      {
+        "agent_index": 4,
+        "agent_role": "EWS Editor Agent",
+        "inputs": {
+          "event_briefs_supplied": 3,
+          "verbatim_citations_supplied": 0,
+          "runtime_kiq_count": 2
+        },
+        "decisions": {
+          "editor_failed": false,
+          "editor_validation_status": "PASS",
+          "executive_summary_mode": "VALIDATED_EDITOR",
+          "detailed_assessment_mode": "VALIDATED_EDITOR",
+          "actions_parsed": 2,
+          "action_fallbacks": 1
+        },
+        "outputs": {
+          "action_plan_count": 2,
+          "executive_summary_words": 225,
+          "detailed_assessment_words": 353
+        },
+        "duration_sec": 11.81
+      }
+    ],
+    "ai_governance": {
+      "regulatory_reference": "Regulation (EU) 2024/1689, as amended",
+      "assessment_timestamp_utc": "2026-11-25T17:20:30.460427+00:00",
+      "intended_purpose": "Competitive Intelligence decision support using publicly available aerospace information.",
+      "prohibited_uses": [
+        "Autonomous aircraft operation",
+        "Autonomous safety-critical decisions",
+        "Automated regulatory certification",
+        "Unreviewed operational interventions"
+      ],
+      "ai_system_provider": "Externally hosted LLM provider",
+      "model_identifier": "openrouter/google/gemini-3-flash-preview",
+      "run_id": "RUN-20261125-171829-0B65E15DF5B7",
+      "risk_classification": "REQUIRES_LEGAL_ASSESSMENT",
+      "legal_compliance_status": "NOT_CERTIFIED",
+      "ai_generated_content": true,
+      "human_oversight_available": true,
+      "human_review_status": "WAITING_FOR_HITL",
+      "controls": {
+        "source_traceability": true,
+        "independent_qa": true,
+        "deterministic_validation": true,
+        "human_review_gate": true,
+        "critical_alert_requires_verified_evidence": true,
+        "model_and_run_logging": true
+      },
+      "legal_review_items": {
+        "article_4_ai_literacy": "ORGANIZATIONAL_REVIEW_REQUIRED",
+        "article_50_transparency": "APPLICABILITY_REVIEW_REQUIRED",
+        "article_6_high_risk_classification": "LEGAL_REVIEW_REQUIRED",
+        "personal_data_processing": "GDPR_REVIEW_REQUIRED",
+        "copyright_and_tdm": "SOURCE_SPECIFIC_REVIEW_REQUIRED"
+      },
+      "limitations": "These records document implemented safeguards. They are not a legal conformity assessment, certification or proof of compliance."
+    }
+  },
+  "comparison_summary": {
+    "has_comparable_run": false,
+    "previous_run_id": null,
+    "note": "No previous run with identical KIT and time scope; baseline established.",
+    "delta_critical": 0,
+    "delta_elevated": 0,
+    "delta_monitored": 0,
+    "new_events": 3,
+    "continuing_events": 0,
+    "not_redetected_events": 0,
+    "resolved_events": 0,
+    "unknown_status_events": 0,
+    "reclassified_to_watchlist": 0,
+    "methodology_changed": false
+  },
+  "connector_status": {
+    "Exa Semantic Search": {
+      "connector_name": "Exa Semantic Search",
+      "source_id": "SRC_EXA",
+      "technical_source": "api.exa.ai",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Boeing 777X production status Everett facility assembly rate November 2026",
+        "Emirates Lufthansa Qatar Singapore Airlines 777X order cancellation conversion 787 777F 2026"
+      ],
+      "found_count": 12,
+      "accepted_count": 12,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 2,
+      "http_status_counts": {
+        "200": 2
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [
+        "exa_type=auto; duplicates_skipped=0; include_domains=ALL"
+      ],
+      "time_window": {
+        "from": "2026-10-26T17:18:29Z",
+        "to": "2026-11-25T17:18:29Z",
+        "scope": "30d"
+      },
+      "last_updated": "2026-11-25T17:18:37Z",
+      "successful_responses": 2,
+      "collected_document_count": 12,
+      "content_availability_counts": {
+        "FULL_TEXT": 12
+      },
+      "observed_publication_from": "2026-10-27",
+      "observed_publication_to": "2026-11-21"
+    },
+    "News API": {
+      "connector_name": "News API",
+      "source_id": "SRC_004",
+      "technical_source": "newsapi.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Boeing 777X production rumors cancellation speculation 2026"
+      ],
+      "found_count": 19,
+      "accepted_count": 4,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 9,
+      "http_status_counts": {
+        "200": 8,
+        "302": 1
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [
+        "STAGES=EXACT,ALTERNATIVE,RECALL,ALIASES; NEWSAPI_COVERAGE=PARTIAL_WINDOW; requested_days=30.0; searchable_days=29.0; archive_limit_days=29; SEARCH_STATUS=RESULTS_RETRIEVED"
+      ],
+      "time_window": {
+        "from": "2026-10-26T17:18:29Z",
+        "to": "2026-11-25T17:18:29Z",
+        "scope": "30d",
+        "requested_from": "2026-10-26",
+        "requested_to": "2026-11-25",
+        "searchable_from": "2026-10-27T17:18:43.884811+00:00",
+        "searchable_to": "2026-11-25T17:18:43.884669+00:00",
+        "actual_from": "2026-10-27",
+        "actual_to": "2026-11-25",
+        "actual_window_basis": "CONFIGURED_SEARCH_WINDOW_NOT_RETRIEVAL_VERIFIED",
+        "actual_searchable_days": 29.0,
+        "requested_horizon_days": 30.0,
+        "provider_archive_limit_days": 29,
+        "provider_limit_basis": "CONFIGURED_PLAN_WINDOW_NOT_API_VERIFIED",
+        "coverage_status": "PARTIAL_WINDOW",
+        "source_coverage": "PARTIAL",
+        "coverage_complete": false,
+        "date_basis": "PUBLICATION_DATE",
+        "event_date_coverage": "NOT_ESTABLISHED",
+        "observed_publication_from": "2026-11-18",
+        "observed_publication_to": "2026-11-21",
+        "observed_document_count": 4
+      },
+      "last_updated": "2026-11-25T17:18:56Z",
+      "successful_responses": 8,
+      "http_redirects": 1,
+      "blocked_requests": 1,
+      "collected_document_count": 4,
+      "content_availability_counts": {
+        "PARTIAL_TEXT": 3,
+        "METADATA_ONLY": 1
+      },
+      "observed_publication_from": "2026-11-18",
+      "observed_publication_to": "2026-11-21"
+    },
+    "Bluesky Social Network": {
+      "connector_name": "Bluesky Social Network",
+      "source_id": "SRC_007",
+      "technical_source": "bsky.app",
+      "origin_type": "SECONDARY_UNVERIFIED",
+      "legal_status": "RESTRICTED",
+      "queries": [
+        "Boeing 777X production rumors cancellation speculation 2026"
+      ],
+      "found_count": 1,
+      "accepted_count": 1,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 4,
+      "http_status_counts": {
+        "200": 4
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [],
+      "time_window": {
+        "from": "2026-10-26T17:18:29Z",
+        "to": "2026-11-25T17:18:29Z",
+        "scope": "30d"
+      },
+      "last_updated": "2026-11-25T17:19:00Z",
+      "successful_responses": 4,
+      "collected_document_count": 1,
+      "content_availability_counts": {
+        "UNKNOWN": 1
+      },
+      "observed_publication_from": "2026-11-11",
+      "observed_publication_to": "2026-11-11"
+    },
+    "YouTube Videos": {
+      "connector_name": "YouTube Videos",
+      "source_id": "SRC_008",
+      "technical_source": "youtube.com",
+      "origin_type": "SECONDARY_UNVERIFIED",
+      "legal_status": "RESTRICTED",
+      "queries": [
+        "Boeing 777X production rumors cancellation speculation 2026"
+      ],
+      "found_count": 6,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 6,
+      "unknown_date_count": 0,
+      "http_requests": 1,
+      "http_status_counts": {
+        "200": 1
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "NO_MATCH",
+      "errors": [],
+      "coverage_advisories": [],
+      "time_window": {
+        "from": "2026-10-26T17:18:29Z",
+        "to": "2026-11-25T17:18:29Z",
+        "scope": "30d"
+      },
+      "last_updated": "2026-11-25T17:19:01Z",
+      "diagnostics": {
+        "search_query": "Boeing 777X production rumors -shorts -compilation -landing -takeoff -flightsimulator -msfs",
+        "http_status": 200,
+        "api_error_reason": "",
+        "api_items_returned": 6,
+        "candidates_accepted": 0,
+        "zero_result_reason": "NO_RELEVANT_MATCH",
+        "api_response_status": "OK",
+        "api_total_results": 6,
+        "has_next_page": false,
+        "duplicates": 0,
+        "malformed_items": 0,
+        "rejected_out_of_scope": 6
+      },
+      "diagnostics_history": [
+        {
+          "query": "Boeing 777X production rumors cancellation speculation 2026",
+          "search_query": "Boeing 777X production rumors -shorts -compilation -landing -takeoff -flightsimulator -msfs",
+          "http_status": 200,
+          "api_error_reason": "",
+          "api_items_returned": 6,
+          "candidates_accepted": 0,
+          "zero_result_reason": "NO_RELEVANT_MATCH",
+          "api_response_status": "OK",
+          "api_total_results": 6,
+          "has_next_page": false,
+          "duplicates": 0,
+          "malformed_items": 0,
+          "rejected_out_of_scope": 6
+        }
+      ],
+      "successful_responses": 1
+    }
+  }
+}
