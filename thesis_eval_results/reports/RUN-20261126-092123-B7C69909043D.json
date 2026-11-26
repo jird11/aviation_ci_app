@@ -1,0 +1,3055 @@
+{
+  "report_id": "RPT-20261126-EC45A6",
+  "run_id": "RUN-20261126-092123-B7C69909043D",
+  "version": 1,
+  "outcome_status": "PARTIAL_SUCCESS",
+  "executive_summary": "This assessment reviews Airbus A350 production targets and supply chain developments based on media reports and corporate announcements from May to October 2026. Evidence includes Airbus investor communications [DOC_003], a strategic manufacturing agreement between Safran and Aequs [DOC_005], and a component support joint venture involving Airbus [DOC_015]. While Airbus maintains a target to reach a production rate of 12 A350 aircraft per month by 2028 [DOC_003], the supply chain remains in a state of transition. Recent findings highlight new long-term agreements for landing gear machining and assembly [DOC_005] and the formation of a joint venture for component support [DOC_015]. However, specific evidence linking these developments to the resolution of previously reported cabin interior delays at Singapore Airlines [DOC_009] is currently absent. The monitoring scope successfully identified upstream manufacturing expansions but lacks granular data on cabin component lead times and specific interior bottleneck relief.",
+  "detailed_analytical_assessment": "The A350 program is characterized by aggressive ramp-up goals set against a backdrop of historical delivery volatility. Airbus delivered 25 A350s in the first half of 2026, compared to 57 for the full year of 2025 [DOC_003]. To support the goal of 12 aircraft per month by 2028, the supply chain is expanding its industrial footprint. A significant development is the October 2026 agreement between Safran and Aequs for the machining of superalloys and the assembly of landing gear components [DOC_005]. While this indicates a move to bolster landing gear capacity, the source does not explicitly state that this expansion is a response to existing bottlenecks or lifecycle heavy checks. Similarly, the October 2026 announcement of a joint venture for A350 component support [DOC_015] provides a framework for improved serviceability, though its impact on specific cabin interior components remains an analytical implication rather than a documented fact.\n\nA critical gap exists regarding the status of cabin interiors. While Singapore Airlines reported interior-related delays in May 2026 [DOC_009], subsequent documentation on the Safran/Aequs and Airbus joint ventures does not mention cabin-specific hardware like seats or galleys. Consequently, it is unclear if the industrial actions taken in late 2026 address the specific shortages affecting airline deliveries or if they are focused primarily on mechanical and structural components. The reliability of the production ramp-up depends on these unverified cabin segments. Management should prioritize verifying the production status of cabin integrators and seeking confirmation on whether the new joint venture [DOC_015] includes interior maintenance, repair, and overhaul (MRO) capabilities. Until lead time metrics for landing gear and cabin kits are secured, the risk of delivery delays persisting into 2027 remains an open question.",
+  "qa_audit_summary": "Editor text converted into typed recommendations; independent evidence QA remains authoritative. | Five-Dimensional Grounding (Technical, Claim, Causal, Independent Verification, Freshness) completed. | [Harness Guard]: 0/0 direct signals SUPPORTED, 0 PARTIALLY_SUPPORTED, 0 classified as ONGOING_ISSUE, 0 moved to RELATED_PROGRAM_WATCHLIST, 1 flagged for manual HITL verification. | Evidence disposition (not a filtering verdict): DOC_003=REFERENCED_BY_EVENT_NOT_KIQ; DOC_005=REFERENCED_BY_EVENT_NOT_KIQ; DOC_009=REFERENCED_BY_EVENT_NOT_KIQ; DOC_015=REFERENCED_BY_EVENT_NOT_KIQ | KIT_COMPLETION: NOT_ANSWERED; 2 of 2 information requirements remain unverified. | [Telemetry]: Run: RUN-20261126-092123-B7C69909043D | CollectionMode: agentic_exa | Runtime: 100.11s (Plan: 3.14s, Collect: 33.22s, Filter: 24.94s, Analyze: 25.12s, QA: 8.25s, Edit: 5.38s, Score: 0.0s) | Batches: 2/2 OK (0 failed) | Docs: 4/17 analyzed (0 failed) | LLM Calls: 9 (Retries: 0) | Model: openrouter/google/gemini-3-flash-preview | Estimated LLM Cost: $0.07581 (ESTIMATED)",
+  "hitl_status": "WAITING_FOR_HITL",
+  "threats": [
+    {
+      "event_id": "A350-LG-SUPPLY-EXPANSION-2026",
+      "kiq_ids": [
+        "RKIQ_001"
+      ],
+      "indicator_name": "Supplier capacity expansion signal",
+      "company_affected": "Safran Landing Systems",
+      "ci_dimension": "Strategic CI",
+      "risk_type": "SUPPLY_CHAIN",
+      "secondary_risk_types": [
+        "TECHNICAL_QUALITY"
+      ],
+      "scm_tier": "Tier 1 (Systems/Engines)",
+      "affected_component": "Landing gear components",
+      "affected_program": "Airbus A350",
+      "program_relevance": "PROGRAM_UNVERIFIED",
+      "hypothetical_dependencies": [
+        "A320neo",
+        "A321XLR",
+        "737 MAX",
+        "787",
+        "H145",
+        "H160"
+      ],
+      "supplier_registry_basis": "Company: Safran S.A. -> Role: Tier 1 (Systems/Engines) (Registry Source: Safran Universal Registration Document) || Source-Evidenced Component: Landing gear components || Source-Evidenced Program: Airbus A350",
+      "propagation_effect": "Just-in-Time (JIT) Disruption",
+      "impact_path": [
+        "[Evidenced Entity] Safran S.A. -> Role: Tier 1 (Systems/Engines)",
+        "[Source-Evidenced Component] Landing gear components",
+        "[Source-Evidenced Program] Airbus A350",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A320neo, A321XLR, 737 MAX",
+        "[Hypothetical Propagation Mechanism] Just-in-Time (JIT) Disruption"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Safran Landing Systems is expanding landing gear component production and MRO support via new agreements with Aequs and Lufthansa Technik to prepare for A350 fleet heavy checks.",
+      "decision_question": "Does the new Aequs agreement provide sufficient capacity to meet A350 production ramp-ups and 2027 heavy check requirements?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "Airbus and Safran are actively expanding their MRO and production supply chains through new joint ventures and precision machining partnerships to mitigate upcoming lifecycle bottlenecks.",
+      "hypothetical_scenario": "Hypothetical Just-in-Time (JIT) Disruption scenario affecting Safran S.A. (Tier 1 (Systems/Engines)) on source-evidenced program Airbus A350. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A320neo, A321XLR, 737 MAX)",
+      "fact_check_quote": "The awards cover the machining of superalloys parts, along with the supply of complex machining coating, and assembly of landing gear components for the Airbus",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_005",
+          "source_url": "https://www.aequs.com/aequs-announces-long-term-supply-agreements-with-safran-for-aerospace-applications/",
+          "source_type": "UNDETERMINED",
+          "passage_text": "The awards cover the machining of superalloys parts, along with the supply of complex machining coating, and assembly of landing gear components for the Airbus A320, A330, A350 and Boeing 787 programs.",
+          "passage_hash": "5e13c418756c7096a708182793063c8349eb43e995277e681ff00900f68fb0b9",
+          "supplied_hash_status": "MATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Aequs signed long-term supply agreements with Safran for A350 landing gear components.",
+          "document_id": "DOC_005",
+          "quote": "The awards cover the machining of superalloys parts, along with the supply of complex machining coating, and assembly of landing gear components for the Airbus A320, A330, A350 and Boeing 787 programs.",
+          "source_url": "https://www.aequs.com/aequs-announces-long-term-supply-agreements-with-safran-for-aerospace-applications/",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "ISSUER_OFFICIAL_STATEMENT",
+          "entity": "Aequs",
+          "program": "Airbus A350",
+          "component": "Landing gear components",
+          "issue": "Supplier capacity expansion",
+          "regulatory_authority": "",
+          "publication_date": "2026-10-16",
+          "event_date": "2026-10-12",
+          "cause": "Demand for landing gear components across A320, A330, A350 programs.",
+          "effect": "Support Safran supply chain and ongoing production.",
+          "status_before": "Unknown",
+          "status_after": "New long-term supply agreement in place",
+          "resolution_outcome": "Agreement signed",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "Safran and Lufthansa Technik signed a 10-year agreement for A350 gear repair and spare parts.",
+          "document_id": "DOC_003",
+          "quote": "Safran Landing Systems and Lufthansa Technik (LHT) have signed a 10-year Support and Services Agreement, which covers the supply of certified spare parts",
+          "source_url": "https://aviationweek.com/mro/aircraft-propulsion/lufthansa-technik-smooths-path-a350-gear-repairs",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Safran Landing Systems",
+          "program": "Airbus A350",
+          "component": "Landing gear",
+          "issue": "MRO support preparation",
+          "regulatory_authority": "",
+          "publication_date": "2026-07-24",
+          "event_date": "2026-07-24",
+          "cause": "A350 platform approaching first round of heavy checks in 2027.",
+          "effect": "Smooth path for A350 gear repairs.",
+          "status_before": "Preparation for heavy checks",
+          "status_after": "10-year support agreement active",
+          "resolution_outcome": "Agreement signed",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_005",
+        "DOC_003"
+      ],
+      "source_urls": [
+        "https://www.aequs.com/aequs-announces-long-term-supply-agreements-with-safran-for-aerospace-applications/",
+        "https://aviationweek.com/mro/aircraft-propulsion/lufthansa-technik-smooths-path-a350-gear-repairs"
+      ],
+      "verification_status": "SUPPORTED SOURCE; DIRECT KIT RELEVANCE UNVERIFIED (EVENT_DATE_UNKNOWN) [KIT_FACT_GAP: VARIANT=UNKNOWN]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "CORROBORATED_INDEPENDENTLY",
+      "event_freshness": "EVENT_DATE_UNKNOWN",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "CORROBORATED_INDEPENDENTLY (2 non-syndicated source(s))",
+        "5. Event Freshness": "EVENT_DATE_UNKNOWN",
+        "Program Relevance Scope": "PROGRAM_UNVERIFIED",
+        "Source-Evidenced Program": "Airbus A350",
+        "Hypothetical Shared Dependencies": "A320neo, A321XLR, 737 MAX, 787, H145, H160",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=UNKNOWN, COMPONENT=POSITIVE, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-10-16",
+        "event_date": "2026-10-12",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "6/10 (potential impact, not verification)",
+        "Confidence": "HIGH",
+        "Verification": "SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "PRODUCTION",
+        "Chronology As Of": "2026-11-26",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-10-16",
+      "first_seen_at": "2026-11-26T09:23:03Z",
+      "last_seen_at": "2026-11-26T09:23:03Z",
+      "updated_at": "2026-11-26T09:23:03Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://www.aequs.com/aequs-announces-long-term-supply-agreements-with-safran-for-aerospace-applications/",
+      "missing_data": "Lead time metrics for landing gear are not stated in sources.",
+      "intelligence_gap": {
+        "gap_id": "GAP_A350_LG_LEADTIME",
+        "what_is_missing": "Current production lead time for A350 landing gear assemblies from Safran.",
+        "why_important": "Critical to determining if expansion mitigates current or future bottlenecks.",
+        "affected_kiq_id": "KIQ_1_1",
+        "recommended_source": "Safran Landing Systems Investor Relations",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Industrial capacity constraints at Tier 1/2 landing gear suppliers could lead to JIT assembly delays if new precision machining partners fail to reach qualified output rates.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 2,
+          "rationale": "Expansion is proactive; disruption impact is currently theoretical."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Safran is a primary provider for A350 gear systems."
+        },
+        "substitutability_difficulty": {
+          "score": 4,
+          "rationale": "Complex machining of superalloys requires specialized certified facilities."
+        },
+        "propagation_scope": {
+          "score": 3,
+          "rationale": "Landing gear is critical; delays affect final deliveries."
+        },
+        "temporal_urgency": {
+          "score": 2,
+          "rationale": "Agreements active; heavy checks begin in 2027."
+        }
+      },
+      "threat_score": 6,
+      "score_rationale": "Potential severity: ELEVATED (6/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "HIGH",
+      "urgency": "LOW",
+      "escalation_level": "ROUTINE_MONITORING",
+      "is_critical": false
+    },
+    {
+      "event_id": "A350-ALPHA-JV-2026",
+      "kiq_ids": [],
+      "indicator_name": "Structural SCM improvement signal",
+      "company_affected": "Airbus",
+      "ci_dimension": "Strategic CI",
+      "risk_type": "SUPPLY_CHAIN",
+      "secondary_risk_types": [
+        "COMPETITIVE"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "A350",
+      "program_relevance": "PROGRAM_UNVERIFIED",
+      "hypothetical_dependencies": [
+        "A320neo",
+        "A321neo",
+        "A321XLR",
+        "A350F",
+        "A220",
+        "A330neo",
+        "A380",
+        "A400M",
+        "H145",
+        "H160"
+      ],
+      "supplier_registry_basis": "Company: Airbus SE -> Role: OEM (Final Assembler) (Registry Source: Airbus Annual Report / Official Registry) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: A350",
+      "propagation_effect": "Spillover Effect (Crisis Contagion)",
+      "impact_path": [
+        "[Evidenced Entity] Airbus SE -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] A350",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A320neo, A321neo, A321XLR",
+        "[Hypothetical Propagation Mechanism] Spillover Effect (Crisis Contagion)"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Airbus has launched Alpha Component Solutions, a joint venture with Air France-KLM, to manage a global shared-access pool for A350 components and repairs.",
+      "decision_question": "Which specific cabin components will the Alpha Component Solutions pool prioritize to resolve existing A350 delivery delays?",
+      "confirmed_facts": "Airbus has established ‘Alpha Component Solutions’, a 50-50 joint venture with Air France, dedicated to A350 component support.",
+      "analytical_interpretation": "The formation of 'Alpha Component Solutions' is a structural move to centralize A350 component management, potentially addressing persistent interior and parts availability issues.",
+      "hypothetical_scenario": "Hypothetical Spillover Effect (Crisis Contagion) scenario affecting Airbus SE (OEM (Final Assembler)) on source-evidenced program A350. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A320neo, A321neo, A321XLR)",
+      "fact_check_quote": "Airbus has established ‘Alpha Component Solutions’, a 50-50 joint venture with Air France, dedicated to A350 component support.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_015",
+          "source_url": "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-and-air-france-klm-operated-joint-venture-for-a350-component-support-finalised",
+          "source_type": "UNDETERMINED",
+          "passage_text": "Airbus has established ‘Alpha Component Solutions’, a 50-50 joint venture with Air France, dedicated to A350 component support. The new entity will be operated jointly between Airbus and Air France-KLM to manage a worldwide shared-access pool, providing aircraft component assets, maintenance services, supply chain management and repairs for global A350 customers.",
+          "passage_hash": "00e97c042ac431fc284347e27c3f984d2c62b0b8bb8eb98336185de79c07d212",
+          "supplied_hash_status": "MATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Airbus finalized a 50-50 joint venture with Air France for A350 component support.",
+          "document_id": "DOC_015",
+          "quote": "Airbus has established ‘Alpha Component Solutions’, a 50-50 joint venture with Air France, dedicated to A350 component support.",
+          "source_url": "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-and-air-france-klm-operated-joint-venture-for-a350-component-support-finalised",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "ISSUER_OFFICIAL_STATEMENT",
+          "entity": "Airbus",
+          "program": "Airbus A350 family",
+          "component": "Aircraft component assets",
+          "issue": "Supply chain management and repairs",
+          "regulatory_authority": "",
+          "publication_date": "2026-10-27",
+          "event_date": "2026-10-28",
+          "cause": "Need for streamlined lifecycle maintenance and higher component reliability.",
+          "effect": "Manage a worldwide shared-access pool for repairs and SCM.",
+          "status_before": "Separate component support services",
+          "status_after": "Joint Venture operational",
+          "resolution_outcome": "Joint venture finalized",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_015"
+      ],
+      "source_urls": [
+        "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-and-air-france-klm-operated-joint-venture-for-a350-component-support-finalised"
+      ],
+      "verification_status": "SUPPORTED SOURCE; DIRECT KIT RELEVANCE UNVERIFIED (EVENT_DATE_UNKNOWN) [Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified. | All constraining technical facets of the KIT (aircraft program and/or specific propulsion/component scope) could not be simultaneously verified from event evidence. Direct KIT relevance remains unconfirmed. | KIT_FACT_GAP: COMPONENT=UNKNOWN]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "SINGLE_PRIMARY_SOURCE",
+      "event_freshness": "EVENT_DATE_UNKNOWN",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "SINGLE_PRIMARY_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "EVENT_DATE_UNKNOWN",
+        "Program Relevance Scope": "PROGRAM_UNVERIFIED",
+        "Source-Evidenced Program": "A350",
+        "Hypothetical Shared Dependencies": "A320neo, A321neo, A321XLR, A350F, A220, A330neo, A380, A400M, H145, H160",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "OEM_OFFICIAL_RELEASE",
+        "Claim Authority": "ISSUER_REPORTED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=POSITIVE, COMPONENT=UNKNOWN, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-10-27",
+        "event_date": "2026-10-28",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "6/10 (potential impact, not verification)",
+        "Confidence": "HIGH",
+        "Verification": "SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "SUPPLY_CHAIN",
+        "Chronology As Of": "2026-11-26",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-10-27",
+      "first_seen_at": "2026-11-26T09:23:03Z",
+      "last_seen_at": "2026-11-26T09:23:03Z",
+      "updated_at": "2026-11-26T09:23:03Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-and-air-france-klm-operated-joint-venture-for-a350-component-support-finalised",
+      "missing_data": "Specific cabin component names (e.g., seats, galleys) are missing.",
+      "intelligence_gap": {
+        "gap_id": "GAP_A350_CABIN_COMPONENTS",
+        "what_is_missing": "Specific cabin interior components identified as primary constraints.",
+        "why_important": "Sources mention 'component assets' generally but lack granularity on specific cabin bottlenecks.",
+        "affected_kiq_id": "KIQ_1_2",
+        "recommended_source": "Airbus Earnings Call Q3 2026 Transcript",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "If cabin component reliability fails to meet expectations under the new joint venture, Airbus may face continued delivery delays due to cabin interior shortages.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 2,
+          "rationale": "Aimed at streamlining global A350 support ecosystem."
+        },
+        "supplier_criticality": {
+          "score": 4,
+          "rationale": "OEM-backed JV centralizes component availability."
+        },
+        "substitutability_difficulty": {
+          "score": 4,
+          "rationale": "A350-specific components have limited certified third-party sources."
+        },
+        "propagation_scope": {
+          "score": 3,
+          "rationale": "Affects global A350 customer pool and MRO."
+        },
+        "temporal_urgency": {
+          "score": 2,
+          "rationale": "Newly established; effectiveness is yet to be proven."
+        }
+      },
+      "threat_score": 6,
+      "score_rationale": "Potential severity: ELEVATED (6/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "HIGH",
+      "urgency": "LOW",
+      "escalation_level": "ROUTINE_MONITORING",
+      "is_critical": false
+    },
+    {
+      "event_id": "SIA-A350-INTERIOR-DELAY-2026-05-06",
+      "kiq_ids": [],
+      "indicator_name": "Aviation intelligence warning indicator",
+      "company_affected": "Singapore Airlines",
+      "ci_dimension": "Tactical CI",
+      "risk_type": "SUPPLY_CHAIN",
+      "secondary_risk_types": [
+        "REGULATORY",
+        "COMPETITIVE"
+      ],
+      "scm_tier": "Regulator / Airline",
+      "affected_component": "First and Business Class seats",
+      "affected_program": "Airbus A350-900 / A350-900ULR",
+      "program_relevance": "PROGRAM_UNVERIFIED",
+      "hypothetical_dependencies": [],
+      "supplier_registry_basis": "Company/Authority: Singapore Airlines -> Role: Regulator / Airline || Source-Evidenced Component: First and Business Class seats || Source-Evidenced Program: Airbus A350-900 / A350-900ULR",
+      "propagation_effect": "Just-in-Time (JIT) Disruption",
+      "impact_path": [
+        "[Evidenced Entity] Singapore Airlines -> Role: Regulator / Airline",
+        "[Source-Evidenced Component] First and Business Class seats",
+        "[Source-Evidenced Program] Airbus A350-900 / A350-900ULR",
+        "[Hypothetical Propagation Mechanism] Just-in-Time (JIT) Disruption"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Source excerpt: The revised timeline reflects industry-wide supply chain constraints, as well as a delay in the certification of one of the new seats. Claimed operational impacts require verification.",
+      "decision_question": "Which specific Tier 2 seat manufacturer is failing certification, and does this impact other A350 customers or just SIA's bespoke configuration?",
+      "confirmed_facts": "Source statement (event not fully verified): The revised timeline reflects industry-wide supply chain constraints, as well as a delay in the certification of one of the new seats",
+      "analytical_interpretation": "The rollout delay highlights persistent fragility in the premium cabin interior supply chain, where bespoke products face certification hurdles. A 9-month shift (Q2 2026 to Q1 2027) indicates the issues are deep-seated rather than transient.",
+      "hypothetical_scenario": "Hypothetical Just-in-Time (JIT) Disruption scenario affecting Singapore Airlines (Regulator / Airline) on source-evidenced program Airbus A350-900 / A350-900ULR.",
+      "fact_check_quote": "The revised timeline reflects industry-wide supply chain constraints, as well as a delay in the certification of one of the new seats",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_009",
+          "source_url": "https://www.channelnewsasia.com/singapore/singapore-airlines-sia-a350-900-airbus-first-business-class-seats-delayed-6102836",
+          "source_type": "SECONDARY_MEDIA_REPORT",
+          "passage_text": "350-900 aircraft are expected to enter service in the first quarter of 2027 instead of the second quarter of 2026. \"The revised timeline reflects industry-wide supply chain constraints, as well as a delay in the certification of one of the new seats,\" SIA's spokesperson said on Wednesday (May 6) in response to CNA's queries.",
+          "passage_hash": "92cd6099cd499f77c032ca333b312606a8b03f978c7938c622dc0921fb9cb3b7",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "SIA delays rollout of new first, business class seats on Airbus A350 amid supply chain constraints",
+          "document_id": "DOC_009",
+          "quote": "SIA delays rollout of new first, business class seats on Airbus A350 amid supply chain constraints",
+          "source_url": "https://www.channelnewsasia.com/singapore/singapore-airlines-sia-a350-900-airbus-first-business-class-seats-delayed-6102836",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Singapore Airlines",
+          "program": "Airbus A350-900",
+          "component": "First and Business Class seats",
+          "issue": "Supply chain constraints and seat certification delay",
+          "regulatory_authority": "Unknown",
+          "publication_date": "2026-05-06",
+          "event_date": "2026-05-06",
+          "cause": "",
+          "effect": "Rollout delayed to Q1 2027",
+          "status_before": "Q2 2026 entry-into-service",
+          "status_after": "Q1 2027 entry-into-service",
+          "resolution_outcome": "Rollout rescheduled to Q1 2027",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "The revised timeline reflects industry-wide supply chain constraints, as well as a delay in the certification of one of the new seats",
+          "document_id": "DOC_009",
+          "quote": "The revised timeline reflects industry-wide supply chain constraints, as well as a delay in the certification of one of the new seats",
+          "source_url": "https://www.channelnewsasia.com/singapore/singapore-airlines-sia-a350-900-airbus-first-business-class-seats-delayed-6102836",
+          "claim_type": "CAUSE",
+          "evidence_authority": "ISSUER_OFFICIAL_STATEMENT",
+          "entity": "Singapore Airlines",
+          "program": "Airbus A350-900ULR",
+          "component": "New seats",
+          "issue": "Certification delay of new seats",
+          "regulatory_authority": "Unknown",
+          "publication_date": "2026-05-06",
+          "event_date": "2026-05-06",
+          "cause": "",
+          "effect": "Timeline revision",
+          "status_before": "On track",
+          "status_after": "Delayed",
+          "resolution_outcome": "Ongoing issue",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_009"
+      ],
+      "source_urls": [
+        "https://www.channelnewsasia.com/singapore/singapore-airlines-sia-a350-900-airbus-first-business-class-seats-delayed-6102836"
+      ],
+      "verification_status": "PARTIALLY SUPPORTED (HISTORICAL_CONTEXT | Manual Review Required) [CAUSAL_LINK_NOT_EXPLICIT_IN_CITED_PASSAGE: downstream causality is not verified | Unverified causal interpretation cannot be included among confirmed facts. | Source published 204 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source) | All constraining technical facets of the KIT (aircraft program and/or specific propulsion/component scope) could not be simultaneously verified from event evidence. Direct KIT relevance remains unconfirmed. | KIT_FACT_GAP: COMPONENT=UNKNOWN | Unverified cause removed from confirmed facts; source wording retained only as a quotation]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "PARTIALLY_STATED_IN_SOURCE",
+      "causal_support_status": "UNSUPPORTED",
+      "independent_verification_status": "SINGLE_SECONDARY_SOURCE",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "PARTIALLY_STATED_IN_SOURCE",
+        "3. Causal Support": "HYPOTHETICAL_ONLY",
+        "4. Independent Verification": "SINGLE_SECONDARY_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "PROGRAM_UNVERIFIED",
+        "Source-Evidenced Program": "Airbus A350-900 / A350-900ULR",
+        "Hypothetical Shared Dependencies": "None",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=NOT_REQUIRED, VARIANT=POSITIVE, COMPONENT=UNKNOWN, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-05-06",
+        "event_date": "2026-05-06",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "8/10 (potential impact, not verification)",
+        "Confidence": "LOW",
+        "Verification": "PARTIALLY_SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "CURRENT_STATUS_UNKNOWN",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-26",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-05-06",
+      "first_seen_at": "2026-11-26T09:23:03Z",
+      "last_seen_at": "2026-11-26T09:23:03Z",
+      "updated_at": "2026-11-26T09:23:03Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://www.channelnewsasia.com/singapore/singapore-airlines-sia-a350-900-airbus-first-business-class-seats-delayed-6102836",
+      "missing_data": "Landing gear assembly production status from Safran Landing Systems is not mentioned in DOC_009.",
+      "intelligence_gap": {
+        "gap_id": "GAP_SIA_SEAT_SUPPLIER",
+        "what_is_missing": "Identity of the seat manufacturer responsible for the certification delay.",
+        "why_important": "Determining if this is a supplier-specific failure or an Airbus-wide interior integration issue.",
+        "affected_kiq_id": "KIQ_1_2",
+        "recommended_source": "Airbus / SIA Press Office",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Supply chain bottlenecks in high-margin cabin segments (First/Business) create a competitive disadvantage for premium carriers. Late-stage seat certification issues prevent entry-into-service, forcing operators to defer fleet modernization. This exposes Airbus to late-delivery penalties and allows competitors with stable interior suppliers to capture market share in long-haul routes.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 4,
+          "rationale": "9-month delay on a S$1.1 billion retrofit program across 41 aircraft."
+        },
+        "supplier_criticality": {
+          "score": 4,
+          "rationale": "Premium seats are essential for ULR and long-haul aircraft service entry."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "Custom seats are bespoke and designed from the ground up, making substitution difficult."
+        },
+        "propagation_scope": {
+          "score": 3,
+          "rationale": "Specifically cited as industry-wide supply chain constraints."
+        },
+        "temporal_urgency": {
+          "score": 4,
+          "rationale": "Rollout target shifted from 2026 to early 2027; disruption is active."
+        }
+      },
+      "threat_score": 8,
+      "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (8/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+      "confidence_level": "LOW",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    }
+  ],
+  "threat_reports": [
+    {
+      "threat_id": "A350-LG-SUPPLY-EXPANSION-2026",
+      "event_title": "Safran Landing Systems is expanding landing gear component production and MRO support via new agreements with Aequs and Lufthansa Technik to prepare for A350 fleet heavy checks.",
+      "category": "SUPPLY_CHAIN",
+      "affected_entity": "Safran Landing Systems",
+      "threat_score": 6,
+      "source_url": "https://www.aequs.com/aequs-announces-long-term-supply-agreements-with-safran-for-aerospace-applications/",
+      "timestamp": "2026-10-16",
+      "mitigation_advice": "Verify the specific reported event and its applicability to the monitored KIT for Safran Landing Systems (Airbus A350), event A350-LG-SUPPLY-EXPANSION-2026.",
+      "confidence_level": "HIGH",
+      "validation_status": "SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "A350-ALPHA-JV-2026",
+      "event_title": "Airbus has launched Alpha Component Solutions, a joint venture with Air France-KLM, to manage a global shared-access pool for A350 components and repairs.",
+      "category": "SUPPLY_CHAIN",
+      "affected_entity": "Airbus",
+      "threat_score": 6,
+      "source_url": "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-and-air-france-klm-operated-joint-venture-for-a350-component-support-finalised",
+      "timestamp": "2026-10-27",
+      "mitigation_advice": "Verify the specific reported event and its applicability to the monitored KIT for Airbus (A350), event A350-ALPHA-JV-2026.",
+      "confidence_level": "HIGH",
+      "validation_status": "SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "SIA-A350-INTERIOR-DELAY-2026-05-06",
+      "event_title": "Source excerpt: The revised timeline reflects industry-wide supply chain constraints, as well as a delay in the certification of one of the new seats. Claimed operational impacts require verification.",
+      "category": "SUPPLY_CHAIN",
+      "affected_entity": "Singapore Airlines",
+      "threat_score": 8,
+      "source_url": "https://www.channelnewsasia.com/singapore/singapore-airlines-sia-a350-900-airbus-first-business-class-seats-delayed-6102836",
+      "timestamp": "2026-05-06",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "LOW",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    }
+  ],
+  "related_program_watchlist": [],
+  "action_plan": [
+    {
+      "action_id": "ACT_83ABBEE8",
+      "related_event_ids": [
+        "A350-LG-SUPPLY-EXPANSION-2026"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Safran Landing Systems"
+      ],
+      "action": "Verify the specific reported event and its applicability to the monitored KIT for Safran Landing Systems (Airbus A350), event A350-LG-SUPPLY-EXPANSION-2026.",
+      "rationale": "The available evidence does not establish direct applicability to the monitored KIT.",
+      "pros_and_cons": "PRO: Avoids off-topic operations; CON: Requires evidence review",
+      "triple_a_impact": "Alignment",
+      "uncertainty_assumptions": "Direct operational, regulatory or supply-chain impact remains unconfirmed.",
+      "owner": "Supply Chain Risk Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Document verified KIT relevance using traceable source evidence.",
+      "priority": "MEDIUM",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-26T09:23:03Z"
+    },
+    {
+      "action_id": "ACT_DD3385D3",
+      "related_event_ids": [
+        "A350-ALPHA-JV-2026"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Airbus"
+      ],
+      "action": "Verify the specific reported event and its applicability to the monitored KIT for Airbus (A350), event A350-ALPHA-JV-2026.",
+      "rationale": "The available evidence does not establish direct applicability to the monitored KIT.",
+      "pros_and_cons": "PRO: Avoids off-topic operations; CON: Requires evidence review",
+      "triple_a_impact": "Adaptability",
+      "uncertainty_assumptions": "Direct operational, regulatory or supply-chain impact remains unconfirmed.",
+      "owner": "Supply Chain Risk Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Document verified KIT relevance using traceable source evidence.",
+      "priority": "MEDIUM",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-26T09:23:03Z"
+    }
+  ],
+  "kiq_answers": [
+    {
+      "kiq_id": "RKIQ_001",
+      "question": "What is the current production status and lead time for Airbus A350 landing gear assemblies from Safran Landing Systems?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "PARTIAL",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "Reviewed sources address part of this question, while specific verification items remain open. A validated source record notes that “The awards cover the machining of superalloys parts, along with the supply of complex machining coating, and assembly of landing gear components for the Airbus” [DOC_003]. A secondary media report on 2026-07-24 notes that “This week, Airbus reiterated to investors that it aims to raise A350 production to 12 aircraft per month in 2028, more than double current levels, and possibly go beyond 12 in subsequent years to tap into growing demand…” [DOC_003]. A secondary media report on 2026-10-16 notes that “Bengaluru, 12 October 2026: Aequs, a leading India-based precision manufacturing company, today announced the signing of long-term supply agreements with Safran, a global leader in the aerospace industry for critical…” [DOC_005]. Still needed for a complete answer: demonstrated impact on production or capacity, latest dated, issue-specific status. Based on 2 relevant document(s) (DOC_003, DOC_005) out of 4 evaluated.",
+      "related_event_ids": [
+        "A350-LG-SUPPLY-EXPANSION-2026"
+      ],
+      "evidence_ids": [
+        "DOC_003",
+        "DOC_005"
+      ],
+      "retrieved_evidence_count": 2,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [
+        "DOC_003",
+        "DOC_005"
+      ],
+      "unused_document_reasons": {
+        "DOC_009": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_015": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_001_REQ_01",
+          "key": "PRODUCTION_IMPACT",
+          "required_fact": "Demonstrated impact on production or capacity",
+          "evidence_type": "PRODUCTION_OUTCOME",
+          "required_entity_model": "A350, Airbus, Safran",
+          "required_component": "",
+          "verification_status": "PRELIMINARY",
+          "doc_ids": [
+            "DOC_003",
+            "DOC_005"
+          ],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [
+            "DOC_003",
+            "DOC_005"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_003",
+              "claim": "This week, Airbus reiterated to investors that it aims to raise A350 production to 12 aircraft per month in 2028, more than double current levels, and possibly go beyond 12 in subsequent years to tap into growing demand for widebody aircraft.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "This week, Airbus reiterated to investors that it aims to raise A350 production to 12 aircraft per month in 2028, more than double current levels, and possibly go beyond 12 in subsequent years to tap into growing demand for widebody aircraft.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PRELIMINARY",
+              "publication_date": "2026-07-24",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://aviationweek.com/mro/aircraft-propulsion/lufthansa-technik-smooths-path-a350-gear-repairs",
+              "source_hash": "",
+              "passage_hash": "b3d412cded43a423baf25a40f7aa608b8ff0b15d72b34c7b51a48a314ac6946f",
+              "verification_reason": "SOURCE_VALIDATION_PENDING",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_005",
+              "claim": "Bengaluru, 12 October 2026: Aequs, a leading India-based precision manufacturing company, today announced the signing of long-term supply agreements with Safran, a global leader in the aerospace industry for critical components.",
+              "claim_id": "DOC_005:C02",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "Bengaluru, 12 October 2026: Aequs, a leading India-based precision manufacturing company, today announced the signing of long-term supply agreements with Safran, a global leader in the aerospace industry for critical components.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "https://www.aequs.com/aequs-announces-long-term-supply-agreements-with-safran-for-aerospace-applications/",
+              "extraction_method": "FR03_SEMANTIC_QUOTATION",
+              "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+              "publication_date": "2026-10-16",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://www.aequs.com/aequs-announces-long-term-supply-agreements-with-safran-for-aerospace-applications/",
+              "source_hash": "",
+              "passage_hash": "38a097cdeca2e81e25b63073ee33018b3b1161058af9fb013898d2b29d5b3c2d",
+              "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+              "claim_type": "DIRECT_ISSUE",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_005",
+              "claim": "The awards cover the machining of superalloys parts, along with the supply of complex machining coating, and assembly of landing gear components for the Airbus A320, A330, A350 and Boeing 787 programs.",
+              "claim_id": "DOC_005:C04",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "The awards cover the machining of superalloys parts, along with the supply of complex machining coating, and assembly of landing gear components for the Airbus A320, A330, A350 and Boeing 787 programs.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "https://www.aequs.com/aequs-announces-long-term-supply-agreements-with-safran-for-aerospace-applications/",
+              "extraction_method": "FR03_SEMANTIC_QUOTATION",
+              "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+              "publication_date": "2026-10-16",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://www.aequs.com/aequs-announces-long-term-supply-agreements-with-safran-for-aerospace-applications/",
+              "source_hash": "",
+              "passage_hash": "5e13c418756c7096a708182793063c8349eb43e995277e681ff00900f68fb0b9",
+              "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+              "claim_type": "DIRECT_ISSUE",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": [
+            "Independent confirmation of the preliminary claim"
+          ]
+        },
+        {
+          "id": "RKIQ_001_REQ_02",
+          "key": "CURRENT_STATUS",
+          "required_fact": "Latest dated, issue-specific status",
+          "evidence_type": "DATED_STATUS",
+          "required_entity_model": "A350, Airbus, Safran",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Latest dated, issue-specific status"
+          ]
+        }
+      ],
+      "claim_requirement_links": [
+        {
+          "claim_id": "",
+          "doc_id": "DOC_003",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "PRODUCTION_IMPACT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "DOC_005:C02",
+          "doc_id": "DOC_005",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "PRODUCTION_IMPACT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "DOC_005:C04",
+          "doc_id": "DOC_005",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "PRODUCTION_IMPACT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        }
+      ],
+      "claim_handoff_rejections": {
+        "DOC_003": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_009": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_015": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "source_execution_status": "RESULTS_RETRIEVED",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "PRODUCTION_IMPACT",
+          "doc_id": "DOC_003",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://aviationweek.com/mro/aircraft-propulsion/lufthansa-technik-smooths-path-a350-gear-repairs",
+          "original_filing_url": "",
+          "quote": "This week, Airbus reiterated to investors that it aims to raise A350 production to 12 aircraft per month in 2028, more than double current levels, and possibly go beyond 12 in subsequent years to tap into growing demand for widebody aircraft.",
+          "source_hash": "",
+          "passage_hash": "b3d412cded43a423baf25a40f7aa608b8ff0b15d72b34c7b51a48a314ac6946f",
+          "extraction_method": "",
+          "passage_validation_status": "PRELIMINARY",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "SOURCE_VALIDATION_PENDING",
+          "publication_date": "2026-07-24",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "PRODUCTION_IMPACT",
+          "doc_id": "DOC_005",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.aequs.com/aequs-announces-long-term-supply-agreements-with-safran-for-aerospace-applications/",
+          "original_filing_url": "https://www.aequs.com/aequs-announces-long-term-supply-agreements-with-safran-for-aerospace-applications/",
+          "quote": "Bengaluru, 12 October 2026: Aequs, a leading India-based precision manufacturing company, today announced the signing of long-term supply agreements with Safran, a global leader in the aerospace industry for critical components.",
+          "source_hash": "",
+          "passage_hash": "38a097cdeca2e81e25b63073ee33018b3b1161058af9fb013898d2b29d5b3c2d",
+          "extraction_method": "FR03_SEMANTIC_QUOTATION",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "DIRECT_ISSUE",
+          "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+          "publication_date": "2026-10-16",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "PRODUCTION_IMPACT",
+          "doc_id": "DOC_005",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.aequs.com/aequs-announces-long-term-supply-agreements-with-safran-for-aerospace-applications/",
+          "original_filing_url": "https://www.aequs.com/aequs-announces-long-term-supply-agreements-with-safran-for-aerospace-applications/",
+          "quote": "The awards cover the machining of superalloys parts, along with the supply of complex machining coating, and assembly of landing gear components for the Airbus A320, A330, A350 and Boeing 787 programs.",
+          "source_hash": "",
+          "passage_hash": "5e13c418756c7096a708182793063c8349eb43e995277e681ff00900f68fb0b9",
+          "extraction_method": "FR03_SEMANTIC_QUOTATION",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "DIRECT_ISSUE",
+          "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+          "publication_date": "2026-10-16",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        }
+      ],
+      "verification_status": "Verified 0/2 atomic facts; RESULTS_RETRIEVED",
+      "uncertainty_level": "HIGH",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Demonstrated impact on production or capacity, Latest dated, issue-specific status",
+      "missing_information": "Demonstrated impact on production or capacity: Independent confirmation of the preliminary claim; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status"
+    },
+    {
+      "kiq_id": "RKIQ_002",
+      "question": "Which specific cabin interior components are currently identified by Airbus as primary constraints for A350 delivery schedules?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "PARTIAL",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "Reviewed sources address part of this question, while specific verification items remain open. A secondary media report on 2026-07-24 notes that “In the first six months of this year, Airbus delivered 25 A350s, while in full-year 2025 it had delivered 57.” [DOC_003]. Still needed for a complete answer: demonstrated impact on customer deliveries, latest dated, issue-specific status. Based on 1 relevant document(s) (DOC_003) out of 4 evaluated.",
+      "related_event_ids": [],
+      "evidence_ids": [
+        "DOC_003"
+      ],
+      "retrieved_evidence_count": 2,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [
+        "DOC_003",
+        "DOC_015"
+      ],
+      "unused_document_reasons": {
+        "DOC_005": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_009": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_015": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_002_REQ_01",
+          "key": "DELIVERY_IMPACT",
+          "required_fact": "Demonstrated impact on customer deliveries",
+          "evidence_type": "DELIVERY_OUTCOME",
+          "required_entity_model": "A350, Airbus",
+          "required_component": "",
+          "verification_status": "PRELIMINARY",
+          "doc_ids": [
+            "DOC_003"
+          ],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [
+            "DOC_003"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_003",
+              "claim": "In the first six months of this year, Airbus delivered 25 A350s, while in full-year 2025 it had delivered 57.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_002",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "In the first six months of this year, Airbus delivered 25 A350s, while in full-year 2025 it had delivered 57.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PRELIMINARY",
+              "publication_date": "2026-07-24",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://aviationweek.com/mro/aircraft-propulsion/lufthansa-technik-smooths-path-a350-gear-repairs",
+              "source_hash": "",
+              "passage_hash": "b3d412cded43a423baf25a40f7aa608b8ff0b15d72b34c7b51a48a314ac6946f",
+              "verification_reason": "SOURCE_VALIDATION_PENDING",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": [
+            "Independent confirmation of the preliminary claim"
+          ]
+        },
+        {
+          "id": "RKIQ_002_REQ_02",
+          "key": "CURRENT_STATUS",
+          "required_fact": "Latest dated, issue-specific status",
+          "evidence_type": "DATED_STATUS",
+          "required_entity_model": "A350, Airbus",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Latest dated, issue-specific status"
+          ]
+        }
+      ],
+      "claim_requirement_links": [
+        {
+          "claim_id": "",
+          "doc_id": "DOC_003",
+          "requirement_id": "RKIQ_002_REQ_01",
+          "requirement_key": "DELIVERY_IMPACT",
+          "rkiq_id": "RKIQ_002",
+          "strength": "PRELIMINARY"
+        }
+      ],
+      "claim_handoff_rejections": {
+        "DOC_003": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_005": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_009": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_015": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "source_execution_status": "RESULTS_RETRIEVED",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [
+        {
+          "kiq_id": "RKIQ_002",
+          "kit_id": "",
+          "requirement_id": "RKIQ_002_REQ_01",
+          "requirement_key": "DELIVERY_IMPACT",
+          "doc_id": "DOC_003",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://aviationweek.com/mro/aircraft-propulsion/lufthansa-technik-smooths-path-a350-gear-repairs",
+          "original_filing_url": "",
+          "quote": "In the first six months of this year, Airbus delivered 25 A350s, while in full-year 2025 it had delivered 57.",
+          "source_hash": "",
+          "passage_hash": "b3d412cded43a423baf25a40f7aa608b8ff0b15d72b34c7b51a48a314ac6946f",
+          "extraction_method": "",
+          "passage_validation_status": "PRELIMINARY",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "SOURCE_VALIDATION_PENDING",
+          "publication_date": "2026-07-24",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        }
+      ],
+      "verification_status": "Verified 0/2 atomic facts; RESULTS_RETRIEVED",
+      "uncertainty_level": "HIGH",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Demonstrated impact on customer deliveries, Latest dated, issue-specific status",
+      "missing_information": "Demonstrated impact on customer deliveries: Independent confirmation of the preliminary claim; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status"
+    }
+  ],
+  "run_metadata": {
+    "run_id": "RUN-20261126-092123-B7C69909043D",
+    "report_id": "RPT-20261126-EC45A6",
+    "started_at": "2026-11-26T09:21:23Z",
+    "completed_at": "2026-11-26T09:23:03Z",
+    "run_date_utc": "2026-11-26",
+    "analysis_reference_date": "2026-11-26",
+    "reference_date_mode": "EXECUTION_DATE",
+    "collection_window_start_utc": "2025-11-26T09:21:23Z",
+    "collection_window_end_utc": "2026-11-26T09:21:23Z",
+    "status": "completed",
+    "outcome_status": "PARTIAL_SUCCESS",
+    "processing_status": "COMPLETED",
+    "evidence_completeness_status": "INSUFFICIENT",
+    "kiq_completion_status": "NOT_ANSWERED",
+    "kiqs_fully_answered": 0,
+    "kiqs_missing_specific_evidence": 2,
+    "kit_completion_audit": {
+      "as_of_date": "2026-11-26",
+      "questions": [
+        {
+          "kiq_id": "RKIQ_001",
+          "question": "What is the current production status and lead time for Airbus A350 landing gear assemblies from Safran Landing Systems?",
+          "answer_status": "PARTIALLY_ANSWERED",
+          "content_result": "STATUS_UNKNOWN",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "PRODUCTION_IMPACT",
+              "missing_information": [
+                "Independent confirmation of the preliminary claim"
+              ]
+            },
+            {
+              "key": "CURRENT_STATUS",
+              "missing_information": [
+                "Verified source passage for: Latest dated, issue-specific status"
+              ]
+            }
+          ],
+          "missing_information": "Demonstrated impact on production or capacity: Independent confirmation of the preliminary claim; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status",
+          "source_execution_status": "RESULTS_RETRIEVED",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 0,
+          "latest_evidence_date": "2026-10-16",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        },
+        {
+          "kiq_id": "RKIQ_002",
+          "question": "Which specific cabin interior components are currently identified by Airbus as primary constraints for A350 delivery schedules?",
+          "answer_status": "PARTIALLY_ANSWERED",
+          "content_result": "STATUS_UNKNOWN",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "DELIVERY_IMPACT",
+              "missing_information": [
+                "Independent confirmation of the preliminary claim"
+              ]
+            },
+            {
+              "key": "CURRENT_STATUS",
+              "missing_information": [
+                "Verified source passage for: Latest dated, issue-specific status"
+              ]
+            }
+          ],
+          "missing_information": "Demonstrated impact on customer deliveries: Independent confirmation of the preliminary claim; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status",
+          "source_execution_status": "RESULTS_RETRIEVED",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 0,
+          "latest_evidence_date": "2026-07-24",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        }
+      ],
+      "total": 2,
+      "complete": 0,
+      "missing": 2,
+      "unavailable_sources": [],
+      "unsearched_requests": [],
+      "status": "NOT_ANSWERED"
+    },
+    "planner_status": "REPAIRED",
+    "collection_mode": "agentic_exa",
+    "acquisition_trace": {
+      "collection_id": "COL_C491AA",
+      "kit": "Airbus A350 cabin interior and landing gear supplier bottlenecks",
+      "collection_mode": "agentic_exa",
+      "search_objective": "Identify specific supplier bottlenecks for Airbus A350 landing gear (Safran) and cabin interiors (seats/galleys) including lead times and production impacts for 2025-2026.",
+      "queries_executed": 4,
+      "exa_calls_executed": 2,
+      "sources_used": [
+        "Exa Semantic Search",
+        "Official Industry PR / Airbus",
+        "XBRL International ESEF Filing Index"
+      ],
+      "documents_found": 17,
+      "primary_documents": 6,
+      "secondary_documents": 11,
+      "full_text_documents": 16,
+      "metadata_only_documents": 0,
+      "unresolved_requirements": [
+        "Quantified lead time durations (in months/weeks) for Safran A350-900/1000 landing gear shipsets.",
+        "Specific Tier 1/Tier 2 supplier names for the cabin interior bottlenecks beyond general 'supply chain constraints' mentioned by airlines like SIA."
+      ],
+      "collection_status": "PARTIAL_SUCCESS",
+      "next_action": "Execute targeted search for Safran Landing Systems' 2026 capacity expansion details and specific seat supplier (e.g., RECARO, Safran Seats, Collins) production delays.",
+      "agent_rationale": "Initial Exa searches confirmed the existence of A350 delivery delays and identified Safran's MRO expansion, but specific 'shipset' lead times remain proprietary or buried in investor transcripts. Corporate filings confirmed the A350 production ramp-up and a new component JV with Air France, but did not name the specific interior supplier causing the current bottleneck.",
+      "steps": [
+        {
+          "step": 1,
+          "tool": "exa_semantic_search",
+          "query": "Airbus A350 Safran Landing Systems production delays lead time 2025 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 6,
+          "new_doc_ids": [
+            "DOC_001",
+            "DOC_002",
+            "DOC_003",
+            "DOC_004",
+            "DOC_005",
+            "DOC_006"
+          ],
+          "elapsed_sec": 3.37,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 2,
+          "tool": "exa_semantic_search",
+          "query": "Airbus A350 cabin interior supplier bottlenecks seats galleys 2025 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 6,
+          "new_doc_ids": [
+            "DOC_007",
+            "DOC_008",
+            "DOC_009",
+            "DOC_010",
+            "DOC_011",
+            "DOC_012"
+          ],
+          "elapsed_sec": 3.87,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 3,
+          "tool": "search_media_and_social",
+          "query": "[news] Airbus A350 cabin interior supplier bottleneck seats 2026",
+          "status": "NO_MATCH",
+          "new_doc_count": 0,
+          "new_doc_ids": [],
+          "elapsed_sec": 10.13,
+          "calls_used": 4,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 4,
+          "tool": "search_corporate_filings",
+          "query": "Airbus A350 production rate landing gear cabin interior supply chain 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 5,
+          "new_doc_ids": [
+            "DOC_013",
+            "DOC_014",
+            "DOC_015",
+            "DOC_016",
+            "DOC_017"
+          ],
+          "elapsed_sec": 29.46,
+          "calls_used": 4,
+          "exa_calls_used": 2,
+          "note": ""
+        }
+      ],
+      "budget_summary": {
+        "calls_made": 4,
+        "max_total_calls": 10,
+        "remaining_total_calls": 6,
+        "exa_calls_made": 2,
+        "max_exa_calls": 4,
+        "remaining_exa_calls": 2,
+        "elapsed_sec": 33.2,
+        "max_seconds": 180,
+        "remaining_seconds": 146.8,
+        "steps_recorded": 4
+      },
+      "fallback_used": false,
+      "llm_tokens_in": 19509,
+      "llm_tokens_out": 586
+    },
+    "phase_checkpoints": {
+      "planner": "REPAIRED",
+      "collection": "PASS",
+      "fr03": "PASS",
+      "analyst": "PASS",
+      "qa": "COMPLETED",
+      "kiq": "NOT_ANSWERED",
+      "editor": "COMPLETED",
+      "scoring": "COMPLETED",
+      "reporting": "VALIDATED"
+    },
+    "evidence_flow_audit": {
+      "documents": [
+        {
+          "doc_id": "DOC_001",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_002",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_003",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_004",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_005",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_006",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_007",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_008",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_009",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": true
+          },
+          "gap": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "interruption_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_010",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_011",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_012",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_013",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_014",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_015",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": true
+          },
+          "gap": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "interruption_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "expected_interruption": false,
+          "potential_analytical_loss": true,
+          "handoff_error": null,
+          "kiq_non_link_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_016",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_017",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        }
+      ],
+      "stage_counts": {
+        "COLLECTED": 17,
+        "FILTER_ACCEPTED": 4,
+        "CLAIMS_EXTRACTED": 4,
+        "CLAIMS_VALIDATED": 3,
+        "KIQ_EVALUATED": 4,
+        "KIQ_LINKED": 2,
+        "NOT_APPLICABLE": 2,
+        "REPORT_REFERENCED": 4,
+        "REPORT_USED": 4,
+        "REPORT_NOT_USED": 0
+      },
+      "unlinked_accepted_document_ids": [
+        "DOC_009",
+        "DOC_015"
+      ],
+      "unreferenced_validated_document_ids": [],
+      "potential_analytical_loss_ids": [
+        "DOC_015"
+      ],
+      "handoff_error_ids": [],
+      "validated_claim_counts": {
+        "DOC_001": 0,
+        "DOC_002": 0,
+        "DOC_003": 1,
+        "DOC_004": 0,
+        "DOC_005": 1,
+        "DOC_006": 0,
+        "DOC_007": 0,
+        "DOC_008": 0,
+        "DOC_009": 0,
+        "DOC_010": 0,
+        "DOC_011": 0,
+        "DOC_012": 0,
+        "DOC_013": 0,
+        "DOC_014": 0,
+        "DOC_015": 1,
+        "DOC_016": 0,
+        "DOC_017": 0
+      }
+    },
+    "evidence_integrity_issues": [],
+    "source_provenance_missing_ids": [],
+    "kiq_unlinked_extracted_document_ids": [],
+    "kiq_handoff_error_document_ids": [],
+    "kiq_handoff_contract_errors": {},
+    "editor_kiq_context_error": null,
+    "editor_evidence_citation_document_ids": [],
+    "query": "Airbus A350 cabin interior and landing gear supplier bottlenecks",
+    "experiment": {
+      "dataset_run_id": "RUN-20261126-092123-B7C69909043D",
+      "replay_run_id": null,
+      "collection_mode": "agentic_exa",
+      "qa_enabled": true,
+      "harness_enabled": true,
+      "keyword_baseline": false,
+      "dataset_sha256": "ea6cc40385e4f2f8b3ae1ab5d417e6ca9270fcdaa5cba4f25ead47b253e71b20",
+      "replay_uses_live_llm": false
+    },
+    "analysis_scope": "365d",
+    "effective_from": "2025-11-26T09:21:23Z",
+    "effective_to": "2026-11-26T09:21:23Z",
+    "as_of_date": "2026-11-26",
+    "documents_collected": 17,
+    "historical_resolutions": [],
+    "historical_resolution_count": 0,
+    "temporal_claim_audit": [
+      {
+        "event_id": "A350-LG-SUPPLY-EXPANSION-2026",
+        "entity": "Safran Landing Systems",
+        "program": "Airbus A350",
+        "component": "Landing gear components",
+        "issue": "PRODUCTION",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-10-16",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-26",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "A350-ALPHA-JV-2026",
+        "entity": "Airbus",
+        "program": "A350",
+        "component": "Unknown / Not specified in source",
+        "issue": "SUPPLY_CHAIN",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-10-27",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-26",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "SIA-A350-INTERIOR-DELAY-2026-05-06",
+        "entity": "Singapore Airlines",
+        "program": "Airbus A350-900 / A350-900ULR",
+        "component": "First and Business Class seats",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "CURRENT_STATUS_UNKNOWN",
+        "original_date": "2026-05-06",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-26",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      }
+    ],
+    "document_content_status_counts": {
+      "FULL_TEXT": 16,
+      "FULL_TEXT_RETRIEVED": 0,
+      "METADATA_ONLY": 0,
+      "PARTIAL_TEXT": 1,
+      "SOURCE_METADATA_ONLY": 0,
+      "SOURCE_POLICY_RESTRICTED": 0,
+      "STRUCTURED_DATA": 0,
+      "SUMMARY_ONLY": 0,
+      "TEXT_COMPLETENESS_UNVERIFIED": 0,
+      "TEXT_RETRIEVED_COMPLETENESS_UNVERIFIED": 0,
+      "TRANSCRIPT_AS_RECEIVED": 0,
+      "UNAVAILABLE": 0,
+      "UNKNOWN": 0
+    },
+    "unknown_content_statuses": [],
+    "telemetry_errors": [],
+    "telemetry_integrity_ok": true,
+    "content_limited_document_ids": [
+      "DOC_001",
+      "DOC_002",
+      "DOC_005",
+      "DOC_006",
+      "DOC_010",
+      "DOC_011",
+      "DOC_017"
+    ],
+    "documents_analyzed": 4,
+    "documents_rejected": 13,
+    "documents_failed": 0,
+    "analysis_phase_status": "COMPLETED",
+    "analysis_recovery_budget": {
+      "time_budget_sec": 600,
+      "max_retries": 8,
+      "max_calls": 10,
+      "retries": 0,
+      "calls": 2,
+      "blocked": ""
+    },
+    "analyzed_document_ids": [
+      "DOC_003",
+      "DOC_005",
+      "DOC_009",
+      "DOC_015"
+    ],
+    "failed_document_ids": [],
+    "recovered_document_ids": [],
+    "partially_analyzed_document_ids": [],
+    "documents_recovered": 0,
+    "analyst_batch_document_counts": [
+      3,
+      1
+    ],
+    "analyst_recovery_splits": 0,
+    "analyst_retry_counts_by_reason": {
+      "PROVIDER_INTERNAL_RETRY": 0
+    },
+    "batches_created": 2,
+    "batches_succeeded": 2,
+    "batches_failed": 0,
+    "planning_duration_sec": 3.14,
+    "collection_duration_sec": 33.22,
+    "filter_duration_sec": 24.94,
+    "analysis_duration_sec": 25.12,
+    "qa_duration_sec": 8.25,
+    "editorial_duration_sec": 5.38,
+    "scoring_duration_sec": 0.0,
+    "scoring_status": "COMPLETED",
+    "scoring_methodology": {
+      "version": "IW-5FACTOR-DET-V1",
+      "method": "DETERMINISTIC_5_FACTOR_IW",
+      "scale": "F1-F5 rated 1..5; final threat_score 1..10",
+      "formula": "S = clamp(floor(sum(w_i * F_i) * 2 + 0.5), 1, 10)",
+      "weights": {
+        "impact_severity": 0.3,
+        "supplier_criticality": 0.2,
+        "substitutability_difficulty": 0.15,
+        "propagation_scope": 0.15,
+        "temporal_urgency": 0.2
+      },
+      "bands": {
+        "monitored": "1-4",
+        "elevated": "5-7",
+        "high_potential_impact": "8-10"
+      },
+      "severity_independent_of_confidence": true
+    },
+    "scoring_partial_fallback_ids": [],
+    "scoring_audit": [
+      {
+        "event_id": "A350-LG-SUPPLY-EXPANSION-2026",
+        "provisional_score": 4,
+        "computed_score": 6,
+        "final_score": 6,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.05 * 2) = 6/10",
+        "weighted_sum": 3.05,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 2,
+            "weight": 0.3,
+            "weighted_contribution": 0.6,
+            "rationale": "Expansion is proactive; disruption impact is currently theoretical."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Safran is a primary provider for A350 gear systems."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Complex machining of superalloys requires specialized certified facilities."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Landing gear is critical; delays affect final deliveries."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 2,
+            "weight": 0.2,
+            "weighted_contribution": 0.4,
+            "rationale": "Agreements active; heavy checks begin in 2027."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 41 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: ELEVATED (6/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 6,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "HIGH",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "Tier 1 (Systems/Engines)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-10-16",
+        "source_age_days": 41
+      },
+      {
+        "event_id": "A350-ALPHA-JV-2026",
+        "provisional_score": 3,
+        "computed_score": 6,
+        "final_score": 6,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(2.85 * 2) = 6/10",
+        "weighted_sum": 2.85,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 2,
+            "weight": 0.3,
+            "weighted_contribution": 0.6,
+            "rationale": "Aimed at streamlining global A350 support ecosystem."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "OEM-backed JV centralizes component availability."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "A350-specific components have limited certified third-party sources."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Affects global A350 customer pool and MRO."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 2,
+            "weight": 0.2,
+            "weighted_contribution": 0.4,
+            "rationale": "Newly established; effectiveness is yet to be proven."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 30 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: ELEVATED (6/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 6,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "HIGH",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-10-27",
+        "source_age_days": 30
+      },
+      {
+        "event_id": "SIA-A350-INTERIOR-DELAY-2026-05-06",
+        "provisional_score": 7,
+        "computed_score": 8,
+        "final_score": 8,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(4.00 * 2) = 8/10",
+        "weighted_sum": 4.0,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 4,
+            "weight": 0.3,
+            "weighted_contribution": 1.2,
+            "rationale": "9-month delay on a S$1.1 billion retrofit program across 41 aircraft."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "Premium seats are essential for ULR and long-haul aircraft service entry."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "Custom seats are bespoke and designed from the ground up, making substitution difficult."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Specifically cited as industry-wide supply chain constraints."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "Rollout target shifted from 2026 to early 2027; disruption is active."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (204 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (8/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+        "post_harness_score": 8,
+        "post_harness_validation_status": "PARTIALLY_SUPPORTED",
+        "post_harness_confidence_level": "LOW",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "Regulator / Airline",
+        "factor_evidence_status": "PROVISIONAL_UNVERIFIED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-05-06",
+        "source_age_days": 204
+      }
+    ],
+    "total_duration_sec": 100.11,
+    "llm_calls": 9,
+    "llm_retries": 0,
+    "tokens_input": 74650,
+    "tokens_output": 12830,
+    "token_usage_status": "MEASURED",
+    "token_usage_unknown_calls": 0,
+    "llm_call_audit": [
+      {
+        "task_type": "PHASE_1_PLANNER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 1495,
+        "output_tokens": 584,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_2_ACQUISITION",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 19509,
+        "output_tokens": 586,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 3107,
+        "output_tokens": 1240,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2678,
+        "output_tokens": 1324,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2796,
+        "output_tokens": 1267,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_1_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 19309,
+        "output_tokens": 3783,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_2_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 15531,
+        "output_tokens": 2242,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_3B_QA",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 7639,
+        "output_tokens": 919,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_4_EDITOR",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2586,
+        "output_tokens": 885,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      }
+    ],
+    "analyst_recovery_audit": {
+      "attempts": [],
+      "fallbacks": [],
+      "recent_events": []
+    },
+    "token_accounting_method": "LLM_CALL_AUDIT_MEASURED",
+    "provider_requests_measured": 9,
+    "estimated_cost_usd": 0.07581,
+    "estimated_cost_status": "ESTIMATED",
+    "priced_cost_subtotal_usd": 0.07581,
+    "model_cost_audit": [
+      {
+        "model_id": "openrouter/google/gemini-3-flash-preview",
+        "usage_bucket": "openrouter/google/gemini-3-flash-preview",
+        "input_tokens": 74650,
+        "output_tokens": 12830,
+        "requests": 9,
+        "estimated_cost_usd": 0.07581,
+        "pricing_status": "ESTIMATED"
+      }
+    ],
+    "cost_estimation_reason_codes": [],
+    "unmatched_cost_model_ids": [],
+    "model_id": "openrouter/google/gemini-3-flash-preview",
+    "prompt_version": "v2.10-CI-HRO-2026-EVIDENCE-SCOPE",
+    "kiq_catalog_version": "THESIS_KIQ_CATALOG_V2_20261031",
+    "candidate_schema_rejections": 0,
+    "qa_failed": false,
+    "qa_performed": true,
+    "harness_performed": true,
+    "editor_failed": false,
+    "editorial_generation_mode": "LLM_TEXT_PYDANTIC_V1",
+    "editor_text_parsed_count": 2,
+    "editor_text_fallbacks": 0,
+    "editor_retry_count": 0,
+    "editor_retry_recovered": false,
+    "editor_fallback_used": false,
+    "pipeline_degraded": true,
+    "degradation_category": "ANALYSIS_INCOMPLETE",
+    "source_coverage_issues": [],
+    "source_coverage_limited": true,
+    "source_coverage_advisories": [
+      {
+        "connector": "Exa Semantic Search",
+        "issue": "exa_type=auto; duplicates_skipped=0; include_domains=ALL"
+      },
+      {
+        "connector": "Official Industry PR / Airbus",
+        "issue": "RSS_METADATA_SCREENING_NOT_FULL_TEXT_VERIFICATION"
+      },
+      {
+        "connector": "News API",
+        "issue": "STAGES=EXACT,ALTERNATIVE; NEWSAPI_COVERAGE=PARTIAL_WINDOW; requested_days=365.0; searchable_days=29.0; archive_limit_days=29; SEARCH_STATUS=NO_MATCH"
+      }
+    ],
+    "source_coverage_status": "PARTIAL",
+    "source_coverage_legacy_status": "LIMITED",
+    "evidence_result_status": "UNVERIFIED_ONLY",
+    "review_scope": "EVENT_REVIEW",
+    "analysis_issues": [
+      "POTENTIAL_ANALYTICAL_LOSS: DOC_015"
+    ],
+    "fr03_rejection_review_candidates": 7,
+    "fr03_rejection_stage_counts": {
+      "STAGE_1_DETERMINISTIC": 2,
+      "STAGE_2_SEMANTIC": 11
+    },
+    "scoring_calibration": "UNMEASURED_REQUIRES_EXPERT_REFERENCE_LABELS",
+    "semantic_filter_unavailable_count": 0,
+    "semantic_filter_missing_ids": [],
+    "analyst_valid_empty_batches": 0,
+    "analyst_invalid_batches": 0,
+    "analyst_empty_retry_count": 0,
+    "analyst_empty_retry_failed_batches": 0,
+    "analyst_empty_output_conflict": false,
+    "analyst_empty_conflict_previous_run": null,
+    "analyst_output_audit": [
+      {
+        "batch": 1,
+        "depth": 0,
+        "document_ids": [
+          "DOC_015",
+          "DOC_003",
+          "DOC_005"
+        ],
+        "documents_processed": 3,
+        "candidate_count": 2,
+        "rejected_count": 0,
+        "output_chars": 12781,
+        "output_tokens": 3783,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 2,
+        "depth": 0,
+        "document_ids": [
+          "DOC_009"
+        ],
+        "documents_processed": 1,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 7206,
+        "output_tokens": 2242,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      }
+    ],
+    "confirmed_critical_count": 0,
+    "unverified_signal_count": 0,
+    "displayable_signal_count": 0,
+    "verified_context_count": 2,
+    "direct_kit_confirmed_count": 0,
+    "verified_context_event_ids": [
+      "A350-LG-SUPPLY-EXPANSION-2026",
+      "A350-ALPHA-JV-2026"
+    ],
+    "classification_version": "SUPPORTED_ONLY_DASHBOARD_V3_EVENT_ID_1TO1",
+    "runtime_kiq_count": 2,
+    "runtime_kiq_ids": [
+      "RKIQ_001",
+      "RKIQ_002"
+    ],
+    "runtime_kiq_answered": 0,
+    "runtime_kiq_partially_answered": 2,
+    "runtime_kiq_unanswered": 0,
+    "runtime_kiq_not_searched": 0,
+    "intelligence_methodology": {
+      "collection_method": "OSINT",
+      "analysis_method": "Competitive Intelligence",
+      "osint_document_count": 17,
+      "ci_candidate_count": 3,
+      "osint_stage": "Acquisition and preprocessing of publicly available information.",
+      "ci_stage": "Interpretation of collected evidence against KIT/KIQ requirements, strategic risks, competitive implications and decision needs.",
+      "methodological_boundary": "A retrieved source is OSINT evidence. It becomes an intelligence assessment only after analytical interpretation and validation.",
+      "independent_verification_required": true
+    },
+    "editor_claim_audit": {
+      "status": "PASS",
+      "all_supported": true,
+      "citations_match": true,
+      "checks": {
+        "doc_id_exists": true,
+        "passages_match": true,
+        "event_references_valid": true,
+        "urls_valid": true
+      },
+      "claim_sentences_checked": 22,
+      "cited_document_ids": [
+        "DOC_003",
+        "DOC_005",
+        "DOC_009",
+        "DOC_015"
+      ],
+      "issues": [],
+      "review_items": [],
+      "audit_method": "DETERMINISTIC_PROVENANCE_ONLY"
+    },
+    "editor_executive_summary": "This assessment reviews Airbus A350 production targets and supply chain developments based on media reports and corporate announcements from May to October 2026. Evidence includes Airbus investor communications [DOC_003], a strategic manufacturing agreement between Safran and Aequs [DOC_005], and a component support joint venture involving Airbus [DOC_015]. While Airbus maintains a target to reach a production rate of 12 A350 aircraft per month by 2028 [DOC_003], the supply chain remains in a state of transition. Recent findings highlight new long-term agreements for landing gear machining and assembly [DOC_005] and the formation of a joint venture for component support [DOC_015]. However, specific evidence linking these developments to the resolution of previously reported cabin interior delays at Singapore Airlines [DOC_009] is currently absent. The monitoring scope successfully identified upstream manufacturing expansions but lacks granular data on cabin component lead times and specific interior bottleneck relief.",
+    "editor_detailed_analytical_assessment": "The A350 program is characterized by aggressive ramp-up goals set against a backdrop of historical delivery volatility. Airbus delivered 25 A350s in the first half of 2026, compared to 57 for the full year of 2025 [DOC_003]. To support the goal of 12 aircraft per month by 2028, the supply chain is expanding its industrial footprint. A significant development is the October 2026 agreement between Safran and Aequs for the machining of superalloys and the assembly of landing gear components [DOC_005]. While this indicates a move to bolster landing gear capacity, the source does not explicitly state that this expansion is a response to existing bottlenecks or lifecycle heavy checks. Similarly, the October 2026 announcement of a joint venture for A350 component support [DOC_015] provides a framework for improved serviceability, though its impact on specific cabin interior components remains an analytical implication rather than a documented fact.\n\nA critical gap exists regarding the status of cabin interiors. While Singapore Airlines reported interior-related delays in May 2026 [DOC_009], subsequent documentation on the Safran/Aequs and Airbus joint ventures does not mention cabin-specific hardware like seats or galleys. Consequently, it is unclear if the industrial actions taken in late 2026 address the specific shortages affecting airline deliveries or if they are focused primarily on mechanical and structural components. The reliability of the production ramp-up depends on these unverified cabin segments. Management should prioritize verifying the production status of cabin integrators and seeking confirmation on whether the new joint venture [DOC_015] includes interior maintenance, repair, and overhaul (MRO) capabilities. Until lead time metrics for landing gear and cabin kits are secured, the risk of delivery delays persisting into 2027 remains an open question.",
+    "editor_validation_status": "PASS",
+    "editor_claim_citations_verified": true,
+    "editor_semantic_review_required": false,
+    "kit_current_assessment": {
+      "status": "PRELIMINARY_SIGNALS_IDENTIFIED",
+      "source_coverage": "INCOMPLETE",
+      "as_of_date": "2026-11-26",
+      "search_overview": {
+        "connectors_searched": [
+          "Exa Semantic Search",
+          "Official Industry PR / Airbus",
+          "News API",
+          "XBRL International ESEF Filing Index"
+        ],
+        "connectors_with_results": [
+          "Exa Semantic Search",
+          "Official Industry PR / Airbus",
+          "XBRL International ESEF Filing Index"
+        ],
+        "documents_collected": 17,
+        "documents_analyzed": 4,
+        "documents_rejected": 13,
+        "events_identified": 3,
+        "supported_events": 2,
+        "primary_supported_events": 0
+      },
+      "issue_status": "PRELIMINARY",
+      "regulator_verification": "UNAVAILABLE",
+      "source_authority": "NOT_ESTABLISHED",
+      "coverage_status": "PARTIAL",
+      "severity_context": "POTENTIAL",
+      "potential_severity": null,
+      "evidence_confidence": "UNKNOWN",
+      "chronological_milestones": [],
+      "conflicts": [],
+      "monitored_kit": "Airbus A350 cabin interior and landing gear supplier bottlenecks",
+      "original_issue": "Airbus A350 cabin interior and landing gear supplier bottlenecks",
+      "latest_milestone": "NOT_ESTABLISHED",
+      "latest_milestone_date": "",
+      "latest_evidence_id": "",
+      "latest_evidence_url": "",
+      "latest_verification": "UNVERIFIED",
+      "unresolved_questions": [
+        "Demonstrated impact on production or capacity: Independent confirmation of the preliminary claim; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status",
+        "Demonstrated impact on customer deliveries: Independent confirmation of the preliminary claim; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status"
+      ],
+      "severity": null,
+      "confidence": "UNKNOWN",
+      "evidence_strength": "NO_GROUNDED_CLAIMS",
+      "reported_developments": [],
+      "kiq_source_claims": [
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_005",
+          "quote": "Bengaluru, 12 October 2026: Aequs, a leading India-based precision manufacturing company, today announced the signing of long-term supply agreements with Safran, a global leader in the aerospace industry for critical components.",
+          "date": "2026-10-16",
+          "publication_date": "2026-10-16",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_EXA",
+          "source_url": "https://www.aequs.com/aequs-announces-long-term-supply-agreements-with-safran-for-aerospace-applications/",
+          "authority": "SECONDARY",
+          "source_role": "SECONDARY_OR_UNKNOWN",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "verbatim_passage_recorded": true,
+          "verification": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "DIRECT_ISSUE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "PRODUCTION_IMPACT"
+          ],
+          "regulator_confirmation": "NOT_ESTABLISHED",
+          "validation_conflict": ""
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_005",
+          "quote": "The awards cover the machining of superalloys parts, along with the supply of complex machining coating, and assembly of landing gear components for the Airbus A320, A330, A350 and Boeing 787 programs.",
+          "date": "2026-10-16",
+          "publication_date": "2026-10-16",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_EXA",
+          "source_url": "https://www.aequs.com/aequs-announces-long-term-supply-agreements-with-safran-for-aerospace-applications/",
+          "authority": "SECONDARY",
+          "source_role": "SECONDARY_OR_UNKNOWN",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "verbatim_passage_recorded": true,
+          "verification": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "DIRECT_ISSUE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "PRODUCTION_IMPACT"
+          ],
+          "regulator_confirmation": "NOT_ESTABLISHED",
+          "validation_conflict": ""
+        }
+      ],
+      "established_regulatory_facts": [],
+      "evidence_validation_warnings": [],
+      "kiq_status_counts": {
+        "ANSWERED": 0,
+        "PARTIALLY_ANSWERED": 2,
+        "UNANSWERED": 0,
+        "NOT_SEARCHED": 0
+      }
+    },
+    "detailed_analytical_assessment": "The A350 program is characterized by aggressive ramp-up goals set against a backdrop of historical delivery volatility. Airbus delivered 25 A350s in the first half of 2026, compared to 57 for the full year of 2025 [DOC_003]. To support the goal of 12 aircraft per month by 2028, the supply chain is expanding its industrial footprint. A significant development is the October 2026 agreement between Safran and Aequs for the machining of superalloys and the assembly of landing gear components [DOC_005]. While this indicates a move to bolster landing gear capacity, the source does not explicitly state that this expansion is a response to existing bottlenecks or lifecycle heavy checks. Similarly, the October 2026 announcement of a joint venture for A350 component support [DOC_015] provides a framework for improved serviceability, though its impact on specific cabin interior components remains an analytical implication rather than a documented fact.\n\nA critical gap exists regarding the status of cabin interiors. While Singapore Airlines reported interior-related delays in May 2026 [DOC_009], subsequent documentation on the Safran/Aequs and Airbus joint ventures does not mention cabin-specific hardware like seats or galleys. Consequently, it is unclear if the industrial actions taken in late 2026 address the specific shortages affecting airline deliveries or if they are focused primarily on mechanical and structural components. The reliability of the production ramp-up depends on these unverified cabin segments. Management should prioritize verifying the production status of cabin integrators and seeking confirmation on whether the new joint venture [DOC_015] includes interior maintenance, repair, and overhaul (MRO) capabilities. Until lead time metrics for landing gear and cabin kits are secured, the risk of delivery delays persisting into 2027 remains an open question.",
+    "detailed_analytical_assessment_mode": "VALIDATED_EDITOR",
+    "executive_summary_mode": "VALIDATED_EDITOR",
+    "report_evidence_usage": [
+      {
+        "doc_id": "DOC_003",
+        "event_ids": [
+          "A350-LG-SUPPLY-EXPANSION-2026"
+        ],
+        "kiq_ids": [
+          "RKIQ_001",
+          "RKIQ_002"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_005",
+        "event_ids": [
+          "A350-LG-SUPPLY-EXPANSION-2026"
+        ],
+        "kiq_ids": [
+          "RKIQ_001"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_009",
+        "event_ids": [
+          "SIA-A350-INTERIOR-DELAY-2026-05-06"
+        ],
+        "kiq_ids": [],
+        "source_role": "UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_015",
+        "event_ids": [
+          "A350-ALPHA-JV-2026"
+        ],
+        "kiq_ids": [],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      }
+    ],
+    "detailed_analytical_assessment_sha256": "313399c724511a30a5c0f63dc100891b3f9c0ecea6fcc21dda77aa655a5fef69",
+    "detailed_analytical_assessment_word_count": 279,
+    "executive_summary_word_count": 143,
+    "agent_decision_trace": [
+      {
+        "agent_index": 1,
+        "agent_role": "Intelligence Planning & Acquisition Agent",
+        "inputs": {
+          "kit": "Airbus A350 cabin interior and landing gear supplier bottlenecks",
+          "scope": "365d",
+          "specificity": "PROGRAM",
+          "platforms": [
+            "news",
+            "pr"
+          ],
+          "collection_mode": "agentic_exa"
+        },
+        "decisions": {
+          "planner_status": "REPAIRED",
+          "information_requirements_count": 2,
+          "queries_executed": 4,
+          "exa_calls_executed": 2,
+          "collection_status": "PARTIAL_SUCCESS",
+          "fallback_used": false,
+          "agent_rationale": "Initial Exa searches confirmed the existence of A350 delivery delays and identified Safran's MRO expansion, but specific 'shipset' lead times remain proprietary or buried in investor transcripts. Corporate filings confirmed the A350 production ramp-up and a new component JV with Air France, but did not name the specific interior supplier causing the current bottleneck."
+        },
+        "outputs": {
+          "documents_collected": 17,
+          "primary_documents": 6,
+          "secondary_documents": 11,
+          "sources_used": [
+            "Exa Semantic Search",
+            "Official Industry PR / Airbus",
+            "XBRL International ESEF Filing Index"
+          ],
+          "unresolved_requirements": [
+            "Quantified lead time durations (in months/weeks) for Safran A350-900/1000 landing gear shipsets.",
+            "Specific Tier 1/Tier 2 supplier names for the cabin interior bottlenecks beyond general 'supply chain constraints' mentioned by airlines like SIA."
+          ]
+        },
+        "duration_sec": 36.36
+      },
+      {
+        "agent_index": 2,
+        "agent_role": "Risk Analyst Agent",
+        "inputs": {
+          "fr03_accepted_documents": 4,
+          "fr03_rejected_documents": 13,
+          "batches_created": 2
+        },
+        "decisions": {
+          "batches_succeeded": 2,
+          "batches_failed": 0,
+          "documents_failed": 0,
+          "candidate_schema_rejections": 0,
+          "deterministic_scoring_status": "COMPLETED",
+          "scoring_method": "DETERMINISTIC_5_FACTOR_IW"
+        },
+        "outputs": {
+          "direct_candidate_events": 3,
+          "watchlist_events": 0,
+          "event_ids": [
+            "A350-LG-SUPPLY-EXPANSION-2026",
+            "A350-ALPHA-JV-2026",
+            "SIA-A350-INTERIOR-DELAY-2026-05-06"
+          ]
+        },
+        "duration_sec": 25.12
+      },
+      {
+        "agent_index": 3,
+        "agent_role": "Quality Assurance Agent",
+        "inputs": {
+          "qa_enabled": true,
+          "harness_enabled": true,
+          "candidates_reviewed": 3
+        },
+        "decisions": {
+          "qa_performed": true,
+          "qa_failed": false,
+          "harness_performed": true,
+          "validation_errors": 0
+        },
+        "outputs": {
+          "supported_direct_events": 0,
+          "confirmed_critical_events": 0,
+          "unverified_signals": 0,
+          "kiq_completion_status": "NOT_ANSWERED"
+        },
+        "duration_sec": 8.25
+      },
+      {
+        "agent_index": 4,
+        "agent_role": "EWS Editor Agent",
+        "inputs": {
+          "event_briefs_supplied": 3,
+          "verbatim_citations_supplied": 0,
+          "runtime_kiq_count": 2
+        },
+        "decisions": {
+          "editor_failed": false,
+          "editor_validation_status": "PASS",
+          "executive_summary_mode": "VALIDATED_EDITOR",
+          "detailed_assessment_mode": "VALIDATED_EDITOR",
+          "actions_parsed": 2,
+          "action_fallbacks": 0
+        },
+        "outputs": {
+          "action_plan_count": 2,
+          "executive_summary_words": 143,
+          "detailed_assessment_words": 279
+        },
+        "duration_sec": 5.38
+      }
+    ],
+    "ai_governance": {
+      "regulatory_reference": "Regulation (EU) 2024/1689, as amended",
+      "assessment_timestamp_utc": "2026-11-26T09:23:04.069903+00:00",
+      "intended_purpose": "Competitive Intelligence decision support using publicly available aerospace information.",
+      "prohibited_uses": [
+        "Autonomous aircraft operation",
+        "Autonomous safety-critical decisions",
+        "Automated regulatory certification",
+        "Unreviewed operational interventions"
+      ],
+      "ai_system_provider": "Externally hosted LLM provider",
+      "model_identifier": "openrouter/google/gemini-3-flash-preview",
+      "run_id": "RUN-20261126-092123-B7C69909043D",
+      "risk_classification": "REQUIRES_LEGAL_ASSESSMENT",
+      "legal_compliance_status": "NOT_CERTIFIED",
+      "ai_generated_content": true,
+      "human_oversight_available": true,
+      "human_review_status": "WAITING_FOR_HITL",
+      "controls": {
+        "source_traceability": true,
+        "independent_qa": true,
+        "deterministic_validation": true,
+        "human_review_gate": true,
+        "critical_alert_requires_verified_evidence": true,
+        "model_and_run_logging": true
+      },
+      "legal_review_items": {
+        "article_4_ai_literacy": "ORGANIZATIONAL_REVIEW_REQUIRED",
+        "article_50_transparency": "APPLICABILITY_REVIEW_REQUIRED",
+        "article_6_high_risk_classification": "LEGAL_REVIEW_REQUIRED",
+        "personal_data_processing": "GDPR_REVIEW_REQUIRED",
+        "copyright_and_tdm": "SOURCE_SPECIFIC_REVIEW_REQUIRED"
+      },
+      "limitations": "These records document implemented safeguards. They are not a legal conformity assessment, certification or proof of compliance."
+    }
+  },
+  "comparison_summary": {
+    "has_comparable_run": false,
+    "previous_run_id": null,
+    "note": "No previous run with identical KIT and time scope; baseline established.",
+    "delta_critical": 0,
+    "delta_elevated": 0,
+    "delta_monitored": 0,
+    "new_events": 3,
+    "continuing_events": 0,
+    "not_redetected_events": 0,
+    "resolved_events": 0,
+    "unknown_status_events": 0,
+    "reclassified_to_watchlist": 0,
+    "methodology_changed": false
+  },
+  "connector_status": {
+    "Exa Semantic Search": {
+      "connector_name": "Exa Semantic Search",
+      "source_id": "SRC_EXA",
+      "technical_source": "api.exa.ai",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Airbus A350 Safran Landing Systems production delays lead time 2025 2026",
+        "Airbus A350 cabin interior supplier bottlenecks seats galleys 2025 2026"
+      ],
+      "found_count": 12,
+      "accepted_count": 12,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 2,
+      "http_status_counts": {
+        "200": 2
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [
+        "exa_type=auto; duplicates_skipped=0; include_domains=ALL"
+      ],
+      "time_window": {
+        "from": "2025-11-26T09:21:23Z",
+        "to": "2026-11-26T09:21:23Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-26T09:21:30Z",
+      "successful_responses": 2,
+      "collected_document_count": 12,
+      "content_availability_counts": {
+        "FULL_TEXT": 12
+      },
+      "observed_publication_from": "2026-01-12",
+      "observed_publication_to": "2026-11-08"
+    },
+    "Official Industry PR / Airbus": {
+      "connector_name": "Official Industry PR / Airbus",
+      "source_id": "SRC_005",
+      "technical_source": "airbus.com",
+      "origin_type": "PRIMARY",
+      "legal_status": "REQUIRES_REVIEW",
+      "queries": [
+        "Airbus A350 production rate landing gear cabin interior supply chain 2026",
+        "a350 2026 production"
+      ],
+      "found_count": 100,
+      "accepted_count": 4,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 6,
+      "http_status_counts": {
+        "302": 1,
+        "200": 5
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "PARTIAL_RESULT",
+      "errors": [],
+      "coverage_advisories": [
+        "RSS_METADATA_SCREENING_NOT_FULL_TEXT_VERIFICATION"
+      ],
+      "time_window": {
+        "from": "2025-11-26T09:21:23Z",
+        "to": "2026-11-26T09:21:23Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-26T09:21:41Z",
+      "diagnostics": {
+        "selection_reason": "EXPLICIT_MANUFACTURER",
+        "selected_manufacturer": "Airbus",
+        "rss_candidates_examined": 36,
+        "rss_metadata_rejected": 32,
+        "rss_candidates_unexamined": 64,
+        "candidate_outcomes": {
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-16-20-november-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-uk-engineers-and-apprentices-take-centre-stage-in-new-airbus-campaign-to-inspire-future-talent": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-ds-airborne-solutions-gmbh-and-aeronautics-ltd-sign-a-teaming-agreement-intended-to-enable": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-middle-east-airlines-takes-delivery-of-its-first-airbus-a321xlr": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-9-13-november-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-the-cathay-group-orders-14-additional-airbus-aircraft": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buybacks-for-week-starting-2-november-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-lufthansa-takes-delivery-of-its-first-a350-1000-and-700th-airbus-aircraft": "COLLECTED_FULL_TEXT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-commences-multi-year-share-buyback-programme-with-launch-of-the-first-tranche": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-a350-1000ulr-for-qantas-breaks-world-distance-record": "COLLECTED_FULL_TEXT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-and-blue-angels-air-will-deliver-ab-initio-pilot-training-for-the-indian-market": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-skywise-expands-its-portfolio-with-the-launch-of-enhanced-digital-flight-training-solutions": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-french-armament-general-directorate-dga-qualifies-airbus-u010-aliaca-drone": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-to-deliver-iris-frances-next-generation-military-earth-observation-satellites": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/fr/newsroom/press-releases/2026-10-airbus-souligne-les-25-ans-du-site-de-mirabel-et-investit-dans-son-expansion-et-la-releve": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-marks-mirabel-sites-25th-year-with-investments-in-expansion-and-future-talent": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-nine-month-9m-2026-results": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-and-air-france-klm-operated-joint-venture-for-a350-component-support-finalised": "COLLECTED_FULL_TEXT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-granted-design-organisation-approval-by-jcab": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-boston-medflight-orders-three-airbus-h145-helicopters": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-atlantic-airways-orders-two-additional-airbus-a320neo-aircraft": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-awarded-contract-for-two-additional-galileo-satellites": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-life-flight-network-orders-five-airbus-h135-helicopters": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-projects-global-freighter-fleet-to-grow-by-2045": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-programme-helps-students-discover-engineering-careers": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-in-australia-secures-casa-design-approval": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-forecasts-need-for-2720-new-passenger-aircraft-in-latin-america": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-aviation-capital-group-orders-75-airbus-a320neo-family-aircraft": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-connects-german-and-swedish-air-defence-forces-into-unified-nato-shield": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-forecasts-growing-services-market-to-double-by-2045": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-share-buyback-transactions-05-09-october-2026": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-u740-valkyrie-uncrewed-combat-aircraft-takes-off-for-its-maiden-flight-in-europe": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-avolon-orders-35-airbus-a330-900-and-75-a320neo-family-aircraft": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/es/newsroom/press-releases/2026-10-airbus-completa-la-consolidacion-de-sus-actividades-en-cadiz-y-refuerza-su-huella-industrial-en": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-completes-the-consolidation-of-its-activities-in-cadiz-and-reinforces-its-industrial": "RSS_METADATA_NOT_RELEVANT",
+          "https://www.airbus.com/en/newsroom/press-releases/2026-10-biman-bangladesh-airlines-places-firm-order-for-a350-900-and-a321neo-airbus-aircraft": "COLLECTED_FULL_TEXT"
+        },
+        "metadata_only_records": 0,
+        "article_access_blocked": 0,
+        "article_unavailable": 0
+      },
+      "diagnostics_history": [
+        {
+          "query": "Airbus A350 production rate landing gear cabin interior supply chain 2026",
+          "selection_reason": "EXPLICIT_MANUFACTURER",
+          "selected_manufacturer": "Airbus"
+        },
+        {
+          "query": "a350 2026 production",
+          "rss_candidates_examined": 36,
+          "rss_metadata_rejected": 32,
+          "rss_candidates_unexamined": 64,
+          "candidate_outcomes": {
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-16-20-november-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-uk-engineers-and-apprentices-take-centre-stage-in-new-airbus-campaign-to-inspire-future-talent": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-ds-airborne-solutions-gmbh-and-aeronautics-ltd-sign-a-teaming-agreement-intended-to-enable": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-middle-east-airlines-takes-delivery-of-its-first-airbus-a321xlr": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buyback-transactions-9-13-november-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-the-cathay-group-orders-14-additional-airbus-aircraft": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-reports-share-buybacks-for-week-starting-2-november-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-lufthansa-takes-delivery-of-its-first-a350-1000-and-700th-airbus-aircraft": "COLLECTED_FULL_TEXT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-commences-multi-year-share-buyback-programme-with-launch-of-the-first-tranche": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-a350-1000ulr-for-qantas-breaks-world-distance-record": "COLLECTED_FULL_TEXT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-and-blue-angels-air-will-deliver-ab-initio-pilot-training-for-the-indian-market": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-skywise-expands-its-portfolio-with-the-launch-of-enhanced-digital-flight-training-solutions": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-french-armament-general-directorate-dga-qualifies-airbus-u010-aliaca-drone": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-11-airbus-to-deliver-iris-frances-next-generation-military-earth-observation-satellites": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/fr/newsroom/press-releases/2026-10-airbus-souligne-les-25-ans-du-site-de-mirabel-et-investit-dans-son-expansion-et-la-releve": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-marks-mirabel-sites-25th-year-with-investments-in-expansion-and-future-talent": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-nine-month-9m-2026-results": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-and-air-france-klm-operated-joint-venture-for-a350-component-support-finalised": "COLLECTED_FULL_TEXT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-granted-design-organisation-approval-by-jcab": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-boston-medflight-orders-three-airbus-h145-helicopters": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-atlantic-airways-orders-two-additional-airbus-a320neo-aircraft": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-awarded-contract-for-two-additional-galileo-satellites": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-life-flight-network-orders-five-airbus-h135-helicopters": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-projects-global-freighter-fleet-to-grow-by-2045": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-programme-helps-students-discover-engineering-careers": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-in-australia-secures-casa-design-approval": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-forecasts-need-for-2720-new-passenger-aircraft-in-latin-america": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-aviation-capital-group-orders-75-airbus-a320neo-family-aircraft": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-connects-german-and-swedish-air-defence-forces-into-unified-nato-shield": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-forecasts-growing-services-market-to-double-by-2045": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-reports-share-buyback-transactions-05-09-october-2026": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-u740-valkyrie-uncrewed-combat-aircraft-takes-off-for-its-maiden-flight-in-europe": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-avolon-orders-35-airbus-a330-900-and-75-a320neo-family-aircraft": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/es/newsroom/press-releases/2026-10-airbus-completa-la-consolidacion-de-sus-actividades-en-cadiz-y-refuerza-su-huella-industrial-en": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-airbus-completes-the-consolidation-of-its-activities-in-cadiz-and-reinforces-its-industrial": "RSS_METADATA_NOT_RELEVANT",
+            "https://www.airbus.com/en/newsroom/press-releases/2026-10-biman-bangladesh-airlines-places-firm-order-for-a350-900-and-a321neo-airbus-aircraft": "COLLECTED_FULL_TEXT"
+          },
+          "metadata_only_records": 0,
+          "article_access_blocked": 0,
+          "article_unavailable": 0
+        }
+      ],
+      "http_redirects": 1,
+      "successful_responses": 5,
+      "collected_document_count": 4,
+      "content_availability_counts": {
+        "FULL_TEXT": 4
+      },
+      "observed_publication_from": "2026-10-07",
+      "observed_publication_to": "2026-11-10"
+    },
+    "News API": {
+      "connector_name": "News API",
+      "source_id": "SRC_004",
+      "technical_source": "newsapi.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Airbus A350 cabin interior supplier bottleneck seats 2026"
+      ],
+      "found_count": 0,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 2,
+      "http_status_counts": {
+        "200": 2
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "NO_MATCH",
+      "errors": [],
+      "coverage_advisories": [
+        "STAGES=EXACT,ALTERNATIVE; NEWSAPI_COVERAGE=PARTIAL_WINDOW; requested_days=365.0; searchable_days=29.0; archive_limit_days=29; SEARCH_STATUS=NO_MATCH"
+      ],
+      "time_window": {
+        "from": "2025-11-26T09:21:23Z",
+        "to": "2026-11-26T09:21:23Z",
+        "scope": "365d",
+        "requested_from": "2025-11-26",
+        "requested_to": "2026-11-26",
+        "searchable_from": "2026-10-28T09:21:33.697893+00:00",
+        "searchable_to": "2026-11-26T09:21:33.697164+00:00",
+        "actual_from": "2026-10-28",
+        "actual_to": "2026-11-26",
+        "actual_window_basis": "CONFIGURED_SEARCH_WINDOW_NOT_RETRIEVAL_VERIFIED",
+        "actual_searchable_days": 29.0,
+        "requested_horizon_days": 365.0,
+        "provider_archive_limit_days": 29,
+        "provider_limit_basis": "CONFIGURED_PLAN_WINDOW_NOT_API_VERIFIED",
+        "coverage_status": "PARTIAL_WINDOW",
+        "source_coverage": "PARTIAL",
+        "coverage_complete": false,
+        "date_basis": "PUBLICATION_DATE",
+        "event_date_coverage": "NOT_ESTABLISHED",
+        "observed_publication_from": null,
+        "observed_publication_to": null,
+        "observed_document_count": 0
+      },
+      "last_updated": "2026-11-26T09:21:36Z",
+      "successful_responses": 2
+    },
+    "XBRL International ESEF Filing Index": {
+      "connector_name": "XBRL International ESEF Filing Index",
+      "source_id": "SRC_031",
+      "technical_source": "filings.xbrl.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Airbus A350 production rate landing gear cabin interior supply chain 2026"
+      ],
+      "found_count": 1,
+      "accepted_count": 1,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 2,
+      "http_status_counts": {
+        "200": 2
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [],
+      "time_window": {
+        "from": "2025-11-26T09:21:23Z",
+        "to": "2026-11-26T09:21:23Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-26T09:21:56Z",
+      "successful_responses": 2,
+      "collected_document_count": 1,
+      "content_availability_counts": {
+        "PARTIAL_TEXT": 1
+      },
+      "observed_publication_from": "2026-02-19",
+      "observed_publication_to": "2026-02-19"
+    }
+  }
+}

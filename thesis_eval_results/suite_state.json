@@ -1,0 +1,511 @@
+{
+  "contract_tests": [
+    {
+      "test_id": "T01",
+      "area": "Offline smoke-import & contracts",
+      "expected": "Zero exit code with no import or schema errors",
+      "actual": "rc=0; ==============================================================================",
+      "status": "PASS",
+      "timestamp": "2026-11-26T12:28:36Z"
+    },
+    {
+      "test_id": "T02",
+      "area": "Dashboard & UML availability",
+      "expected": "HTTP 200 for / and /api/architecture.puml",
+      "actual": "GET /=200, GET /api/architecture.puml=200",
+      "status": "PASS",
+      "timestamp": "2026-11-26T12:28:36Z"
+    },
+    {
+      "test_id": "T03",
+      "area": "KIQ catalog & connector status",
+      "expected": "HTTP 200 with active KIQ catalog and connector status",
+      "actual": "/api/kiq-catalog=200 (KIQ=6), /api/source-status=200",
+      "status": "PASS",
+      "timestamp": "2026-11-26T12:28:36Z"
+    },
+    {
+      "test_id": "T04",
+      "area": "Input validation — blank KIT",
+      "expected": "Rejected with HTTP 422",
+      "actual": "HTTP 422",
+      "status": "PASS",
+      "timestamp": "2026-11-26T12:28:36Z"
+    },
+    {
+      "test_id": "T05",
+      "area": "Input validation — inverted dates",
+      "expected": "Rejected with HTTP 422",
+      "actual": "HTTP 422",
+      "status": "PASS",
+      "timestamp": "2026-11-26T12:28:36Z"
+    },
+    {
+      "test_id": "T06",
+      "area": "Input validation — unknown platform",
+      "expected": "Rejected with HTTP 422",
+      "actual": "HTTP 422",
+      "status": "PASS",
+      "timestamp": "2026-11-26T12:28:36Z"
+    },
+    {
+      "test_id": "T07",
+      "area": "HITL authorization — unauthorized approval",
+      "expected": "Fail-closed rejection (HTTP 401/403/422/503)",
+      "actual": "HTTP 403",
+      "status": "PASS",
+      "timestamp": "2026-11-26T12:28:36Z"
+    },
+    {
+      "test_id": "T08",
+      "area": "Runtime diagnostics & FR03 audit",
+      "expected": "HTTP 200 for /logs and /api/filter-audit",
+      "actual": "/logs=200 (state=IDLE), /api/filter-audit=200",
+      "status": "PASS",
+      "timestamp": "2026-11-26T12:28:36Z"
+    }
+  ],
+  "main_runs": {
+    "S1-Q1": {
+      "run_id": "RUN-20261126-091146-D84AC7B22F60",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:14:48Z",
+      "payload": {
+        "query": "Airbus A320neo production rate ramp-up and engine delivery delays",
+        "scope": "365d",
+        "platforms": [
+          "news",
+          "regulatory",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S1-Q2": {
+      "run_id": "RUN-20261126-091448-992BE2A3B5DD",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:19:07Z",
+      "payload": {
+        "query": "Spirit AeroSystems Boeing 737 and Airbus A220 aerostructures production transition",
+        "scope": "365d",
+        "platforms": [
+          "news",
+          "regulatory",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S1-Q3": {
+      "run_id": "RUN-20261126-091907-FA61A90E5BB8",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:21:23Z",
+      "payload": {
+        "query": "Safran CFM LEAP engine casting and forging supply constraints",
+        "scope": "365d",
+        "platforms": [
+          "news",
+          "regulatory",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S1-Q4": {
+      "run_id": "RUN-20261126-092123-B7C69909043D",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:23:05Z",
+      "payload": {
+        "query": "Airbus A350 cabin interior and landing gear supplier bottlenecks",
+        "scope": "365d",
+        "platforms": [
+          "news",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S1-Q5": {
+      "run_id": "RUN-20261126-092305-C1CB9472FEE8",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:24:38Z",
+      "payload": {
+        "query": "Aerospace titanium and specialty alloy raw material supply risks",
+        "scope": "365d",
+        "platforms": [
+          "news",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S2-Q1": {
+      "run_id": "RUN-20261126-092438-3548BC8F82CB",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:27:21Z",
+      "payload": {
+        "query": "Boeing 777X FAA certification and GE9X engine status",
+        "scope": "365d",
+        "platforms": [
+          "news",
+          "regulatory",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S2-Q2": {
+      "run_id": "RUN-20261126-092721-A00AC40B5BB8",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:29:55Z",
+      "payload": {
+        "query": "Boeing 737 MAX 7 and MAX 10 FAA certification status",
+        "scope": "365d",
+        "platforms": [
+          "news",
+          "regulatory",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S2-Q3": {
+      "run_id": "RUN-20261126-092955-E9B81DD26085",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:32:25Z",
+      "payload": {
+        "query": "CFM LEAP-1A high pressure turbine blade FAA EASA airworthiness directives",
+        "scope": "365d",
+        "platforms": [
+          "regulatory",
+          "news",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S2-Q4": {
+      "run_id": "RUN-20261126-093225-30CE4AE70F8C",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:34:16Z",
+      "payload": {
+        "query": "COMAC C919 EASA type certification progress in Europe",
+        "scope": "365d",
+        "platforms": [
+          "regulatory",
+          "news",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S2-Q5": {
+      "run_id": "RUN-20261126-093416-8BAB1A66F3D3",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:36:14Z",
+      "payload": {
+        "query": "Airbus A321XLR EASA and FAA certification and operational conditions",
+        "scope": "365d",
+        "platforms": [
+          "regulatory",
+          "news",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S3-Q1": {
+      "run_id": "RUN-20261126-094050-02352114E8EA",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:44:34Z",
+      "payload": {
+        "query": "Pratt & Whitney PW1100G powdered metal inspection and Airbus A320neo AOG impact",
+        "scope": "365d",
+        "platforms": [
+          "regulatory",
+          "news",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S3-Q2": {
+      "run_id": "RUN-20261126-094434-FEBCDFC19C48",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:46:34Z",
+      "payload": {
+        "query": "Rolls-Royce Trent XWB durability and Airbus A350 maintenance inspections",
+        "scope": "365d",
+        "platforms": [
+          "regulatory",
+          "news",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S3-Q3": {
+      "run_id": "RUN-20261126-094634-BF2AB05F9616",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:49:07Z",
+      "payload": {
+        "query": "Airbus A220 Pratt & Whitney PW1500G engine durability and grounding",
+        "scope": "365d",
+        "platforms": [
+          "regulatory",
+          "news",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S3-Q4": {
+      "run_id": "RUN-20261126-094907-AAD00C3D207A",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:50:47Z",
+      "payload": {
+        "query": "GE Aerospace GE9X mid-seal durability issue and ETOPS testing impact",
+        "scope": "365d",
+        "platforms": [
+          "regulatory",
+          "news",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S3-Q5": {
+      "run_id": "RUN-20261126-095047-49FA50BEDD7E",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:52:55Z",
+      "payload": {
+        "query": "Rolls-Royce Trent 1000 durability upgrade package Boeing 787",
+        "scope": "365d",
+        "platforms": [
+          "regulatory",
+          "news",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S4-Q1": {
+      "run_id": "RUN-20261126-095255-339A4D51E214",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:55:03Z",
+      "payload": {
+        "query": "Airbus aircraft orders and major fleet contracts announcements",
+        "scope": "90d",
+        "platforms": [
+          "airshow",
+          "news",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S4-Q2": {
+      "run_id": "RUN-20261126-095503-E0B3246D60A8",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:57:44Z",
+      "payload": {
+        "query": "Boeing widebody aircraft orders and customer delivery reshuffling",
+        "scope": "90d",
+        "platforms": [
+          "airshow",
+          "news",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S4-Q3": {
+      "run_id": "RUN-20261126-095744-1AB2FDA97002",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T09:58:54Z",
+      "payload": {
+        "query": "Embraer E2 and COMAC C919 commercial orders and market expansion",
+        "scope": "365d",
+        "platforms": [
+          "airshow",
+          "news",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S4-Q4": {
+      "run_id": "RUN-20261126-095854-424B52256598",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T10:00:36Z",
+      "payload": {
+        "query": "Airbus ZEROe hydrogen aircraft program development timeline and delays",
+        "scope": "365d",
+        "platforms": [
+          "news",
+          "pr",
+          "regulatory"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S4-Q5": {
+      "run_id": "RUN-20261126-100036-702C10D6AC9D",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T10:02:46Z",
+      "payload": {
+        "query": "Sustainable Aviation Fuel SAF availability and ReFuelEU Aviation compliance impact",
+        "scope": "365d",
+        "platforms": [
+          "regulatory",
+          "news",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S5-Q1": {
+      "run_id": "RUN-20261126-100246-76BCC2268F1D",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T10:03:30Z",
+      "payload": {
+        "query": "Airbus A380 new commercial production line launch",
+        "scope": "90d",
+        "platforms": [
+          "news",
+          "pr",
+          "regulatory"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S5-Q2": {
+      "run_id": "RUN-20261126-100330-02B4EEF56C56",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T10:04:08Z",
+      "payload": {
+        "query": "Boeing 747-8 passenger variant FAA new type certification 2026",
+        "scope": "90d",
+        "platforms": [
+          "regulatory",
+          "news",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S5-Q3": {
+      "run_id": "RUN-20261126-100408-8E49D65F4843",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T10:06:52Z",
+      "payload": {
+        "query": "Airbus A320neo CFM LEAP-1B engine defect",
+        "scope": "365d",
+        "platforms": [
+          "regulatory",
+          "news",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S5-Q4": {
+      "run_id": "RUN-20261126-100652-A2E8E1834D81",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T10:08:38Z",
+      "payload": {
+        "query": "Boeing 777X production rumors and unverified airline cancellation speculation",
+        "scope": "30d",
+        "platforms": [
+          "bluesky",
+          "youtube",
+          "news"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false
+      }
+    },
+    "S5-Q5": {
+      "run_id": "RUN-20261126-100838-714FC905994C",
+      "state": "COMPLETED",
+      "completed_at": "2026-11-26T10:11:29Z",
+      "payload": {
+        "query": "Boeing 777X FAA certification and GE9X engine status",
+        "scope": "365d",
+        "platforms": [
+          "news",
+          "regulatory",
+          "pr"
+        ],
+        "limit": 6,
+        "collection_mode": "agentic_exa",
+        "auto_approve": false,
+        "as_of_date": "2026-06-30"
+      }
+    }
+  },
+  "stability_runs": {
+    "S1-Q1": [
+      "RUN-20261126-091146-D84AC7B22F60",
+      "RUN-20261126-105259-D4F3CA1F4ACB",
+      "RUN-20261126-105424-11AAFF45E73B"
+    ],
+    "S2-Q1": [
+      "RUN-20261126-092438-3548BC8F82CB",
+      "RUN-20261126-105539-D176902D33F3",
+      "RUN-20261126-105716-CFADC68787F3"
+    ],
+    "S3-Q1": [
+      "RUN-20261126-094050-02352114E8EA",
+      "RUN-20261126-105937-E6B4D54E6F64",
+      "RUN-20261126-110120-5EE58CE1FA2B"
+    ]
+  }
+}

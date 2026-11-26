@@ -1,0 +1,3823 @@
+{
+  "report_id": "RPT-20261126-0E6AD1",
+  "run_id": "RUN-20261126-105937-E6B4D54E6F64",
+  "version": 1,
+  "outcome_status": "PARTIAL_SUCCESS",
+  "executive_summary": "This intelligence review evaluates publicly available evidence for Pratt & Whitney PW1100G powdered metal inspection and Airbus A320neo AOG impact as of 2026-11-26, combining regulatory, issuer, media, and open-source records.\n\nPrimary regulatory documentation confirms formal oversight measures and mandatory technical actions directly relevant to the topic. Key official record: FAA publication 2026-08106 (DOC_020), at stage EFFECTIVE, with an effective date of 2026-05-29. Pratt & Whitney's PW1100G engines face ongoing 'Powder Metal Matter' issues requiring accelerated inspections. This has led to increased engine removals, shop visits, and elevated AOG levels for the Airbus A320neo fleet [DOC_019 (2026-02-06)]. Pratt & Whitney's PW1100G powder metal issue persists through Q3 2026, requiring continued accelerated engine inspections for the Airbus A320neo fleet [DOC_013 (2026-10-20)].\n\nAcross the 3 targeted intelligence questions, 0 were fully answered, 1 were partially answered, and 2 remain unanswered. The main open questions remaining for follow-up concern latest dated, issue-specific status, demonstrated impact on customer deliveries, demonstrated impact on production or capacity.\n\nGoing forward, the recommended priority is to verify the specific reported event and its applicability to the monitored KIT for Pratt & Whitney (Airbus A320neo family), event RTX-PW1100G-PM-2026-001. In parallel, analysts should seek independent OEM, operator or regulatory confirmation of the reported claim for Pratt & Whitney (Unknown / Not specified in source), event FAA-PW-PM-AD-2026-001. Operational or capacity commitments should be aligned once remaining primary-source checks are closed.",
+  "detailed_analytical_assessment": "This intelligence review evaluates publicly available evidence for Pratt & Whitney PW1100G powdered metal inspection and Airbus A320neo AOG impact as of 2026-11-26, combining regulatory, issuer, media, and open-source records.\n\nPrimary regulatory documentation confirms formal oversight measures and mandatory technical actions directly relevant to the topic. Key official record: FAA publication 2026-08106 (DOC_020), at stage EFFECTIVE, with an effective date of 2026-05-29. Pratt & Whitney's PW1100G engines face ongoing 'Powder Metal Matter' issues requiring accelerated inspections. This has led to increased engine removals, shop visits, and elevated AOG levels for the Airbus A320neo fleet [DOC_019 (2026-02-06)]. Pratt & Whitney's PW1100G powder metal issue persists through Q3 2026, requiring continued accelerated engine inspections for the Airbus A320neo fleet [DOC_013 (2026-10-20)].\n\nAcross the 3 targeted intelligence questions, 0 were fully answered, 1 were partially answered, and 2 remain unanswered. The main open questions remaining for follow-up concern latest dated, issue-specific status, demonstrated impact on customer deliveries, demonstrated impact on production or capacity.\n\nThe regulatory evidence supports the identity and cited source fields of DOC_020, not an assumption that all subsequent regulatory steps were completed. The documented effective date is 2026-05-29; the effective date and whether it has already arrived are separate questions.\n\nThe wider evidence record adds the following distinct findings. The regulatory publication records “Official Summary: The FAA is adopting a new airworthiness directive (AD) for certain Pratt & Whitney RTX Corporation (PW) Model PW4074, PW4074D, PW4077, PW4077D, PW4084D, PW4090, and PW4090-3 engines. This AD was prompted by an analysis of an event involving an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a ” (DOC_018; RKIQ_001, published 2026-05-22). The regulatory publication records “This AD requires repetitive angled ultrasonic inspections (AUSIs) of certain high-pressure turbine (HPT) 1st-stage disks and turbine hubs for any crack indications, and if necessary, removal from service and replacement, and removal from service of certain HPT lenticular seal assemblies.” (DOC_020; RKIQ_001, published 2026-04-24). The regulatory publication records “Official Summary: The FAA is adopting a new airworthiness directive (AD) for certain Pratt & Whitney (PW) Model F117-PW-100, PW2037, PW2037D, PW2037M, PW2040, and PW2040D engines. This AD was prompted by an updated analysis of an event involving an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high- pressur” (DOC_020; RKIQ_001, published 2026-04-24). Their source attribution does not independently verify unreported consequences.\n\nThe unresolved evidence requirements include: Latest dated, issue-specific status; Demonstrated impact on customer deliveries; Demonstrated impact on production or capacity. These gaps limit the completeness of the assessment; they do not contradict the claims that were actually documented.\n\nA proportionate follow-up is to verify the specific reported event and its applicability to the monitored KIT for Pratt & Whitney (Airbus A320neo family), event RTX-PW1100G-PM-2026-001. Operational action should await evidence appropriate to the decision.",
+  "qa_audit_summary": "Editor text converted into typed recommendations; independent evidence QA remains authoritative. | Five-Dimensional Grounding (Technical, Claim, Causal, Independent Verification, Freshness) completed. | [Harness Guard]: 0/0 direct signals SUPPORTED, 0 PARTIALLY_SUPPORTED, 0 classified as ONGOING_ISSUE, 0 moved to RELATED_PROGRAM_WATCHLIST, 2 flagged for manual HITL verification. | Evidence disposition (not a filtering verdict): DOC_006=REFERENCED_BY_EVENT_NOT_KIQ; DOC_008=REFERENCED_BY_EVENT_NOT_KIQ; DOC_013=USED_IN_KIQ_ANSWER; DOC_015=USED_IN_KIQ_ANSWER; DOC_017=USED_IN_KIQ_ANSWER; DOC_018=USED_IN_KIQ_ANSWER; DOC_019=USED_IN_KIQ_ANSWER; DOC_020=NOT_REFERENCED_BY_ANALYST_RELEVANCE_UNDETERMINED | Editor claim audit: FAILED. | KIT_COMPLETION: NOT_ANSWERED; 3 of 3 information requirements remain unverified. | [Telemetry]: Run: RUN-20261126-105937-E6B4D54E6F64 | CollectionMode: agentic_exa | Runtime: 99.08s (Plan: 5.89s, Collect: 0.01s, Filter: 19.85s, Analyze: 54.62s, QA: 5.6s, Edit: 12.52s, Score: 0.0s) | Batches: 4/4 OK (0 failed) | Docs: 8/20 analyzed (0 failed) | LLM Calls: 7 (Retries: 0) | Model: openrouter/google/gemini-3-flash-preview | Estimated LLM Cost: $0.08532 (ESTIMATED)",
+  "hitl_status": "REPLAY_EXPERIMENT_NOT_FOR_PUBLICATION",
+  "threats": [
+    {
+      "event_id": "FAA-PW-PM-AD-2026-001",
+      "kiq_ids": [
+        "KIQ_3_1"
+      ],
+      "indicator_name": "Regulatory expansion of engine component inspection mandates",
+      "company_affected": "Pratt & Whitney",
+      "ci_dimension": "Technological CI",
+      "risk_type": "REGULATORY",
+      "secondary_risk_types": [
+        "TECHNICAL_QUALITY",
+        "SUPPLY_CHAIN"
+      ],
+      "scm_tier": "Tier 1 (Systems/Engines)",
+      "affected_component": "High-pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR-7)",
+      "affected_program": "Unknown / Not specified in source",
+      "program_relevance": "PROGRAM_UNVERIFIED",
+      "hypothetical_dependencies": [
+        "A320neo",
+        "A321neo",
+        "A321XLR",
+        "A220",
+        "E190-E2",
+        "E195-E2",
+        "ATR 42",
+        "ATR 72",
+        "Q400",
+        "F-35"
+      ],
+      "supplier_registry_basis": "Company: Pratt & Whitney (RTX) -> Role: Tier 1 (Systems/Engines) (Registry Source: RTX SEC Form 10-K / Supplier Registry) || Source-Evidenced Component: High-pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR-7) || Source-Evidenced Program: Unknown / Not specified in source",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] Pratt & Whitney (RTX) -> Role: Tier 1 (Systems/Engines)",
+        "[Source-Evidenced Component] High-pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR-7)",
+        "[Source-Evidenced Program] Unknown / Not specified in source",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A320neo, A321neo, A321XLR",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Unverified source claim (DOC_018): Airworthiness Directives; Pratt & Whitney RTX Corporation (Type Certificate Previously Held by Pratt & Whitney Division United Technologies Corporation) Engines. The reported event and its operational impacts have not been independently confirmed.",
+      "decision_question": "Should MRO resource allocation be adjusted to account for new repetitive ultrasonic scan requirements on PW2000 and PW4000 engine fleets?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "The available evidence does not establish the event's asserted causes or consequences. Independent verification is required.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting Pratt & Whitney (RTX) (Tier 1 (Systems/Engines)) on source-evidenced program Unknown / Not specified in source. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A320neo, A321neo, A321XLR)",
+      "fact_check_quote": "The FAA is adopting a new airworthiness directive (AD) for certain Pratt & Whitney RTX Corporation (PW) Model PW4074, PW4074D, PW4077, PW4077D, PW4084D, PW4090, and",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_020",
+          "source_url": "https://www.federalregister.gov/documents/2026/04/24/2026-08106/airworthiness-directives-pratt-and-whitney-engines",
+          "source_type": "UNDETERMINED",
+          "passage_text": "This AD was prompted by an updated analysis of an event involving an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high- pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR-7) separation that resulted in an engine shutdown and aborted takeoff.",
+          "passage_hash": "80a5f98efba5691e722a781be2d7a21e1a840feb235ec7e90eae6f62e40f2a0d",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        },
+        {
+          "document_id": "DOC_018",
+          "source_url": "https://www.federalregister.gov/documents/2026/05/22/2026-10360/airworthiness-directives-pratt-and-whitney-rtx-corporation-type-certificate-previously-held-by-pratt",
+          "source_type": "UNDETERMINED",
+          "passage_text": "The commenter discussed the nature of nickel powder metallurgy; that minor variations can create microscopic defects, which may become weaknesses under stress; and that some production batches are already shown to have resultant anomalies, which reduce component fatigue life.",
+          "passage_hash": "c803828da42e4698f0282b3f4d9470e783c3fddc33b81fcdf8416d3333279eef",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "FAA requires repetitive angle ultrasonic scan inspection for PW4000 series engines due to powdered metal variability.",
+          "document_id": "DOC_018",
+          "quote": "This AD requires repetitive angle ultrasonic scan inspection where variability is suspected. The commenter discussed the nature of nickel powder metallurgy; that minor variations can create microscopic defects.",
+          "source_url": "https://www.federalregister.gov/documents/2026/05/22/2026-10360/airworthiness-directives-pratt-and-whitney-rtx-corporation-type-certificate-previously-held-by-pratt",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "REGULATOR_OFFICIAL_DECISION",
+          "entity": "Pratt & Whitney RTX Corporation",
+          "program": "Unknown / Not specified in source",
+          "component": "High-pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR-7)",
+          "issue": "Nickel powder metallurgy defects and microscopic defects reducing fatigue life.",
+          "regulatory_authority": "FAA",
+          "publication_date": "2026-05-22",
+          "event_date": "2026-05-22",
+          "cause": "Analysis of PW1127GA-JM IBR-7 separation.",
+          "effect": "Repetitive angle ultrasonic scan inspection required.",
+          "status_before": "Pre-AD regulatory status",
+          "status_after": "AD Effective 2026-06-26",
+          "resolution_outcome": "AD adoption",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_018"
+      ],
+      "source_urls": [
+        "https://www.federalregister.gov/documents/2026/05/22/2026-10360/airworthiness-directives-pratt-and-whitney-rtx-corporation-type-certificate-previously-held-by-pratt"
+      ],
+      "verification_status": "UNVERIFIED (HISTORICAL_CONTEXT | UNSUPPORTED) [Evidence from different FAA dockets removed. | Original LLM quote was not traceable; replaced by a literal excerpt of the stored FAA abstract. This does not verify unquoted operational effects. | Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified. | Engine mismatch: Claim references ['PW1100G_GTF', 'PW2000', 'PW4000'] vs source ['PW1100G_GTF', 'PW4000'] | Source published 188 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source) | All constraining technical facets of the KIT (aircraft program and/or specific propulsion/component scope) could not be simultaneously verified from event evidence. Direct KIT relevance remains unconfirmed. | KIT_FACT_GAP: COMPONENT=NEGATIVE | Unverified cause removed from confirmed facts; source wording retained only as a quotation | LLM-proposed confirmed_facts were withheld because the claim did not pass Harness validation. | FAA docket lifecycle search unavailable; latest regulatory status not independently checked.]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "UNSUPPORTED",
+      "causal_support_status": "UNSUPPORTED",
+      "independent_verification_status": "SINGLE_PRIMARY_SOURCE",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "UNSUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "UNSUPPORTED",
+        "3. Causal Support": "UNSUPPORTED",
+        "4. Independent Verification": "SINGLE_PRIMARY_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "PROGRAM_UNVERIFIED",
+        "Source-Evidenced Program": "Unknown / Not specified in source",
+        "Hypothetical Shared Dependencies": "A320neo, A321neo, A321XLR, A220, E190-E2, E195-E2, ATR 42, ATR 72, Q400, F-35",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "FAA_FEDERAL_REGISTER",
+        "Claim Authority": "REGULATOR_OFFICIAL_PUBLICATION",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=POSITIVE, VARIANT=NOT_REQUIRED, COMPONENT=NEGATIVE, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-05-22",
+        "event_date": "2026-04-24",
+        "effective_date": "2026-06-26",
+        "deadline": "DATE_UNKNOWN",
+        "FAA Publication Verified": "YES",
+        "FAA Document Number": "2026-10360",
+        "FAA Docket": "FAA-2025-0923",
+        "FAA Publication Date": "2026-05-22",
+        "FAA Lifecycle Verified": "NO",
+        "FAA Supersession Status": "UNKNOWN",
+        "FAA Effective Date Established": "YES",
+        "FAA Effective As Of Date": "UNKNOWN",
+        "FAA Effective Date": "2026-06-26",
+        "Regulatory Stage": "EFFECTIVE",
+        "Severity": "9/10 (potential impact, not verification)",
+        "Confidence": "LOW",
+        "Verification": "UNSUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "CURRENT_STATUS_UNKNOWN",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-26",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-05-22",
+      "first_seen_at": "2026-11-26T11:01:18Z",
+      "last_seen_at": "2026-11-26T11:01:18Z",
+      "updated_at": "2026-11-26T11:01:18Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://www.federalregister.gov/documents/2026/05/22/2026-10360/airworthiness-directives-pratt-and-whitney-rtx-corporation-type-certificate-previously-held-by-pratt",
+      "missing_data": "Aircraft-specific AOG rates and delivery impacts are not stated in the regulatory documents.",
+      "intelligence_gap": {
+        "gap_id": "GAP_001",
+        "what_is_missing": "Quantified impact on A320neo AOG rates and specific Airbus program delivery schedules.",
+        "why_important": "Required to confirm supply chain propagation impact beyond regulatory text.",
+        "affected_kiq_id": "KIQ_3_1",
+        "recommended_source": "Pratt & Whitney / RTX Quarterly Investor Updates",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Regulator-mandated repetitive inspections of HPC/HPT disks create an MRO bottleneck, potentially exceeding shop capacity and increasing AOG rates for legacy fleets while competing for resources with the PW1100G recovery program.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 4,
+          "rationale": "Repetitive inspections on widely used engine models (PW2000/PW4000) create significant operational burden."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "P&W is the sole provider for these engine types."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "Proprietary P&W engine components and specialized ultrasonic inspection required."
+        },
+        "propagation_scope": {
+          "score": 4,
+          "rationale": "Mandates affect multiple engine families beyond the original PW1100G issue."
+        },
+        "temporal_urgency": {
+          "score": 5,
+          "rationale": "ADs are currently effective as of mid-2026."
+        }
+      },
+      "threat_score": 9,
+      "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (9/10). Evidence status: UNSUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+      "confidence_level": "LOW",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    },
+    {
+      "event_id": "RTX-PW1100G-PM-2026-001",
+      "kiq_ids": [
+        "KIQ_1_2"
+      ],
+      "indicator_name": "Aviation intelligence warning indicator",
+      "company_affected": "Pratt & Whitney",
+      "ci_dimension": "Technological CI",
+      "risk_type": "SUPPLY_CHAIN",
+      "secondary_risk_types": [
+        "FINANCIAL",
+        "TECHNICAL_QUALITY"
+      ],
+      "scm_tier": "Tier 1 (Systems/Engines)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Airbus A320neo family",
+      "program_relevance": "PROGRAM_UNVERIFIED",
+      "hypothetical_dependencies": [
+        "A321neo",
+        "A321XLR",
+        "A220",
+        "E190-E2",
+        "E195-E2",
+        "ATR 42",
+        "ATR 72",
+        "Q400",
+        "F-35"
+      ],
+      "supplier_registry_basis": "Company: Pratt & Whitney (RTX) -> Role: Tier 1 (Systems/Engines) (Registry Source: RTX SEC Form 10-K / Supplier Registry) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Airbus A320neo family",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] Pratt & Whitney (RTX) -> Role: Tier 1 (Systems/Engines)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Airbus A320neo family",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A321neo, A321XLR, A220",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Pratt & Whitney's PW1100G engines face ongoing 'Powder Metal Matter' issues requiring accelerated inspections. This has led to increased engine removals, shop visits, and elevated AOG levels for the Airbus A320neo fleet.",
+      "decision_question": "Should Airbus adjust its A320neo delivery targets based on the documented persistence of the 'Powder Metal Matter' into Q1 2026?",
+      "confirmed_facts": "This issue has resulted in increased engine removals and inspections, shop visits, aircraft on ground levels, and costs to the Company.",
+      "analytical_interpretation": "RTX Corp's SEC filings confirm the 2023 powdered metal issue remains an active operational and financial headwind through early 2026, causing persistent AOG impacts.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting Pratt & Whitney (RTX) (Tier 1 (Systems/Engines)) on source-evidenced program Airbus A320neo family. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A321neo, A321XLR, A220)",
+      "fact_check_quote": "This issue has resulted in increased engine removals and inspections, shop visits, aircraft on ground levels, and costs to the Company.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_019",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+          "source_type": "UNDETERMINED",
+          "passage_text": "In addition, in July 2023 Pratt & Whitney determined that a rare condition in powder metal used to manufacture certain engine parts requires accelerated inspection of the PW1100G-JM (PW1100) GTF fleet, which powers the A320neo family of aircraft. This issue has resulted in increased engine removals and inspections, shop visits, aircraft on ground levels, and costs to the Company.",
+          "passage_hash": "703092d5769eded9fe55b4c761797f6f82a73b92f631f515c60cdb4aab59f1af",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "A rare condition in powder metal requires accelerated inspection of the PW1100G-JM fleet, impacting A320neo AOG levels.",
+          "document_id": "DOC_019",
+          "quote": "This issue has resulted in increased engine removals and inspections, shop visits, aircraft on ground levels, and costs to the Company.",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+          "claim_type": "IMPACT",
+          "evidence_authority": "ISSUER_OFFICIAL_STATEMENT",
+          "entity": "Pratt & Whitney",
+          "program": "Airbus A320neo family",
+          "component": "powder metal engine parts",
+          "issue": "Powder Metal Matter accelerated inspections",
+          "regulatory_authority": "SEC",
+          "publication_date": "2026-02-06",
+          "event_date": "2023-07-01",
+          "cause": "rare condition in powder metal used to manufacture certain engine parts",
+          "effect": "increased engine removals and inspections, shop visits, aircraft on ground levels, and costs",
+          "status_before": "Standard maintenance cycle",
+          "status_after": "AOG and cost impact ongoing",
+          "resolution_outcome": "None reported; ongoing inspections required.",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "Powder metal condition persists as a commitment/contingency in Q1 2026 reporting.",
+          "document_id": "DOC_017",
+          "quote": "Pratt & Whitney determined that a rare condition in powder metal used to manufacture certain engine parts requires accelerated inspection of the PW1100G-JM (PW1100) Geared Turbofan (GTF) fleet",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000011/rtx-20260331.htm",
+          "claim_type": "CURRENT_STATUS",
+          "evidence_authority": "ISSUER_OFFICIAL_STATEMENT",
+          "entity": "Pratt & Whitney",
+          "program": "Airbus A320neo family",
+          "component": "powder metal engine parts",
+          "issue": "Powder Metal Matter accelerated inspections",
+          "regulatory_authority": "SEC",
+          "publication_date": "2026-04-21",
+          "event_date": "2026-03-31",
+          "cause": "rare condition in powder metal",
+          "effect": "Accelerated inspections required",
+          "status_before": "Initial 2023 determination",
+          "status_after": "Ongoing accelerated inspections",
+          "resolution_outcome": "Ongoing matter documented in Note 15.",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_019",
+        "DOC_017"
+      ],
+      "source_urls": [
+        "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+        "https://www.sec.gov/Archives/edgar/data/101829/000010182926000011/rtx-20260331.htm"
+      ],
+      "verification_status": "SUPPORTED SOURCE; DIRECT KIT RELEVANCE UNVERIFIED (HISTORICAL_CONTEXT) [Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified. | Source published 293 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source) | All constraining technical facets of the KIT (aircraft program and/or specific propulsion/component scope) could not be simultaneously verified from event evidence. Direct KIT relevance remains unconfirmed. | KIT_FACT_GAP: PROGRAM=UNKNOWN, VARIANT=UNKNOWN, COMPONENT=UNKNOWN]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "EVIDENCED_IN_VERIFIED_SOURCE",
+      "independent_verification_status": "SINGLE_PRIMARY_SOURCE",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "EVIDENCED_IN_VERIFIED_SOURCE",
+        "4. Independent Verification": "SINGLE_PRIMARY_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "PROGRAM_UNVERIFIED",
+        "Source-Evidenced Program": "Airbus A320neo family",
+        "Hypothetical Shared Dependencies": "A321neo, A321XLR, A220, E190-E2, E195-E2, ATR 42, ATR 72, Q400, F-35",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "SEC_EDGAR",
+        "Claim Authority": "ISSUER_REPORTED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=UNKNOWN, VARIANT=UNKNOWN, COMPONENT=UNKNOWN, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-02-06",
+        "event_date": "2023-07-01",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "10/10 (potential impact, not verification)",
+        "Confidence": "HIGH",
+        "Verification": "SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "GROUNDING",
+        "Chronology As Of": "2026-11-26",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-02-06",
+      "first_seen_at": "2026-11-26T11:01:18Z",
+      "last_seen_at": "2026-11-26T11:01:18Z",
+      "updated_at": "2026-11-26T11:01:18Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+      "missing_data": "Quantified aircraft on ground (AOG) count for the 2026 period is not provided in the filings.",
+      "intelligence_gap": {
+        "gap_id": "GAP_RTX_AOG_QTY",
+        "what_is_missing": "Exact number of AOG aircraft and the specific component replacement timeline in 2026.",
+        "why_important": "Required to quantify the total A320neo fleet availability risk.",
+        "affected_kiq_id": "KIQ_1_2",
+        "recommended_source": "FAA / EASA / Airbus Official PR",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "The PW1100G powdered metal defect creates a multi-year MRO bottleneck. Supply chain nodes are strained as industrial capacity is diverted from new production to accelerated inspections and component replacements. Competitors (CFM) may gain market share if AOG rates persist, while airlines face systemic capacity shortfalls due to grounded A320neo fleets.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 5,
+          "rationale": "Directly causes aircraft grounding and significant financial costs to the OEM."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Pratt & Whitney is one of only two engine suppliers for the A320neo."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "The engine is a primary configuration; switching to CFM requires new aircraft orders."
+        },
+        "propagation_scope": {
+          "score": 4,
+          "rationale": "Affects the entire PW1100G GTF fleet powering A320neo family aircraft."
+        },
+        "temporal_urgency": {
+          "score": 5,
+          "rationale": "Active issue requiring accelerated inspections and causing ongoing fleet grounding."
+        }
+      },
+      "threat_score": 10,
+      "score_rationale": "Deterministic 5-factor I&W score 10/10 (S = round(4.85 * 2) = 10/10). Primary drivers: F1 Impact Severity (5/5, w=0.30), F2 Supplier Criticality (5/5, w=0.20). Potential severity only; evidence validation is evaluated separately.",
+      "confidence_level": "HIGH",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    },
+    {
+      "event_id": "PW1100G-PM-2026-Q3-RTX-UPDATE",
+      "kiq_ids": [
+        "KIQ_1_2"
+      ],
+      "indicator_name": "Engine technical defect affecting fleet airworthiness",
+      "company_affected": "Pratt & Whitney",
+      "ci_dimension": "Technological CI",
+      "risk_type": "TECHNICAL_QUALITY",
+      "secondary_risk_types": [
+        "REGULATORY",
+        "SUPPLY_CHAIN"
+      ],
+      "scm_tier": "Tier 1 (Systems/Engines)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Airbus A320neo family (A320neo)",
+      "program_relevance": "PROGRAM_UNVERIFIED",
+      "hypothetical_dependencies": [
+        "A321neo",
+        "A321XLR",
+        "A220",
+        "E190-E2",
+        "E195-E2",
+        "ATR 42",
+        "ATR 72",
+        "Q400",
+        "F-35"
+      ],
+      "supplier_registry_basis": "Company: Pratt & Whitney (RTX) -> Role: Tier 1 (Systems/Engines) (Registry Source: RTX SEC Form 10-K / Supplier Registry) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Airbus A320neo family (A320neo)",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] Pratt & Whitney (RTX) -> Role: Tier 1 (Systems/Engines)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Airbus A320neo family (A320neo)",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A321neo, A321XLR, A220",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Pratt & Whitney's PW1100G powder metal issue persists through Q3 2026, requiring continued accelerated engine inspections for the Airbus A320neo fleet.",
+      "decision_question": "Does the persistent 'Powder Metal Matter' reporting in Q3 2026 indicate a delay in the previously projected resolution timeline for the PW1100G disk replacement backlog?",
+      "confirmed_facts": "Pratt & Whitney determined that a rare condition in powder metal used to manufacture certain engine parts requires accelerated inspection of the PW1100G-JM (PW1100) Geared",
+      "analytical_interpretation": "RTX reconfirmed in late 2026 that the 2023 powder metal issue remains a legally reportable contingency requiring ongoing accelerated fleet inspections.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting Pratt & Whitney (RTX) (Tier 1 (Systems/Engines)) on source-evidenced program Airbus A320neo family (A320neo). (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A321neo, A321XLR, A220)",
+      "fact_check_quote": "Pratt & Whitney determined that a rare condition in powder metal used to manufacture certain engine parts requires accelerated inspection of the PW1100G-JM (PW1100) Geared",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_013",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000031/rtx-20260930.htm",
+          "source_type": "ISSUER_OFFICIAL_STATEMENT",
+          "passage_text": "As described further in “Note 16: Commitments and Contingencies,” within Item 1 of this Form 10-Q, in 2023, Pratt & Whitney determined that a rare condition in powder metal used to manufacture certain engine parts requires accelerated inspection of the PW1100G-JM (PW1100) Geared Turbofan (GTF) fleet, which powers the A320neo family of aircraft (A320neo) (herein referred to as the “Powder Metal Matter”).",
+          "passage_hash": "8f90279226e1b5431aa0b2c6c78c2296c1b72cabc1e35c8182b9706988e080da",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        },
+        {
+          "document_id": "DOC_015",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000027/rtx-20260630.htm",
+          "source_type": "ISSUER_OFFICIAL_STATEMENT",
+          "passage_text": "As described further in “Note 16: Commitments and Contingencies,” within Item 1 of this Form 10-Q, in 2023, Pratt & Whitney determined that a rare condition in powder metal used to manufacture certain engine parts requires accelerated inspection of the PW1100G-JM (PW1100) Geared Turbofan (GTF) fleet, which powers the A320neo family of aircraft (A320neo) (herein referred to as the “Powder Metal Matter”).",
+          "passage_hash": "8f90279226e1b5431aa0b2c6c78c2296c1b72cabc1e35c8182b9706988e080da",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Pratt & Whitney accelerated inspections of PW1100G-JM engines continue through Q3 2026 due to powder metal conditions.",
+          "document_id": "DOC_013",
+          "quote": "in 2023, Pratt & Whitney determined that a rare condition in powder metal used to manufacture certain engine parts requires accelerated inspection of the PW1100G-JM (PW1100) Geared Turbofan (GTF) fleet, which powers the A320neo family of aircraft (A320neo) (herein referred to as the “Powder Metal Matter”).",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000031/rtx-20260930.htm",
+          "claim_type": "CURRENT_STATUS",
+          "evidence_authority": "ISSUER_OFFICIAL_STATEMENT",
+          "entity": "Pratt & Whitney",
+          "program": "Airbus A320neo family (A320neo)",
+          "component": "powder metal engine parts",
+          "issue": "Powder Metal Matter",
+          "regulatory_authority": "SEC",
+          "publication_date": "2026-10-20",
+          "event_date": "2026-09-30",
+          "cause": "rare condition in powder metal used to manufacture certain engine parts",
+          "effect": "accelerated inspection of the PW1100G-JM (PW1100) Geared Turbofan (GTF) fleet",
+          "status_before": "normal inspection cycle",
+          "status_after": "accelerated inspection required",
+          "resolution_outcome": "UNRESOLVED (Ongoing accelerated inspections)",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "RTX reconfirmed the Powder Metal Matter contingency in its Q2 2026 10-Q filing.",
+          "document_id": "DOC_015",
+          "quote": "Pratt & Whitney determined that a rare condition in powder metal used to manufacture certain engine parts requires accelerated inspection of the PW1100G-JM (PW1100) Geared Turbofan (GTF) fleet, which powers the A320neo family of aircraft (A320neo) (herein referred to as the “Powder Metal Matter”).",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000027/rtx-20260630.htm",
+          "claim_type": "CURRENT_STATUS",
+          "evidence_authority": "ISSUER_OFFICIAL_STATEMENT",
+          "entity": "RTX Corp (Pratt & Whitney)",
+          "program": "PW1100G-JM (PW1100) Geared Turbofan (GTF) fleet; A320neo family",
+          "component": "powder metal engine parts",
+          "issue": "Powder Metal Matter accelerated inspections",
+          "regulatory_authority": "SEC",
+          "publication_date": "2026-07-23",
+          "event_date": "2026-06-30",
+          "cause": "rare condition in powder metal",
+          "effect": "accelerated inspection required",
+          "status_before": "DATE_UNKNOWN",
+          "status_after": "Accelerated inspections ongoing",
+          "resolution_outcome": "Ongoing inspection mandate",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_013",
+        "DOC_015"
+      ],
+      "source_urls": [
+        "https://www.sec.gov/Archives/edgar/data/101829/000010182926000031/rtx-20260930.htm",
+        "https://www.sec.gov/Archives/edgar/data/101829/000010182926000027/rtx-20260630.htm"
+      ],
+      "verification_status": "SUPPORTED SOURCE; DIRECT KIT RELEVANCE UNVERIFIED (EVENT_DATE_UNKNOWN) [Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified. | KIT_FACT_GAP: COMPONENT=NEGATIVE]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "SINGLE_PRIMARY_SOURCE",
+      "event_freshness": "EVENT_DATE_UNKNOWN",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "SINGLE_PRIMARY_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "EVENT_DATE_UNKNOWN",
+        "Program Relevance Scope": "PROGRAM_UNVERIFIED",
+        "Source-Evidenced Program": "Airbus A320neo family (A320neo)",
+        "Hypothetical Shared Dependencies": "A321neo, A321XLR, A220, E190-E2, E195-E2, ATR 42, ATR 72, Q400, F-35",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "SEC_EDGAR",
+        "Claim Authority": "ISSUER_REPORTED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=POSITIVE, VARIANT=NOT_REQUIRED, COMPONENT=NEGATIVE, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-10-20",
+        "event_date": "2026-09-30",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "9/10 (potential impact, not verification)",
+        "Confidence": "HIGH",
+        "Verification": "SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "PRODUCTION",
+        "Chronology As Of": "2026-11-26",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-10-20",
+      "first_seen_at": "2026-11-26T11:01:18Z",
+      "last_seen_at": "2026-11-26T11:01:18Z",
+      "updated_at": "2026-11-26T11:01:18Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000031/rtx-20260930.htm",
+      "missing_data": "Document provides no specific 2026 AOG counts or regulatory inspection deadlines beyond reconfirming the 2023 determination.",
+      "intelligence_gap": {
+        "gap_id": "GAP_PW_AOG_QUANT_2026",
+        "what_is_missing": "Quantified aircraft-on-ground (AOG) rates and specific delivery schedule impacts for H2 2026.",
+        "why_important": "Required to confirm if the 'Powder Metal Matter' is intensifying or stabilizing in terms of fleet impact.",
+        "affected_kiq_id": "KIQ_1_2",
+        "recommended_source": "Airbus Q3 2026 Earnings / FAA AD Database",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Persistent inspection mandates for primary propulsion systems create a JIT maintenance bottleneck, potentially forcing airlines to seek alternative wet-lease capacity or shift orders to competitors using LEAP-1A engines.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 4,
+          "rationale": "Engine-wide accelerated inspection requirement threatens fleet availability."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Pratt & Whitney is one of two primary engine suppliers for the A320neo program."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "Propulsion systems are engine-model specific; switching requires major aircraft reconfiguration."
+        },
+        "propagation_scope": {
+          "score": 5,
+          "rationale": "Affects the entire PW1100G-JM fleet powering the A320neo family."
+        },
+        "temporal_urgency": {
+          "score": 4,
+          "rationale": "Issue is an ongoing operational disruption documented through Q3 2026."
+        }
+      },
+      "threat_score": 9,
+      "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (9/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "HIGH",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    },
+    {
+      "event_id": "PW1100G-PM-2026-001",
+      "kiq_ids": [],
+      "indicator_name": "PW1100G powdered metal inspection and A320neo AOG impact",
+      "company_affected": "Pratt & Whitney",
+      "ci_dimension": "Tactical CI",
+      "risk_type": "SUPPLY_CHAIN",
+      "secondary_risk_types": [
+        "TECHNICAL_QUALITY",
+        "REGULATORY"
+      ],
+      "scm_tier": "Tier 1 (Systems/Engines)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "A320NEO_FAMILY",
+      "program_relevance": "PROGRAM_UNVERIFIED",
+      "hypothetical_dependencies": [
+        "A321neo",
+        "A321XLR",
+        "A220",
+        "E190-E2",
+        "E195-E2",
+        "ATR 42",
+        "ATR 72",
+        "Q400",
+        "F-35"
+      ],
+      "supplier_registry_basis": "Company: Pratt & Whitney (RTX) -> Role: Tier 1 (Systems/Engines) (Registry Source: RTX SEC Form 10-K / Supplier Registry) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: A320NEO_FAMILY",
+      "propagation_effect": "Just-in-Time (JIT) Disruption",
+      "impact_path": [
+        "[Evidenced Entity] Pratt & Whitney (RTX) -> Role: Tier 1 (Systems/Engines)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] A320NEO_FAMILY",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A321neo, A321XLR, A220",
+        "[Hypothetical Propagation Mechanism] Just-in-Time (JIT) Disruption"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Source excerpt: Hundreds of Airbus A320neo jets have sat grounded waiting for Pratt & Whitney engine inspections, and Airbus has parked finished airframes with no engines on. Claimed operational impacts require verification.",
+      "decision_question": "Should management adjust A320neo delivery forecasts and secure additional MRO slots to mitigate the persistent PW1100G shop visit surge?",
+      "confirmed_facts": "Source statement (event not fully verified): Hundreds of Airbus A320neo jets have sat grounded waiting for Pratt & Whitney engine inspections, and Airbus has parked finished airframes with no engines on",
+      "analytical_interpretation": "The 2026 reporting confirms that despite regulatory mandates dating to 2024, the industrial impact has peaked into a persistent fleet-wide AOG crisis and production line 'gliders' at Airbus.",
+      "hypothetical_scenario": "Hypothetical Just-in-Time (JIT) Disruption scenario affecting Pratt & Whitney (RTX) (Tier 1 (Systems/Engines)) on source-evidenced program A320NEO_FAMILY. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A321neo, A321XLR, A220)",
+      "fact_check_quote": "Hundreds of Airbus A320neo jets have sat grounded waiting for Pratt & Whitney engine inspections, and Airbus has parked finished airframes with no engines on",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_008",
+          "source_url": "https://globalenergygeneva.com/blog/pw1100g-jm-engine-removals-transport-stands",
+          "source_type": "UNDETERMINED",
+          "passage_text": "AD 2024-05-11, effective April 11, 2024, affects 430 PW1100G-JM engines on US-registered aircraft, with inspections and part replacements tied to engine group, prior inspection status and part number.",
+          "passage_hash": "cf19cd909a5b7222c625f3fba6c21f531e9bb1bcd5d9bce8b8f858379e54f52b",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        },
+        {
+          "document_id": "DOC_006",
+          "source_url": "https://aerocorner.com/blog/challenges-aircraft-engine-manufacturers/",
+          "source_type": "UNDETERMINED",
+          "passage_text": "Hundreds of Airbus A320neo jets have sat grounded waiting for Pratt & Whitney engine inspections, and Airbus has parked finished airframes with no engines on them at all.",
+          "passage_hash": "0523b281d1ce8f38c0cbc92fa3469a9ef3e01064994c32293016bb24e88eed55",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "FAA AD 2024-05-11 mandates inspections for 430 US-registered PW1100G-JM engines.",
+          "document_id": "DOC_008",
+          "quote": "AD 2024-05-11, effective April 11, 2024, affects 430 PW1100G-JM engines on US-registered aircraft",
+          "source_url": "https://globalenergygeneva.com/blog/pw1100g-jm-engine-removals-transport-stands",
+          "claim_type": "CURRENT_STATUS",
+          "evidence_authority": "UNDETERMINED",
+          "entity": "Pratt & Whitney",
+          "program": "PW1100G-JM",
+          "component": "powdered-metal parts",
+          "issue": "powder-metal problem",
+          "regulatory_authority": "FAA",
+          "publication_date": "2026-11-05",
+          "event_date": "2024-04-11",
+          "cause": "powdered-metal anomalies",
+          "effect": "shop-visit surge",
+          "status_before": "OPERATIONAL",
+          "status_after": "MANDATORY_INSPECTION",
+          "resolution_outcome": "inspection and part replacement mandated",
+          "passage_hash": null,
+          "classification_audit": [
+            {
+              "field": "evidence_authority",
+              "original": "REGULATOR_OFFICIAL_DECISION",
+              "corrected": "UNDETERMINED",
+              "reason": "REGULATOR_AUTHORITY_NOT_ESTABLISHED_BY_SOURCE"
+            }
+          ]
+        },
+        {
+          "claim_text": "Hundreds of Airbus A320neo jets are grounded (AOG) and finished airframes lack engines.",
+          "document_id": "DOC_006",
+          "quote": "Hundreds of Airbus A320neo jets have sat grounded waiting for Pratt & Whitney engine inspections, and Airbus has parked finished airframes with no engines on them at all.",
+          "source_url": "https://aerocorner.com/blog/challenges-aircraft-engine-manufacturers/",
+          "claim_type": "IMPACT",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Airbus",
+          "program": "Airbus A320neo",
+          "component": "GTF engine",
+          "issue": "Grounded GTFs to Missing Engines",
+          "regulatory_authority": "None stated",
+          "publication_date": "2026-11-17",
+          "event_date": "2026-11-17",
+          "cause": "engine inspection requirements and lack of engines",
+          "effect": "AOG and parked airframes",
+          "status_before": "OPERATIONAL/IN_PRODUCTION",
+          "status_after": "AOG",
+          "resolution_outcome": "ongoing grounding",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_006",
+        "DOC_008"
+      ],
+      "source_urls": [
+        "https://aerocorner.com/blog/challenges-aircraft-engine-manufacturers/",
+        "https://globalenergygeneva.com/blog/pw1100g-jm-engine-removals-transport-stands"
+      ],
+      "verification_status": "PARTIALLY SUPPORTED (EVENT_DATE_UNKNOWN | Manual Review Required) [LLM URL differed from DOC_006 metadata; overwritten with canonical document URL | CAUSAL_LINK_NOT_EXPLICIT_IN_CITED_PASSAGE: downstream causality is not verified | Unverified causal interpretation cannot be included among confirmed facts. | All constraining technical facets of the KIT (aircraft program and/or specific propulsion/component scope) could not be simultaneously verified from event evidence. Direct KIT relevance remains unconfirmed. | KIT_FACT_GAP: PROGRAM=UNKNOWN, COMPONENT=UNKNOWN | Unverified cause removed from confirmed facts; source wording retained only as a quotation]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "PARTIALLY_STATED_IN_SOURCE",
+      "causal_support_status": "HYPOTHETICAL_ONLY",
+      "independent_verification_status": "CORROBORATED_INDEPENDENTLY",
+      "event_freshness": "EVENT_DATE_UNKNOWN",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "PARTIALLY_STATED_IN_SOURCE",
+        "3. Causal Support": "HYPOTHETICAL_ONLY",
+        "4. Independent Verification": "CORROBORATED_INDEPENDENTLY (2 non-syndicated source(s))",
+        "5. Event Freshness": "EVENT_DATE_UNKNOWN",
+        "Program Relevance Scope": "PROGRAM_UNVERIFIED",
+        "Source-Evidenced Program": "A320NEO_FAMILY",
+        "Hypothetical Shared Dependencies": "A321neo, A321XLR, A220, E190-E2, E195-E2, ATR 42, ATR 72, Q400, F-35",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=UNKNOWN, VARIANT=POSITIVE, COMPONENT=UNKNOWN, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-11-17",
+        "event_date": "2024-04-11",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "10/10 (potential impact, not verification)",
+        "Confidence": "LOW",
+        "Verification": "PARTIALLY_SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "CURRENT_STATUS_UNKNOWN",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "GROUNDING",
+        "Chronology As Of": "2026-11-26",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-11-17",
+      "first_seen_at": "2026-11-26T11:01:18Z",
+      "last_seen_at": "2026-11-26T11:01:18Z",
+      "updated_at": "2026-11-26T11:01:18Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://aerocorner.com/blog/challenges-aircraft-engine-manufacturers/",
+      "missing_data": "Verification required: LLM URL differed from DOC_006 metadata; overwritten with canonical document URL; CAUSAL_LINK_NOT_EXPLICIT_IN_CITED_PASSAGE: downstream causality is not verified.",
+      "intelligence_gap": {
+        "gap_id": "GAP-001-PM",
+        "what_is_missing": "Quantified MRO throughput capacity vs backlog volume as of late 2026.",
+        "why_important": "Determines the recovery timeline for the A320neo fleet.",
+        "affected_kiq_id": "KIQ_3_1",
+        "recommended_source": "Pratt & Whitney Q4 2026 Investor Presentation / Airbus Production Update",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "MRO capacity saturation causes multi-year AOG backlog as Pratt & Whitney struggles with powdered metal part replacement for the PW1100G. Airbus faces delivery penalties and production bottlenecks as finished A320neo airframes lack engines, allowing competitors with Alternative Propulsion (LEAP-1A) to capture market share.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 5,
+          "rationale": "Hundreds of aircraft grounded; finished airframes lack engines."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "P&W is one of two engine OEMs for the A320neo family."
+        },
+        "substitutability_difficulty": {
+          "score": 4,
+          "rationale": "Single-source parts; engine swapping constrained by LEAP-1A lead times."
+        },
+        "propagation_scope": {
+          "score": 5,
+          "rationale": "Affects massive global A320neo fleet and production lines."
+        },
+        "temporal_urgency": {
+          "score": 5,
+          "rationale": "Ongoing AOG crisis reconfirmed in Nov 2026."
+        }
+      },
+      "threat_score": 10,
+      "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (10/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+      "confidence_level": "LOW",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    }
+  ],
+  "threat_reports": [
+    {
+      "threat_id": "FAA-PW-PM-AD-2026-001",
+      "event_title": "Unverified source claim (DOC_018): Airworthiness Directives; Pratt & Whitney RTX Corporation (Type Certificate Previously Held by Pratt & Whitney Division United Technologies Corporation) Engines. The reported event and its operational impacts have not been independently confirmed.",
+      "category": "REGULATORY",
+      "affected_entity": "Pratt & Whitney",
+      "threat_score": 9,
+      "source_url": "https://www.federalregister.gov/documents/2026/05/22/2026-10360/airworthiness-directives-pratt-and-whitney-rtx-corporation-type-certificate-previously-held-by-pratt",
+      "timestamp": "2026-05-22",
+      "mitigation_advice": "Seek independent OEM, operator or regulatory confirmation of the reported claim for Pratt & Whitney (Unknown / Not specified in source), event FAA-PW-PM-AD-2026-001.",
+      "confidence_level": "LOW",
+      "validation_status": "UNSUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "RTX-PW1100G-PM-2026-001",
+      "event_title": "Pratt & Whitney's PW1100G engines face ongoing 'Powder Metal Matter' issues requiring accelerated inspections. This has led to increased engine removals, shop visits, and elevated AOG levels for the Airbus A320neo fleet.",
+      "category": "SUPPLY_CHAIN",
+      "affected_entity": "Pratt & Whitney",
+      "threat_score": 10,
+      "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000006/rtx-20251231.htm",
+      "timestamp": "2026-02-06",
+      "mitigation_advice": "Verify the specific reported event and its applicability to the monitored KIT for Pratt & Whitney (Airbus A320neo family), event RTX-PW1100G-PM-2026-001.",
+      "confidence_level": "HIGH",
+      "validation_status": "SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "PW1100G-PM-2026-Q3-RTX-UPDATE",
+      "event_title": "Pratt & Whitney's PW1100G powder metal issue persists through Q3 2026, requiring continued accelerated engine inspections for the Airbus A320neo fleet.",
+      "category": "TECHNICAL_QUALITY",
+      "affected_entity": "Pratt & Whitney",
+      "threat_score": 9,
+      "source_url": "https://www.sec.gov/Archives/edgar/data/101829/000010182926000031/rtx-20260930.htm",
+      "timestamp": "2026-10-20",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "HIGH",
+      "validation_status": "SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "PW1100G-PM-2026-001",
+      "event_title": "Source excerpt: Hundreds of Airbus A320neo jets have sat grounded waiting for Pratt & Whitney engine inspections, and Airbus has parked finished airframes with no engines on. Claimed operational impacts require verification.",
+      "category": "SUPPLY_CHAIN",
+      "affected_entity": "Pratt & Whitney",
+      "threat_score": 10,
+      "source_url": "https://aerocorner.com/blog/challenges-aircraft-engine-manufacturers/",
+      "timestamp": "2026-11-17",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "LOW",
+      "validation_status": "PARTIALLY_SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    }
+  ],
+  "related_program_watchlist": [],
+  "action_plan": [
+    {
+      "action_id": "ACT_32A177A0",
+      "related_event_ids": [
+        "RTX-PW1100G-PM-2026-001"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Pratt & Whitney"
+      ],
+      "action": "Verify the specific reported event and its applicability to the monitored KIT for Pratt & Whitney (Airbus A320neo family), event RTX-PW1100G-PM-2026-001.",
+      "rationale": "The available evidence does not establish direct applicability to the monitored KIT.",
+      "pros_and_cons": "PRO: Avoids off-topic operations; CON: Requires evidence review",
+      "triple_a_impact": "Alignment",
+      "uncertainty_assumptions": "Direct operational, regulatory or supply-chain impact remains unconfirmed.",
+      "owner": "Supply Chain Risk Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Document verified KIT relevance using traceable source evidence.",
+      "priority": "MEDIUM",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-26T11:01:15Z"
+    },
+    {
+      "action_id": "ACT_6030B963",
+      "related_event_ids": [
+        "FAA-PW-PM-AD-2026-001"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Pratt & Whitney"
+      ],
+      "action": "Seek independent OEM, operator or regulatory confirmation of the reported claim for Pratt & Whitney (Unknown / Not specified in source), event FAA-PW-PM-AD-2026-001.",
+      "rationale": "The available evidence does not establish direct applicability to the monitored KIT.",
+      "pros_and_cons": "PRO: Reduces false-positive escalation; CON: Additional verification time",
+      "triple_a_impact": "Adaptability",
+      "uncertainty_assumptions": "Direct operational, regulatory or supply-chain impact remains unconfirmed.",
+      "owner": "Regulatory Affairs Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Document verified KIT relevance using traceable source evidence.",
+      "priority": "MEDIUM",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-26T11:01:15Z"
+    }
+  ],
+  "kiq_answers": [
+    {
+      "kiq_id": "KIQ_1_2",
+      "question": "Are there shortages, capacity constraints, or stability risks affecting critical aerospace components, raw materials, or suppliers?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "NONE",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "For Pratt & Whitney (Airbus A320neo family), available evidence notes: This issue has resulted in increased engine removals and inspections, shop visits, aircraft on ground levels, and costs to the Company [DOC_019]. For Pratt & Whitney (Airbus A320neo family (A320neo)), available evidence notes: Pratt & Whitney determined that a rare condition in powder metal used to manufacture certain engine parts requires accelerated inspection of the PW1100G",
+      "related_event_ids": [
+        "RTX-PW1100G-PM-2026-001",
+        "PW1100G-PM-2026-Q3-RTX-UPDATE"
+      ],
+      "evidence_ids": [
+        "DOC_019",
+        "DOC_017",
+        "DOC_013",
+        "DOC_015"
+      ],
+      "retrieved_evidence_count": 0,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [],
+      "unused_document_reasons": {},
+      "evidence_requirements": [],
+      "claim_requirement_links": [],
+      "claim_handoff_rejections": {},
+      "source_execution_status": "",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [],
+      "verification_status": "Event evidence evaluated; complete KIQ coverage not established",
+      "uncertainty_level": "MEDIUM",
+      "recommended_next_step": "Verify remaining KIQ facets before marking fully answered.",
+      "missing_information": "Quantified aircraft on ground (AOG) count for the 2026 period is not provided in the filings."
+    },
+    {
+      "kiq_id": "KIQ_3_1",
+      "question": "How are regulatory decisions, certification milestones, airworthiness actions, or safety mandates affecting aircraft and propulsion programs?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "NONE",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "For Pratt & Whitney, available evidence notes: The FAA is adopting a new airworthiness directive (AD) for certain Pratt & Whitney RTX Corporation (PW) Model PW4074, PW4074D, PW4077, PW4077D, PW4084D, PW4090, and [DOC_018].",
+      "related_event_ids": [
+        "FAA-PW-PM-AD-2026-001"
+      ],
+      "evidence_ids": [
+        "DOC_018"
+      ],
+      "retrieved_evidence_count": 0,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [],
+      "unused_document_reasons": {},
+      "evidence_requirements": [],
+      "claim_requirement_links": [],
+      "claim_handoff_rejections": {},
+      "source_execution_status": "",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [],
+      "verification_status": "Event evidence evaluated; complete KIQ coverage not established",
+      "uncertainty_level": "LOW",
+      "recommended_next_step": "Verify remaining KIQ facets before marking fully answered.",
+      "missing_information": "Aircraft-specific AOG rates and delivery impacts are not stated in the regulatory documents."
+    },
+    {
+      "kiq_id": "RKIQ_001",
+      "question": "What is the current regulatory status and technical scope of the PW1100G powdered metal high-pressure turbine and compressor disk inspection mandates?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "PARTIAL",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "Reviewed sources address part of this question, while specific verification items remain open. FAA publication 2026-10360, published 2026-05-22; stage EFFECTIVE; effective date 2026-06-26; effective as of 2026-11-26: TRUE. Later amendments and supersession have not been verified. An official regulatory record on 2026-05-22 notes that “This AD requires repetitive angle ultrasonic scan inspections (AUSIs) of the HPC 15th- stage disks, front turbine hubs, high pressure turbine (HPT) 1st-stage air seals, and HPT 2nd-stage hubs for crack indications…” [DOC_018]. An official regulatory record on 2026-05-22 notes that “Effective Date: 2026-06-26” [DOC_018]. An official regulatory record on 2026-05-22 notes that “The FAA is adopting a new airworthiness directive (AD) for certain Pratt & Whitney RTX Corporation (PW) Model PW4074, PW4074D, PW4077, PW4077D, PW4084D, PW4090, and PW4090-3 engines. This AD was prompted by an analysis…” [DOC_018]. Evidence establishes identity of the affected part or engine, specific inspection or required corrective action, direct applicability to the named model or program, whereas latest dated, issue-specific status still require direct confirmation. Based on 2 relevant document(s) (DOC_018, DOC_020) out of 8 evaluated.",
+      "related_event_ids": [],
+      "evidence_ids": [
+        "DOC_018",
+        "DOC_020"
+      ],
+      "retrieved_evidence_count": 2,
+      "validated_evidence_count": 2,
+      "retrieved_document_ids": [
+        "DOC_018",
+        "DOC_020"
+      ],
+      "unused_document_reasons": {
+        "DOC_006": "SCOPE_MISMATCH",
+        "DOC_008": "SCOPE_MISMATCH",
+        "DOC_013": "SCOPE_MISMATCH",
+        "DOC_015": "SCOPE_MISMATCH",
+        "DOC_017": "SCOPE_MISMATCH",
+        "DOC_019": "SCOPE_MISMATCH"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_001_REQ_01",
+          "key": "AFFECTED_COMPONENT",
+          "required_fact": "Identity of the affected part or engine",
+          "evidence_type": "COMPONENT_IDENTITY",
+          "required_entity_model": "PW1100G_GTF",
+          "required_component": "TURBINE",
+          "verification_status": "VERIFIED",
+          "doc_ids": [
+            "DOC_018",
+            "DOC_020"
+          ],
+          "verified_doc_ids": [
+            "DOC_018",
+            "DOC_020"
+          ],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_018",
+              "claim": "an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high-pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR- 7) separation that resulted in an aborted takeoff. This AD requires repetitive angle ultrasonic scan inspections (AUSIs) of the HPC 15th- stage disks, front turbine hubs, high pressure turbine (HPT) 1st-stage air seals, and HPT 2nd-stage hubs for crack indic",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_001",
+              "quote": "This AD requires repetitive angle ultrasonic scan inspections (AUSIs) of the HPC 15th- stage disks, front turbine hubs, high pressure turbine (HPT) 1st-stage air seals, and HPT 2nd-stage hubs for crack indications, and removal from service and replacement if necessary, and for certain serial numbers, removal from service and replacement of the HPT 1st-stage air seal.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PASSAGE_VERIFIED",
+              "publication_date": "2026-05-22",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "REGULATOR",
+              "strength": "VERIFIED",
+              "source_url": "https://www.federalregister.gov/documents/2026/05/22/2026-10360/airworthiness-directives-pratt-and-whitney-rtx-corporation-type-certificate-previously-held-by-pratt",
+              "source_hash": "",
+              "passage_hash": "81550a4e578a27e293ff9afe306b54ddefdeaf95e8b4886c06c1334bcabcdcf3",
+              "verification_reason": "FULL_SOURCE_VERIFIED",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_020",
+              "claim": "Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high- pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR-7) separation that resulted in an engine shutdown and aborted takeoff. This AD requires repetitive angled ultrasonic inspections (AUSIs) of certain high-pressure turbine (HPT) 1st-stage disks and turbine hubs for any crack indications, and if necessary, removal from service ",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_001",
+              "quote": "This AD requires repetitive angled ultrasonic inspections (AUSIs) of certain high-pressure turbine (HPT) 1st-stage disks and turbine hubs for any crack indications, and if necessary, removal from service and replacement, and removal from service of certain HPT lenticular seal assemblies.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PASSAGE_VERIFIED",
+              "publication_date": "2026-04-24",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "REGULATOR",
+              "strength": "VERIFIED",
+              "source_url": "https://www.federalregister.gov/documents/2026/04/24/2026-08106/airworthiness-directives-pratt-and-whitney-engines",
+              "source_hash": "",
+              "passage_hash": "60ecce01107cbb83dbfecd390b0eb5492be2b3b7dba7433a66f35b2f44f0d89b",
+              "verification_reason": "FULL_SOURCE_VERIFIED",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": []
+        },
+        {
+          "id": "RKIQ_001_REQ_02",
+          "key": "INSPECTION_REQUIREMENT",
+          "required_fact": "Specific inspection or required corrective action",
+          "evidence_type": "INSPECTION_ACTION",
+          "required_entity_model": "PW1100G_GTF",
+          "required_component": "TURBINE",
+          "verification_status": "VERIFIED",
+          "doc_ids": [
+            "DOC_018",
+            "DOC_020"
+          ],
+          "verified_doc_ids": [
+            "DOC_018",
+            "DOC_020"
+          ],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_018",
+              "claim": "an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high-pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR- 7) separation that resulted in an aborted takeoff. This AD requires repetitive angle ultrasonic scan inspections (AUSIs) of the HPC 15th- stage disks, front turbine hubs, high pressure turbine (HPT) 1st-stage air seals, and HPT 2nd-stage hubs for crack indic",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_001",
+              "quote": "This AD requires repetitive angle ultrasonic scan inspections (AUSIs) of the HPC 15th- stage disks, front turbine hubs, high pressure turbine (HPT) 1st-stage air seals, and HPT 2nd-stage hubs for crack indications, and removal from service and replacement if necessary, and for certain serial numbers, removal from service and replacement of the HPT 1st-stage air seal.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PASSAGE_VERIFIED",
+              "publication_date": "2026-05-22",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "REGULATOR",
+              "strength": "VERIFIED",
+              "source_url": "https://www.federalregister.gov/documents/2026/05/22/2026-10360/airworthiness-directives-pratt-and-whitney-rtx-corporation-type-certificate-previously-held-by-pratt",
+              "source_hash": "",
+              "passage_hash": "81550a4e578a27e293ff9afe306b54ddefdeaf95e8b4886c06c1334bcabcdcf3",
+              "verification_reason": "FULL_SOURCE_VERIFIED",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_020",
+              "claim": "Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high- pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR-7) separation that resulted in an engine shutdown and aborted takeoff. This AD requires repetitive angled ultrasonic inspections (AUSIs) of certain high-pressure turbine (HPT) 1st-stage disks and turbine hubs for any crack indications, and if necessary, removal from service ",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_001",
+              "quote": "This AD requires repetitive angled ultrasonic inspections (AUSIs) of certain high-pressure turbine (HPT) 1st-stage disks and turbine hubs for any crack indications, and if necessary, removal from service and replacement, and removal from service of certain HPT lenticular seal assemblies.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PASSAGE_VERIFIED",
+              "publication_date": "2026-04-24",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "REGULATOR",
+              "strength": "VERIFIED",
+              "source_url": "https://www.federalregister.gov/documents/2026/04/24/2026-08106/airworthiness-directives-pratt-and-whitney-engines",
+              "source_hash": "",
+              "passage_hash": "60ecce01107cbb83dbfecd390b0eb5492be2b3b7dba7433a66f35b2f44f0d89b",
+              "verification_reason": "FULL_SOURCE_VERIFIED",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": []
+        },
+        {
+          "id": "RKIQ_001_REQ_03",
+          "key": "CURRENT_STATUS",
+          "required_fact": "Latest dated, issue-specific status",
+          "evidence_type": "DATED_STATUS",
+          "required_entity_model": "PW1100G_GTF",
+          "required_component": "TURBINE",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Latest dated, issue-specific status"
+          ]
+        },
+        {
+          "id": "RKIQ_001_REQ_04",
+          "key": "PROGRAM_APPLICABILITY",
+          "required_fact": "Direct applicability to the named model or program",
+          "evidence_type": "MODEL_APPLICABILITY",
+          "required_entity_model": "PW1100G_GTF",
+          "required_component": "TURBINE",
+          "verification_status": "VERIFIED",
+          "doc_ids": [
+            "DOC_018",
+            "DOC_020"
+          ],
+          "verified_doc_ids": [
+            "DOC_018",
+            "DOC_020"
+          ],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_018",
+              "claim": "Official Summary: The FAA is adopting a new airworthiness directive (AD) for certain Pratt & Whitney RTX Corporation (PW) Model PW4074, PW4074D, PW4077, PW4077D, PW4084D, PW4090, and PW4090-3 engines. This AD was prompted by an analysis of an event involving an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high-pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR-",
+              "claim_id": "FAA_DOC_018_PROGRAM_APPLICABILITY",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_001",
+              "quote": "Official Summary: The FAA is adopting a new airworthiness directive (AD) for certain Pratt & Whitney RTX Corporation (PW) Model PW4074, PW4074D, PW4077, PW4077D, PW4084D, PW4090, and PW4090-3 engines. This AD was prompted by an analysis of an event involving an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high-pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR- 7) separation that resulted in an aborted takeoff. This AD requires repetitive angle ultrasonic scan inspections (AUSIs) of the HPC 15th- stage disks, front turbine hubs, high pressure turbine (HPT) 1st-stage air seals, and HPT 2nd-stage hubs for crack indications, and removal from service and replacement if necessary, and for certain serial numbers, removal from service and replacement of the HPT 1st-stage air seal. The FAA is issuing this AD to address the unsafe condition on these products.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "OFFICIAL_LABELED_DOCUMENT_FIELD",
+              "passage_validation_status": "PASSAGE_VERIFIED",
+              "publication_date": "2026-05-22",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "REGULATOR",
+              "strength": "VERIFIED",
+              "source_url": "https://www.federalregister.gov/documents/2026/05/22/2026-10360/airworthiness-directives-pratt-and-whitney-rtx-corporation-type-certificate-previously-held-by-pratt",
+              "source_hash": "",
+              "passage_hash": "704df237f2f8e0d9bd9214067edd45b8d38c33ff0d8e2bf366e0bbb1138e5b53",
+              "verification_reason": "OFFICIAL_DOCUMENT_FIELD_VERIFIED",
+              "claim_type": "REGULATORY_PROGRAM_APPLICABILITY",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "2026-10360",
+              "regulatory_stage": "EFFECTIVE",
+              "effective_date": "2026-06-26",
+              "effective_as_of_reference_date": true,
+              "reference_date": "2026-11-26",
+              "lifecycle_verified": false,
+              "supersession_status": "UNKNOWN",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_020",
+              "claim": "Official Summary: The FAA is adopting a new airworthiness directive (AD) for certain Pratt & Whitney (PW) Model F117-PW-100, PW2037, PW2037D, PW2037M, PW2040, and PW2040D engines. This AD was prompted by an updated analysis of an event involving an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high- pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR-7) separatio",
+              "claim_id": "FAA_DOC_020_PROGRAM_APPLICABILITY",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_001",
+              "quote": "Official Summary: The FAA is adopting a new airworthiness directive (AD) for certain Pratt & Whitney (PW) Model F117-PW-100, PW2037, PW2037D, PW2037M, PW2040, and PW2040D engines. This AD was prompted by an updated analysis of an event involving an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high- pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR-7) separation that resulted in an engine shutdown and aborted takeoff. This AD requires repetitive angled ultrasonic inspections (AUSIs) of certain high-pressure turbine (HPT) 1st-stage disks and turbine hubs for any crack indications, and if necessary, removal from service and replacement, and removal from service of certain HPT lenticular seal assemblies. The FAA is issuing this AD to address the unsafe condition on these products.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "OFFICIAL_LABELED_DOCUMENT_FIELD",
+              "passage_validation_status": "PASSAGE_VERIFIED",
+              "publication_date": "2026-04-24",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "REGULATOR",
+              "strength": "VERIFIED",
+              "source_url": "https://www.federalregister.gov/documents/2026/04/24/2026-08106/airworthiness-directives-pratt-and-whitney-engines",
+              "source_hash": "",
+              "passage_hash": "f5c9668252cf84aa71aeba8b5b7e31871f2881dc7d5ee03392db8df0104c4187",
+              "verification_reason": "OFFICIAL_DOCUMENT_FIELD_VERIFIED",
+              "claim_type": "REGULATORY_PROGRAM_APPLICABILITY",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "2026-08106",
+              "regulatory_stage": "EFFECTIVE",
+              "effective_date": "2026-05-29",
+              "effective_as_of_reference_date": true,
+              "reference_date": "2026-11-26",
+              "lifecycle_verified": false,
+              "supersession_status": "UNKNOWN",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_018",
+              "claim": "an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high-pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR- 7) separation that resulted in an aborted takeoff. This AD requires repetitive angle ultrasonic scan inspections (AUSIs) of the HPC 15th- stage disks, front turbine hubs, high pressure turbine (HPT) 1st-stage air seals, and HPT 2nd-stage hubs for crack indic",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_001",
+              "quote": "This AD requires repetitive angle ultrasonic scan inspections (AUSIs) of the HPC 15th- stage disks, front turbine hubs, high pressure turbine (HPT) 1st-stage air seals, and HPT 2nd-stage hubs for crack indications, and removal from service and replacement if necessary, and for certain serial numbers, removal from service and replacement of the HPT 1st-stage air seal.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PASSAGE_VERIFIED",
+              "publication_date": "2026-05-22",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "REGULATOR",
+              "strength": "VERIFIED",
+              "source_url": "https://www.federalregister.gov/documents/2026/05/22/2026-10360/airworthiness-directives-pratt-and-whitney-rtx-corporation-type-certificate-previously-held-by-pratt",
+              "source_hash": "",
+              "passage_hash": "81550a4e578a27e293ff9afe306b54ddefdeaf95e8b4886c06c1334bcabcdcf3",
+              "verification_reason": "FULL_SOURCE_VERIFIED",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": []
+        }
+      ],
+      "claim_requirement_links": [
+        {
+          "claim_id": "",
+          "doc_id": "DOC_018",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "AFFECTED_COMPONENT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_020",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "AFFECTED_COMPONENT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_018",
+          "requirement_id": "RKIQ_001_REQ_02",
+          "requirement_key": "INSPECTION_REQUIREMENT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_020",
+          "requirement_id": "RKIQ_001_REQ_02",
+          "requirement_key": "INSPECTION_REQUIREMENT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "FAA_DOC_018_PROGRAM_APPLICABILITY",
+          "doc_id": "DOC_018",
+          "requirement_id": "RKIQ_001_REQ_04",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "FAA_DOC_020_PROGRAM_APPLICABILITY",
+          "doc_id": "DOC_020",
+          "requirement_id": "RKIQ_001_REQ_04",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_018",
+          "requirement_id": "RKIQ_001_REQ_04",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        }
+      ],
+      "claim_handoff_rejections": {
+        "DOC_006": "SCOPE_MISMATCH",
+        "DOC_008": "SCOPE_MISMATCH",
+        "DOC_013": "SCOPE_MISMATCH",
+        "DOC_015": "SCOPE_MISMATCH",
+        "DOC_017": "SCOPE_MISMATCH",
+        "DOC_018": "SCOPE_MISMATCH",
+        "DOC_019": "SCOPE_MISMATCH",
+        "DOC_020": "SCOPE_MISMATCH"
+      },
+      "source_execution_status": "RESULTS_RETRIEVED",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "AFFECTED_COMPONENT",
+          "doc_id": "DOC_018",
+          "source_id": "SRC_001",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.federalregister.gov/documents/2026/05/22/2026-10360/airworthiness-directives-pratt-and-whitney-rtx-corporation-type-certificate-previously-held-by-pratt",
+          "original_filing_url": "",
+          "quote": "This AD requires repetitive angle ultrasonic scan inspections (AUSIs) of the HPC 15th- stage disks, front turbine hubs, high pressure turbine (HPT) 1st-stage air seals, and HPT 2nd-stage hubs for crack indications, and removal from service and replacement if necessary, and for certain serial numbers, removal from service and replacement of the HPT 1st-stage air seal.",
+          "source_hash": "",
+          "passage_hash": "81550a4e578a27e293ff9afe306b54ddefdeaf95e8b4886c06c1334bcabcdcf3",
+          "extraction_method": "",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "claim_strength": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "FULL_SOURCE_VERIFIED",
+          "publication_date": "2026-05-22",
+          "event_date": "",
+          "authority": "REGULATOR",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "AFFECTED_COMPONENT",
+          "doc_id": "DOC_020",
+          "source_id": "SRC_001",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.federalregister.gov/documents/2026/04/24/2026-08106/airworthiness-directives-pratt-and-whitney-engines",
+          "original_filing_url": "",
+          "quote": "This AD requires repetitive angled ultrasonic inspections (AUSIs) of certain high-pressure turbine (HPT) 1st-stage disks and turbine hubs for any crack indications, and if necessary, removal from service and replacement, and removal from service of certain HPT lenticular seal assemblies.",
+          "source_hash": "",
+          "passage_hash": "60ecce01107cbb83dbfecd390b0eb5492be2b3b7dba7433a66f35b2f44f0d89b",
+          "extraction_method": "",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "claim_strength": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "FULL_SOURCE_VERIFIED",
+          "publication_date": "2026-04-24",
+          "event_date": "",
+          "authority": "REGULATOR",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_02",
+          "requirement_key": "INSPECTION_REQUIREMENT",
+          "doc_id": "DOC_018",
+          "source_id": "SRC_001",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.federalregister.gov/documents/2026/05/22/2026-10360/airworthiness-directives-pratt-and-whitney-rtx-corporation-type-certificate-previously-held-by-pratt",
+          "original_filing_url": "",
+          "quote": "This AD requires repetitive angle ultrasonic scan inspections (AUSIs) of the HPC 15th- stage disks, front turbine hubs, high pressure turbine (HPT) 1st-stage air seals, and HPT 2nd-stage hubs for crack indications, and removal from service and replacement if necessary, and for certain serial numbers, removal from service and replacement of the HPT 1st-stage air seal.",
+          "source_hash": "",
+          "passage_hash": "81550a4e578a27e293ff9afe306b54ddefdeaf95e8b4886c06c1334bcabcdcf3",
+          "extraction_method": "",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "claim_strength": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "FULL_SOURCE_VERIFIED",
+          "publication_date": "2026-05-22",
+          "event_date": "",
+          "authority": "REGULATOR",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_02",
+          "requirement_key": "INSPECTION_REQUIREMENT",
+          "doc_id": "DOC_020",
+          "source_id": "SRC_001",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.federalregister.gov/documents/2026/04/24/2026-08106/airworthiness-directives-pratt-and-whitney-engines",
+          "original_filing_url": "",
+          "quote": "This AD requires repetitive angled ultrasonic inspections (AUSIs) of certain high-pressure turbine (HPT) 1st-stage disks and turbine hubs for any crack indications, and if necessary, removal from service and replacement, and removal from service of certain HPT lenticular seal assemblies.",
+          "source_hash": "",
+          "passage_hash": "60ecce01107cbb83dbfecd390b0eb5492be2b3b7dba7433a66f35b2f44f0d89b",
+          "extraction_method": "",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "claim_strength": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "FULL_SOURCE_VERIFIED",
+          "publication_date": "2026-04-24",
+          "event_date": "",
+          "authority": "REGULATOR",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_04",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "doc_id": "DOC_018",
+          "source_id": "SRC_001",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.federalregister.gov/documents/2026/05/22/2026-10360/airworthiness-directives-pratt-and-whitney-rtx-corporation-type-certificate-previously-held-by-pratt",
+          "original_filing_url": "",
+          "quote": "Official Summary: The FAA is adopting a new airworthiness directive (AD) for certain Pratt & Whitney RTX Corporation (PW) Model PW4074, PW4074D, PW4077, PW4077D, PW4084D, PW4090, and PW4090-3 engines. This AD was prompted by an analysis of an event involving an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high-pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR- 7) separation that resulted in an aborted takeoff. This AD requires repetitive angle ultrasonic scan inspections (AUSIs) of the HPC 15th- stage disks, front turbine hubs, high pressure turbine (HPT) 1st-stage air seals, and HPT 2nd-stage hubs for crack indications, and removal from service and replacement if necessary, and for certain serial numbers, removal from service and replacement of the HPT 1st-stage air seal. The FAA is issuing this AD to address the unsafe condition on these products.",
+          "source_hash": "",
+          "passage_hash": "704df237f2f8e0d9bd9214067edd45b8d38c33ff0d8e2bf366e0bbb1138e5b53",
+          "extraction_method": "OFFICIAL_LABELED_DOCUMENT_FIELD",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "claim_strength": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "REGULATORY_PROGRAM_APPLICABILITY",
+          "verification_reason": "OFFICIAL_DOCUMENT_FIELD_VERIFIED",
+          "publication_date": "2026-05-22",
+          "event_date": "",
+          "authority": "REGULATOR",
+          "document_number": "2026-10360",
+          "regulatory_stage": "EFFECTIVE",
+          "effective_date": "2026-06-26",
+          "effective_as_of_reference_date": true,
+          "reference_date": "2026-11-26",
+          "lifecycle_verified": false,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_04",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "doc_id": "DOC_020",
+          "source_id": "SRC_001",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.federalregister.gov/documents/2026/04/24/2026-08106/airworthiness-directives-pratt-and-whitney-engines",
+          "original_filing_url": "",
+          "quote": "Official Summary: The FAA is adopting a new airworthiness directive (AD) for certain Pratt & Whitney (PW) Model F117-PW-100, PW2037, PW2037D, PW2037M, PW2040, and PW2040D engines. This AD was prompted by an updated analysis of an event involving an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high- pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR-7) separation that resulted in an engine shutdown and aborted takeoff. This AD requires repetitive angled ultrasonic inspections (AUSIs) of certain high-pressure turbine (HPT) 1st-stage disks and turbine hubs for any crack indications, and if necessary, removal from service and replacement, and removal from service of certain HPT lenticular seal assemblies. The FAA is issuing this AD to address the unsafe condition on these products.",
+          "source_hash": "",
+          "passage_hash": "f5c9668252cf84aa71aeba8b5b7e31871f2881dc7d5ee03392db8df0104c4187",
+          "extraction_method": "OFFICIAL_LABELED_DOCUMENT_FIELD",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "claim_strength": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "REGULATORY_PROGRAM_APPLICABILITY",
+          "verification_reason": "OFFICIAL_DOCUMENT_FIELD_VERIFIED",
+          "publication_date": "2026-04-24",
+          "event_date": "",
+          "authority": "REGULATOR",
+          "document_number": "2026-08106",
+          "regulatory_stage": "EFFECTIVE",
+          "effective_date": "2026-05-29",
+          "effective_as_of_reference_date": true,
+          "reference_date": "2026-11-26",
+          "lifecycle_verified": false,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_04",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "doc_id": "DOC_018",
+          "source_id": "SRC_001",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.federalregister.gov/documents/2026/05/22/2026-10360/airworthiness-directives-pratt-and-whitney-rtx-corporation-type-certificate-previously-held-by-pratt",
+          "original_filing_url": "",
+          "quote": "This AD requires repetitive angle ultrasonic scan inspections (AUSIs) of the HPC 15th- stage disks, front turbine hubs, high pressure turbine (HPT) 1st-stage air seals, and HPT 2nd-stage hubs for crack indications, and removal from service and replacement if necessary, and for certain serial numbers, removal from service and replacement of the HPT 1st-stage air seal.",
+          "source_hash": "",
+          "passage_hash": "81550a4e578a27e293ff9afe306b54ddefdeaf95e8b4886c06c1334bcabcdcf3",
+          "extraction_method": "",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "claim_strength": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "FULL_SOURCE_VERIFIED",
+          "publication_date": "2026-05-22",
+          "event_date": "",
+          "authority": "REGULATOR",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        }
+      ],
+      "verification_status": "Verified 3/4 atomic facts; RESULTS_RETRIEVED",
+      "uncertainty_level": "MEDIUM",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Latest dated, issue-specific status",
+      "missing_information": "Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status"
+    },
+    {
+      "kiq_id": "RKIQ_002",
+      "question": "What is the quantified impact of PW1100G powdered metal issues on Airbus A320neo family Aircraft on Ground (AOG) rates and delivery schedules?",
+      "answer_status": "UNANSWERED",
+      "evidence_coverage": "NONE",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "No relevant event matching this question was found within the searched sources. Still needed for a complete answer: demonstrated impact on customer deliveries, evidence of the historical issue or delay, latest dated, issue-specific status.",
+      "related_event_ids": [],
+      "evidence_ids": [],
+      "retrieved_evidence_count": 1,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [
+        "DOC_006"
+      ],
+      "unused_document_reasons": {
+        "DOC_006": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_008": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_013": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_015": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_017": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_018": "SCOPE_MISMATCH",
+        "DOC_019": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_020": "SCOPE_MISMATCH"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_002_REQ_01",
+          "key": "DELIVERY_IMPACT",
+          "required_fact": "Demonstrated impact on customer deliveries",
+          "evidence_type": "DELIVERY_OUTCOME",
+          "required_entity_model": "320:NEO, PW1100G_GTF, A320_FAMILY, Airbus",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Demonstrated impact on customer deliveries"
+          ]
+        },
+        {
+          "id": "RKIQ_002_REQ_02",
+          "key": "HISTORICAL_DELAY",
+          "required_fact": "Evidence of the historical issue or delay",
+          "evidence_type": "HISTORICAL_ISSUE",
+          "required_entity_model": "320:NEO, PW1100G_GTF, A320_FAMILY, Airbus",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Evidence of the historical issue or delay"
+          ]
+        },
+        {
+          "id": "RKIQ_002_REQ_03",
+          "key": "CURRENT_STATUS",
+          "required_fact": "Latest dated, issue-specific status",
+          "evidence_type": "DATED_STATUS",
+          "required_entity_model": "320:NEO, PW1100G_GTF, A320_FAMILY, Airbus",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Latest dated, issue-specific status"
+          ]
+        },
+        {
+          "id": "RKIQ_002_REQ_04",
+          "key": "PROGRAM_APPLICABILITY",
+          "required_fact": "Direct applicability to the named model or program",
+          "evidence_type": "MODEL_APPLICABILITY",
+          "required_entity_model": "320:NEO, PW1100G_GTF, A320_FAMILY, Airbus",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Direct applicability to the named model or program"
+          ]
+        },
+        {
+          "id": "RKIQ_002_REQ_05",
+          "key": "CAUSAL_LINK",
+          "required_fact": "Source-established causal link between supply and downstream impact",
+          "evidence_type": "CAUSAL_EVIDENCE",
+          "required_entity_model": "320:NEO, PW1100G_GTF, A320_FAMILY, Airbus",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Source-established causal link between supply and downstream impact"
+          ]
+        }
+      ],
+      "claim_requirement_links": [],
+      "claim_handoff_rejections": {
+        "DOC_006": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_008": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_013": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_015": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_017": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_018": "SCOPE_MISMATCH",
+        "DOC_019": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_020": "SCOPE_MISMATCH"
+      },
+      "source_execution_status": "RESULTS_RETRIEVED",
+      "content_result": "NO_RELEVANT_EVENT",
+      "issue_status": "NO_RELEVANT_EVENT",
+      "evidence_trace": [],
+      "verification_status": "Verified 0/5 atomic facts; RESULTS_RETRIEVED",
+      "uncertainty_level": "HIGH",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Demonstrated impact on customer deliveries, Evidence of the historical issue or delay, Latest dated, issue-specific status",
+      "missing_information": "Demonstrated impact on customer deliveries: Verified source passage for: Demonstrated impact on customer deliveries; Evidence of the historical issue or delay: Verified source passage for: Evidence of the historical issue or delay; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status; Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program; Source-established causal link between supply and downstream impact: Verified source passage for: Source-established causal link between supply and downstream impact"
+    },
+    {
+      "kiq_id": "RKIQ_003",
+      "question": "What are the projected timelines and industrial capacity updates for the resolution of the PW1100G disk replacement backlog?",
+      "answer_status": "UNANSWERED",
+      "evidence_coverage": "NONE",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "No relevant event matching this question was found within the searched sources. Still needed for a complete answer: demonstrated impact on production or capacity, direct applicability to the named model or program.",
+      "related_event_ids": [],
+      "evidence_ids": [],
+      "retrieved_evidence_count": 2,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [
+        "DOC_018",
+        "DOC_020"
+      ],
+      "unused_document_reasons": {
+        "DOC_006": "SCOPE_MISMATCH",
+        "DOC_008": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_013": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_015": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_017": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_018": "SCOPE_MISMATCH",
+        "DOC_019": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_020": "SCOPE_MISMATCH"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_003_REQ_01",
+          "key": "PRODUCTION_IMPACT",
+          "required_fact": "Demonstrated impact on production or capacity",
+          "evidence_type": "PRODUCTION_OUTCOME",
+          "required_entity_model": "PW1100G_GTF",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Demonstrated impact on production or capacity"
+          ]
+        },
+        {
+          "id": "RKIQ_003_REQ_02",
+          "key": "PROGRAM_APPLICABILITY",
+          "required_fact": "Direct applicability to the named model or program",
+          "evidence_type": "MODEL_APPLICABILITY",
+          "required_entity_model": "PW1100G_GTF",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Direct applicability to the named model or program"
+          ]
+        }
+      ],
+      "claim_requirement_links": [],
+      "claim_handoff_rejections": {
+        "DOC_006": "SCOPE_MISMATCH",
+        "DOC_008": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_013": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_015": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_017": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_018": "SCOPE_MISMATCH",
+        "DOC_019": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_020": "SCOPE_MISMATCH"
+      },
+      "source_execution_status": "RESULTS_RETRIEVED",
+      "content_result": "NO_RELEVANT_EVENT",
+      "issue_status": "NO_RELEVANT_EVENT",
+      "evidence_trace": [],
+      "verification_status": "Verified 0/2 atomic facts; RESULTS_RETRIEVED",
+      "uncertainty_level": "HIGH",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Demonstrated impact on production or capacity, Direct applicability to the named model or program",
+      "missing_information": "Demonstrated impact on production or capacity: Verified source passage for: Demonstrated impact on production or capacity; Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program"
+    }
+  ],
+  "run_metadata": {
+    "run_id": "RUN-20261126-105937-E6B4D54E6F64",
+    "report_id": "RPT-20261126-0E6AD1",
+    "started_at": "2026-11-26T10:59:37Z",
+    "completed_at": "2026-11-26T11:01:16Z",
+    "run_date_utc": "2026-11-26",
+    "analysis_reference_date": "2026-11-26",
+    "reference_date_mode": "EXECUTION_DATE",
+    "collection_window_start_utc": "2025-11-26T10:59:37Z",
+    "collection_window_end_utc": "2026-11-26T10:59:37Z",
+    "status": "completed",
+    "outcome_status": "PARTIAL_SUCCESS",
+    "processing_status": "PARTIAL",
+    "evidence_completeness_status": "INSUFFICIENT",
+    "kiq_completion_status": "NOT_ANSWERED",
+    "kiqs_fully_answered": 0,
+    "kiqs_missing_specific_evidence": 3,
+    "kit_completion_audit": {
+      "as_of_date": "2026-11-26",
+      "questions": [
+        {
+          "kiq_id": "RKIQ_001",
+          "question": "What is the current regulatory status and technical scope of the PW1100G powdered metal high-pressure turbine and compressor disk inspection mandates?",
+          "answer_status": "PARTIALLY_ANSWERED",
+          "content_result": "STATUS_UNKNOWN",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "CURRENT_STATUS",
+              "missing_information": [
+                "Verified source passage for: Latest dated, issue-specific status"
+              ]
+            }
+          ],
+          "missing_information": "Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status",
+          "source_execution_status": "RESULTS_RETRIEVED",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 2,
+          "latest_evidence_date": "2026-05-22",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        },
+        {
+          "kiq_id": "RKIQ_002",
+          "question": "What is the quantified impact of PW1100G powdered metal issues on Airbus A320neo family Aircraft on Ground (AOG) rates and delivery schedules?",
+          "answer_status": "UNANSWERED",
+          "content_result": "NO_RELEVANT_EVENT",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "DELIVERY_IMPACT",
+              "missing_information": [
+                "Verified source passage for: Demonstrated impact on customer deliveries"
+              ]
+            },
+            {
+              "key": "HISTORICAL_DELAY",
+              "missing_information": [
+                "Verified source passage for: Evidence of the historical issue or delay"
+              ]
+            },
+            {
+              "key": "CURRENT_STATUS",
+              "missing_information": [
+                "Verified source passage for: Latest dated, issue-specific status"
+              ]
+            },
+            {
+              "key": "PROGRAM_APPLICABILITY",
+              "missing_information": [
+                "Verified source passage for: Direct applicability to the named model or program"
+              ]
+            },
+            {
+              "key": "CAUSAL_LINK",
+              "missing_information": [
+                "Verified source passage for: Source-established causal link between supply and downstream impact"
+              ]
+            }
+          ],
+          "missing_information": "Demonstrated impact on customer deliveries: Verified source passage for: Demonstrated impact on customer deliveries; Evidence of the historical issue or delay: Verified source passage for: Evidence of the historical issue or delay; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status; Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program; Source-established causal link between supply and downstream impact: Verified source passage for: Source-established causal link between supply and downstream impact",
+          "source_execution_status": "RESULTS_RETRIEVED",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 0,
+          "latest_evidence_date": "",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        },
+        {
+          "kiq_id": "RKIQ_003",
+          "question": "What are the projected timelines and industrial capacity updates for the resolution of the PW1100G disk replacement backlog?",
+          "answer_status": "UNANSWERED",
+          "content_result": "NO_RELEVANT_EVENT",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "PRODUCTION_IMPACT",
+              "missing_information": [
+                "Verified source passage for: Demonstrated impact on production or capacity"
+              ]
+            },
+            {
+              "key": "PROGRAM_APPLICABILITY",
+              "missing_information": [
+                "Verified source passage for: Direct applicability to the named model or program"
+              ]
+            }
+          ],
+          "missing_information": "Demonstrated impact on production or capacity: Verified source passage for: Demonstrated impact on production or capacity; Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program",
+          "source_execution_status": "RESULTS_RETRIEVED",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 0,
+          "latest_evidence_date": "",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        }
+      ],
+      "total": 3,
+      "complete": 0,
+      "missing": 3,
+      "unavailable_sources": [],
+      "unsearched_requests": [],
+      "status": "NOT_ANSWERED"
+    },
+    "planner_status": "REPAIRED",
+    "collection_mode": "agentic_exa",
+    "acquisition_trace": {
+      "collection_mode": "replay",
+      "documents_found": 20,
+      "collection_status": "REPLAY",
+      "steps": [],
+      "fallback_used": false
+    },
+    "phase_checkpoints": {
+      "planner": "REPAIRED",
+      "collection": "PASS",
+      "fr03": "PASS",
+      "analyst": "PASS",
+      "qa": "COMPLETED",
+      "kiq": "NOT_ANSWERED",
+      "editor": "COMPLETED",
+      "scoring": "COMPLETED",
+      "reporting": "VALIDATED"
+    },
+    "evidence_flow_audit": {
+      "documents": [
+        {
+          "doc_id": "DOC_001",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_002",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_003",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_004",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_005",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_006",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": true
+          },
+          "gap": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "interruption_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_007",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_008",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": true
+          },
+          "gap": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "interruption_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": "NO_MATCHING_INFORMATION_REQUIREMENT",
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_009",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_010",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_011",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_012",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_013",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_014",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_015",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_016",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_017",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_018",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 3,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_019",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_020",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 3,
+          "primary_source": true
+        }
+      ],
+      "stage_counts": {
+        "COLLECTED": 20,
+        "FILTER_ACCEPTED": 8,
+        "CLAIMS_EXTRACTED": 8,
+        "CLAIMS_VALIDATED": 6,
+        "KIQ_EVALUATED": 8,
+        "KIQ_LINKED": 6,
+        "NOT_APPLICABLE": 2,
+        "REPORT_REFERENCED": 8,
+        "REPORT_USED": 8,
+        "REPORT_NOT_USED": 0
+      },
+      "unlinked_accepted_document_ids": [
+        "DOC_006",
+        "DOC_008"
+      ],
+      "unreferenced_validated_document_ids": [],
+      "potential_analytical_loss_ids": [],
+      "handoff_error_ids": [],
+      "validated_claim_counts": {
+        "DOC_001": 0,
+        "DOC_002": 0,
+        "DOC_003": 0,
+        "DOC_004": 0,
+        "DOC_005": 0,
+        "DOC_006": 0,
+        "DOC_007": 0,
+        "DOC_008": 0,
+        "DOC_009": 0,
+        "DOC_010": 0,
+        "DOC_011": 0,
+        "DOC_012": 0,
+        "DOC_013": 1,
+        "DOC_014": 0,
+        "DOC_015": 1,
+        "DOC_016": 0,
+        "DOC_017": 1,
+        "DOC_018": 3,
+        "DOC_019": 1,
+        "DOC_020": 3
+      }
+    },
+    "evidence_integrity_issues": [],
+    "source_provenance_missing_ids": [],
+    "kiq_unlinked_extracted_document_ids": [],
+    "kiq_handoff_error_document_ids": [],
+    "kiq_handoff_contract_errors": {},
+    "editor_kiq_context_error": null,
+    "editor_evidence_citation_document_ids": [
+      "DOC_013",
+      "DOC_015",
+      "DOC_017",
+      "DOC_019"
+    ],
+    "query": "Pratt & Whitney PW1100G powdered metal inspection and Airbus A320neo AOG impact",
+    "experiment": {
+      "dataset_run_id": "RUN-20261126-094050-02352114E8EA",
+      "replay_run_id": "RUN-20261126-094050-02352114E8EA",
+      "collection_mode": "agentic_exa",
+      "qa_enabled": true,
+      "harness_enabled": true,
+      "keyword_baseline": false,
+      "dataset_sha256": "0c31b9750470067f0583231fe20f9c09fb64cf2c838b5f029f6b3b2d359c8755",
+      "replay_uses_live_llm": true
+    },
+    "analysis_scope": "365d",
+    "effective_from": "2025-11-26T10:59:37Z",
+    "effective_to": "2026-11-26T10:59:37Z",
+    "as_of_date": "2026-11-26",
+    "documents_collected": 20,
+    "historical_resolutions": [],
+    "historical_resolution_count": 0,
+    "temporal_claim_audit": [
+      {
+        "event_id": "FAA-PW-PM-AD-2026-001",
+        "entity": "Pratt & Whitney",
+        "program": "Unknown / Not specified in source",
+        "component": "High-pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR-7)",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "CURRENT_STATUS_UNKNOWN",
+        "original_date": "2026-05-22",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-26",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "RTX-PW1100G-PM-2026-001",
+        "entity": "Pratt & Whitney",
+        "program": "Airbus A320neo family",
+        "component": "Unknown / Not specified in source",
+        "issue": "GROUNDING",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-02-06",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-26",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "PW1100G-PM-2026-Q3-RTX-UPDATE",
+        "entity": "Pratt & Whitney",
+        "program": "Airbus A320neo family (A320neo)",
+        "component": "Unknown / Not specified in source",
+        "issue": "PRODUCTION",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-10-20",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-26",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "PW1100G-PM-2026-001",
+        "entity": "Pratt & Whitney",
+        "program": "A320NEO_FAMILY",
+        "component": "Unknown / Not specified in source",
+        "issue": "GROUNDING",
+        "historical_claim_status": "CURRENT_STATUS_UNKNOWN",
+        "original_date": "2026-11-17",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-26",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      }
+    ],
+    "document_content_status_counts": {
+      "FULL_TEXT": 14,
+      "FULL_TEXT_RETRIEVED": 0,
+      "METADATA_ONLY": 0,
+      "PARTIAL_TEXT": 6,
+      "SOURCE_METADATA_ONLY": 0,
+      "SOURCE_POLICY_RESTRICTED": 0,
+      "STRUCTURED_DATA": 0,
+      "SUMMARY_ONLY": 0,
+      "TEXT_COMPLETENESS_UNVERIFIED": 0,
+      "TEXT_RETRIEVED_COMPLETENESS_UNVERIFIED": 0,
+      "TRANSCRIPT_AS_RECEIVED": 0,
+      "UNAVAILABLE": 0,
+      "UNKNOWN": 0
+    },
+    "unknown_content_statuses": [],
+    "telemetry_errors": [],
+    "telemetry_integrity_ok": true,
+    "content_limited_document_ids": [
+      "DOC_001",
+      "DOC_002",
+      "DOC_003",
+      "DOC_004",
+      "DOC_006",
+      "DOC_007",
+      "DOC_008",
+      "DOC_010",
+      "DOC_011",
+      "DOC_012",
+      "DOC_013",
+      "DOC_015",
+      "DOC_017",
+      "DOC_019"
+    ],
+    "documents_analyzed": 8,
+    "documents_rejected": 12,
+    "documents_failed": 0,
+    "analysis_phase_status": "COMPLETED",
+    "analysis_recovery_budget": {
+      "time_budget_sec": 600,
+      "max_retries": 8,
+      "max_calls": 12,
+      "retries": 0,
+      "calls": 4,
+      "blocked": ""
+    },
+    "analyzed_document_ids": [
+      "DOC_006",
+      "DOC_008",
+      "DOC_013",
+      "DOC_015",
+      "DOC_017",
+      "DOC_018",
+      "DOC_019",
+      "DOC_020"
+    ],
+    "failed_document_ids": [],
+    "recovered_document_ids": [],
+    "partially_analyzed_document_ids": [],
+    "documents_recovered": 0,
+    "analyst_batch_document_counts": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "analyst_recovery_splits": 0,
+    "analyst_retry_counts_by_reason": {
+      "PROVIDER_INTERNAL_RETRY": 0
+    },
+    "batches_created": 4,
+    "batches_succeeded": 4,
+    "batches_failed": 0,
+    "planning_duration_sec": 5.89,
+    "collection_duration_sec": 0.01,
+    "filter_duration_sec": 19.85,
+    "analysis_duration_sec": 54.62,
+    "qa_duration_sec": 5.6,
+    "editorial_duration_sec": 12.52,
+    "scoring_duration_sec": 0.0,
+    "scoring_status": "COMPLETED",
+    "scoring_methodology": {
+      "version": "IW-5FACTOR-DET-V1",
+      "method": "DETERMINISTIC_5_FACTOR_IW",
+      "scale": "F1-F5 rated 1..5; final threat_score 1..10",
+      "formula": "S = clamp(floor(sum(w_i * F_i) * 2 + 0.5), 1, 10)",
+      "weights": {
+        "impact_severity": 0.3,
+        "supplier_criticality": 0.2,
+        "substitutability_difficulty": 0.15,
+        "propagation_scope": 0.15,
+        "temporal_urgency": 0.2
+      },
+      "bands": {
+        "monitored": "1-4",
+        "elevated": "5-7",
+        "high_potential_impact": "8-10"
+      },
+      "severity_independent_of_confidence": true
+    },
+    "scoring_partial_fallback_ids": [],
+    "scoring_audit": [
+      {
+        "event_id": "FAA-PW-PM-AD-2026-001",
+        "provisional_score": 8,
+        "computed_score": 9,
+        "final_score": 9,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(4.55 * 2) = 9/10",
+        "weighted_sum": 4.55,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 4,
+            "weight": 0.3,
+            "weighted_contribution": 1.2,
+            "rationale": "Repetitive inspections on widely used engine models (PW2000/PW4000) create significant operational burden."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "P&W is the sole provider for these engine types."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "Proprietary P&W engine components and specialized ultrasonic inspection required."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Mandates affect multiple engine families beyond the original PW1100G issue."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "ADs are currently effective as of mid-2026."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (188 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (9/10). Evidence status: UNSUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+        "post_harness_score": 9,
+        "post_harness_validation_status": "UNSUPPORTED",
+        "post_harness_confidence_level": "LOW",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "Tier 1 (Systems/Engines)",
+        "factor_evidence_status": "PROVISIONAL_UNVERIFIED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-05-22",
+        "source_age_days": 188
+      },
+      {
+        "event_id": "RTX-PW1100G-PM-2026-001",
+        "provisional_score": 8,
+        "computed_score": 10,
+        "final_score": 10,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(4.85 * 2) = 10/10",
+        "weighted_sum": 4.85,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 5,
+            "weight": 0.3,
+            "weighted_contribution": 1.5,
+            "rationale": "Directly causes aircraft grounding and significant financial costs to the OEM."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Pratt & Whitney is one of only two engine suppliers for the A320neo."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "The engine is a primary configuration; switching to CFM requires new aircraft orders."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Affects the entire PW1100G GTF fleet powering A320neo family aircraft."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Active issue requiring accelerated inspections and causing ongoing fleet grounding."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "F1 (5/5): Directly causes aircraft grounding and significant financial costs to the OEM.",
+        "supplier_criticality": "F2 (5/5): Pratt & Whitney is one of only two engine suppliers for the A320neo. | F3 (5/5): The engine is a primary configuration; switching to CFM requires new aircraft orders.",
+        "temporal_urgency": "Historical source (293 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Deterministic 5-factor I&W score 10/10 (S = round(4.85 * 2) = 10/10). Primary drivers: F1 Impact Severity (5/5, w=0.30), F2 Supplier Criticality (5/5, w=0.20). Potential severity only; evidence validation is evaluated separately.",
+        "post_harness_score": 10,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "HIGH",
+        "post_harness_evidence_warning": "Source-supported claim. Independent corroboration status: SINGLE_PRIMARY_SOURCE",
+        "scm_tier": "Tier 1 (Systems/Engines)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-02-06",
+        "source_age_days": 293
+      },
+      {
+        "event_id": "PW1100G-PM-2026-Q3-RTX-UPDATE",
+        "provisional_score": 7,
+        "computed_score": 9,
+        "final_score": 9,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(4.50 * 2) = 9/10",
+        "weighted_sum": 4.5,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 4,
+            "weight": 0.3,
+            "weighted_contribution": 1.2,
+            "rationale": "Engine-wide accelerated inspection requirement threatens fleet availability."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Pratt & Whitney is one of two primary engine suppliers for the A320neo program."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "Propulsion systems are engine-model specific; switching requires major aircraft reconfiguration."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "Affects the entire PW1100G-JM fleet powering the A320neo family."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "Issue is an ongoing operational disruption documented through Q3 2026."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 37 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (9/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 9,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "HIGH",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "Tier 1 (Systems/Engines)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-10-20",
+        "source_age_days": 37
+      },
+      {
+        "event_id": "PW1100G-PM-2026-001",
+        "provisional_score": 9,
+        "computed_score": 10,
+        "final_score": 10,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(4.85 * 2) = 10/10",
+        "weighted_sum": 4.85,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 5,
+            "weight": 0.3,
+            "weighted_contribution": 1.5,
+            "rationale": "Hundreds of aircraft grounded; finished airframes lack engines."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "P&W is one of two engine OEMs for the A320neo family."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Single-source parts; engine swapping constrained by LEAP-1A lead times."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "Affects massive global A320neo fleet and production lines."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Ongoing AOG crisis reconfirmed in Nov 2026."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 9 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (10/10). Evidence status: PARTIALLY_SUPPORTED; confidence: LOW. The score expresses possible impact, not confirmation of the event's causes or consequences. Further source verification is required.",
+        "post_harness_score": 10,
+        "post_harness_validation_status": "PARTIALLY_SUPPORTED",
+        "post_harness_confidence_level": "LOW",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "Tier 1 (Systems/Engines)",
+        "factor_evidence_status": "PROVISIONAL_UNVERIFIED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-11-17",
+        "source_age_days": 9
+      }
+    ],
+    "total_duration_sec": 99.08,
+    "llm_calls": 7,
+    "llm_retries": 0,
+    "tokens_input": 90577,
+    "tokens_output": 13343,
+    "token_usage_status": "MEASURED",
+    "token_usage_unknown_calls": 0,
+    "llm_call_audit": [
+      {
+        "task_type": "PHASE_1_PLANNER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 1505,
+        "output_tokens": 833,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_1_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 17479,
+        "output_tokens": 2736,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_2_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 18918,
+        "output_tokens": 2392,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_3_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 18008,
+        "output_tokens": 2902,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_4_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 17573,
+        "output_tokens": 2412,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_3B_QA",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 12398,
+        "output_tokens": 1003,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_4_EDITOR",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 4696,
+        "output_tokens": 1065,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      }
+    ],
+    "analyst_recovery_audit": {
+      "attempts": [],
+      "fallbacks": [],
+      "recent_events": []
+    },
+    "token_accounting_method": "LLM_CALL_AUDIT_MEASURED",
+    "provider_requests_measured": 7,
+    "estimated_cost_usd": 0.08532,
+    "estimated_cost_status": "ESTIMATED",
+    "priced_cost_subtotal_usd": 0.08532,
+    "model_cost_audit": [
+      {
+        "model_id": "openrouter/google/gemini-3-flash-preview",
+        "usage_bucket": "openrouter/google/gemini-3-flash-preview",
+        "input_tokens": 90577,
+        "output_tokens": 13343,
+        "requests": 7,
+        "estimated_cost_usd": 0.08532,
+        "pricing_status": "ESTIMATED"
+      }
+    ],
+    "cost_estimation_reason_codes": [],
+    "unmatched_cost_model_ids": [],
+    "model_id": "openrouter/google/gemini-3-flash-preview",
+    "prompt_version": "v2.10-CI-HRO-2026-EVIDENCE-SCOPE",
+    "kiq_catalog_version": "THESIS_KIQ_CATALOG_V2_20261031",
+    "candidate_schema_rejections": 0,
+    "qa_failed": false,
+    "qa_performed": true,
+    "harness_performed": true,
+    "editor_failed": false,
+    "editorial_generation_mode": "LLM_TEXT_PYDANTIC_V1",
+    "editor_text_parsed_count": 2,
+    "editor_text_fallbacks": 1,
+    "editor_retry_count": 0,
+    "editor_retry_recovered": false,
+    "editor_fallback_used": true,
+    "pipeline_degraded": true,
+    "degradation_category": "ANALYSIS_INCOMPLETE",
+    "source_coverage_issues": [],
+    "source_coverage_limited": false,
+    "source_coverage_advisories": [],
+    "source_coverage_status": "COMPLETE",
+    "source_coverage_legacy_status": "AVAILABLE",
+    "evidence_result_status": "UNVERIFIED_ONLY",
+    "review_scope": "EVENT_REVIEW",
+    "analysis_issues": [
+      "Editor claim audit: FAILED; see editor_claim_audit."
+    ],
+    "fr03_rejection_review_candidates": 6,
+    "fr03_rejection_stage_counts": {
+      "STAGE_1_DETERMINISTIC": 5,
+      "STAGE_2_SEMANTIC": 7
+    },
+    "scoring_calibration": "UNMEASURED_REQUIRES_EXPERT_REFERENCE_LABELS",
+    "semantic_filter_unavailable_count": 0,
+    "semantic_filter_missing_ids": [],
+    "analyst_valid_empty_batches": 0,
+    "analyst_invalid_batches": 0,
+    "analyst_empty_retry_count": 0,
+    "analyst_empty_retry_failed_batches": 0,
+    "analyst_empty_output_conflict": false,
+    "analyst_empty_conflict_previous_run": null,
+    "analyst_output_audit": [
+      {
+        "batch": 1,
+        "depth": 0,
+        "document_ids": [
+          "DOC_020",
+          "DOC_018"
+        ],
+        "documents_processed": 2,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 8711,
+        "output_tokens": 2736,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 2,
+        "depth": 0,
+        "document_ids": [
+          "DOC_019",
+          "DOC_017"
+        ],
+        "documents_processed": 2,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 7400,
+        "output_tokens": 2392,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 3,
+        "depth": 0,
+        "document_ids": [
+          "DOC_015",
+          "DOC_013"
+        ],
+        "documents_processed": 2,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 8588,
+        "output_tokens": 2902,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 4,
+        "depth": 0,
+        "document_ids": [
+          "DOC_008",
+          "DOC_006"
+        ],
+        "documents_processed": 2,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 7448,
+        "output_tokens": 2412,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      }
+    ],
+    "confirmed_critical_count": 0,
+    "unverified_signal_count": 1,
+    "displayable_signal_count": 0,
+    "verified_context_count": 2,
+    "direct_kit_confirmed_count": 0,
+    "verified_context_event_ids": [
+      "RTX-PW1100G-PM-2026-001",
+      "PW1100G-PM-2026-Q3-RTX-UPDATE"
+    ],
+    "classification_version": "SUPPORTED_ONLY_DASHBOARD_V3_EVENT_ID_1TO1",
+    "runtime_kiq_count": 3,
+    "runtime_kiq_ids": [
+      "RKIQ_001",
+      "RKIQ_002",
+      "RKIQ_003"
+    ],
+    "runtime_kiq_answered": 0,
+    "runtime_kiq_partially_answered": 1,
+    "runtime_kiq_unanswered": 2,
+    "runtime_kiq_not_searched": 0,
+    "intelligence_methodology": {
+      "collection_method": "OSINT",
+      "analysis_method": "Competitive Intelligence",
+      "osint_document_count": 20,
+      "ci_candidate_count": 4,
+      "osint_stage": "Acquisition and preprocessing of publicly available information.",
+      "ci_stage": "Interpretation of collected evidence against KIT/KIQ requirements, strategic risks, competitive implications and decision needs.",
+      "methodological_boundary": "A retrieved source is OSINT evidence. It becomes an intelligence assessment only after analytical interpretation and validation.",
+      "independent_verification_required": true
+    },
+    "editor_claim_audit": {
+      "status": "FAILED",
+      "all_supported": false,
+      "citations_match": false,
+      "checks": {
+        "doc_id_exists": true,
+        "passages_match": false,
+        "event_references_valid": true,
+        "urls_valid": true
+      },
+      "claim_sentences_checked": 23,
+      "cited_document_ids": [
+        "DOC_006",
+        "DOC_008",
+        "DOC_013",
+        "DOC_015",
+        "DOC_017",
+        "DOC_018",
+        "DOC_019",
+        "DOC_020"
+      ],
+      "issues": [
+        {
+          "check": "passages_match",
+          "section": "ANALYSIS",
+          "reason": "SOURCE_QUOTE_NOT_FOUND",
+          "excerpt": "prompted by failure analysis of the PW1100G"
+        }
+      ],
+      "review_items": [
+        {
+          "section": "EDITOR",
+          "reason": "NO_VERIFIABLE_SOURCE_CITATIONS"
+        }
+      ],
+      "audit_method": "DETERMINISTIC_PROVENANCE_ONLY"
+    },
+    "editor_executive_summary": "Monitoring of regulatory and financial channels regarding the Pratt & Whitney (P&W) PW1100G engine has surfaced several documents dated between February and November 2026. These sources, primarily SEC filings [DOC_013, DOC_015, DOC_017, DOC_019] and FAA regulatory records [DOC_018, DOC_020], address the ongoing \"Powder Metal Matter\" first identified in 2023. The evidence confirms that P&W continues to manage accelerated inspections for the PW1100G-JM fleet powering the Airbus A320neo family due to potential rare conditions in powdered metal parts. While the filings acknowledge increased engine removals, shop visits, and aircraft on ground (AOG) levels [DOC_019], they do not provide quantified AOG counts or specific delivery delay metrics for the 2026 period. Furthermore, a significant discrepancy exists: the QA Audit Report identifies these 2026 timestamps as future-dated relative to current reality, suggesting the data is synthetic or misdated. Consequently, while the technical nature of the inspections is documented, the operational severity for 2026 remains unverified. Management should treat these findings as a baseline for technical risk rather than confirmed operational disruptions, focusing on verifying the authenticity of the regulatory timelines before adjusting supply chain buffers.",
+    "editor_detailed_analytical_assessment": "The core technical issue remains centered on the 2023 determination by Pratt & Whitney that a \"rare condition in powder metal used to manufacture certain engine parts\" necessitates accelerated inspections of the PW1100G-JM fleet [DOC_013, DOC_019]. According to SEC filings, this effort is coordinated through the International Aero Engines (IAE) collaboration involving P&W, JAEC, and MTU [DOC_015, DOC_017]. The primary impact cited by the issuer includes a rise in engine removals and shop visits, which directly correlates to elevated AOG levels for Airbus A320neo operators [DOC_019]. \n\nAnalytically, the scope of the regulatory response appears to have expanded or maintained high intensity into the reported 2026 timeframe. FAA documentation [DOC_018] references a mandate for repetitive angle ultrasonic scan inspections (AUSIs) targeting high-pressure compressor (HPC) 15th-stage disks, front turbine hubs, and high-pressure turbine (HPT) 1st and 2nd-stage components. This indicates that the \"Powder Metal Matter\" is not a localized component failure but a systemic material integrity challenge affecting multiple critical rotating parts. However, the FAA records [DOC_018, DOC_020] also mention PW4000 and PW2000 models, and the analytical link suggesting these mandates were \"prompted by failure analysis of the PW1100G\" is an extrapolation not explicitly confirmed by the source text.\n\nThe most critical gap in the current intelligence is the lack of quantified impact. While the documents confirm the existence of the inspection regime, they omit specific AOG rates, the number of affected hulls in 2026, and the resulting impact on Airbus delivery schedules. Furthermore, the QA Audit's finding that these documents bear future dates (2026) introduces a high degree of uncertainty regarding their validity as current actionable intelligence. Until these dates are reconciled with official FAA and SEC registries, the reported \"Effective Date: 2026-06-26\" [DOC_018] must be viewed as a projected or synthetic scenario. Management is advised to maintain a \"monitor\" status, seeking secondary verification of these specific AD numbers (e.g., 2026-10360) through official government portals before initiating any high-cost mitigation strategies.",
+    "editor_validation_status": "FAILED",
+    "editor_claim_citations_verified": false,
+    "editor_semantic_review_required": true,
+    "kit_current_assessment": {
+      "status": "DOCUMENTED_REGULATORY_ACTION",
+      "source_coverage": "NOT_FLAGGED",
+      "as_of_date": "2026-11-26",
+      "search_overview": {
+        "connectors_searched": [],
+        "connectors_with_results": [
+          "Replay_Dataset"
+        ],
+        "documents_collected": 20,
+        "documents_analyzed": 8,
+        "documents_rejected": 12,
+        "events_identified": 4,
+        "supported_events": 2,
+        "primary_supported_events": 0
+      },
+      "issue_status": "DOCUMENTED",
+      "regulator_verification": "UNAVAILABLE",
+      "source_authority": "REGULATORY_PUBLICATION",
+      "coverage_status": "PARTIAL",
+      "severity_context": "POTENTIAL",
+      "potential_severity": null,
+      "evidence_confidence": "UNKNOWN",
+      "chronological_milestones": [],
+      "conflicts": [],
+      "monitored_kit": "Pratt & Whitney PW1100G powdered metal inspection and Airbus A320neo AOG impact",
+      "original_issue": "Pratt & Whitney PW1100G powdered metal inspection and Airbus A320neo AOG impact",
+      "latest_milestone": "EFFECTIVE",
+      "latest_milestone_date": "",
+      "latest_evidence_id": "DOC_020",
+      "latest_evidence_url": "",
+      "latest_verification": "UNVERIFIED",
+      "unresolved_questions": [
+        "Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status",
+        "Demonstrated impact on customer deliveries: Verified source passage for: Demonstrated impact on customer deliveries; Evidence of the historical issue or delay: Verified source passage for: Evidence of the historical issue or delay; Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status; Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program; Source-established causal link between supply and downstream impact: Verified source passage for: Source-established causal link between supply and downstream impact",
+        "Demonstrated impact on production or capacity: Verified source passage for: Demonstrated impact on production or capacity; Direct applicability to the named model or program: Verified source passage for: Direct applicability to the named model or program"
+      ],
+      "severity": null,
+      "confidence": "UNKNOWN",
+      "evidence_strength": "SOURCE_SUPPORTED",
+      "reported_developments": [],
+      "kiq_source_claims": [
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_020",
+          "quote": "This AD requires repetitive angled ultrasonic inspections (AUSIs) of certain high-pressure turbine (HPT) 1st-stage disks and turbine hubs for any crack indications, and if necessary, removal from service and replacement, and removal from service of certain HPT lenticular seal assemblies.",
+          "date": "2026-04-24",
+          "publication_date": "2026-04-24",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_001",
+          "source_url": "https://www.federalregister.gov/documents/2026/04/24/2026-08106/airworthiness-directives-pratt-and-whitney-engines",
+          "authority": "REGULATOR",
+          "source_role": "REGULATORY_PUBLICATION",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "verbatim_passage_recorded": true,
+          "verification": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "OBSERVED",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "AFFECTED_COMPONENT",
+            "INSPECTION_REQUIREMENT"
+          ],
+          "regulator_confirmation": "SOURCE_DOCUMENT",
+          "validation_conflict": "SCOPE_MISMATCH"
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_020",
+          "quote": "Official Summary: The FAA is adopting a new airworthiness directive (AD) for certain Pratt & Whitney (PW) Model F117-PW-100, PW2037, PW2037D, PW2037M, PW2040, and PW2040D engines. This AD was prompted by an updated analysis of an event involving an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high- pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR-7) separation that resulted in an engine shutdown and aborted takeoff. This AD requires repe",
+          "date": "2026-04-24",
+          "publication_date": "2026-04-24",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_001",
+          "source_url": "https://www.federalregister.gov/documents/2026/04/24/2026-08106/airworthiness-directives-pratt-and-whitney-engines",
+          "authority": "REGULATOR",
+          "source_role": "REGULATORY_PUBLICATION",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "verbatim_passage_recorded": true,
+          "verification": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "REGULATORY_PROGRAM_APPLICABILITY",
+          "document_number": "2026-08106",
+          "regulatory_stage": "EFFECTIVE",
+          "effective_date": "2026-05-29",
+          "effective_as_of_reference_date": true,
+          "lifecycle_verified": false,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "PROGRAM_APPLICABILITY"
+          ],
+          "regulator_confirmation": "SOURCE_DOCUMENT",
+          "validation_conflict": "SCOPE_MISMATCH"
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_018",
+          "quote": "This AD requires repetitive angle ultrasonic scan inspections (AUSIs) of the HPC 15th- stage disks, front turbine hubs, high pressure turbine (HPT) 1st-stage air seals, and HPT 2nd-stage hubs for crack indications, and removal from service and replacement if necessary, and for certain serial numbers, removal from service and replacement of the HPT 1st-stage air seal.",
+          "date": "2026-05-22",
+          "publication_date": "2026-05-22",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_001",
+          "source_url": "https://www.federalregister.gov/documents/2026/05/22/2026-10360/airworthiness-directives-pratt-and-whitney-rtx-corporation-type-certificate-previously-held-by-pratt",
+          "authority": "REGULATOR",
+          "source_role": "REGULATORY_PUBLICATION",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "verbatim_passage_recorded": true,
+          "verification": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "OBSERVED",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "AFFECTED_COMPONENT",
+            "INSPECTION_REQUIREMENT",
+            "PROGRAM_APPLICABILITY"
+          ],
+          "regulator_confirmation": "SOURCE_DOCUMENT",
+          "validation_conflict": "SCOPE_MISMATCH"
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_018",
+          "quote": "Official Summary: The FAA is adopting a new airworthiness directive (AD) for certain Pratt & Whitney RTX Corporation (PW) Model PW4074, PW4074D, PW4077, PW4077D, PW4084D, PW4090, and PW4090-3 engines. This AD was prompted by an analysis of an event involving an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high-pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR- 7) separation that resulted in an aborted takeoff. This AD requires repetitive ",
+          "date": "2026-05-22",
+          "publication_date": "2026-05-22",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_001",
+          "source_url": "https://www.federalregister.gov/documents/2026/05/22/2026-10360/airworthiness-directives-pratt-and-whitney-rtx-corporation-type-certificate-previously-held-by-pratt",
+          "authority": "REGULATOR",
+          "source_role": "REGULATORY_PUBLICATION",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "verbatim_passage_recorded": true,
+          "verification": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "REGULATORY_PROGRAM_APPLICABILITY",
+          "document_number": "2026-10360",
+          "regulatory_stage": "EFFECTIVE",
+          "effective_date": "2026-06-26",
+          "effective_as_of_reference_date": true,
+          "lifecycle_verified": false,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "PROGRAM_APPLICABILITY"
+          ],
+          "regulator_confirmation": "SOURCE_DOCUMENT",
+          "validation_conflict": "SCOPE_MISMATCH"
+        }
+      ],
+      "established_regulatory_facts": [
+        {
+          "document_id": "DOC_020",
+          "document_number": "2026-08106",
+          "source_url": "https://www.federalregister.gov/documents/2026/04/24/2026-08106/airworthiness-directives-pratt-and-whitney-engines",
+          "publication_date": "",
+          "stage": "EFFECTIVE",
+          "effective_date": "2026-05-29",
+          "effective_as_of_reference_date": true,
+          "applicable_models": [],
+          "compliance_deadline": "",
+          "lifecycle_verification": "INCOMPLETE",
+          "supersession_status": "UNKNOWN",
+          "verified_requirements": [
+            "PROGRAM_APPLICABILITY"
+          ],
+          "evidence_quotes": [
+            {
+              "doc_id": "DOC_020",
+              "quote": "Official Summary: The FAA is adopting a new airworthiness directive (AD) for certain Pratt & Whitney (PW) Model F117-PW-100, PW2037, PW2037D, PW2037M, PW2040, and PW2040D engines. This AD was prompted by an updated analysis of an event involving an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high- pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR-7) separation that resulted in an engine shutdown and aborted takeoff. This AD requires repe",
+              "requirement_keys": [
+                "PROGRAM_APPLICABILITY"
+              ]
+            }
+          ],
+          "conflicting_fields": []
+        },
+        {
+          "document_id": "DOC_018",
+          "document_number": "2026-10360",
+          "source_url": "https://www.federalregister.gov/documents/2026/05/22/2026-10360/airworthiness-directives-pratt-and-whitney-rtx-corporation-type-certificate-previously-held-by-pratt",
+          "publication_date": "",
+          "stage": "EFFECTIVE",
+          "effective_date": "2026-06-26",
+          "effective_as_of_reference_date": true,
+          "applicable_models": [],
+          "compliance_deadline": "",
+          "lifecycle_verification": "INCOMPLETE",
+          "supersession_status": "UNKNOWN",
+          "verified_requirements": [
+            "PROGRAM_APPLICABILITY"
+          ],
+          "evidence_quotes": [
+            {
+              "doc_id": "DOC_018",
+              "quote": "This AD requires repetitive angle ultrasonic scan inspections (AUSIs) of the HPC 15th- stage disks, front turbine hubs, high pressure turbine (HPT) 1st-stage air seals, and HPT 2nd-stage hubs for crack indications, and removal from service and replacement if necessary, and for certain serial numbers, removal from service and replacement of the HPT 1st-stage air seal.",
+              "requirement_keys": [
+                "PROGRAM_APPLICABILITY"
+              ]
+            },
+            {
+              "doc_id": "DOC_018",
+              "quote": "Official Summary: The FAA is adopting a new airworthiness directive (AD) for certain Pratt & Whitney RTX Corporation (PW) Model PW4074, PW4074D, PW4077, PW4077D, PW4084D, PW4090, and PW4090-3 engines. This AD was prompted by an analysis of an event involving an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high-pressure compressor (HPC) 7th-stage integrally bladed rotor (IBR- 7) separation that resulted in an aborted takeoff. This AD requires repetitive ",
+              "requirement_keys": [
+                "PROGRAM_APPLICABILITY"
+              ]
+            }
+          ],
+          "conflicting_fields": []
+        }
+      ],
+      "evidence_validation_warnings": [
+        {
+          "evidence_id": "DOC_020",
+          "reason": "SCOPE_MISMATCH"
+        },
+        {
+          "evidence_id": "DOC_018",
+          "reason": "SCOPE_MISMATCH"
+        }
+      ],
+      "kiq_status_counts": {
+        "ANSWERED": 0,
+        "PARTIALLY_ANSWERED": 1,
+        "UNANSWERED": 2,
+        "NOT_SEARCHED": 0
+      }
+    },
+    "detailed_analytical_assessment": "This intelligence review evaluates publicly available evidence for Pratt & Whitney PW1100G powdered metal inspection and Airbus A320neo AOG impact as of 2026-11-26, combining regulatory, issuer, media, and open-source records.\n\nPrimary regulatory documentation confirms formal oversight measures and mandatory technical actions directly relevant to the topic. Key official record: FAA publication 2026-08106 (DOC_020), at stage EFFECTIVE, with an effective date of 2026-05-29. Pratt & Whitney's PW1100G engines face ongoing 'Powder Metal Matter' issues requiring accelerated inspections. This has led to increased engine removals, shop visits, and elevated AOG levels for the Airbus A320neo fleet [DOC_019 (2026-02-06)]. Pratt & Whitney's PW1100G powder metal issue persists through Q3 2026, requiring continued accelerated engine inspections for the Airbus A320neo fleet [DOC_013 (2026-10-20)].\n\nAcross the 3 targeted intelligence questions, 0 were fully answered, 1 were partially answered, and 2 remain unanswered. The main open questions remaining for follow-up concern latest dated, issue-specific status, demonstrated impact on customer deliveries, demonstrated impact on production or capacity.\n\nThe regulatory evidence supports the identity and cited source fields of DOC_020, not an assumption that all subsequent regulatory steps were completed. The documented effective date is 2026-05-29; the effective date and whether it has already arrived are separate questions.\n\nThe wider evidence record adds the following distinct findings. The regulatory publication records “Official Summary: The FAA is adopting a new airworthiness directive (AD) for certain Pratt & Whitney RTX Corporation (PW) Model PW4074, PW4074D, PW4077, PW4077D, PW4084D, PW4090, and PW4090-3 engines. This AD was prompted by an analysis of an event involving an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a ” (DOC_018; RKIQ_001, published 2026-05-22). The regulatory publication records “This AD requires repetitive angled ultrasonic inspections (AUSIs) of certain high-pressure turbine (HPT) 1st-stage disks and turbine hubs for any crack indications, and if necessary, removal from service and replacement, and removal from service of certain HPT lenticular seal assemblies.” (DOC_020; RKIQ_001, published 2026-04-24). The regulatory publication records “Official Summary: The FAA is adopting a new airworthiness directive (AD) for certain Pratt & Whitney (PW) Model F117-PW-100, PW2037, PW2037D, PW2037M, PW2040, and PW2040D engines. This AD was prompted by an updated analysis of an event involving an International Aero Engines, LLC (IAE LLC) Model PW1127GA-JM engine, which experienced a high- pressur” (DOC_020; RKIQ_001, published 2026-04-24). Their source attribution does not independently verify unreported consequences.\n\nThe unresolved evidence requirements include: Latest dated, issue-specific status; Demonstrated impact on customer deliveries; Demonstrated impact on production or capacity. These gaps limit the completeness of the assessment; they do not contradict the claims that were actually documented.\n\nA proportionate follow-up is to verify the specific reported event and its applicability to the monitored KIT for Pratt & Whitney (Airbus A320neo family), event RTX-PW1100G-PM-2026-001. Operational action should await evidence appropriate to the decision.",
+    "detailed_analytical_assessment_mode": "DETERMINISTIC_FALLBACK",
+    "editor_detailed_validation_errors": [
+      "EDITOR_FACTUAL_VALIDATION_NOT_COMPLETED",
+      "EDITOR_CLAIM_EVIDENCE_NOT_VERIFIED"
+    ],
+    "executive_summary_mode": "DETERMINISTIC_FALLBACK",
+    "editor_summary_validation_errors": [
+      "EDITOR_FACTUAL_VALIDATION_NOT_COMPLETED",
+      "EDITOR_CLAIM_EVIDENCE_NOT_VERIFIED"
+    ],
+    "report_evidence_usage": [
+      {
+        "doc_id": "DOC_006",
+        "event_ids": [
+          "PW1100G-PM-2026-001"
+        ],
+        "kiq_ids": [],
+        "source_role": "UNKNOWN",
+        "reason_code": "EVENT_NOT_SELECTED_FOR_NARRATIVE"
+      },
+      {
+        "doc_id": "DOC_008",
+        "event_ids": [
+          "PW1100G-PM-2026-001"
+        ],
+        "kiq_ids": [],
+        "source_role": "UNKNOWN",
+        "reason_code": "EVENT_NOT_SELECTED_FOR_NARRATIVE"
+      },
+      {
+        "doc_id": "DOC_013",
+        "event_ids": [
+          "PW1100G-PM-2026-Q3-RTX-UPDATE"
+        ],
+        "kiq_ids": [
+          "KIQ_1_2"
+        ],
+        "source_role": "ISSUER_REPORTED",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_015",
+        "event_ids": [
+          "PW1100G-PM-2026-Q3-RTX-UPDATE"
+        ],
+        "kiq_ids": [
+          "KIQ_1_2"
+        ],
+        "source_role": "ISSUER_REPORTED",
+        "reason_code": "USED_IN_KIQ_NOT_CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_017",
+        "event_ids": [
+          "RTX-PW1100G-PM-2026-001"
+        ],
+        "kiq_ids": [
+          "KIQ_1_2"
+        ],
+        "source_role": "ISSUER_REPORTED",
+        "reason_code": "USED_IN_KIQ_NOT_CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_018",
+        "event_ids": [
+          "FAA-PW-PM-AD-2026-001"
+        ],
+        "kiq_ids": [
+          "KIQ_3_1",
+          "RKIQ_001"
+        ],
+        "source_role": "REGULATORY_PUBLICATION",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_019",
+        "event_ids": [
+          "RTX-PW1100G-PM-2026-001"
+        ],
+        "kiq_ids": [
+          "KIQ_1_2"
+        ],
+        "source_role": "ISSUER_REPORTED",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_020",
+        "event_ids": [],
+        "kiq_ids": [
+          "RKIQ_001"
+        ],
+        "source_role": "REGULATORY_PUBLICATION",
+        "reason_code": "CITED_IN_REPORT"
+      }
+    ],
+    "detailed_analytical_assessment_sha256": "27b3ba104c9b067e76a5405912976843f78eed32a5877e1ad0e2eceaec22919e",
+    "detailed_analytical_assessment_word_count": 462,
+    "executive_summary_word_count": 228,
+    "agent_decision_trace": [
+      {
+        "agent_index": 1,
+        "agent_role": "Intelligence Planning & Acquisition Agent",
+        "inputs": {
+          "kit": "Pratt & Whitney PW1100G powdered metal inspection and Airbus A320neo AOG impact",
+          "scope": "365d",
+          "specificity": "EXACT",
+          "platforms": [
+            "regulatory",
+            "news",
+            "pr"
+          ],
+          "collection_mode": "agentic_exa"
+        },
+        "decisions": {
+          "planner_status": "REPAIRED",
+          "information_requirements_count": 3,
+          "queries_executed": 0,
+          "exa_calls_executed": 0,
+          "collection_status": "REPLAY",
+          "fallback_used": false,
+          "agent_rationale": "Decomposed into technical regulatory mandates, operational AOG impact on the A320neo program, and industrial resolution timelines using OEM and regulator authorities."
+        },
+        "outputs": {
+          "documents_collected": 20,
+          "primary_documents": 0,
+          "secondary_documents": 0,
+          "sources_used": [
+            "Replay_Dataset"
+          ],
+          "unresolved_requirements": []
+        },
+        "duration_sec": 5.9
+      },
+      {
+        "agent_index": 2,
+        "agent_role": "Risk Analyst Agent",
+        "inputs": {
+          "fr03_accepted_documents": 8,
+          "fr03_rejected_documents": 12,
+          "batches_created": 4
+        },
+        "decisions": {
+          "batches_succeeded": 4,
+          "batches_failed": 0,
+          "documents_failed": 0,
+          "candidate_schema_rejections": 0,
+          "deterministic_scoring_status": "COMPLETED",
+          "scoring_method": "DETERMINISTIC_5_FACTOR_IW"
+        },
+        "outputs": {
+          "direct_candidate_events": 4,
+          "watchlist_events": 0,
+          "event_ids": [
+            "FAA-PW-PM-AD-2026-001",
+            "RTX-PW1100G-PM-2026-001",
+            "PW1100G-PM-2026-Q3-RTX-UPDATE",
+            "PW1100G-PM-2026-001"
+          ]
+        },
+        "duration_sec": 54.62
+      },
+      {
+        "agent_index": 3,
+        "agent_role": "Quality Assurance Agent",
+        "inputs": {
+          "qa_enabled": true,
+          "harness_enabled": true,
+          "candidates_reviewed": 4
+        },
+        "decisions": {
+          "qa_performed": true,
+          "qa_failed": false,
+          "harness_performed": true,
+          "validation_errors": 1
+        },
+        "outputs": {
+          "supported_direct_events": 0,
+          "confirmed_critical_events": 0,
+          "unverified_signals": 1,
+          "kiq_completion_status": "NOT_ANSWERED"
+        },
+        "duration_sec": 5.6
+      },
+      {
+        "agent_index": 4,
+        "agent_role": "EWS Editor Agent",
+        "inputs": {
+          "event_briefs_supplied": 4,
+          "verbatim_citations_supplied": 8,
+          "runtime_kiq_count": 3
+        },
+        "decisions": {
+          "editor_failed": false,
+          "editor_validation_status": "FAILED",
+          "executive_summary_mode": "DETERMINISTIC_FALLBACK",
+          "detailed_assessment_mode": "DETERMINISTIC_FALLBACK",
+          "actions_parsed": 2,
+          "action_fallbacks": 1
+        },
+        "outputs": {
+          "action_plan_count": 2,
+          "executive_summary_words": 228,
+          "detailed_assessment_words": 462
+        },
+        "duration_sec": 12.52
+      }
+    ],
+    "ai_governance": {
+      "regulatory_reference": "Regulation (EU) 2024/1689, as amended",
+      "assessment_timestamp_utc": "2026-11-26T11:01:19.014213+00:00",
+      "intended_purpose": "Competitive Intelligence decision support using publicly available aerospace information.",
+      "prohibited_uses": [
+        "Autonomous aircraft operation",
+        "Autonomous safety-critical decisions",
+        "Automated regulatory certification",
+        "Unreviewed operational interventions"
+      ],
+      "ai_system_provider": "Externally hosted LLM provider",
+      "model_identifier": "openrouter/google/gemini-3-flash-preview",
+      "run_id": "RUN-20261126-105937-E6B4D54E6F64",
+      "risk_classification": "REQUIRES_LEGAL_ASSESSMENT",
+      "legal_compliance_status": "NOT_CERTIFIED",
+      "ai_generated_content": true,
+      "human_oversight_available": true,
+      "human_review_status": "REPLAY_EXPERIMENT_NOT_FOR_PUBLICATION",
+      "controls": {
+        "source_traceability": true,
+        "independent_qa": true,
+        "deterministic_validation": true,
+        "human_review_gate": true,
+        "critical_alert_requires_verified_evidence": true,
+        "model_and_run_logging": true
+      },
+      "legal_review_items": {
+        "article_4_ai_literacy": "ORGANIZATIONAL_REVIEW_REQUIRED",
+        "article_50_transparency": "APPLICABILITY_REVIEW_REQUIRED",
+        "article_6_high_risk_classification": "LEGAL_REVIEW_REQUIRED",
+        "personal_data_processing": "GDPR_REVIEW_REQUIRED",
+        "copyright_and_tdm": "SOURCE_SPECIFIC_REVIEW_REQUIRED"
+      },
+      "limitations": "These records document implemented safeguards. They are not a legal conformity assessment, certification or proof of compliance."
+    }
+  },
+  "comparison_summary": {
+    "has_comparable_run": false,
+    "note": "Replay experiment: historical comparison disabled."
+  },
+  "connector_status": {
+    "Replay_Dataset": {
+      "source_id": "REPLAY",
+      "accepted_count": 20,
+      "errors": []
+    }
+  }
+}

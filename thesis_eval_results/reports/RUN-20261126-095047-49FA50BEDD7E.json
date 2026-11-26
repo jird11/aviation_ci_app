@@ -1,0 +1,3563 @@
+{
+  "report_id": "RPT-20261126-C0F71A",
+  "run_id": "RUN-20261126-095047-49FA50BEDD7E",
+  "version": 1,
+  "outcome_status": "COMPLETED",
+  "executive_summary": "Monitoring of the Rolls-Royce Trent 1000 durability upgrade program for the Boeing 787 has identified a mix of confirmed regulatory mandates and unverified commercial claims regarding future enhancements. Official regulatory records from June and August 2026 confirm active technical issues involving high-cycle fatigue. Specifically, an Airworthiness Directive (AD) was prompted by reports of cracking in the intermediate pressure (IP) compressor variable inlet guide vanes (VIGVs) [DOC_012]. Additionally, repetitive in-shop visual inspections are required for IP stage 8 and high-pressure stage 3 air transfer tubes to address documented technical defects [DOC_018]. While secondary media reports from January 2026 suggest Rolls-Royce is promising a \"second phase\" of durability enhancements to increase time-on-wing [DOC_004], these claims remain preliminary. The reliability of reports concerning a \"100% durability increase\" [DOC_009] and the specific certification of a \"Trent 1000 XE\" variant [DOC_010] is currently low due to hash mismatches and truncated source data in the available evidence. Management should prioritize verifying the transition from these regulatory-mandated inspections to the promised hardware-based durability fixes.",
+  "detailed_analytical_assessment": "The technical status of the Trent 1000 program is currently defined by two distinct tracks: ongoing regulatory mitigation of fatigue-related failures and the proposed rollout of a multi-phase durability enhancement package. Regulatory findings are concrete; as of August 14, 2026, authorities have attributed VIGV cracking to high-cycle fatigue propagation, necessitating formal intervention [DOC_012]. This follows earlier requirements for inspections of air transfer tubes and bearing housings [DOC_018], indicating that the engine's core durability remains under active regulatory scrutiny. \n\nAnalytically, there is a gap between these documented defects and the \"durability upgrade package\" cited in commercial reporting. While DOC_004 indicates that Rolls-Royce is pursuing a \"second phase\" of enhancements, the evidence does not yet confirm that these upgrades have been certified or effectively integrated into the fleet to the extent that they supersede the AD-mandated inspections. The claim of a \"100% durability increase\" [DOC_009] lacks sufficient context and primary source confirmation, appearing as an aspirational target rather than a verified performance metric. Furthermore, the connection between the \"Trent 1000 XE\" variant and the resolution of historical high-pressure turbine (HPT) issues for the broader 787 fleet is unsupported by the current evidence [DOC_010].\n\nThe primary open questions involve the specific hardware configuration of the \"Phase 2\" package and the timeline for its regulatory approval. Until the \"unverified\" status of the April and September 2026 event briefs is resolved through primary documentation, the reported durability gains should be treated as manufacturer projections rather than operational certainties. Management is advised to maintain the current inspection intervals mandated by AD 2023-26-04 and subsequent directives until Rolls-Royce provides verified service bulletins linking the new durability package to the termination of these repetitive inspections.",
+  "qa_audit_summary": "Editor text converted into typed recommendations; independent evidence QA remains authoritative. | Five-Dimensional Grounding (Technical, Claim, Causal, Independent Verification, Freshness) completed. | [Harness Guard]: 2/2 direct signals SUPPORTED, 0 PARTIALLY_SUPPORTED, 0 classified as ONGOING_ISSUE, 0 moved to RELATED_PROGRAM_WATCHLIST, 0 flagged for manual HITL verification. | Evidence disposition (not a filtering verdict): DOC_004=REFERENCED_BY_EVENT_NOT_KIQ; DOC_009=REFERENCED_BY_EVENT_NOT_KIQ; DOC_010=REFERENCED_BY_EVENT_NOT_KIQ; DOC_012=NOT_REFERENCED_BY_ANALYST_RELEVANCE_UNDETERMINED; DOC_018=NOT_REFERENCED_BY_ANALYST_RELEVANCE_UNDETERMINED | KIT_COMPLETION: NOT_ANSWERED; 2 of 2 information requirements remain unverified. | [Telemetry]: Run: RUN-20261126-095047-49FA50BEDD7E | CollectionMode: agentic_exa | Runtime: 122.67s (Plan: 3.25s, Collect: 30.42s, Filter: 54.86s, Analyze: 20.7s, QA: 6.48s, Edit: 6.83s, Score: 0.0s) | Batches: 2/2 OK (0 failed) | Docs: 5/23 analyzed (0 failed) | LLM Calls: 11 (Retries: 0) | Model: openrouter/google/gemini-3-flash-preview | Estimated LLM Cost: $0.08575 (ESTIMATED)",
+  "hitl_status": "WAITING_FOR_HITL",
+  "threats": [
+    {
+      "event_id": "RR-T1000-DURABILITY-2026-04-29",
+      "kiq_ids": [
+        "RKIQ_001"
+      ],
+      "indicator_name": "Durability upgrade certification milestone",
+      "company_affected": "Rolls-Royce",
+      "ci_dimension": "Technological CI",
+      "risk_type": "REGULATORY",
+      "secondary_risk_types": [
+        "COMPETITIVE",
+        "TECHNICAL_QUALITY"
+      ],
+      "scm_tier": "Tier 1 (Systems/Engines)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Boeing 787",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [
+        "A350",
+        "A350F",
+        "A330neo",
+        "A380",
+        "G700",
+        "G800",
+        "Falcon 10X"
+      ],
+      "supplier_registry_basis": "Company: Rolls-Royce Holdings -> Role: Tier 1 (Systems/Engines) (Registry Source: Rolls-Royce Civil Aerospace Disclosures) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Boeing 787",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] Rolls-Royce Holdings -> Role: Tier 1 (Systems/Engines)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Boeing 787",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A350, A350F, A330neo",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Rolls-Royce has certified a two-phase durability enhancement package for the Trent 1000 engine, featuring a re-engineered high-pressure turbine. The upgrade is now being commercially deployed, starting with the Trent 1000 XE variant.",
+      "decision_question": "How does the certified durability upgrade impact long-term MRO capacity requirements for the Trent 1000 fleet?",
+      "confirmed_facts": "The Trent 1000 XE engines feature several upgrades following Rolls-Royce's certified two-phase durability enhancement program.",
+      "analytical_interpretation": "Rolls-Royce has transitioned from development to commercial rollout of its durability upgrades, signaling a resolution to historical HPT life issues.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting Rolls-Royce Holdings (Tier 1 (Systems/Engines)) on source-evidenced program Boeing 787. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A350, A350F, A330neo)",
+      "fact_check_quote": "The Trent 1000 XE engines feature several upgrades following Rolls-Royce's certified two-phase durability enhancement program.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_010",
+          "source_url": "https://www.rolls-royce.com/media/press-releases/2026/29-04-2026-rr-wins-back-latam-airlines-with-order-for-trent-1000-xe-engines.aspx",
+          "source_type": "PRIMARY_OFFICIAL_WEB",
+          "passage_text": "The Trent 1000 XE engines feature several upgrades following Rolls-Royce's certified two-phase durability enhancement program. This includes a re-engineered high-pressure turbine.",
+          "passage_hash": "6c78cdb3de9b3a5cded51a6ea2f19f62401521a9e3948285b9043f8ccae1085d",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Rolls-Royce readies roll-out of a second phase of its durability enhancement package for the Trent 1000.",
+          "document_id": "DOC_004",
+          "quote": "after obtaining certification for the latest high-pressure turbine (HPT) upgrades in late 2025.",
+          "source_url": "https://www.flightglobal.com/engines/2026/01/rolls-royce-readies-roll-out-of-next-trent-1000-durability-upgrade-step/",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Rolls-Royce",
+          "program": "Boeing 787",
+          "component": "High-Pressure Turbine (HPT)",
+          "issue": "durability upgrade step",
+          "regulatory_authority": "Unknown / Not specified in source",
+          "publication_date": "2026-01-30",
+          "event_date": "2025-12-31",
+          "cause": "Durability issues in previous Trent 1000 versions.",
+          "effect": "Improved time-on-wing.",
+          "status_before": "In development",
+          "status_after": "Certified",
+          "resolution_outcome": "Certification obtained.",
+          "passage_hash": null,
+          "classification_audit": []
+        },
+        {
+          "claim_text": "The Trent 1000 XE engines feature several upgrades following a certified two-phase durability enhancement program.",
+          "document_id": "DOC_010",
+          "quote": "The Trent 1000 XE engines feature several upgrades following Rolls-Royce's certified two-phase durability enhancement program.",
+          "source_url": "https://www.rolls-royce.com/media/press-releases/2026/29-04-2026-rr-wins-back-latam-airlines-with-order-for-trent-1000-xe-engines.aspx",
+          "claim_type": "CURRENT_STATUS",
+          "evidence_authority": "ISSUER_OFFICIAL_STATEMENT",
+          "entity": "Rolls-Royce",
+          "program": "Boeing 787",
+          "component": "Trent 1000 XE engine package",
+          "issue": "durability upgrade package",
+          "regulatory_authority": "Unknown / Not specified in source",
+          "publication_date": "2026-04-29",
+          "event_date": "2026-04-29",
+          "cause": "Two-phase durability enhancement program.",
+          "effect": "Increased durability and reliability.",
+          "status_before": "Pre-certification development stage",
+          "status_after": "Certified and commercially selected",
+          "resolution_outcome": "Commercial deployment via LATAM order.",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_010",
+        "DOC_004"
+      ],
+      "source_urls": [
+        "https://www.rolls-royce.com/media/press-releases/2026/29-04-2026-rr-wins-back-latam-airlines-with-order-for-trent-1000-xe-engines.aspx",
+        "https://www.flightglobal.com/engines/2026/01/rolls-royce-readies-roll-out-of-next-trent-1000-durability-upgrade-step/"
+      ],
+      "verification_status": "Verified Primary Source (HISTORICAL_CONTEXT | 5-Step Grounding PASS) [Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified. | Source published 211 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source) | REGULATORY_AUTHORITY_NOT_VERIFIED: issuer or media statements do not establish an agency decision]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "CORROBORATED_INDEPENDENTLY",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "CORROBORATED_INDEPENDENTLY (2 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "Boeing 787",
+        "Hypothetical Shared Dependencies": "A350, A350F, A330neo, A380, G700, G800, Falcon 10X",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "OFFICIAL_ISSUER_PR",
+        "Claim Authority": "ISSUER_REPORTED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=POSITIVE, VARIANT=NOT_REQUIRED, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-04-29",
+        "event_date": "2025-12-31",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Regulatory Stage": "UNKNOWN",
+        "Severity": "6/10 (potential impact, not verification)",
+        "Confidence": "HIGH",
+        "Verification": "SUPPORTED",
+        "Current Status": "ELEVATED_RISK",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-26",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-04-29",
+      "first_seen_at": "2026-11-26T09:52:50Z",
+      "last_seen_at": "2026-11-26T09:52:50Z",
+      "updated_at": "2026-11-26T09:52:50Z",
+      "event_status": "ELEVATED_RISK",
+      "evidence_citation": "https://www.rolls-royce.com/media/press-releases/2026/29-04-2026-rr-wins-back-latam-airlines-with-order-for-trent-1000-xe-engines.aspx",
+      "missing_data": "Verification required: Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified; Source published 211 days before reference date; historical source alone does not prove a new event or current disruption.",
+      "intelligence_gap": {
+        "gap_id": "GAP_F3AF61",
+        "what_is_missing": "Verification required: Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified; Source published 211 days before reference date; historical source alone does not prove a new event or current disruption.",
+        "why_important": "Needed to confirm Direct Operational / Regulatory Risk impact on Rolls-Royce (Boeing 787).",
+        "affected_kiq_id": "RKIQ_001",
+        "recommended_source": "FAA / EASA / Official OEM Pressroom",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Rolls-Royce completes a multi-year durability upgrade cycle, re-entering the widebody competitive market with the Trent 1000 XE. Competitors must counter improved time-on-wing metrics.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 2,
+          "rationale": "Successful certification and deployment reduce significant fleet-wide grounding risks."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Rolls-Royce is one of two engine OEMs for the Boeing 787 program."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "Rolls-Royce is the sole provider of this proprietary upgrade package."
+        },
+        "propagation_scope": {
+          "score": 4,
+          "rationale": "Affects the global Trent 1000 engine fleet on Boeing 787 aircraft."
+        },
+        "temporal_urgency": {
+          "score": 1,
+          "rationale": "Upgrades are already certified and in the rollout phase as of April 2026."
+        }
+      },
+      "threat_score": 6,
+      "score_rationale": "Potential severity: ELEVATED (6/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "HIGH",
+      "urgency": "MEDIUM",
+      "escalation_level": "ROUTINE_MONITORING",
+      "is_critical": false
+    },
+    {
+      "event_id": "RR-T1000-TEN-DURABILITY-2026-09-24",
+      "kiq_ids": [],
+      "indicator_name": "Engine durability enhancement deployment status",
+      "company_affected": "Rolls-Royce",
+      "ci_dimension": "Technological CI",
+      "risk_type": "TECHNICAL_QUALITY",
+      "secondary_risk_types": [
+        "COMPETITIVE"
+      ],
+      "scm_tier": "Tier 1 (Systems/Engines)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Boeing 787",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [
+        "A350",
+        "A350F",
+        "A330neo",
+        "A380",
+        "G700",
+        "G800",
+        "Falcon 10X"
+      ],
+      "supplier_registry_basis": "Company: Rolls-Royce Holdings -> Role: Tier 1 (Systems/Engines) (Registry Source: Rolls-Royce Civil Aerospace Disclosures) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Boeing 787",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] Rolls-Royce Holdings -> Role: Tier 1 (Systems/Engines)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Boeing 787",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A350, A350F, A330neo",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Rolls-Royce has retrofitted 50% of the Trent 1000 TEN fleet with new HPT blades as of mid-2026. The program aims for a 100% durability increase by end-2027 to resolve historical hot-section issues.",
+      "decision_question": "Can Rolls-Royce verify the specific HPT blade cooling architecture changes and provide current MRO throughput data to ensure the 2027 durability target remains on schedule?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "Rolls-Royce has achieved significant penetration (50%) with its Trent 1000 TEN durability upgrades as of mid-2026, aiming for a 100% durability increase by late 2027.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting Rolls-Royce Holdings (Tier 1 (Systems/Engines)) on source-evidenced program Boeing 787. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A350, A350F, A330neo)",
+      "fact_check_quote": "By mid-2026, Rolls-Royce reported that almost 50% of the Trent 1000 TEN fleet had been fitted with improved HPT blades.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_009",
+          "source_url": "https://odayaviation.com/rr-engine-durability-the-turn-around/",
+          "source_type": "SECONDARY_MEDIA_REPORT",
+          "passage_text": "By mid-2026, Rolls-Royce reported that almost 50% of the Trent 1000 TEN fleet had been fitted with improved HPT blades, bringing those engines up to the latest durability standard. The company has established a target of increasing durability by more than 100% across its in-production engines by the end of 2027.",
+          "passage_hash": "51ca0de96ee92813db22970e4b5ac3aa9416f26880a228c98b4ad124b10257cb",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "MANUAL_EXTRACT",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Rolls-Royce is implementing major hot-section durability improvements on the Trent 1000 TEN fleet.",
+          "document_id": "DOC_009",
+          "quote": "By mid-2026, Rolls-Royce reported that almost 50% of the Trent 1000 TEN fleet had been fitted with improved HPT blades, bringing tho",
+          "source_url": "https://odayaviation.com/rr-engine-durability-the-turn-around/",
+          "claim_type": "STATUS_CHANGE",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Rolls-Royce",
+          "program": "Trent 1000 TEN",
+          "component": "High Pressure Turbine (HPT) blades",
+          "issue": "HPT blade durability",
+          "regulatory_authority": "Unknown / Not specified in source",
+          "publication_date": "2026-09-24",
+          "event_date": "2026-06-30",
+          "cause": "durability challenges—particularly on the Trent 1000",
+          "effect": "increased durability by more than 100% across its in-production engines by the end of 2027",
+          "status_before": "Historical durability challenges and significant costs",
+          "status_after": "50% fleet fitted with improved blades",
+          "resolution_outcome": "ongoing retrofit campaign",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_009"
+      ],
+      "source_urls": [
+        "https://odayaviation.com/rr-engine-durability-the-turn-around/"
+      ],
+      "verification_status": "Verified Secondary Source (EVENT_DATE_UNKNOWN | 1 independent source(s))",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "SINGLE_SECONDARY_SOURCE",
+      "event_freshness": "EVENT_DATE_UNKNOWN",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "SINGLE_SECONDARY_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "EVENT_DATE_UNKNOWN",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "Boeing 787",
+        "Hypothetical Shared Dependencies": "A350, A350F, A330neo, A380, G700, G800, Falcon 10X",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=POSITIVE, PROGRAM=POSITIVE, VARIANT=NOT_REQUIRED, COMPONENT=NOT_REQUIRED, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-09-24",
+        "event_date": "2026-06-30",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "8/10 (potential impact, not verification)",
+        "Confidence": "MEDIUM",
+        "Verification": "SUPPORTED",
+        "Current Status": "ELEVATED_RISK",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "TECHNICAL_QUALITY",
+        "Chronology As Of": "2026-11-26",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-09-24",
+      "first_seen_at": "2026-11-26T09:52:50Z",
+      "last_seen_at": "2026-11-26T09:52:50Z",
+      "updated_at": "2026-11-26T09:52:50Z",
+      "event_status": "ELEVATED_RISK",
+      "evidence_citation": "https://odayaviation.com/rr-engine-durability-the-turn-around/",
+      "missing_data": "Single secondary source for Rolls-Royce (Boeing 787); independent confirmation needed.",
+      "intelligence_gap": {
+        "gap_id": "GAP_RR_001",
+        "what_is_missing": "Official confirmation of the specific HPT cooling architecture and 2027 milestone progress.",
+        "why_important": "Necessary to verify the 100% durability improvement claim and impact on 787 dispatch reliability.",
+        "affected_kiq_id": "KIQ_1_1",
+        "recommended_source": "Rolls-Royce Investor Relations / Official PR",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Rolls-Royce's multi-year durability upgrade campaign for the Trent 1000 TEN faces risks from MRO capacity constraints. Failure to complete the 100% durability improvement target by 2027 could leave Boeing 787 operators exposed to higher AOG rates and engine maintenance costs compared to competitors.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 3,
+          "rationale": "Significant operational impact from previous durability issues; resolution improves 787 value."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Rolls-Royce is the sole provider for these specific engine durability upgrades."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "Engine HPT components are proprietary to the OEM (Rolls-Royce)."
+        },
+        "propagation_scope": {
+          "score": 4,
+          "rationale": "Affects a large portion (50%) of the global Trent 1000 TEN fleet for 787."
+        },
+        "temporal_urgency": {
+          "score": 3,
+          "rationale": "Deployment is ongoing with a critical target date of end-2027."
+        }
+      },
+      "threat_score": 8,
+      "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (8/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "MEDIUM",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    }
+  ],
+  "threat_reports": [
+    {
+      "threat_id": "RR-T1000-DURABILITY-2026-04-29",
+      "event_title": "Rolls-Royce has certified a two-phase durability enhancement package for the Trent 1000 engine, featuring a re-engineered high-pressure turbine. The upgrade is now being commercially deployed, starting with the Trent 1000 XE variant.",
+      "category": "REGULATORY",
+      "affected_entity": "Rolls-Royce",
+      "threat_score": 6,
+      "source_url": "https://www.rolls-royce.com/media/press-releases/2026/29-04-2026-rr-wins-back-latam-airlines-with-order-for-trent-1000-xe-engines.aspx",
+      "timestamp": "2026-04-29",
+      "mitigation_advice": "Conduct a technical audit of the \"Phase 2\" durability package specifications against the cracking issues identified in DOC_012.",
+      "confidence_level": "HIGH",
+      "validation_status": "SUPPORTED",
+      "event_status": "ELEVATED_RISK"
+    },
+    {
+      "threat_id": "RR-T1000-TEN-DURABILITY-2026-09-24",
+      "event_title": "Rolls-Royce has retrofitted 50% of the Trent 1000 TEN fleet with new HPT blades as of mid-2026. The program aims for a 100% durability increase by end-2027 to resolve historical hot-section issues.",
+      "category": "TECHNICAL_QUALITY",
+      "affected_entity": "Rolls-Royce",
+      "threat_score": 8,
+      "source_url": "https://odayaviation.com/rr-engine-durability-the-turn-around/",
+      "timestamp": "2026-09-24",
+      "mitigation_advice": "Verify source evidence, KIT applicability and decision needs for RR-T1000-TEN-DURABILITY-2026-09-24.",
+      "confidence_level": "MEDIUM",
+      "validation_status": "SUPPORTED",
+      "event_status": "ELEVATED_RISK"
+    }
+  ],
+  "related_program_watchlist": [],
+  "action_plan": [
+    {
+      "action_id": "ACT_6724F309",
+      "related_event_ids": [
+        "RR-T1000-TEN-DURABILITY-2026-09-24"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Rolls-Royce"
+      ],
+      "action": "Verify source evidence, KIT applicability and decision needs for RR-T1000-TEN-DURABILITY-2026-09-24.",
+      "rationale": "Evidence status: RR-T1000-TEN-DURABILITY-2026-09-24: SUPPORTED, KIT=DIRECT_KIT_MATCH, Documents=DOC_009. Further source verification or human review is required before implementation.",
+      "pros_and_cons": "PRO: Supports documented verification and decision-making.; CON: Requires analyst effort and human approval",
+      "triple_a_impact": "Adaptability",
+      "uncertainty_assumptions": "Editorial advice requires source verification and human approval.",
+      "owner": "Supply Chain Risk Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Evidence and management decision documented for RR-T1000-TEN-DURABILITY-2026-09-24.",
+      "priority": "LOW",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-26T09:52:49Z"
+    },
+    {
+      "action_id": "ACT_7266CBE0",
+      "related_event_ids": [
+        "RR-T1000-DURABILITY-2026-04-29"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Rolls-Royce"
+      ],
+      "action": "Conduct a technical audit of the \"Phase 2\" durability package specifications against the cracking issues identified in DOC_012.",
+      "rationale": "Evidence status: RR-T1000-DURABILITY-2026-04-29: SUPPORTED, KIT=DIRECT_KIT_MATCH, Documents=DOC_004,DOC_010. Editor analysis (not independent evidence): Current evidence conflates new variant certification with fleet-wide durability fixes; verification is needed to determine if the upgrade addresses the specific high-cycle fatigue cited by regulators.",
+      "pros_and_cons": "PRO: Clarifies whether the upgrade package provides a permanent terminating action for current Airworthiness Directives.; CON: Requires internal engineering resources to evaluate unverified manufacturer claims",
+      "triple_a_impact": "Alignment",
+      "uncertainty_assumptions": "Editorial advice requires source verification and human approval.",
+      "owner": "Regulatory Affairs Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Evidence and management decision documented for RR-T1000-DURABILITY-2026-04-29.",
+      "priority": "LOW",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-26T09:52:49Z"
+    }
+  ],
+  "kiq_answers": [
+    {
+      "kiq_id": "RKIQ_001",
+      "question": "What is the current certification and deployment status of the Rolls-Royce Trent 1000 TEN durability enhancement package?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "PARTIAL",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "Reviewed sources address part of this question, while specific verification items remain open. A validated source record notes that “The Trent 1000 XE engines feature several upgrades following Rolls-Royce's certified two-phase durability enhancement program.” [DOC_004]. An official regulatory record on 2026-08-14 notes that “This AD was prompted by reports of cracking of the intermediate pressure (IP) compressor variable inlet guide vanes (VIGVs) due to high-cycle fatigue propagation.” [DOC_012]. An official regulatory record on 2026-08-14 notes that “subsequent investigation attributed the cracking to high-cycle fatigue” [DOC_012]. Evidence establishes documented technical defect, durability or quality finding, direct applicability to the named model or program, whereas latest dated, issue-specific status still require direct confirmation. Based on 5 relevant document(s) (DOC_004, DOC_009, DOC_010, DOC_012, DOC_018) out of 5 evaluated.",
+      "related_event_ids": [
+        "RR-T1000-DURABILITY-2026-04-29"
+      ],
+      "evidence_ids": [
+        "DOC_004",
+        "DOC_009",
+        "DOC_010",
+        "DOC_012",
+        "DOC_018"
+      ],
+      "retrieved_evidence_count": 5,
+      "validated_evidence_count": 3,
+      "retrieved_document_ids": [
+        "DOC_004",
+        "DOC_009",
+        "DOC_010",
+        "DOC_012",
+        "DOC_018"
+      ],
+      "unused_document_reasons": {},
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_001_REQ_01",
+          "key": "TECHNICAL_DEFECT",
+          "required_fact": "Documented technical defect, durability or quality finding",
+          "evidence_type": "TECHNICAL_FINDING",
+          "required_entity_model": "TRENT_1000, B787, Boeing, Rolls-Royce",
+          "required_component": "",
+          "verification_status": "VERIFIED",
+          "doc_ids": [
+            "DOC_004",
+            "DOC_009",
+            "DOC_010",
+            "DOC_012",
+            "DOC_018"
+          ],
+          "verified_doc_ids": [
+            "DOC_004",
+            "DOC_012",
+            "DOC_018"
+          ],
+          "preliminary_doc_ids": [
+            "DOC_009",
+            "DOC_010"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_004",
+              "claim": "The Trent 1000 XE engines feature several upgrades following Rolls-Royce's certified two-phase durability enhancement program.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "",
+              "publication_date": "2026-01-30",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "ANALYST_ASSESSMENT",
+              "strength": "VERIFIED",
+              "source_url": "https://www.flightglobal.com/engines/2026/01/rolls-royce-readies-roll-out-of-next-trent-1000-durability-upgrade-step/",
+              "source_hash": "",
+              "passage_hash": "",
+              "verification_reason": "ANALYST_EVENT_VALIDATION",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_012",
+              "claim": "Deutschland Ltd & Co KG (RRD) Model Trent 1000-A2, Trent 1000-AE2, Trent 1000-C2, Trent 1000-CE2, Trent 1000-D2, Trent 1000-E2, Trent 1000-G2, Trent 1000-H2, Trent 1000-J2, Trent 1000-K2, and Trent 1000-L2 engines. This AD was prompted by reports of cracking of the intermediate pressure (IP) compressor variable inlet guide vanes (VIGVs) due to high-cycle fatigue propagation.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_001",
+              "quote": "This AD was prompted by reports of cracking of the intermediate pressure (IP) compressor variable inlet guide vanes (VIGVs) due to high-cycle fatigue propagation.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PASSAGE_VERIFIED",
+              "publication_date": "2026-08-14",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "REGULATOR",
+              "strength": "VERIFIED",
+              "source_url": "https://www.federalregister.gov/documents/2026/08/14/2026-16636/airworthiness-directives-rolls-royce-deutschland-ltd-and-co-kg-engines",
+              "source_hash": "",
+              "passage_hash": "92e19f3f7f29838cab66cb5fd5959c52bc4d548e441c3ecd3a84db074a766236",
+              "verification_reason": "FULL_SOURCE_VERIFIED",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_012",
+              "claim": "the IP compressor VIGV on Trent 1000 Pack C engines was reported and subsequent investigation attributed the cracking to high-cycle fatigue",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_001",
+              "quote": "subsequent investigation attributed the cracking to high-cycle fatigue",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PASSAGE_VERIFIED",
+              "publication_date": "2026-08-14",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "REGULATOR",
+              "strength": "VERIFIED",
+              "source_url": "https://www.federalregister.gov/documents/2026/08/14/2026-16636/airworthiness-directives-rolls-royce-deutschland-ltd-and-co-kg-engines",
+              "source_hash": "",
+              "passage_hash": "92e19f3f7f29838cab66cb5fd5959c52bc4d548e441c3ecd3a84db074a766236",
+              "verification_reason": "FULL_SOURCE_VERIFIED",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": []
+        },
+        {
+          "id": "RKIQ_001_REQ_02",
+          "key": "CURRENT_STATUS",
+          "required_fact": "Latest dated, issue-specific status",
+          "evidence_type": "DATED_STATUS",
+          "required_entity_model": "TRENT_1000, B787, Boeing, Rolls-Royce",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Latest dated, issue-specific status"
+          ]
+        },
+        {
+          "id": "RKIQ_001_REQ_03",
+          "key": "PROGRAM_APPLICABILITY",
+          "required_fact": "Direct applicability to the named model or program",
+          "evidence_type": "MODEL_APPLICABILITY",
+          "required_entity_model": "TRENT_1000, B787, Boeing, Rolls-Royce",
+          "required_component": "",
+          "verification_status": "VERIFIED",
+          "doc_ids": [
+            "DOC_004",
+            "DOC_009",
+            "DOC_010",
+            "DOC_012",
+            "DOC_018"
+          ],
+          "verified_doc_ids": [
+            "DOC_004",
+            "DOC_012",
+            "DOC_018"
+          ],
+          "preliminary_doc_ids": [
+            "DOC_009",
+            "DOC_010"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_004",
+              "claim": "The Trent 1000 XE engines feature several upgrades following Rolls-Royce's certified two-phase durability enhancement program.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "",
+              "publication_date": "2026-01-30",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "ANALYST_ASSESSMENT",
+              "strength": "VERIFIED",
+              "source_url": "https://www.flightglobal.com/engines/2026/01/rolls-royce-readies-roll-out-of-next-trent-1000-durability-upgrade-step/",
+              "source_hash": "",
+              "passage_hash": "",
+              "verification_reason": "ANALYST_EVENT_VALIDATION",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_012",
+              "claim": "Deutschland Ltd & Co KG (RRD) Model Trent 1000-A2, Trent 1000-AE2, Trent 1000-C2, Trent 1000-CE2, Trent 1000-D2, Trent 1000-E2, Trent 1000-G2, Trent 1000-H2, Trent 1000-J2, Trent 1000-K2, and Trent 1000-L2 engines. This AD was prompted by reports of cracking of the intermediate pressure (IP) compressor variable inlet guide vanes (VIGVs) due to high-cycle fatigue propagation.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_001",
+              "quote": "This AD was prompted by reports of cracking of the intermediate pressure (IP) compressor variable inlet guide vanes (VIGVs) due to high-cycle fatigue propagation.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PASSAGE_VERIFIED",
+              "publication_date": "2026-08-14",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "REGULATOR",
+              "strength": "VERIFIED",
+              "source_url": "https://www.federalregister.gov/documents/2026/08/14/2026-16636/airworthiness-directives-rolls-royce-deutschland-ltd-and-co-kg-engines",
+              "source_hash": "",
+              "passage_hash": "92e19f3f7f29838cab66cb5fd5959c52bc4d548e441c3ecd3a84db074a766236",
+              "verification_reason": "FULL_SOURCE_VERIFIED",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_012",
+              "claim": "the IP compressor VIGV on Trent 1000 Pack C engines was reported and subsequent investigation attributed the cracking to high-cycle fatigue",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_001",
+              "quote": "subsequent investigation attributed the cracking to high-cycle fatigue",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PASSAGE_VERIFIED",
+              "publication_date": "2026-08-14",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "REGULATOR",
+              "strength": "VERIFIED",
+              "source_url": "https://www.federalregister.gov/documents/2026/08/14/2026-16636/airworthiness-directives-rolls-royce-deutschland-ltd-and-co-kg-engines",
+              "source_hash": "",
+              "passage_hash": "92e19f3f7f29838cab66cb5fd5959c52bc4d548e441c3ecd3a84db074a766236",
+              "verification_reason": "FULL_SOURCE_VERIFIED",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": []
+        }
+      ],
+      "claim_requirement_links": [
+        {
+          "claim_id": "",
+          "doc_id": "DOC_004",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "TECHNICAL_DEFECT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_012",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "TECHNICAL_DEFECT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_012",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "TECHNICAL_DEFECT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_004",
+          "requirement_id": "RKIQ_001_REQ_03",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_012",
+          "requirement_id": "RKIQ_001_REQ_03",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_012",
+          "requirement_id": "RKIQ_001_REQ_03",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        }
+      ],
+      "claim_handoff_rejections": {
+        "DOC_012": "SCOPE_MISMATCH",
+        "DOC_018": "SCOPE_MISMATCH"
+      },
+      "source_execution_status": "RESULTS_RETRIEVED",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "TECHNICAL_DEFECT",
+          "doc_id": "DOC_012",
+          "source_id": "SRC_001",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.federalregister.gov/documents/2026/08/14/2026-16636/airworthiness-directives-rolls-royce-deutschland-ltd-and-co-kg-engines",
+          "original_filing_url": "",
+          "quote": "subsequent investigation attributed the cracking to high-cycle fatigue",
+          "source_hash": "",
+          "passage_hash": "92e19f3f7f29838cab66cb5fd5959c52bc4d548e441c3ecd3a84db074a766236",
+          "extraction_method": "",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "claim_strength": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "FULL_SOURCE_VERIFIED",
+          "publication_date": "2026-08-14",
+          "event_date": "",
+          "authority": "REGULATOR",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_03",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "doc_id": "DOC_012",
+          "source_id": "SRC_001",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.federalregister.gov/documents/2026/08/14/2026-16636/airworthiness-directives-rolls-royce-deutschland-ltd-and-co-kg-engines",
+          "original_filing_url": "",
+          "quote": "subsequent investigation attributed the cracking to high-cycle fatigue",
+          "source_hash": "",
+          "passage_hash": "92e19f3f7f29838cab66cb5fd5959c52bc4d548e441c3ecd3a84db074a766236",
+          "extraction_method": "",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "claim_strength": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "FULL_SOURCE_VERIFIED",
+          "publication_date": "2026-08-14",
+          "event_date": "",
+          "authority": "REGULATOR",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        }
+      ],
+      "verification_status": "Verified 2/3 atomic facts; RESULTS_RETRIEVED",
+      "uncertainty_level": "MEDIUM",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Latest dated, issue-specific status",
+      "missing_information": "Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status"
+    },
+    {
+      "kiq_id": "RKIQ_002",
+      "question": "What specific technical modifications are included in the Trent 1000 durability upgrade to address High Pressure Turbine (HPT) blade life?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "PARTIAL",
+      "temporal_relevance": "CURRENT_OR_ONGOING",
+      "answer": "Available reporting suggests the issue remains active, pending primary confirmation. A secondary media report on 2026-01-30 notes that “Rolls-Royce is promising a further time-on-wing boost for the Trent 1000 with the roll-out of a second phase of its durability enhancement package for the engine, an option on the Boeing 787, after obtaining…” [DOC_004]. Still needed for a complete answer: identity of the affected part or engine, documented technical defect, durability or quality finding, direct applicability to the named model or program. Based on 1 relevant document(s) (DOC_004) out of 5 evaluated.",
+      "related_event_ids": [],
+      "evidence_ids": [
+        "DOC_004"
+      ],
+      "retrieved_evidence_count": 4,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [
+        "DOC_004",
+        "DOC_009",
+        "DOC_010",
+        "DOC_012"
+      ],
+      "unused_document_reasons": {
+        "DOC_009": "SCOPE_MISMATCH",
+        "DOC_010": "SCOPE_MISMATCH",
+        "DOC_012": "SCOPE_MISMATCH",
+        "DOC_018": "SCOPE_MISMATCH"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_002_REQ_01",
+          "key": "AFFECTED_COMPONENT",
+          "required_fact": "Identity of the affected part or engine",
+          "evidence_type": "COMPONENT_IDENTITY",
+          "required_entity_model": "TRENT_1000, Rolls-Royce",
+          "required_component": "TURBINE",
+          "verification_status": "PRELIMINARY",
+          "doc_ids": [
+            "DOC_004"
+          ],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [
+            "DOC_004"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_004",
+              "claim": "Rolls-Royce is promising a further time-on-wing boost for the Trent 1000 with the roll-out of a second phase of its durability enhancement package for the engine, an option on the Boeing 787, after obtaining certification for the latest high-pressure turbine (HPT) upgrades in late 2025.",
+              "claim_id": "DOC_004:C02",
+              "kiq_id": "RKIQ_002",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "Rolls-Royce is promising a further time-on-wing boost for the Trent 1000 with the roll-out of a second phase of its durability enhancement package for the engine, an option on the Boeing 787, after obtaining certification for the latest high-pressure turbine (HPT) upgrades in late 2025.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "https://www.flightglobal.com/engines/2026/01/rolls-royce-readies-roll-out-of-next-trent-1000-durability-upgrade-step/",
+              "extraction_method": "FR03_SEMANTIC_QUOTATION",
+              "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+              "publication_date": "2026-01-30",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://www.flightglobal.com/engines/2026/01/rolls-royce-readies-roll-out-of-next-trent-1000-durability-upgrade-step/",
+              "source_hash": "",
+              "passage_hash": "90503dce7cadb8a486d8f74ce576efc59a9103f2de14f8b330db8ea5381fa832",
+              "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+              "claim_type": "DIRECT_ISSUE",
+              "claim_state": "ISSUE_ACTIVE",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": [
+            "Independent confirmation of the preliminary claim"
+          ]
+        },
+        {
+          "id": "RKIQ_002_REQ_02",
+          "key": "TECHNICAL_DEFECT",
+          "required_fact": "Documented technical defect, durability or quality finding",
+          "evidence_type": "TECHNICAL_FINDING",
+          "required_entity_model": "TRENT_1000, Rolls-Royce",
+          "required_component": "TURBINE",
+          "verification_status": "PRELIMINARY",
+          "doc_ids": [
+            "DOC_004"
+          ],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [
+            "DOC_004"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_004",
+              "claim": "Rolls-Royce is promising a further time-on-wing boost for the Trent 1000 with the roll-out of a second phase of its durability enhancement package for the engine, an option on the Boeing 787, after obtaining certification for the latest high-pressure turbine (HPT) upgrades in late 2025.",
+              "claim_id": "DOC_004:C02",
+              "kiq_id": "RKIQ_002",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "Rolls-Royce is promising a further time-on-wing boost for the Trent 1000 with the roll-out of a second phase of its durability enhancement package for the engine, an option on the Boeing 787, after obtaining certification for the latest high-pressure turbine (HPT) upgrades in late 2025.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "https://www.flightglobal.com/engines/2026/01/rolls-royce-readies-roll-out-of-next-trent-1000-durability-upgrade-step/",
+              "extraction_method": "FR03_SEMANTIC_QUOTATION",
+              "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+              "publication_date": "2026-01-30",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://www.flightglobal.com/engines/2026/01/rolls-royce-readies-roll-out-of-next-trent-1000-durability-upgrade-step/",
+              "source_hash": "",
+              "passage_hash": "90503dce7cadb8a486d8f74ce576efc59a9103f2de14f8b330db8ea5381fa832",
+              "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+              "claim_type": "DIRECT_ISSUE",
+              "claim_state": "ISSUE_ACTIVE",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": [
+            "Independent confirmation of the preliminary claim"
+          ]
+        },
+        {
+          "id": "RKIQ_002_REQ_03",
+          "key": "PROGRAM_APPLICABILITY",
+          "required_fact": "Direct applicability to the named model or program",
+          "evidence_type": "MODEL_APPLICABILITY",
+          "required_entity_model": "TRENT_1000, Rolls-Royce",
+          "required_component": "TURBINE",
+          "verification_status": "PRELIMINARY",
+          "doc_ids": [
+            "DOC_004"
+          ],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [
+            "DOC_004"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_004",
+              "claim": "Rolls-Royce is promising a further time-on-wing boost for the Trent 1000 with the roll-out of a second phase of its durability enhancement package for the engine, an option on the Boeing 787, after obtaining certification for the latest high-pressure turbine (HPT) upgrades in late 2025.",
+              "claim_id": "DOC_004:C02",
+              "kiq_id": "RKIQ_002",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "Rolls-Royce is promising a further time-on-wing boost for the Trent 1000 with the roll-out of a second phase of its durability enhancement package for the engine, an option on the Boeing 787, after obtaining certification for the latest high-pressure turbine (HPT) upgrades in late 2025.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "https://www.flightglobal.com/engines/2026/01/rolls-royce-readies-roll-out-of-next-trent-1000-durability-upgrade-step/",
+              "extraction_method": "FR03_SEMANTIC_QUOTATION",
+              "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+              "publication_date": "2026-01-30",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://www.flightglobal.com/engines/2026/01/rolls-royce-readies-roll-out-of-next-trent-1000-durability-upgrade-step/",
+              "source_hash": "",
+              "passage_hash": "90503dce7cadb8a486d8f74ce576efc59a9103f2de14f8b330db8ea5381fa832",
+              "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+              "claim_type": "DIRECT_ISSUE",
+              "claim_state": "ISSUE_ACTIVE",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": [
+            "Independent confirmation of the preliminary claim"
+          ]
+        }
+      ],
+      "claim_requirement_links": [
+        {
+          "claim_id": "DOC_004:C02",
+          "doc_id": "DOC_004",
+          "requirement_id": "RKIQ_002_REQ_01",
+          "requirement_key": "AFFECTED_COMPONENT",
+          "rkiq_id": "RKIQ_002",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "DOC_004:C02",
+          "doc_id": "DOC_004",
+          "requirement_id": "RKIQ_002_REQ_02",
+          "requirement_key": "TECHNICAL_DEFECT",
+          "rkiq_id": "RKIQ_002",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "DOC_004:C02",
+          "doc_id": "DOC_004",
+          "requirement_id": "RKIQ_002_REQ_03",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "rkiq_id": "RKIQ_002",
+          "strength": "PRELIMINARY"
+        }
+      ],
+      "claim_handoff_rejections": {
+        "DOC_009": "SCOPE_MISMATCH",
+        "DOC_010": "SCOPE_MISMATCH",
+        "DOC_012": "SCOPE_MISMATCH",
+        "DOC_018": "SCOPE_MISMATCH"
+      },
+      "source_execution_status": "RESULTS_RETRIEVED",
+      "content_result": "ISSUE_REPORTED_ACTIVE",
+      "issue_status": "ISSUE_REPORTED_ACTIVE",
+      "evidence_trace": [
+        {
+          "kiq_id": "RKIQ_002",
+          "kit_id": "",
+          "requirement_id": "RKIQ_002_REQ_01",
+          "requirement_key": "AFFECTED_COMPONENT",
+          "doc_id": "DOC_004",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.flightglobal.com/engines/2026/01/rolls-royce-readies-roll-out-of-next-trent-1000-durability-upgrade-step/",
+          "original_filing_url": "https://www.flightglobal.com/engines/2026/01/rolls-royce-readies-roll-out-of-next-trent-1000-durability-upgrade-step/",
+          "quote": "Rolls-Royce is promising a further time-on-wing boost for the Trent 1000 with the roll-out of a second phase of its durability enhancement package for the engine, an option on the Boeing 787, after obtaining certification for the latest high-pressure turbine (HPT) upgrades in late 2025.",
+          "source_hash": "",
+          "passage_hash": "90503dce7cadb8a486d8f74ce576efc59a9103f2de14f8b330db8ea5381fa832",
+          "extraction_method": "FR03_SEMANTIC_QUOTATION",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "ISSUE_ACTIVE",
+          "claim_type": "DIRECT_ISSUE",
+          "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+          "publication_date": "2026-01-30",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_002",
+          "kit_id": "",
+          "requirement_id": "RKIQ_002_REQ_02",
+          "requirement_key": "TECHNICAL_DEFECT",
+          "doc_id": "DOC_004",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.flightglobal.com/engines/2026/01/rolls-royce-readies-roll-out-of-next-trent-1000-durability-upgrade-step/",
+          "original_filing_url": "https://www.flightglobal.com/engines/2026/01/rolls-royce-readies-roll-out-of-next-trent-1000-durability-upgrade-step/",
+          "quote": "Rolls-Royce is promising a further time-on-wing boost for the Trent 1000 with the roll-out of a second phase of its durability enhancement package for the engine, an option on the Boeing 787, after obtaining certification for the latest high-pressure turbine (HPT) upgrades in late 2025.",
+          "source_hash": "",
+          "passage_hash": "90503dce7cadb8a486d8f74ce576efc59a9103f2de14f8b330db8ea5381fa832",
+          "extraction_method": "FR03_SEMANTIC_QUOTATION",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "ISSUE_ACTIVE",
+          "claim_type": "DIRECT_ISSUE",
+          "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+          "publication_date": "2026-01-30",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_002",
+          "kit_id": "",
+          "requirement_id": "RKIQ_002_REQ_03",
+          "requirement_key": "PROGRAM_APPLICABILITY",
+          "doc_id": "DOC_004",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.flightglobal.com/engines/2026/01/rolls-royce-readies-roll-out-of-next-trent-1000-durability-upgrade-step/",
+          "original_filing_url": "https://www.flightglobal.com/engines/2026/01/rolls-royce-readies-roll-out-of-next-trent-1000-durability-upgrade-step/",
+          "quote": "Rolls-Royce is promising a further time-on-wing boost for the Trent 1000 with the roll-out of a second phase of its durability enhancement package for the engine, an option on the Boeing 787, after obtaining certification for the latest high-pressure turbine (HPT) upgrades in late 2025.",
+          "source_hash": "",
+          "passage_hash": "90503dce7cadb8a486d8f74ce576efc59a9103f2de14f8b330db8ea5381fa832",
+          "extraction_method": "FR03_SEMANTIC_QUOTATION",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "ISSUE_ACTIVE",
+          "claim_type": "DIRECT_ISSUE",
+          "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+          "publication_date": "2026-01-30",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        }
+      ],
+      "verification_status": "Verified 0/3 atomic facts; RESULTS_RETRIEVED",
+      "uncertainty_level": "HIGH",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Identity of the affected part or engine, Documented technical defect, durability or quality finding, Direct applicability to the named model or program",
+      "missing_information": "Identity of the affected part or engine: Independent confirmation of the preliminary claim; Documented technical defect, durability or quality finding: Independent confirmation of the preliminary claim; Direct applicability to the named model or program: Independent confirmation of the preliminary claim"
+    }
+  ],
+  "run_metadata": {
+    "run_id": "RUN-20261126-095047-49FA50BEDD7E",
+    "report_id": "RPT-20261126-C0F71A",
+    "started_at": "2026-11-26T09:50:47Z",
+    "completed_at": "2026-11-26T09:52:49Z",
+    "run_date_utc": "2026-11-26",
+    "analysis_reference_date": "2026-11-26",
+    "reference_date_mode": "EXECUTION_DATE",
+    "collection_window_start_utc": "2025-11-26T09:50:47Z",
+    "collection_window_end_utc": "2026-11-26T09:50:47Z",
+    "status": "completed",
+    "outcome_status": "COMPLETED",
+    "processing_status": "COMPLETED",
+    "evidence_completeness_status": "PARTIAL",
+    "kiq_completion_status": "NOT_ANSWERED",
+    "kiqs_fully_answered": 0,
+    "kiqs_missing_specific_evidence": 2,
+    "kit_completion_audit": {
+      "as_of_date": "2026-11-26",
+      "questions": [
+        {
+          "kiq_id": "RKIQ_001",
+          "question": "What is the current certification and deployment status of the Rolls-Royce Trent 1000 TEN durability enhancement package?",
+          "answer_status": "PARTIALLY_ANSWERED",
+          "content_result": "STATUS_UNKNOWN",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "CURRENT_STATUS",
+              "missing_information": [
+                "Verified source passage for: Latest dated, issue-specific status"
+              ]
+            }
+          ],
+          "missing_information": "Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status",
+          "source_execution_status": "RESULTS_RETRIEVED",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 3,
+          "latest_evidence_date": "2026-09-24",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        },
+        {
+          "kiq_id": "RKIQ_002",
+          "question": "What specific technical modifications are included in the Trent 1000 durability upgrade to address High Pressure Turbine (HPT) blade life?",
+          "answer_status": "PARTIALLY_ANSWERED",
+          "content_result": "ISSUE_REPORTED_ACTIVE",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "AFFECTED_COMPONENT",
+              "missing_information": [
+                "Independent confirmation of the preliminary claim"
+              ]
+            },
+            {
+              "key": "TECHNICAL_DEFECT",
+              "missing_information": [
+                "Independent confirmation of the preliminary claim"
+              ]
+            },
+            {
+              "key": "PROGRAM_APPLICABILITY",
+              "missing_information": [
+                "Independent confirmation of the preliminary claim"
+              ]
+            }
+          ],
+          "missing_information": "Identity of the affected part or engine: Independent confirmation of the preliminary claim; Documented technical defect, durability or quality finding: Independent confirmation of the preliminary claim; Direct applicability to the named model or program: Independent confirmation of the preliminary claim",
+          "source_execution_status": "RESULTS_RETRIEVED",
+          "temporal_relevance": "CURRENT_OR_ONGOING",
+          "validated_evidence_count": 0,
+          "latest_evidence_date": "2026-01-30",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        }
+      ],
+      "total": 2,
+      "complete": 0,
+      "missing": 2,
+      "unavailable_sources": [],
+      "unsearched_requests": [],
+      "status": "NOT_ANSWERED"
+    },
+    "planner_status": "REPAIRED",
+    "collection_mode": "agentic_exa",
+    "acquisition_trace": {
+      "collection_id": "COL_322B6D",
+      "kit": "Rolls-Royce Trent 1000 durability upgrade package Boeing 787",
+      "collection_mode": "agentic_exa",
+      "search_objective": "Acquire OSINT evidence regarding the certification, deployment, and technical specifications of the Rolls-Royce Trent 1000 TEN durability upgrade package for the Boeing 787 within the 2025-2026 timeframe.",
+      "queries_executed": 6,
+      "exa_calls_executed": 2,
+      "sources_used": [
+        "EASA Official Index",
+        "Exa Semantic Search",
+        "FAA Federal Register"
+      ],
+      "documents_found": 23,
+      "primary_documents": 15,
+      "secondary_documents": 8,
+      "full_text_documents": 22,
+      "metadata_only_documents": 0,
+      "unresolved_requirements": [
+        "Specific component-level technical breakdown of the 'durability package' beyond HPT blade coatings (e.g., specific alloy changes or cooling hole geometry).",
+        "Direct EASA certification document for the final HPT blade modification (though FAA ADs referencing Rolls-Royce Deutschland were retrieved)."
+      ],
+      "collection_status": "PARTIAL_SUCCESS",
+      "next_action": "Execute targeted search for EASA Type Certificate Data Sheet (TCDS) updates or EASA-specific Airworthiness Directives for Trent 1000 TEN HPT modifications to corroborate FAA findings.",
+      "agent_rationale": "Initial Exa searches identified the 'Trent 1000 XE' as the commercial designation for the upgraded engine and highlighted HPT blade coatings as a key technical fix. Regulatory searches successfully retrieved multiple 2026 FAA Airworthiness Directives (e.g., FAA-2026-2294) targeting Rolls-Royce engines, confirming active regulatory oversight of durability issues, though specific technical 'blueprints' remain proprietary and only described generally in news and PR.",
+      "steps": [
+        {
+          "step": 1,
+          "tool": "exa_semantic_search",
+          "query": "Rolls-Royce Trent 1000 TEN durability upgrade package Boeing 787 certification status 2025 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 6,
+          "new_doc_ids": [
+            "DOC_001",
+            "DOC_002",
+            "DOC_003",
+            "DOC_004",
+            "DOC_005",
+            "DOC_006"
+          ],
+          "elapsed_sec": 3.15,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 2,
+          "tool": "exa_semantic_search",
+          "query": "Trent 1000 TEN High Pressure Turbine HPT blade durability modification technical details",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 4,
+          "new_doc_ids": [
+            "DOC_007",
+            "DOC_008",
+            "DOC_009",
+            "DOC_010"
+          ],
+          "elapsed_sec": 4.5,
+          "calls_used": 2,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 3,
+          "tool": "search_corporate_filings",
+          "query": "Rolls-Royce Trent 1000 TEN durability upgrade HPT blade technical specifications",
+          "status": "NO_MATCH",
+          "new_doc_count": 0,
+          "new_doc_ids": [],
+          "elapsed_sec": 9.69,
+          "calls_used": 6,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 4,
+          "tool": "search_media_and_social",
+          "query": "[news] Rolls-Royce Trent 1000 TEN durability upgrade certification status 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 1,
+          "new_doc_ids": [
+            "DOC_011"
+          ],
+          "elapsed_sec": 11.69,
+          "calls_used": 6,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 5,
+          "tool": "search_official_regulators",
+          "query": "FAA Trent 1000 TEN durability enhancement package 787",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 5,
+          "new_doc_ids": [
+            "DOC_011",
+            "DOC_012",
+            "DOC_013",
+            "DOC_014",
+            "DOC_015"
+          ],
+          "elapsed_sec": 14.71,
+          "calls_used": 6,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 6,
+          "tool": "search_official_regulators",
+          "query": "EASA Trent 1000 TEN HPT blade durability upgrade certification",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 13,
+          "new_doc_ids": [
+            "DOC_011",
+            "DOC_012",
+            "DOC_013",
+            "DOC_014",
+            "DOC_015",
+            "DOC_016",
+            "DOC_017",
+            "DOC_018",
+            "DOC_019",
+            "DOC_020",
+            "DOC_021",
+            "DOC_022",
+            "DOC_023"
+          ],
+          "elapsed_sec": 27.66,
+          "calls_used": 6,
+          "exa_calls_used": 2,
+          "note": ""
+        }
+      ],
+      "budget_summary": {
+        "calls_made": 6,
+        "max_total_calls": 10,
+        "remaining_total_calls": 4,
+        "exa_calls_made": 2,
+        "max_exa_calls": 4,
+        "remaining_exa_calls": 2,
+        "elapsed_sec": 30.38,
+        "max_seconds": 180,
+        "remaining_seconds": 149.6,
+        "steps_recorded": 6
+      },
+      "fallback_used": false,
+      "llm_tokens_in": 20489,
+      "llm_tokens_out": 670
+    },
+    "phase_checkpoints": {
+      "planner": "REPAIRED",
+      "collection": "PASS",
+      "fr03": "PASS",
+      "analyst": "PASS",
+      "qa": "COMPLETED",
+      "kiq": "NOT_ANSWERED",
+      "editor": "COMPLETED",
+      "scoring": "COMPLETED",
+      "reporting": "VALIDATED"
+    },
+    "evidence_flow_audit": {
+      "documents": [
+        {
+          "doc_id": "DOC_001",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_002",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_003",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_004",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 3,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_005",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_006",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_007",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_008",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_009",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_010",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_011",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_012",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 2,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_013",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_014",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_015",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_016",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_017",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_018",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 2,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_019",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_020",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_021",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_022",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_023",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        }
+      ],
+      "stage_counts": {
+        "COLLECTED": 23,
+        "FILTER_ACCEPTED": 5,
+        "CLAIMS_EXTRACTED": 5,
+        "CLAIMS_VALIDATED": 5,
+        "KIQ_EVALUATED": 5,
+        "KIQ_LINKED": 5,
+        "NOT_APPLICABLE": 0,
+        "REPORT_REFERENCED": 5,
+        "REPORT_USED": 5,
+        "REPORT_NOT_USED": 0
+      },
+      "unlinked_accepted_document_ids": [],
+      "unreferenced_validated_document_ids": [],
+      "potential_analytical_loss_ids": [],
+      "handoff_error_ids": [],
+      "validated_claim_counts": {
+        "DOC_001": 0,
+        "DOC_002": 0,
+        "DOC_003": 0,
+        "DOC_004": 3,
+        "DOC_005": 0,
+        "DOC_006": 0,
+        "DOC_007": 0,
+        "DOC_008": 0,
+        "DOC_009": 1,
+        "DOC_010": 1,
+        "DOC_011": 0,
+        "DOC_012": 2,
+        "DOC_013": 0,
+        "DOC_014": 0,
+        "DOC_015": 0,
+        "DOC_016": 0,
+        "DOC_017": 0,
+        "DOC_018": 2,
+        "DOC_019": 0,
+        "DOC_020": 0,
+        "DOC_021": 0,
+        "DOC_022": 0,
+        "DOC_023": 0
+      }
+    },
+    "evidence_integrity_issues": [],
+    "source_provenance_missing_ids": [],
+    "kiq_unlinked_extracted_document_ids": [],
+    "kiq_handoff_error_document_ids": [],
+    "kiq_handoff_contract_errors": {},
+    "editor_kiq_context_error": null,
+    "editor_evidence_citation_document_ids": [],
+    "query": "Rolls-Royce Trent 1000 durability upgrade package Boeing 787",
+    "experiment": {
+      "dataset_run_id": "RUN-20261126-095047-49FA50BEDD7E",
+      "replay_run_id": null,
+      "collection_mode": "agentic_exa",
+      "qa_enabled": true,
+      "harness_enabled": true,
+      "keyword_baseline": false,
+      "dataset_sha256": "dabdb019c466602ab3a16dea8a88b361b126c559c951f14476ee773e8709f876",
+      "replay_uses_live_llm": false
+    },
+    "analysis_scope": "365d",
+    "effective_from": "2025-11-26T09:50:47Z",
+    "effective_to": "2026-11-26T09:50:47Z",
+    "as_of_date": "2026-11-26",
+    "documents_collected": 23,
+    "historical_resolutions": [],
+    "historical_resolution_count": 0,
+    "temporal_claim_audit": [
+      {
+        "event_id": "RR-T1000-DURABILITY-2026-04-29",
+        "entity": "Rolls-Royce",
+        "program": "Boeing 787",
+        "component": "Unknown / Not specified in source",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-04-29",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-26",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "RR-T1000-TEN-DURABILITY-2026-09-24",
+        "entity": "Rolls-Royce",
+        "program": "Boeing 787",
+        "component": "Unknown / Not specified in source",
+        "issue": "TECHNICAL_QUALITY",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-09-24",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-26",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      }
+    ],
+    "document_content_status_counts": {
+      "FULL_TEXT": 22,
+      "FULL_TEXT_RETRIEVED": 0,
+      "METADATA_ONLY": 0,
+      "PARTIAL_TEXT": 1,
+      "SOURCE_METADATA_ONLY": 0,
+      "SOURCE_POLICY_RESTRICTED": 0,
+      "STRUCTURED_DATA": 0,
+      "SUMMARY_ONLY": 0,
+      "TEXT_COMPLETENESS_UNVERIFIED": 0,
+      "TEXT_RETRIEVED_COMPLETENESS_UNVERIFIED": 0,
+      "TRANSCRIPT_AS_RECEIVED": 0,
+      "UNAVAILABLE": 0,
+      "UNKNOWN": 0
+    },
+    "unknown_content_statuses": [],
+    "telemetry_errors": [],
+    "telemetry_integrity_ok": true,
+    "content_limited_document_ids": [
+      "DOC_002",
+      "DOC_003",
+      "DOC_005",
+      "DOC_006",
+      "DOC_007",
+      "DOC_009",
+      "DOC_010"
+    ],
+    "documents_analyzed": 5,
+    "documents_rejected": 18,
+    "documents_failed": 0,
+    "analysis_phase_status": "COMPLETED",
+    "analysis_recovery_budget": {
+      "time_budget_sec": 600,
+      "max_retries": 8,
+      "max_calls": 10,
+      "retries": 0,
+      "calls": 2,
+      "blocked": ""
+    },
+    "analyzed_document_ids": [
+      "DOC_004",
+      "DOC_009",
+      "DOC_010",
+      "DOC_012",
+      "DOC_018"
+    ],
+    "failed_document_ids": [],
+    "recovered_document_ids": [],
+    "partially_analyzed_document_ids": [],
+    "documents_recovered": 0,
+    "analyst_batch_document_counts": [
+      4,
+      1
+    ],
+    "analyst_recovery_splits": 0,
+    "analyst_retry_counts_by_reason": {
+      "PROVIDER_INTERNAL_RETRY": 0
+    },
+    "batches_created": 2,
+    "batches_succeeded": 2,
+    "batches_failed": 0,
+    "planning_duration_sec": 3.25,
+    "collection_duration_sec": 30.42,
+    "filter_duration_sec": 54.86,
+    "analysis_duration_sec": 20.7,
+    "qa_duration_sec": 6.48,
+    "editorial_duration_sec": 6.83,
+    "scoring_duration_sec": 0.0,
+    "scoring_status": "COMPLETED",
+    "scoring_methodology": {
+      "version": "IW-5FACTOR-DET-V1",
+      "method": "DETERMINISTIC_5_FACTOR_IW",
+      "scale": "F1-F5 rated 1..5; final threat_score 1..10",
+      "formula": "S = clamp(floor(sum(w_i * F_i) * 2 + 0.5), 1, 10)",
+      "weights": {
+        "impact_severity": 0.3,
+        "supplier_criticality": 0.2,
+        "substitutability_difficulty": 0.15,
+        "propagation_scope": 0.15,
+        "temporal_urgency": 0.2
+      },
+      "bands": {
+        "monitored": "1-4",
+        "elevated": "5-7",
+        "high_potential_impact": "8-10"
+      },
+      "severity_independent_of_confidence": true
+    },
+    "scoring_partial_fallback_ids": [],
+    "scoring_audit": [
+      {
+        "event_id": "RR-T1000-DURABILITY-2026-04-29",
+        "provisional_score": 3,
+        "computed_score": 6,
+        "final_score": 6,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.15 * 2) = 6/10",
+        "weighted_sum": 3.15,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 2,
+            "weight": 0.3,
+            "weighted_contribution": 0.6,
+            "rationale": "Successful certification and deployment reduce significant fleet-wide grounding risks."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Rolls-Royce is one of two engine OEMs for the Boeing 787 program."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "Rolls-Royce is the sole provider of this proprietary upgrade package."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Affects the global Trent 1000 engine fleet on Boeing 787 aircraft."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 1,
+            "weight": 0.2,
+            "weighted_contribution": 0.2,
+            "rationale": "Upgrades are already certified and in the rollout phase as of April 2026."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (211 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: ELEVATED (6/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 6,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "HIGH",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "Tier 1 (Systems/Engines)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-04-29",
+        "source_age_days": 211
+      },
+      {
+        "event_id": "RR-T1000-TEN-DURABILITY-2026-09-24",
+        "provisional_score": 6,
+        "computed_score": 8,
+        "final_score": 8,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.85 * 2) = 8/10",
+        "weighted_sum": 3.85,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 3,
+            "weight": 0.3,
+            "weighted_contribution": 0.9,
+            "rationale": "Significant operational impact from previous durability issues; resolution improves 787 value."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Rolls-Royce is the sole provider for these specific engine durability upgrades."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "Engine HPT components are proprietary to the OEM (Rolls-Royce)."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Affects a large portion (50%) of the global Trent 1000 TEN fleet for 787."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 3,
+            "weight": 0.2,
+            "weighted_contribution": 0.6,
+            "rationale": "Deployment is ongoing with a critical target date of end-2027."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 63 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (8/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 8,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "MEDIUM",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "Tier 1 (Systems/Engines)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-09-24",
+        "source_age_days": 63
+      }
+    ],
+    "total_duration_sec": 122.67,
+    "llm_calls": 11,
+    "llm_retries": 0,
+    "tokens_input": 79683,
+    "tokens_output": 15303,
+    "token_usage_status": "MEASURED",
+    "token_usage_unknown_calls": 0,
+    "llm_call_audit": [
+      {
+        "task_type": "PHASE_1_PLANNER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 1500,
+        "output_tokens": 622,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_2_ACQUISITION",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 20489,
+        "output_tokens": 670,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 3002,
+        "output_tokens": 1995,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 3095,
+        "output_tokens": 1865,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 3325,
+        "output_tokens": 2345,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2819,
+        "output_tokens": 1422,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 1822,
+        "output_tokens": 591,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_1_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 20067,
+        "output_tokens": 2187,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_2_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 15820,
+        "output_tokens": 1915,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_3B_QA",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 5255,
+        "output_tokens": 767,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_4_EDITOR",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2489,
+        "output_tokens": 924,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      }
+    ],
+    "analyst_recovery_audit": {
+      "attempts": [],
+      "fallbacks": [],
+      "recent_events": []
+    },
+    "token_accounting_method": "LLM_CALL_AUDIT_MEASURED",
+    "provider_requests_measured": 11,
+    "estimated_cost_usd": 0.08575,
+    "estimated_cost_status": "ESTIMATED",
+    "priced_cost_subtotal_usd": 0.08575,
+    "model_cost_audit": [
+      {
+        "model_id": "openrouter/google/gemini-3-flash-preview",
+        "usage_bucket": "openrouter/google/gemini-3-flash-preview",
+        "input_tokens": 79683,
+        "output_tokens": 15303,
+        "requests": 11,
+        "estimated_cost_usd": 0.08575,
+        "pricing_status": "ESTIMATED"
+      }
+    ],
+    "cost_estimation_reason_codes": [],
+    "unmatched_cost_model_ids": [],
+    "model_id": "openrouter/google/gemini-3-flash-preview",
+    "prompt_version": "v2.10-CI-HRO-2026-EVIDENCE-SCOPE",
+    "kiq_catalog_version": "THESIS_KIQ_CATALOG_V2_20261031",
+    "candidate_schema_rejections": 0,
+    "qa_failed": false,
+    "qa_performed": true,
+    "harness_performed": true,
+    "editor_failed": false,
+    "editorial_generation_mode": "LLM_TEXT_PYDANTIC_V1",
+    "editor_text_parsed_count": 2,
+    "editor_text_fallbacks": 1,
+    "editor_retry_count": 0,
+    "editor_retry_recovered": false,
+    "editor_fallback_used": true,
+    "pipeline_degraded": false,
+    "degradation_category": "NONE",
+    "source_coverage_issues": [],
+    "source_coverage_limited": true,
+    "source_coverage_advisories": [
+      {
+        "connector": "Exa Semantic Search",
+        "issue": "exa_type=auto; duplicates_skipped=0; include_domains=ALL"
+      },
+      {
+        "connector": "Exa Semantic Search",
+        "issue": "exa_type=auto; duplicates_skipped=2; include_domains=ALL"
+      },
+      {
+        "connector": "Official Industry PR",
+        "issue": "NO_APPROVED_MANUFACTURER_CONNECTOR"
+      },
+      {
+        "connector": "News API",
+        "issue": "STAGES=EXACT,ALTERNATIVE; NEWSAPI_COVERAGE=PARTIAL_WINDOW; requested_days=365.0; searchable_days=29.0; archive_limit_days=29; SEARCH_STATUS=NO_MATCH"
+      },
+      {
+        "connector": "FAA Federal Register",
+        "issue": "RESULTS_RETRIEVED; api_declared=3; retrieved=3; accepted=3; pagination_complete=True"
+      },
+      {
+        "connector": "FAA Federal Register",
+        "issue": "RESULTS_RETRIEVED; api_declared=13; retrieved=13; accepted=5; pagination_complete=True"
+      },
+      {
+        "connector": "EASA Official Index",
+        "issue": "PARTIAL_COVERAGE:oldest_scanned=2026-11-04"
+      }
+    ],
+    "source_coverage_status": "PARTIAL",
+    "source_coverage_legacy_status": "LIMITED",
+    "evidence_result_status": "SUPPORTED_EVENTS",
+    "review_scope": "EVENT_REVIEW",
+    "analysis_issues": [],
+    "fr03_rejection_review_candidates": 17,
+    "fr03_rejection_stage_counts": {
+      "STAGE_1_DETERMINISTIC": 1,
+      "STAGE_2_SEMANTIC": 17
+    },
+    "scoring_calibration": "UNMEASURED_REQUIRES_EXPERT_REFERENCE_LABELS",
+    "semantic_filter_unavailable_count": 0,
+    "semantic_filter_missing_ids": [],
+    "analyst_valid_empty_batches": 0,
+    "analyst_invalid_batches": 0,
+    "analyst_empty_retry_count": 0,
+    "analyst_empty_retry_failed_batches": 0,
+    "analyst_empty_output_conflict": false,
+    "analyst_empty_conflict_previous_run": null,
+    "analyst_output_audit": [
+      {
+        "batch": 1,
+        "depth": 0,
+        "document_ids": [
+          "DOC_018",
+          "DOC_012",
+          "DOC_004",
+          "DOC_010"
+        ],
+        "documents_processed": 4,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 6743,
+        "output_tokens": 2187,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 2,
+        "depth": 0,
+        "document_ids": [
+          "DOC_009"
+        ],
+        "documents_processed": 1,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 6030,
+        "output_tokens": 1915,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      }
+    ],
+    "confirmed_critical_count": 0,
+    "unverified_signal_count": 0,
+    "displayable_signal_count": 2,
+    "verified_context_count": 0,
+    "direct_kit_confirmed_count": 2,
+    "verified_context_event_ids": [],
+    "classification_version": "SUPPORTED_ONLY_DASHBOARD_V3_EVENT_ID_1TO1",
+    "runtime_kiq_count": 2,
+    "runtime_kiq_ids": [
+      "RKIQ_001",
+      "RKIQ_002"
+    ],
+    "runtime_kiq_answered": 0,
+    "runtime_kiq_partially_answered": 2,
+    "runtime_kiq_unanswered": 0,
+    "runtime_kiq_not_searched": 0,
+    "intelligence_methodology": {
+      "collection_method": "OSINT",
+      "analysis_method": "Competitive Intelligence",
+      "osint_document_count": 23,
+      "ci_candidate_count": 2,
+      "osint_stage": "Acquisition and preprocessing of publicly available information.",
+      "ci_stage": "Interpretation of collected evidence against KIT/KIQ requirements, strategic risks, competitive implications and decision needs.",
+      "methodological_boundary": "A retrieved source is OSINT evidence. It becomes an intelligence assessment only after analytical interpretation and validation.",
+      "independent_verification_required": true
+    },
+    "editor_claim_audit": {
+      "status": "PASS",
+      "all_supported": true,
+      "citations_match": true,
+      "checks": {
+        "doc_id_exists": true,
+        "passages_match": true,
+        "event_references_valid": true,
+        "urls_valid": true
+      },
+      "claim_sentences_checked": 26,
+      "cited_document_ids": [
+        "DOC_004",
+        "DOC_009",
+        "DOC_010",
+        "DOC_012",
+        "DOC_018"
+      ],
+      "issues": [],
+      "review_items": [],
+      "audit_method": "DETERMINISTIC_PROVENANCE_ONLY"
+    },
+    "editor_executive_summary": "Monitoring of the Rolls-Royce Trent 1000 durability upgrade program for the Boeing 787 has identified a mix of confirmed regulatory mandates and unverified commercial claims regarding future enhancements. Official regulatory records from June and August 2026 confirm active technical issues involving high-cycle fatigue. Specifically, an Airworthiness Directive (AD) was prompted by reports of cracking in the intermediate pressure (IP) compressor variable inlet guide vanes (VIGVs) [DOC_012]. Additionally, repetitive in-shop visual inspections are required for IP stage 8 and high-pressure stage 3 air transfer tubes to address documented technical defects [DOC_018]. While secondary media reports from January 2026 suggest Rolls-Royce is promising a \"second phase\" of durability enhancements to increase time-on-wing [DOC_004], these claims remain preliminary. The reliability of reports concerning a \"100% durability increase\" [DOC_009] and the specific certification of a \"Trent 1000 XE\" variant [DOC_010] is currently low due to hash mismatches and truncated source data in the available evidence. Management should prioritize verifying the transition from these regulatory-mandated inspections to the promised hardware-based durability fixes.",
+    "editor_detailed_analytical_assessment": "The technical status of the Trent 1000 program is currently defined by two distinct tracks: ongoing regulatory mitigation of fatigue-related failures and the proposed rollout of a multi-phase durability enhancement package. Regulatory findings are concrete; as of August 14, 2026, authorities have attributed VIGV cracking to high-cycle fatigue propagation, necessitating formal intervention [DOC_012]. This follows earlier requirements for inspections of air transfer tubes and bearing housings [DOC_018], indicating that the engine's core durability remains under active regulatory scrutiny. \n\nAnalytically, there is a gap between these documented defects and the \"durability upgrade package\" cited in commercial reporting. While DOC_004 indicates that Rolls-Royce is pursuing a \"second phase\" of enhancements, the evidence does not yet confirm that these upgrades have been certified or effectively integrated into the fleet to the extent that they supersede the AD-mandated inspections. The claim of a \"100% durability increase\" [DOC_009] lacks sufficient context and primary source confirmation, appearing as an aspirational target rather than a verified performance metric. Furthermore, the connection between the \"Trent 1000 XE\" variant and the resolution of historical high-pressure turbine (HPT) issues for the broader 787 fleet is unsupported by the current evidence [DOC_010].\n\nThe primary open questions involve the specific hardware configuration of the \"Phase 2\" package and the timeline for its regulatory approval. Until the \"unverified\" status of the April and September 2026 event briefs is resolved through primary documentation, the reported durability gains should be treated as manufacturer projections rather than operational certainties. Management is advised to maintain the current inspection intervals mandated by AD 2023-26-04 and subsequent directives until Rolls-Royce provides verified service bulletins linking the new durability package to the termination of these repetitive inspections.",
+    "editor_validation_status": "PASS",
+    "editor_claim_citations_verified": true,
+    "editor_semantic_review_required": false,
+    "kit_current_assessment": {
+      "status": "DOCUMENTED_REGULATORY_ACTION",
+      "source_coverage": "INCOMPLETE",
+      "as_of_date": "2026-11-26",
+      "search_overview": {
+        "connectors_searched": [
+          "Exa Semantic Search",
+          "Official Industry PR",
+          "XBRL International ESEF Filing Index",
+          "News API",
+          "FAA Federal Register",
+          "EASA Official Index"
+        ],
+        "connectors_with_results": [
+          "Exa Semantic Search",
+          "FAA Federal Register",
+          "EASA Official Index"
+        ],
+        "documents_collected": 23,
+        "documents_analyzed": 5,
+        "documents_rejected": 18,
+        "events_identified": 2,
+        "supported_events": 2,
+        "primary_supported_events": 0
+      },
+      "issue_status": "DOCUMENTED",
+      "regulator_verification": "UNAVAILABLE",
+      "source_authority": "REGULATORY_PUBLICATION",
+      "coverage_status": "PARTIAL",
+      "severity_context": "POTENTIAL",
+      "potential_severity": 8,
+      "evidence_confidence": "LOW",
+      "chronological_milestones": [],
+      "conflicts": [],
+      "monitored_kit": "Rolls-Royce Trent 1000 durability upgrade package Boeing 787",
+      "original_issue": "Rolls-Royce Trent 1000 durability upgrade package Boeing 787",
+      "latest_milestone": "NOT_ESTABLISHED",
+      "latest_milestone_date": "",
+      "latest_evidence_id": "DOC_012",
+      "latest_evidence_url": "",
+      "latest_verification": "UNVERIFIED",
+      "unresolved_questions": [
+        "Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status",
+        "Identity of the affected part or engine: Independent confirmation of the preliminary claim; Documented technical defect, durability or quality finding: Independent confirmation of the preliminary claim; Direct applicability to the named model or program: Independent confirmation of the preliminary claim"
+      ],
+      "severity": null,
+      "confidence": "LOW",
+      "evidence_strength": "MIXED",
+      "reported_developments": [
+        {
+          "event_id": "RR-T1000-DURABILITY-2026-04-29",
+          "evidence_id": "DOC_010",
+          "date": "2026-04-29",
+          "claim": "The Trent 1000 XE engines feature several upgrades following Rolls-Royce's certified two-phase durability enhancement program.",
+          "program": "Boeing 787",
+          "company": "Rolls-Royce",
+          "source_url": "https://www.rolls-royce.com/media/press-releases/2026/29-04-2026-rr-wins-back-latam-airlines-with-order-for-trent-1000-xe-engines.aspx",
+          "verification": "SUPPORTED",
+          "source_role": "SECONDARY_OR_UNKNOWN"
+        },
+        {
+          "event_id": "RR-T1000-TEN-DURABILITY-2026-09-24",
+          "evidence_id": "DOC_009",
+          "date": "2026-09-24",
+          "claim": "By mid-2026, Rolls-Royce reported that almost 50% of the Trent 1000 TEN fleet had been fitted with improved HPT blades.",
+          "program": "Boeing 787",
+          "company": "Rolls-Royce",
+          "source_url": "https://odayaviation.com/rr-engine-durability-the-turn-around/",
+          "verification": "SUPPORTED",
+          "source_role": "SECONDARY_OR_UNKNOWN"
+        }
+      ],
+      "kiq_source_claims": [
+        {
+          "kiq_id": "RKIQ_002",
+          "evidence_id": "DOC_004",
+          "quote": "Rolls-Royce is promising a further time-on-wing boost for the Trent 1000 with the roll-out of a second phase of its durability enhancement package for the engine, an option on the Boeing 787, after obtaining certification for the latest high-pressure turbine (HPT) upgrades in late 2025.",
+          "date": "2026-01-30",
+          "publication_date": "2026-01-30",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_EXA",
+          "source_url": "https://www.flightglobal.com/engines/2026/01/rolls-royce-readies-roll-out-of-next-trent-1000-durability-upgrade-step/",
+          "authority": "SECONDARY",
+          "source_role": "SECONDARY_OR_UNKNOWN",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "verbatim_passage_recorded": true,
+          "verification": "PRELIMINARY",
+          "claim_state": "ISSUE_ACTIVE",
+          "content_result": "",
+          "claim_type": "DIRECT_ISSUE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "AFFECTED_COMPONENT",
+            "TECHNICAL_DEFECT",
+            "PROGRAM_APPLICABILITY"
+          ],
+          "regulator_confirmation": "NOT_ESTABLISHED",
+          "validation_conflict": ""
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_012",
+          "quote": "This AD was prompted by reports of cracking of the intermediate pressure (IP) compressor variable inlet guide vanes (VIGVs) due to high-cycle fatigue propagation.",
+          "date": "2026-08-14",
+          "publication_date": "2026-08-14",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_001",
+          "source_url": "https://www.federalregister.gov/documents/2026/08/14/2026-16636/airworthiness-directives-rolls-royce-deutschland-ltd-and-co-kg-engines",
+          "authority": "REGULATOR",
+          "source_role": "REGULATORY_PUBLICATION",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "verbatim_passage_recorded": true,
+          "verification": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "OBSERVED",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "TECHNICAL_DEFECT",
+            "PROGRAM_APPLICABILITY"
+          ],
+          "regulator_confirmation": "SOURCE_DOCUMENT",
+          "validation_conflict": "SCOPE_MISMATCH"
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_012",
+          "quote": "subsequent investigation attributed the cracking to high-cycle fatigue",
+          "date": "2026-08-14",
+          "publication_date": "2026-08-14",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_001",
+          "source_url": "https://www.federalregister.gov/documents/2026/08/14/2026-16636/airworthiness-directives-rolls-royce-deutschland-ltd-and-co-kg-engines",
+          "authority": "REGULATOR",
+          "source_role": "REGULATORY_PUBLICATION",
+          "passage_validation_status": "PASSAGE_VERIFIED",
+          "verbatim_passage_recorded": true,
+          "verification": "VERIFIED",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "OBSERVED",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "TECHNICAL_DEFECT",
+            "PROGRAM_APPLICABILITY"
+          ],
+          "regulator_confirmation": "SOURCE_DOCUMENT",
+          "validation_conflict": "SCOPE_MISMATCH"
+        }
+      ],
+      "established_regulatory_facts": [
+        {
+          "document_id": "DOC_012",
+          "document_number": "",
+          "source_url": "https://www.federalregister.gov/documents/2026/08/14/2026-16636/airworthiness-directives-rolls-royce-deutschland-ltd-and-co-kg-engines",
+          "publication_date": "",
+          "stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "applicable_models": [],
+          "compliance_deadline": "",
+          "lifecycle_verification": "INCOMPLETE",
+          "supersession_status": "UNKNOWN",
+          "verified_requirements": [
+            "PROGRAM_APPLICABILITY"
+          ],
+          "evidence_quotes": [
+            {
+              "doc_id": "DOC_012",
+              "quote": "subsequent investigation attributed the cracking to high-cycle fatigue",
+              "requirement_keys": [
+                "PROGRAM_APPLICABILITY"
+              ]
+            }
+          ],
+          "conflicting_fields": []
+        }
+      ],
+      "evidence_validation_warnings": [
+        {
+          "evidence_id": "DOC_012",
+          "reason": "SCOPE_MISMATCH"
+        }
+      ],
+      "kiq_status_counts": {
+        "ANSWERED": 0,
+        "PARTIALLY_ANSWERED": 2,
+        "UNANSWERED": 0,
+        "NOT_SEARCHED": 0
+      }
+    },
+    "detailed_analytical_assessment": "The technical status of the Trent 1000 program is currently defined by two distinct tracks: ongoing regulatory mitigation of fatigue-related failures and the proposed rollout of a multi-phase durability enhancement package. Regulatory findings are concrete; as of August 14, 2026, authorities have attributed VIGV cracking to high-cycle fatigue propagation, necessitating formal intervention [DOC_012]. This follows earlier requirements for inspections of air transfer tubes and bearing housings [DOC_018], indicating that the engine's core durability remains under active regulatory scrutiny. \n\nAnalytically, there is a gap between these documented defects and the \"durability upgrade package\" cited in commercial reporting. While DOC_004 indicates that Rolls-Royce is pursuing a \"second phase\" of enhancements, the evidence does not yet confirm that these upgrades have been certified or effectively integrated into the fleet to the extent that they supersede the AD-mandated inspections. The claim of a \"100% durability increase\" [DOC_009] lacks sufficient context and primary source confirmation, appearing as an aspirational target rather than a verified performance metric. Furthermore, the connection between the \"Trent 1000 XE\" variant and the resolution of historical high-pressure turbine (HPT) issues for the broader 787 fleet is unsupported by the current evidence [DOC_010].\n\nThe primary open questions involve the specific hardware configuration of the \"Phase 2\" package and the timeline for its regulatory approval. Until the \"unverified\" status of the April and September 2026 event briefs is resolved through primary documentation, the reported durability gains should be treated as manufacturer projections rather than operational certainties. Management is advised to maintain the current inspection intervals mandated by AD 2023-26-04 and subsequent directives until Rolls-Royce provides verified service bulletins linking the new durability package to the termination of these repetitive inspections.",
+    "detailed_analytical_assessment_mode": "VALIDATED_EDITOR",
+    "executive_summary_mode": "VALIDATED_EDITOR",
+    "report_evidence_usage": [
+      {
+        "doc_id": "DOC_004",
+        "event_ids": [
+          "RR-T1000-DURABILITY-2026-04-29"
+        ],
+        "kiq_ids": [
+          "RKIQ_001",
+          "RKIQ_002"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_009",
+        "event_ids": [
+          "RR-T1000-TEN-DURABILITY-2026-09-24"
+        ],
+        "kiq_ids": [
+          "RKIQ_001"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_010",
+        "event_ids": [
+          "RR-T1000-DURABILITY-2026-04-29"
+        ],
+        "kiq_ids": [
+          "RKIQ_001"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_012",
+        "event_ids": [],
+        "kiq_ids": [
+          "RKIQ_001"
+        ],
+        "source_role": "REGULATORY_PUBLICATION",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_018",
+        "event_ids": [],
+        "kiq_ids": [
+          "RKIQ_001"
+        ],
+        "source_role": "UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      }
+    ],
+    "detailed_analytical_assessment_sha256": "2f25ef52216e9ada1d520a805aa23479352f6e4affcfc33d4fd8d4ff8b84a68c",
+    "detailed_analytical_assessment_word_count": 277,
+    "executive_summary_word_count": 167,
+    "agent_decision_trace": [
+      {
+        "agent_index": 1,
+        "agent_role": "Intelligence Planning & Acquisition Agent",
+        "inputs": {
+          "kit": "Rolls-Royce Trent 1000 durability upgrade package Boeing 787",
+          "scope": "365d",
+          "specificity": "EXACT",
+          "platforms": [
+            "regulatory",
+            "news",
+            "pr"
+          ],
+          "collection_mode": "agentic_exa"
+        },
+        "decisions": {
+          "planner_status": "REPAIRED",
+          "information_requirements_count": 2,
+          "queries_executed": 6,
+          "exa_calls_executed": 2,
+          "collection_status": "PARTIAL_SUCCESS",
+          "fallback_used": false,
+          "agent_rationale": "Initial Exa searches identified the 'Trent 1000 XE' as the commercial designation for the upgraded engine and highlighted HPT blade coatings as a key technical fix. Regulatory searches successfully retrieved multiple 2026 FAA Airworthiness Directives (e.g., FAA-2026-2294) targeting Rolls-Royce engines, confirming active regulatory oversight of durability issues, though specific technical 'blueprints' remain proprietary and only described generally in news and PR."
+        },
+        "outputs": {
+          "documents_collected": 23,
+          "primary_documents": 15,
+          "secondary_documents": 8,
+          "sources_used": [
+            "EASA Official Index",
+            "Exa Semantic Search",
+            "FAA Federal Register"
+          ],
+          "unresolved_requirements": [
+            "Specific component-level technical breakdown of the 'durability package' beyond HPT blade coatings (e.g., specific alloy changes or cooling hole geometry).",
+            "Direct EASA certification document for the final HPT blade modification (though FAA ADs referencing Rolls-Royce Deutschland were retrieved)."
+          ]
+        },
+        "duration_sec": 33.67
+      },
+      {
+        "agent_index": 2,
+        "agent_role": "Risk Analyst Agent",
+        "inputs": {
+          "fr03_accepted_documents": 5,
+          "fr03_rejected_documents": 18,
+          "batches_created": 2
+        },
+        "decisions": {
+          "batches_succeeded": 2,
+          "batches_failed": 0,
+          "documents_failed": 0,
+          "candidate_schema_rejections": 0,
+          "deterministic_scoring_status": "COMPLETED",
+          "scoring_method": "DETERMINISTIC_5_FACTOR_IW"
+        },
+        "outputs": {
+          "direct_candidate_events": 2,
+          "watchlist_events": 0,
+          "event_ids": [
+            "RR-T1000-DURABILITY-2026-04-29",
+            "RR-T1000-TEN-DURABILITY-2026-09-24"
+          ]
+        },
+        "duration_sec": 20.7
+      },
+      {
+        "agent_index": 3,
+        "agent_role": "Quality Assurance Agent",
+        "inputs": {
+          "qa_enabled": true,
+          "harness_enabled": true,
+          "candidates_reviewed": 2
+        },
+        "decisions": {
+          "qa_performed": true,
+          "qa_failed": false,
+          "harness_performed": true,
+          "validation_errors": 0
+        },
+        "outputs": {
+          "supported_direct_events": 2,
+          "confirmed_critical_events": 0,
+          "unverified_signals": 0,
+          "kiq_completion_status": "NOT_ANSWERED"
+        },
+        "duration_sec": 6.48
+      },
+      {
+        "agent_index": 4,
+        "agent_role": "EWS Editor Agent",
+        "inputs": {
+          "event_briefs_supplied": 2,
+          "verbatim_citations_supplied": 0,
+          "runtime_kiq_count": 2
+        },
+        "decisions": {
+          "editor_failed": false,
+          "editor_validation_status": "PASS",
+          "executive_summary_mode": "VALIDATED_EDITOR",
+          "detailed_assessment_mode": "VALIDATED_EDITOR",
+          "actions_parsed": 2,
+          "action_fallbacks": 1
+        },
+        "outputs": {
+          "action_plan_count": 2,
+          "executive_summary_words": 167,
+          "detailed_assessment_words": 277
+        },
+        "duration_sec": 6.83
+      }
+    ],
+    "ai_governance": {
+      "regulatory_reference": "Regulation (EU) 2024/1689, as amended",
+      "assessment_timestamp_utc": "2026-11-26T09:52:51.945022+00:00",
+      "intended_purpose": "Competitive Intelligence decision support using publicly available aerospace information.",
+      "prohibited_uses": [
+        "Autonomous aircraft operation",
+        "Autonomous safety-critical decisions",
+        "Automated regulatory certification",
+        "Unreviewed operational interventions"
+      ],
+      "ai_system_provider": "Externally hosted LLM provider",
+      "model_identifier": "openrouter/google/gemini-3-flash-preview",
+      "run_id": "RUN-20261126-095047-49FA50BEDD7E",
+      "risk_classification": "REQUIRES_LEGAL_ASSESSMENT",
+      "legal_compliance_status": "NOT_CERTIFIED",
+      "ai_generated_content": true,
+      "human_oversight_available": true,
+      "human_review_status": "WAITING_FOR_HITL",
+      "controls": {
+        "source_traceability": true,
+        "independent_qa": true,
+        "deterministic_validation": true,
+        "human_review_gate": true,
+        "critical_alert_requires_verified_evidence": true,
+        "model_and_run_logging": true
+      },
+      "legal_review_items": {
+        "article_4_ai_literacy": "ORGANIZATIONAL_REVIEW_REQUIRED",
+        "article_50_transparency": "APPLICABILITY_REVIEW_REQUIRED",
+        "article_6_high_risk_classification": "LEGAL_REVIEW_REQUIRED",
+        "personal_data_processing": "GDPR_REVIEW_REQUIRED",
+        "copyright_and_tdm": "SOURCE_SPECIFIC_REVIEW_REQUIRED"
+      },
+      "limitations": "These records document implemented safeguards. They are not a legal conformity assessment, certification or proof of compliance."
+    }
+  },
+  "comparison_summary": {
+    "has_comparable_run": false,
+    "previous_run_id": null,
+    "note": "No previous run with identical KIT and time scope; baseline established.",
+    "delta_critical": 0,
+    "delta_elevated": 0,
+    "delta_monitored": 0,
+    "new_events": 2,
+    "continuing_events": 0,
+    "not_redetected_events": 0,
+    "resolved_events": 0,
+    "unknown_status_events": 0,
+    "reclassified_to_watchlist": 0,
+    "methodology_changed": false
+  },
+  "connector_status": {
+    "Exa Semantic Search": {
+      "connector_name": "Exa Semantic Search",
+      "source_id": "SRC_EXA",
+      "technical_source": "api.exa.ai",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Rolls-Royce Trent 1000 TEN durability upgrade package Boeing 787 certification status 2025 2026",
+        "Trent 1000 TEN High Pressure Turbine HPT blade durability modification technical details"
+      ],
+      "found_count": 12,
+      "accepted_count": 10,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 2,
+      "http_status_counts": {
+        "200": 2
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [
+        "exa_type=auto; duplicates_skipped=0; include_domains=ALL",
+        "exa_type=auto; duplicates_skipped=2; include_domains=ALL"
+      ],
+      "time_window": {
+        "from": "2025-11-26T09:50:47Z",
+        "to": "2026-11-26T09:50:47Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-26T09:50:54Z",
+      "successful_responses": 2,
+      "collected_document_count": 10,
+      "content_availability_counts": {
+        "FULL_TEXT": 9,
+        "PARTIAL_TEXT": 1
+      },
+      "observed_publication_from": "2026-01-30",
+      "observed_publication_to": "2026-11-05"
+    },
+    "Official Industry PR": {
+      "connector_name": "Official Industry PR",
+      "source_id": "",
+      "technical_source": "unknown",
+      "origin_type": "UNKNOWN",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Rolls-Royce Trent 1000 TEN durability upgrade HPT blade technical specifications"
+      ],
+      "found_count": 0,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 0,
+      "http_status_counts": {},
+      "content_status_counts": {},
+      "operational_status": "SOURCE_NOT_CONFIGURED",
+      "last_search_outcome": "NOT_EXECUTED",
+      "errors": [],
+      "coverage_advisories": [
+        "NO_APPROVED_MANUFACTURER_CONNECTOR"
+      ],
+      "time_window": {
+        "from": "2025-11-26T09:50:47Z",
+        "to": "2026-11-26T09:50:47Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-26T09:50:57Z"
+    },
+    "XBRL International ESEF Filing Index": {
+      "connector_name": "XBRL International ESEF Filing Index",
+      "source_id": "SRC_031",
+      "technical_source": "filings.xbrl.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Rolls-Royce Trent 1000 TEN durability upgrade HPT blade technical specifications"
+      ],
+      "found_count": 0,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 1,
+      "http_status_counts": {
+        "200": 1
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "NO_MATCH",
+      "errors": [],
+      "coverage_advisories": [],
+      "time_window": {
+        "from": "2025-11-26T09:50:47Z",
+        "to": "2026-11-26T09:50:47Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-26T09:51:00Z",
+      "successful_responses": 1
+    },
+    "News API": {
+      "connector_name": "News API",
+      "source_id": "SRC_004",
+      "technical_source": "newsapi.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "Rolls-Royce Trent 1000 TEN durability upgrade certification status 2026"
+      ],
+      "found_count": 0,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 2,
+      "http_status_counts": {
+        "200": 2
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "NO_MATCH",
+      "errors": [],
+      "coverage_advisories": [
+        "STAGES=EXACT,ALTERNATIVE; NEWSAPI_COVERAGE=PARTIAL_WINDOW; requested_days=365.0; searchable_days=29.0; archive_limit_days=29; SEARCH_STATUS=NO_MATCH"
+      ],
+      "time_window": {
+        "from": "2025-11-26T09:50:47Z",
+        "to": "2026-11-26T09:50:47Z",
+        "scope": "365d",
+        "requested_from": "2025-11-26",
+        "requested_to": "2026-11-26",
+        "searchable_from": "2026-10-28T09:50:58.002664+00:00",
+        "searchable_to": "2026-11-26T09:50:57.982425+00:00",
+        "actual_from": "2026-10-28",
+        "actual_to": "2026-11-26",
+        "actual_window_basis": "CONFIGURED_SEARCH_WINDOW_NOT_RETRIEVAL_VERIFIED",
+        "actual_searchable_days": 29.0,
+        "requested_horizon_days": 365.0,
+        "provider_archive_limit_days": 29,
+        "provider_limit_basis": "CONFIGURED_PLAN_WINDOW_NOT_API_VERIFIED",
+        "coverage_status": "PARTIAL_WINDOW",
+        "source_coverage": "PARTIAL",
+        "coverage_complete": false,
+        "date_basis": "PUBLICATION_DATE",
+        "event_date_coverage": "NOT_ESTABLISHED",
+        "observed_publication_from": null,
+        "observed_publication_to": null,
+        "observed_document_count": 0
+      },
+      "last_updated": "2026-11-26T09:51:02Z",
+      "successful_responses": 2
+    },
+    "FAA Federal Register": {
+      "connector_name": "FAA Federal Register",
+      "source_id": "SRC_001",
+      "technical_source": "federalregister.gov",
+      "origin_type": "PRIMARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "FAA Trent 1000 TEN durability enhancement package 787",
+        "EASA Trent 1000 TEN HPT blade durability upgrade certification"
+      ],
+      "found_count": 16,
+      "accepted_count": 8,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 10,
+      "http_status_counts": {
+        "200": 10
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [
+        "RESULTS_RETRIEVED; api_declared=3; retrieved=3; accepted=3; pagination_complete=True",
+        "RESULTS_RETRIEVED; api_declared=13; retrieved=13; accepted=5; pagination_complete=True"
+      ],
+      "time_window": {
+        "from": "2025-11-26T09:50:47Z",
+        "to": "2026-11-26T09:50:47Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-26T09:51:07Z",
+      "diagnostics": {
+        "page_audits": [
+          {
+            "status": "RESULTS_RETRIEVED",
+            "declared_count": 13,
+            "processed_count": 13,
+            "access_restricted": false,
+            "pages": 1,
+            "page_size": 15,
+            "pagination_complete": true,
+            "last_error": "",
+            "attempts": [
+              {
+                "page": 1,
+                "requested_page_size": 15,
+                "max_bytes": 600000,
+                "http_status": 200,
+                "content_type": "application/json; charset=utf-8",
+                "content_length": "3431",
+                "received_bytes": 20812,
+                "http_attempts": 1,
+                "requested_fields": [
+                  "document_number",
+                  "docket_id",
+                  "docket_ids",
+                  "title",
+                  "abstract",
+                  "action",
+                  "type",
+                  "html_url",
+                  "raw_text_url",
+                  "publication_date",
+                  "effective_on"
+                ],
+                "actual_results_count": 13,
+                "pagination_honored": true,
+                "error_code": null,
+                "response_classification": "VALID_SEARCH_RESPONSE",
+                "response_schema": {
+                  "keys": [
+                    "count",
+                    "description",
+                    "results",
+                    "total_pages"
+                  ],
+                  "types": {
+                    "description": "str",
+                    "count": "int",
+                    "total_pages": "int",
+                    "results": "list"
+                  },
+                  "api_error_code": "",
+                  "declared_count": 13,
+                  "results_present": true,
+                  "results_type": "list"
+                },
+                "query_variant": "ORIGINAL"
+              }
+            ],
+            "request_calls": 1,
+            "retry_suppressed": false,
+            "search_variants": [
+              "ORIGINAL"
+            ],
+            "repair_used": false
+          }
+        ]
+      },
+      "diagnostics_history": [
+        {
+          "query": "FAA Trent 1000 TEN durability enhancement package 787",
+          "page_audits": [
+            {
+              "status": "RESULTS_RETRIEVED",
+              "declared_count": 3,
+              "processed_count": 3,
+              "access_restricted": false,
+              "pages": 1,
+              "page_size": 15,
+              "pagination_complete": true,
+              "last_error": "",
+              "attempts": [
+                {
+                  "page": 1,
+                  "requested_page_size": 15,
+                  "max_bytes": 600000,
+                  "http_status": 200,
+                  "content_type": "application/json; charset=utf-8",
+                  "content_length": "1075",
+                  "received_bytes": 3705,
+                  "http_attempts": 1,
+                  "requested_fields": [
+                    "document_number",
+                    "docket_id",
+                    "docket_ids",
+                    "title",
+                    "abstract",
+                    "action",
+                    "type",
+                    "html_url",
+                    "raw_text_url",
+                    "publication_date",
+                    "effective_on"
+                  ],
+                  "actual_results_count": 3,
+                  "pagination_honored": true,
+                  "error_code": null,
+                  "response_classification": "VALID_SEARCH_RESPONSE",
+                  "response_schema": {
+                    "keys": [
+                      "count",
+                      "description",
+                      "results",
+                      "total_pages"
+                    ],
+                    "types": {
+                      "description": "str",
+                      "count": "int",
+                      "total_pages": "int",
+                      "results": "list"
+                    },
+                    "api_error_code": "",
+                    "declared_count": 3,
+                    "results_present": true,
+                    "results_type": "list"
+                  },
+                  "query_variant": "ORIGINAL"
+                }
+              ],
+              "request_calls": 1,
+              "retry_suppressed": false,
+              "search_variants": [
+                "ORIGINAL"
+              ],
+              "repair_used": false
+            }
+          ]
+        },
+        {
+          "query": "EASA Trent 1000 TEN HPT blade durability upgrade certification",
+          "page_audits": [
+            {
+              "status": "RESULTS_RETRIEVED",
+              "declared_count": 13,
+              "processed_count": 13,
+              "access_restricted": false,
+              "pages": 1,
+              "page_size": 15,
+              "pagination_complete": true,
+              "last_error": "",
+              "attempts": [
+                {
+                  "page": 1,
+                  "requested_page_size": 15,
+                  "max_bytes": 600000,
+                  "http_status": 200,
+                  "content_type": "application/json; charset=utf-8",
+                  "content_length": "3431",
+                  "received_bytes": 20812,
+                  "http_attempts": 1,
+                  "requested_fields": [
+                    "document_number",
+                    "docket_id",
+                    "docket_ids",
+                    "title",
+                    "abstract",
+                    "action",
+                    "type",
+                    "html_url",
+                    "raw_text_url",
+                    "publication_date",
+                    "effective_on"
+                  ],
+                  "actual_results_count": 13,
+                  "pagination_honored": true,
+                  "error_code": null,
+                  "response_classification": "VALID_SEARCH_RESPONSE",
+                  "response_schema": {
+                    "keys": [
+                      "count",
+                      "description",
+                      "results",
+                      "total_pages"
+                    ],
+                    "types": {
+                      "description": "str",
+                      "count": "int",
+                      "total_pages": "int",
+                      "results": "list"
+                    },
+                    "api_error_code": "",
+                    "declared_count": 13,
+                    "results_present": true,
+                    "results_type": "list"
+                  },
+                  "query_variant": "ORIGINAL"
+                }
+              ],
+              "request_calls": 1,
+              "retry_suppressed": false,
+              "search_variants": [
+                "ORIGINAL"
+              ],
+              "repair_used": false
+            }
+          ]
+        }
+      ],
+      "successful_responses": 10,
+      "collected_document_count": 8,
+      "content_availability_counts": {
+        "FULL_TEXT": 8
+      },
+      "observed_publication_from": "2026-06-04",
+      "observed_publication_to": "2026-10-19"
+    },
+    "EASA Official Index": {
+      "connector_name": "EASA Official Index",
+      "source_id": "SRC_002",
+      "technical_source": "easa.europa.eu",
+      "origin_type": "PRIMARY_OFFICIAL_INDEX_METADATA",
+      "legal_status": "REQUIRES_REVIEW",
+      "queries": [
+        "EASA Trent 1000 TEN HPT blade durability upgrade certification"
+      ],
+      "found_count": 28,
+      "accepted_count": 5,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 7,
+      "http_status_counts": {
+        "200": 7
+      },
+      "content_status_counts": {},
+      "operational_status": "PARTIAL_COVERAGE",
+      "last_search_outcome": "PARTIAL_RESULT",
+      "errors": [],
+      "coverage_advisories": [
+        "PARTIAL_COVERAGE:oldest_scanned=2026-11-04"
+      ],
+      "time_window": {
+        "from": "2025-11-26T09:50:47Z",
+        "to": "2026-11-26T09:50:47Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-26T09:51:17Z",
+      "successful_responses": 7,
+      "collected_document_count": 5,
+      "content_availability_counts": {
+        "FULL_TEXT": 5
+      },
+      "observed_publication_from": "2026-11-06",
+      "observed_publication_to": "2026-11-25"
+    }
+  }
+}

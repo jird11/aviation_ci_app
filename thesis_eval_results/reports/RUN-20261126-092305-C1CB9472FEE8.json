@@ -1,0 +1,3636 @@
+{
+  "report_id": "RPT-20261126-988766",
+  "run_id": "RUN-20261126-092305-C1CB9472FEE8",
+  "version": 1,
+  "outcome_status": "COMPLETED",
+  "executive_summary": "This assessment reviews aerospace titanium supply chain integrity and availability based on five secondary reports spanning January to November 2026. The evidence indicates a dual-track risk environment: long-term geopolitical supply constraints and immediate technical quality concerns regarding material certification. A January 2026 report highlights that Western manufacturers will require 1.6 million tonnes of titanium by 2044, noting that supply is increasingly controlled by geopolitical rivals who could \"throttle titanium exports to disrupt Boeing and Airbus production\" [DOC_003]. Concurrently, technical quality risks surfaced in July 2026 reports citing a Forbes investigation into counterfeit titanium documentation affecting Boeing and Airbus supply chains [DOC_008]. While a 2024 reference to Baoji Titanium Industry suggests historical fraud did not compromise airworthiness [DOC_010], a February 2026 report specifically identifies titanium quality issues in the Boeing 767-300F series [DOC_012]. The reliability of these findings is limited by the secondary nature of the sources, which include commercial sourcing guides and blogs rather than primary FAA or EASA directives. Management should prioritize verifying the current airworthiness status of 767-300F components and auditing the certification pedigree of recent titanium intakes.",
+  "detailed_analytical_assessment": "The current titanium landscape is characterized by high structural demand met with increasing regulatory and geopolitical friction. Analytically, the most pressing concern is the reported documentation fraud. According to [DOC_008], an investigation was launched into titanium sold with \"falsified documents\" to Spirit AeroSystems, potentially impacting both Boeing and Airbus programs. This is corroborated by a specific mention of the Boeing 767-300F series in February 2026, where technical quality risks were identified [DOC_012]. However, the scope of this impact remains an open question; while [DOC_008] suggests a global supply chain issue, the source is a commercial sourcing guide rather than a regulatory body, and the \"2026\" date may be a trailing report of 2024 industry events.\n\nRegarding supply availability, [DOC_005] reports on \"underlying structural challenges\" in aerospace bar rolling and ultrasonic testing as of November 2026, though it lacks specific lead-time data to quantify a bottleneck. This technical friction overlaps with geopolitical risks cited in [DOC_003], which warns that China’s control over critical metals could be used as leverage in trade disputes. The analytical takeaway is that while total volume may exist, the \"certified\" supply is constricted by both quality-control failures and potential export restrictions.\n\nSignificant data gaps persist. There is no primary evidence from the FAA or EASA in the current batch to confirm the \"counterfeit\" claims or to mandate specific groundings. Furthermore, the resolution of the Baoji Titanium Industry fraud [DOC_010] suggests that historical documentation issues do not always equate to structural failure, yet this does not mitigate the legal and safety-assurance burden for current production. Management must distinguish between the long-term strategic risk of Chinese supply dependency and the immediate tactical risk of uncertified parts currently in the assembly line.",
+  "qa_audit_summary": "Editor text converted into typed recommendations; independent evidence QA remains authoritative. | Five-Dimensional Grounding (Technical, Claim, Causal, Independent Verification, Freshness) completed. | [Harness Guard]: 5/5 direct signals SUPPORTED, 0 PARTIALLY_SUPPORTED, 0 classified as ONGOING_ISSUE, 0 moved to RELATED_PROGRAM_WATCHLIST, 1 flagged for manual HITL verification. | Evidence disposition (not a filtering verdict): DOC_003=REFERENCED_BY_EVENT_NOT_KIQ; DOC_005=REFERENCED_BY_EVENT_NOT_KIQ; DOC_008=REFERENCED_BY_EVENT_NOT_KIQ; DOC_010=REFERENCED_BY_EVENT_NOT_KIQ; DOC_012=USED_IN_KIQ_ANSWER | KIT_COMPLETION: NOT_ANSWERED; 3 of 3 information requirements remain unverified. | [Telemetry]: Run: RUN-20261126-092305-C1CB9472FEE8 | CollectionMode: agentic_exa | Runtime: 89.53s (Plan: 5.97s, Collect: 15.21s, Filter: 21.97s, Analyze: 34.79s, QA: 5.33s, Edit: 6.08s, Score: 0.0s) | Batches: 3/3 OK (0 failed) | Docs: 5/17 analyzed (0 failed) | LLM Calls: 11 (Retries: 0) | Model: openrouter/google/gemini-3-flash-preview | Estimated LLM Cost: $0.08935 (ESTIMATED)",
+  "hitl_status": "WAITING_FOR_HITL",
+  "threats": [
+    {
+      "event_id": "EVT_TITANIUM_COUNTERFEIT_2026_001",
+      "kiq_ids": [
+        "RKIQ_001"
+      ],
+      "indicator_name": "Fraudulent material certification alert",
+      "company_affected": "Boeing",
+      "ci_dimension": "Tactical CI",
+      "risk_type": "TECHNICAL_QUALITY",
+      "secondary_risk_types": [
+        "SUPPLY_CHAIN",
+        "REGULATORY"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Unknown / Not specified in source",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [
+        "737 MAX",
+        "737 NG",
+        "777X",
+        "777",
+        "787",
+        "787 Dreamliner",
+        "767",
+        "747-8",
+        "KC-46",
+        "P-8"
+      ],
+      "supplier_registry_basis": "Company: The Boeing Company -> Role: OEM (Final Assembler) (Registry Source: Boeing SEC Form 10-K) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Unknown / Not specified in source",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] The Boeing Company -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Unknown / Not specified in source",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] 737 MAX, 737 NG, 777X",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "FAA investigated counterfeit titanium with falsified certifications from a Chinese state-owned manufacturer that entered Boeing and Airbus supply chains. The material has been entering the broader aerospace supply chain since at least 2019.",
+      "decision_question": "Should the procurement team mandate independent third-party lab testing for all titanium forged in China regardless of existing mill certifications?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "The investigation highlights a systemic vulnerability where falsified documentation from a state-owned entity penetrated major OEM supply chains over multiple years (starting 2019).",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting The Boeing Company (OEM (Final Assembler)) on source-evidenced program Unknown / Not specified in source. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: 737 MAX, 737 NG, 777X)",
+      "fact_check_quote": "the FAA investigated counterfeit titanium with falsified certificates originating from a Chinese state-owned forging manufacturer that had reached Boeing and Airbus supply chains.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_008",
+          "source_url": "https://hontitan.com/china-titanium-sourcing-guide/",
+          "source_type": "SECONDARY_MEDIA_REPORT",
+          "passage_text": "the FAA investigated counterfeit titanium with falsified certificates originating from a Chinese state-owned forging manufacturer that had reached Boeing and Airbus supply chains.",
+          "passage_hash": "5863ebe2f132bd667f0cddadc2006388bbd69c4dcf06dc7ba3aef403a534168c",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "FAA investigated counterfeit titanium with falsified certificates originating from a Chinese state-owned forging manufacturer.",
+          "document_id": "DOC_008",
+          "quote": "the FAA investigated counterfeit titanium with falsified certificates originating from a Chinese state-owned forging manufacturer that had reached Boeing and Airbus supply chains.",
+          "source_url": "https://hontitan.com/china-titanium-sourcing-guide/",
+          "claim_type": "HISTORICAL_STATUS",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Boeing, Airbus",
+          "program": "Unknown / Not specified in source",
+          "component": "Titanium forging raw materials",
+          "issue": "Counterfeit titanium with falsified certificates",
+          "regulatory_authority": "FAA",
+          "publication_date": "2026-07-15",
+          "event_date": "2023-2024",
+          "cause": "Falsified mill certifications from a Chinese state-owned manufacturer.",
+          "effect": "Material reached Boeing and Airbus supply chains.",
+          "status_before": "Material integrated into supply chain since 2019",
+          "status_after": "Supply chain under investigation",
+          "resolution_outcome": "Investigation opened in 2024.",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_008"
+      ],
+      "source_urls": [
+        "https://hontitan.com/china-titanium-sourcing-guide/"
+      ],
+      "verification_status": "Verified Secondary Source (HISTORICAL_CONTEXT | 1 independent source(s)) [Source published 134 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source)]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "SINGLE_SECONDARY_SOURCE",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "SINGLE_SECONDARY_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "Unknown / Not specified in source",
+        "Hypothetical Shared Dependencies": "737 MAX, 737 NG, 777X, 777, 787, 787 Dreamliner, 767, 747-8, KC-46, P-8",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=NOT_REQUIRED, PROGRAM=NOT_REQUIRED, VARIANT=NOT_REQUIRED, COMPONENT=POSITIVE, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-07-15",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "8/10 (potential impact, not verification)",
+        "Confidence": "MEDIUM",
+        "Verification": "SUPPORTED",
+        "Current Status": "ELEVATED_RISK",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-26",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-07-15",
+      "first_seen_at": "2026-11-26T09:24:36Z",
+      "last_seen_at": "2026-11-26T09:24:36Z",
+      "updated_at": "2026-11-26T09:24:36Z",
+      "event_status": "ELEVATED_RISK",
+      "evidence_citation": "https://hontitan.com/china-titanium-sourcing-guide/",
+      "missing_data": "Source cites Forbes report; direct FAA investigative findings are not provided in batch.",
+      "intelligence_gap": {
+        "gap_id": "GAP_DOC008_001",
+        "what_is_missing": "Specific batch numbers and aircraft tail numbers containing the unverified titanium.",
+        "why_important": "Required to assess immediate fleet safety and liability risk.",
+        "affected_kiq_id": "KIQ_1_2",
+        "recommended_source": "FAA Official Investigation Reports / OEM Service Bulletins",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Chinese state-owned manufacturers utilize falsified mill certifications to bypass Western quality controls, leading to the installation of unverified titanium in primary airframes. Supply chain transparency is undermined, necessitating costly retrospective audits and potential structural grounding if material integrity is compromised.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 4,
+          "rationale": "Potential for structural failure in critical components if material specs are unmet."
+        },
+        "supplier_criticality": {
+          "score": 4,
+          "rationale": "China dominates global titanium sponge and milling capacity."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "Replacing installed flight-critical components is extremely difficult and costly."
+        },
+        "propagation_scope": {
+          "score": 5,
+          "rationale": "Reached both major global OEMs; potentially hundreds of aircraft affected since 2019."
+        },
+        "temporal_urgency": {
+          "score": 3,
+          "rationale": "Historical issue with ongoing investigative and audit impacts in 2026."
+        }
+      },
+      "threat_score": 8,
+      "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (8/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "MEDIUM",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    },
+    {
+      "event_id": "EVT_TITANIUM_BOTTLENECK_2026_002",
+      "kiq_ids": [
+        "RKIQ_002"
+      ],
+      "indicator_name": "Production capacity constraint alert",
+      "company_affected": "Airbus",
+      "ci_dimension": "Market CI",
+      "risk_type": "SUPPLY_CHAIN",
+      "secondary_risk_types": [
+        "REGULATORY",
+        "COMPETITIVE"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "A320 family",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [
+        "A320neo",
+        "A321neo",
+        "A321XLR",
+        "A350",
+        "A350F",
+        "A220",
+        "A330neo",
+        "A380",
+        "A400M",
+        "H145",
+        "H160"
+      ],
+      "supplier_registry_basis": "Company: Airbus SE -> Role: OEM (Final Assembler) (Registry Source: Airbus Annual Report / Official Registry) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: A320 family",
+      "propagation_effect": "Just-in-Time (JIT) Disruption",
+      "impact_path": [
+        "[Evidenced Entity] Airbus SE -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] A320 family",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] A320neo, A321neo, A321XLR",
+        "[Hypothetical Propagation Mechanism] Just-in-Time (JIT) Disruption"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Certified flight-critical titanium alloys for commercial aircraft primary structures and engines are facing acute bottlenecks in high-purity melting throughput and airworthiness audits. This structural bifurcation persists despite stable general industrial titanium supply.",
+      "decision_question": "Should the company invest in proprietary high-purity melting capacity to bypass the qualified mill bottleneck?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "There is a structural bifurcation in the titanium market: general supply is plentiful, but aerospace-qualified melting capacity is a critical bottleneck for production ramp-ups.",
+      "hypothetical_scenario": "Hypothetical Just-in-Time (JIT) Disruption scenario affecting Airbus SE (OEM (Final Assembler)) on source-evidenced program A320 family. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: A320neo, A321neo, A321XLR)",
+      "fact_check_quote": "certified flight-critical titanium alloys qualified for commercial aircraft primary structures... face acute bottlenecks in high-purity melting throughput and lengthy airworthiness audit pipelines.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_005",
+          "source_url": "https://titaniumseller.com/news/commercial-aerospace-titanium-supply-chain-backlog-mill-qualification-2026/",
+          "source_type": "SECONDARY_MEDIA_REPORT",
+          "passage_text": "On the other hand, certified flight-critical titanium alloys qualified for commercial aircraft primary structures, landing gear, fasteners, and gas turbine compressor stages face acute bottlenecks in high-purity melting throughput and lengthy airworthiness audit pipelines.",
+          "passage_hash": "846c618b065e6390c59f38b8f4d740833d94b4b13e5b68a8e1679f4195fe7036",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Certified flight-critical titanium alloys face acute bottlenecks in high-purity melting throughput.",
+          "document_id": "DOC_005",
+          "quote": "certified flight-critical titanium alloys qualified for commercial aircraft primary structures... face acute bottlenecks in high-purity melting throughput",
+          "source_url": "https://titaniumseller.com/news/commercial-aerospace-titanium-supply-chain-backlog-mill-qualification-2026/",
+          "claim_type": "CURRENT_STATUS",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Airbus",
+          "program": "A320 family",
+          "component": "Flight-critical titanium alloys",
+          "issue": "Capacity constraints and audit backlogs",
+          "regulatory_authority": "Unknown / Not specified in source",
+          "publication_date": "2026-11-08",
+          "event_date": "2026-11-08",
+          "cause": "Capacity constraints in high-purity melting and lengthy airworthiness audit pipelines.",
+          "effect": "Supply balance tilts sharply despite stable general warehouse supply.",
+          "status_before": "General industrial supply remains stable",
+          "status_after": "Acute bottlenecks persisting",
+          "resolution_outcome": "Unknown / Not specified in source",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_005"
+      ],
+      "source_urls": [
+        "https://titaniumseller.com/news/commercial-aerospace-titanium-supply-chain-backlog-mill-qualification-2026/"
+      ],
+      "verification_status": "Verified Secondary Source (EVENT_DATE_UNKNOWN | 1 independent source(s))",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "SINGLE_SECONDARY_SOURCE",
+      "event_freshness": "EVENT_DATE_UNKNOWN",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "SINGLE_SECONDARY_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "EVENT_DATE_UNKNOWN",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "A320 family",
+        "Hypothetical Shared Dependencies": "A320neo, A321neo, A321XLR, A350, A350F, A220, A330neo, A380, A400M, H145, H160",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=NOT_REQUIRED, PROGRAM=NOT_REQUIRED, VARIANT=NOT_REQUIRED, COMPONENT=POSITIVE, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-11-08",
+        "event_date": "2026-11-08",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "8/10 (potential impact, not verification)",
+        "Confidence": "MEDIUM",
+        "Verification": "SUPPORTED",
+        "Current Status": "ELEVATED_RISK",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-26",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-11-08",
+      "first_seen_at": "2026-11-26T09:24:36Z",
+      "last_seen_at": "2026-11-26T09:24:36Z",
+      "updated_at": "2026-11-26T09:24:36Z",
+      "event_status": "ELEVATED_RISK",
+      "evidence_citation": "https://titaniumseller.com/news/commercial-aerospace-titanium-supply-chain-backlog-mill-qualification-2026/",
+      "missing_data": "Source focuses on structural market issues but lacks specific lead-time numerical data.",
+      "intelligence_gap": {
+        "gap_id": "GAP_DOC005_001",
+        "what_is_missing": "Exact lead-time extension metrics in weeks/months compared to 2025 levels.",
+        "why_important": "Required to adjust aircraft delivery forecasts and financial projections.",
+        "affected_kiq_id": "KIQ_1_1",
+        "recommended_source": "Airbus Q4 2026 Earnings / Supplier Production Reports",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Acute bottlenecks in high-purity titanium melting and lengthy airworthiness audits restrict the availability of flight-critical alloys despite surplus industrial sponge. OEMs are forced to decelerate assembly lines due to lack of qualified structural components, despite high demand.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 3,
+          "rationale": "Limits ability to meet delivery backlogs for high-demand programs like A320."
+        },
+        "supplier_criticality": {
+          "score": 5,
+          "rationale": "Milling and qualification nodes are mandatory for airworthiness compliance."
+        },
+        "substitutability_difficulty": {
+          "score": 4,
+          "rationale": "Certified aerospace-qualified mills are high-barrier nodes with few alternatives."
+        },
+        "propagation_scope": {
+          "score": 4,
+          "rationale": "Affects multiple critical systems: landing gear, engines, and primary structures."
+        },
+        "temporal_urgency": {
+          "score": 4,
+          "rationale": "Bottlenecks are active and colliding with 2026-2027 ramp-up schedules."
+        }
+      },
+      "threat_score": 8,
+      "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (8/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "MEDIUM",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    },
+    {
+      "event_id": "BAOJI-FRAUD-2024-REF-2026",
+      "kiq_ids": [],
+      "indicator_name": "Material certificate fraud alert",
+      "company_affected": "Baoji Titanium Industry",
+      "ci_dimension": "Technological CI",
+      "risk_type": "TECHNICAL_QUALITY",
+      "secondary_risk_types": [
+        "SUPPLY_CHAIN",
+        "REGULATORY"
+      ],
+      "scm_tier": "Tier 3 (Raw Materials)",
+      "affected_component": "Titanium Plate",
+      "affected_program": "Unknown / Not specified in source",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [],
+      "supplier_registry_basis": "Company: Baoji Titanium Industry -> Role: Tier 3 (Raw Materials) (Entity Role Taxonomy) || Source-Evidenced Component: Titanium Plate || Source-Evidenced Program: Unknown / Not specified in source",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] Baoji Titanium Industry -> Role: Tier 3 (Raw Materials)",
+        "[Source-Evidenced Component] Titanium Plate",
+        "[Source-Evidenced Program] Unknown / Not specified in source",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Material certificates for aerospace-grade titanium were forged by intermediaries, misrepresenting non-conforming material as product from legitimate producer Baoji Titanium Industry.",
+      "decision_question": "How should material verification protocols be updated to detect forged Mill Test Certificates (MTCs) from Tier 3 suppliers?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "The 2026 report re-emphasizes that material documentation fraud remains a systemic risk, using the 2024 FAA investigation as a definitive case study for supply chain vulnerability.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting Baoji Titanium Industry (Tier 3 (Raw Materials)) on source-evidenced program Unknown / Not specified in source.",
+      "fact_check_quote": "Boeing and Airbus found titanium inside their supply chains carrying paperwork forged to look like it came from Baoji Titanium Industry, a real, legitimate producer.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_010",
+          "source_url": "https://zhxsteel.com/blog/titanium-plate-mtc-verification/",
+          "source_type": "SECONDARY",
+          "passage_text": "Boeing and Airbus found titanium inside their supply chains carrying paperwork forged to look like it came from Baoji Titanium Industry, a real, legitimate producer. The material had actually moved through a Chinese supplier and a Turkish distributor, with an employee at the Chinese firm allegedly forging the documentation along the way.",
+          "passage_hash": "b3c73e0f967fe6a45f7195202e5c1cbfb7f300b69adb08fbfe25ddbf5fb406f2",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Boeing and Airbus found titanium inside their supply chains carrying paperwork forged to look like it came from Baoji Titanium Industry.",
+          "document_id": "DOC_010",
+          "quote": "Boeing and Airbus found titanium inside their supply chains carrying paperwork forged to look like it came from Baoji Titanium Industry",
+          "source_url": "https://zhxsteel.com/blog/titanium-plate-mtc-verification/",
+          "claim_type": "HISTORICAL_STATUS",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Baoji Titanium Industry",
+          "program": "Boeing and Airbus programs",
+          "component": "Titanium Plate",
+          "issue": "Forged titanium documentation/certificates",
+          "regulatory_authority": "FAA",
+          "publication_date": "2026-07-27",
+          "event_date": "2024-01-01",
+          "cause": "Employee at a Chinese firm allegedly forging documentation along the way.",
+          "effect": "FAA opened an investigation; over a thousand tests conducted.",
+          "status_before": "Suspected fraudulent material documentation.",
+          "status_after": "Investigation concluded no airworthiness compromise.",
+          "resolution_outcome": "Airworthiness of affected aircraft was not compromised.",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_010"
+      ],
+      "source_urls": [
+        "https://zhxsteel.com/blog/titanium-plate-mtc-verification/"
+      ],
+      "verification_status": "Verified Secondary Source (HISTORICAL_CONTEXT | 1 independent source(s)) [Source published 122 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source)]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "SINGLE_SECONDARY_SOURCE",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "SINGLE_SECONDARY_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "Unknown / Not specified in source",
+        "Hypothetical Shared Dependencies": "None",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=NOT_REQUIRED, PROGRAM=NOT_REQUIRED, VARIANT=NOT_REQUIRED, COMPONENT=POSITIVE, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-07-27",
+        "event_date": "2024-01-01",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "7/10 (potential impact, not verification)",
+        "Confidence": "MEDIUM",
+        "Verification": "SUPPORTED",
+        "Current Status": "ELEVATED_RISK",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-26",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-07-27",
+      "first_seen_at": "2026-11-26T09:24:36Z",
+      "last_seen_at": "2026-11-26T09:24:36Z",
+      "updated_at": "2026-11-26T09:24:36Z",
+      "event_status": "ELEVATED_RISK",
+      "evidence_citation": "https://zhxsteel.com/blog/titanium-plate-mtc-verification/",
+      "missing_data": "Verification required: Source published 122 days before reference date; historical source alone does not prove a new event or current disruption; Classified as HISTORICAL_CONTEXT (older event referenced in recent source).",
+      "intelligence_gap": {
+        "gap_id": "GAP_B5BC9D",
+        "what_is_missing": "Verification required: Source published 122 days before reference date; historical source alone does not prove a new event or current disruption; Classified as HISTORICAL_CONTEXT (older event referenced in recent source).",
+        "why_important": "Needed to confirm Direct Operational / Regulatory Risk impact on Baoji Titanium Industry (Unknown / Not specified in source).",
+        "affected_kiq_id": "",
+        "recommended_source": "FAA / EASA / Official OEM Pressroom",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Adversaries exploit fragmented supply chains by inserting non-conforming titanium with forged Mill Test Certificates (MTCs). This bypasses safety audits and risks structural failure in primary aircraft components, necessitating expensive fleet-wide inspections and material re-certification.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 4,
+          "rationale": "Fraudulent certificates threaten structural integrity, though previous tests showed no compromise."
+        },
+        "supplier_criticality": {
+          "score": 4,
+          "rationale": "Baoji is a primary global producer; its identity was used for fraud."
+        },
+        "substitutability_difficulty": {
+          "score": 3,
+          "rationale": "Aerospace-grade titanium has few substitutes; identifying legitimate sources is complex."
+        },
+        "propagation_scope": {
+          "score": 5,
+          "rationale": "Affected both major OEMs (Boeing/Airbus) and multiple global distributors."
+        },
+        "temporal_urgency": {
+          "score": 2,
+          "rationale": "The specific event is historical (2024), but verification risk is ongoing."
+        }
+      },
+      "threat_score": 7,
+      "score_rationale": "Potential severity: ELEVATED (7/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "MEDIUM",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    },
+    {
+      "event_id": "TITANIUM-SQUEEZE-2026-PROJBLUE",
+      "kiq_ids": [
+        "RKIQ_001"
+      ],
+      "indicator_name": "Geopolitical metal supply constraint indicator",
+      "company_affected": "Unknown",
+      "ci_dimension": "Strategic CI",
+      "risk_type": "GEOPOLITICAL",
+      "secondary_risk_types": [
+        "SUPPLY_CHAIN"
+      ],
+      "scm_tier": "Unknown (Verification Required)",
+      "affected_component": "Unknown / Not specified in source",
+      "affected_program": "Unknown / Not specified in source",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [],
+      "supplier_registry_basis": "Company: Unknown -> Role: Unknown (Verification Required) || Source-Evidenced Component: Unknown / Not specified in source || Source-Evidenced Program: Unknown / Not specified in source",
+      "propagation_effect": "Bullwhip Effect (Demand Amplification)",
+      "impact_path": [
+        "[Unconfirmed Entity] Unknown -> Role: Unknown (Verification Required)",
+        "[Source-Evidenced Component] Unknown / Not specified in source",
+        "[Source-Evidenced Program] Unknown / Not specified in source",
+        "[Hypothetical Propagation Mechanism] Bullwhip Effect (Demand Amplification)"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "Projected titanium supply-demand gap for Western aerospace manufacturers as global supply control consolidates in Russia and China.",
+      "decision_question": "Should the US ramp up domestic titanium processing capacity to mitigate reliance on Russian and Chinese supply chains?",
+      "confirmed_facts": "",
+      "analytical_interpretation": "A looming supply gap is predicted as Western demand reaches 1.6M tonnes by 2044 while supply control shifts toward geopolitical rivals.",
+      "hypothetical_scenario": "Hypothetical Bullwhip Effect (Demand Amplification) scenario affecting Unknown (Unknown (Verification Required)) on source-evidenced program Unknown / Not specified in source.",
+      "fact_check_quote": "Western aerospace manufacturers will need 1.6 million tonnes of titanium by 2044, but supply is increasingly controlled by geopolitical rivals Russia and China.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_003",
+          "source_url": "https://www.mining.com/us-must-ramp-up-titanium-capacity-to-avoid-squeeze-project-blue-founder-says/",
+          "source_type": "SECONDARY",
+          "passage_text": "Western aerospace manufacturers will need 1.6 million tonnes of titanium by 2044, but supply is increasingly controlled by geopolitical rivals Russia and China.",
+          "passage_hash": "ea18e0f0c6d395a094044c0d9d78dc48b93ebdcaefa06e0bd74358175f9babbb",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "UNSPECIFIED",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Western aerospace manufacturers will need 1.6 million tonnes of titanium by 2044, but supply is increasingly controlled by geopolitical rivals Russia and China.",
+          "document_id": "DOC_003",
+          "quote": "Western aerospace manufacturers will need 1.6 million tonnes of titanium by 2044, but supply is increasingly controlled by geopolitical rivals Russia and China.",
+          "source_url": "https://www.mining.com/us-must-ramp-up-titanium-capacity-to-avoid-squeeze-project-blue-founder-says/",
+          "claim_type": "FORECAST",
+          "evidence_authority": "SECONDARY_MEDIA_REPORT",
+          "entity": "Western aerospace manufacturers",
+          "program": "Unknown / Not specified in source",
+          "component": "Titanium metal alloy",
+          "issue": "Titanium supply chain risk and capacity squeeze",
+          "regulatory_authority": "Unknown / Not specified in source",
+          "publication_date": "2026-01-02",
+          "event_date": "DATE_UNKNOWN",
+          "cause": "Geopolitical control by Russia and China and lack of Western processing capacity.",
+          "effect": "Potential supply chain squeeze and exposed risks for defense metals.",
+          "status_before": "Current strategic dependency.",
+          "status_after": "Predicted supply gap by 2044.",
+          "resolution_outcome": "Unknown / Not specified in source",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_003"
+      ],
+      "source_urls": [
+        "https://www.mining.com/us-must-ramp-up-titanium-capacity-to-avoid-squeeze-project-blue-founder-says/"
+      ],
+      "verification_status": "SUPPORTED CLAIM; SCM ROLE UNVERIFIED (HISTORICAL_CONTEXT) [Source published 328 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source) | Unclassified SCM entity in 'Unknown' set to Unknown (Verification Required)]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "NOT_ASSERTED",
+      "independent_verification_status": "SINGLE_SECONDARY_SOURCE",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "NOT_ASSERTED",
+        "4. Independent Verification": "SINGLE_SECONDARY_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "Unknown / Not specified in source",
+        "Hypothetical Shared Dependencies": "None",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "UNDETERMINED",
+        "Claim Authority": "UNDETERMINED",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=NOT_REQUIRED, PROGRAM=NOT_REQUIRED, VARIANT=NOT_REQUIRED, COMPONENT=POSITIVE, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-01-02",
+        "event_date": "DATE_UNKNOWN",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "9/10 (potential impact, not verification)",
+        "Confidence": "LOW",
+        "Verification": "SUPPORTED",
+        "Current Status": "UNDER_REVIEW",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "PRODUCTION",
+        "Chronology As Of": "2026-11-26",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-01-02",
+      "first_seen_at": "2026-11-26T09:24:36Z",
+      "last_seen_at": "2026-11-26T09:24:36Z",
+      "updated_at": "2026-11-26T09:24:36Z",
+      "event_status": "UNDER_REVIEW",
+      "evidence_citation": "https://www.mining.com/us-must-ramp-up-titanium-capacity-to-avoid-squeeze-project-blue-founder-says/",
+      "missing_data": "Verification required: Source published 328 days before reference date; historical source alone does not prove a new event or current disruption; Classified as HISTORICAL_CONTEXT (older event referenced in recent source).",
+      "intelligence_gap": {
+        "gap_id": "GAP_1DE39E",
+        "what_is_missing": "Verification required: Source published 328 days before reference date; historical source alone does not prove a new event or current disruption; Classified as HISTORICAL_CONTEXT (older event referenced in recent source).",
+        "why_important": "Needed to confirm Bullwhip Effect (Demand Amplification) impact on Unknown (Unknown / Not specified in source).",
+        "affected_kiq_id": "RKIQ_001",
+        "recommended_source": "FAA / EASA / Official OEM Pressroom",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "Geopolitical rivals Russia and China leverage their control over 90% of titanium processing to restrict exports to Western aerospace manufacturers, causing production stoppages and prioritizing their domestic defense programs.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 5,
+          "rationale": "Strategic metals are essential for defense and aerospace with few substitutes."
+        },
+        "supplier_criticality": {
+          "score": 4,
+          "rationale": "Supply is increasingly concentrated in Russia and China."
+        },
+        "substitutability_difficulty": {
+          "score": 5,
+          "rationale": "Titanium has a unique strength-to-weight ratio with few industrial substitutes."
+        },
+        "propagation_scope": {
+          "score": 5,
+          "rationale": "Affects all Western aerospace manufacturers relying on global titanium supply."
+        },
+        "temporal_urgency": {
+          "score": 3,
+          "rationale": "Forecasted for 2044, but risks are described as currently evolving."
+        }
+      },
+      "threat_score": 9,
+      "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (9/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+      "confidence_level": "LOW",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    },
+    {
+      "event_id": "BOEING-767-TITANIUM-2026-02-17",
+      "kiq_ids": [
+        "KIQ_3_1"
+      ],
+      "indicator_name": "Quality defects / non-conformance reports (KIQ_1_2)",
+      "company_affected": "The Boeing Company",
+      "ci_dimension": "Tactical CI",
+      "risk_type": "TECHNICAL_QUALITY",
+      "secondary_risk_types": [
+        "REGULATORY",
+        "SUPPLY_CHAIN"
+      ],
+      "scm_tier": "OEM (Final Assembler)",
+      "affected_component": "Titanium cargo track crown fittings",
+      "affected_program": "767-300F series airplanes",
+      "program_relevance": "DIRECT_KIT_MATCH",
+      "hypothetical_dependencies": [
+        "737 MAX",
+        "737 NG",
+        "777X",
+        "777",
+        "787",
+        "787 Dreamliner",
+        "747-8",
+        "KC-46",
+        "P-8"
+      ],
+      "supplier_registry_basis": "Company: The Boeing Company -> Role: OEM (Final Assembler) (Registry Source: Boeing SEC Form 10-K) || Source-Evidenced Component: Titanium cargo track crown fittings || Source-Evidenced Program: 767-300F series airplanes",
+      "propagation_effect": "Direct Operational / Regulatory Risk",
+      "impact_path": [
+        "[Evidenced Entity] The Boeing Company -> Role: OEM (Final Assembler)",
+        "[Source-Evidenced Component] Titanium cargo track crown fittings",
+        "[Source-Evidenced Program] 767-300F series airplanes",
+        "[Hypothetical Shared-Supplier Dependencies - NOT Evidenced in Source] 737 MAX, 737 NG, 777X",
+        "[Hypothetical Propagation Mechanism] Direct Operational / Regulatory Risk"
+      ],
+      "geographic_epicenter": "Unknown",
+      "geographic_impact_scope": "Unknown (Requires Operator/Fleet Mapping)",
+      "threat_description": "A proposed FAA Airworthiness Directive targets Boeing 767-300F airplanes following reports of titanium cargo track crown fittings with suspect material certifications. The mandate requires XRF spectrometer inspections to verify material composition or full component replacement.",
+      "decision_question": "Should MRO schedules be adjusted to integrate XRF spectrometer inspections for 767-300F cargo track fittings before the AD becomes effective?",
+      "confirmed_facts": "proposed AD was prompted by a report of a supplier notice of escapement documenting that some titanium cargo track crown fittings had suspect material certifications.",
+      "analytical_interpretation": "The FAA is responding to a 'supplier notice of escapement,' indicating that material with questionable documentation has already entered the supply chain and potentially airframes. The proposed AD shifting toward XRF inspection suggests the regulator lacks confidence in the paper trail for these specific titanium components.",
+      "hypothetical_scenario": "Hypothetical Direct Operational / Regulatory Risk scenario affecting The Boeing Company (OEM (Final Assembler)) on source-evidenced program 767-300F series airplanes. (Hypothetical shared-OEM/supplier dependencies not evidenced in source: 737 MAX, 737 NG, 777X)",
+      "fact_check_quote": "proposed AD was prompted by a report of a supplier notice of escapement documenting that some titanium cargo track crown fittings had suspect material certifications.",
+      "evidence_passages": [
+        {
+          "document_id": "DOC_012",
+          "source_url": "https://www.federalregister.gov/documents/full_text/text/2026/02/17/2026-03036.txt",
+          "source_type": "REGULATORY_PUBLICATION",
+          "passage_text": "This proposed AD was prompted by a report of a supplier notice of escapement documenting that some titanium cargo track crown fittings had suspect material certifications. This proposed AD would require an X-ray fluorescence (XRF) spectrometer inspection to identify the material composition of the cargo track crown fittings or replacement of all cargo track crown fittings.",
+          "passage_hash": "01fba6e664a8b1e3b8ae468dc25e113e3f15477ccfd39708edaed395853a0b5d",
+          "supplied_hash_status": "MISMATCH",
+          "source_hash": null,
+          "extraction_method": "PRIMARY_SOURCE_EXTRACTION",
+          "quote_verification_status": "UNVERIFIED"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_text": "Proposed FAA Airworthiness Directive for Boeing 767-300F airplanes prompted by suspect titanium material certifications.",
+          "document_id": "DOC_012",
+          "quote": "This proposed AD was prompted by a report of a supplier notice of escapement documenting that some titanium cargo track crown fittings had suspect material certifications.",
+          "source_url": "https://www.federalregister.gov/documents/full_text/text/2026/02/17/2026-03036.txt",
+          "claim_type": "CAUSE",
+          "evidence_authority": "REGULATOR_OFFICIAL_DECISION",
+          "entity": "The Boeing Company",
+          "program": "767-300F series airplanes",
+          "component": "titanium cargo track crown fittings",
+          "issue": "suspect material certifications",
+          "regulatory_authority": "FAA",
+          "publication_date": "2026-02-17",
+          "event_date": "2026-02-17",
+          "cause": "supplier notice of escapement documenting that some titanium cargo track crown fittings had suspect material certifications",
+          "effect": "proposed AD would require an X-ray fluorescence (XRF) spectrometer inspection or replacement of fittings",
+          "status_before": "Unknown status of installed fittings",
+          "status_after": "proposed requirement for XRF inspection or replacement",
+          "resolution_outcome": "Pending (Proposed AD)",
+          "passage_hash": null,
+          "classification_audit": []
+        }
+      ],
+      "invalid_evidence_claims": [],
+      "evidence_ids": [
+        "DOC_012"
+      ],
+      "source_urls": [
+        "https://www.federalregister.gov/documents/full_text/text/2026/02/17/2026-03036.txt"
+      ],
+      "verification_status": "Verified Primary Source (HISTORICAL_CONTEXT | 5-Step Grounding PASS) [Source-exact statement retained as confirmed fact; unquoted operational consequences remain unverified. | Source published 282 days before reference date; historical source alone does not prove a new event or current disruption | Classified as HISTORICAL_CONTEXT (older event referenced in recent source)]",
+      "technical_grounding_status": "PASS",
+      "claim_support_status": "STATED_IN_SOURCE",
+      "causal_support_status": "EVIDENCED_IN_VERIFIED_SOURCE",
+      "independent_verification_status": "SINGLE_PRIMARY_SOURCE",
+      "event_freshness": "HISTORICAL_CONTEXT",
+      "validation_status": "SUPPORTED",
+      "corroboration_summary": {
+        "1. Technical Grounding": "PASS (Full Quote & URL Match: YES)",
+        "2. Claim Support": "STATED_IN_SOURCE",
+        "3. Causal Support": "EVIDENCED_IN_VERIFIED_SOURCE",
+        "4. Independent Verification": "SINGLE_PRIMARY_SOURCE (1 non-syndicated source(s))",
+        "5. Event Freshness": "HISTORICAL_CONTEXT",
+        "Program Relevance Scope": "DIRECT_KIT_MATCH",
+        "Source-Evidenced Program": "767-300F series airplanes",
+        "Hypothetical Shared Dependencies": "737 MAX, 737 NG, 777X, 777, 787, 787 Dreamliner, 747-8, KC-46, P-8",
+        "Event Epicenter": "Unknown",
+        "Evidence Authority": "REGULATOR_OFFICIAL_WEB",
+        "Claim Authority": "REGULATOR_OFFICIAL_PUBLICATION",
+        "Regulatory Decision Verified": "NO_OR_UNKNOWN",
+        "KIT Fact Dimensions": "ENTITY=NOT_REQUIRED, PROGRAM=NOT_REQUIRED, VARIANT=NOT_REQUIRED, COMPONENT=POSITIVE, ISSUE=NOT_REQUIRED, STATUS=NOT_REQUIRED, AUTHORITY=NOT_REQUIRED, DATE=POSITIVE, CAUSE=NOT_REQUIRED, IMPACT=NOT_REQUIRED",
+        "publication_date": "2026-02-17",
+        "event_date": "2026-02-17",
+        "effective_date": "DATE_UNKNOWN",
+        "deadline": "DATE_UNKNOWN",
+        "Severity": "7/10 (potential impact, not verification)",
+        "Confidence": "HIGH",
+        "Verification": "SUPPORTED",
+        "Current Status": "ELEVATED_RISK",
+        "Chronology Status": "CURRENT_STATUS_UNKNOWN",
+        "Historical Claim Evidence": "HISTORICALLY_SUPPORTED",
+        "Current Claim Status": "STATUS_UNKNOWN",
+        "Chronology Issue": "CERTIFICATION",
+        "Chronology As Of": "2026-11-26",
+        "Latest State Evidence": "UNKNOWN",
+        "Unresolved Downstream Issues": ""
+      },
+      "publication_time": "2026-02-17",
+      "first_seen_at": "2026-11-26T09:24:36Z",
+      "last_seen_at": "2026-11-26T09:24:36Z",
+      "updated_at": "2026-11-26T09:24:36Z",
+      "event_status": "ELEVATED_RISK",
+      "evidence_citation": "https://www.federalregister.gov/documents/full_text/text/2026/02/17/2026-03036.txt",
+      "missing_data": "Specific supplier identity not disclosed in text.",
+      "intelligence_gap": {
+        "gap_id": "GAP_DOC_012_SUPPLIER_ID",
+        "what_is_missing": "Identity of the supplier responsible for the titanium escapement.",
+        "why_important": "Required to determine if the same suspect material was supplied to other programs (e.g. 737, 787).",
+        "affected_kiq_id": "KIQ_3_1",
+        "recommended_source": "FAA Enforcement Database / Boeing Supplier Bulletin",
+        "can_auto_scan": true,
+        "status": "OPEN"
+      },
+      "adversarial_scenario": "A Tier 2/3 supplier introduces non-conforming titanium with falsified records, bypassing OEM quality gates. If XRF inspections detect widespread structural deviation, the 767-300F fleet faces grounding for part replacement, while the OEM may experience delivery delays and increased liability due to broad certification integrity failure.",
+      "risk_factors": {
+        "impact_severity": {
+          "score": 4,
+          "rationale": "Proposed AD addresses an 'unsafe condition' that could require component replacement."
+        },
+        "supplier_criticality": {
+          "score": 4,
+          "rationale": "Source of escapement is a Tier 2/3 material supplier; critical for structural integrity."
+        },
+        "substitutability_difficulty": {
+          "score": 3,
+          "rationale": "Titanium cargo fittings are specialized aerospace components; replacement parts rely on OEM supply."
+        },
+        "propagation_scope": {
+          "score": 3,
+          "rationale": "Specific to 767-300F series; extent of other Boeing programs is unverified."
+        },
+        "temporal_urgency": {
+          "score": 3,
+          "rationale": "Proposed rule indicates active regulatory scrutiny but not an immediate grounding mandate."
+        }
+      },
+      "threat_score": 7,
+      "score_rationale": "Deterministic 5-factor I&W score 7/10 (S = round(3.50 * 2) = 7/10). Primary drivers: F1 Impact Severity (4/5, w=0.30), F2 Supplier Criticality (4/5, w=0.20). Potential severity only; evidence validation is evaluated separately.",
+      "confidence_level": "HIGH",
+      "urgency": "HIGH",
+      "escalation_level": "PRIORITY_VERIFICATION_REQUIRED",
+      "is_critical": false
+    }
+  ],
+  "threat_reports": [
+    {
+      "threat_id": "EVT_TITANIUM_COUNTERFEIT_2026_001",
+      "event_title": "FAA investigated counterfeit titanium with falsified certifications from a Chinese state-owned manufacturer that entered Boeing and Airbus supply chains. The material has been entering the broader aerospace supply chain since at least 2019.",
+      "category": "TECHNICAL_QUALITY",
+      "affected_entity": "Boeing",
+      "threat_score": 8,
+      "source_url": "https://hontitan.com/china-titanium-sourcing-guide/",
+      "timestamp": "2026-07-15",
+      "mitigation_advice": "Verify source evidence, KIT applicability and decision needs for EVT_TITANIUM_COUNTERFEIT_2026_001.",
+      "confidence_level": "MEDIUM",
+      "validation_status": "SUPPORTED",
+      "event_status": "ELEVATED_RISK"
+    },
+    {
+      "threat_id": "EVT_TITANIUM_BOTTLENECK_2026_002",
+      "event_title": "Certified flight-critical titanium alloys for commercial aircraft primary structures and engines are facing acute bottlenecks in high-purity melting throughput and airworthiness audits. This structural bifurcation persists despite stable general industrial titanium supply.",
+      "category": "SUPPLY_CHAIN",
+      "affected_entity": "Airbus",
+      "threat_score": 8,
+      "source_url": "https://titaniumseller.com/news/commercial-aerospace-titanium-supply-chain-backlog-mill-qualification-2026/",
+      "timestamp": "2026-11-08",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "MEDIUM",
+      "validation_status": "SUPPORTED",
+      "event_status": "ELEVATED_RISK"
+    },
+    {
+      "threat_id": "BAOJI-FRAUD-2024-REF-2026",
+      "event_title": "Material certificates for aerospace-grade titanium were forged by intermediaries, misrepresenting non-conforming material as product from legitimate producer Baoji Titanium Industry.",
+      "category": "TECHNICAL_QUALITY",
+      "affected_entity": "Baoji Titanium Industry",
+      "threat_score": 7,
+      "source_url": "https://zhxsteel.com/blog/titanium-plate-mtc-verification/",
+      "timestamp": "2026-07-27",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "MEDIUM",
+      "validation_status": "SUPPORTED",
+      "event_status": "ELEVATED_RISK"
+    },
+    {
+      "threat_id": "TITANIUM-SQUEEZE-2026-PROJBLUE",
+      "event_title": "Projected titanium supply-demand gap for Western aerospace manufacturers as global supply control consolidates in Russia and China.",
+      "category": "GEOPOLITICAL",
+      "affected_entity": "Unknown",
+      "threat_score": 9,
+      "source_url": "https://www.mining.com/us-must-ramp-up-titanium-capacity-to-avoid-squeeze-project-blue-founder-says/",
+      "timestamp": "2026-01-02",
+      "mitigation_advice": "No validated mitigation recommendation available.",
+      "confidence_level": "LOW",
+      "validation_status": "SUPPORTED",
+      "event_status": "UNDER_REVIEW"
+    },
+    {
+      "threat_id": "BOEING-767-TITANIUM-2026-02-17",
+      "event_title": "A proposed FAA Airworthiness Directive targets Boeing 767-300F airplanes following reports of titanium cargo track crown fittings with suspect material certifications. The mandate requires XRF spectrometer inspections to verify material composition or full component replacement.",
+      "category": "TECHNICAL_QUALITY",
+      "affected_entity": "The Boeing Company",
+      "threat_score": 7,
+      "source_url": "https://www.federalregister.gov/documents/full_text/text/2026/02/17/2026-03036.txt",
+      "timestamp": "2026-02-17",
+      "mitigation_advice": "Verify source evidence, KIT applicability and decision needs for BOEING-767-TITANIUM-2026-02-17.",
+      "confidence_level": "HIGH",
+      "validation_status": "SUPPORTED",
+      "event_status": "ELEVATED_RISK"
+    }
+  ],
+  "related_program_watchlist": [],
+  "action_plan": [
+    {
+      "action_id": "ACT_1DAE3E0B",
+      "related_event_ids": [
+        "BOEING-767-TITANIUM-2026-02-17"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "The Boeing Company"
+      ],
+      "action": "Verify source evidence, KIT applicability and decision needs for BOEING-767-TITANIUM-2026-02-17.",
+      "rationale": "Evidence status: BOEING-767-TITANIUM-2026-02-17: SUPPORTED, KIT=DIRECT_KIT_MATCH, Documents=DOC_012. Further source verification or human review is required before implementation.",
+      "pros_and_cons": "PRO: Supports documented verification and decision-making.; CON: Requires analyst effort and human approval",
+      "triple_a_impact": "Adaptability",
+      "uncertainty_assumptions": "Editorial advice requires source verification and human approval.",
+      "owner": "Supply Chain Risk Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Evidence and management decision documented for BOEING-767-TITANIUM-2026-02-17.",
+      "priority": "LOW",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-26T09:24:34Z"
+    },
+    {
+      "action_id": "ACT_ADC19232",
+      "related_event_ids": [
+        "EVT_TITANIUM_COUNTERFEIT_2026_001"
+      ],
+      "related_kiq_ids": [],
+      "related_threat_companies": [
+        "Boeing"
+      ],
+      "action": "Verify source evidence, KIT applicability and decision needs for EVT_TITANIUM_COUNTERFEIT_2026_001.",
+      "rationale": "Evidence status: EVT_TITANIUM_COUNTERFEIT_2026_001: SUPPORTED, KIT=DIRECT_KIT_MATCH, Documents=DOC_008. Further source verification or human review is required before implementation.",
+      "pros_and_cons": "PRO: Supports documented verification and decision-making.; CON: Requires analyst effort and human approval",
+      "triple_a_impact": "Adaptability",
+      "uncertainty_assumptions": "Editorial advice requires source verification and human approval.",
+      "owner": "Supply Chain Risk Analyst",
+      "deadline": "Pending HITL scheduling",
+      "kpi": "Evidence and management decision documented for EVT_TITANIUM_COUNTERFEIT_2026_001.",
+      "priority": "LOW",
+      "status": "PROPOSED",
+      "decision": "PENDING",
+      "reviewed_by": null,
+      "completion_status": "0%",
+      "created_at": "2026-11-26T09:24:34Z"
+    }
+  ],
+  "kiq_answers": [
+    {
+      "kiq_id": "KIQ_3_1",
+      "question": "How are regulatory decisions, certification milestones, airworthiness actions, or safety mandates affecting aircraft and propulsion programs?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "NONE",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "For The Boeing Company (767-300F series airplanes), available evidence notes: proposed AD was prompted by a report of a supplier notice of escapement documenting that some titanium cargo track crown fittings had suspect material certifications [DOC_012].",
+      "related_event_ids": [
+        "BOEING-767-TITANIUM-2026-02-17"
+      ],
+      "evidence_ids": [
+        "DOC_012"
+      ],
+      "retrieved_evidence_count": 0,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [],
+      "unused_document_reasons": {},
+      "evidence_requirements": [],
+      "claim_requirement_links": [],
+      "claim_handoff_rejections": {},
+      "source_execution_status": "",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [],
+      "verification_status": "Event evidence evaluated; complete KIQ coverage not established",
+      "uncertainty_level": "MEDIUM",
+      "recommended_next_step": "Verify remaining KIQ facets before marking fully answered.",
+      "missing_information": "Specific supplier identity not disclosed in text."
+    },
+    {
+      "kiq_id": "RKIQ_001",
+      "question": "What are the current production capacity constraints or lead-time extensions for aerospace-grade titanium and specialty alloys?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "PARTIAL",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "Reviewed sources address part of this question, while specific verification items remain open. A validated source record notes that “the FAA investigated counterfeit titanium with falsified certificates originating from a Chinese state-owned forging manufacturer that had reached Boeing and Airbus supply chains.” [DOC_008]. A validated source record notes that “Western aerospace manufacturers will need 1.6 million tonnes of titanium by 2044, but supply is increasingly controlled by geopolitical rivals Russia and China.” [DOC_003]. A secondary media report on 2026-01-02 notes that ““With China using rare earth and critical metals as leverage in ongoing trade disputes, China could throttle titanium exports to disrupt Boeing and Airbus production, delay Western defence programmes, and give China’s…” [DOC_003]. Evidence establishes demonstrated impact on production or capacity, whereas latest dated, issue-specific status still require direct confirmation. Based on 4 relevant document(s) (DOC_003, DOC_005, DOC_008, DOC_010) out of 5 evaluated.",
+      "related_event_ids": [
+        "EVT_TITANIUM_COUNTERFEIT_2026_001",
+        "TITANIUM-SQUEEZE-2026-PROJBLUE"
+      ],
+      "evidence_ids": [
+        "DOC_003",
+        "DOC_005",
+        "DOC_008",
+        "DOC_010"
+      ],
+      "retrieved_evidence_count": 4,
+      "validated_evidence_count": 1,
+      "retrieved_document_ids": [
+        "DOC_003",
+        "DOC_005",
+        "DOC_008",
+        "DOC_010"
+      ],
+      "unused_document_reasons": {
+        "DOC_012": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_001_REQ_01",
+          "key": "PRODUCTION_IMPACT",
+          "required_fact": "Demonstrated impact on production or capacity",
+          "evidence_type": "PRODUCTION_OUTCOME",
+          "required_entity_model": "",
+          "required_component": "",
+          "verification_status": "VERIFIED",
+          "doc_ids": [
+            "DOC_003",
+            "DOC_005",
+            "DOC_008",
+            "DOC_010"
+          ],
+          "verified_doc_ids": [
+            "DOC_003"
+          ],
+          "preliminary_doc_ids": [
+            "DOC_005",
+            "DOC_008",
+            "DOC_010"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_003",
+              "claim": "Western aerospace manufacturers will need 1.6 million tonnes of titanium by 2044, but supply is increasingly controlled by geopolitical rivals Russia and China.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "",
+              "publication_date": "2026-01-02",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "ANALYST_ASSESSMENT",
+              "strength": "VERIFIED",
+              "source_url": "https://www.mining.com/us-must-ramp-up-titanium-capacity-to-avoid-squeeze-project-blue-founder-says/",
+              "source_hash": "",
+              "passage_hash": "",
+              "verification_reason": "ANALYST_EVENT_VALIDATION",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_003",
+              "claim": "Western aerospace manufacturers will need 1.6 million tonnes of titanium by 2...",
+              "claim_id": "DOC_003:C01",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "Western aerospace manufacturers will need 1.6 million tonnes of titanium by 2... its importance could become more evident as the conversations around defense metals evolve – and as supply chain risks are exposed.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "https://www.mining.com/us-must-ramp-up-titanium-capacity-to-avoid-squeeze-project-blue-founder-says/",
+              "extraction_method": "FR03_SEMANTIC_QUOTATION",
+              "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+              "publication_date": "2026-01-02",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://www.mining.com/us-must-ramp-up-titanium-capacity-to-avoid-squeeze-project-blue-founder-says/",
+              "source_hash": "",
+              "passage_hash": "9c1a8bb4d9261977a83688c70dcce5aeba631774752c72ced21cd21aeade5b31",
+              "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+              "claim_type": "DIRECT_ISSUE",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            },
+            {
+              "doc_id": "DOC_003",
+              "claim": "Western aerospace manufacturers will need 1.6 million tonnes of titanium by 2044, but supply is increasingly controlled by geopolitical rivals Russia and China.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_001",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "Western aerospace manufacturers will need 1.6 million tonnes of titanium by 2044, but supply is increasingly controlled by geopolitical rivals Russia and China.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PRELIMINARY",
+              "publication_date": "2026-01-02",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://www.mining.com/us-must-ramp-up-titanium-capacity-to-avoid-squeeze-project-blue-founder-says/",
+              "source_hash": "",
+              "passage_hash": "96a769bb495837ac308b9a9ccc0d21cb55d11040bed5e977d63a9da4512e0509",
+              "verification_reason": "SOURCE_VALIDATION_PENDING",
+              "claim_type": "OBSERVED",
+              "claim_state": "STATUS_UNKNOWN",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": []
+        },
+        {
+          "id": "RKIQ_001_REQ_02",
+          "key": "CURRENT_STATUS",
+          "required_fact": "Latest dated, issue-specific status",
+          "evidence_type": "DATED_STATUS",
+          "required_entity_model": "",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Latest dated, issue-specific status"
+          ]
+        }
+      ],
+      "claim_requirement_links": [
+        {
+          "claim_id": "",
+          "doc_id": "DOC_003",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "PRODUCTION_IMPACT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "VERIFIED"
+        },
+        {
+          "claim_id": "DOC_003:C01",
+          "doc_id": "DOC_003",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "PRODUCTION_IMPACT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        },
+        {
+          "claim_id": "",
+          "doc_id": "DOC_003",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "PRODUCTION_IMPACT",
+          "rkiq_id": "RKIQ_001",
+          "strength": "PRELIMINARY"
+        }
+      ],
+      "claim_handoff_rejections": {
+        "DOC_010": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_012": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "source_execution_status": "RESULTS_RETRIEVED",
+      "content_result": "STATUS_UNKNOWN",
+      "issue_status": "STATUS_UNKNOWN",
+      "evidence_trace": [
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "PRODUCTION_IMPACT",
+          "doc_id": "DOC_003",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.mining.com/us-must-ramp-up-titanium-capacity-to-avoid-squeeze-project-blue-founder-says/",
+          "original_filing_url": "https://www.mining.com/us-must-ramp-up-titanium-capacity-to-avoid-squeeze-project-blue-founder-says/",
+          "quote": "Western aerospace manufacturers will need 1.6 million tonnes of titanium by 2... its importance could become more evident as the conversations around defense metals evolve – and as supply chain risks are exposed.",
+          "source_hash": "",
+          "passage_hash": "9c1a8bb4d9261977a83688c70dcce5aeba631774752c72ced21cd21aeade5b31",
+          "extraction_method": "FR03_SEMANTIC_QUOTATION",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "DIRECT_ISSUE",
+          "verification_reason": "FR03_SOURCE_QUOTATION_VERIFIED",
+          "publication_date": "2026-01-02",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        },
+        {
+          "kiq_id": "RKIQ_001",
+          "kit_id": "",
+          "requirement_id": "RKIQ_001_REQ_01",
+          "requirement_key": "PRODUCTION_IMPACT",
+          "doc_id": "DOC_003",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://www.mining.com/us-must-ramp-up-titanium-capacity-to-avoid-squeeze-project-blue-founder-says/",
+          "original_filing_url": "",
+          "quote": "Western aerospace manufacturers will need 1.6 million tonnes of titanium by 2044, but supply is increasingly controlled by geopolitical rivals Russia and China.",
+          "source_hash": "",
+          "passage_hash": "96a769bb495837ac308b9a9ccc0d21cb55d11040bed5e977d63a9da4512e0509",
+          "extraction_method": "",
+          "passage_validation_status": "PRELIMINARY",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "claim_type": "OBSERVED",
+          "verification_reason": "SOURCE_VALIDATION_PENDING",
+          "publication_date": "2026-01-02",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        }
+      ],
+      "verification_status": "Verified 1/2 atomic facts; RESULTS_RETRIEVED",
+      "uncertainty_level": "MEDIUM",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Latest dated, issue-specific status",
+      "missing_information": "Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status"
+    },
+    {
+      "kiq_id": "RKIQ_002",
+      "question": "Are there documented quality defects or non-conformance reports involving fraudulent material certifications for aerospace titanium?",
+      "answer_status": "PARTIALLY_ANSWERED",
+      "evidence_coverage": "PARTIAL",
+      "temporal_relevance": "CURRENT_OR_ONGOING",
+      "answer": "Available reporting suggests the issue remains active, pending primary confirmation. A secondary media report on 2026-11-08 notes that “Drawing on empirical data from certified partner facilities in aerospace bar rolling, immersion ultrasonic testing, and ultra-low oxygen control, this report examines the underlying structural challenges and provides…” [DOC_005]. A validated source record notes that “certified flight-critical titanium alloys qualified for commercial aircraft primary structures... face acute bottlenecks in high-purity melting throughput and lengthy airworthiness audit pipelines.” [DOC_005]. Still needed for a complete answer: documented technical defect, durability or quality finding, evidence of the historical issue or delay, latest dated, issue-specific status. Based on 1 relevant document(s) (DOC_005) out of 5 evaluated.",
+      "related_event_ids": [
+        "EVT_TITANIUM_BOTTLENECK_2026_002"
+      ],
+      "evidence_ids": [
+        "DOC_005"
+      ],
+      "retrieved_evidence_count": 5,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [
+        "DOC_003",
+        "DOC_005",
+        "DOC_008",
+        "DOC_010",
+        "DOC_012"
+      ],
+      "unused_document_reasons": {
+        "DOC_003": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_008": "NO_MATCHING_REQUIREMENT",
+        "DOC_010": "RELATED_CONTEXT_ONLY",
+        "DOC_012": "NO_MATCHING_REQUIREMENT"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_002_REQ_01",
+          "key": "TECHNICAL_DEFECT",
+          "required_fact": "Documented technical defect, durability or quality finding",
+          "evidence_type": "TECHNICAL_FINDING",
+          "required_entity_model": "",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Documented technical defect, durability or quality finding"
+          ]
+        },
+        {
+          "id": "RKIQ_002_REQ_02",
+          "key": "HISTORICAL_DELAY",
+          "required_fact": "Evidence of the historical issue or delay",
+          "evidence_type": "HISTORICAL_ISSUE",
+          "required_entity_model": "",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Evidence of the historical issue or delay"
+          ]
+        },
+        {
+          "id": "RKIQ_002_REQ_03",
+          "key": "CURRENT_STATUS",
+          "required_fact": "Latest dated, issue-specific status",
+          "evidence_type": "DATED_STATUS",
+          "required_entity_model": "",
+          "required_component": "",
+          "verification_status": "PRELIMINARY",
+          "doc_ids": [
+            "DOC_005"
+          ],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [
+            "DOC_005"
+          ],
+          "supporting_claims": [
+            {
+              "doc_id": "DOC_005",
+              "claim": "The supply balance tilts sharply. Drawing on empirical data from certified partner facilities in aerospace bar rolling, immersion ultrasonic testing, and ultra-low oxygen control, this report examines the underlying structural challenges and provides actionable procurement guidance.",
+              "claim_id": "",
+              "kiq_id": "RKIQ_002",
+              "kit_id": "",
+              "source_id": "SRC_EXA",
+              "quote": "Drawing on empirical data from certified partner facilities in aerospace bar rolling, immersion ultrasonic testing, and ultra-low oxygen control, this report examines the underlying structural challenges and provides actionable procurement guidance.",
+              "issuer_name": "",
+              "issuer_cik": "",
+              "original_filing_url": "",
+              "extraction_method": "",
+              "passage_validation_status": "PRELIMINARY",
+              "publication_date": "2026-11-08",
+              "event_date": "",
+              "date_basis": "PUBLICATION_DATE_ONLY",
+              "authority": "SECONDARY",
+              "strength": "PRELIMINARY",
+              "source_url": "https://titaniumseller.com/news/commercial-aerospace-titanium-supply-chain-backlog-mill-qualification-2026/",
+              "source_hash": "",
+              "passage_hash": "7b9971b0a5860ba40b6771eeaaa1903d74597b2ecfcad8712954e46bba483303",
+              "verification_reason": "SOURCE_VALIDATION_PENDING",
+              "claim_type": "OBSERVED",
+              "claim_state": "ISSUE_ACTIVE",
+              "document_number": "",
+              "regulatory_stage": "",
+              "effective_date": "",
+              "effective_as_of_reference_date": null,
+              "reference_date": "",
+              "lifecycle_verified": null,
+              "supersession_status": "",
+              "applicable_variants": []
+            }
+          ],
+          "missing_information": [
+            "Independent confirmation of the preliminary claim"
+          ]
+        }
+      ],
+      "claim_requirement_links": [
+        {
+          "claim_id": "",
+          "doc_id": "DOC_005",
+          "requirement_id": "RKIQ_002_REQ_03",
+          "requirement_key": "CURRENT_STATUS",
+          "rkiq_id": "RKIQ_002",
+          "strength": "PRELIMINARY"
+        }
+      ],
+      "claim_handoff_rejections": {
+        "DOC_003": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "source_execution_status": "RESULTS_RETRIEVED",
+      "content_result": "ISSUE_REPORTED_ACTIVE",
+      "issue_status": "ISSUE_REPORTED_ACTIVE",
+      "evidence_trace": [
+        {
+          "kiq_id": "RKIQ_002",
+          "kit_id": "",
+          "requirement_id": "RKIQ_002_REQ_03",
+          "requirement_key": "CURRENT_STATUS",
+          "doc_id": "DOC_005",
+          "source_id": "SRC_EXA",
+          "issuer_name": "",
+          "issuer_cik": "",
+          "source_url": "https://titaniumseller.com/news/commercial-aerospace-titanium-supply-chain-backlog-mill-qualification-2026/",
+          "original_filing_url": "",
+          "quote": "Drawing on empirical data from certified partner facilities in aerospace bar rolling, immersion ultrasonic testing, and ultra-low oxygen control, this report examines the underlying structural challenges and provides actionable procurement guidance.",
+          "source_hash": "",
+          "passage_hash": "7b9971b0a5860ba40b6771eeaaa1903d74597b2ecfcad8712954e46bba483303",
+          "extraction_method": "",
+          "passage_validation_status": "PRELIMINARY",
+          "claim_strength": "PRELIMINARY",
+          "claim_state": "ISSUE_ACTIVE",
+          "claim_type": "OBSERVED",
+          "verification_reason": "SOURCE_VALIDATION_PENDING",
+          "publication_date": "2026-11-08",
+          "event_date": "",
+          "authority": "SECONDARY",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "reference_date": "",
+          "lifecycle_verified": null,
+          "supersession_status": "",
+          "applicable_variants": []
+        }
+      ],
+      "verification_status": "Verified 0/3 atomic facts; RESULTS_RETRIEVED",
+      "uncertainty_level": "HIGH",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Documented technical defect, durability or quality finding, Evidence of the historical issue or delay, Latest dated, issue-specific status",
+      "missing_information": "Documented technical defect, durability or quality finding: Verified source passage for: Documented technical defect, durability or quality finding; Evidence of the historical issue or delay: Verified source passage for: Evidence of the historical issue or delay; Latest dated, issue-specific status: Independent confirmation of the preliminary claim"
+    },
+    {
+      "kiq_id": "RKIQ_003",
+      "question": "What regulatory or geopolitical trade restrictions are currently impacting the export/import of aerospace titanium from primary source regions?",
+      "answer_status": "UNANSWERED",
+      "evidence_coverage": "NONE",
+      "temporal_relevance": "UNKNOWN",
+      "answer": "No relevant event matching this question was found within the searched sources. Still needed for a complete answer: latest dated, issue-specific status.",
+      "related_event_ids": [],
+      "evidence_ids": [],
+      "retrieved_evidence_count": 3,
+      "validated_evidence_count": 0,
+      "retrieved_document_ids": [
+        "DOC_005",
+        "DOC_010",
+        "DOC_012"
+      ],
+      "unused_document_reasons": {
+        "DOC_003": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_005": "NO_MATCHING_REQUIREMENT",
+        "DOC_008": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_010": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_012": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "evidence_requirements": [
+        {
+          "id": "RKIQ_003_REQ_01",
+          "key": "CURRENT_STATUS",
+          "required_fact": "Latest dated, issue-specific status",
+          "evidence_type": "DATED_STATUS",
+          "required_entity_model": "",
+          "required_component": "",
+          "verification_status": "MISSING",
+          "doc_ids": [],
+          "verified_doc_ids": [],
+          "preliminary_doc_ids": [],
+          "supporting_claims": [],
+          "missing_information": [
+            "Verified source passage for: Latest dated, issue-specific status"
+          ]
+        }
+      ],
+      "claim_requirement_links": [],
+      "claim_handoff_rejections": {
+        "DOC_003": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_008": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_010": "NO_MATCHING_INFORMATION_REQUIREMENT",
+        "DOC_012": "NO_MATCHING_INFORMATION_REQUIREMENT"
+      },
+      "source_execution_status": "RESULTS_RETRIEVED",
+      "content_result": "NO_RELEVANT_EVENT",
+      "issue_status": "NO_RELEVANT_EVENT",
+      "evidence_trace": [],
+      "verification_status": "Verified 0/1 atomic facts; RESULTS_RETRIEVED",
+      "uncertainty_level": "HIGH",
+      "recommended_next_step": "Verify missing claims in dated, directly applicable primary records: Latest dated, issue-specific status",
+      "missing_information": "Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status"
+    }
+  ],
+  "run_metadata": {
+    "run_id": "RUN-20261126-092305-C1CB9472FEE8",
+    "report_id": "RPT-20261126-988766",
+    "started_at": "2026-11-26T09:23:05Z",
+    "completed_at": "2026-11-26T09:24:35Z",
+    "run_date_utc": "2026-11-26",
+    "analysis_reference_date": "2026-11-26",
+    "reference_date_mode": "EXECUTION_DATE",
+    "collection_window_start_utc": "2025-11-26T09:23:05Z",
+    "collection_window_end_utc": "2026-11-26T09:23:05Z",
+    "status": "completed",
+    "outcome_status": "COMPLETED",
+    "processing_status": "COMPLETED",
+    "evidence_completeness_status": "PARTIAL",
+    "kiq_completion_status": "NOT_ANSWERED",
+    "kiqs_fully_answered": 0,
+    "kiqs_missing_specific_evidence": 3,
+    "kit_completion_audit": {
+      "as_of_date": "2026-11-26",
+      "questions": [
+        {
+          "kiq_id": "RKIQ_001",
+          "question": "What are the current production capacity constraints or lead-time extensions for aerospace-grade titanium and specialty alloys?",
+          "answer_status": "PARTIALLY_ANSWERED",
+          "content_result": "STATUS_UNKNOWN",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "CURRENT_STATUS",
+              "missing_information": [
+                "Verified source passage for: Latest dated, issue-specific status"
+              ]
+            }
+          ],
+          "missing_information": "Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status",
+          "source_execution_status": "RESULTS_RETRIEVED",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 1,
+          "latest_evidence_date": "2026-11-08",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        },
+        {
+          "kiq_id": "RKIQ_002",
+          "question": "Are there documented quality defects or non-conformance reports involving fraudulent material certifications for aerospace titanium?",
+          "answer_status": "PARTIALLY_ANSWERED",
+          "content_result": "ISSUE_REPORTED_ACTIVE",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "TECHNICAL_DEFECT",
+              "missing_information": [
+                "Verified source passage for: Documented technical defect, durability or quality finding"
+              ]
+            },
+            {
+              "key": "HISTORICAL_DELAY",
+              "missing_information": [
+                "Verified source passage for: Evidence of the historical issue or delay"
+              ]
+            },
+            {
+              "key": "CURRENT_STATUS",
+              "missing_information": [
+                "Independent confirmation of the preliminary claim"
+              ]
+            }
+          ],
+          "missing_information": "Documented technical defect, durability or quality finding: Verified source passage for: Documented technical defect, durability or quality finding; Evidence of the historical issue or delay: Verified source passage for: Evidence of the historical issue or delay; Latest dated, issue-specific status: Independent confirmation of the preliminary claim",
+          "source_execution_status": "RESULTS_RETRIEVED",
+          "temporal_relevance": "CURRENT_OR_ONGOING",
+          "validated_evidence_count": 0,
+          "latest_evidence_date": "2026-11-08",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        },
+        {
+          "kiq_id": "RKIQ_003",
+          "question": "What regulatory or geopolitical trade restrictions are currently impacting the export/import of aerospace titanium from primary source regions?",
+          "answer_status": "UNANSWERED",
+          "content_result": "NO_RELEVANT_EVENT",
+          "complete": false,
+          "missing_evidence": [
+            {
+              "key": "CURRENT_STATUS",
+              "missing_information": [
+                "Verified source passage for: Latest dated, issue-specific status"
+              ]
+            }
+          ],
+          "missing_information": "Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status",
+          "source_execution_status": "RESULTS_RETRIEVED",
+          "temporal_relevance": "UNKNOWN",
+          "validated_evidence_count": 0,
+          "latest_evidence_date": "",
+          "evidence_after_as_of_date": [],
+          "missing_source_doc_ids": []
+        }
+      ],
+      "total": 3,
+      "complete": 0,
+      "missing": 3,
+      "unavailable_sources": [],
+      "unsearched_requests": [],
+      "status": "NOT_ANSWERED"
+    },
+    "planner_status": "REPAIRED",
+    "collection_mode": "agentic_exa",
+    "acquisition_trace": {
+      "collection_id": "COL_9A694C",
+      "kit": "Aerospace titanium and specialty alloy raw material supply risks",
+      "collection_mode": "agentic_exa",
+      "search_objective": "Identify aerospace titanium and specialty alloy supply risks, focusing on lead-time extensions, fraudulent material certifications, and geopolitical trade restrictions for the 2025-2026 period.",
+      "queries_executed": 4,
+      "exa_calls_executed": 2,
+      "sources_used": [
+        "Exa Semantic Search",
+        "News API"
+      ],
+      "documents_found": 17,
+      "primary_documents": 2,
+      "secondary_documents": 15,
+      "full_text_documents": 12,
+      "metadata_only_documents": 1,
+      "unresolved_requirements": [
+        "Specific batch or heat numbers for non-compliant titanium identified by regulators (only general 2024 investigation references found).",
+        "Official government notices for specific 2026 tariff exemptions or trade blocks (secondary reports on VSMPO chokepoints exist, but primary regulatory text is missing).",
+        "Direct lead-time data for Inconel and Cobalt-chrome specifically (results heavily skewed toward Titanium)."
+      ],
+      "collection_status": "PARTIAL_SUCCESS",
+      "next_action": "Execute targeted search for Inconel and Cobalt-chrome lead times and query SEC EDGAR specifically for 2026 10-K/Q filings of ATI and Howmet to extract precise lead-time deltas.",
+      "agent_rationale": "Initial Exa and News searches successfully identified 2026 titanium lead-time trends and general certification fraud risks. However, primary regulatory confirmation was limited by platform availability, and specialty alloys (Inconel/Cobalt-chrome) were under-represented compared to titanium.",
+      "steps": [
+        {
+          "step": 1,
+          "tool": "search_corporate_filings",
+          "query": "ATI VSMPO titanium supply chain lead times specialty alloys",
+          "status": "NO_MATCH",
+          "new_doc_count": 0,
+          "new_doc_ids": [],
+          "elapsed_sec": 2.71,
+          "calls_used": 3,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 2,
+          "tool": "exa_semantic_search",
+          "query": "aerospace titanium lead times and specialty alloy production capacity constraints 2025 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 6,
+          "new_doc_ids": [
+            "DOC_001",
+            "DOC_002",
+            "DOC_003",
+            "DOC_004",
+            "DOC_005",
+            "DOC_006"
+          ],
+          "elapsed_sec": 4.19,
+          "calls_used": 4,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 3,
+          "tool": "exa_semantic_search",
+          "query": "fraudulent titanium material certifications aerospace non-conformance reports 2024 2025",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 6,
+          "new_doc_ids": [
+            "DOC_007",
+            "DOC_008",
+            "DOC_009",
+            "DOC_010",
+            "DOC_011",
+            "DOC_012"
+          ],
+          "elapsed_sec": 5.48,
+          "calls_used": 4,
+          "exa_calls_used": 2,
+          "note": ""
+        },
+        {
+          "step": 4,
+          "tool": "search_media_and_social",
+          "query": "[news] aerospace titanium supply risk sanctions 2026",
+          "status": "RESULTS_RETRIEVED",
+          "new_doc_count": 17,
+          "new_doc_ids": [
+            "DOC_001",
+            "DOC_002",
+            "DOC_003",
+            "DOC_004",
+            "DOC_005",
+            "DOC_006",
+            "DOC_007",
+            "DOC_008",
+            "DOC_009",
+            "DOC_010",
+            "DOC_011",
+            "DOC_012",
+            "DOC_013",
+            "DOC_014",
+            "DOC_015",
+            "DOC_016",
+            "DOC_017"
+          ],
+          "elapsed_sec": 11.79,
+          "calls_used": 4,
+          "exa_calls_used": 2,
+          "note": ""
+        }
+      ],
+      "budget_summary": {
+        "calls_made": 4,
+        "max_total_calls": 10,
+        "remaining_total_calls": 6,
+        "exa_calls_made": 2,
+        "max_exa_calls": 4,
+        "remaining_exa_calls": 2,
+        "elapsed_sec": 15.19,
+        "max_seconds": 180,
+        "remaining_seconds": 164.8,
+        "steps_recorded": 4
+      },
+      "fallback_used": false,
+      "llm_tokens_in": 8658,
+      "llm_tokens_out": 583
+    },
+    "phase_checkpoints": {
+      "planner": "REPAIRED",
+      "collection": "PASS",
+      "fr03": "PASS",
+      "analyst": "PASS",
+      "qa": "COMPLETED",
+      "kiq": "NOT_ANSWERED",
+      "editor": "COMPLETED",
+      "scoring": "COMPLETED",
+      "reporting": "VALIDATED"
+    },
+    "evidence_flow_audit": {
+      "documents": [
+        {
+          "doc_id": "DOC_001",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_002",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_003",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 2,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_004",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_005",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_006",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_007",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_008",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_009",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_010",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_011",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_012",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": true,
+            "CLAIMS_EXTRACTED": true,
+            "CLAIMS_VALIDATED": true,
+            "KIQ_EVALUATED": true,
+            "KIQ_LINKED": true,
+            "REPORT_REFERENCED": true,
+            "REPORT_USED": true,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "NONE",
+          "interruption_reason": "NONE",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_USED",
+          "validated_claim_count": 1,
+          "primary_source": true
+        },
+        {
+          "doc_id": "DOC_013",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_014",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_015",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_016",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        },
+        {
+          "doc_id": "DOC_017",
+          "stages": {
+            "COLLECTED": true,
+            "FILTER_ACCEPTED": false,
+            "CLAIMS_EXTRACTED": false,
+            "CLAIMS_VALIDATED": false,
+            "KIQ_EVALUATED": false,
+            "KIQ_LINKED": false,
+            "REPORT_REFERENCED": false,
+            "REPORT_USED": false,
+            "REPORT_NOT_USED": false,
+            "NOT_APPLICABLE": false
+          },
+          "gap": "FILTER_REJECTED",
+          "interruption_reason": "FILTER_REJECTED",
+          "expected_interruption": true,
+          "potential_analytical_loss": false,
+          "handoff_error": null,
+          "kiq_non_link_reason": null,
+          "report_usage": "REPORT_NOT_USED",
+          "validated_claim_count": 0,
+          "primary_source": false
+        }
+      ],
+      "stage_counts": {
+        "COLLECTED": 17,
+        "FILTER_ACCEPTED": 5,
+        "CLAIMS_EXTRACTED": 5,
+        "CLAIMS_VALIDATED": 5,
+        "KIQ_EVALUATED": 5,
+        "KIQ_LINKED": 5,
+        "NOT_APPLICABLE": 0,
+        "REPORT_REFERENCED": 5,
+        "REPORT_USED": 5,
+        "REPORT_NOT_USED": 0
+      },
+      "unlinked_accepted_document_ids": [],
+      "unreferenced_validated_document_ids": [],
+      "potential_analytical_loss_ids": [],
+      "handoff_error_ids": [],
+      "validated_claim_counts": {
+        "DOC_001": 0,
+        "DOC_002": 0,
+        "DOC_003": 2,
+        "DOC_004": 0,
+        "DOC_005": 1,
+        "DOC_006": 0,
+        "DOC_007": 0,
+        "DOC_008": 1,
+        "DOC_009": 0,
+        "DOC_010": 1,
+        "DOC_011": 0,
+        "DOC_012": 1,
+        "DOC_013": 0,
+        "DOC_014": 0,
+        "DOC_015": 0,
+        "DOC_016": 0,
+        "DOC_017": 0
+      }
+    },
+    "evidence_integrity_issues": [],
+    "source_provenance_missing_ids": [],
+    "kiq_unlinked_extracted_document_ids": [],
+    "kiq_handoff_error_document_ids": [],
+    "kiq_handoff_contract_errors": {},
+    "editor_kiq_context_error": null,
+    "editor_evidence_citation_document_ids": [],
+    "query": "Aerospace titanium and specialty alloy raw material supply risks",
+    "experiment": {
+      "dataset_run_id": "RUN-20261126-092305-C1CB9472FEE8",
+      "replay_run_id": null,
+      "collection_mode": "agentic_exa",
+      "qa_enabled": true,
+      "harness_enabled": true,
+      "keyword_baseline": false,
+      "dataset_sha256": "e0a12beaefd2808b960c04e927e4eafdc72f9f8164b9b533ed2fbc328ae94c30",
+      "replay_uses_live_llm": false
+    },
+    "analysis_scope": "365d",
+    "effective_from": "2025-11-26T09:23:05Z",
+    "effective_to": "2026-11-26T09:23:05Z",
+    "as_of_date": "2026-11-26",
+    "documents_collected": 17,
+    "historical_resolutions": [],
+    "historical_resolution_count": 0,
+    "temporal_claim_audit": [
+      {
+        "event_id": "EVT_TITANIUM_COUNTERFEIT_2026_001",
+        "entity": "Boeing",
+        "program": "Unknown / Not specified in source",
+        "component": "Unknown / Not specified in source",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-07-15",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-26",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "EVT_TITANIUM_BOTTLENECK_2026_002",
+        "entity": "Airbus",
+        "program": "A320 family",
+        "component": "Unknown / Not specified in source",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-11-08",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-26",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "BAOJI-FRAUD-2024-REF-2026",
+        "entity": "Baoji Titanium Industry",
+        "program": "Unknown / Not specified in source",
+        "component": "Titanium Plate",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-07-27",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-26",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "TITANIUM-SQUEEZE-2026-PROJBLUE",
+        "entity": "Unknown",
+        "program": "Unknown / Not specified in source",
+        "component": "Unknown / Not specified in source",
+        "issue": "PRODUCTION",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-01-02",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-26",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      },
+      {
+        "event_id": "BOEING-767-TITANIUM-2026-02-17",
+        "entity": "The Boeing Company",
+        "program": "767-300F series airplanes",
+        "component": "Titanium cargo track crown fittings",
+        "issue": "CERTIFICATION",
+        "historical_claim_status": "HISTORICALLY_SUPPORTED",
+        "original_date": "2026-02-17",
+        "chronology_status": "CURRENT_STATUS_UNKNOWN",
+        "current_status": "STATUS_UNKNOWN",
+        "as_of_date": "2026-11-26",
+        "latest_evidence_id": null,
+        "latest_evidence_url": null,
+        "latest_evidence_date": null,
+        "latest_verification": "UNVERIFIED",
+        "unresolved_downstream_issues": [],
+        "claims": [],
+        "fully_resolved": false
+      }
+    ],
+    "document_content_status_counts": {
+      "FULL_TEXT": 12,
+      "FULL_TEXT_RETRIEVED": 0,
+      "METADATA_ONLY": 1,
+      "PARTIAL_TEXT": 4,
+      "SOURCE_METADATA_ONLY": 0,
+      "SOURCE_POLICY_RESTRICTED": 0,
+      "STRUCTURED_DATA": 0,
+      "SUMMARY_ONLY": 0,
+      "TEXT_COMPLETENESS_UNVERIFIED": 0,
+      "TEXT_RETRIEVED_COMPLETENESS_UNVERIFIED": 0,
+      "TRANSCRIPT_AS_RECEIVED": 0,
+      "UNAVAILABLE": 0,
+      "UNKNOWN": 0
+    },
+    "unknown_content_statuses": [],
+    "telemetry_errors": [],
+    "telemetry_integrity_ok": true,
+    "content_limited_document_ids": [
+      "DOC_001",
+      "DOC_002",
+      "DOC_003",
+      "DOC_004",
+      "DOC_005",
+      "DOC_006",
+      "DOC_007",
+      "DOC_008",
+      "DOC_009",
+      "DOC_010",
+      "DOC_011",
+      "DOC_012",
+      "DOC_013",
+      "DOC_014",
+      "DOC_015",
+      "DOC_016"
+    ],
+    "documents_analyzed": 5,
+    "documents_rejected": 12,
+    "documents_failed": 0,
+    "analysis_phase_status": "COMPLETED",
+    "analysis_recovery_budget": {
+      "time_budget_sec": 600,
+      "max_retries": 8,
+      "max_calls": 11,
+      "retries": 0,
+      "calls": 3,
+      "blocked": ""
+    },
+    "analyzed_document_ids": [
+      "DOC_003",
+      "DOC_005",
+      "DOC_008",
+      "DOC_010",
+      "DOC_012"
+    ],
+    "failed_document_ids": [],
+    "recovered_document_ids": [],
+    "partially_analyzed_document_ids": [],
+    "documents_recovered": 0,
+    "analyst_batch_document_counts": [
+      2,
+      2,
+      1
+    ],
+    "analyst_recovery_splits": 0,
+    "analyst_retry_counts_by_reason": {
+      "PROVIDER_INTERNAL_RETRY": 0
+    },
+    "batches_created": 3,
+    "batches_succeeded": 3,
+    "batches_failed": 0,
+    "planning_duration_sec": 5.97,
+    "collection_duration_sec": 15.21,
+    "filter_duration_sec": 21.97,
+    "analysis_duration_sec": 34.79,
+    "qa_duration_sec": 5.33,
+    "editorial_duration_sec": 6.08,
+    "scoring_duration_sec": 0.0,
+    "scoring_status": "COMPLETED",
+    "scoring_methodology": {
+      "version": "IW-5FACTOR-DET-V1",
+      "method": "DETERMINISTIC_5_FACTOR_IW",
+      "scale": "F1-F5 rated 1..5; final threat_score 1..10",
+      "formula": "S = clamp(floor(sum(w_i * F_i) * 2 + 0.5), 1, 10)",
+      "weights": {
+        "impact_severity": 0.3,
+        "supplier_criticality": 0.2,
+        "substitutability_difficulty": 0.15,
+        "propagation_scope": 0.15,
+        "temporal_urgency": 0.2
+      },
+      "bands": {
+        "monitored": "1-4",
+        "elevated": "5-7",
+        "high_potential_impact": "8-10"
+      },
+      "severity_independent_of_confidence": true
+    },
+    "scoring_partial_fallback_ids": [],
+    "scoring_audit": [
+      {
+        "event_id": "EVT_TITANIUM_COUNTERFEIT_2026_001",
+        "provisional_score": 8,
+        "computed_score": 8,
+        "final_score": 8,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(4.10 * 2) = 8/10",
+        "weighted_sum": 4.1,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 4,
+            "weight": 0.3,
+            "weighted_contribution": 1.2,
+            "rationale": "Potential for structural failure in critical components if material specs are unmet."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "China dominates global titanium sponge and milling capacity."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "Replacing installed flight-critical components is extremely difficult and costly."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "Reached both major global OEMs; potentially hundreds of aircraft affected since 2019."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 3,
+            "weight": 0.2,
+            "weighted_contribution": 0.6,
+            "rationale": "Historical issue with ongoing investigative and audit impacts in 2026."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (134 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (8/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 8,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "MEDIUM",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-07-15",
+        "source_age_days": 134
+      },
+      {
+        "event_id": "EVT_TITANIUM_BOTTLENECK_2026_002",
+        "provisional_score": 7,
+        "computed_score": 8,
+        "final_score": 8,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.90 * 2) = 8/10",
+        "weighted_sum": 3.9,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 3,
+            "weight": 0.3,
+            "weighted_contribution": 0.9,
+            "rationale": "Limits ability to meet delivery backlogs for high-demand programs like A320."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 5,
+            "weight": 0.2,
+            "weighted_contribution": 1.0,
+            "rationale": "Milling and qualification nodes are mandatory for airworthiness compliance."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Certified aerospace-qualified mills are high-barrier nodes with few alternatives."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 4,
+            "weight": 0.15,
+            "weighted_contribution": 0.6,
+            "rationale": "Affects multiple critical systems: landing gear, engines, and primary structures."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "Bottlenecks are active and colliding with 2026-2027 ramp-up schedules."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Source publication was 18 day(s) before the reference date. Publication recency alone does not prove a new incident or immediate urgency.",
+        "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (8/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 8,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "MEDIUM",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-11-08",
+        "source_age_days": 18
+      },
+      {
+        "event_id": "BAOJI-FRAUD-2024-REF-2026",
+        "provisional_score": 6,
+        "computed_score": 7,
+        "final_score": 7,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.60 * 2) = 7/10",
+        "weighted_sum": 3.6,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 4,
+            "weight": 0.3,
+            "weighted_contribution": 1.2,
+            "rationale": "Fraudulent certificates threaten structural integrity, though previous tests showed no compromise."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "Baoji is a primary global producer; its identity was used for fraud."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Aerospace-grade titanium has few substitutes; identifying legitimate sources is complex."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "Affected both major OEMs (Boeing/Airbus) and multiple global distributors."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 2,
+            "weight": 0.2,
+            "weighted_contribution": 0.4,
+            "rationale": "The specific event is historical (2024), but verification risk is ongoing."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (122 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: ELEVATED (7/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 7,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "MEDIUM",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "Tier 3 (Raw Materials)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-07-27",
+        "source_age_days": 122
+      },
+      {
+        "event_id": "TITANIUM-SQUEEZE-2026-PROJBLUE",
+        "provisional_score": 7,
+        "computed_score": 9,
+        "final_score": 9,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(4.40 * 2) = 9/10",
+        "weighted_sum": 4.4,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 5,
+            "weight": 0.3,
+            "weighted_contribution": 1.5,
+            "rationale": "Strategic metals are essential for defense and aerospace with few substitutes."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "Supply is increasingly concentrated in Russia and China."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "Titanium has a unique strength-to-weight ratio with few industrial substitutes."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 5,
+            "weight": 0.15,
+            "weighted_contribution": 0.75,
+            "rationale": "Affects all Western aerospace manufacturers relying on global titanium supply."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 3,
+            "weight": 0.2,
+            "weighted_contribution": 0.6,
+            "rationale": "Forecasted for 2044, but risks are described as currently evolving."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "POTENTIAL IMPACT ONLY. Specific operational and causal impacts were not established by the validated evidence.",
+        "supplier_criticality": "Supplier dependency / substitutability assessment remains unverified unless independently supported by a source.",
+        "temporal_urgency": "Historical source (328 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Potential severity: HIGH POTENTIAL IMPACT (9/10). The source claim is supported, but specific causes and downstream consequences are not independently established.",
+        "post_harness_score": 9,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "LOW",
+        "post_harness_evidence_warning": "PROVISIONAL ASSESSMENT: Do not interpret potential severity as a verified incident or established causal effect.",
+        "scm_tier": "Unknown (Verification Required)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-01-02",
+        "source_age_days": 328
+      },
+      {
+        "event_id": "BOEING-767-TITANIUM-2026-02-17",
+        "provisional_score": 6,
+        "computed_score": 7,
+        "final_score": 7,
+        "scoring_method": "DETERMINISTIC_5_FACTOR_IW",
+        "scoring_version": "IW-5FACTOR-DET-V1",
+        "scoring_source": "DETERMINISTIC_5_FACTOR_IW",
+        "formula": "S = round(3.50 * 2) = 7/10",
+        "weighted_sum": 3.5,
+        "weights": {
+          "impact_severity": 0.3,
+          "supplier_criticality": 0.2,
+          "substitutability_difficulty": 0.15,
+          "propagation_scope": 0.15,
+          "temporal_urgency": 0.2
+        },
+        "factors": {
+          "impact_severity": {
+            "code": "F1",
+            "label": "Impact Severity",
+            "score": 4,
+            "weight": 0.3,
+            "weighted_contribution": 1.2,
+            "rationale": "Proposed AD addresses an 'unsafe condition' that could require component replacement."
+          },
+          "supplier_criticality": {
+            "code": "F2",
+            "label": "Supplier Criticality",
+            "score": 4,
+            "weight": 0.2,
+            "weighted_contribution": 0.8,
+            "rationale": "Source of escapement is a Tier 2/3 material supplier; critical for structural integrity."
+          },
+          "substitutability_difficulty": {
+            "code": "F3",
+            "label": "Substitutability Difficulty",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Titanium cargo fittings are specialized aerospace components; replacement parts rely on OEM supply."
+          },
+          "propagation_scope": {
+            "code": "F4",
+            "label": "Propagation Scope",
+            "score": 3,
+            "weight": 0.15,
+            "weighted_contribution": 0.45,
+            "rationale": "Specific to 767-300F series; extent of other Boeing programs is unverified."
+          },
+          "temporal_urgency": {
+            "code": "F5",
+            "label": "Temporal Urgency",
+            "score": 3,
+            "weight": 0.2,
+            "weighted_contribution": 0.6,
+            "rationale": "Proposed rule indicates active regulatory scrutiny but not an immediate grounding mandate."
+          }
+        },
+        "cap_applied": null,
+        "impact_assessment": "F1 (4/5): Proposed AD addresses an 'unsafe condition' that could require component replacement.",
+        "supplier_criticality": "F2 (4/5): Source of escapement is a Tier 2/3 material supplier; critical for structural integrity. | F3 (3/5): Titanium cargo fittings are specialized aerospace components; replacement parts rely on OEM supply.",
+        "temporal_urgency": "Historical source (282 days before reference date). Current operational urgency is not established by this document.",
+        "score_rationale": "Deterministic 5-factor I&W score 7/10 (S = round(3.50 * 2) = 7/10). Primary drivers: F1 Impact Severity (4/5, w=0.30), F2 Supplier Criticality (4/5, w=0.20). Potential severity only; evidence validation is evaluated separately.",
+        "post_harness_score": 7,
+        "post_harness_validation_status": "SUPPORTED",
+        "post_harness_confidence_level": "HIGH",
+        "post_harness_evidence_warning": "Source-supported claim. Independent corroboration status: SINGLE_PRIMARY_SOURCE",
+        "scm_tier": "OEM (Final Assembler)",
+        "factor_evidence_status": "SOURCE_SUPPORTED",
+        "confirmed_critical_eligible": false,
+        "source_publication_time": "2026-02-17",
+        "source_age_days": 282
+      }
+    ],
+    "total_duration_sec": 89.53,
+    "llm_calls": 11,
+    "llm_retries": 0,
+    "tokens_input": 84666,
+    "tokens_output": 15674,
+    "token_usage_status": "MEASURED",
+    "token_usage_unknown_calls": 0,
+    "llm_call_audit": [
+      {
+        "task_type": "PHASE_1_PLANNER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 1542,
+        "output_tokens": 776,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_2_ACQUISITION",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 8658,
+        "output_tokens": 583,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2730,
+        "output_tokens": 1145,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2721,
+        "output_tokens": 1413,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2531,
+        "output_tokens": 1022,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "FR03_SEMANTIC_FILTER",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 1452,
+        "output_tokens": 335,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_1_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 18290,
+        "output_tokens": 3389,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_2_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 18394,
+        "output_tokens": 3102,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "BATCH_3_D0_A0",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 15218,
+        "output_tokens": 1912,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_3B_QA",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 10383,
+        "output_tokens": 1087,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      },
+      {
+        "task_type": "PHASE_4_EDITOR",
+        "attempt": 1,
+        "status": "SUCCESS",
+        "model": "openrouter/google/gemini-3-flash-preview",
+        "provider": "openrouter",
+        "usage_method": "LLM_DELTA",
+        "usage_status": "MEASURED",
+        "input_tokens": 2747,
+        "output_tokens": 910,
+        "provider_requests": "UNKNOWN",
+        "error_type": null
+      }
+    ],
+    "analyst_recovery_audit": {
+      "attempts": [],
+      "fallbacks": [],
+      "recent_events": []
+    },
+    "token_accounting_method": "LLM_CALL_AUDIT_MEASURED",
+    "provider_requests_measured": 11,
+    "estimated_cost_usd": 0.08935,
+    "estimated_cost_status": "ESTIMATED",
+    "priced_cost_subtotal_usd": 0.08935,
+    "model_cost_audit": [
+      {
+        "model_id": "openrouter/google/gemini-3-flash-preview",
+        "usage_bucket": "openrouter/google/gemini-3-flash-preview",
+        "input_tokens": 84666,
+        "output_tokens": 15674,
+        "requests": 11,
+        "estimated_cost_usd": 0.08935,
+        "pricing_status": "ESTIMATED"
+      }
+    ],
+    "cost_estimation_reason_codes": [],
+    "unmatched_cost_model_ids": [],
+    "model_id": "openrouter/google/gemini-3-flash-preview",
+    "prompt_version": "v2.10-CI-HRO-2026-EVIDENCE-SCOPE",
+    "kiq_catalog_version": "THESIS_KIQ_CATALOG_V2_20261031",
+    "candidate_schema_rejections": 0,
+    "qa_failed": false,
+    "qa_performed": true,
+    "harness_performed": true,
+    "editor_failed": false,
+    "editorial_generation_mode": "LLM_TEXT_PYDANTIC_V1",
+    "editor_text_parsed_count": 2,
+    "editor_text_fallbacks": 2,
+    "editor_retry_count": 0,
+    "editor_retry_recovered": false,
+    "editor_fallback_used": true,
+    "pipeline_degraded": false,
+    "degradation_category": "NONE",
+    "source_coverage_issues": [],
+    "source_coverage_limited": true,
+    "source_coverage_advisories": [
+      {
+        "connector": "Official Industry PR",
+        "issue": "NO_APPROVED_MANUFACTURER_CONNECTOR"
+      },
+      {
+        "connector": "Exa Semantic Search",
+        "issue": "exa_type=auto; duplicates_skipped=0; include_domains=ALL"
+      },
+      {
+        "connector": "News API",
+        "issue": "STAGES=EXACT; NEWSAPI_COVERAGE=PARTIAL_WINDOW; requested_days=365.0; searchable_days=29.0; archive_limit_days=29; SEARCH_STATUS=RESULTS_RETRIEVED"
+      }
+    ],
+    "source_coverage_status": "PARTIAL",
+    "source_coverage_legacy_status": "LIMITED",
+    "evidence_result_status": "SUPPORTED_EVENTS",
+    "review_scope": "EVENT_REVIEW",
+    "analysis_issues": [],
+    "fr03_rejection_review_candidates": 8,
+    "fr03_rejection_stage_counts": {
+      "STAGE_1_CONTENT_QUALITY": 1,
+      "STAGE_2_SEMANTIC": 11
+    },
+    "scoring_calibration": "UNMEASURED_REQUIRES_EXPERT_REFERENCE_LABELS",
+    "semantic_filter_unavailable_count": 0,
+    "semantic_filter_missing_ids": [],
+    "analyst_valid_empty_batches": 0,
+    "analyst_invalid_batches": 0,
+    "analyst_empty_retry_count": 0,
+    "analyst_empty_retry_failed_batches": 0,
+    "analyst_empty_output_conflict": false,
+    "analyst_empty_conflict_previous_run": null,
+    "analyst_output_audit": [
+      {
+        "batch": 1,
+        "depth": 0,
+        "document_ids": [
+          "DOC_008",
+          "DOC_005"
+        ],
+        "documents_processed": 2,
+        "candidate_count": 2,
+        "rejected_count": 0,
+        "output_chars": 12426,
+        "output_tokens": 3389,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 2,
+        "depth": 0,
+        "document_ids": [
+          "DOC_010",
+          "DOC_003"
+        ],
+        "documents_processed": 2,
+        "candidate_count": 2,
+        "rejected_count": 0,
+        "output_chars": 11249,
+        "output_tokens": 3102,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      },
+      {
+        "batch": 3,
+        "depth": 0,
+        "document_ids": [
+          "DOC_012"
+        ],
+        "documents_processed": 1,
+        "candidate_count": 1,
+        "rejected_count": 0,
+        "output_chars": 6792,
+        "output_tokens": 1912,
+        "initial_empty": false,
+        "empty_reason": null,
+        "empty_retry_status": "NOT_NEEDED",
+        "result": "CANDIDATES_EXTRACTED",
+        "recovered": false
+      }
+    ],
+    "confirmed_critical_count": 0,
+    "unverified_signal_count": 0,
+    "displayable_signal_count": 5,
+    "verified_context_count": 0,
+    "direct_kit_confirmed_count": 5,
+    "verified_context_event_ids": [],
+    "classification_version": "SUPPORTED_ONLY_DASHBOARD_V3_EVENT_ID_1TO1",
+    "runtime_kiq_count": 3,
+    "runtime_kiq_ids": [
+      "RKIQ_001",
+      "RKIQ_002",
+      "RKIQ_003"
+    ],
+    "runtime_kiq_answered": 0,
+    "runtime_kiq_partially_answered": 2,
+    "runtime_kiq_unanswered": 1,
+    "runtime_kiq_not_searched": 0,
+    "intelligence_methodology": {
+      "collection_method": "OSINT",
+      "analysis_method": "Competitive Intelligence",
+      "osint_document_count": 17,
+      "ci_candidate_count": 5,
+      "osint_stage": "Acquisition and preprocessing of publicly available information.",
+      "ci_stage": "Interpretation of collected evidence against KIT/KIQ requirements, strategic risks, competitive implications and decision needs.",
+      "methodological_boundary": "A retrieved source is OSINT evidence. It becomes an intelligence assessment only after analytical interpretation and validation.",
+      "independent_verification_required": true
+    },
+    "editor_claim_audit": {
+      "status": "PASS",
+      "all_supported": true,
+      "citations_match": true,
+      "checks": {
+        "doc_id_exists": true,
+        "passages_match": true,
+        "event_references_valid": true,
+        "urls_valid": true
+      },
+      "claim_sentences_checked": 31,
+      "cited_document_ids": [
+        "DOC_003",
+        "DOC_005",
+        "DOC_008",
+        "DOC_010",
+        "DOC_012"
+      ],
+      "issues": [],
+      "review_items": [],
+      "audit_method": "DETERMINISTIC_PROVENANCE_ONLY"
+    },
+    "editor_executive_summary": "This assessment reviews aerospace titanium supply chain integrity and availability based on five secondary reports spanning January to November 2026. The evidence indicates a dual-track risk environment: long-term geopolitical supply constraints and immediate technical quality concerns regarding material certification. A January 2026 report highlights that Western manufacturers will require 1.6 million tonnes of titanium by 2044, noting that supply is increasingly controlled by geopolitical rivals who could \"throttle titanium exports to disrupt Boeing and Airbus production\" [DOC_003]. Concurrently, technical quality risks surfaced in July 2026 reports citing a Forbes investigation into counterfeit titanium documentation affecting Boeing and Airbus supply chains [DOC_008]. While a 2024 reference to Baoji Titanium Industry suggests historical fraud did not compromise airworthiness [DOC_010], a February 2026 report specifically identifies titanium quality issues in the Boeing 767-300F series [DOC_012]. The reliability of these findings is limited by the secondary nature of the sources, which include commercial sourcing guides and blogs rather than primary FAA or EASA directives. Management should prioritize verifying the current airworthiness status of 767-300F components and auditing the certification pedigree of recent titanium intakes.",
+    "editor_detailed_analytical_assessment": "The current titanium landscape is characterized by high structural demand met with increasing regulatory and geopolitical friction. Analytically, the most pressing concern is the reported documentation fraud. According to [DOC_008], an investigation was launched into titanium sold with \"falsified documents\" to Spirit AeroSystems, potentially impacting both Boeing and Airbus programs. This is corroborated by a specific mention of the Boeing 767-300F series in February 2026, where technical quality risks were identified [DOC_012]. However, the scope of this impact remains an open question; while [DOC_008] suggests a global supply chain issue, the source is a commercial sourcing guide rather than a regulatory body, and the \"2026\" date may be a trailing report of 2024 industry events.\n\nRegarding supply availability, [DOC_005] reports on \"underlying structural challenges\" in aerospace bar rolling and ultrasonic testing as of November 2026, though it lacks specific lead-time data to quantify a bottleneck. This technical friction overlaps with geopolitical risks cited in [DOC_003], which warns that China’s control over critical metals could be used as leverage in trade disputes. The analytical takeaway is that while total volume may exist, the \"certified\" supply is constricted by both quality-control failures and potential export restrictions.\n\nSignificant data gaps persist. There is no primary evidence from the FAA or EASA in the current batch to confirm the \"counterfeit\" claims or to mandate specific groundings. Furthermore, the resolution of the Baoji Titanium Industry fraud [DOC_010] suggests that historical documentation issues do not always equate to structural failure, yet this does not mitigate the legal and safety-assurance burden for current production. Management must distinguish between the long-term strategic risk of Chinese supply dependency and the immediate tactical risk of uncertified parts currently in the assembly line.",
+    "editor_validation_status": "PASS",
+    "editor_claim_citations_verified": true,
+    "editor_semantic_review_required": false,
+    "kit_current_assessment": {
+      "status": "DOCUMENTED_REGULATORY_ACTION",
+      "source_coverage": "INCOMPLETE",
+      "as_of_date": "2026-11-26",
+      "search_overview": {
+        "connectors_searched": [
+          "Official Industry PR",
+          "XBRL International ESEF Filing Index",
+          "Exa Semantic Search",
+          "News API"
+        ],
+        "connectors_with_results": [
+          "Exa Semantic Search",
+          "News API"
+        ],
+        "documents_collected": 17,
+        "documents_analyzed": 5,
+        "documents_rejected": 12,
+        "events_identified": 5,
+        "supported_events": 5,
+        "primary_supported_events": 1
+      },
+      "issue_status": "DOCUMENTED",
+      "regulator_verification": "UNAVAILABLE",
+      "source_authority": "NOT_ESTABLISHED",
+      "coverage_status": "PARTIAL",
+      "severity_context": "POTENTIAL",
+      "potential_severity": 9,
+      "evidence_confidence": "HIGH",
+      "chronological_milestones": [],
+      "conflicts": [],
+      "monitored_kit": "Aerospace titanium and specialty alloy raw material supply risks",
+      "original_issue": "Aerospace titanium and specialty alloy raw material supply risks",
+      "latest_milestone": "NOT_ESTABLISHED",
+      "latest_milestone_date": "",
+      "latest_evidence_id": "",
+      "latest_evidence_url": "",
+      "latest_verification": "UNVERIFIED",
+      "unresolved_questions": [
+        "Latest dated, issue-specific status: Verified source passage for: Latest dated, issue-specific status",
+        "Documented technical defect, durability or quality finding: Verified source passage for: Documented technical defect, durability or quality finding; Evidence of the historical issue or delay: Verified source passage for: Evidence of the historical issue or delay; Latest dated, issue-specific status: Independent confirmation of the preliminary claim"
+      ],
+      "severity": 7,
+      "confidence": "HIGH",
+      "evidence_strength": "MIXED",
+      "reported_developments": [
+        {
+          "event_id": "EVT_TITANIUM_COUNTERFEIT_2026_001",
+          "evidence_id": "DOC_008",
+          "date": "2026-07-15",
+          "claim": "the FAA investigated counterfeit titanium with falsified certificates originating from a Chinese state-owned forging manufacturer that had reached Boeing and Airbus supply chains.",
+          "program": "Unknown / Not specified in source",
+          "company": "Boeing",
+          "source_url": "https://hontitan.com/china-titanium-sourcing-guide/",
+          "verification": "SUPPORTED",
+          "source_role": "SECONDARY_OR_UNKNOWN"
+        },
+        {
+          "event_id": "EVT_TITANIUM_BOTTLENECK_2026_002",
+          "evidence_id": "DOC_005",
+          "date": "2026-11-08",
+          "claim": "certified flight-critical titanium alloys qualified for commercial aircraft primary structures... face acute bottlenecks in high-purity melting throughput and lengthy airworthiness audit pipelines.",
+          "program": "A320 family",
+          "company": "Airbus",
+          "source_url": "https://titaniumseller.com/news/commercial-aerospace-titanium-supply-chain-backlog-mill-qualification-2026/",
+          "verification": "SUPPORTED",
+          "source_role": "SECONDARY_OR_UNKNOWN"
+        },
+        {
+          "event_id": "BAOJI-FRAUD-2024-REF-2026",
+          "evidence_id": "DOC_010",
+          "date": "2026-07-27",
+          "claim": "Boeing and Airbus found titanium inside their supply chains carrying paperwork forged to look like it came from Baoji Titanium Industry, a real, legitimate producer.",
+          "program": "Unknown / Not specified in source",
+          "company": "Baoji Titanium Industry",
+          "source_url": "https://zhxsteel.com/blog/titanium-plate-mtc-verification/",
+          "verification": "SUPPORTED",
+          "source_role": "SECONDARY_OR_UNKNOWN"
+        },
+        {
+          "event_id": "TITANIUM-SQUEEZE-2026-PROJBLUE",
+          "evidence_id": "DOC_003",
+          "date": "2026-01-02",
+          "claim": "Western aerospace manufacturers will need 1.6 million tonnes of titanium by 2044, but supply is increasingly controlled by geopolitical rivals Russia and China.",
+          "program": "Unknown / Not specified in source",
+          "company": "Unknown",
+          "source_url": "https://www.mining.com/us-must-ramp-up-titanium-capacity-to-avoid-squeeze-project-blue-founder-says/",
+          "verification": "SUPPORTED",
+          "source_role": "SECONDARY_OR_UNKNOWN"
+        }
+      ],
+      "kiq_source_claims": [
+        {
+          "kiq_id": "RKIQ_001",
+          "evidence_id": "DOC_003",
+          "quote": "Western aerospace manufacturers will need 1.6 million tonnes of titanium by 2... its importance could become more evident as the conversations around defense metals evolve – and as supply chain risks are exposed.",
+          "date": "2026-01-02",
+          "publication_date": "2026-01-02",
+          "event_date": "",
+          "date_basis": "PUBLICATION_DATE_ONLY",
+          "source_id": "SRC_EXA",
+          "source_url": "https://www.mining.com/us-must-ramp-up-titanium-capacity-to-avoid-squeeze-project-blue-founder-says/",
+          "authority": "SECONDARY",
+          "source_role": "SECONDARY_OR_UNKNOWN",
+          "passage_validation_status": "QUOTE_VERIFIED_EVENT_UNCONFIRMED",
+          "verbatim_passage_recorded": true,
+          "verification": "PRELIMINARY",
+          "claim_state": "STATUS_UNKNOWN",
+          "content_result": "",
+          "claim_type": "DIRECT_ISSUE",
+          "document_number": "",
+          "regulatory_stage": "",
+          "effective_date": "",
+          "effective_as_of_reference_date": null,
+          "lifecycle_verified": null,
+          "supersession_status": "UNKNOWN",
+          "applicable_variants": [],
+          "requirement_keys": [
+            "PRODUCTION_IMPACT"
+          ],
+          "regulator_confirmation": "NOT_ESTABLISHED",
+          "validation_conflict": ""
+        }
+      ],
+      "established_regulatory_facts": [],
+      "evidence_validation_warnings": [],
+      "kiq_status_counts": {
+        "ANSWERED": 0,
+        "PARTIALLY_ANSWERED": 2,
+        "UNANSWERED": 1,
+        "NOT_SEARCHED": 0
+      }
+    },
+    "detailed_analytical_assessment": "The current titanium landscape is characterized by high structural demand met with increasing regulatory and geopolitical friction. Analytically, the most pressing concern is the reported documentation fraud. According to [DOC_008], an investigation was launched into titanium sold with \"falsified documents\" to Spirit AeroSystems, potentially impacting both Boeing and Airbus programs. This is corroborated by a specific mention of the Boeing 767-300F series in February 2026, where technical quality risks were identified [DOC_012]. However, the scope of this impact remains an open question; while [DOC_008] suggests a global supply chain issue, the source is a commercial sourcing guide rather than a regulatory body, and the \"2026\" date may be a trailing report of 2024 industry events.\n\nRegarding supply availability, [DOC_005] reports on \"underlying structural challenges\" in aerospace bar rolling and ultrasonic testing as of November 2026, though it lacks specific lead-time data to quantify a bottleneck. This technical friction overlaps with geopolitical risks cited in [DOC_003], which warns that China’s control over critical metals could be used as leverage in trade disputes. The analytical takeaway is that while total volume may exist, the \"certified\" supply is constricted by both quality-control failures and potential export restrictions.\n\nSignificant data gaps persist. There is no primary evidence from the FAA or EASA in the current batch to confirm the \"counterfeit\" claims or to mandate specific groundings. Furthermore, the resolution of the Baoji Titanium Industry fraud [DOC_010] suggests that historical documentation issues do not always equate to structural failure, yet this does not mitigate the legal and safety-assurance burden for current production. Management must distinguish between the long-term strategic risk of Chinese supply dependency and the immediate tactical risk of uncertified parts currently in the assembly line.",
+    "detailed_analytical_assessment_mode": "VALIDATED_EDITOR",
+    "executive_summary_mode": "VALIDATED_EDITOR",
+    "report_evidence_usage": [
+      {
+        "doc_id": "DOC_003",
+        "event_ids": [
+          "TITANIUM-SQUEEZE-2026-PROJBLUE"
+        ],
+        "kiq_ids": [
+          "RKIQ_001"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_005",
+        "event_ids": [
+          "EVT_TITANIUM_BOTTLENECK_2026_002"
+        ],
+        "kiq_ids": [
+          "RKIQ_001",
+          "RKIQ_002"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_008",
+        "event_ids": [
+          "EVT_TITANIUM_COUNTERFEIT_2026_001"
+        ],
+        "kiq_ids": [
+          "RKIQ_001"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_010",
+        "event_ids": [
+          "BAOJI-FRAUD-2024-REF-2026"
+        ],
+        "kiq_ids": [
+          "RKIQ_001"
+        ],
+        "source_role": "SECONDARY_OR_UNKNOWN",
+        "reason_code": "CITED_IN_REPORT"
+      },
+      {
+        "doc_id": "DOC_012",
+        "event_ids": [
+          "BOEING-767-TITANIUM-2026-02-17"
+        ],
+        "kiq_ids": [
+          "KIQ_3_1"
+        ],
+        "source_role": "REGULATORY_PUBLICATION",
+        "reason_code": "CITED_IN_REPORT"
+      }
+    ],
+    "detailed_analytical_assessment_sha256": "e7efea59faf7b91b6b5fee5b0a1530c47a5321b9d805c3a44c846a17ed3ee14d",
+    "detailed_analytical_assessment_word_count": 282,
+    "executive_summary_word_count": 180,
+    "agent_decision_trace": [
+      {
+        "agent_index": 1,
+        "agent_role": "Intelligence Planning & Acquisition Agent",
+        "inputs": {
+          "kit": "Aerospace titanium and specialty alloy raw material supply risks",
+          "scope": "365d",
+          "specificity": "BROAD",
+          "platforms": [
+            "news",
+            "pr"
+          ],
+          "collection_mode": "agentic_exa"
+        },
+        "decisions": {
+          "planner_status": "REPAIRED",
+          "information_requirements_count": 3,
+          "queries_executed": 4,
+          "exa_calls_executed": 2,
+          "collection_status": "PARTIAL_SUCCESS",
+          "fallback_used": false,
+          "agent_rationale": "Initial Exa and News searches successfully identified 2026 titanium lead-time trends and general certification fraud risks. However, primary regulatory confirmation was limited by platform availability, and specialty alloys (Inconel/Cobalt-chrome) were under-represented compared to titanium."
+        },
+        "outputs": {
+          "documents_collected": 17,
+          "primary_documents": 2,
+          "secondary_documents": 15,
+          "sources_used": [
+            "Exa Semantic Search",
+            "News API"
+          ],
+          "unresolved_requirements": [
+            "Specific batch or heat numbers for non-compliant titanium identified by regulators (only general 2024 investigation references found).",
+            "Official government notices for specific 2026 tariff exemptions or trade blocks (secondary reports on VSMPO chokepoints exist, but primary regulatory text is missing).",
+            "Direct lead-time data for Inconel and Cobalt-chrome specifically (results heavily skewed toward Titanium)."
+          ]
+        },
+        "duration_sec": 21.18
+      },
+      {
+        "agent_index": 2,
+        "agent_role": "Risk Analyst Agent",
+        "inputs": {
+          "fr03_accepted_documents": 5,
+          "fr03_rejected_documents": 12,
+          "batches_created": 3
+        },
+        "decisions": {
+          "batches_succeeded": 3,
+          "batches_failed": 0,
+          "documents_failed": 0,
+          "candidate_schema_rejections": 0,
+          "deterministic_scoring_status": "COMPLETED",
+          "scoring_method": "DETERMINISTIC_5_FACTOR_IW"
+        },
+        "outputs": {
+          "direct_candidate_events": 5,
+          "watchlist_events": 0,
+          "event_ids": [
+            "EVT_TITANIUM_COUNTERFEIT_2026_001",
+            "EVT_TITANIUM_BOTTLENECK_2026_002",
+            "BAOJI-FRAUD-2024-REF-2026",
+            "TITANIUM-SQUEEZE-2026-PROJBLUE",
+            "BOEING-767-TITANIUM-2026-02-17"
+          ]
+        },
+        "duration_sec": 34.79
+      },
+      {
+        "agent_index": 3,
+        "agent_role": "Quality Assurance Agent",
+        "inputs": {
+          "qa_enabled": true,
+          "harness_enabled": true,
+          "candidates_reviewed": 5
+        },
+        "decisions": {
+          "qa_performed": true,
+          "qa_failed": false,
+          "harness_performed": true,
+          "validation_errors": 0
+        },
+        "outputs": {
+          "supported_direct_events": 5,
+          "confirmed_critical_events": 0,
+          "unverified_signals": 0,
+          "kiq_completion_status": "NOT_ANSWERED"
+        },
+        "duration_sec": 5.33
+      },
+      {
+        "agent_index": 4,
+        "agent_role": "EWS Editor Agent",
+        "inputs": {
+          "event_briefs_supplied": 5,
+          "verbatim_citations_supplied": 0,
+          "runtime_kiq_count": 3
+        },
+        "decisions": {
+          "editor_failed": false,
+          "editor_validation_status": "PASS",
+          "executive_summary_mode": "VALIDATED_EDITOR",
+          "detailed_assessment_mode": "VALIDATED_EDITOR",
+          "actions_parsed": 2,
+          "action_fallbacks": 2
+        },
+        "outputs": {
+          "action_plan_count": 2,
+          "executive_summary_words": 180,
+          "detailed_assessment_words": 282
+        },
+        "duration_sec": 6.08
+      }
+    ],
+    "ai_governance": {
+      "regulatory_reference": "Regulation (EU) 2024/1689, as amended",
+      "assessment_timestamp_utc": "2026-11-26T09:24:36.705687+00:00",
+      "intended_purpose": "Competitive Intelligence decision support using publicly available aerospace information.",
+      "prohibited_uses": [
+        "Autonomous aircraft operation",
+        "Autonomous safety-critical decisions",
+        "Automated regulatory certification",
+        "Unreviewed operational interventions"
+      ],
+      "ai_system_provider": "Externally hosted LLM provider",
+      "model_identifier": "openrouter/google/gemini-3-flash-preview",
+      "run_id": "RUN-20261126-092305-C1CB9472FEE8",
+      "risk_classification": "REQUIRES_LEGAL_ASSESSMENT",
+      "legal_compliance_status": "NOT_CERTIFIED",
+      "ai_generated_content": true,
+      "human_oversight_available": true,
+      "human_review_status": "WAITING_FOR_HITL",
+      "controls": {
+        "source_traceability": true,
+        "independent_qa": true,
+        "deterministic_validation": true,
+        "human_review_gate": true,
+        "critical_alert_requires_verified_evidence": true,
+        "model_and_run_logging": true
+      },
+      "legal_review_items": {
+        "article_4_ai_literacy": "ORGANIZATIONAL_REVIEW_REQUIRED",
+        "article_50_transparency": "APPLICABILITY_REVIEW_REQUIRED",
+        "article_6_high_risk_classification": "LEGAL_REVIEW_REQUIRED",
+        "personal_data_processing": "GDPR_REVIEW_REQUIRED",
+        "copyright_and_tdm": "SOURCE_SPECIFIC_REVIEW_REQUIRED"
+      },
+      "limitations": "These records document implemented safeguards. They are not a legal conformity assessment, certification or proof of compliance."
+    }
+  },
+  "comparison_summary": {
+    "has_comparable_run": false,
+    "previous_run_id": null,
+    "note": "No previous run with identical KIT and time scope; baseline established.",
+    "delta_critical": 0,
+    "delta_elevated": 0,
+    "delta_monitored": 0,
+    "new_events": 5,
+    "continuing_events": 0,
+    "not_redetected_events": 0,
+    "resolved_events": 0,
+    "unknown_status_events": 0,
+    "reclassified_to_watchlist": 0,
+    "methodology_changed": false
+  },
+  "connector_status": {
+    "Official Industry PR": {
+      "connector_name": "Official Industry PR",
+      "source_id": "",
+      "technical_source": "unknown",
+      "origin_type": "UNKNOWN",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "ATI VSMPO titanium supply chain lead times specialty alloys"
+      ],
+      "found_count": 0,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 0,
+      "http_status_counts": {},
+      "content_status_counts": {},
+      "operational_status": "SOURCE_NOT_CONFIGURED",
+      "last_search_outcome": "NOT_EXECUTED",
+      "errors": [],
+      "coverage_advisories": [
+        "NO_APPROVED_MANUFACTURER_CONNECTOR"
+      ],
+      "time_window": {
+        "from": "2025-11-26T09:23:05Z",
+        "to": "2026-11-26T09:23:05Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-26T09:23:14Z"
+    },
+    "XBRL International ESEF Filing Index": {
+      "connector_name": "XBRL International ESEF Filing Index",
+      "source_id": "SRC_031",
+      "technical_source": "filings.xbrl.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "ATI VSMPO titanium supply chain lead times specialty alloys"
+      ],
+      "found_count": 0,
+      "accepted_count": 0,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 0,
+      "http_status_counts": {},
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "NO_MATCH",
+      "errors": [],
+      "coverage_advisories": [],
+      "time_window": {
+        "from": "2025-11-26T09:23:05Z",
+        "to": "2026-11-26T09:23:05Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-26T09:23:14Z"
+    },
+    "Exa Semantic Search": {
+      "connector_name": "Exa Semantic Search",
+      "source_id": "SRC_EXA",
+      "technical_source": "api.exa.ai",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "aerospace titanium lead times and specialty alloy production capacity constraints 2025 2026",
+        "fraudulent titanium material certifications aerospace non-conformance reports 2024 2025"
+      ],
+      "found_count": 12,
+      "accepted_count": 12,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 2,
+      "http_status_counts": {
+        "200": 2
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [
+        "exa_type=auto; duplicates_skipped=0; include_domains=ALL"
+      ],
+      "time_window": {
+        "from": "2025-11-26T09:23:05Z",
+        "to": "2026-11-26T09:23:05Z",
+        "scope": "365d"
+      },
+      "last_updated": "2026-11-26T09:23:17Z",
+      "successful_responses": 2,
+      "collected_document_count": 12,
+      "content_availability_counts": {
+        "FULL_TEXT": 12
+      },
+      "observed_publication_from": "2026-01-02",
+      "observed_publication_to": "2026-11-08"
+    },
+    "News API": {
+      "connector_name": "News API",
+      "source_id": "SRC_004",
+      "technical_source": "newsapi.org",
+      "origin_type": "SECONDARY",
+      "legal_status": "ALLOWED",
+      "queries": [
+        "aerospace titanium supply risk sanctions 2026"
+      ],
+      "found_count": 16,
+      "accepted_count": 5,
+      "rejected_out_of_scope": 0,
+      "unknown_date_count": 0,
+      "http_requests": 9,
+      "http_status_counts": {
+        "200": 9
+      },
+      "content_status_counts": {},
+      "operational_status": "AVAILABLE",
+      "last_search_outcome": "RESULTS_RETRIEVED",
+      "errors": [],
+      "coverage_advisories": [
+        "STAGES=EXACT; NEWSAPI_COVERAGE=PARTIAL_WINDOW; requested_days=365.0; searchable_days=29.0; archive_limit_days=29; SEARCH_STATUS=RESULTS_RETRIEVED"
+      ],
+      "time_window": {
+        "from": "2025-11-26T09:23:05Z",
+        "to": "2026-11-26T09:23:05Z",
+        "scope": "365d",
+        "requested_from": "2025-11-26",
+        "requested_to": "2026-11-26",
+        "searchable_from": "2026-10-28T09:23:14.307115+00:00",
+        "searchable_to": "2026-11-26T09:23:14.306420+00:00",
+        "actual_from": "2026-10-28",
+        "actual_to": "2026-11-26",
+        "actual_window_basis": "CONFIGURED_SEARCH_WINDOW_NOT_RETRIEVAL_VERIFIED",
+        "actual_searchable_days": 29.0,
+        "requested_horizon_days": 365.0,
+        "provider_archive_limit_days": 29,
+        "provider_limit_basis": "CONFIGURED_PLAN_WINDOW_NOT_API_VERIFIED",
+        "coverage_status": "PARTIAL_WINDOW",
+        "source_coverage": "PARTIAL",
+        "coverage_complete": false,
+        "date_basis": "PUBLICATION_DATE",
+        "event_date_coverage": "NOT_ESTABLISHED",
+        "observed_publication_from": "2026-11-17",
+        "observed_publication_to": "2026-11-18",
+        "observed_document_count": 5
+      },
+      "last_updated": "2026-11-26T09:23:23Z",
+      "successful_responses": 9,
+      "blocked_requests": 1,
+      "collected_document_count": 5,
+      "content_availability_counts": {
+        "PARTIAL_TEXT": 4,
+        "METADATA_ONLY": 1
+      },
+      "observed_publication_from": "2026-11-17",
+      "observed_publication_to": "2026-11-18"
+    }
+  }
+}
