@@ -42,7 +42,7 @@ _PRICING_BY_MODEL: Dict[str, Dict[str, float]] = {
     "openrouter/google/gemini-3.5-flash-lite": {"cost_per_1k_input_usd": 0.0003, "cost_per_1k_output_usd": 0.0025},
     "google/gemini-3.5-flash-lite": {"cost_per_1k_input_usd": 0.0003, "cost_per_1k_output_usd": 0.0025},
 }
-_max_tokens = max(1024, min(32000, int(os.getenv("EWS_LLM_MAX_TOKENS", "8000"))))
+_max_tokens = max(1024, min(32000, int(os.getenv("EWS_LLM_MAX_TOKENS", "16384"))))
 _EVIDENCE_POLICY = (
     "Preserve source attribution and uncertainty: a verified quote is not proof of a downstream event; "
     "issuer reports are not regulator confirmation. Never invent missing evidence or KIT applicability."

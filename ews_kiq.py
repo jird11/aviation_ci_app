@@ -231,7 +231,16 @@ _NAMED_SUBJECT_STOPWORDS = {
     "Special", "Conditions", "Condition", "Standards", "Standard",
     "Integration", "Folding", "Wingtips", "Wingtip", "Simulators", "Simulator",
     "Authorization",
+    "Extended", "Performance", "Twin", "Bulletins", "Bulletin", "Service",
+    "Enhanced", "Equivalent", "Level", "Tier", "Memoranda", "Understanding",
+    "Aviation", "Sustainable", "Entry", "Center", "Rear", "Tank", "Amended",
+    "Everett", "Toulouse", "Wichita", "Charleston", "Hamburg", "Mirabel",
+    "Mobile", "Seattle", "Shanghai", "Orders", "Order", "Contracts", "Contract",
+    "Cancellations", "Deferrals", "Conversions", "Mandate", "Mandates",
+    "Transition", "Aerostructures", "Casting", "Forging", "Cabin", "Interior",
+    "Interiors", "Titanium", "Alloy", "Alloys", "Hydrogen", "Electric",
 }
+
 _AUTHORITY_LABELS = {
     "REGULATOR": "official regulatory record",
     "ISSUER_DISCLOSURE": "official issuer filing",
@@ -801,30 +810,17 @@ def build_atomic_kiq_requirements(
                     preliminary_ids.clear()
                 contributing = list(pairs[0]) if pairs else []
 
-        # Independent multi-source corroboration: >=2 distinct reputable non-social domains
-        # agreeing on the same non-regulatory atomic fact elevate PRELIMINARY -> VERIFIED.
-        _non_corroboratable = {
-            "REGULATOR_DECISION", "DECISION_DATE", "REGULATORY_EXISTENCE",
-            "REGULATORY_PUBLICATION", "REGULATORY_EFFECTIVENESS",
-            "EFFECTIVE_AS_OF_REFERENCE_DATE", "COMPLIANCE_DEADLINE", "ISSUER_STATEMENT",
+        # Keep VERIFIED only for doc_ids backed by at least one VERIFIED claim or official confirmation.
+        verified_claim_doc_ids = {
+            c["doc_id"] for c in contributing
+            if _claim_strength(key, c, query) == "VERIFIED"
         }
-        _cert_resolved_only = (
-            cert_topic and (
-                key in {"CERTIFICATION", "RESOLUTION_EVIDENCE"}
-                or (key == "CURRENT_STATUS" and any(c.get("state") == "ISSUE_RESOLVED" for c in contributing))
-            )
-        )
-        if not verified_ids and preliminary_ids and key not in _non_corroboratable and not _cert_resolved_only:
-            from ews_state import UNVERIFIED_SOCIAL_VIDEO_DOMAINS
-            corrob_domains: Dict[str, set[str]] = {}
-            for c in contributing:
-                if c.get("doc_id") not in preliminary_ids or c.get("source_id") in {"SRC_007", "SRC_008"}:
-                    continue
-                host = (urlsplit(str(c.get("source_url") or "")).hostname or "").lower().removeprefix("www.")
-                if host and not any(host == sd or host.endswith("." + sd) for sd in UNVERIFIED_SOCIAL_VIDEO_DOMAINS):
-                    corrob_domains.setdefault(host, set()).add(c["doc_id"])
-            if len(corrob_domains) >= 2:
-                verified_ids.update(did for dids in corrob_domains.values() for did in dids)
+        if official_confirmation and official_confirmation.get("doc_id") in verified_ids:
+            verified_claim_doc_ids.add(official_confirmation["doc_id"])
+        unbacked_verified = verified_ids - verified_claim_doc_ids
+        if unbacked_verified:
+            preliminary_ids.update(unbacked_verified)
+            verified_ids.difference_update(unbacked_verified)
 
         state = "NOT_SEARCHED" if not searched else ("VERIFIED" if verified_ids else ("PRELIMINARY" if preliminary_ids else "MISSING"))
         if state == "VERIFIED":
@@ -859,7 +855,12 @@ def build_atomic_kiq_requirements(
                 "supersession_status": c.get("supersession_status", ""),
                 "applicable_variants": c.get("applicable_variants", []),
             }
-            for c in contributing if c["doc_id"] in (verified_ids | preliminary_ids)
+            for c in sorted(
+                contributing,
+                key=lambda item: _claim_strength(key, item, query) == "VERIFIED",
+                reverse=True,
+            )
+            if c["doc_id"] in (verified_ids | preliminary_ids)
         ][:3]
         if official_confirmation and official_confirmation["doc_id"] in verified_ids and key in {"REGULATOR_DECISION", "DECISION_DATE", "SOURCE_PROVENANCE", "PROGRAM_APPLICABILITY", "CERTIFICATION", "RESOLUTION_EVIDENCE"}:
             oq = str(official_confirmation.get("verified_quote") or "")
@@ -1054,8 +1055,8 @@ def find_official_faa_certification(
         pub = str(doc.get("published_at") or "")
         if (url.scheme != "https" or url.hostname not in {"faa.gov", "www.faa.gov"} or not re.fullmatch(
                 r"/newsroom/[a-z0-9-]+/?", url.path, re.I)
-                or doc.get("source_id") not in {"SRC_001", "SRC_004"} or (
-                        doc.get("source_id") == "SRC_004" and doc.get("verified_domain") is not True)
+                or doc.get("source_id") not in {"SRC_001", "SRC_004", "SRC_EXA"} or (
+                        doc.get("source_id") in {"SRC_004", "SRC_EXA"} and doc.get("verified_domain") is not True)
                 or doc.get("content_status") not in {"FULL_TEXT", "FULL_TEXT_RETRIEVED"} or doc.get(
                     "content_truncated") is True or _is_snippet_only(doc)
                 or not re.fullmatch(r"20\d{2}-\d{2}-\d{2}", pub) or not _date_str(pub)
@@ -1454,9 +1455,22 @@ def _document_claims(
                 sentences = re.split(r"(?<=[.!?])\s+|\n+", paragraph)
                 for i, raw_s in enumerate(sentences):
                     sent = raw_s.strip()
-                    if len(sent) < 25 or not _topic_matches(query, sent):
+                    if (
+                        len(sent) < 25
+                        or sent.startswith(("#", "|"))
+                        or "|---" in sent.replace(" ", "")
+                        or re.match(r"^(?:Q:|Photo:|Image:|Credit:)", sent, re.I)
+                        or any(cred in sent.lower() for cred in ("shutterstock", "getty images", "wirestockimages"))
+                        or not _topic_matches(query, sent)
+                    ):
                         continue
                     prev = sentences[i - 1].strip() if i else ""
+                    if (
+                        prev.startswith(("#", "|"))
+                        or "|---" in prev.replace(" ", "")
+                        or any(cred in prev.lower() for cred in ("shutterstock", "getty images", "wirestockimages"))
+                    ):
+                        prev = ""
                     if len(prev) > 220:
                         prev = re.sub(r"^\S*\s+", "", prev[-220:]).strip()
                     passage = (prev + " " + sent[:700]).strip()
@@ -1641,8 +1655,16 @@ def _compose_kiq_answer_text(
         }
 
     parts: List[str] = [f"As of {cutoff}:"] if cutoff else []
+    has_primary = bool(regulator_facts) or any(
+        str(c.get("authority") or "").upper() in {"REGULATOR", "ISSUER_DISCLOSURE", "ISSUER_RELEASE"}
+        for c in contributing_claims
+    )
     fallback_leads = {
-        "ANSWERED": "Reviewed primary sources directly address this question.",
+        "ANSWERED": (
+            "Reviewed primary sources directly address this question."
+            if has_primary
+            else "Reviewed sources directly address this question (no primary regulatory or issuer filing was captured)."
+        ),
         "PARTIALLY_ANSWERED": "Reviewed sources address part of this question, while specific verification items remain open.",
         "NOT_SEARCHED": "This question was not covered by the sources selected for this run.",
     }
@@ -1686,7 +1708,8 @@ def _compose_kiq_answer_text(
     elif m_facts and answer_status != "NOT_SEARCHED":
         parts.append(f"Still needed for a complete answer: {', '.join(m_facts[:3])}.")
     if evidence_ids:
-        parts.append(f"Based on {len(evidence_ids)} relevant document(s) ({', '.join(evidence_ids[:5])}) out of {evaluated_count} evaluated.")
+        parts.append(
+            f"Based on {len(evidence_ids)} relevant document(s) ({', '.join(evidence_ids)}) out of {evaluated_count} evaluated.")
     return " ".join(p.strip() for p in parts if p and p.strip())
 
 

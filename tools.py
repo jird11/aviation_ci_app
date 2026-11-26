@@ -1774,21 +1774,22 @@ def search_aerospace_news(query: str) -> str:
     effective_start = max(filter(None, (start_utc, earliest)))
     partial_window = start_utc is None or effective_start > start_utc
     searchable_days = round(max(0.0, (end_utc - effective_start).total_seconds() / 86400), 2)
+    window_unavailable = effective_start > end_utc
     window = {
         "requested_from": start_utc.date().isoformat() if start_utc else "UNRESTRICTED",
         "requested_to": end_utc.date().isoformat(),
-        "searchable_from": effective_start.isoformat(),
-        "searchable_to": end_utc.isoformat(),
-        "actual_from": effective_start.date().isoformat(),
-        "actual_to": end_utc.date().isoformat(),
+        "searchable_from": None if window_unavailable else effective_start.isoformat(),
+        "searchable_to": None if window_unavailable else end_utc.isoformat(),
+        "actual_from": None if window_unavailable else effective_start.date().isoformat(),
+        "actual_to": None if window_unavailable else end_utc.date().isoformat(),
         "actual_window_basis": "CONFIGURED_SEARCH_WINDOW_NOT_RETRIEVAL_VERIFIED",
         "actual_searchable_days": searchable_days,
         "requested_horizon_days": round((end_utc - start_utc).total_seconds() / 86400, 2) if start_utc else None,
         "provider_archive_limit_days": archive_days,
         "provider_limit_basis": "CONFIGURED_PLAN_WINDOW_NOT_API_VERIFIED",
-        "coverage_status": ("WINDOW_UNAVAILABLE" if effective_start > end_utc
+        "coverage_status": ("WINDOW_UNAVAILABLE" if window_unavailable
                             else "PARTIAL_WINDOW" if partial_window else "WITHIN_PLAN_LIMIT"),
-        "source_coverage": ("UNAVAILABLE" if effective_start > end_utc
+        "source_coverage": ("UNAVAILABLE" if window_unavailable
                             else "PARTIAL" if partial_window else "UNVERIFIED"),
         "coverage_complete": False,  # Search budget/results cannot prove exhaustive coverage.
         "date_basis": "PUBLICATION_DATE",
@@ -1819,7 +1820,7 @@ def search_aerospace_news(query: str) -> str:
 
     identities = _model_identities(safe_query)
     articles, seen_urls, searched_stages, stage_errors = [], set(), [], []
-    budget = min(4, max(1, int(os.getenv("EWS_NEWSAPI_QUERY_BUDGET", "4"))))
+    budget = min(4, max(1, int(os.getenv("EWS_NEWSAPI_QUERY_BUDGET", "2"))))
     coverage_target = min(8, max(3, limit))
     recall_state = NewsAPIState.AVAILABLE
     for stage, expression in _newsapi_search_stages(safe_query)[:budget]:
@@ -1828,9 +1829,7 @@ def search_aerospace_news(query: str) -> str:
                                   for identity in identities)
             for a in articles
         )
-        if stage == "ALIASES" and coverage >= coverage_target:
-            continue
-        if stage == "CONTEXT" and coverage >= coverage_target:
+        if stage != "EXACT" and coverage >= coverage_target:
             break
         stage_params = {**params, "q": expression}
         cache_key = (expression, params["from"], params["to"], params["pageSize"],
@@ -3768,11 +3767,6 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
                                f"retrieved={len(docs)}; accepted={faa_count}; "
                                f"pagination_complete={all(a.get('pagination_complete', True) for a in audits)}"),
                 diagnostics={"page_audits": audits},
-                http_requests=sum(a.get("request_calls", 0) for a in audits),
-                http_status_counts={str(code): sum(1 for a in audits for attempt in a.get("attempts", [])
-                                                   if str(attempt.get("http_status")) == str(code))
-                                    for code in {attempt.get("http_status") for a in audits
-                                                 for attempt in a.get("attempts", []) if attempt.get("http_status")}},
                 error="; ".join(hard_errors) if hard_errors else None,
                 operational_status=(
                     "ACCESS_RESTRICTED" if any(a.get("access_restricted") for a in audits)
@@ -3797,7 +3791,6 @@ def scrape_regulatory_agencies(query: str = "Airbus") -> str:
                 "FAA Federal Register", "SRC_001", query,
                 coverage_note=(f"{retrieval_status}; api_declared={sum(a['declared_count'] for a in audits)}; retrieved=0"),
                 diagnostics={"page_audits": audits},
-                http_requests=sum(a.get("request_calls", 0) for a in audits),
                 error="; ".join(f"{a['status']}:{a.get('last_error') or 'UNKNOWN'}" for a in audits
                                 if a["status"] not in {"RESULTS_RETRIEVED", "NO_RESULTS"}) or None,
                 operational_status="ACCESS_BLOCKED" if any(a.get("access_restricted") for a in audits)

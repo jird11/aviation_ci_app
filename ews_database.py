@@ -501,7 +501,11 @@ def _incident_match_score(threat: ThreatAssessment, row: sqlite3.Row, old_urls: 
     return similarity if (same_actor and same_type and similarity >= 0.87) else 0.0
 
 
-def reconcile_and_store_events(run_id: str, threats: List[ThreatAssessment]) -> Tuple[List[ThreatAssessment], int, int, int]:
+def reconcile_and_store_events(
+    run_id: str,
+    threats: List[ThreatAssessment],
+    normalized_query: str = "",
+) -> Tuple[List[ThreatAssessment], int, int, int]:
     """Reconcile event identities across runs and persist observation history transactionally."""
     now_iso = _now_iso()
     new_count = continuing_count = 0
@@ -509,10 +513,20 @@ def reconcile_and_store_events(run_id: str, threats: List[ThreatAssessment]) -> 
     with _database(write=True) as conn:
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
-        existing_rows = [(r, json.loads(r["source_urls_json"] or "[]")) for r in cur.execute("SELECT * FROM events WHERE event_status != 'DISMISSED'").fetchall()]
+        reserved_ids = {r["event_id"] for r in cur.execute("SELECT event_id FROM events").fetchall()}
+        if normalized_query:
+            rows = cur.execute(
+                "SELECT DISTINCT e.* FROM events e "
+                "JOIN event_history eh ON e.event_id = eh.event_id "
+                "JOIN analytical_runs ar ON eh.run_id = ar.run_id "
+                "WHERE e.event_status != 'DISMISSED' AND ar.normalized_query = ?",
+                (normalized_query,),
+            ).fetchall()
+        else:
+            rows = cur.execute("SELECT * FROM events WHERE event_status != 'DISMISSED'").fetchall()
+        existing_rows = [(r, json.loads(r["source_urls_json"] or "[]")) for r in rows]
         matched_ids: set[str] = set()
         assigned_ids: set[str] = set()
-        reserved_ids = {r["event_id"] for r, _ in existing_rows}
 
         for threat in threats:
             matched_row, row_urls, best_score = None, [], 0.0
@@ -525,7 +539,7 @@ def reconcile_and_store_events(run_id: str, threats: List[ThreatAssessment]) -> 
                 ev_id = matched_row["event_id"]
                 matched_ids.add(ev_id)
                 threat.event_id = ev_id
-                threat.first_seen_at = matched_row["first_seen_at"] or now_iso
+                threat.first_seen_at = str(matched_row["first_seen_at"] or now_iso).strip().rstrip(",")
 
                 curr_urls = list(threat.source_urls or [])
                 primary_url = (threat.evidence_citation or "").strip()

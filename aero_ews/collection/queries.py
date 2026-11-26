@@ -554,7 +554,7 @@ def news_api_query_variants(query: str, *, entities: Iterable[str] = ()) -> dict
     """Prepare distinct bounded queries; callers decide which requests their quota allows."""
     ent = (entities,) if isinstance(entities, str) else tuple(entities)
     result: dict[str, str] = {}
-    for name in ("exact", "alternative", "recall", "resolution"):
+    for name in ("exact", "recall"):
         if (val := news_api_search_key(query, mode=name, entities=ent)) and val not in result.values():
             result[name] = val
     return result

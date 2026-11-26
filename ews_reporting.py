@@ -651,13 +651,16 @@ def assess_kit_current_state(report: EWSReport, user_query: str) -> Dict[str, An
     has_verified = bool(trusted or primary_kiqs or kiq_changes or regulatory_facts)
     connectors = report.connector_status or {}
     search_overview = {
-        "connectors_searched": [str(n) for n, info in connectors.items() if isinstance(info, dict) and (info.get("queries") or info.get("http_requests"))],
-        "connectors_with_results": [str(n) for n, info in connectors.items() if isinstance(info, dict) and int(info.get("accepted_count") or info.get("collected_document_count") or 0) > 0],
+        "connectors_searched": [str(n) for n, info in connectors.items() if
+                                isinstance(info, dict) and (info.get("queries") or info.get("http_requests"))],
+        "connectors_with_results": [str(n) for n, info in connectors.items() if isinstance(info, dict) and int(
+            info.get("accepted_count") or info.get("collected_document_count") or 0) > 0],
         "documents_collected": int(meta.get("documents_collected") or 0),
         "documents_analyzed": int(meta.get("documents_analyzed") or 0),
         "documents_rejected": int(meta.get("documents_rejected") or 0),
         "events_identified": len(report.threats or []),
-        "supported_events": len(trusted),
+        "supported_events": sum(1 for t in (report.threats or []) if t.validation_status == ValidationStatus.SUPPORTED),
+        "primary_supported_events": len(trusted),
     }
     issue_status_map = {
         "ISSUE_RESOLVED": "RESOLVED", "ISSUER_REPORTED_RESOLUTION": "RESOLVED",
@@ -1229,9 +1232,20 @@ def _align_and_sanitize_action_plan(report: EWSReport) -> EWSReport:
         linked = [threat_map[eid] for eid in valid_eids]
         act.related_threat_companies = list(dict.fromkeys(t.company_affected for t in linked))
 
-        if all(t.validation_status == ValidationStatus.SUPPORTED and not _is_issuer_regulatory(t) for t in linked):
-            for field in ("action", "rationale", "kpi", "uncertainty_assumptions"):
-                setattr(act, field, re.sub(r"(?i)Evidence\s+state\s*:\s*UNSUPPORTED", "Evidence state: SUPPORTED", str(getattr(act, field) or "")))
+        for t in linked:
+            if t.validation_status == ValidationStatus.SUPPORTED:
+                for field in ("action", "rationale", "kpi", "uncertainty_assumptions"):
+                    val = str(getattr(act, field) or "")
+                    val = re.sub(
+                        rf"({re.escape(t.event_id)}\s*:\s*)(?:UNSUPPORTED|PARTIALLY_SUPPORTED)\b",
+                        r"\g<1>SUPPORTED",
+                        val,
+                    )
+                    if all(x.validation_status == ValidationStatus.SUPPORTED and not _is_issuer_regulatory(x) for x in
+                           linked):
+                        val = re.sub(r"(?i)Evidence\s+(?:state|status)\s*:\s*UNSUPPORTED", "Evidence status: SUPPORTED",
+                                     val)
+                    setattr(act, field, val)
 
         if not any(t.program_relevance == "DIRECT_KIT_MATCH" for t in linked) and any(t.program_relevance == "PROGRAM_UNVERIFIED" for t in linked):
             ex = linked[0]

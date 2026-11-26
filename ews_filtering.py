@@ -489,6 +489,10 @@ def _source_authority(doc: Dict[str, Any]) -> str:
     host = (parsed.hostname or "").lower()
     if parsed.scheme != "https":
         return ""
+    if host == "govinfo.gov" or host.endswith(".govinfo.gov"):
+        return "FEDERAL_REGISTER"
+    if host in {"ec.europa.eu", "eur-lex.europa.eu"} or host.endswith((".ec.europa.eu", ".eur-lex.europa.eu")):
+        return "EUROPEAN_COMMISSION"
     return next((auth for auth, dom in _AUTHORITY_DOMAINS.items() if host == dom or host.endswith("." + dom)), "")
 
 
@@ -496,7 +500,7 @@ def _claim_authority_scope(doc: Dict[str, Any]) -> str:
     """A submitted issuer report is not a confirmed regulatory finding."""
     if _verified_sec_issuer(doc):
         return "ISSUER_REPORTED"
-    if _source_authority(doc) in (set(_AUTHORITIES) - {"SEC"}) | {"FEDERAL_REGISTER"}:
+    if _source_authority(doc) in (set(_AUTHORITIES) - {"SEC"}) | {"FEDERAL_REGISTER", "EUROPEAN_COMMISSION"}:
         return "REGULATORY_PUBLICATION"
     return "SOURCE_REPORTED"
 
@@ -1694,7 +1698,8 @@ def prioritize_and_batch_documents(
     query_precision = _query_precision(user_query)
     q_words = [w.lower() for w in re.findall(r"\b\w{3,}\b", user_query)]
     seen_urls: Dict[str, str] = {}
-    seen_fingerprints: Dict[str, str] = {}
+    seen_hashes: Dict[str, str] = {}
+    seen_fingerprints: Dict[str, Tuple[str, str, str]] = {}
     stage1_survivors: List[Dict[str, Any]] = []
     audit_records: List[Dict[str, Any]] = []
     rejected_count = 0
@@ -1800,12 +1805,29 @@ def prioritize_and_batch_documents(
                        review_reasons=["INSUFFICIENT_SOURCE_TEXT", "SOURCE_TEXT_INSUFFICIENT"],
                        conditions_unmet=["INSUFFICIENT_SOURCE_TEXT"])
             continue
-        if (url and url in seen_urls) or (fp and fp in seen_fingerprints):
-            orig = (seen_urls.get(url) if url else None) or (seen_fingerprints.get(fp) if fp else None)
+        c_hash = (d.get("source_content_sha256") or d.get("content_sha256") or "").strip()
+        host = (urlsplit(url).hostname or "").lower().removeprefix("www.") if url else ""
+        is_official_doc = bool(_source_authority(d)) or str(d.get("origin_type") or "").upper().startswith("PRIMARY")
+        is_generic_title = len(_alnum_norm(title)) < 25 or "untitled" in title.lower()
+        use_fp_dedup = bool(fp and not is_official_doc and not is_generic_title)
+
+        dup_orig = None
+        if url and url in seen_urls:
+            dup_orig = seen_urls[url]
+        elif c_hash and len(text) >= 100 and c_hash in seen_hashes:
+            dup_orig = seen_hashes[c_hash]
+        elif use_fp_dedup and fp in seen_fingerprints:
+            orig_id, orig_host, orig_date = seen_fingerprints[fp]
+            if (not host or not orig_host or host != orig_host) or (
+                    _valid_publication_date(pub_date) and pub_date == orig_date
+            ):
+                dup_orig = orig_id
+
+        if dup_orig:
             _reject_s1(d, "STAGE_1_DETERMINISTIC", "DUPLICATE",
-                       f"Rejected in Stage 1: Duplicate of document {orig or 'UNKNOWN'}.",
+                       f"Rejected in Stage 1: Duplicate of document {dup_orig or 'UNKNOWN'}.",
                        filter_decision="CONTEXT_ONLY", review_reasons=["DUPLICATE_OF_DOCUMENT"],
-                       conditions_unmet=["DUPLICATE_OF_DOCUMENT"], duplicate_of_document_id=orig)
+                       conditions_unmet=["DUPLICATE_OF_DOCUMENT"], duplicate_of_document_id=dup_orig)
             continue
 
         pub_date = _recover_publication_date(d, url, text, pub_date)
@@ -1848,8 +1870,10 @@ def prioritize_and_batch_documents(
 
         if url:
             seen_urls[url] = str(d.get("doc_id") or "")
-        if fp:
-            seen_fingerprints[fp] = str(d.get("doc_id") or "")
+        if c_hash and len(text) >= 100:
+            seen_hashes[c_hash] = str(d.get("doc_id") or "")
+        if use_fp_dedup:
+            seen_fingerprints[fp] = (str(d.get("doc_id") or ""), host, str(pub_date)[:10])
         stage1_survivors.append(d)
 
     # Stage 2: classify surviving documents against the full KIT via cached or fresh LLM decisions.

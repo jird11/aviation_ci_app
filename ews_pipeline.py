@@ -9,6 +9,7 @@
 
 """Sequential orchestration of the aviation_ci_app intelligence analysis workflow."""
 
+import copy
 import hashlib
 import math
 import tempfile
@@ -605,10 +606,10 @@ def _source_verification(doc: dict, issue: str) -> str:
         return "PRELIMINARY"
     host = (urlparse(str(doc.get("url") or "")).hostname or "").lower()
     official = any(host == domain or host.endswith("." + domain)
-                   for domain in ("faa.gov", "easa.europa.eu", "ntsb.gov"))
+                   for domain in ("faa.gov", "federalregister.gov", "govinfo.gov", "easa.europa.eu", "ec.europa.eu", "ntsb.gov"))
     if official and doc.get("source_id") in {
         "SRC_001", "SRC_002", "SRC_003", "SRC_019", "SRC_020", "SRC_021",
-        "SRC_022", "SRC_023",
+        "SRC_022", "SRC_023", "SRC_EXA",
     }:
         return "OFFICIAL_REGULATOR"
     if doc.get("source_id") in {"SRC_027", "SRC_031"}:
@@ -848,6 +849,23 @@ def _kiq_completion(answers: list[Any]) -> tuple[str, int, int]:
     return state, full, len(answers) - full
 
 
+def _is_advisory_only_connector_error(
+    name: str, error: str, connector_telemetry: dict,
+) -> bool:
+    err_up = str(error or "").strip().upper()
+    if name == "EASA Official Index" and err_up == "HISTORICAL_COVERAGE_NOT_ESTABLISHED":
+        return True
+    if err_up.startswith("PARTIAL_COVERAGE"):
+        return True
+    if name == "News API" and "RATE_LIMITED" in err_up:
+        return any(
+            n != "News API" and int((t or {}).get("accepted_count") or 0) > 0
+            for n, t in (connector_telemetry or {}).items()
+            if isinstance(t, dict)
+        )
+    return False
+
+
 def _kit_completion_audit(
     answers: list[Any], telemetry: dict, as_of_date: str, documents: list[dict],
 ) -> dict:
@@ -914,8 +932,18 @@ def _kit_completion_audit(
             continue
         status_up = str(item.get("operational_status") or "").upper()
         errs = [str(e).strip() for e in (item.get("errors") or []) if str(e).strip()]
-        hard_errs = [e for e in errs if not _is_partial_only_error(e)]
+        hard_errs = [
+            e for e in errs
+            if not _is_partial_only_error(e)
+               and not _is_advisory_only_connector_error(name, e, telemetry)
+        ]
         partial_errs = [e for e in errs if _is_partial_only_error(e)]
+        if status_up == "RATE_LIMITED" and _is_advisory_only_connector_error(name, "RATE_LIMITED", telemetry):
+            partial_coverage.append({
+                "connector": name, "source_id": item.get("source_id"),
+                "status": "RATE_LIMITED_ADVISORY", "errors": errs,
+            })
+            continue
         if hard_errs or (status_up in {"FAILED", "RATE_LIMITED", "AUTHENTICATION_FAILED", "TEMPORARILY_UNAVAILABLE"}
                          and not (partial_errs and not hard_errs and int(item.get("successful_responses") or 0) > 0)):
             unavailable.append({
@@ -1138,7 +1166,7 @@ def _editor_claim_audit(
                     for match in re.finditer(r'"([^"\r\n]*)"|“([^”\r\n]*)”', sentence):
                         quote = (match.group(1) if match.group(1) is not None else match.group(2)).strip()
                         if 40 <= len(quote) <= 400 and len(quote.split()) >= 6:
-                            if quote_scope and not any(norm(quote) in body for body in quote_scope):
+                            if quote_scope and not any(norm(quote).rstrip(".,;:!?") in body for body in quote_scope):
                                 flag("passages_match", section, "SOURCE_QUOTE_NOT_FOUND", quote)
 
     if not editor_used:
@@ -1295,7 +1323,8 @@ def _evidence_flow_audit(
             "PRIMARY", "OFFICIAL_PRIMARY", "PRIMARY_OFFICIAL", "REGULATOR_PRIMARY",
             "PRIMARY_ISSUER_FILING", "PRIMARY_ISSUER_IR",
             "PRIMARY_OFFICIAL_FULL_TEXT", "PRIMARY_OFFICIAL_ANNOUNCEMENT",
-            "PRIMARY_OFFICIAL_INDEX_METADATA",
+            "PRIMARY_OFFICIAL_INDEX_METADATA", "PRIMARY_OFFICIAL_WEB",
+            "PRIMARY_OFFICIAL_RSS_BODY",
         }
         unexpected = gap in {"FILTER_UNAVAILABLE", "ANALYSIS_NOT_COMPLETED", "HANDOFF_ERROR"}
         direct_verified = (doc.get("semantic_relevance_level") == "DIRECT_KIT_EVIDENCE"
@@ -1344,6 +1373,15 @@ def _evidence_flow_audit(
 # Provide a normalized UTC timestamp for report metadata and audit records.
 def _now_iso() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _sync_kca_supported_events(report: EWSReport) -> None:
+    kca = (report.run_metadata or {}).get("kit_current_assessment")
+    if isinstance(kca, dict) and isinstance(kca.get("search_overview"), dict):
+        kca["search_overview"]["supported_events"] = sum(
+            1 for t in (report.threats or [])
+            if t.validation_status == ValidationStatus.SUPPORTED
+        )
 
 # Start a single CrewAI stage through the shared recovery wrapper.
 def _run_crew(agent: Any, task: Any, label: str, shrink_cb: Any = None):
@@ -1798,6 +1836,18 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
         raw_data, collected_docs, connector_telemetry, collection_duration, acquisition_trace = _collect_run_documents(
             request, run_id, norm_scope, run_workspace, kiq_plan
         )
+        _news_tw = (connector_telemetry.get("News API") or {}).get("time_window")
+        if isinstance(_news_tw, dict) and _news_tw.get("actual_from") and _news_tw.get("actual_to"):
+            if str(_news_tw["actual_from"]) > str(_news_tw["actual_to"]):
+                _news_tw.update({
+                    "searchable_from": None,
+                    "searchable_to": None,
+                    "actual_from": None,
+                    "actual_to": None,
+                    "actual_searchable_days": 0.0,
+                    "coverage_status": "WINDOW_UNAVAILABLE",
+                    "source_coverage": "UNAVAILABLE",
+                })
         tokens_in += int((acquisition_trace or {}).get("llm_tokens_in") or 0)
         tokens_out += int((acquisition_trace or {}).get("llm_tokens_out") or 0)
         content_status_counts, unknown_content_statuses, telemetry_errors = _audit_content_statuses(
@@ -1902,21 +1952,16 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
             if str(error).strip()
         ]
         coverage_only_advisories = [
-                                       {"connector": name, "issue": note}
-                                       for name, telemetry in connector_telemetry.items()
-                                       for note in telemetry.get("coverage_advisories", [])
-                                   ] + [
-                                       {"connector": name, "issue": error}
-                                       for name, error in connector_issues
-                                       if (
-                                                      name == "EASA Official Index" and error == "HISTORICAL_COVERAGE_NOT_ESTABLISHED")
-                                          or error.upper().startswith("PARTIAL_COVERAGE")
-                                   ]
+            {"connector": name, "issue": note}
+            for name, telemetry in connector_telemetry.items()
+            for note in telemetry.get("coverage_advisories", [])
+        ] + [
+            {"connector": name, "issue": error}
+            for name, error in connector_issues
+            if _is_advisory_only_connector_error(name, error, connector_telemetry)
+        ]
         any_connector_error = any(
-            not (
-                    (name == "EASA Official Index" and error == "HISTORICAL_COVERAGE_NOT_ESTABLISHED")
-                    or error.upper().startswith("PARTIAL_COVERAGE")
-            )
+            not _is_advisory_only_connector_error(name, error, connector_telemetry)
             for name, error in connector_issues
         )
 
@@ -2138,18 +2183,35 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                 if request.enable_qa_agent:
                     t_qa_start = time.time()
                     qa_agent = create_quality_assurance_agent()
+                    qa_llm = getattr(qa_agent, "llm", None)
+                    prev_qa_max_tokens = getattr(qa_llm, "max_tokens", None) if qa_llm is not None else None
+                    if qa_llm is not None and hasattr(qa_llm, "max_tokens"):
+                        qa_llm.max_tokens = 4096
                     qa_task = create_quality_assurance_task(
                         qa_agent, request.query, consolidated_candidates_json=candidates_json_str
+                    )
+                    qa_task.description += (
+                        "\n\nOUTPUT LENGTH LIMIT: Do NOT repeat or echo the input JSON. "
+                        "Return ONLY a concise bulleted QA audit (max 300 words total) listing "
+                        "grounding warnings, variant/engine issues, and confidence flags per event_id."
                     )
                     try:
                         qa_res, q_in, q_out = _run_crew(qa_agent, qa_task, "PHASE_3B_QA")
                         tokens_in += q_in
                         tokens_out += q_out
                         qa_raw_out = str(getattr(qa_res, "raw", "") or "")
+                        eff_cap = getattr(qa_llm, "max_tokens", None) or 4096
+                        if q_out >= eff_cap - 20:
+                            logger.warning(
+                                "[QA TRUNCATION RISK] PHASE_3B_QA output_tokens=%d reached cap=%s",
+                                q_out, eff_cap,
+                            )
                     except Exception as exc:
                         qa_failed = True
                         logger.exception("[QA FAILED] %s", exc)
                     finally:
+                        if qa_llm is not None and hasattr(qa_llm, "max_tokens"):
+                            qa_llm.max_tokens = prev_qa_max_tokens
                         qa_duration = round(time.time() - t_qa_start, 2)
 
                 # The Editor contributes narrative and actions; it must not overwrite Analyst evidence.
@@ -2189,9 +2251,45 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                     editor_kiq_context_error = str(exc)[:300]
                     logger.warning("[EDITOR KIQ HANDOFF] Evidence context unavailable: %s", exc)
 
+                _editor_allowed_dids = {
+                                           did for c in consolidated_candidates for did in (c.evidence_ids or [])
+                                       } | {
+                                           did for a in preliminary_kiqs if a.kiq_id.startswith("RKIQ_") for did in
+                                           (a.evidence_ids or [])
+                                       }
                 editor_evidence_citations = _editor_evidence_citations(
-                    accepted_evidence_docs, preliminary_kiqs,
+                    [d for d in accepted_evidence_docs if d.get("doc_id") in _editor_allowed_dids],
+                    preliminary_kiqs,
                 )
+                editor_candidates = consolidated_candidates
+                if request.enable_harness_validation and consolidated_candidates:
+                    try:
+                        _preview_rep = EWSReport(
+                            run_id=run_id,
+                            outcome_status=RunOutcomeStatus.PARTIAL_SUCCESS,
+                            hitl_status="WAITING_FOR_HITL",
+                            executive_summary="",
+                            qa_audit_summary="",
+                            threats=[c.model_copy(deep=True) for c in consolidated_candidates],
+                            action_plan=[],
+                        )
+                        _preview_rep, _ = deterministic_harness_validation(
+                            _preview_rep,
+                            raw_data,
+                            copy.deepcopy(accepted_evidence_docs),
+                            user_query=request.query,
+                            as_of_date=request.as_of_date or started_at_iso[:10],
+                        )
+                        _preview_by_id = {
+                            ev.event_id: ev
+                            for ev in list(_preview_rep.threats or [])
+                            + list(_preview_rep.related_program_watchlist or [])
+                        }
+                        editor_candidates = [
+                            _preview_by_id.get(c.event_id, c) for c in consolidated_candidates
+                        ]
+                    except Exception as preview_exc:
+                        logger.warning("[EDITOR HARNESS PREVIEW] %s", preview_exc)
                 try:
                     editor = create_editor_agent()
 
@@ -2214,7 +2312,7 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                                                     t.missing_data or ""
                                             )[:160],
                         }
-                        for t in consolidated_candidates
+                        for t in editor_candidates
                     ]
 
                     editor_input = json.dumps(editor_events, ensure_ascii=False, separators=(',', ':'))
@@ -2281,7 +2379,7 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                         editor_text_parsed_count,
                         editor_text_fallbacks,
                     ) = build_editorial_from_text(
-                        editor_formatter_input, consolidated_candidates
+                        editor_formatter_input, editor_candidates
                     )
                 except Exception as exc:
                     editor_failed = True
@@ -2418,31 +2516,31 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
             logger.warning("[LLM COST AUDIT] Per-call telemetry unavailable: %s", exc)
             llm_call_audit = []
 
-        # Reconcile measured direct SDK calls (e.g. FR03) not tracked on shared CrewAI LLM instances.
-        direct_sdk_usage: dict[str, list[int]] = {}
+        # Reconcile ALL measured per-call usage (incl. PHASE_1_PLANNER, PHASE_2_ACQUISITION, FR03).
+        audit_usage: dict[str, list[int]] = {}
         for call in llm_call_audit:
-            if (isinstance(call, dict) and call.get("status") == "SUCCESS"
-                    and call.get("usage_method") == "DIRECT_RESPONSE"
+            if (isinstance(call, dict)
                     and call.get("usage_status") == "MEASURED"
                     and isinstance(call.get("model"), str) and call["model"].strip()
                     and isinstance(call.get("input_tokens"), int)
                     and isinstance(call.get("output_tokens"), int)):
                 m_key = call["model"].strip()
-                bucket = direct_sdk_usage.setdefault(m_key, [0, 0, 0])
+                bucket = audit_usage.setdefault(m_key, [0, 0, 0])
                 bucket[0] += call["input_tokens"]
                 bucket[1] += call["output_tokens"]
                 bucket[2] += 1
-        for m_key, (d_in, d_out, d_req) in direct_sdk_usage.items():
-            if m_key not in model_usage:
-                model_usage[m_key] = (d_in, d_out, d_req)
-                tokens_in += d_in
-                tokens_out += d_out
-        if (token_accounting_method != "SHARED_LLM_DELTA" and direct_sdk_usage
-                and llm_calls == sum(v[2] for v in direct_sdk_usage.values())):
-            token_accounting_method = "DIRECT_SDK_MEASURED"
-            measured_provider_requests = llm_calls
-            if model_id == "UNKNOWN":
-                model_id = next(iter(direct_sdk_usage))
+        if audit_usage:
+            audit_in = sum(v[0] for v in audit_usage.values())
+            audit_out = sum(v[1] for v in audit_usage.values())
+            audit_req = sum(v[2] for v in audit_usage.values())
+            if (audit_in > tokens_in or audit_out > tokens_out
+                    or (measured_provider_requests or 0) < audit_req):
+                model_usage = {k: (v[0], v[1], v[2]) for k, v in audit_usage.items()}
+                tokens_in, tokens_out = audit_in, audit_out
+                measured_provider_requests = audit_req
+                token_accounting_method = "LLM_CALL_AUDIT_MEASURED"
+                if model_id == "UNKNOWN":
+                    model_id = next(iter(audit_usage))
 
         failed_unknown_calls = sum(
             1 for c in llm_call_audit
@@ -2453,7 +2551,8 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
         try:
             cost_audit = _estimate_llm_cost(
                 model_usage, llm_meta,
-                complete=token_accounting_method in {"SHARED_LLM_DELTA", "DIRECT_SDK_MEASURED"},
+                complete=token_accounting_method in {"SHARED_LLM_DELTA", "DIRECT_SDK_MEASURED",
+                                                     "LLM_CALL_AUDIT_MEASURED"},
                 unknown_calls=billed_unknown_calls,
             )
             unmatched_models = _audited_call_models(llm_call_audit) - {
@@ -2501,6 +2600,11 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                     list(report_obj.threats)
                     + list(report_obj.related_program_watchlist or [])
                 ):
+
+                    if threat.threat_description:
+                        threat.threat_description = re.sub(r"(?<!\.)\.\.(?!\.)", ".", threat.threat_description)
+                    if threat.missing_data:
+                        threat.missing_data = re.sub(r"(?<!\.)\.\.(?!\.)", ".", threat.missing_data)
 
                     # Potential impact severity and evidence confidence are independent.
                     # An unverified score >=8 is NOT an eligible confirmed critical alert.
@@ -2620,9 +2724,14 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                 raise ValueError("Pre-reconciliation duplicate event_id: ambiguous action/scoring links")
 
             if request.replay_run_id:
+                replay_ts = _now_iso()
+                for ev in all_events:
+                    ev.first_seen_at = ev.last_seen_at = ev.updated_at = replay_ts
                 new_ev, cont_ev, res_ev = len(all_events), 0, 0
             else:
-                all_events, new_ev, cont_ev, res_ev = reconcile_and_store_events(run_id, all_events)
+                all_events, new_ev, cont_ev, res_ev = reconcile_and_store_events(
+                    run_id, all_events, normalized_query=norm_query
+                )
 
             resulting_ids = [t.event_id for t in all_events]
             if len(resulting_ids) != len(set(resulting_ids)):
@@ -2730,6 +2839,19 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                 report_obj, kiq_eligible_ids, request.enable_harness_validation and harness_performed,
             )
             report_obj = _align_and_sanitize_action_plan(report_obj)
+            for action in report_obj.action_plan or []:
+                rat = getattr(action, "rationale", None)
+                if not isinstance(rat, str) or not rat:
+                    continue
+                for eid in action.related_event_ids or []:
+                    ev = validated_event_map.get(eid)
+                    if ev is not None:
+                        rat = re.sub(
+                            rf"({re.escape(eid)}\s*:\s*)(?:SUPPORTED|PARTIALLY_SUPPORTED|UNSUPPORTED)\b",
+                            rf"\g<1>{ev.validation_status.value}",
+                            rat,
+                        )
+                action.rationale = rat
             evidence_flow = _evidence_flow_audit(
                 collected_docs, accepted_id_set, analyzed_document_ids,
                 failed_document_ids, extracted_document_ids, report_obj, filter_diagnostics,
@@ -2758,11 +2880,11 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
             )
 
             source_coverage_issues = list({
-                                              (name, str(error)): {"connector": name, "issue": str(error)}
-                                              for name, telemetry in connector_telemetry.items()
-                                              for error in telemetry.get("errors", [])
-                                              if not str(error).strip().upper().startswith("PARTIAL_COVERAGE")
-                                          }.values())
+                (name, str(error)): {"connector": name, "issue": str(error)}
+                for name, telemetry in connector_telemetry.items()
+                for error in telemetry.get("errors", [])
+                if not _is_advisory_only_connector_error(name, str(error), connector_telemetry)
+            }.values())
 
             analysis_issues = []
             analysis_issues.extend(report_evidence_issues)
@@ -3043,7 +3165,7 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                 "tokens_output": tokens_out,
                 "token_usage_status": (
                     "PARTIAL_UNKNOWN" if billed_unknown_calls
-                    else "MEASURED" if token_accounting_method in {"SHARED_LLM_DELTA", "DIRECT_SDK_MEASURED"}
+                    else "MEASURED" if token_accounting_method in {"SHARED_LLM_DELTA", "DIRECT_SDK_MEASURED", "LLM_CALL_AUDIT_MEASURED"}
                     else "PROVISIONAL"
                 ),
                 "token_usage_unknown_calls": rt_stats.get("usage_unknown_calls", 0),
@@ -3183,6 +3305,7 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                 report_obj, request.query
             )
             ensure_detailed_report_consistency(report_obj)
+            _sync_kca_supported_events(report_obj)
             report_obj.run_metadata["executive_summary_word_count"] = len(
                 report_obj.executive_summary.split()
             )
@@ -3344,6 +3467,7 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
                 replay_file = os.path.join(run_workspace, "replay_report.json")
                 report_obj = EWSReport.model_validate(report_obj.model_dump(mode="json"))
                 ensure_detailed_report_consistency(report_obj)
+                _sync_kca_supported_events(report_obj)
                 save_report_to_db(report_obj)
                 _atomic_write_report(replay_file, report_obj)
                 logger.info("[REPLAY EXPERIMENT] Saved isolated report: %s", replay_file)
@@ -3386,6 +3510,7 @@ def _execute_ews_background(request: EWSRequest, run_id: str):
             report_obj.run_metadata["phase_checkpoints"]["reporting"] = "VALIDATED"
             report_obj = EWSReport.model_validate(report_obj.model_dump(mode="json"))
             ensure_detailed_report_consistency(report_obj)
+            _sync_kca_supported_events(report_obj)
             # Commit the report and analytical run before exposing either JSON artifact.
             save_report_to_db(report_obj)
 

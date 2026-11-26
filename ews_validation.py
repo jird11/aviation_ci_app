@@ -44,7 +44,7 @@ _PRIMARY_REGULATOR_DOMAINS = {
     "federalregister.gov", "faa.gov", "easa.europa.eu", "ntsb.gov",
     "caa.co.uk", "tc.canada.ca", "tsb.gc.ca", "caac.gov.cn",
     "anac.gov.br", "casa.gov.au", "bea.aero", "icao.int",
-    "regulations.gov", "eur-lex.europa.eu",
+    "regulations.gov", "eur-lex.europa.eu", "ec.europa.eu", "govinfo.gov",
 }
 _PRIMARY_OEM_AND_TIER1_DOMAINS = {
     "airbus.com", "boeing.com", "boeing.mediaroom.com", "comac.cc",
@@ -69,14 +69,15 @@ _REVERSE_CAUSAL_CONNECTORS = {
 
 # Shared internal patterns (Czech exclusion terms "kromě"/"vyjma" retained for bilingual parity).
 _EXCLUSION_RE = re.compile(r"\b(?:exclude|excluding|except(?:\s+for)?|without|not\s+including|kromě|vyjma)\b", re.I)
-_LEGAL_SUFFIX_RE = re.compile(r"\s+(?:S\.?\s*A\.?|Inc\.?|Ltd\.?|LLC|GmbH|Corp\.?|PLC)$", re.I)
+_LEGAL_SUFFIX_RE = re.compile(r"\s+(?:S\.?\s*A\.?\s*S\.?|S\.?\s*A\.?|Inc\.?|Ltd\.?(?:\s*&\s*Co\.?\s*KG)?|LLC|GmbH|Corp\.?|PLC)$", re.I)
 _REGISTRY_CLEAN_RE = re.compile(
-    r"^The\s+|\s*\([^)]*\)|\s+(?:Company|S\.?p\.?A\.?|S\.?A\.?|SE|Inc\.?|Ltd\.?|LLC|Corp\.?|Holdings|Corporation)$", re.I,
+    r"^The\s+|\s*\([^)]*\)|\s+(?:Company|S\.?p\.?A\.?|S\.?\s*A\.?\s*S\.?|S\.?A\.?|SE|Inc\.?|Ltd\.?|LLC|Corp\.?|Holdings|Corporation)$", re.I,
 )
 _AUTHORITY_DOMAINS = {
-    "FAA": {"faa.gov", "federalregister.gov"}, "EASA": {"easa.europa.eu"}, "NTSB": {"ntsb.gov"},
+    "FAA": {"faa.gov", "federalregister.gov", "govinfo.gov"}, "EASA": {"easa.europa.eu"}, "NTSB": {"ntsb.gov"},
     "CAA": {"caa.co.uk"}, "TCCA": {"tc.canada.ca"}, "TSB": {"tsb.gc.ca"},
     "CAAC": {"caac.gov.cn"}, "ANAC": {"anac.gov.br"}, "CASA": {"casa.gov.au"}, "BEA": {"bea.aero"},
+    "EC": {"ec.europa.eu", "eur-lex.europa.eu"},
 }
 _NON_SUBSTANTIVE_STATUSES = {"METADATA_ONLY", "UNAVAILABLE", "STRUCTURED_DATA"}
 _MATERIAL_GROUPS = (
@@ -233,13 +234,26 @@ def _source_mentions(value: str, text: str) -> bool:
 def _extract_component_and_program(
     doc_raw_full: str, quote_text: str = "", proposed_component: str = "", proposed_program: str = "",
 ) -> Tuple[str, str]:
-    """Resolve the component and aircraft program directly supported by the cited quotation."""
+    """Resolve component and aircraft program supported by the quotation or full source document."""
     unknown, quote = "Unknown / Not specified in source", (quote_text or "").strip()
     quoted = _detect_specific_variants(quote)
-    return (
-        proposed_component if _source_mentions(proposed_component, quote) else unknown,
-        ", ".join(sorted(quoted)) if quoted else (proposed_program if _source_mentions(proposed_program, quote) else unknown),
+    comp = (
+        proposed_component
+        if (_source_mentions(proposed_component, quote) or _source_mentions(proposed_component, doc_raw_full))
+        else unknown
     )
+    prop_ok = bool(
+        proposed_program
+        and not proposed_program.lower().startswith(("unknown", "not specified"))
+        and (
+                _source_mentions(proposed_program, quote)
+                or _source_mentions(proposed_program, doc_raw_full)
+                or bool(_detect_specific_variants(proposed_program) & _detect_specific_variants(doc_raw_full))
+                or bool(_detect_engine_models(proposed_program) & _detect_engine_models(doc_raw_full))
+        )
+    )
+    prog = ", ".join(sorted(quoted)) if quoted else (proposed_program if prop_ok else unknown)
+    return comp, prog
 
 
 def _resolve_geography_dimensions(threat: ThreatAssessment, doc_raw_full: str) -> Tuple[str, str]:
@@ -273,18 +287,55 @@ def _resolve_scm_roles_and_impact_path(
     threat: ThreatAssessment, doc_raw_full: str,
 ) -> Tuple[SCMTier, str, List[str], bool]:
     """Derive SCM tier, registry basis, and structured impact path from evidenced entities."""
+    if threat.company_affected:
+        threat.company_affected = re.sub(r"(?<=\))Header\b|\s+Header$", "", threat.company_affected).strip()
     doc_low = (doc_raw_full or "").lower()
     entity_roles: List[Tuple[str, SCMTier, Optional[Dict[str, Any]]]] = []
     role_descs: List[str] = []
     has_unknown = False
 
+    # Generic aerospace supply-chain role cues (taxonomy-based, no hardcoded company names).
+    _ROLE_CUES = (
+        (SCMTier.REGULATOR_AIRLINE, r"\b(?:airlines?|airways|air\s+lines?|air\s+carrier|flag\s+carrier|low[- ]cost\s+carrier|operator|aircraft\s+lessor|lessor|leasing\s+company|aviation\s+capital|aviation\s+authority|civil\s+aviation|safety\s+agency|regulator\w*|transport\s+safety|european\s+commission|ministry\s+of\s+transport|trade\s+association)\b"),
+        (SCMTier.OEM, r"\b(?:planemaker|airframer|aircraft\s+maker|aircraft\s+manufacturer|final\s+assembly|oem|evtol\s+(?:maker|developer|manufacturer)|rotorcraft\s+manufacturer)\b"),
+        (SCMTier.TIER_3, r"\b(?:raw\s+materials?|titanium|superalloys?|specialty\s+(?:alloys?|metals?)|metals?\s+distributor|alumin(?:um|ium)\s+(?:plate|sheet|mill|producer)|carbon\s+fib(?:er|re)|prepregs?|sustainable\s+aviation\s+fuel|saf\s+(?:producer|supplier)|biofuel|tier[- ]?3)\b"),
+        (SCMTier.TIER_2, r"\b(?:forgings?|castings?|fasteners?|bearings?|subcomponents?|sub[- ]tier|precision\s+(?:machining|products?|components?)|composite\s+(?:parts?|structures?)|connectors?|tier[- ]?2)\b"),
+        (SCMTier.TIER_1, r"\b(?:engine\s+(?:maker|manufacturer|supplier)|propulsion|aerostructures?|avionics|landing\s+gear|cabin\s+interiors?|aircraft\s+seat(?:ing|s)|galleys?|lavatories|nacelles?|actuation|mro\s+(?:provider|shop|facility)|maintenance\s+provider|technik|system\s+supplier|tier[- ]?1)\b"),
+    )
+
+    def _local_entity_context(entity: str, text: str, window: int = 180) -> str:
+        clean = _LEGAL_SUFFIX_RE.sub("", re.sub(r"\s*\([^)]*\)", "", entity)).strip()
+        if not clean or clean.lower() in {"unknown", "n/a", "unspecified"}:
+            return ""
+        snippets = [
+            text[max(0, m.start() - window):min(len(text), m.end() + window)]
+            for m in re.finditer(rf"(?<!\w){re.escape(clean)}(?!\w)", text, re.I)
+        ][:5]
+        if not snippets:
+            tokens = [t for t in re.findall(r"[A-Za-z0-9]{4,}", clean) if t.lower() not in {"group", "corp", "company", "limited", "international", "aviation", "aerospace"}]
+            if tokens:
+                anchor = max(tokens, key=len)
+                snippets = [
+                    text[max(0, m.start() - window):min(len(text), m.end() + window)]
+                    for m in re.finditer(rf"(?<!\w){re.escape(anchor)}(?!\w)", text, re.I)
+                ][:5]
+        return " ".join(snippets)
+
+    proposed_tier = threat.scm_tier if isinstance(threat.scm_tier, SCMTier) else SCMTier.UNKNOWN
+
     for ent in _split_affected_entities(threat.company_affected):
-        reg = lookup_supplier_in_registry(_LEGAL_SUFFIX_RE.sub("", ent), exact=True)
+        clean_ent = _LEGAL_SUFFIX_RE.sub("", ent).strip()
+        reg = lookup_supplier_in_registry(clean_ent, exact=True)
         if not reg and "(" in ent and ")" in ent:
             outer = re.sub(r"\s*\([^)]*\)", "", ent).strip()
             for cand in (outer, _LEGAL_SUFFIX_RE.sub("", outer).strip(), *re.findall(r"\(([^)]+)\)", ent)):
                 if cand and (reg := lookup_supplier_in_registry(cand.strip(), exact=True)):
                     break
+        if not reg:
+            # Automatically resolves subsidiaries/divisions (e.g. "Rolls-Royce Deutschland", "Airbus S.A.S.")
+            # only when exactly one canonical parent matches unambiguously.
+            reg = lookup_supplier_in_registry(ent, exact=False)
+
         is_airline_reg = bool(AIRLINE_AND_REGULATOR_PATTERN.search(ent.lower()))
         if reg and not is_airline_reg:
             tier = REGISTRY_TIER_MAP.get(reg["default_tier"], SCMTier.UNKNOWN)
@@ -293,6 +344,30 @@ def _resolve_scm_roles_and_impact_path(
         elif is_airline_reg:
             entity_roles.append((ent, SCMTier.REGULATOR_AIRLINE, None))
             role_descs.append(f"Company/Authority: {ent} -> Role: {SCMTier.REGULATOR_AIRLINE.value}")
+        elif clean_ent.lower() not in {"", "unknown", "n/a", "unspecified"}:
+            name_hits = [t for t, pat in _ROLE_CUES if re.search(pat, ent, re.I)]
+            local_ctx = _local_entity_context(ent, doc_raw_full)
+            ctx_hits = [t for t, pat in _ROLE_CUES if local_ctx and re.search(pat, local_ctx, re.I)]
+            if len(name_hits) == 1:
+                inferred = name_hits[0]
+                basis = "Entity Role Taxonomy"
+            elif proposed_tier != SCMTier.UNKNOWN and proposed_tier in (set(name_hits) | set(ctx_hits)):
+                inferred = proposed_tier
+                basis = "Source-Evidenced Role (Analyst + Source Context)"
+            elif len(ctx_hits) == 1:
+                inferred = ctx_hits[0]
+                basis = "Source-Evidenced Role (Source Context)"
+            else:
+                inferred = SCMTier.UNKNOWN
+                basis = ""
+
+            if inferred != SCMTier.UNKNOWN:
+                entity_roles.append((ent, inferred, None))
+                role_descs.append(f"Company: {ent} -> Role: {inferred.value} ({basis})")
+            else:
+                has_unknown = True
+                entity_roles.append((ent, SCMTier.UNKNOWN, None))
+                role_descs.append(f"Company: {ent} -> Role: {SCMTier.UNKNOWN.value}")
         else:
             has_unknown = True
             entity_roles.append((ent, SCMTier.UNKNOWN, None))
@@ -300,7 +375,22 @@ def _resolve_scm_roles_and_impact_path(
 
     known_tiers = [r[1] for r in entity_roles if r[1] != SCMTier.UNKNOWN]
     primary_tier = entity_roles[0][1] if (len(entity_roles) == 1 or entity_roles[0][1] != SCMTier.UNKNOWN) else (known_tiers[0] if known_tiers else SCMTier.UNKNOWN)
-    comp, prog = _extract_component_and_program(doc_raw_full, threat.fact_check_quote or "", threat.affected_component or "", threat.affected_program or "")
+    prog_candidates = [threat.affected_program or ""] + [
+        str(getattr(c, "program", "") or "").strip()
+        for c in (getattr(threat, "evidence_claims", None) or [])
+        if str(getattr(c, "program", "") or "").strip()
+    ]
+    comp, prog = _extract_component_and_program(
+        doc_raw_full, threat.fact_check_quote or "", threat.affected_component or "", prog_candidates[0]
+    )
+    if prog == "Unknown / Not specified in source":
+        for cand_prog in prog_candidates[1:]:
+            _, cand_resolved = _extract_component_and_program(
+                doc_raw_full, threat.fact_check_quote or "", threat.affected_component or "", cand_prog
+            )
+            if cand_resolved != "Unknown / Not specified in source":
+                prog = cand_resolved
+                break
     threat.affected_component, threat.affected_program = comp, prog
     hyp_deps = list(dict.fromkeys(p for _, _, info in entity_roles if info for p in info.get("programs", []) if p.lower() not in prog.lower()))
     threat.hypothetical_dependencies = hyp_deps
@@ -384,7 +474,9 @@ def _claim_authority(claim: Dict[str, Any]) -> str:
     host = (parsed.hostname or "").lower()
     explicit = str(claim.get("regulatory_authority") or claim.get("authority") or "").upper()
     if is_exact_or_subdomain(host, {"federalregister.gov"}):
-        return "" if explicit in (set(_AUTHORITY_DOMAINS) - {"FAA"}) else ("FAA" if _verified_faa_publication(claim) else "")
+        if explicit in (set(_AUTHORITY_DOMAINS) - {"FAA"}):
+            return ""
+        return "FAA" if (_verified_faa_publication(claim) or "/documents/" in parsed.path) else ""
     explicit = explicit if explicit in _AUTHORITY_DOMAINS else ""
     return next((auth for auth, doms in _AUTHORITY_DOMAINS.items() if explicit in {"", auth} and is_exact_or_subdomain(host, doms)), "")
 
@@ -961,7 +1053,22 @@ def deterministic_harness_validation(
         domain = extract_effective_publisher_domain(canonical_url)
         is_official = urlparse(canonical_url).scheme == "https" and is_exact_or_subdomain(domain, _PRIMARY_REGULATOR_DOMAINS | _PRIMARY_OEM_AND_TIER1_DOMAINS | {"sec.gov"})
         has_comm = any(d.get("source_type") in {"COMMUNITY_SOCIAL", "VIDEO_MEDIA"} for d in corroborating)
-        has_media = any(d.get("source_type") in {"MEDIA_AGGREGATOR", "INDUSTRY_EVENT", "GEOGRAPHIC_SIGNAL"} or "news.google.com" in extract_effective_publisher_domain(d.get("url", "")) for d in corroborating)
+        _non_media_exa_domains = (
+                UNVERIFIED_SOCIAL_VIDEO_DOMAINS
+                | _PRIMARY_REGULATOR_DOMAINS
+                | _PRIMARY_OEM_AND_TIER1_DOMAINS
+                | {"sec.gov"}
+        )
+        has_media = any(
+            d.get("source_type") in {"MEDIA_AGGREGATOR", "INDUSTRY_EVENT", "GEOGRAPHIC_SIGNAL"}
+            or (
+                    d.get("source_type") == "SEMANTIC_WEB_SEARCH"
+                    and not is_exact_or_subdomain(extract_effective_publisher_domain(d.get("url", "")),
+                                                  _non_media_exa_domains)
+            )
+            or "news.google.com" in extract_effective_publisher_domain(d.get("url", ""))
+            for d in corroborating
+        )
         is_social_video = is_exact_or_subdomain(domain, UNVERIFIED_SOCIAL_VIDEO_DOMAINS) or (has_comm and not is_official and not has_media)
         threat.independent_verification_status = (
             "CORROBORATED_INDEPENDENTLY" if (indep_count >= 2 or (is_official and has_media))
@@ -1058,7 +1165,7 @@ def deterministic_harness_validation(
         ev_comps = {lbl for kw, lbl in COMPONENT_KEYWORDS_MAP.items() if re.search(rf"\b{re.escape(kw)}\b", ev_scope, re.I)}
         exact_mis, var_mis = bool(kit_exact and src_exact and kit_exact.isdisjoint(src_exact)), bool(kit_variants and ev_vars and kit_variants.isdisjoint(ev_vars))
         eng_mis, comp_mis = bool(kit_engines and ev_engines and not _engine_models_match(active_kit, ev_scope)), bool(kit_components and ev_comps and kit_components.isdisjoint(ev_comps))
-        is_sibling = exact_mis or var_mis or eng_mis or comp_mis
+        is_sibling = (exact_mis or var_mis or eng_mis) and bool(kit_variants or kit_exact or kit_engines)
         missing_facet = ((((kit_variants and not ev_vars) or (kit_exact and not src_exact)) and not (kit_engines and ev_engines and not eng_mis))
                          or (kit_engines and not ev_engines and not ((kit_exact and src_exact and not exact_mis) or (kit_variants and ev_vars and not var_mis)))
                          or (kit_components and not ev_comps))
@@ -1085,8 +1192,10 @@ def deterministic_harness_validation(
         if unverified_facets := {k: v for k, v in fact_audit.items() if v in {"NEGATIVE", "UNKNOWN"}}:
             audit_notes.append("KIT_FACT_GAP: " + ", ".join(f"{k}={v}" for k, v in unverified_facets.items()))
             only_auth_unknown = unverified_facets == {"AUTHORITY": "UNKNOWN"}
-            if any(fact_audit[k] == "NEGATIVE" for k in ("PROGRAM", "VARIANT", "COMPONENT")):
+            if any(fact_audit[k] == "NEGATIVE" for k in ("PROGRAM", "VARIANT")) and bool(kit_variants or kit_exact or kit_engines):
                 is_sibling, threat.program_relevance = True, "RELATED_PROGRAM_WATCHLIST"
+            elif fact_audit["COMPONENT"] == "NEGATIVE" and not is_sibling:
+                threat.program_relevance = "PROGRAM_UNVERIFIED"
             elif any(fact_audit[k] == "UNKNOWN" for k in
                      ("ENTITY", "PROGRAM", "VARIANT", "COMPONENT")) and not is_sibling:
                 threat.program_relevance = "PROGRAM_UNVERIFIED"
@@ -1146,7 +1255,7 @@ def deterministic_harness_validation(
             threat.confirmed_facts = ""
             threat.analytical_interpretation = "The available evidence does not establish the event's asserted causes or consequences. Independent verification is required."
             src_title = str(matched_doc.get("title") or threat.fact_check_quote or "Unknown claim").strip()
-            threat.threat_description = f"Unverified source claim ({matched_doc.get('doc_id', 'UNKNOWN')}): {src_title[:550]}. The reported event and its operational impacts have not been independently confirmed."[:800]
+            threat.threat_description = f"Unverified source claim ({matched_doc.get('doc_id', 'UNKNOWN')}): {src_title[:550].rstrip('.')}. The reported event and its operational impacts have not been independently confirmed."[:800]
         elif threat.validation_status == ValidationStatus.PARTIALLY_SUPPORTED:
             if threat.claim_support_status != "STATED_IN_SOURCE" and full_quote_verified:
                 threat.confirmed_facts = f"Source statement (event not fully verified): {threat.fact_check_quote or ''}"[:600]
@@ -1176,7 +1285,15 @@ def deterministic_harness_validation(
             "Claim Authority": str(matched_doc.get("claim_authority") or ("REGULATOR_OFFICIAL_PUBLICATION" if (faa_pub_ver or doc_auth) else "ISSUER_REPORTED" if is_primary_origin else "UNDETERMINED")),
             "Regulatory Decision Verified": "YES" if (full_quote_verified and doc_auth and matched_doc.get("regulator_decision_verified") is True) else "NO_OR_UNKNOWN",
             "KIT Fact Dimensions": ", ".join(f"{k}={v}" for k, v in fact_audit.items()),
-            "publication_date": _document_date(matched_doc, "published_at"), "event_date": ev_date_str,
+            "publication_date": _document_date(matched_doc, "published_at"),
+            "event_date": (
+                ev_date_str if ev_date_str != "DATE_UNKNOWN" else next(
+                    (cd for c in (getattr(threat, "evidence_claims", None) or [])
+                     if (cd := _document_date({"event_date": getattr(c, "event_date", "")}, "event_date")) != "DATE_UNKNOWN"
+                     and (not ref_date or cd <= ref_date.isoformat())),
+                    "DATE_UNKNOWN",
+                )
+            ),
             "effective_date": _document_date(matched_doc, "effective_date"),
             "deadline": _document_date({"deadline": matched_doc.get("deadline") or matched_doc.get("regulatory_compliance_deadline")}, "deadline"),
         }
@@ -1196,8 +1313,9 @@ def deterministic_harness_validation(
         audit_suffix = f" [{' | '.join(audit_notes)}]" if audit_notes else ""
         is_fresh = threat.event_freshness in {EventFreshness.NEW_EVENT, EventFreshness.NEW_DEVELOPMENT}
         if is_sibling:
+            target_scope = sorted(kit_variants or kit_exact or kit_engines)
             threat.event_status = EventStatus.RELATED_PROGRAM_WATCHLIST
-            threat.verification_status = f"RELATED PROGRAM WATCHLIST ({threat.affected_program}): Awaiting proof of shared-supplier impact on {sorted(kit_variants)}{audit_suffix}"
+            threat.verification_status = f"RELATED PROGRAM WATCHLIST ({threat.affected_program}): Awaiting proof of shared-supplier impact on {target_scope}{audit_suffix}"
         elif threat.validation_status == ValidationStatus.SUPPORTED and threat.program_relevance != "DIRECT_KIT_MATCH":
             threat.event_status, threat.verification_status = EventStatus.UNDER_REVIEW, f"SUPPORTED SOURCE; DIRECT KIT RELEVANCE UNVERIFIED ({threat.event_freshness.value}){audit_suffix}"
         elif threat.validation_status == ValidationStatus.SUPPORTED and not has_unknown_scm:
@@ -1215,7 +1333,7 @@ def deterministic_harness_validation(
             threat.verification_status = f"UNVERIFIED ({threat.event_freshness.value} | {threat.validation_status.value}){audit_suffix}"
 
         if threat.validation_status == ValidationStatus.PARTIALLY_SUPPORTED and threat.causal_support_status == "HYPOTHETICAL_ONLY":
-            threat.threat_description = f"Source excerpt: {(threat.fact_check_quote or '')[:220]}. Claimed operational impacts require verification."
+            threat.threat_description = f"Source excerpt: {(threat.fact_check_quote or '')[:220].strip().rstrip('.')}. Claimed operational impacts require verification."
 
         if threat.threat_score >= 8 and threat.confidence_level == ConfidenceLevel.HIGH and threat.validation_status == ValidationStatus.SUPPORTED and threat.program_relevance == "DIRECT_KIT_MATCH" and is_fresh and not is_sibling:
             threat.escalation_level, threat.urgency = EscalationStatus.CRITICAL_CONFIRMED_ALERT, UrgencyLevel.HIGH
@@ -1256,9 +1374,10 @@ def deterministic_harness_validation(
         if threat.missing_data and threat.missing_data.strip().lower() in {"none", "null", "n/a", "not available", "unspecified", ""}:
             threat.missing_data = None
         if is_sibling:
-            threat.missing_data = f"Prove concrete shared-supplier or shared-component impact mechanism from {threat.affected_program} onto {sorted(kit_variants)}."
+            target_scope = sorted(kit_variants or kit_exact or kit_engines)
+            threat.missing_data = f"Prove concrete shared-supplier or shared-component impact mechanism from {threat.affected_program} onto {target_scope}."
         elif audit_notes and not threat.missing_data:
-            threat.missing_data = f"Verification required: {'; '.join(audit_notes[:2])}."
+            threat.missing_data = f"Verification required: {'; '.join(n.strip().rstrip('.') for n in audit_notes[:2])}."
         elif not threat.missing_data:
             threat.missing_data = (
                 "Exact publication or incident date is missing from source metadata." if threat.publication_time == "DATE_UNKNOWN"

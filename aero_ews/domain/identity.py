@@ -104,7 +104,15 @@ def _match_word_dict(text: str, table: Mapping[str, str]) -> list[str]: return [
 def _mentions(text: str, name: str) -> bool: return bool(name and re.search(r"(?<!\w)" + re.escape(name).replace(r"\ ", r"[\s-]+") + r"(?!\w)", text, re.I))
 def _detect_specific_variants(text: str) -> set[str]: return {k for k, pat in SPECIFIC_AIRCRAFT_VARIANT_PATTERNS.items() if pat.search(text or "")}
 def _detect_aircraft_families(text: str) -> set[str]: return {k for k, pat in AIRCRAFT_FAMILY_PATTERNS.items() if pat.search(text or "")}
-def _engine_models_match(query: str, evidence: str) -> bool: return engine_identity_status(query, evidence).status == IdentityStatus.MATCH
+def _engine_models_match(query: str, evidence: str) -> bool:
+    decision = engine_identity_status(query, evidence)
+    if decision.status in {IdentityStatus.MATCH, IdentityStatus.AMBIGUOUS}:
+        return True
+    if decision.status == IdentityStatus.UNKNOWN and decision.reason == "ENGINE_VARIANT_NOT_VERIFIED":
+        q_ac = _detect_specific_variants(query) | _detect_aircraft_families(query)
+        e_ac = _detect_specific_variants(evidence) | _detect_aircraft_families(evidence)
+        return bool(q_ac and e_ac and (q_ac & e_ac))
+    return False
 
 
 def _detect_engine_models(text: str) -> set[str]:

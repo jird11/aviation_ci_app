@@ -146,11 +146,13 @@ _CURRENT_PERIOD_RE = re.compile(r"\b(?:q[1-4]\s*20\d{2}|20\d{2}\s+q[1-4])\b", re
 _CLAIM_CAUSE_RE = re.compile(r"\b(?:primary\s+cause\s*:|(?:mainly|primarily|mostly|largely)\s+(?:due\s+to|from|because\s+of))", re.I)
 _EXACT_VARIANT_RE = re.compile(r"(?<!\w)(?:[AB]\s*)?(\d{3})(?:[\s_-]*(max|neo|ceo|xlr|lr|er)(?:[\s_-]*(\d{1,3}))?|[\s_-]+(\d{1,3}))?(?!\w)", re.I)
 AIRLINE_AND_REGULATOR_PATTERN = re.compile(
-    r"\b(?:airlines?|airways|air\s+canada|qantas|indigo|wizz(?:\s*air)?|lufthansa|ryanair|delta|"
-    r"united|american\s+airlines|jetblue|easyjet|emirates|etihad|qatar|flydubai|starlux|aegean|"
-    r"iberia|klm|air\s+france|turkish|spirit\s+airlines|cyprus|aircastle|aer\s+lingus|korean\s+air|"
-    r"asiana|jeju\s+air|jin\s+air|hainan|volotea|condor|norwegian|swiss|austrian|flyone|ajet|"
-    r"faa|easa|ntsb|caa|icao|iata|federal\s+aviation|safety\s+agency|ministry|regulator\w*)\b", re.I,
+    r"\b(?:airlines?|airways|air\s+lines?|air\s+transport|air\s+cargo|aircraft\s+leas\w*|aviation\s+capital|"
+    r"air\s+canada|qantas|indigo|wizz(?:\s*air)?|lufthansa|ryanair|delta\s+air|"
+    r"united\s+airlines|american\s+airlines|jetblue|easyjet|emirates|etihad|qatar|flydubai|starlux|aegean|"
+    r"iberia|klm|air\s+france|turkish\s+airlines|spirit\s+airlines|aer\s+lingus|korean\s+air|"
+    r"faa|easa|ntsb|caa|tcca|tsb|caac|anac|casa|bea|icao|iata|"
+    r"european\s+commission|civil\s+aviation|aviation\s+authority|transport\s+safety|"
+    r"federal\s+aviation|safety\s+agency|ministry|regulator\w*)\b", re.I,
 )
 REGISTRY_TIER_MAP: Dict[str, SCMTier] = {
     "OEM (Final Assembler)": SCMTier.OEM, "Tier 1 (Systems/Engines)": SCMTier.TIER_1,
